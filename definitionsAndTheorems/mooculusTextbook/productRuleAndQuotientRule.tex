@@ -1,0 +1,413 @@
+\chapter{The Product Rule and Quotient Rule}
+
+\section{The Product Rule}
+
+
+Consider the product of two simple functions, say
+\[
+f(x)\cdot g(x)
+\]
+where $f(x)=x^2+1$ and $g(x)=x^3-3x$. An obvious guess for the
+derivative of $f(x)g(x)$ is the product of the derivatives:
+\begin{align*}
+f'(x)g'(x) &= (2x)(3x^2-3)\\
+&= 6x^3-6x.
+\end{align*}
+Is this guess correct? We can check by rewriting $f(x)$
+and $g(x)$ and doing the calculation in a way that is known to
+work. Write 
+\begin{align*}
+f(x)g(x) &= (x^2+1)(x^3-3x)\\
+&=x^5-3x^3+x^3-3x\\
+&=x^5-2x^3-3x.
+\end{align*} 
+Hence
+\[
+\ddx f(x) g(x) = 5x^4-6x^2-3, 
+\]
+so we see that 
+\[
+\ddx f(x) g(x) \ne  f'(x)g'(x).
+\]
+So the derivative of $f(x)g(x)$ is \textbf{not} as simple as
+$f'(x)g'(x)$. Never fear, we have a rule for exactly this
+situation.
+\begin{mainTheorem}[The Product Rule]\index{derivative rules!product}\index{product rule}\label{theorem:product-rule}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(x)g(x) = f(x)g'(x)+f'(x)g(x).
+\]
+\end{mainTheorem}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            domain=1.5:6, 
+            ytickmin=1,ytickmax=0,
+            xtick={4},ytickmin=1,ytickmax=0,
+            xticklabels={$a$},
+            ymin=0, ymax=6,
+            xlabel=$x$, ylabel=$y$,
+            axis lines=center,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]          
+          %\addplot [dashed, textColor] plot coordinates {(4,0) (4,3.08)};
+          %\node at (axis cs:4,0) [anchor=north] {$x$};
+
+          \addplot [penColor5,very thick] plot coordinates {(5,1.4) (5,1.9)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(4,1.4) (5,1.4)};
+
+          \addplot [penColor4,very thick] plot coordinates {(5,2.2) (5,2.6)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(4,2.2) (5,2.2)};
+
+          \addplot [very thick, penColor5!50!penColor2] plot coordinates {(5,3.08) (5,4.18)};
+          \addplot [very thick, penColor4!50!penColor] plot coordinates {(5,4.18) (5,4.74)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(4,3.08) (5,3.08)};
+        
+          \addplot [very thick,penColor,smooth] {-.6+.5*x};
+          \addplot [very thick,penColor2,smooth] {.6+.4*x};         
+          \addplot [very thick,penColor3,smooth,domain=1:5.5] {-.36+.06*x+.2*x^2};      
+          \addplot [penColor3!70!background,smooth, domain=1.6:5.6] {-3.56+1.66*x};      
+          
+          \addplot [dashed, textColor] plot coordinates {(4,0) (4,3.08)};
+
+          \node at (axis cs:3.5,1.1) [anchor=north,penColor] {$f(x)$};
+          \node at (axis cs:2,1.95) [anchor=north,penColor2] {$g(x)$};
+          \node at (axis cs:4.7,4.3) [anchor=east,penColor3] {$f(x)g(x)$};
+
+          \node at (axis cs:5,3.91) [anchor=west] {${\color{penColor}f(a)}{\color{penColor4}g'(a)h}+{\color{penColor5}f'(a)h}{\color{penColor2}g(a)} + {\color{penColor5}f'(a)h}{\color{penColor4}g'(a)h}$};
+          \node at (axis cs:5,1.65) [anchor=west,penColor5] {$f'(a)h$};
+          \node at (axis cs:5,2.4) [anchor=west,penColor4] {$g'(a)h$};
+          \node at (axis cs:4.5,1.5) [anchor=north] {$\underbrace{\hspace{.40in}}_{h}$};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,1.4)};  %% closed hole          
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(4,2.2)};  %% closed hole          
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(4,3.08)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+\caption[A geometric interpretation of the product rule.]{A geometric interpretation of the product rule. Since every
+  point on $f(x)g(x)$ is the product of the corresponding points on
+  $f(x)$ and $g(x)$, increasing $a$ by a ``small amount'' $h$,
+  increases $f(a)g(a)$ by the sum of $f(a)g'(a)h$ and
+  $f'(a)hg(a)$. Hence,
+\begin{align*}
+\frac{\Delta y}{\Delta x} &\approx \frac{f(a)g'(a)h+f'(a)g(a)h + f'(a)g'(a)h^2}{h}\\
+&\approx f(a)g'(a) + f'(a)g(a).
+\end{align*}}
+\end{marginfigure}
+
+\begin{proof}
+From the limit definition of the derivative, write
+\[
+\ddx (f(x)g(x)) = \lim_{h \to0} \frac{f(x+h)g(x+h) - f(x)g(x)}{h}
+\]
+Now we use the exact same trick we used in the proof of
+Theorem~\ref{theorem:limit-product}, we add $0 = -f(x+h)g(x) + f(x+h)g(x)$:
+\begin{align*}
+&=\lim_{h \to0} \frac{f(x+h)g(x+h){\color{penColor2}-f(x+h)g(x) + f(x+h)g(x)}- f(x)g(x)}{h} \\ 
+&=\lim_{h \to0} \frac{f(x+h)g(x+h)-f(x+h)g(x)}{h} + \lim_{h \to0} \frac{f(x+h)g(x)- f(x)g(x)}{h}.
+\end{align*}
+Now since both $f(x)$ and $g(x)$ are differentiable, they are
+continuous, see Theorem~\ref{theorem:diff-cont}. Hence
+\begin{align*}
+&=\lim_{h \to0} f(x+h)\frac{g(x+h)-g(x)}{h} + \lim_{h \to0} \frac{f(x+h)- f(x)}{h}g(x) \\ 
+&=\lim_{h \to0} f(x+h)\lim_{h \to0}\frac{g(x+h)-g(x)}{h} + \lim_{h \to0} \frac{f(x+h)- f(x)}{h}\lim_{h \to0}g(x) \\ 
+&=f(x)g'(x) + f'(x)g(x).
+\end{align*}
+\end{proof}
+
+
+
+Let's return to the example with which we started.
+\begin{example} 
+Let $f(x)=(x^2+1)$ and $g(x)=(x^3-3x)$. Compute:
+\[
+\ddx f(x)g(x).
+\]
+\end{example}
+\begin{solution}
+Write
+\begin{align*}
+\ddx f(x)g(x) &= f(x)g'(x) + f'(x)g(x)\\
+&=(x^2+1)(3x^2-3) + 2x(x^3-3x).
+\end{align*}
+We could stop here---but we should show that expanding this out recovers our previous result. Write
+\begin{align*}
+(x^2+1)(3x^2-3) + 2x(x^3-3x) &= 3x^4-3x^2 +3x^2 -3 + 2x^4-6x^2\\
+&=5x^4-6x^2-3,
+\end{align*}
+which is precisely what we obtained before.
+\end{solution}
+
+
+
+
+\begin{exercises}
+
+\noindent Compute:
+
+\twocol
+
+\begin{exercise} $\ddx x^3(x^3-5x+10)$
+\begin{answer} $3x^2(x^3-5x+10)+x^3(3x^2-5)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx (x^2+5x-3)(x^5-6x^3+3x^2-7x+1)$
+\begin{answer} $(x^2+5x-3)(5x^4-18x^2+6x-7)+(2x+5)(x^5-6x^3+3x^2-7x+1)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx e^{2x} = \ddx \left(e^x \cdot e^x\right)$
+\begin{answer}
+$2e^{2x}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $\ddx e^{3x}$
+\begin{answer} $3e^{3x}$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\ddx 3x^2e^{4x}$
+\begin{answer} $6xe^{4x}+12x^2e^{4x}$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\ddx \frac{3e^x}{x^{16}}$
+\begin{answer} $\frac{-48e^x}{x^{17}}+\frac{3e^x}{x^{16}}$
+\end{answer}\end{exercise}
+
+
+\endtwocol
+
+
+\begin{exercise} 
+Use the product rule to compute the derivative of $f(x)=(2x-3)^2$ with
+respect to $x$.  Sketch the function.  Find an equation of the tangent
+line to the curve at $x=2$.  Sketch the tangent line at $x=2$.
+\begin{answer} $f'=4(2x-3)$, $y=4x-7$
+\end{answer}\end{exercise}
+
+\noindent Use the following table to compute solve the next 4
+problems. Note $\left.\ddx f(x)\right|_{x=a}$ is the derivative of
+$f(x)$ evaluated at $x=a$.
+\[
+\begin{tchart}{lllll}
+ x    & 1 & 2  & 3 & 4 \\ \hline 
+ f(x) & -2 & -3 & 1 & 4 \\
+f'(x) & -1 &  0 & 3 & 5\\
+ g(x) &  1 &  4 & 2 & -1 \\
+g'(x) &  2 &  -1 & -2 & -3\\
+\end{tchart}
+\]
+
+\twocol
+\begin{exercise} $\left. \ddx f(x)g(x) \right|_{x=2}$
+\begin{answer} $3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\left. \ddx xf(x) \right|_{x=3}$
+\begin{answer} $10$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\left. \ddx xg(x) \right|_{x=4}$
+\begin{answer} $-13$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\left. \ddx f(x)g(x) \right|_{x=1}$
+\begin{answer} $-5$
+\end{answer}\end{exercise}
+\endtwocol
+
+
+
+\begin{exercise}
+Suppose that $f(x)$, $g(x)$, and $h(x)$ are differentiable functions.
+Show that 
+\[
+\ddx f(x)\cdot g(x) \cdot h(x) = f(x) g(x)h'(x) + f(x)g'(x) h(x) + f'(x) g(x) h(x).
+\]
+\begin{answer}
+$\ddx f(x)g(x)h(x) = \ddx f(x)(g(x)h(x)) = f(x) \ddx (g(x) h(x)) + f'(x) g(x) h(x) = f(x) (g(x) h'(x)+ g'(x)h(x)) + f'(x) g(x) h(x) = f(x)g(x)h'(x)+ f(x) g'(x)h(x)) + f'(x) g(x) h(x)$
+\end{answer}
+\end{exercise}
+\end{exercises}
+
+
+
+
+
+\section{The Quotient Rule}
+
+\index{quotient rule} 
+
+We'd like to have a formula to compute
+\[
+\ddx \frac{f(x)}{g(x)}
+\]
+if we already know $f'(x)$ and $g'(x)$. Instead of attacking this
+problem head-on, let's notice that we've already done part of the
+problem: $f(x)/g(x)= f(x)\cdot(1/g(x))$, that is, this is really a
+product, and we can compute the derivative if we know $f'(x)$ and
+$(1/g(x))'$. This brings us to our next derivative rule.
+
+\begin{mainTheorem}[The Quotient Rule]\index{derivative rules!quotient}\index{quotient rule}\label{theorem:quotient-rule}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx \frac{f(x)}{g(x)} = \frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}.
+\]
+\end{mainTheorem}
+\begin{proof}
+First note that if we knew how to compute
+\[
+\ddx \frac{1}{g(x)}
+\]
+then we could use the product rule to complete our proof.  Write
+\begin{align*}
+\ddx\frac{1}{g(x)}&=\lim_{h\to0} \frac{\frac{1}{g(x+h)}-\frac{1}{g(x)}}{h} \\
+&=\lim_{h\to0} \frac{\frac{g(x)-g(x+h)}{g(x+h)g(x)}}{h} \\
+&=\lim_{h\to0} \frac{g(x)-g(x+h)}{g(x+h)g(x)h} \\
+&=\lim_{h\to0} -\frac{g(x+h)-g(x)}{h} \frac{1}{g(x+h)g(x)} \\
+&=-\frac{g'(x)}{g(x)^2}.
+\end{align*}
+Now we can put this together with the product rule:
+\begin{align*}
+\ddx\frac{f(x)}{g(x)} &=f(x)\frac{-g'(x)}{g(x)^2}+f'(x)\frac{1}{g(x)}\\
+&=\frac{-f(x)g'(x)+f'(x)g(x)}{g(x)^2}\\
+&=\frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}.
+\end{align*}
+
+\end{proof}
+
+
+\begin{example}
+Compute:
+\[
+\ddx \frac{x^2+1}{x^3-3x}.
+\]
+\end{example}
+
+\begin{solution}
+Write
+\begin{align*}
+\ddx \frac{x^2+1}{x^3-3x} &= \frac{2x(x^3-3x)-(x^2+1)(3x^2-3)}{(x^3-3x)^2}\\
+&=\frac{-x^4-6x^2+3}{(x^3-3x)^2}.
+\end{align*}
+\end{solution}
+
+It is often possible to calculate derivatives in more than one way, as
+we have already seen. Since every quotient can be written as a
+product, it is always possible to use the product rule to compute the
+derivative, though it is not always simpler.
+
+\begin{example}
+Compute 
+\[
+\ddx \frac{625-x^2}{\sqrt{x}}
+\] 
+in two ways. First using the quotient rule and then using the product
+rule.
+\end{example}
+
+\begin{solution} 
+First, we'll compute the derivative using the quotient rule. Write
+\[
+\ddx \frac{625-x^2}{\sqrt{x}} = \frac{\left(-2x\right)\left(\sqrt{x}\right) - (625-x^2)\left(\frac{1}{2}x^{-1/2}\right)}{x}.
+\]
+Second, we'll compute the derivative using the product rule:
+\begin{align*}
+\ddx \frac{625-x^2}{\sqrt{x}} &= \ddx \left(625-x^2\right)x^{-1/2}\\
+&=\left(625-x^2\right)\left(\frac{-x^{-3/2}}{2}\right)+ (-2x)\left(x^{-1/2}\right).
+\end{align*}
+With a bit of algebra, both of these simplify to
+\[
+-\frac{3x^2+625}{2x^{3/2}}.
+\]
+\end{solution}
+
+
+\begin{exercises}
+
+\noindent Find the derivatives of the following functions using the
+quotient rule.
+
+\twocol
+
+\begin{exercise} ${x^3\over x^3-5x+10}$
+\begin{answer} ${3x^2\over x^3-5x+10}-{x^3(3x^2-5)\over (x^3-5x+10)^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${x^2+5x-3\over x^5-6x^3+3x^2-7x+1}$
+\begin{answer} ${2x+5\over x^5-6x^3+3x^2-7x+1}-
+{(x^2+5x-3)(5x^4-18x^2+6x-7)\over(x^5-6x^3+3x^2-7x+1)^2}$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\frac{e^x-4}{2x}$
+\begin{answer} $\frac{2xe^x-(e^x-4)2}{4x^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\frac{2-x-\sqrt{x}}{x+2}$
+\begin{answer} $\frac{(x+2)(-1-(1/2)x^{-1/2}) - (2-x-\sqrt{x})}{(x+2)^2}$
+\end{answer}\end{exercise}
+\endtwocol
+
+
+\begin{exercise} Find an equation for the tangent line to $f(x) = (x^2 -
+4)/(5-x)$ at $x= 3$.  
+\begin{answer} $y=17x/4-41/4$ 
+\end{answer}\end{exercise}
+
+\begin{exercise}  Find an equation for the tangent line to 
+$f(x) = (x-2)/(x^3 + 4x - 1)$ at $x=1$.
+\begin{answer} $y=11x/16-15/16$
+\end{answer}\end{exercise}
+
+\begin{exercise} The curve $y=1/(1+x^2)$ is an example of a class of
+curves each of which is called a \textit{witch of Agnesi}. Find the
+tangent line to the curve at $x= 5$. Note, the word \textit{witch}
+here is due to a mistranslation.
+\begin{answer} $y=19/169-5x/338$
+\end{answer}\end{exercise}
+ 
+
+\noindent Use the following table to compute solve the next 4
+problems. Note $\left.\ddx f(x)\right|_{x=a}$ is the derivative of
+$f(x)$ evaluated at $x=a$.
+\[
+\begin{tchart}{lllll}
+ x    & 1 & 2  & 3 & 4 \\ \hline 
+ f(x) & -2 & -3 & 1 & 4 \\
+f'(x) & -1 &  0 & 3 & 5\\
+ g(x) &  1 &  4 & 2 & -1 \\
+g'(x) &  2 &  -1 & -2 & -3\\
+\end{tchart}
+\]
+
+\twocol
+\begin{exercise} $\left. \ddx \frac{f(x)}{g(x)} \right|_{x=2}$
+\begin{answer} $-3/16$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\left. \ddx \frac{f(x)}{x} \right|_{x=3}$
+\begin{answer} $8/9$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\left. \ddx \frac{xf(x)}{g(x)} \right|_{x=4}$
+\begin{answer} $24$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\left. \ddx \frac{f(x)g(x)}{x} \right|_{x=1}$
+\begin{answer} $-3$
+\end{answer}\end{exercise}
+\endtwocol
+
+
+\begin{exercise} If $f'(4) = 5$, $g'(4) = 12$, $f(4)g(4)=2$, and $g(4) = 6$,
+compute $f(4)$ and $\ddx\frac{f(x)}{g(x)}$ at 4.
+\begin{answer} $f(4) = 1/3, \ddx \frac{f(x)}{g(x)} = 13/18$
+\end{answer}\end{exercise}
+
+\end{exercises}

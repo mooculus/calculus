@@ -1,0 +1,768 @@
+\chapter{The Derivatives of Trigonometric Functions and their Inverses}
+
+
+
+\section{The Derivatives of Trigonometric Functions}
+
+Up until this point of the course we have been largely ignoring a large
+class of functions---those involving $\sin(x)$ and $\cos(x)$. It is
+now time to visit our two friends who concern themselves periodically
+with triangles and circles.
+
+\begin{theorem}[The Derivative of sin(\textit{x})]\index{derivative!of sine}\label{theorem:deriv sin}
+\[
+\ddx \sin(x) = \cos(x).
+\]
+\end{theorem}
+\marginnote{
+\begin{align*}
+\lim_{h\to 0}\frac{\cos(h)-1}{h} &= \lim_{h\to 0}\left(\frac{\cos(h)-1}{h}\cdot\frac{\cos(h)+1}{\cos(h)+1}\right)\\
+&=\lim_{h\to 0}\frac{\cos^2(h)-1}{h(\cos(h)+1)}\\
+&=\lim_{h\to 0}\frac{-\sin^2(h)}{h(\cos(h)+1)}\\
+&=-\lim_{h\to 0}\left(\frac{\sin(h)}{h}\cdot\frac{\sin(h)}{(\cos(h)+1)}\right)\\
+&= -1 \cdot \frac{0}{2} = 0.
+\end{align*}
+}
+\begin{proof}
+Using the definition of the derivative, write
+\begin{align*}
+\ddx \sin(x) &= \lim_{h\to0} \frac{\sin(x+h)-\sin(x)}{h} \\
+&= \lim_{h\to0} \frac{\sin(x)\cos(h)+\sin(h)\cos(x)-\sin(x)}{h}  & \text{Trig Identity.}\\
+&= \lim_{h\to0} \left(\frac{\sin(x)\cos(h)-\sin(x)}{h} + \frac{\sin(h)\cos{x}}{h} \right)\\
+&=\lim_{h\to0} \left(\sin (x)\frac{\cos(h) - 1}{h}+\cos(x)\frac{\sin(h)}{h}\right) \\
+&=\sin(x) \cdot 0 + \cos(x) \cdot 1 = \cos x. & \text{See Example~\ref{example:sinx/x}.}
+\end{align*}
+\end{proof}
+
+Consider the following geometric interpretation of the derivative of
+$\sin(\theta)$.  
+%\begin{figure}
+
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            width=5in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, textColor!30!background, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor,very thick] plot coordinates {(0,0) (.766,.643)}; %% 40 degrees
+          \addplot [textColor,very thick] plot coordinates {(0,0) (.766,0)}; %% bottom
+          \addplot [very thick, penColor2!30!background] {(x-.766)*(-.766/.643)+.643};
+          \addplot [textColor,dashed] plot coordinates {(0,0) (.766-.196,.643+1-.766)}; %% 40+16.98 degrees          
+
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.643) (1,.839)}; %% hyp
+          %% \addplot [textColor!20!background] plot coordinates {(1,.643) (1,.839)}; %% side
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.643) (1,.643)}; %% bottom
+          %% \addplot [textColor!20!background,smooth, domain=(0:40)] ({.05*cos(x)+.766},{.05*sin(x)+.643}); %% angle
+          %% \node at (axis cs:.84,.670) [textColor!20!background] {\footnotesize$\theta$};
+          
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.643) (.766,.839)}; %% side
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.839) (1,.839)}; %% bottom
+          %% \addplot [textColor!20!background,smooth, domain=(180:220)] ({.05*cos(x)+1},{.05*sin(x)+.839}); %% angle
+          %% \node at (axis cs:.926,.812) [textColor!20!background] {\footnotesize$\theta$};
+          
+          \draw[rotate around={30:(.5,.5)}] (.7,.7) rectangle (.25,.25);
+
+          %\draw[textColor, rotate around={45:(.5,.5)}] (.5,.5) rectangle (.2,.2);
+
+          \addplot [penColor4,very thick] plot coordinates {(.766,.643) (.766,.643+1-.766)}; %% side
+          \addplot [textColor,very thick] plot coordinates {(.766,.643+1-.766) (.766-.196,.643+1-.766)}; %% top
+          \addplot [textColor,smooth, domain=(90:130)] ({.05*cos(x)+.766},{.05*sin(x)+.643}); %% angle
+          \addplot [very thick, textColor] plot coordinates {(.766-.196,.643+1-.766) (.766,.643)}; %% hyp
+          \node at (axis cs:.739,.717) [textColor] {\footnotesize$\theta$};
+          
+          \node at (axis cs:.668,.877) [anchor=south] {\footnotesize$h\sin(\theta)$};
+          \node at (axis cs:.766,.76) [anchor=west] {\footnotesize$h\cos(\theta)$};
+          \node at (axis cs:.65,.78) [anchor=west] {\footnotesize$\approx h$};
+
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% sin theta          
+          
+          \addplot [textColor, smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \addplot [textColor, smooth, domain=(40:56.90)] ({.17*cos(x)},{.17*sin(x)});
+          \addplot [textColor, smooth, domain=(40:56.90)] ({.185*cos(x)},{.185*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.15,.17) {$h$};
+          \node at (axis cs:.766,.322) [anchor=east] {$\sin(\theta)$};
+          \node at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture}
+%\label{figure:geo-interp sinx/x}
+%\end{figure}
+
+Here we see that increasing $\theta$ by a ``small amount'' $h$,
+increases $\sin(\theta)$ by approximately $h\cos(\theta)$. Hence,
+\[
+\frac{\Delta y}{\Delta \theta}\approx \frac{h\cos(\theta)}{h} =
+\cos(\theta).
+\]
+
+With this said, the derivative of a function measures the slope of the
+plot of a function.  If we examine the graphs of the sine and cosine
+side by side, it should be that the latter appears to accurately
+describe the slope of the former, and indeed this is true, see
+Figure~\ref{figure:sin/cos}.
+\begin{figure*}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=9in,
+            height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-6.75:6.75)] {sin(deg(x))};
+          \addplot [very thick, penColor2, samples=100,smooth, domain=(-6.75:6.75)] {cos(deg(x))};
+          \node at (axis cs:3.14,.75) [penColor] {$f(x)$};
+          \node at (axis cs:-1.57,.75) [penColor2] {$f'(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{Here we see a plot of $f(x)=\sin(x)$ and its derivative
+  $f'(x)=\cos(x)$. One can readily see that $\cos(x)$ is positive when
+  $\sin(x)$ is increasing, and that $\cos(x)$ is negative when
+  $\sin(x)$ is decreasing.}
+\label{figure:sin/cos}
+\end{figure*}
+
+Of course, now that we know the derivative of the sine, we can compute
+derivatives of more complicated functions involving the sine.
+
+%\break
+
+\begin{theorem}[The Derivative of cos(\textit{x})]\index{derivative!of cosine}
+\[
+\ddx \cos(x) = -\sin(x).
+\]
+\end{theorem}
+
+\begin{proof}
+Recall that
+\begin{align*}
+\cos(x) &= \sin\left(x+\frac{\pi}{2}\right), \\
+\sin(x) &= -\cos\left(x+\frac{\pi}{2}\right).
+\end{align*}
+Now:
+\begin{align*}
+\ddx \cos(x) &= \ddx \sin\left(x+\frac{\pi}{2}\right)\\
+&=\cos\left(x+\frac{\pi}{2}\right)\cdot 1 \\
+&= -\sin(x).
+\end{align*}
+\end{proof}
+
+Next we have:
+
+\begin{theorem}[The Derivative of tan(\textit{x})]\index{derivative!of tangent}
+\[
+\ddx \tan(x) = \sec^2(x).
+\]
+\end{theorem}
+
+\begin{proof}
+We'll rewrite $\tan(x)$ as $\frac{\sin(x)}{\cos(x)}$ and use the quotient rule. Write
+\begin{align*}
+\ddx\tan(x) &= \ddx\frac{\sin(x)}{\cos(x)}\\
+&=\frac{\cos^2(x) + \sin^2(x)}{\cos^2(x)}\\
+&=\frac{1}{\cos^2(x)}\\
+&=\sec^2(x).
+\end{align*}
+\end{proof}
+
+Finally, we have
+
+\begin{theorem}[The Derivative of sec(\textit{x})]\index{derivative!of secant}
+\[
+\ddx \sec(x) = \sec(x)\tan(x).
+\]
+\end{theorem}
+
+\begin{proof}
+We'll rewrite $\sec(x)$ as $(\cos(x))^{-1}$ and use the power rule and the chain rule. Write
+\begin{align*}
+\ddx \sec(x) &= \ddx(\cos (x))^{-1}\\
+&=-1(\cos(x))^{-2}(-\sin(x)) \\
+&= \frac{\sin(x)}{\cos^2(x)} \\
+&= \sec(x)\tan(x).
+\end{align*}
+\end{proof}
+
+
+The derivatives of the cotangent and cosecant are similar and left as
+exercises. 
+
+Putting this all together, we have:
+
+\begin{mainTheorem}[The Derivatives of Trigonometric Functions] \hfil
+\begin{itemize}
+\item $\ddx \sin(x) = \cos(x)$.
+\item $\ddx \cos(x) = -\sin(x)$.
+\item $\ddx \tan(x) = \sec^2(x)$.
+\item $\ddx \sec(x) = \sec(x)\tan(x)$.
+\item $\ddx \csc(x) = -\csc(x)\cot(x)$.
+\item $\ddx \cot(x) = -\csc^2(x)$.
+\end{itemize}
+\end{mainTheorem}
+
+
+\begin{warning}
+When working with derivatives of trigonometric functions, we suggest
+you use \textbf{radians} for angle measure. For example, while
+\[
+\sin\left((90^\circ\right)^2) = \sin\left(\left(\frac{\pi}{2}\right)^2\right),
+\]
+one must be careful with derivatives as
+\[
+\left. \ddx \sin\left(x^2\right)\right|_{x=90^\circ} \ne \underbrace{2\cdot 90\cdot \cos(90^2)}_{\text{incorrect}}
+\]
+Alternatively, one could think of $x^\circ$ as meaning
+$\frac{x\cdot\pi}{180}$, as then $90^\circ = \frac{90\cdot\pi}{180} =
+\frac{\pi}{2}$. In this case
+\[
+2\cdot 90^\circ\cdot \cos((90^\circ)^2) = 2\cdot \frac{\pi}{2}\cdot\cos\left(\left(\frac{\pi}{2}\right)^2\right).
+\]
+\end{warning}
+
+
+
+\begin{exercises}
+Find the derivatives of the following functions.
+
+\twocol
+
+\begin{exercise} $\sin^2(\sqrt{x})$
+\begin{answer} $\sin(\sqrt{x})\cos(\sqrt{x})/\sqrt{x}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{x}\sin(x)$
+\begin{answer} ${\sin(x)\over2\sqrt x}+\sqrt{x}\cos(x)$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${1\over \sin(x)}$
+\begin{answer} $ -{\cos(x)\over \sin^2(x)}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${x^2+x\over \sin(x)}$
+\begin{answer} ${(2x +1)\sin(x) - (x^2+x)\cos(x) \over \sin^2 (x)}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{1-\sin^2(x)}$
+\begin{answer} ${-\sin(x)\cos(x)\over \sqrt{1-\sin^2(x)}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sin (x)\cos(x)$
+\begin{answer} $\cos^2(x)-\sin^2(x)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sin(\cos(x))$
+\begin{answer} $-\sin(x)\cos(\cos(x))$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{x\tan(x)}$
+\begin{answer} ${\tan(x)+x\sec^2(x)\over2\sqrt{x\tan(x)}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\tan(x)/(1+\sin(x))$
+\begin{answer} ${\sec^2(x)(1+\sin(x))-\tan(x) \cos(x)\over (1+\sin(x))^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\cot(x)$
+\begin{answer} $ -\csc^2(x)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\csc(x)$
+\begin{answer} $ -\csc(x)\cot(x)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x^3 \sin (23x^2 )$
+\begin{answer} $3x^2\sin(23x^2)+46x^4\cos(23x^2)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sin ^2(x) + \cos ^2(x)$
+ \begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise}  $\sin (\cos (6x) )$
+ \begin{answer} $-6\cos(\cos(6x))\sin(6x)$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise} Compute ${d\over d\theta}{\sec(\theta)\over 1+\sec(\theta)}$.
+ \begin{answer} $\sin(\theta)/(\cos(\theta)+1)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} Compute ${d\over dt}t^5 \cos (6t)$.
+\begin{answer} $5t^4\cos(6t)-6t^5\sin(6t)$
+\end{answer}\end{exercise}
+
+\begin{exercise} Compute ${d\over dt}{t^3 \sin (3t)\over\cos (2t)}$.
+\begin{answer} $3t^2(\sin(3t)+t\cos(3t))/\cos(2t)+2t^3\sin(3t)\sin(2t)/\cos^2(2t)$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find all points on the graph of
+$f(x)=\sin^2(x)$ at which the tangent line is horizontal.
+\begin{answer} $n\pi/2$, any integer $n$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find all points on the graph of $f(x) = 2\sin(x) -
+\sin^2(x)$ at which the tangent line is horizontal.
+\begin{answer} $\pi/2+n\pi$, any integer $n$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an
+ equation for the tangent line to $\sin^2(x)$ at 
+$x=\pi/3$.
+\begin{answer} $\sqrt3x/2+3/4-\sqrt3\pi/6$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to $\sec^2(x)$
+at $x=\pi/3$.
+\begin{answer} $8\sqrt3x+4-8\sqrt3\pi/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to $\cos^2(x) -
+\sin^2(4x)$ at $x=\pi/6$.
+\begin{answer} $3\sqrt3x/2-\sqrt3\pi/4$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the points on the curve $y= x+ 2\cos(x)$ that have a
+horizontal tangent line.
+\begin{answer} $\pi/6+2n\pi$, $5\pi/6+2n\pi$, any integer $n$
+\end{answer}\end{exercise}
+
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+\section{Inverse Trigonometric Functions}{}{}
+
+The trigonometric functions frequently arise in problems, and often we
+are interested in finding specific angles, say $\theta$ such that
+\[
+\sin(\theta) = .7
+\]
+Hence we want to be able to invert functions like $\sin(\theta)$ and
+$\cos(\theta)$.  
+
+However, since these functions are not one-to-one, meaning there are
+are infinitely many angles with $\sin(\theta) = .7$, it is impossible
+to find a true inverse function for $\sin(\theta)$. Nevertheless, it
+is useful to have something like an inverse to the sine, however
+imperfect. The usual approach is to pick out some collection of angles
+that produce all possible values of the sine exactly once. If we
+``discard'' all other angles, the resulting function has a proper
+inverse.
+\begin{figure*}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=9in,
+            height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$\theta$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor!20!background, samples=100,smooth, domain=(-6.75:-1.57)] {sin(deg(x))};
+          \addplot [very thick, penColor!20!background, samples=100,smooth, domain=(1.57:6.75)] {sin(deg(x))};
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-1.57:1.57)] {sin(deg(x))};
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1.57,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.57,1)};  %% closed hole          
+          \node at (axis cs:3.14,.75) [penColor] {$\sin(\theta)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{The function $\sin(\theta)$ takes on all values between $-1$
+  and $1$ exactly once on the interval $[-\pi/2,\pi/2]$. If we
+  restrict $\sin(\theta)$ to this interval, then this restricted
+  function has an inverse.}
+\label{figure:sin-restricted}
+\end{figure*}
+
+In a similar fashion, we need to restrict cosine to be able to take an inverse.
+
+\begin{figure*}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=9in,
+            height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$\theta$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor2!20!background, samples=100,smooth, domain=(-6.75:0)] {cos(deg(x))};
+          \addplot [very thick, penColor2!20!background, samples=100,smooth, domain=(3.14:6.75)] {cos(deg(x))};
+          \addplot [very thick, penColor2, samples=100,smooth, domain=(0:3.14)] {cos(deg(x))};
+          
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(0,1)};  %% closed hole          
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(pi,-1)};  %% closed hole          
+          \node at (axis cs:-1.57,.75) [penColor2] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{The function $\cos(\theta)$ takes on all values between $-1$
+  and $1$ exactly once on the interval $[0,\pi]$. If we restrict
+  $\cos(\theta)$ to this interval, then this restricted function has
+  an inverse.}
+\label{figure:cos-restricted}
+\end{figure*}
+
+By examining both sine and cosine on restricted domains, we can now produce functions arcsine and arccosine:
+
+\begin{fullwidth}
+\begin{tabular}{lll}\index{arcsine}\index{arccosine}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1.5,xmax=1.5,ymin=-1.75,ymax=1.75,
+            axis lines=center,
+            ytick={-1.57, 0, 1.57},
+            yticklabels={$-\pi/2$, $0$, $\pi/2$},
+            xtick={-1,1},
+            unit vector ratio*=1 1 1,
+            xlabel=$y$, ylabel=$\theta$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor4, samples=100,smooth, domain=(-1:1)] {asin(x)*pi/180};
+                    
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(-1,-pi/2)};  %% closed hole          
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(1,pi/2)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+
+&
+
+\hspace{1in}
+
+&
+
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1.5,xmax=1.5,ymin=-.25,ymax=3.25,
+            axis lines=center,
+            ytick={0, 1.57,3.14},
+            yticklabels={$0$, $\pi/2$,$\pi$},
+            xtick={-1,1},
+            unit vector ratio*=1 1 1,
+            xlabel=$y$, ylabel=$\theta$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor5, samples=100,smooth, domain=(-1:1)] {acos(x)*pi/180};
+                    
+          \addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(1,0)};  %% closed hole          
+          \addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(-1,pi)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture} \\
+\begin{minipage}{2.5in}
+Here we see a plot of $\arcsin(y)$, the inverse function of
+$\sin(\theta)$ when it is restricted to the interval $[-\pi/2,\pi/2]$.
+\end{minipage}
+
+& 
+
+& 
+\begin{minipage}{2.5in}
+Here we see a plot of $\arccos(y)$, the inverse function of
+$\cos(\theta)$ when it is restricted to the interval $[0,\pi]$.
+\end{minipage}
+\end{tabular}
+\end{fullwidth}
+
+\vspace{.5cm}
+
+Recall that a function and its inverse undo each other in either
+order, for example, 
+\marginnote{Compare this with the fact that while
+  $\left(\sqrt{x}\right)^2=x$, we have that $\sqrt{x^2}=|x|$.}
+\[
+\sqrt[3]{x^3}=x\qquad \text{and}\qquad \left(\sqrt[3]{x}\right)^3=x. 
+\]
+However, since arcsine is the inverse of sine restricted to the
+interval $[-\pi/2,\pi/2]$, this does not work with sine and arcsine, for example
+\[
+\arcsin(\sin(\pi))=0.
+\]
+Moreover, there is a similar situation for cosine and arccosine as
+\[
+\arccos(\cos(2\pi))=0.
+\]
+Once you get a feel for how $\arcsin(y)$ and $\arccos(y)$ behave, let's examine tangent.
+
+\newpage
+
+\begin{fullwidth}
+\begin{figure*}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-3,ymax=3,
+            axis lines=center,
+            width=9in,
+            height=3.5in,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},       
+            unit vector ratio*=1 1 1,
+            xlabel=$\theta$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor3, samples=100,smooth, domain=(-1.55:1.55)] {tan(deg(x))};
+          \addplot [very thick, penColor3!30!background, samples=100,smooth, domain=(-4.69:-1.59)] {tan(deg(x))};
+          \addplot [very thick, penColor3!30!background, samples=100,smooth, domain=(-6.75:-4.73)] {tan(deg(x))};
+          \addplot [very thick, penColor3!30!background, samples=100,smooth, domain=(1.59:4.69)] {tan(deg(x))};
+          \addplot [very thick, penColor3!30!background, samples=100,smooth, domain=(4.73:6.75)] {tan(deg(x))};
+          
+          \addplot [textColor,dashed] plot coordinates {(-4.71,-3) (-4.71,3)};
+          \addplot [textColor,dashed] plot coordinates {(-1.57,-3) (-1.57,3)};
+          \addplot [textColor,dashed] plot coordinates {(1.57,-3) (1.57,3)};
+          \addplot [textColor,dashed] plot coordinates {(4.71,-3) (4.71,3)};
+          
+          \node at (axis cs:.4,1.25) [penColor3] {$\tan(\theta)$};    
+        \end{axis}
+\end{tikzpicture}
+\caption{The function $\tan(\theta)$ takes on all values in $\R$
+  exactly once on the open interval $(-\pi/2,\pi/2)$. If we restrict
+  $\tan(\theta)$ to this interval, then this restricted function has
+  an inverse.}
+\end{figure*}
+\end{fullwidth}
+
+Again, only working on a restricted domain of tangent, we can produce an inverse function, arctangent. 
+\begin{fullwidth}
+\begin{figure*}[!h]
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-2,ymax=2,
+            axis lines=center,
+            ytick={0, -1.57,1.57},
+            width=9in,
+            height=2.5in,
+            yticklabels={$0$, $-\pi/2$,$\pi/2$},
+            xtick={0},
+            unit vector ratio*=1 1 1,
+            xlabel=$y$, ylabel=$\theta$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor3!20!penColor2, samples=100,smooth, domain=(-6:6)] {atan(x)*pi/180};
+          \addplot [textColor,dashed] plot coordinates {(-6,-1.57) (6,-1.57)};
+          \addplot [textColor,dashed] plot coordinates {(-6,1.57) (6,1.57)};
+        \end{axis}
+\end{tikzpicture}
+\caption{Here we see a plot of $\arctan(y)$, the inverse function of
+$\tan(\theta)$ when it is restricted to the interval $(-\pi/2,\pi/2)$.}
+\end{figure*}
+\index{arctangent}
+\end{fullwidth}
+
+We leave it to you, the reader, to investigate the functions
+arcsecant, arccosecant, and arccotangent.
+
+
+\subsection*{The Derivatives of Inverse Trigonometric Functions}
+
+What is the derivative of the arcsine? Since this is an inverse
+function, we can find its derivative by using implicit
+differentiation and the Inverse Function Theorem, Theorem~\ref{theorem:IFT}.
+
+
+\begin{theorem}[The Derivative of arcsin(\textit{y})]\index{derivative!of arcsine}
+\[
+\dd{y} \arcsin(y) = \frac{1}{\sqrt{1-y^2}}.
+\]
+\end{theorem}
+
+\begin{proof} 
+To start, note that the Inverse Function Theorem,
+Theorem~\ref{theorem:IFT} assures us that this derivative actually
+exists.  Recall
+\[
+\arcsin(y) = \theta \qquad\Rightarrow\qquad \sin(\theta) = y.
+\]
+Hence
+\begin{align*}
+\sin(\theta) &= y\\
+\dd{y} \sin(\theta) &= \dd{y} y \\
+\cos(\theta) \frac{d\theta}{dy} &= 1 \\
+\frac{d\theta}{dy} &= \frac{1}{\cos(\theta)}.
+\end{align*}
+At this point, we would like $\cos(\theta)$ written in terms of $y$. Since
+\[
+\cos^2(\theta)+\sin^2(\theta) =1
+\]
+and $\sin(\theta) = y$, we may write
+\begin{align*}
+\cos^2(\theta)+y^2 &=1\\
+\cos^2(\theta) &=1-y^2\\
+\cos(\theta) &= \pm \sqrt{1-y^2}.
+\end{align*}
+Since $\theta=\arcsin(y)$ we know that $-\pi/2\le \theta\le \pi/2$, and the cosine of
+an angle in this interval is always positive. Thus
+$\cos(\theta)=\sqrt{1-y^2}$ and 
+\[
+\dd{y} \arcsin(y) = \frac{1}{\sqrt{1-y^2}}.
+\]
+\end{proof}
+
+We can do something similar with arccosine. 
+
+\begin{theorem}[The Derivative of arccos(\textit{y})]\index{derivative!of arccosine}
+\[
+\dd{y} \arccos(y) = \frac{-1}{\sqrt{1-y^2}}.
+\]
+\end{theorem}
+
+\begin{proof} 
+To start, note that the Inverse Function Theorem,
+Theorem~\ref{theorem:IFT} assures us that this derivative actually
+exists.  Recall
+\[
+\arccos(y) = \theta \qquad\Rightarrow\qquad \cos(\theta) = y.
+\]
+Hence
+\begin{align*}
+\cos(\theta) &= y\\
+\dd{y} \cos(\theta) &= \dd{y} y \\
+-\sin(\theta) \frac{d\theta}{dy} &= 1 \\
+\frac{d\theta}{dy} &= \frac{-1}{\sin(\theta)}.
+\end{align*}
+At this point, we would like $\sin(\theta)$ written in terms of $y$. Since
+\[
+\cos^2(\theta)+\sin^2(\theta) =1
+\]
+and $\cos(\theta) = y$, we may write
+\begin{align*}
+y^2+\sin^2(\theta) &=1\\
+\sin^2(\theta) &=1-y^2\\
+\sin(\theta) &= \pm \sqrt{1-y^2}.
+\end{align*}
+Since $\theta=\arccos(y)$ we know that $0\le \theta\le \pi$, and the sine of
+an angle in this interval is always positive. Thus
+$\sin(\theta)=\sqrt{1-y^2}$ and 
+\[
+\dd{y} \arccos(y) = \frac{-1}{\sqrt{1-y^2}}.
+\]
+\end{proof}
+
+Finally, let's look at arctangent.
+
+\begin{theorem}[The Derivative of arctan(\textit{y})]\index{derivative!of arctangent}
+\[
+\dd{y} \arctan(y) = \frac{1}{1+y^2}.
+\]
+\end{theorem}
+
+\begin{proof} 
+To start, note that the Inverse Function Theorem,
+Theorem~\ref{theorem:IFT} assures us that this derivative actually
+exists.  Recall
+\[
+\arctan(y) = \theta \qquad\Rightarrow\qquad \tan(\theta) = y.
+\]
+Hence
+\begin{align*}
+\tan(\theta) &= y\\
+\dd{y} \tan(\theta) &= \dd{y} y \\
+\sec^2(\theta) \frac{d\theta}{dy} &= 1 \\
+\frac{d\theta}{dy} &= \frac{1}{\sec^2(\theta)}.
+\end{align*}
+At this point, we would like $\sec^2(\theta)$ written in terms of $y$. Recall
+\[
+\sec^2(\theta) = 1+\tan^2(\theta)
+\]
+and $\tan(\theta) = y$, we may write $\sec^2(\theta)=1+y^2$. Hence
+\[
+\dd{y} \arctan(y) = \frac{1}{1+y^2}.
+\]
+\end{proof}
+
+We leave it to you, the reader, to investigate the derivatives of
+arcsecant, arccosecant, and arccotangent. However, as a gesture of
+friendship, we now present you with a list of derivative formulas for
+inverse trigonometric functions.
+
+\begin{mainTheorem}[The Derivatives of Inverse Trigonometric Functions] \hfil
+\begin{itemize}
+\item $\dd{y} \arcsin(y) = \frac{1}{\sqrt{1-y^2}}$.
+\item $\dd{y} \arccos(y) = \frac{-1}{\sqrt{1-y^2}}$.
+\item $\dd{y} \arctan(y) = \frac{1}{1+y^2}$.
+\item $\dd{y} \arcsec(y) = \frac{1}{|y|\sqrt{y^2-1}}$ for $|y|>1$.
+\item $\dd{y} \arccsc(y) = \frac{-1}{|y|\sqrt{y^2-1}}$ for $|y|>1$.
+\item $\dd{y} \arccot(y) = \frac{-1}{1+y^2}$.
+\end{itemize}
+\end{mainTheorem}
+
+
+
+
+
+\begin{exercises}
+
+\begin{exercise} The inverse of $\cot$ is usually defined so that the
+ range of arccotangent is $(0, \pi)$.  Sketch the graph of
+ $y=\arccot(x)$. In the process you will make it clear what the domain
+ of arccotangent is. Find the derivative of the arccotangent.
+\begin{answer} ${-1\over 1+x^2}$
+\end{answer}\end{exercise}
+
+%% \begin{exercise} Show that $\arccot(x) + \arctan(x) =\pi/2$.
+%% \end{exercise}
+
+\begin{exercise} Find the derivative of $\arcsin(x^2)$.
+\begin{answer} ${2x\over\sqrt{1-x^4}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $\arctan(e^x)$.
+\begin{answer} ${e^x\over1+e^{2x}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $\arccos (\sin x^3 )$
+\begin{answer} $-3x^2\cos(x^3)/\sqrt{1-\sin^2(x^3)}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $\ln( (\arcsin(x) )^2)$
+\begin{answer} ${2\over(\arcsin(x))\sqrt{1-x^2}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $\arccos(e^x)$
+\begin{answer} $-e^x/\sqrt{1-e^{2x}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $\arcsin(x) + \arccos(x)$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $\log _5 (\arctan (x^x ) )$
+\begin{answer} ${(1+\ln x)x^x\over\ln5(1+x^{2x})\arctan(x^x)}$
+\end{answer}\end{exercise}
+
+\end{exercises}

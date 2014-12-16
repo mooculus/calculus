@@ -1,0 +1,1184 @@
+\chapter{Basics of Derivatives}
+
+
+\section{Slopes of Tangent Lines via Limits}
+
+
+Suppose that $f(x)$ is a function.  It is often useful to know how
+sensitive the value of $f(x)$ is to small changes in $x$. To give you
+a feeling why this is true, consider the following:
+\begin{itemize}
+\item If $p(t)$ represents the position of an object with respect to
+  time, the rate of change gives the velocity of the object.
+\item If $v(t)$ represents the velocity of an object with respect to
+  time, the rate of change gives the acceleration of the object.
+\item The rate of change of a function can help us approximate a
+  complicated function with a simple function.
+\item The rate of change of a function can be used to help us solve
+  equations that we would not be able to solve via other methods.
+\end{itemize}
+
+The rate of change of a function is the slope of the tangent line. For
+now, consider the following informal definition of a \textit{tangent
+  line}:
+\begin{quote}\index{tangent line}
+Given a function $f(x)$, if one can ``zoom in''
+on $f(x)$ sufficiently so that $f(x)$ seems to be a straight line,
+then that line is the \textbf{tangent line} to $f(x)$ at the point
+determined by $x$.
+\end{quote}
+We illustrate this informal definition with
+Figure~\ref{figure:informal-tangent}.
+\begin{figure*}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6, range=0:7,
+            ymin=-.2,ymax=7,
+            width=\textwidth,
+            height=7cm, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+            axis lines=none,
+          ]   
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+          
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+          
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+
+          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+          
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+          
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+
+          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+
+          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+        \end{axis}
+\end{tikzpicture}
+\caption{Given a function $f(x)$, if one can ``zoom in''
+on $f(x)$ sufficiently so that $f(x)$ seems to be a straight line,
+then that line is the \textbf{tangent line} to $f(x)$ at the point
+determined by $x$.}
+\label{figure:informal-tangent}
+\end{figure*}
+
+
+The \textit{derivative} of a function $f(x)$ at $x$, is the slope of
+the tangent line at $x$. To find the slope of this line, we consider
+\textit{secant} lines, lines that locally intersect the curve at two
+points.  The slope of any secant line that passes through the points
+$(x,f(x))$ and $(x+h, f(x+h))$ is given by
+\[
+\frac{\Delta y}{\Delta x}=\frac{f(x+h) -f(x)}{(x+h)-x} = \frac{f(x+h)-f(x)}{h},
+\]
+see Figure~\ref{figure:limit-dfn}. This leads to the \textit{limit definition of the derivative}:
+
+
+\begin{definitionOfTheDerivative}\index{limit!definition of the derivative}\index{derivative!limit definition}
+The \textbf{derivative} of $f(x)$ is the function
+\[
+\ddx f(x) = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h}.
+\]
+If this limit does not exist for a given value of $x$, then $f(x)$ is
+not \textbf{differentiable} at $x$.
+\end{definitionOfTheDerivative}
+\begin{marginfigure}[-1.75in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:2, range=0:6,ymax=6,ymin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,1.666}, ytick={1,3},
+            xticklabels={$x$,$x+h$}, yticklabels={$f(x)$,$f(x+h)$},
+            axis on top,
+          ]         
+          \addplot [penColor2!15!background, domain=(0:2)] {-3.348+4.348*x};
+          \addplot [penColor2!32!background, domain=(0:2)] {-2.704+3.704*x};
+          \addplot [penColor2!49!background, domain=(0:2)] {-1.994+2.994*x};         
+          \addplot [penColor2!66!background, domain=(0:2)] {-1.326+2.326*x}; 
+          \addplot [penColor2!83!background, domain=(0:2)] {-0.666+1.666*x};
+	  \addplot [textColor,dashed] plot coordinates {(1,0) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,1) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,3) (1.666,3)};
+          \addplot [textColor,dashed] plot coordinates {(1.666,0) (1.666,3)};
+          \addplot [very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.666,3)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+          \addplot [very thick,penColor2, smooth,domain=(0:2)] {x};
+        \end{axis}
+\end{tikzpicture}
+\caption{Tangent lines can be found as the limit of secant lines. The slope of the tangent line is given by
+$\lim_{h\to 0} \frac{f(x+h) - f(x)}{h}.$}
+\label{figure:limit-dfn}
+\end{marginfigure}
+
+\break
+
+\begin{definition}\index{derivative!notation}
+There are several different notations for the derivative, we'll mainly
+use
+\[
+\ddx f(x) = f'(x).
+\]
+If one is working with a function of a variable other than $x$, say $t$ we write
+\[
+\dd{t} f(t) = f'(t).
+\]
+However, if $y = f(x)$, $\dydx$, $\dot{y}$, and $D_x f(x)$ are
+also used.
+\end{definition}
+
+Now we will give a number of examples, starting with a basic example.
+
+\begin{example}
+Compute 
+\[
+\ddx (x^3 + 1).
+\] 
+\end{example}
+
+\begin{solution}
+Using the definition of the derivative,
+\begin{align*}
+\ddx f(x) &= \lim_{h\to 0}\frac{(x+h)^3 + 1 - (x^3 +1)}{h}\\
+&= \lim_{h\to 0}\frac{x^3+3x^2h+3xh^2 + h^3 + 1 - x^3 -1}{h}\\
+&= \lim_{h\to 0}\frac{3x^2h+3xh^2 + h^3}{h}\\
+&= \lim_{h\to 0}(3x^2+3xh + h^2)\\
+&= 3x^2.
+\end{align*}
+See Figure~\ref{figure:x^3+1}.
+\end{solution}
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=4,
+            ymin=-4,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor2, smooth,domain=(-3:3)] {3*x^2};
+          \addplot [very thick, penColor, smooth,domain=(-3:3)] {x^3+1};
+          \node at (axis cs:1,1.8) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:-1,3.3) [anchor=west] {\color{penColor2}$f'(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^3+1$ and $f'(x) = 3x^2$.}
+\label{figure:x^3+1}
+\end{marginfigure}
+
+
+Next we will consider the derivative a function that is not continuous
+on $\R$.
+
+
+\begin{example}
+Compute
+\[
+\dd t \frac{1}{t}.
+\]
+\end{example}
+
+\begin{solution}
+Using the definition of the derivative,
+\begin{align*}
+\dd{t}\frac{1}{t}&=\lim_{ h\to0}\frac{\frac{1}{t+ h} - \frac{1}{t}}{h} \\
+&=\lim_{h\to0}\frac{\frac{t}{t(t+ h)} - \frac{t+ h}{t(t+ h)}}{h} \\
+&=\lim_{h\to0}\frac{\frac{t-(t+ h)}{t(t+ h)}}{h} \\
+&=\lim_{h\to0}\frac{t-t- h}{t(t+ h) h} \\
+&=\lim_{h\to0}\frac{- h}{t(t+ h) h} \\
+&=\lim_{h\to0}\frac{-1}{t(t+ h)}\\
+&=\frac{-1}{t^2}.
+\end{align*}
+This function is differentiable at all real numbers except for $t=0$, see Figure~\ref{figure:plot1/x}.
+\end{solution}
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=4,
+            ymin=-4,
+            samples=100,
+            axis lines =middle, xlabel=$t$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor2, smooth,domain=(-3:-.1)] {-1/x^2};
+          \addplot [very thick, penColor2, smooth,domain=(.1:3)] {-1/x^2};
+	  \addplot [very thick, penColor, smooth,domain=(-3:-.1)] {1/x};
+          \addplot [very thick, penColor, smooth,domain=(.1:3)] {1/x};
+          \node at (axis cs:1,1.3) [anchor=west] {\color{penColor}$f(t)$}; 
+          \node at (axis cs:1,-1.1) [anchor=west] {\color{penColor2}$f'(t)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(t) = \frac{1}{t}$ and $f'(t) = \frac{-1}{t^2}$.}
+\label{figure:plot1/x}
+\end{marginfigure}
+
+
+As you may have guessed, there is some connection to continuity and
+differentiability. 
+
+
+
+\begin{mainTheorem}[Differentiability Implies Continuity]\label{theorem:diff-cont}
+If $f(x)$ is a differentiable function at $x = a$, then $f(x)$ is
+continuous at $x=a$.
+\end{mainTheorem}
+
+\begin{proof}
+We want to show that $f(x)$ is continuous at $x=a$, hence we must show that 
+\[
+\lim_{x\to a} f(x) = f(a).
+\]
+Consider
+\begin{align*}
+\lim_{x\to a} \left(f(x) - f(a)\right) &= \lim_{x\to a} \left((x-a)\frac{f(x) - f(a)}{x-a}\right) &\text{Multiply and divide by $(x-a)$.} \\
+&= \lim_{h\to 0} h \cdot \frac{f(a+h) - f(a)}{h} &\text{Set $x = a+h$.} \\
+&= \left(\lim_{h\to 0} h\right) \left(\lim_{h\to 0}\frac{f(a+h) - f(a)}{h}\right) &\text{Limit Law.} \\
+&= 0\cdot f'(a) = 0.
+\end{align*}
+Since 
+\[
+\lim_{x\to a}\left(f(x) - f(a)\right) = 0 
+\]
+we see that $\lim_{x\to a} f(x) = f(a)$, and so $f(x)$ is continuous.
+\end{proof}
+
+This theorem is often written as its contrapositive:
+\begin{quote}
+If $f(x)$ is not continuous at $x=a$, then $f(x)$ is not
+differentiable at $x=a$.
+\end{quote}
+
+
+Let's see a function that is continuous whose derivative does not
+exist everywhere.
+
+
+\begin{example}
+Compute 
+\[
+\ddx |x|.
+\]
+\end{example}
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=3,
+            ymin=-2,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor2, smooth,domain=(0:3)] {1};
+          \addplot [very thick, penColor2, smooth,domain=(-3:0)] {-1};
+          \addplot [very thick, penColor, smooth] {abs(x)};
+          \node at (axis cs:1,1.7) [anchor=west] {\color{penColor}$f(t)$}; 
+          \node at (axis cs:-1,-1.5) [anchor=south] {\color{penColor2}$f'(t)$};
+          \addplot[color=penColor2,fill=background,only marks,mark=*] coordinates{(0,1)};  %% open hole
+          \addplot[color=penColor2,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\caption[A plot of $f(x) = |x|$ and its derivative.]{A plot of $f(x) = |x|$ and \[
+f'(x) = \begin{cases}
+1 &\text{if $x>0$,}\\
+-1 &\text{if $x<0$.}
+\end{cases}\]
+}
+\label{figure:plot-abs}
+\end{marginfigure}
+\begin{solution}
+Using the definition of the derivative,
+\[
+\ddx |x| = \lim_{h\to0}\frac{|x+h| -|x|}{h}.
+\]
+If $x$ is positive we may assume that $x$ is larger than $h$, as we are
+taking the limit as $h$ goes to $0$,
+\begin{align*}
+\lim_{h\to0}\frac{|x+h| -|x|}{h} &= \lim_{h\to0}\frac{x+h -x}{h}\\
+&= \lim_{h\to0}\frac{h}{h}\\
+&= 1.
+\end{align*}
+If $x$ is negative we may assume that $|x|$ is larger than $h$, as we are taking
+the limit as $h$ goes to $0$,
+\begin{align*}
+\lim_{h\to0}\frac{|x+h| -|x|}{h} &= \lim_{h\to0}\frac{-x-h +x}{h}\\
+&= \lim_{h\to0}\frac{-h}{h}\\
+&= -1.
+\end{align*}
+However we still have one case left, when $x=0$. In this situation, we
+must consider the one-sided limits:
+\[
+\lim_{h\to0+}\frac{|x+h| -|x|}{h}\qquad\text{and}\qquad \lim_{h\to0-}\frac{|x+h| -|x|}{h}.
+\]
+In the first case, 
+\begin{align*}
+\lim_{h\to0+}\frac{|x+h| -|x|}{h} &= \lim_{h\to 0+}\frac{0+h - 0}{h}\\
+&= \lim_{h\to 0+}\frac{h}{h}\\
+&=1.
+\end{align*}
+On the other hand
+\begin{align*}
+\lim_{h\to0-}\frac{|x+h| -|x|}{h} &= \lim_{h\to 0-}\frac{|0+h| - 0}{h}\\
+&= \lim_{h\to 0-}\frac{|h|}{h}\\
+&=-1.
+\end{align*}
+Hence we see that the derivative is
+\[
+f'(x) = 
+\begin{cases}
+1 &\text{if $x>0$,}\\
+-1 &\text{if $x<0$.}
+\end{cases}
+\]
+Note this function is undefined at $0$, see Figure~\ref{figure:plot-abs}. 
+\end{solution}
+
+
+Thus from Theorem~\ref{theorem:diff-cont}, we see that all
+differentiable functions on $\R$ are continuous on $\R$. Nevertheless
+as the previous example shows, there are continuous functions on $\R$
+that are not differentiable on $\R$.
+
+
+
+\begin{exercises}
+
+\noindent These exercises are conceptual in nature and require one to
+think about what the derivative means.
+
+\begin{exercise} 
+If the line $y = 7x-4$ is tangent to $f(x)$ at $x=2$, find $f(2)$ and $f'(2)$.
+\begin{answer}
+$f(2) =  10$ and $f'(2) = 7$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Here are plots of four functions. 
+\begin{fullwidth}
+\[
+\begin{array}{cccc}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            width=2in,
+            ymax=4,
+            ymin=-4,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor, smooth,domain=(-3:3)] {x^4-4*x^3+4*x^2};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            width=2in,
+            ymax=4,
+            ymin=-4,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor, smooth,domain=(-3:3)] {3*x^2-6*x};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            width=2in,
+            ymax=4,
+            ymin=-4,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor, smooth,domain=(-3:3)] {x^3-3*x^2+2};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            width=2in,
+            ymax=4,
+            ymin=-4,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor, smooth,domain=(-3:3)] {4*x^3-12*x^2 + 8*x};
+        \end{axis}
+\end{tikzpicture} \\
+p(x) & q(x) & r(x) & s(x)
+\end{array}
+\]
+\end{fullwidth}
+Two of these functions are the derivatives of the other two, identify
+which functions are the derivatives of the others.
+\begin{answer}
+$p'(x) = s(x)$ and $r'(x) = q(x)$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+If $f(3) = 6$ and $f(3.1) = 6.4$, estimate $f'(3)$.
+\begin{answer}
+$f'(3)\approx 4$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+If $f(-2) = 4$ and $f(-2+h) = (h+2)^2$, compute $f'(-2)$.
+\begin{answer}
+$f'(-2) = 4$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+If $f'(x) = x^3$ and $f(1) = 2$, approximate $f(1.2)$.
+\begin{answer}
+$f(1.2) \approx 2.2$
+\end{answer}
+\end{exercise}
+
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,
+            ymax=4,
+            ymin=-1,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            grid=both,
+            grid style={dashed, gridColor},
+            xtick={0,...,6},
+            ytick={-1,...,4},
+          ]
+          \addplot [very thick, penColor, smooth,domain=(3:6)] {3-abs(sin(deg(pi*x/3)))};
+          \addplot [very thick, penColor, smooth,domain=(0:3)] {3-abs(sin(deg(pi*x/3)))};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4.5,2)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)$.}
+\label{figure:plot-cont-diff}
+\end{marginfigure}
+\begin{exercise}
+Consider the plot of $f(x)$ in Figure~\ref{figure:plot-cont-diff}. 
+\begin{enumerate}
+\item On which subinterval(s) of $[0,6]$ is $f(x)$ continuous? 
+\item On which subinterval(s) of $[0,6]$ is $f(x)$ differentiable?
+\item Sketch a plot of $f'(x)$.  
+\end{enumerate}
+\begin{answer}
+(a) $(0,4.5)\cup(4.5,6)$, (b) $(0,3)\cup(3,4.5)\cup(4.5,6)$, (c) See Figure\begin{marginfigure}[0in]
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,
+            ymax=1.5,
+            ymin=-1.5,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            grid=both,
+            grid style={dashed, gridColor},
+            xtick={0,...,6},
+            ytick={-1,...,1},
+          ]
+          \addplot [very thick, penColor, smooth,domain=(0:3)] {-(pi/3)*cos(deg(pi*x/3)))};
+          \addplot [very thick, penColor, smooth,domain=(3:6)] {-(pi/3)*cos(deg(pi*(x-3)/3)))};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,pi/3)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,-pi/3)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4.5,0)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+Answer 3.1.6: (c) a sketch of $f'(x)$.
+\end{marginfigure}
+\end{answer}
+\end{exercise}
+
+\break
+\noindent These exercises are computational in nature.
+
+\begin{exercise}
+Let $f(x) = x^2 -4$. Use the definition of the derivative to compute
+$f'(-3)$ and find the equation of the tangent line to the curve at
+$x=-3$.
+\begin{answer}
+$f'(-3) = -6$ with tangent line $y = -6x -13$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Let $f(x) = \frac{1}{x+2}$. Use the definition of the derivative to compute
+$f'(1)$ and find the equation of the tangent line to the curve at
+$x=1$.
+\begin{answer}
+$f'(1) = -1/9$ with tangent line $y = \frac{-1}{9}x + \frac{4}{9}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Let $f(x) = \sqrt{x-3}$. Use the definition of the derivative to compute
+$f'(5)$ and find the equation of the tangent line to the curve at
+$x=5$.
+\begin{answer}
+$f'(5) = \frac{1}{2\sqrt{2}}$ with tangent line $y = \frac{1}{2\sqrt{2}}x -\frac{1}{2\sqrt{2}}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Let $f(x) = \frac{1}{\sqrt{x}}$. Use the definition of the derivative
+to compute $f'(4)$ and find the equation of the tangent line to the
+curve at $x=4$.
+\begin{answer}
+$f'(4) = \frac{-1}{16}$ with tangent line $y = \frac{-1}{16}x +\frac{3}{4}$
+\end{answer}
+\end{exercise}
+
+\end{exercises}
+
+
+
+
+\section{Basic Derivative Rules}
+
+
+It is tedious to compute a limit every time we need to know the
+derivative of a function.  Fortunately, we can develop a small
+collection of examples and rules that allow us to compute the
+derivative of almost any function we are likely to encounter.  We will
+start simply and build-up to more complicated examples.
+
+
+\subsection*{The Constant Rule}
+
+The simplest function is a constant function.  Recall that derivatives
+measure the rate of change of a function at a given point. Hence, the
+derivative of a constant function is zero. For example:
+\begin{itemize}
+\item The constant function plots a horizontal line---so the slope of
+  the tangent line is $0$.
+\item If $p(t)$ represents the position of an object with respect to
+  time and $p(t)$ is constant, then the object is not moving, so its
+  velocity is zero. Hence $\dd{t} p(t) = 0$.
+\item If $v(t)$ represents the velocity of an object with respect to
+  time and $v(t)$ is constant, then the object's acceleration is
+  zero. Hence $\dd{t} v(t) = 0$.
+\end{itemize}
+The examples above lead us to our next theorem.
+
+
+\marginnote{To gain intuition, you should compute the derivative of
+  $f(x) = 6$ using the limit definition of the derivative.}
+\begin{mainTheorem}[The Constant Rule]\index{derivative rules!constant}\index{constant rule}
+Given a constant $c$,
+\[
+\ddx c = 0.
+\]
+\end{mainTheorem}
+
+\begin{proof}
+From the limit definition of the derivative, write
+\begin{align*}
+\ddx c &= \lim_{h\to 0}\frac{c-c}{h}\\
+&= \lim_{h\to 0} \frac{0}{h}\\
+&= \lim_{h\to 0} 0 = 0.
+\end{align*}
+\end{proof}
+
+
+\subsection*{The Power Rule}
+
+Now let's examine derivatives of powers of a single variable.  Here we
+have a nice rule.
+
+\marginnote{To gain intuition, you should compute the derivative of
+  $f(x) = x^3$ using the limit definition of the derivative.}
+\begin{mainTheorem}[The Power Rule]\index{derivative rules!power}\index{power rule}\label{T:powerrule}
+For any real number $n$, 
+\[
+\ddx x^n = n x^{n-1}.
+\]
+\end{mainTheorem}
+\marginnote[1in]{Recall, the \textbf{Binomial Theorem}\index{Binomial Theorem} states that if $n$
+  is a nonnegative integer, then
+\[
+(a+b)^n = a^nb^0 + \binom{n}{1} a^{n-1}b^1 + \dots + \binom{n}{n-1} a^{1}b^{n-1} +  a^{0}b^n   
+\]
+where
+\[
+\binom{n}{k} = \frac{n!}{k!(n-k)!}.
+\]
+}
+\begin{proof}
+At this point we will only prove this theorem for $n$ being a positive
+integer. Later in Section~\ref{S:logdiff}, we will give the complete proof. From the limit
+definition of the derivative, write
+\[
+\ddx x^n = \lim_{ h\to0} \frac{(x+ h)^n-x^n}{h}.
+\]
+Start by expanding the term $(x+h)^n$
+\[
+\ddx x^n=\lim_{h\to0} \frac{x^n + \binom{n}{1}x^{n-1} h + \binom{n}{2}x^{n-2} h^2+\cdots+\binom{n}{n-1}x h^{n-1} +  h^n-x^n}{h}
+\]
+Note, by the Binomial Theorem, we write $\binom{n}{k}$ for the
+coefficients. Canceling the terms $x^n$ and $-x^n$, and noting
+$\binom{n}{1}= \binom{n}{n-1}= n$, write
+\begin{align*}
+\ddx x^n&=\lim_{h\to0} \frac{nx^{n-1} h + \binom{n}{2}x^{n-2} h^2+\cdots+\binom{n}{n-1}x h^{n-1} +  h^n}{h} \\
+&=\lim_{h\to0} nx^{n-1} + \binom{n}{2}x^{n-2} h+\cdots+\binom{n}{n-1}x h^{n-2} +  h^{n-1}.
+\end{align*}
+Since every term but the first has a factor of $h$, we see
+\[
+\ddx x^n = \lim_{ h\to0}\frac{(x+ h)^n-x^n}{h} = nx^{n-1}.
+\]
+\end{proof}
+
+Now we will show you several examples. We begin with something basic.
+
+\begin{example}
+Compute
+\[
+\ddx x^{13}.
+\]
+\end{example}
+\begin{solution}
+Applying the power rule, we write
+\[
+\ddx x^{13} = 13x^{12}.
+\]
+\end{solution}
+
+Sometimes, it is not as obvious that one should apply the power rule.
+
+\begin{example}
+Compute
+\[
+\ddx \frac{1}{x^4}.
+\]
+\end{example}
+\begin{solution}
+Applying the power rule, we write
+\[
+\ddx \frac{1}{x^4} = \ddx x^{-4} = -4x^{-5}.
+\]
+\end{solution}
+
+The power rule also applies to radicals once we rewrite them as exponents.
+
+\begin{example}
+Compute
+\[
+\ddx \sqrt[5]{x}.
+\]
+\end{example}
+\begin{solution}
+Applying the power rule, we write
+\[
+\ddx \sqrt[5]{x} = \ddx x^{1/5} = \frac{x^{-4/5}}{5}.
+\]
+\end{solution}
+
+
+
+
+
+
+\subsection*{The Sum Rule}
+
+We want to be able to take derivatives of functions ``one piece at a
+time.'' The \textit{sum rule} allows us to do this. The sum rule says
+that we can add the rates of change of two functions to obtain the
+rate of change of the sum of both functions. For example, viewing the
+derivative as the velocity of an object, the sum rule states that the
+velocity of the person walking on a moving bus is the sum of the
+velocity of the bus and the walking person.
+
+
+\begin{mainTheorem}[The Sum Rule]\index{derivative rules!sum}\index{sum rule}\label{theorem:sum rule}
+If $f(x)$ and $g(x)$ are differentiable and $c$ is a constant, then 
+\begin{enumerate}
+\item\label{SR:1} $\ddx \big( f(x) + g(x)\big) = f'(x) + g'(x)$,
+\item $\ddx \big( f(x) - g(x)\big) = f'(x) - g'(x)$,
+\item $\ddx \big(c\cdot f(x)\big) = c\cdot f'(x)$.
+\end{enumerate}
+\end{mainTheorem}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            domain=0:5, 
+            ymin=0, ymax=5,
+            xlabel=$x$, ylabel=$y$,
+            axis lines=center,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={3},ytickmin=1,ytickmax=0,
+            xticklabels={$a$},
+            axis on top,
+          ]          
+                    
+          \addplot [penColor5,very thick] plot coordinates {(4,3/2.5) (4,4/2.5)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(3,3/2.5) (4,3/2.5)};
+
+          \addplot [penColor4,very thick] plot coordinates {(4,3/1.5+.5) (4,4/1.5+.5)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(3,3/1.5+.5) (4,3/1.5+.5)};
+
+          \addplot [very thick, penColor5] plot coordinates {(4,3/2.5+3/1.5+.5) (4,3/1.5+.5 + 4/2.5)};
+          \addplot [very thick, penColor4] plot coordinates {(4,3/1.5+.5 + 4/2.5) (4,4/2.5 + 4/1.5 +.5)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(3,3/2.5+3/1.5+.5) (4,3/2.5+3/1.5+.5)};
+
+          \addplot [dashed, textColor] plot coordinates {(3,0) (3,3/2.5+3/1.5+.5)};
+        
+          \addplot [very thick,penColor,smooth] {x/2.5};
+          \addplot [very thick,penColor2,smooth] {x/1.5 +.5};         
+          \addplot [very thick,penColor3,smooth,domain=(0:4.5)] {x/2.5+x/1.5 +.5};         
+
+          \node at (axis cs:1.7,1) [anchor=west,penColor] {$f(x)$};
+          \node at (axis cs:2.2,2.4) [anchor=west,penColor2] {$g(x)$};
+          \node at (axis cs:1.2,3) [anchor=west,penColor3] {$f(x)+g(x)$};
+
+          \node at (axis cs:4,1.4) [anchor=west,penColor5] {$f'(a)h$};
+          \node at (axis cs:4,2.9) [anchor=west,penColor4] {$g'(a)h$};
+          \node at (axis cs:4,4.3) [anchor=west] {${\color{penColor5}f'(a)h}+{\color{penColor4}g'(a)h}$};
+          \node at (axis cs:3.5,1.2) [anchor=north] {$\underbrace{\hspace{.50in}}_{h}$};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3/2.5)};  %% closed hole          
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(3,3/1.5+.5)};  %% closed hole          
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(3,3/2.5+3/1.5+.5)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+\label{figure:sum-rule}
+\caption{A geometric interpretation of the sum rule. Since every
+  point on $f(x)+g(x)$ is the sum of the corresponding points on
+  $f(x)$ and $g(x)$, increasing $a$ by a ``small amount'' $h$,
+  increases $f(a)+g(a)$ by the sum of $f'(a)h$ and
+  $g'(a)h$. Hence, 
+\[
+\frac{\Delta y}{\Delta x}\approx \frac{f'(a)h+g'(a)h}{h} = f'(a) + g'(a).
+\]}
+\end{marginfigure}
+
+\begin{proof}
+We will only prove part~\ref{SR:1} above, the rest are similar. Write
+\begin{align*}
+\ddx\big(f(x)+g(x)\big) &= \lim_{ h\to 0} {f(x+h)+g(x+ h) - (f(x)+g(x))\over  h}  \\
+&= \lim_{ h\to 0} {f(x+h)+g(x+ h) - f(x)-g(x)\over  h}  \\
+&= \lim_{ h\to 0} {f(x+h)-f(x) +g(x+ h) -g(x)\over  h}  \\
+&= \lim_{ h\to 0} \left({f(x+h)-f(x)\over  h}  +{g(x+ h) -g(x)\over  h}\right)  \\
+&= \lim_{ h\to 0} {f(x+h)-f(x)\over  h}  +
+\lim_{ h\to 0} {g(x+ h) -g(x)\over  h}  \\
+&=f'(x)+g'(x).
+\end{align*}
+\end{proof}
+
+
+
+\begin{example}
+Compute
+\[
+\ddx \left( x^5+\frac{1}{x}\right).
+\] 
+\end{example}
+
+\begin{solution}
+Write
+\begin{align*}
+\ddx \left(x^5+\frac{1}{x}\right) &= \ddx x^5 + \ddx x^{-1} \\
+&=5x^4 - x^{-2}.
+\end{align*}
+\end{solution}
+
+\begin{example}
+Compute
+\[
+\ddx \left(\frac{3}{\sqrt[3]{x}}-2\sqrt{x}+\frac{1}{x^7}\right).
+\]
+\end{example}
+
+\begin{solution}
+Write
+\begin{align*}
+\ddx \left(\frac{3}{\sqrt[3]{x}}-2\sqrt{x}+\frac{1}{x^7}\right) &= 3\ddx x^{-1/3} -2\ddx x^{1/2}+\ddx x^{-7}\\
+&=-x^{-4/3} - x^{-1/2}-7x^{-8}.
+\end{align*}
+\end{solution}
+
+
+
+\subsection*{The Derivative of $\textit{e}^\textit{x}$}
+
+
+We don't know anything about derivatives that allows us to compute the
+derivatives of exponential functions without getting our hands
+dirty. Let's do a little work with the definition of the derivative:
+\begin{align*}
+\ddx a^x &=\lim_{h\to 0} \frac{a^{x+h}-a^x}{h} \\
+&=\lim_{h\to 0} \frac{a^xa^{h}-a^x}{h} \\
+&=\lim_{h\to 0} a^x\frac{a^{h}-1}{h} \\
+&=a^x\lim_{h\to 0} \frac{a^{h}-1}{h} \\
+&=a^x \cdot \underbrace{\text{(constant)}}_{\lim_{h\to 0} \frac{a^{h}-1}{h}}
+\end{align*}
+There are two interesting things to note here: We are left with a
+limit that involves $h$ but not $x$, which means that whatever $
+\lim_{h\to 0} (a^h-1)/h$ is, we know that it is a number, that is, a
+constant. This means that $a^x$ has a remarkable property: Its
+derivative is a constant times itself. Unfortunately it is beyond the
+scope of this text to compute the limit
+\[
+\lim_{h\to 0} \frac{a^h-1}{h}.
+\]
+However, we can look at some examples. Consider $(2^h-1)/h$ and $(3^h-1)/h$:
+\begin{fullwidth}
+\[
+\begin{tchart}{ll}
+ h &     (2^h-1)/h\\ \hline
+ -1 & .5  \\
+-0.1 &  \approx0.6700 \\
+-0.01 & \approx0.6910 \\
+-0.001 & \approx0.6929 \\
+-0.0001 & \approx0.6931 \\
+-0.00001 & \approx0.6932 \\
+\end{tchart}
+\qquad
+\begin{tchart}{ll}
+ h &     (2^h-1)/h\\ \hline
+ 1 & 1  \\
+ 0.1 &  \approx0.7177 \\
+ 0.01 & \approx0.6956 \\
+ 0.001 & \approx0.6934 \\
+ 0.0001 & \approx0.6932 \\
+ 0.00001 & \approx0.6932 \\
+\end{tchart}
+\qquad\qquad
+\begin{tchart}{ll}
+ h &     (3^h-1)/h\\ \hline
+-1 & \approx 0.6667  \\
+-0.1 &  \approx1.0404  \\
+-0.01 & \approx1.0926 \\
+-0.001 & \approx1.0980 \\
+-0.0001 & \approx1.0986 \\
+-0.00001 & \approx1.0986 \\
+\end{tchart}
+\qquad
+\begin{tchart}{ll}
+ h &     (3^h-1)/h\\ \hline
+ 1 & 2  \\
+ 0.1 &  \approx1.1612 \\
+ 0.01 & \approx1.1047 \\
+ 0.001 & \approx1.0992 \\
+ 0.0001 & \approx1.0987 \\
+ 0.00001 & \approx1.0986 \\
+\end{tchart}
+\]
+\end{fullwidth}
+
+While these tables don't prove a pattern, it turns out that
+\[
+\lim_{h\to 0}\frac{2^h-1}{h} \approx .7 \qquad\text{and}\qquad \lim_{h\to 0} \frac{3^h-1}{h} \approx 1.1.
+\]
+Moreover, if you do more examples you will find that the limit varies
+directly with the value of $a$: bigger $a$, bigger limit; smaller $a$,
+smaller limit. As we can already see, some of these limits will be
+less than 1 and some larger than 1. Somewhere between $a=2$ and $a=3$
+the limit will be exactly 1. This happens when 
+\[
+a = e = 2.718281828459045\dots.
+\]
+This brings us to our next definition.
+\begin{definition}\index{Euler's number}
+Euler's number is defined to be the number $e$ such that
+\[
+\lim_{h\to 0} \frac{e^h-1}{h} = 1.
+\]
+\end{definition}
+Now we see that the function $e^x$ has a truly remarkable property:
+
+\begin{mainTheorem}[The Derivative of $\textit{e}^\textit{x}$]\index{ex@$e^x$}\index{derivative!of ex@of $e^x$}
+\[
+\ddx e^x = e^x.
+\]
+\end{mainTheorem}
+\begin{proof}  
+From the limit definition of the derivative, write
+\begin{align*}
+\ddx e^x&=\lim_{h\to 0} \frac{e^{x+h}-e^x}{h} \\
+&=\lim_{h\to 0} \frac{e^xe^{h}-e^x}{h} \\
+&=\lim_{h\to 0} e^x\frac{e^{h}-1}{h} \\
+&=e^x\lim_{h\to 0} \frac{e^{h}-1}{h} \\
+&=e^x.
+\end{align*}
+\end{proof}
+
+
+
+Hence $e^x$ is its own derivative. In other words, the slope of the
+plot of $e^x$ is the same as its height, or the same as its second
+coordinate: The function $ f(x)=e^x$ goes through the point $ (a,e^a)$
+and has slope $e^a$ there, no matter what $a$ is. 
+
+
+
+\begin{example}
+Compute:
+\[
+\ddx\left(8\sqrt{x} + 7e^x \right)
+\]
+\end{example}
+
+\begin{solution}
+Write:
+\begin{align*}
+\ddx\left(8\sqrt{x} + 7e^x \right) &= 8\ddx x^{1/2} + 7\ddx e^x\\
+&= 4x^{-1/2} + 7 e^x.
+\end{align*}
+\end{solution}
+
+
+\begin{exercises}
+
+\noindent Compute:
+
+\twocol
+
+%% constants
+
+\begin{exercise} $\ddx 5$
+\begin{answer} $0$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $\ddx -7$
+\begin{answer} $0$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $\ddx e^7$
+\begin{answer} $0$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $\ddx \frac{1}{\sqrt{2}}$
+\begin{answer} $0$
+\end{answer}
+\end{exercise}
+
+%% powers
+
+\begin{exercise} $\ddx x^{100}$
+\begin{answer} $100x^{99}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $\ddx x^{-100}$
+\begin{answer} $-100x^{-101}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \frac{1}{x^5}$
+\begin{answer} $-5x^{-6}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx x^\pi$
+\begin{answer} $\pi x^{\pi-1}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx x^{3/4}$
+\begin{answer} $(3/4)x^{-1/4}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \frac{1}{(\sqrt[7]{x})^9}$
+\begin{answer} $-(9/7)x^{-16/7}$
+\end{answer}\end{exercise}
+
+%% sums
+
+\begin{exercise} $\ddx \left(5x^3+12x^2-15\right)$
+\begin{answer} $15x^2+24x$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \left(-4x^5 + 3x^2 - \frac{5}{x^2}\right)$
+\begin{answer} $-20x^4+6x+10/x^3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx 5(-3x^2 + 5x + 1)$
+\begin{answer} $-30x+25$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \left(3\sqrt{x} + \frac{1}{x} - x^e\right)$
+\begin{answer} $\frac{3}{2}x^{-1/2}-x^{-2}-ex^{e-1}$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\ddx \left(\frac{x^2}{x^7}+\frac{\sqrt{x}}{x}\right)$
+\begin{answer} $-5x^{-6} - x^{-3/2}/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx e^x$
+\begin{answer} $e^x$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx x^e$
+\begin{answer} $ex^{e-1}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx 3e^x$
+\begin{answer} $3e^x$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \left(3x^4 -7x^2 +12 e^x\right)$
+\begin{answer} $12x^3-14x +12 e^x$
+\end{answer}\end{exercise}
+\endtwocol
+
+\noindent Expand or simplify to compute the following:
+
+\twocol
+
+\begin{exercise} $\ddx \left((x+1)(x^2+2x-3)\right)$
+\begin{answer} $3x^2+6x-1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \frac{x^3 -2x^2 -5x + 6}{(x-1)}$
+\begin{answer} $2x-1 $
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \frac{x-5}{\sqrt{x}-\sqrt{5}}$
+\begin{answer} $x^{-1/2}/2 $
+\end{answer}\end{exercise}
+
+\begin{exercise} $\ddx \left((x+1)(x+1)(x-1)(x-1)\right)$
+\begin{answer} $4x^3-4x$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise} Suppose the position of an object at time $t$ is  given by
+$f(t)=-49 t^2/10+5t+10$. Find a function giving the velocity of the object
+at time $t$. The acceleration of an object is the rate at which its
+velocity is changing, which means it is given by the derivative of the
+velocity function. Find the acceleration of the object at time $t$.
+\begin{answer} $-49t/5+5$, $-49/5$
+\end{answer}\end{exercise}
+
+\begin{exercise} Let $f(x) =x^3$ and $c= 3$. Sketch the graphs of $f(x)$,
+$cf(x)$, $f'(x)$, and $(cf(x))'$ on the same diagram.
+\begin{answer}
+See Figure\begin{marginfigure}[0in]
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=10,
+            ymin=-10,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot [very thick, penColor, smooth,domain=(-3:3)] {x^3};
+          \addplot [very thick, penColor2, smooth,domain=(-3:3)] {3*x^3};
+          \addplot [very thick, penColor!50!background, smooth,domain=(-3:3)] {3*x^2};
+          \addplot [very thick, penColor2!50!background, smooth,domain=(-3:3)] {9*x^2};
+          \node at (axis cs:1.5,3) [anchor=west] {\color{penColor}$f(x)$}; 
+          \node at (axis cs:-1,-3) [anchor=west] {\color{penColor2}$cf(x)$};
+          \node at (axis cs:-1.6,3) [anchor=west] {\color{penColor!50!background}$f'(x)$};
+          \node at (axis cs:-.9,7) [anchor=west] {\color{penColor2!50!background}$(cf(x))'$};
+        \end{axis}
+\end{tikzpicture}
+Answer 3.2.25.
+\end{marginfigure}
+\end{answer}
+\end{exercise}
+
+%\begin{exercise} 
+%The general polynomial $P$ of degree $n$ in the variable $x$ has the
+%form $P(x)= \sum _{k=0 } ^n a_k x^k = a_0 + a_1 x + \ldots + a_n
+%x^n$. What is the derivative (with respect to $x$) of $P$?
+%\begin{answer} $\sum_{k=1}^n ka_kx^{k-1}$
+%\end{answer}\end{exercise}
+
+\begin{exercise} 
+Find a cubic polynomial whose graph has horizontal tangents at $(-2 ,
+5)$ and $(2, 3)$.
+\begin{answer} $x^3/16-3x/4+4$
+\end{answer}\end{exercise}
+
+\begin{exercise}
+  Find an equation for the tangent line to $f(x) = x^3/4 - 1/x$ at $x=-2$.
+\begin{answer} $y=13x/4+5$
+\end{answer}\end{exercise}
+
+\begin{exercise} 
+  Find an equation for the tangent line to $f(x)= 3x^2 - \pi ^3$ at
+  $x= 4$.
+\begin{answer} $y=24x-48-\pi^3$
+\end{answer}
+\end{exercise}
+
+
+
+ 
+\begin{exercise} Prove that $\ddx(cf(x))= cf'(x)$ using the
+definition of the derivative.
+\end{exercise}
+\begin{answer} 
+$\ddx cf(x) = \lim_{h\to 0}\frac{cf(x+h)-cf(x)}{h} = c\lim_{h\to 0}\frac{f(x+h)-f(x)}{h} = cf'(x)$.
+\end{answer}
+\end{exercises}

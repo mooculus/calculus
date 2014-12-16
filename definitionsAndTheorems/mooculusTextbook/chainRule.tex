@@ -1,0 +1,1030 @@
+\chapter{The Chain Rule}
+
+
+
+
+So far we have seen how to compute the derivative of a function built
+up from other functions by addition, subtraction, multiplication and
+division. There is another very important way that we combine
+functions: composition. The \textit{chain rule} allows us to deal with
+this case.
+
+\section{The Chain Rule}
+
+
+Consider
+\[
+h(x) = (1+2x)^5.
+\] 
+
+While there are several different ways to differentiate this function,
+if we let $f(x) = x^5$ and $g(x) = 1+2x$, then we can express $h(x) =
+f(g(x))$. The question is, can we compute the derivative of a
+composition of functions using the derivatives of the constituents
+$f(x)$ and $g(x)$? To do so, we need the \textit{chain rule}.
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            axis lines=none,
+            clip=false,
+          ]          
+          \addplot [->,textColor] plot coordinates {(0,0) (-2,-4)}; %% x axis
+          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% y axis
+          \addplot [->,textColor] plot coordinates {(0,0) (6,0)}; %% g(x) axis
+
+          \addplot [dashed, textColor] plot coordinates {(-.7,-1.4) (1.4,-1.4)};
+          \addplot [dashed, textColor] plot coordinates {(1.4,-1.4) (2.1,0)};
+          \addplot [dashed, textColor] plot coordinates {(2.1,0) (2.1,4.1)};
+          
+          \addplot [dashed, textColor] plot coordinates {(2.6,-2.6) (3.5,0)};
+          \addplot [dashed, textColor] plot coordinates {(3.5,0) (3.5,4.1)};
+
+          \addplot [dashed, very thick, textColor] plot coordinates {(1.4,-1.4) (.8,-2.6)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(2.1,4.1) (3.5,4.1)};
+
+          \addplot [very thick, penColor5] plot coordinates {(.8,-2.6) (2.6,-2.6)};
+          \addplot [very thick, penColor4] plot coordinates {(3.5,4.1) (3.5,5.5)};
+
+          \addplot [very thick,penColor,domain=(0:4)] {2+x};
+          \addplot [very thick,penColor2,domain=(0:4)] {-x};
+
+          \node at (axis cs:3.5,4.8) [anchor=west,penColor4] {$f'(g(a)){\color{penColor5}g'(a)h}$};
+          \node at (axis cs:1.7,-2.6) [anchor=north,penColor5] {$g'(a)h$};
+          
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.4,-1.4)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2.1,4.1)};  %% closed hole          
+
+          \node at (axis cs:1,-2.1) [anchor=south,yslant=0,xslant=0,rotate=53] {$\overbrace{\hspace{.36in}}^{h}$};
+          \node at (axis cs:7,0) [anchor=east] {$g(x)$};
+          \node at (axis cs:0,6.7) [anchor=north] {$y$};
+          \node at (axis cs:-2.15,-4) [anchor=north] {$x$};
+          \node at (axis cs:-.7,-1.4) [anchor=east] {$a$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A geometric interpretation of the chain rule. Increasing $a$
+  by a ``small amount'' $h$, increases $f(g(a))$ by $f'(g(a))g'(a)h$. Hence, 
+\[
+\frac{\Delta y}{\Delta x}\approx \frac{f'(g(a))g'(a)h}{h} =
+f'(g(a))g'(a).
+\]}
+\end{marginfigure}
+\begin{mainTheorem}[Chain Rule]\index{chain rule}\index{derivative rules!chain}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(g(x)) = f'(g(x))g'(x).
+\]
+\end{mainTheorem}
+
+\begin{proof}
+Let $g_0$ be some $x$-value and consider the following:
+\[
+f'(g_0) = \lim_{h\to 0}\frac{f(g_0+h)-f(g_0)}{h}.
+\]
+
+Set $h = g-g_0$ and we have
+\begin{equation}\label{E:chainRuleLim}
+f'(g_0) = \lim_{g\to g_0} \frac{f(g)-f(g_0)}{g-g_0}.
+\end{equation}
+At this point, we might like to set $g=g(x+h)$ and $g_0=g(x)$;
+however, we cannot as we cannot be sure that
+\[
+g(x+h) - g(x) \ne 0\qquad\text{when $h\ne 0$.}
+\]
+To overcome this difficulty, let $E(g)$ be the ``error term'' that
+gives the difference between the slope of the secant line from
+$f(g_0)$ to $f(g)$ and $f'(g_0)$,
+\[
+E(g) = \frac{f(g)-f(g_0)}{g-g_0} - f'(g_0).
+\]
+In particular, $E(g)(g-g_0)$ is the difference between $f(g)$ and the
+tangent line of $f(x)$ at $x=g$, see the figure below:
+
+\vspace{1cm}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            domain=0:2, range=0:6,ymax=4,ymin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,1.666}, ytick={1,3},
+            xticklabels={$g_0$,$g$}, yticklabels={$f(g_0)$,$f(g)$},
+            axis on top,
+          ]         
+	  \addplot [textColor,dashed] plot coordinates {(1,0) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,1) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,3) (1.666,3)};
+          \addplot [textColor,dashed] plot coordinates {(1.666,0) (1.666,1)};
+
+          \addplot [textColor,dashed,very thick] plot coordinates {(1,1) (1.666,1)};
+          \node at (axis cs:1.333,1) [anchor=north] {$\underbrace{\hspace{.75in}}_{g-g_0}$};
+
+          \addplot [penColor4,very thick] plot coordinates {(1.666,1) (1.666,1.666)};
+          \addplot [penColor5,very thick] plot coordinates {(1.666,1.666) (1.666,3)};
+
+          \node at (axis cs:1.666,1.333) [anchor=west] {$f'(g_0)(g-g_0)$};
+          \node at (axis cs:1.666,2.333) [anchor=west] {$E(g)(g-g_0)$};
+
+          \addplot [very thick,penColor, smooth,domain=(0:7/4)] {-1/(x-2)};
+          \addplot [very thick,penColor2, smooth,domain=(0:2)] {x};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.666,3)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+\vspace{2cm}
+
+Hence we see that
+\begin{equation}\label{E:chainRuleDer}
+f(g)-f(g_0) = \left(f'(g_0) + E(g)\right)(g-g_0),
+\end{equation}
+and so
+\[
+\frac{f(g)-f(g_0)}{g-g_0} = f'(g_0) + E(g).
+\]
+
+
+Combining this with Equation~\ref{E:chainRuleLim}, we have that
+\begin{align*}
+f'(g_0) &= \lim_{g\to g_0}\frac{f(g)-f(g_0)}{g-g_0} \\
+&= \lim_{g\to g_0}f'(g_0) + E(g)\\
+&= f'(g_0) + \lim_{g\to g_0} E(g),
+\end{align*}
+and hence it follows that $\lim_{g\to g_0} E(g) = 0$. At this point,
+we may return to the ``well-worn path.'' Starting with
+Equation~\ref{E:chainRuleDer}, divide both sides by $h$ and set
+$g=g(x+h)$ and $g_0=g(x)$
+\[
+\frac{f(g(x+h))-f(g(x))}{h} = \left(f'(g(x)) +
+E(g(x+h))\right)\frac{g(x+h)-g(x)}{h}.
+\]
+Taking the limit as $h$ approaches $0$, we see 
+\begin{align*}
+\lim_{h\to 0}\frac{f(g(x+h))-f(g(x))}{h} &= \lim_{h\to 0}\left(f'(g(x))
++ E(g(x+h))\right)\frac{g(x+h)-g(x)}{h}\\
+&= \lim_{h\to 0}\left(f'(g(x))
++ E(g(x+h))\right)\lim_{h\to 0}\frac{g(x+h)-g(x)}{h}\\
+&= f'(g(x))g'(x).
+\end{align*}
+Hence, $\ddx f(g(x))= f'(g(x))g'(x)$.
+\end{proof}
+
+
+It will take a bit of practice to make the use of the chain rule come
+naturally---it is more complicated than the earlier differentiation
+rules we have seen. Let's return to our motivating example.
+
+\begin{example}
+Compute:
+\[
+\ddx (1+2x)^5
+\]
+\end{example}
+
+\begin{solution}
+Set $f(x) = x^5$ and $g(x) = 1+2x$, now
+\[
+f'(x) = 5x^4 \qquad\text{and}\qquad g'(x) = 2.
+\]
+Hence
+\begin{align*}
+\ddx (1+2x)^5 &= \ddx f(g(x))\\ 
+&=f'(g(x))g'(x) \\
+&= 5(1+2x)^4\cdot 2\\
+&= 10(1+2x)^4.
+\end{align*}
+\end{solution}
+
+
+Let's see a more complicated chain of compositions.
+
+\begin{example}
+Compute:
+\[
+\ddx \sqrt{1+\sqrt{x}}
+\]
+\end{example}
+
+\begin{solution}
+Set 
+$f(x)=\sqrt{x}$ and $g(x)=1+x$. Hence,
+\[
+\sqrt{1+\sqrt{x}}=f(g(f(x))) \qquad\text{and}\qquad\ddx f(g(f(x))) = f'(g(f(x)))g'(f(x))f'(x).
+\]
+Since 
+\[
+f'(x) = \frac{1}{2\sqrt{x}} \qquad\text{and}\qquad g'(x) = 1
+\]
+We have that
+\[
+\ddx \sqrt{1+\sqrt{x}} = \frac{1}{2\sqrt{1+\sqrt{x}}}\cdot 1\cdot  \frac{1}{2\sqrt{x}}.
+\]
+\end{solution}
+
+Using the chain rule, the power rule, and the product rule it is
+possible to avoid using the quotient rule entirely.
+
+\begin{example}
+Compute:
+\[
+\ddx \frac{x^3}{x^2+1}
+\]
+\end{example}
+\begin{solution}
+Rewriting this as 
+\[
+\ddx x^3(x^2+1)^{-1}, 
+\]
+set $f(x) = x^{-1}$ and $g(x) = x^2+1$. Now
+\[
+x^3(x^2+1)^{-1} = x^3 f(g(x)) \qquad\text{and}\qquad \ddx x^3 f(g(x)) = 3x^2f(g(x))+ x^3 f'(g(x))g'(x).
+\]
+Since $f'(x) = \frac{-1}{x^2}$ and $g'(x) = 2x$, write
+\[
+\ddx \frac{x^3}{x^2+1} = \frac{3x^2}{x^2+1}-\frac{2x^4}{(x^2+1)^2}.
+\]
+\end{solution}
+
+
+\begin{exercises}
+
+\noindent Compute the derivatives of the functions. For extra practice, and to
+check your answers, do some of these in more than one way if possible.
+
+\twocol
+
+\begin{exercise} $x^4-3x^3+(1/2)x^2+7x-\pi$
+\begin{answer} $4x^3-9x^2+x+7$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x^3-2x^2+4\sqrt{x}$
+\begin{answer} $3x^2-4x+2/\sqrt{x}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(x^2+1)^3$
+\begin{answer} $6(x^2+1)^2x$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x\sqrt{169-x^2}$
+\begin{answer} $\sqrt{169-x^2}-x^2/\sqrt{169-x^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(x^2-4x+5)\sqrt{25-x^2}$
+\begin{answer} $ (2x-4)\sqrt{25-x^2}-$\hfill\break$(x^2-4x+5)x/\sqrt{25-x^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{r^2-x^2}$, $r$ is a constant
+\begin{answer} $-x/\sqrt{r^2-x^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{1+x^4}$
+\begin{answer} $2x^3/\sqrt{1+x^4}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${1\over\sqrt{5-\sqrt{x}}}$
+\begin{answer} ${1\over 4\sqrt{x}(5-\sqrt{x})^{3/2}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(1+3x)^2$
+\begin{answer} $ 6+18x$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${(x^2+x+1)\over(1-x)}$
+\begin{answer} ${2 x + 1\over1 - x }+{x^2  + x + 1\over(1 - x)^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${\sqrt{25-x^2}\over x}$
+\begin{answer} $ -1/\sqrt{25-x^2}-\sqrt{25-x^2}/x^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{{169\over x}-x}$
+\begin{answer} ${1\over2}\left({-169\over x^2}-1\right)\Big/\sqrt{{169\over x}-x}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{x^3-x^2-(1/x)}$
+\begin{answer} $ {3x^2-2x+1/x^2\over 2\sqrt{x^3-x^2-(1/x)}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $100/(100-x^2)^{3/2}$
+\begin{answer} $ {300 x \over(100-x^2)^{5/2}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${\root 3 \of{x+x^3}}$
+\begin{answer} $ { 1 + 3 x^2\over3(x+x^3)^{2/3}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{(x^2+1)^2+\sqrt{1+(x^2+1)^2}}$
+\begin{answer} $ \left(4x(x^2+1)+{4x^3+4x\over2\sqrt{1+(x^2+1)^2}}\right)\Big/$
+\hfill\break$2\sqrt{(x^2+1)^2+\sqrt{1+(x^2+1)^2}}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(x+8)^5$
+\begin{answer} $5(x+8)^4$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(4-x)^3$
+\begin{answer} $-3(4-x)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(x^2+5)^3$
+\begin{answer} $6x(x^2+5)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(6-2x^2)^3$
+\begin{answer} $-12x(6-2x^2)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(1-4x^3)^{-2}$
+\begin{answer} $24x^2(1-4x^3)^{-3}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $5(x+1-1/x)$
+\begin{answer} $5+5/x^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $4(2x^2-x+3)^{-2}$
+\begin{answer} $-8(4x-1)(2x^2-x+3)^{-3}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${1\over 1+1/x}$
+\begin{answer} $1/(x+1)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${-3\over 4x^2-2x+1}$
+\begin{answer} $3(8x-2)/(4x^2-2x+1)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(x^2+1)(5-2x)/2$
+\begin{answer} $-3x^2+5x-1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(3x^2+1)(2x-4)^3$
+%\begin{answer} $120x^4-576x^3+888x^2-480x+96$
+\begin{answer} $6x(2x-4)^3+6(3x^2+1)(2x-4)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${x+1\over x-1}$
+\begin{answer} $-2/(x-1)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${x^2-1\over x^2+1}$
+\begin{answer} $4x/(x^2+1)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${(x-1)(x-2)\over x-3}$
+\begin{answer} $(x^2-6x+7)/(x-3)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${2x^{-1}-x^{-2}\over 3x^{-1}-4x^{-2}}$
+\begin{answer} $-5/(3x-4)^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $3(x^2+1)(2x^2-1)(2x+3)$
+\begin{answer} $60x^4+72x^3+18x^2+18x-6$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${1\over (2x+1)(x-3)}$
+\begin{answer} $(5-4x)/((2x+1)^2(x-3)^2)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $((2x+1)^{-1}+3)^{-1}$
+\begin{answer} $1/(2(2+3x)^2)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $(2x+1)^3(x^2+1)^2$
+\begin{answer} $56x^6+72x^5+110x^4+100x^3+60x^2+28x+6$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise}  Find an equation for the tangent line to 
+$f(x) = (x-2)^{1/3}/(x^3 + 4x - 1)^2$ at $x=1$.
+\begin{answer} $y=23x/96-29/96$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to $y=9x^{-2}$ at $(3,1)$.
+\begin{answer} $y=3-2x/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to $(x^2-4x+5)\sqrt{25-x^2}$ 
+at $(3,8)$.
+\begin{answer} $y=13x/2-23/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to ${(x^2+x+1)\over(1-x)}$ 
+at $(2,-7)$.
+\begin{answer} $y=2x-11$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to 
+$\sqrt{(x^2+1)^2+\sqrt{1+(x^2+1)^2}}$
+at $(1,\sqrt{4+\sqrt{5}})$.
+\begin{answer} $y=
+{20+2\sqrt5\over5\sqrt{4+\sqrt5}}\,x+{3\sqrt5\over5\sqrt{4+\sqrt5}}$
+\end{answer}\end{exercise}
+
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Implicit Differentiation}
+
+The functions we've been dealing with so far have been
+\textit{explicit functions}\index{explicit function}, meaning that the
+dependent variable is written in terms of the independent variable. For
+example:
+\[
+y=3x^2-2x+1,\qquad y=e^{3x}, \qquad y = \frac{x-2}{x^2-3x+2}.
+\]
+However, there are another type of functions, called \textit{implicit
+  functions}. In this case, the dependent variable is not stated
+explicitly in terms of the independent variable. For example:
+\[
+x^2+y^2 = 4,\qquad x^3+y^3 = 9xy, \qquad x^4+3x^2 = x^{2/3}+y^{2/3} = 1.
+\]
+Your inclination might be simply to solve each of these for $y$ and go
+merrily on your way. However this can be difficult and it may require
+two \textit{branches}, for example to explicitly plot $x^2+y^2 = 4$,
+one needs both $y= \sqrt{4-x^2}$ and $y=-\sqrt{4-x^2}$. Moreover, it
+may not even be possible to solve for $y$. To deal with such
+situations, we use \index{implicit differentiation}\textit{implicit
+  differentiation}. Let's see an illustrative example:
+
+
+\begin{example}
+Consider the curve defined by
+\[
+x^3+y^3 = 9xy.
+\]
+\begin{enumerate}
+\item Compute $\dydx$.
+\item Find the slope of the tangent line at $(4,2)$.
+\end{enumerate}
+\end{example}
+
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $x^3+y^3 = 9xy$. While this is not a function of
+  $y$ in terms of $x$, the equation still defines a relation between
+  $x$ and $y$.}
+\end{marginfigure}
+
+\begin{solution}
+Starting with 
+\[
+x^3+y^3 = 9xy,
+\]
+we apply the differential operator $\ddx$ to both sides of the
+equation to obtain
+\[
+\ddx \left(x^3+y^3\right) = \ddx 9xy.
+\]
+Applying the sum rule we see
+\[
+\ddx x^3+\ddx y^3 = \ddx 9xy.
+\]
+Let's examine each of these terms in turn. To start
+\[
+\ddx x^3 = 3x^2.
+\]
+On the other hand $\ddx y^3$ is somewhat different. Here you imagine that $y = y(x)$, and hence by the chain rule
+\begin{align*}
+\ddx y^3 &= \ddx (y(x))^3 \\ 
+&= 3(y(x))^2 \cdot y'(x) \\
+&= 3y^2\dydx.
+\end{align*}
+Considering the final term $\ddx 9xy$, we again imagine that $y=y(x)$. Hence 
+\begin{align*}
+\ddx 9xy &= 9\ddx x\cdot y(x) \\
+&= 9 \left(x\cdot y'(x) + y(x)\right)\\
+&= 9x \dydx + 9y.
+\end{align*}
+Putting this all together we are left with the equation
+\[
+3x^2 + 3y^2\dydx =9x \dydx + 9y.
+\]
+At this point, we solve for $\dydx$. Write
+\begin{align*}
+3x^2 + 3y^2\dydx &= 9x \dydx + 9y\\
+3y^2\dydx -  9x \dydx &= 9y - 3x^2\\
+\dydx\left(3y^2-9x\right)&= 9y - 3x^2\\
+\dydx &=\frac{9y - 3x^2}{3y^2-9x} = \frac{3y - x^2}{y^2-3x}.
+\end{align*}
+
+For the second part of the problem, we simply plug $x=4$ and $y=2$
+into the formula above, hence the slope of the tangent line at $(4,2)$
+is $\frac{5}{4}$, see Figure~\ref{plot:x^3+y^3=9xy}.
+\end{solution}
+%\enlargethispage{1in}
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+
+          \addplot [very thick, penColor2, domain=(-6:6)] {(5/4)*(x-4)+2};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,2)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $x^3+y^3 = 9xy$ along with the tangent line at
+  $(4,2)$.}
+\label{plot:x^3+y^3=9xy}
+\end{marginfigure}
+
+You might think that the step in which we solve for $\dydx$ could
+sometimes be difficult---after all, we're using implicit
+differentiation here instead of the more difficult task of solving the
+equation $x^3+y^3=9xy$ for $y$, so maybe there are functions where
+after taking the derivative we obtain something where it is hard to
+solve for $\dydx$. In fact, \textit{this never happens}. All
+occurrences $\dydx$ arise from applying the chain rule, and whenever
+the chain rule is used it deposits a single $\dydx$ multiplied by some
+other expression. Hence our expression is linear in $\dydx$, it will
+always be possible to group the terms containing $\dydx$ together and
+factor out the $\dydx$, just as in the previous example. 
+
+
+
+
+\subsection*{The Derivative of Inverse Functions}
+
+
+Geometrically, there is a close relationship between the plots of
+$e^x$ and $\ln(x)$, they are reflections of each other over the line
+$y=x$, see Figure~\ref{plot:e^x lnx}. One may suspect that we can use the fact
+that $\ddx e^x = e^x$, to deduce the derivative of $\ln(x)$.  We will
+use implicit differentiation to exploit this relationship
+computationally.
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, domain=(-6:6)] {e^x};
+          \addplot [very thick, penColor2, samples=100, smooth, domain=(.002:6)] {ln(x)};
+          \addplot [dashed, textColor, domain=(-6:6)] {x};
+          \node at (axis cs:-2,1) [penColor] {$e^x$};
+          \node at (axis cs:1,-2) [penColor2] {$\ln(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $e^x$ and $\ln(x)$. Since they are inverse
+  functions, they are reflections of each other across the line $y=x$.}
+\label{plot:e^x lnx}
+\end{marginfigure}
+
+
+\begin{mainTheorem}[The Derivative of the Natural Logrithm]\index{derivative!of the natural logarithm}
+\[
+\ddx \ln(x) = \frac{1}{x}.
+\]
+\end{mainTheorem}
+\begin{proof}
+Recall
+\[
+\ln(x) = y \qquad\Leftrightarrow\qquad e^y = x.
+\]
+Hence
+\begin{align*}
+e^y &= x\\
+\ddx e^y &= \ddx x &\text{Differentiate both sides.}\\
+e^y \dydx &= 1 &\text{Implicit differentiation.}\\
+\dydx &= \frac{1}{e^y} = \frac{1}{x}.
+\end{align*}
+Since $y=\ln(x)$, $\ddx \ln(x) = \frac{1}{x}$.
+\end{proof}
+
+There is one catch to the proof given above. To write
+$\ddx(e^y)=e^y\dydx$ we need to know that the function $y$
+\textit{has} a derivative. All we have shown is that \textit{if} it
+has a derivative then that derivative must be $1/x$. The \textit{Inverse
+Function Theorem} guarantees this.
+
+\begin{mainTheorem}[Inverse Function Theorem]\index{Inverse Function Theorem}\label{theorem:IFT}
+If $f(x)$ is a differentiable function, and $f'(x)$ is continuous, and
+$f'(a) \neq 0$, then
+\begin{enumerate}
+\item $f^{-1}(y)$ is defined for $y$ near $f(a)$,
+\item $f^{-1}(y)$ is differentiable near $f(a)$, 
+\item $\dd{y} f^{-1}(y)$ is continuous near $f(a)$, and
+\item $\dd{y} f^{-1}(y)  = \displaystyle\frac{1}{f'(f^{-1}(y))}$.
+\end{enumerate}
+\end{mainTheorem}
+
+
+
+
+\begin{exercises}
+
+\noindent Compute $\dydx$:
+\twocol
+
+\begin{exercise} $x^2 + y^2 = 4$
+\begin{answer} $-x/y$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y^2=1+x^2$
+\begin{answer} $x/y$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x^2+xy+y^2=7$
+\begin{answer} $-(2x+y)/(x+2y)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x^3+xy^2=y^3+yx^2$
+\begin{answer} $(2xy-3x^2-y^2)/(2xy-3y^2-x^2)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x^2y-y^3 = 6$
+\begin{answer} $\frac{-2xy}{x^2-3y^2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\sqrt{x} + \sqrt{y} = 9$
+\begin{answer} $-\sqrt{y}/\sqrt{x}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $xy^{3/2}+4 = 2x+y$
+\begin{answer} $\frac{y^{3/2}-2}{1-y^{1/2}3x/2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} ${1\over x} + {1\over y} = 7$
+\begin{answer} $-y^2/x^2$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise}
+A hyperbola passing through $(8,6)$ consists of all points whose distance
+from the origin is a constant more than its distance from the point (5,2).
+Find the slope of the tangent line to the hyperbola at $(8,6)$.
+\begin{answer} $1$
+\end{answer}\end{exercise}
+
+\begin{exercise} The graph of the equation $x^2 - xy + y^2 = 9$ is an ellipse.
+Find the lines tangent to this curve at the two
+ points where it intersects the $x$-axis. Show that these lines are
+ parallel.
+\begin{answer} $y=2x\pm6$
+\end{answer}\end{exercise}
+
+\begin{exercise} Repeat the previous problem for the points at which the
+ ellipse intersects the $y$-axis.
+\begin{answer} $y=x/2\pm3$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the points on the ellipse from the previous two problems
+ where the slope is horizontal and where it is vertical.
+\begin{answer} $(\sqrt3,2\sqrt3)$, $(-\sqrt3,-2\sqrt3)$, $(2\sqrt3,\sqrt3)$,
+$(-2\sqrt3,-\sqrt3)$ 
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to 
+$x^4 = y^2 + x^2$ at $(2, \sqrt{12})$. 
+This curve is the \textit{kampyle of Eudoxus}.
+\begin{answer} $y=7x/\sqrt3-8/\sqrt3$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to $x^{2/3} +
+y^{2/3} = a^{2/3}$ at a point $(x_1 ,y_1)$ on the curve, 
+with $x_1 \neq 0$ and $y_1 \neq 0$. This curve is an \textit{astroid}.
+\begin{answer} $y=(-y_1^{1/3}x+y_1^{1/3}x_1+x_1^{1/3}y_1)/x_1^{1/3}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find an equation for the tangent line to $(x^2 +y^2 )^2 =x^2
+-y^2$ at a point $(x_1 , y_1)$ on the curve, with $x_1 \neq 0, -1, 1$.
+This curve is a \textit{lemniscate}.
+\begin{answer} $(y-y_1)/(x-x_1)=(x_1-2x_1^3-2x_1y_1^2)/(2y_1^3+2y_1x_1^2+y_1)$
+\end{answer}\end{exercise}
+
+
+\end{exercises}
+
+
+
+
+
+
+
+\section{Logarithmic Differentiation}\index{logarithmic differentiation}
+\label{S:logdiff}
+Logarithms were originally developed as a computational tool. The key
+fact that made this possible is that:
+\[
+\log_b(xy) = \log_b(x)+\log_b(y).
+\]
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1,xmax=7,ymin=-4,ymax=3.5,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,...,7},
+          ]        
+          \addplot [very thick, penColor, samples=100, smooth, domain=(.01:7)] {ln(x)};
+          \addplot [very thick, penColor4] plot coordinates {(2,0) (2,.693)};
+          \addplot [very thick, penColor5] plot coordinates {(3,0) (3,1.099)};
+          \addplot [very thick, penColor4] plot coordinates {(6,0) (6,.693)};
+          \addplot [very thick, penColor5] plot coordinates {(6,.693) (6,1.792)};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $\ln(x)$. Here we see that \[\ln(2\cdot 3) = \ln(2) + \ln(3).\]}
+\label{plot:ln additive property}
+\end{marginfigure}
+
+While this may seem quite abstract, before the days of calculators and
+computers, this was critical knowledge for anyone in a computational
+discipline. Suppose you wanted to compute
+\[
+138\cdot 23.4
+\]
+You would start by writing both in scientific notation
+\[
+\left(1.38\cdot 10^{2}\right)\cdot \left(2.34 \cdot 10^1\right).
+\]
+Next you would use a log-table, which gives $\log_{10}(N)$ for values
+of $N$ ranging between $0$ and $9$. We've reproduced part of such a
+table below.
+\begin{figure*}
+\[
+\begin{tchart}{lllllllllll}
+  N & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
+  1.3 & 0.1139 & 0.1173 & 0.1206 & 0.1239 & 0.1271 & 0.1303 & 0.1335 & 0.1367 & 0.1399 & 0.1430 \\
+  \hdotsfor{11} \\
+  2.3 & 0.3617 & 0.3636 & 0.3655 & 0.3674 & 0.3692 & 0.3711 & 0.3729 & 0.3747 & 0.3766 & 0.3784 \\
+   \hdotsfor{11} \\
+  3.2 & 0.5052 & 0.5065 & 0.5079 & 0.5092 & 0.5105 & 0.5119 & 0.5132 & 0.5145 & 0.5159 & 0.5172\\
+\end{tchart}
+\]
+\caption{Part of a base-10 logarithm table.}
+\end{figure*}
+
+
+From the table, we see that 
+\[
+\log_{10}(1.38) \approx 0.1399\qquad\text{and}\qquad \log_{10}(2.34)\approx 0.3692
+\]
+Add these numbers together to get $0.5091$. Essentially, we know the
+following at this point:
+\[
+\begin{array}{ccccc}
+\log_{10}(\text{?}) & = & \log_{10}(1.38) & + & \log_{10}(2.34)\\
+  \rotatebox[origin=c]{90}{$\approx$}  & & \rotatebox[origin=c]{90}{$\approx$}   & & \rotatebox[origin=c]{90}{$\approx$}  \\
+0.5091 & = & 0.1399 & + & 0.3692
+\end{array}
+\]
+
+
+
+Using the table again, we see that $\log_{10}(3.23)\approx
+0.5091$. Since we were working in scientific notation, we need to
+multiply this by $10^3$. Our final answer is
+\[
+3230 \approx 138\cdot 23.4
+\]
+Since $138\cdot 23.4 = 3229.2$, this is a good approximation. The moral is:
+\begin{center}
+\textbf{Logarithms allow us to use addition in place of multiplication.}
+\end{center}
+
+When taking derivatives, both the product rule and the quotient rule
+can be cumbersome to use. Logarithms will save the day. A key point is the following
+\[
+\ddx \ln(f(x)) = \frac{1}{f(x)}\cdot f'(x) = \frac{f'(x)}{f(x)}
+\]
+which follows from the chain rule. Let's look at an illustrative
+example to see how this is actually used.
+
+\begin{example} 
+Compute:
+\[
+\ddx \frac{x^9e^{4x}}{\sqrt{x^2+4}}
+\]
+\end{example}
+\marginnote{
+Recall the properties of logarithms:
+\begin{itemize}
+\item $\log_b(xy) = \log_b(x) + \log_b(y)$
+\item $\log_b(x/y) = \log_b(x) - \log_b(y)$
+\item $\log_b(x^y) = y\log_b(x)$
+\end{itemize}
+}
+\begin{solution}
+While we could use the product and quotient rule to solve this
+problem, it would be tedious. Start by taking the logarithm of the
+function to be differentiated.
+\begin{align*}
+\ln\left(\frac{x^9e^{4x}}{\sqrt{x^2+4}} \right) &= \ln\left(x^9e^{4x}\right) - \ln\left(\sqrt{x^2+4}\right)\\
+&= \ln\left(x^9\right)+\ln\left(e^{4x}\right) - \ln\left((x^2+4)^{1/2}\right)\\
+&= 9\ln(x)+4x - \frac{1}{2}\ln(x^2+4).
+\end{align*}
+Setting $f(x) = \frac{x^9e^{4x}}{\sqrt{x^2+4}}$, we can write
+\[
+\ln(f(x)) = 9\ln(x)+4x - \frac{1}{2}\ln(x^2+4).
+\]
+Differentiating both sides, we find
+\[
+\frac{f'(x)}{f(x)} = \frac{9}{x}+4 - \frac{x}{x^2+4}.
+\]
+Finally we solve for $f'(x)$, write
+\[
+f'(x) = \left(\frac{9}{x}+4 - \frac{x}{x^2+4}\right)\left(\frac{x^9e^{4x}}{\sqrt{x^2+4}}\right).
+\]
+\end{solution}
+
+The process above is called \textit{logarithmic
+  differentiation}. Logarithmic differentiation allows us to compute
+new derivatives too.
+
+\begin{example}
+Compute:
+\[
+\ddx x^x
+\]
+\end{example}
+
+
+\begin{solution}
+The function $x^x$ is tricky to differentiate. We cannot use the power
+rule, as the exponent is not a constant. However, if we set $f(x) = x^x$ we can write
+\begin{align*}
+\ln(f(x)) &= \ln\left(x^x\right)\\
+&=x\ln(x).
+\end{align*}
+Differentiating both sides, we find
+\begin{align*}
+\frac{f'(x)}{f(x)} &= x\cdot \frac{1}{x} + \ln(x)\\
+&= 1 + \ln(x).
+\end{align*}
+Now we can solve for $f'(x)$, 
+\[
+f'(x) = x^x + x^x\ln(x).
+\]
+\end{solution}
+
+Finally recall that previously we only proved the power rule,
+Theorem~\ref{T:powerrule}, for positive exponents. Now we'll use
+logarithmic differentiation to give a proof for all real-valued
+exponents. We restate the power rule for convenience sake:
+
+\begin{theorem}[Power Rule]
+For any real number $n$, 
+\[
+\ddx x^n = n x^{n-1}.
+\]
+\end{theorem}
+
+\begin{proof}
+We will use logarithmic differentiation. Set $f(x) = x^n$. Write
+\begin{align*}
+\ln(f(x)) &= \ln\left(x^n\right) \\ 
+&= n\ln(x).
+\end{align*}
+Now differentiate both sides, and solve for $f'(x)$
+\begin{align*}
+\frac{f'(x)}{f(x)} &= \frac{n}{x}\\
+f'(x) &= \frac{nf(x)}{x}\\
+&= nx^{n-1}.
+\end{align*}
+Thus we see that the power rule holds for all real-valued exponents.
+\end{proof}
+
+While logarithmic differentiation might seem strange and new at
+first, with a little practice it will seem much more natural to you.
+
+
+\begin{exercises}
+
+\noindent Use logarithmic differentiation to compute the following:
+
+\twocol
+
+\begin{exercise}
+$\ddx (x+1)^3\sqrt{x^4+5}$
+\begin{answer}
+$(x+1)^3\sqrt{x^4+5}(3/(x+1) + 2x^3/(x^4+5))$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx x^2 e^{5x}$
+\begin{answer}
+$(2/x + 5)x^2e^{5x}$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx x^{\ln(x)}$
+\begin{answer}
+$2\ln(x)x^{\ln(x)-1}$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx x^{100 x}$
+\begin{answer}
+$(100 + 100 \ln(x))x^{100x}$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx \left((3x)^{4x}\right)$
+\begin{answer}
+$(4+ 4\ln(3x)) (3x)^{4x}$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx x^{(e^x)}$
+\begin{answer}
+$((e^x)/x+ e^x\ln(x))x^{e^x}$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx x^\pi + \pi^x$
+\begin{answer}
+$\pi x^{\pi-1} + \pi^x\ln(\pi)$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx\left(1+\frac{1}{x}\right)^x$
+\begin{answer}
+$(\ln(1+1/x) - 1/(x+1))(1+1/x)^x$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx (\ln(x))^x$
+\begin{answer}
+$(1/\ln(x)+\ln(\ln(x)))(\ln(x))^x$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+$\ddx \left(f(x) g(x) h(x)\right)$
+\begin{answer}
+$(f'(x)/f(x) + g'(x)/g(x) + h'(x)/h(x))f(x) g(x) h(x)$
+\end{answer}
+\end{exercise}
+
+\endtwocol
+
+\end{exercises}

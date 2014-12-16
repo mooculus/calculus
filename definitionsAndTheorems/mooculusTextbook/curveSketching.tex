@@ -1,0 +1,1463 @@
+\chapter{Curve Sketching}
+
+
+
+Whether we are interested in a function as a purely mathematical
+object or in connection with some application to the real world, it is
+often useful to know what the graph of the function looks like. We can
+obtain a good picture of the graph using certain crucial information
+provided by derivatives of the function and certain limits.
+
+\section{Extrema}
+
+Local \textit{extrema} on a function are points on the graph where the
+$y$ coordinate is larger (or smaller) than all other $y$ coordinates
+on the graph at points ``close to'' $(x,y)$. 
+
+\begin{definition}\hfil\index{maximum/minimum!local}
+\begin{enumerate}
+\item A point $(x,f(x))$ is a \textbf{local maximum} if there is an interval $a<x<b$ with $f(x)\ge f(z)$ for
+  every $z$ in $(a,b)$.
+\item A point $(x,f(x))$ is a \textbf{local minimum} if
+  there is an interval $a<x<b$ with $f(x)\le f(z)$ for every $z$ in
+  $(a,b)$.
+\end{enumerate}
+A \textbf{local extremum}\index{extremum!local} is either a local
+maximum or a local minimum.
+\end{definition}
+
+Local maximum and minimum points are quite distinctive on the graph of
+a function, and are therefore useful in understanding the shape of the
+graph. In many applied problems we want to find the largest or
+smallest value that a function achieves (for example, we might want
+to find the minimum cost at which some task can be performed) and so
+identifying maximum and minimum points will be useful for applied
+problems as well.
+
+If $(x,f(x))$ is a point where $f(x)$ reaches a local maximum or minimum,
+and if the derivative of $f$ exists at $x$, then the graph has a
+tangent line and the tangent line must be horizontal. This is
+important enough to state as a theorem, though we will not prove it.
+
+\begin{mainTheorem}[Fermat's Theorem]\index{Fermat's Theorem}\label{theorem:fermat}
+If $f(x)$ has a local extremum at $x=a$ and $f(x)$ is differentiable
+at $a$, then $f'(a)=0$.
+\end{mainTheorem}
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=3,
+            ymin=-3,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [dashed, textColor, smooth] plot coordinates {(.451,0) (.451,.631)}; %% {.451};
+          \addplot [dashed, textColor, smooth] plot coordinates {(2.215,-2.113) (2.215,0)}; %% axis{2.215};
+          \addplot [very thick, penColor2, smooth] {3*x^2-8*x+3};
+          \addplot [very thick, penColor, smooth] {x^3-4*x^2+3*x};
+          \node at (axis cs:2.5,-2) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:.2,2) [anchor=west] {\color{penColor2}$f'(x)$};
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.451,0)};  %% closed hole
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(2.215,0)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(.451,.631)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2.215,-2.113)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^3-4x^2+3x$ and $f'(x) = 3x^2-8x+3$.}
+\label{figure:x^3-4x^2+3x}
+\end{marginfigure}
+Thus, the only points at which a function can have a local maximum or
+minimum are points at which the derivative is zero, see
+Figure~\ref{figure:x^3-4x^2+3x}, or the derivative is undefined, as in
+Figure~\ref{figure:x^{2/3}}. This brings us to our next definition.
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=2,
+            ymin=-2,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor2, samples=100, smooth,domain=(-3:-.01)] {-(2/3)*abs(x)^(-1/3)};
+          \addplot [very thick, penColor2, samples=100, smooth,domain=(.01:3)] {(2/3)*abs(x)^(-1/3)};
+          \addplot [very thick, penColor, smooth,domain=(-3:-.01)] {abs(x)^(2/3)};
+          \addplot [very thick, penColor, smooth,domain=(.01:3)] {x^(2/3)};         
+          \node at (axis cs:-2,1.7) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:2,.7) [anchor=west] {\color{penColor2}$f'(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^{2/3}$ and $f'(x) = \frac{2}{3x^{1/3}}$.}
+\label{figure:x^{2/3}}
+\end{marginfigure}
+
+\begin{definition}\index{critical point}
+Any value of $x$ for which $f'(x)$ is zero or undefined is called a
+\textbf{critical point} for $f(x)$.
+\end{definition}
+
+\begin{warning} 
+When looking for local maximum and minimum points, you are likely to
+make two sorts of mistakes: 
+\begin{itemize}
+\item You may forget that a maximum or minimum can occur where the
+  derivative does not exist, and so forget to check whether the
+  derivative exists everywhere. 
+\item You might assume that any place that the derivative is zero is a
+  local maximum or minimum point, but this is not true, see Figure~\ref{figure:x^3}.
+\end{itemize}
+\end{warning}
+
+
+
+Since the derivative is zero or undefined at both local maximum and
+local minimum points, we need a way to determine which, if either,
+actually occurs. The most elementary approach is to test directly
+whether the $y$ coordinates near the potential maximum or minimum are
+above or below the $y$ coordinate at the point of interest. 
+
+It is not always easy to compute the value of a function at a
+particular point. The task is made easier by the availability of
+calculators and computers, but they have their own drawbacks---they do
+not always allow us to distinguish between values that are very close
+together. Nevertheless, because this method is conceptually simple and
+sometimes easy to perform, you should always consider it.
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=3,
+            ymin=-3,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor2, smooth] {3*x^2};
+          \addplot [very thick, penColor, smooth] {x^3};         
+          \node at (axis cs:1,.9) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:-.5,1) [anchor=west] {\color{penColor2}$f'(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^3$ and $f'(x) = 3x^2$. While $f'(0)=0$,
+  there is neither a maximum nor minimum at $(0,f(0))$.}
+\label{figure:x^3}
+\end{marginfigure}
+
+
+\begin{example}
+Find all local maximum and minimum points for the function 
+$f(x)=x^3-x$. 
+\end{example}
+
+\begin{solution} 
+Write
+\[
+\ddx f(x)=3x^2-1.
+\] 
+This is defined everywhere and is zero at $x=\pm \sqrt{3}/3$. Looking
+first at $x=\sqrt{3}/3$, we see that 
+\[
+f(\sqrt{3}/3)=-2\sqrt{3}/9.
+\] 
+Now we test two points on either side of $x=\sqrt{3}/3$, making sure
+that neither is farther away than the nearest critical point; since
+$\sqrt{3}<3$, $\sqrt{3}/3<1$ and we can use $x=0$ and $x=1$. Since
+\[
+f(0)=0>-2\sqrt{3}/9\qquad\text{and}\qquad f(1)=0>-2\sqrt{3}/9,
+\] 
+there must be a local minimum at $x=\sqrt{3}/3$.
+
+For $x=-\sqrt{3}/3$, we see that $f(-\sqrt{3}/3)=2\sqrt{3}/9$. This
+time we can use $x=0$ and $x=-1$, and we find that $f(-1)=f(0)=0<
+2\sqrt{3}/9$, so there must be a local maximum at $x=-\sqrt{3}/3$, see
+Figure~\ref{figure:x^3-x}.
+\end{solution}
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:2,
+            ymax=2,
+            ymin=-2,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [dashed, textColor, smooth] plot coordinates {(-.577,0) (-.577,.385)}; %% {.451};
+          \addplot [dashed, textColor, smooth] plot coordinates {(.577,-.385) (.577,0)}; %% axis{2.215};
+
+          \addplot [very thick, penColor2, smooth] {3*x^2-1};
+          \addplot [very thick, penColor, smooth] {x^3-x};
+
+          \node at (axis cs:1,1) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:-.75,1) [anchor=west] {\color{penColor2}$f'(x)$};
+
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(-.577,0)};  %% closed hole
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.577,0)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-.577,.385)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(.577,-.385)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^3-x$ and $f'(x) = 3x^2-1$.}
+\label{figure:x^3-x}
+\end{marginfigure}
+
+
+\begin{exercises} 
+\noindent In the following problems, find the $x$ values for local
+maximum and minimum points by the method of this section.
+
+\twocol
+\begin{exercise} $y=x^2-x$ 
+\begin{answer} min at $x=1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=2+3x-x^3$ 
+\begin{answer} min at $x=-1$, max at $x=1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^3-9x^2+24x$
+\begin{answer} max at $x=2$, min at $x=4$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^4-2x^2+3$ 
+\begin{answer} min at $x=\pm 1$, max at $x=0$.
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=3x^4-4x^3$
+\begin{answer} min at $x=1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=(x^2-1)/x$
+\begin{answer} none
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=-\frac{x^4}{4}+x^3+x^2$ 
+\begin{answer} min at $x=0$, max at $x=\frac{3\pm \sqrt{17}}{2}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $f(x) = \begin{cases} x-1 & x < 2  \\
+x^2 & x\geq 2 \end{cases}$
+\begin{answer} none
+\end{answer}\end{exercise}
+
+ \begin{exercise} $f(x) = \begin{cases} x-3 & x < 3  \\
+x^3  & 3\leq x \leq 5 \\
+1/x  & x>5 \end{cases}$
+\begin{answer} local max at $x=5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $f(x) = x^2 - 98x + 4$
+%(Hint: Complete the square.)
+\begin{answer} local min at $x=49$
+\end{answer}\end{exercise}
+
+\begin{exercise} $f(x) =\begin{cases} -2 & x = 0  \\
+1/x^2 & x \neq 0 \end{cases}$
+\begin{answer} local min at $x=0$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise} How many critical points can a quadratic polynomial function have?
+\begin{answer} one
+\end{answer}\end{exercise}
+
+\begin{exercise} Explore the family of functions $f(x) = x^3 + cx +1$ where $c$
+ is a constant.  How many and what types of local extrema are there?
+ Your answer should depend on the value of $c$, that is, different
+ values of $c$ will give different answers.
+\begin{answer} if $c\ge 0$, then there are no local extrema; 
+if $c<0$ then there is a local max at $x=-\sqrt{\frac{|c|}{3}}$ and a
+local min at $x=\sqrt{\frac{|c|}{3}}$
+\end{answer}\end{exercise}
+
+
+\end{exercises}
+
+
+
+
+
+
+
+
+
+\section{The First Derivative Test}
+
+The method of the previous section for deciding whether there is a
+local maximum or minimum at a critical point by testing ``near-by''
+points is not always convenient. Instead, since we have already had to
+compute the derivative to find the critical points, we can use
+information about the derivative to decide. Recall that
+\begin{itemize}
+\item If $f'(x) >0$ on an interval, then $f(x)$ is increasing on that interval.
+\item If $f'(x) <0$ on an interval, then $f(x)$ is decreasing on that interval.
+\end{itemize}
+
+So how exactly does the derivative tell us whether there is a maximum,
+minimum, or neither at a point? Use the \textit{first derivative test}.
+\begin{mainTheorem}[First Derivative Test]\index{first derivative test}\label{T:fdt}\hfil
+Suppose that $f(x)$ is continuous on an interval, and that $f'(a)=0$
+for some value of $a$ in that interval.
+\begin{itemize}
+\item If $f'(x)>0$ to the left of $a$ and $f'(x)<0$ to the right of
+  $a$, then $f(a)$ is a local maximum.
+\item If $f'(x)<0$ to the left of $a$ and $f'(x)>0$ to the right of
+  $a$, then $f(a)$ is a local minimum.
+\item If $f'(x)$ has the same sign to the left and right of $a$,
+  then $f(a)$ is not a local extremum.
+\end{itemize}
+\end{mainTheorem}
+
+\begin{example}\label{E:localextrema}
+Consider the function 
+\[
+f(x) = \frac{x^4}{4}+\frac{x^3}{3}-x^2
+\]
+Find the intervals on which $f(x)$ is increasing and decreasing and
+identify the local extrema of $f(x)$.
+\end{example}
+
+\begin{solution}
+Start by computing
+\[
+\ddx f(x) = x^3+x^2-2x.
+\]
+Now we need to find when this function is positive and when it is
+negative. To do this, solve 
+\[
+f'(x) = x^3+x^2-2x =0.
+\]
+Factor $f'(x)$
+\begin{align*}
+f'(x) &= x^3+x^2-2x \\
+&=x(x^2+x-2)\\
+&=x(x+2)(x-1).
+\end{align*}
+So the critical points (when $f'(x)=0$) are when $x=-2$, $x=0$, and
+$x=1$. Now we can check points \textbf{between} the critical points to find
+when $f'(x)$ is increasing and decreasing:
+\[
+f'(-3)=-12 \qquad f'(.5)=-0.625 \qquad f'(-1)=2 \qquad f'(2)=8
+\]
+From this we can make a sign table:
+
+\flushleft
+\begin{tikzpicture}
+	\begin{axis}[
+            trim axis left,
+            scale only axis,
+            domain=-3:3,
+            ymax=2,
+            ymin=-2,
+            axis lines=none,
+            height=3cm, %% Hard coded height! 
+            width=\textwidth, %% width
+          ]
+          \addplot [draw=none, fill=fill1, domain=(-3:-2)] {2} \closedcycle;
+          \addplot [draw=none, fill=fill2, domain=(-2:0)] {2} \closedcycle;
+          \addplot [draw=none, fill=fill1, domain=(0:1)] {2} \closedcycle;
+          \addplot [draw=none, fill=fill2, domain=(1:3)] {2} \closedcycle;
+          
+          \addplot [->,textColor] plot coordinates {(-3,0) (3,0)}; %% axis{0};
+          
+          \addplot [dashed, textColor] plot coordinates {(-2,0) (-2,2)};
+          \addplot [dashed, textColor] plot coordinates {(0,0) (0,2)};
+          \addplot [dashed, textColor] plot coordinates {(1,0) (1,2)};
+          
+          \node at (axis cs:-2,0) [anchor=north,textColor] {\footnotesize$-2$};
+          \node at (axis cs:0,0) [anchor=north,textColor] {\footnotesize$0$};
+          \node at (axis cs:1,0) [anchor=north,textColor] {\footnotesize$1$};
+
+          \node at (axis cs:-2.5,1) [textColor] {\footnotesize$f'(x)<0$};
+          \node at (axis cs:.5,1) [textColor] {\footnotesize$f'(x)<0$};
+          \node at (axis cs:-1,1) [textColor] {\footnotesize$f'(x)>0$};
+          \node at (axis cs:2,1) [textColor] {\footnotesize$f'(x)>0$};
+
+          \node at (axis cs:-2.5,-.5) [anchor=north,textColor] {\footnotesize Decreasing};
+          \node at (axis cs:.5,-.5) [anchor=north,textColor] {\footnotesize Decreasing};
+          \node at (axis cs:-1,-.5) [anchor=north,textColor] {\footnotesize Increasing};
+          \node at (axis cs:2,-.5) [anchor=north,textColor] {\footnotesize Increasing};
+
+        \end{axis}
+\end{tikzpicture}
+
+
+Hence $f(x)$ is increasing on $(-2,0)\cup(1,\infty)$ and $f(x)$ is
+decreasing on $(-\infty,-2)\cup(0,1)$. Moreover, from the first
+derivative test, Theorem~\ref{T:fdt}, the local maximum is at $x=0$
+while the local minima are at $x=-2$ and $x=1$, see
+Figure~\ref{figure:(x^4)/4 + (x^3)/3 -x^2}.
+\end{solution}
+\begin{marginfigure}[-3in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-4:4,
+            ymax=5,
+            ymin=-5,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [dashed, textColor, smooth] plot coordinates {(-2,0) (-2,-2.667)}; %% {.451};
+          \addplot [dashed, textColor, smooth] plot coordinates {(1,0) (1,-.4167)}; %% axis{2.215};
+
+          \addplot [very thick, penColor, smooth] {(x^4)/4 + (x^3)/3 -x^2};
+          \addplot [very thick, penColor2, smooth] {x^3 + x^2 -2*x};
+
+          \node at (axis cs:-1.3,-2) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:-2.1,2) [anchor=west] {\color{penColor2}$f'(x)$};
+
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(-2,0)};  %% closed hole
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1,0)};  %% closed hole
+          \addplot[color=penColor2,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,.-2.667)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,-.4167)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) =x^4/4 + x^3/3 -x^2$ and $f'(x) = x^3 + x^2 -2x$.}
+\label{figure:(x^4)/4 + (x^3)/3 -x^2}
+\end{marginfigure}
+
+Hence we have seen that if $f'(x)$ is zero and increasing at a point,
+then $f(x)$ has a local minimum at the point. If $f'(x)$ is zero and
+decreasing at a point then $f(x)$ has a local maximum at the
+point. Thus, we see that we can gain information about $f(x)$ by
+studying how $f'(x)$ changes. This leads us to our next section.
+
+
+\begin{exercises}
+\noindent In the following exercises, find all critical points and
+identify them as local maximum points, local minimum points, or
+neither.
+
+\twocol
+
+\begin{exercise} $y=x^2-x$ 
+\begin{answer} min at $x=1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=2+3x-x^3$ 
+\begin{answer} min at $x=-1$, max at $x=1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^3-9x^2+24x$
+\begin{answer} max at $x=2$, min at $x=4$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^4-2x^2+3$ 
+\begin{answer} min at $x=\pm 1$, max at $x=0$.
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=3x^4-4x^3$
+\begin{answer} min at $x=1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=(x^2-1)/x$
+\begin{answer} none
+\end{answer}\end{exercise}
+
+\begin{exercise} $f(x) = |x^2 - 121|$
+\begin{answer} max at $x=0$, min at $x=\pm 11$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise} Let $f(x) =a x^2 + bx + c$ with $a\neq 0$. Show that $f(x)$
+has exactly one critical point using the first derivative test. Give
+conditions on $a$ and $b$ which guarantee that the critical point will
+be a maximum. 
+\begin{answer} $f'(x) = 2ax + b$, this has only one root and hence one critical point; $a<0$ to guarantee a maximum.
+\end{answer}
+\end{exercise}
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+\section{Concavity and Inflection Points}
+
+We know that the sign of the derivative tells us whether a function is
+increasing or decreasing. Likewise, the sign of the second derivative
+$f''(x)$ tells us whether $f'(x)$ is increasing or decreasing. We summarize this in the table below:
+\begin{fullwidth}
+\index{concave up/down}
+{\setlength{\arrayrulewidth}{5pt}
+\taburulecolor{textColor!10!background}
+\begin{tabu}{c|c|c|} %% gives thick lines
+ & $f'(x)<0$ & $f'(x) > 0$ \\ \hline & & \\[-1.5ex]
+$f''(x)> 0$ & 
+\begin{minipage}{2in}
+\[
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            height=4.5cm,
+            domain=0:1,
+            ymax=1,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor, smooth] {(x-1)^2};
+          \node at (axis cs:.7,.4) [textColor] {\footnotesize Concave Up};
+        \end{axis}
+\end{tikzpicture}
+\]
+\begin{minipage}{2in}\footnotesize
+Here $f'(x)<0$ and $f''(x)>0$. This means that $f(x)$ slopes down and
+is getting \textit{less steep}. In this case the curve is
+\textbf{concave up}.
+\end{minipage}
+\end{minipage}
+&
+\begin{minipage}{2in}
+\[
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            domain=0:1,
+            ymax=1,
+            height=4.5cm,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor, smooth] {x^2};
+          \node at (axis cs:.3,.4) [textColor] {\footnotesize Concave Up};
+        \end{axis}
+\end{tikzpicture}
+\]
+\begin{minipage}{2in}\footnotesize
+Here $f'(x)>0$ and $f''(x)>0$. This means that $f(x)$ slopes up and is
+getting \textit{steeper}. In this case the curve is \textbf{concave
+  up}.
+\end{minipage}
+\end{minipage}
+\\[-2ex]
+& & 
+\\\hline 
+& & \\[-1.5ex]
+$f''(x)<0$ &
+\begin{minipage}{2in}
+\[
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            height=4.5cm,
+            domain=0:1,
+            ymax=1,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor, smooth] {-x^2+1};
+          \node at (axis cs:.4,.4) [textColor] {\footnotesize Concave Down};
+        \end{axis}
+\end{tikzpicture}
+\]
+\begin{minipage}{2in}\footnotesize
+Here $f'(x)<0$ and $f''(x)<0$. This means
+that $f(x)$ slopes down and is getting \textit{steeper}. In this case the curve is \textbf{concave down}.
+\end{minipage}
+\end{minipage}
+&
+\begin{minipage}{2in}
+\[
+  \begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            height=4.5cm,
+            domain=0:1,
+            ymax=1,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor, smooth] {-(x-1)^2+1};
+          \node at (axis cs:.6,.4) [textColor] {\footnotesize Concave Down};
+        \end{axis}
+\end{tikzpicture}
+\]
+\begin{minipage}{2in}\footnotesize
+Here $f'(x)>0$ and $f''(x)<0$. This means
+that $f(x)$ slopes up and is getting less \textit{steep}. In this case the curve is \textbf{concave down}.
+\end{minipage}
+\end{minipage}
+\\[-2ex]
+& & 
+\\\hline 
+\end{tabu}}
+\end{fullwidth}
+%% Suppose that $f''(a)>0$. This means that near $x=a$, $f'(x)$ is
+%% increasing. If $f'(a)>0$, this means that $f(x)$ slopes up and is
+%% getting \textit{steeper}. If $f'(a)<0$, this means that $f(x)$ slopes
+%% down and is getting \textit{less steep}. These two situations are
+%% shown in Figure~\ref{figure:concave up}. A curve that is shaped like
+%% this is called \index{concave up} \textbf{concave up}.
+
+%% \begin{figure}
+%% \begin{tabular}{cc}
+%% \begin{tikzpicture}
+%% 	\begin{axis}[
+%%             domain=0:1,
+%%             ymax=1,
+%%             height=4.5cm,
+%%             ymin=0,
+%%             axis lines=none,
+%%           ]
+%%           \addplot [very thick, penColor, smooth] {x^2};
+%%           \node at (axis cs:.3,.4) [textColor] {\footnotesize Concave Up};
+%%         \end{axis}
+%% \end{tikzpicture}
+
+%% &
+
+%% \begin{tikzpicture}
+%% 	\begin{axis}[
+%%             height=4.5cm,
+%%             domain=0:1,
+%%             ymax=1,
+%%             ymin=0,
+%%             axis lines=none,
+%%           ]
+%%           \addplot [very thick, penColor, smooth] {(x-1)^2};
+%%           \node at (axis cs:.7,.4) [textColor] {\footnotesize Concave Up};
+%%         \end{axis}
+%% \end{tikzpicture}
+
+%% \\
+
+%% \begin{minipage}{2in}\footnotesize
+%% Here $f'(x)>0$ and $f''(x)>0$. This means that $f(x)$ slopes up and is
+%% getting \textit{steeper}.
+%% \end{minipage}
+
+%% & 
+
+%% \begin{minipage}{2in}\footnotesize
+%% Here $f'(x)<0$ and $f''(x)>0$. This means
+%% that $f(x)$ slopes down and is getting \textit{less steep}.
+%% \end{minipage}
+%% \end{tabular}
+%% \label{figure:concave up}
+%% \caption{Examples of when a curve is concave up.}
+%% \end{figure}
+
+
+
+%% Now suppose that $f''(a)<0$. This means that near $x=a$, $f'(x)$ is
+%% decreasing. If $f'(a)>0$, this means that $f(x)$ slopes up and is
+%% getting less steep; if $f'(a)<0$, this means that $f(x)$ slopes down
+%% and is getting steeper. These two situations are shown in
+%% Figure~\ref{figure:concave down}. A curve that is shaped like this is
+%% called \index{concave down}\textbf{concave down.}
+
+
+%% \begin{figure}
+%% \begin{tabular}{cc}
+%% \begin{tikzpicture}
+%% 	\begin{axis}[
+%%             height=4.5cm,
+%%             domain=0:1,
+%%             ymax=1,
+%%             ymin=0,
+%%             axis lines=none,
+%%           ]
+%%           \addplot [very thick, penColor, smooth] {-x^2+1};
+%%           \node at (axis cs:.4,.4) [textColor] {\footnotesize Concave Down};
+%%         \end{axis}
+%% \end{tikzpicture}
+
+%% &
+
+%% \begin{tikzpicture}
+%% 	\begin{axis}[
+%%             height=4.5cm,
+%%             domain=0:1,
+%%             ymax=1,
+%%             ymin=0,
+%%             axis lines=none,
+%%           ]
+%%           \addplot [very thick, penColor, smooth] {-(x-1)^2+1};
+%%           \node at (axis cs:.6,.4) [textColor] {\footnotesize Concave Down};
+%%         \end{axis}
+%% \end{tikzpicture} \\
+
+%% \begin{minipage}{2in}\footnotesize
+%% Here $f'(x)<0$ and $f''(x)<0$. This means
+%% that $f(x)$ slopes down and is getting \textit{steeper}.
+%% \end{minipage}
+
+%% &
+
+%% \begin{minipage}{2in}\footnotesize
+%% Here $f'(x)>0$ and $f''(x)<0$. This means
+%% that $f(x)$ slopes up and is getting less \textit{steep}.
+%% \end{minipage}
+%% \end{tabular}
+%% \label{figure:concave down}
+%% \caption{Examples of when a curve is concave down.}
+%% \end{figure}
+
+If we are trying to understand the shape of the graph of a function,
+knowing where it is concave up and concave down helps us to get a more
+accurate picture. It is worth summarizing what we have seen already in
+to a single theorem.
+
+\begin{mainTheorem}[Test for Concavity]\index{concavity test}
+Suppose that $f''(x)$ exists on an interval.
+\begin{enumerate}
+\item If $f''(x)>0$ on an interval, then $f(x)$ is concave up on that interval.
+\item If $f''(x)<0$ on an interval, then $f(x)$ is concave down on that interval.
+\end{enumerate}
+\end{mainTheorem}
+
+
+Of particular interest are points at which the concavity changes from
+up to down or down to up. 
+
+\begin{definition}\index{inflection point}
+If $f(x)$ is continuous and its concavity changes either from up to
+down or down to up at $x=a$, then $f(x)$ has an \textbf{inflection
+  point} at $x=a$.
+\end{definition}
+
+It is instructive to see some examples and nonexamples of inflection
+points.
+
+\begin{fullwidth}
+\begin{tabular}{cccc}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:2,
+            ymax=2,
+            height=4.5cm,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor, smooth, domain=(0:1)] {(x-1)^2+1};
+          \addplot [very thick, penColor, smooth, domain=(1:2)] {-(x-1)^2+1};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};
+        \end{axis}
+\end{tikzpicture}
+
+&
+
+\begin{tikzpicture}
+	\begin{axis}[
+            height=4.5cm,
+            domain=0:2,
+            ymax=1,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor2, smooth] {-(x-1)^2+.75};
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1,.75)};
+        \end{axis}
+\end{tikzpicture} 
+
+&
+
+\begin{tikzpicture}
+	\begin{axis}[
+            height=4.5cm,
+            domain=0:2,
+            ymax=2,
+            ymin=0,
+            samples=100,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor, smooth,domain=(1:2)] {sqrt(x-1)+1};
+          \addplot [very thick, penColor, smooth,domain=(0:1)] {-sqrt(abs(1-x))+1};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};
+        \end{axis}
+\end{tikzpicture}
+
+&
+
+\begin{tikzpicture}
+	\begin{axis}[
+            height=4.5cm,
+            domain=0:2,
+            ymax=2,
+            ymin=0,
+            axis lines=none,
+          ]
+          \addplot [very thick, penColor2, smooth,domain=(1:2)] {sqrt(x-1)+.5};
+          \addplot [very thick, penColor2, smooth,domain=(0:1)] {sqrt(abs(1-x))+.5};
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1,.5)};
+        \end{axis}
+\end{tikzpicture} \\
+
+\begin{minipage}{2in}\footnotesize
+This is an inflection point. The concavity changes from concave up to
+concave down.
+\end{minipage}
+
+& 
+
+\begin{minipage}{2in}\footnotesize
+This is \textbf{not} an inflection point. The curve is concave down on either side of the point.
+\end{minipage}
+
+& 
+
+\begin{minipage}{2in}\footnotesize
+This is an inflection point. The concavity changes from concave up to concave down.
+\end{minipage}
+
+&
+
+\begin{minipage}{2in}\footnotesize
+This is \textbf{not} an inflection point. The curve is concave down on either side of the point.
+\end{minipage}
+
+\end{tabular}
+\end{fullwidth}
+
+We identify inflection points by first finding where $f''(x)$ is zero
+or undefined and then checking to see whether $f''(x)$ does in fact go
+from positive to negative or negative to positive at these points.
+
+\begin{warning}
+Even if $f''(a) = 0$, the point determined by $x=a$ might \textbf{not}
+be an inflection point.
+\end{warning}
+
+
+
+
+\begin{example}
+Describe the concavity of $f(x)=x^3-x$. 
+\end{example}
+
+\begin{solution}
+To start, compute the first and second derivative of $f(x)$ with
+respect to $x$,
+\[
+f'(x)=3x^2-1\qquad\text{and}\qquad f''(x)=6x.
+\]
+Since $f''(0)=0$, there is potentially an inflection point at
+zero. Since $f''(x)>0$ when $x>0$ and $f''(x)<0$ when $x<0$ the
+concavity does change from down to up at zero---there is an inflection
+point at $x=0$. The curve is concave down for all $x<0$ and
+concave up for all $x>0$, see Figure~\ref{figure:3x^2-1}.
+\end{solution}
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:3,
+            ymax=3,
+            ymin=-3,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [very thick, penColor, smooth] {x^3-x};
+          \addplot [very thick, penColor4, smooth] {6*x};         
+          \node at (axis cs:-.75,.6) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:.2,1) [anchor=west] {\color{penColor4}$f''(x)$};
+          \addplot[color=penColor4!50!penColor,fill=penColor4!50!penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^3-x$ and $f''(x) = 6x$. We can see that
+  the concavity change at $x=0$.}
+\label{figure:3x^2-1}
+\end{marginfigure}
+
+Note that we need to compute and analyze the second derivative to
+understand concavity, so we may as well try to use the second
+derivative test for maxima and minima. If for some reason this fails
+we can then try one of the other tests.
+
+\begin{exercises}
+\noindent In the following exercises, describe the concavity of the functions.
+
+\twocol
+
+\begin{exercise} $y=x^2-x$ 
+\begin{answer} concave up everywhere
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=2+3x-x^3$ 
+\begin{answer} concave up when $x<0$, concave down when $x>0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^3-9x^2+24x$
+\begin{answer} concave down when $x<3$, concave up when $x>3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^4-2x^2+3$ 
+\begin{answer} concave up when $x<-1/\sqrt3$ or $x>1/\sqrt3$,
+concave down when $-1/\sqrt3<x<1/\sqrt3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=3x^4-4x^3$
+\begin{answer} concave up when $x<0$ or $x>2/3$,
+concave down when $0<x<2/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=(x^2-1)/x$
+\begin{answer} concave up when $x<0$, concave down when $x>0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=3x^2-\frac{1}{x^2}$ 
+\begin{answer} concave up when $x<-1$ or $x>1$, concave down when
+$-1<x<0$ or $0<x<1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y= x^5 - x$
+\begin{answer} concave up on $(0,\infty)$, concave down on $(-\infty,0)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y = x+ 1/x$
+\begin{answer} concave up on $(0,\infty)$, concave down on $(-\infty,0)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y = x^2+ 1/x$
+\begin{answer} concave up on $(-\infty,-1)$ and $(0,\infty)$, concave down on $(-1,0)$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise} Identify the intervals on which the graph of the
+  function $f(x) = x^4-4x^3 +10$ is of one of these four shapes:
+  concave up and increasing; concave up and decreasing; concave down
+  and increasing; concave down and decreasing.
+\begin{answer} up/incr: $(3,\infty)$, up/decr: $(-\infty,0)$, $(2,3)$,
+down/decr: $(0,2)$
+\end{answer}\end{exercise}
+
+
+\end{exercises}
+
+
+
+
+
+
+
+
+\section{The Second Derivative Test}
+
+
+Recall the first derivative test, Theorem~\ref{T:fdt}:
+\begin{itemize}
+\item If $f'(x)>0$ to the left of $a$ and $f'(x)<0$ to the right of
+  $a$, then $f(a)$ is a local maximum.
+\item If $f'(x)<0$ to the left of $a$ and $f'(x)>0$ to the right of
+  $a$, then $f(a)$ is a local minimum.
+\end{itemize}
+
+If $f'(x)$ changes from positive to negative it is decreasing. In this
+case, $f''(x)$ might be negative, and if in fact $f''(x)$ is negative
+then $f'(x)$ is definitely decreasing, so there is a local maximum at
+the point in question. On the other hand, if $f'(x)$ changes from
+negative to positive it is increasing. Again, this means that
+$f''(x)$ might be positive, and if in fact $f''(x)$ is positive then
+$f'(x)$ is definitely increasing, so there is a local minimum at the
+point in question. We summarize this as the \textit{second derivative
+  test}.
+
+\begin{mainTheorem}[Second Derivative Test]\index{second derivative test}\label{T:sdt}
+Suppose that $f''(x)$ is continuous on an open interval and that
+$f'(a)=0$ for some value of $a$ in that interval.
+\begin{itemize}
+\item If $f''(a) <0$, then $f(x)$ has a local maximum at $a$.
+\item If $f''(a) >0$, then $f(x)$ has a local minimum at $a$.
+\item If $f''(a) =0$, then the test is inconclusive. In this case,
+  $f(x)$ may or may not have a local extremum at $x=a$.
+\end{itemize}
+\end{mainTheorem}
+
+
+The second derivative test is often the easiest way to identify local
+maximum and minimum points. Sometimes the test fails and sometimes
+the second derivative is quite difficult to evaluate. In such cases we
+must fall back on one of the previous tests.
+
+\begin{example}
+Once again, consider the function 
+\[
+f(x) = \frac{x^4}{4}+\frac{x^3}{3}-x^2
+\]
+Use the second derivative test, Theorem~\ref{T:sdt}, to locate the
+local extrema of $f(x)$.
+\end{example}
+
+\begin{solution}
+Start by computing
+\[
+f'(x) = x^3 + x^2 -2x \qquad\text{and}\qquad f''(x) = 3x^2 + 2x-2.
+\] 
+Using the same technique as used in the solution of
+Example~\ref{E:localextrema}, we find that 
+\[
+f'(-2) = 0,\qquad f'(0) = 0, \qquad f'(1) = 0. 
+\]
+Now we'll attempt to use the second derivative test, Theorem~\ref{T:sdt},
+\[
+f''(-2) = 6, \qquad f''(0) = -2, \qquad f''(1) = 3.
+\]
+Hence we see that $f(x)$ has a local minimum at $x=-2$, a local
+maximum at $x=0$, and a local minimum at $x=1$, see Figure~\ref{figure:SDT(x^4)/4 + (x^3)/3 -x^2}.
+\end{solution}
+\begin{marginfigure}[-3in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-4:4,
+            ymax=7,
+            ymin=-4,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [dashed, textColor, smooth] plot coordinates {(-2,-2.667) (-2,6)}; %% {.451};
+          \addplot [dashed, textColor, smooth] plot coordinates {(1,0) (1,3)}; %% axis{2.215};
+
+          \addplot [very thick, penColor, smooth] {(x^4)/4 + (x^3)/3 -x^2};
+          \addplot [very thick, penColor4, smooth] {3*x^2 + 2*x -2};
+
+          \node at (axis cs:-1.7,-2.7) [anchor=west] {\color{penColor}$f(x)$};  
+          \node at (axis cs:-1.5,2) [anchor=west] {\color{penColor4}$f''(x)$};
+
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(-2,6)};  %% closed hole
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(1,3)};  %% closed hole
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(0,-2)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,.-2.667)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,-.4167)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) =x^4/4 + x^3/3 -x^2$ and $f''(x) = 3x^2 + 2x -2$.}
+\label{figure:SDT(x^4)/4 + (x^3)/3 -x^2}
+\end{marginfigure}
+
+
+
+
+\begin{warning}
+If $f''(a)=0$, then the second derivative test gives no information on
+whether $x=a$ is a local extremum. 
+\end{warning}
+
+
+
+
+
+
+\begin{exercises}
+Find all local maximum and minimum points by the second derivative
+test. 
+
+\twocol
+\begin{exercise} $y=x^2-x$ 
+\begin{answer} min at $x=1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=2+3x-x^3$ 
+\begin{answer} min at $x=-1$, max at $x=1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^3-9x^2+24x$
+\begin{answer} max at $x=2$, min at $x=4$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^4-2x^2+3$ 
+\begin{answer} min at $x=\pm 1$, max at $x=0$.
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=3x^4-4x^3$
+\begin{answer} min at $x=1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=(x^2-1)/x$
+\begin{answer} none
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=3x^2-\frac{1}{x^2}$ 
+\begin{answer} none
+\end{answer}\end{exercise}
+
+\begin{exercise} $y= x^5 - x$
+\begin{answer} max at $-5^{-1/4}$, min at $5^{-1/4}$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y = x+ 1/x$
+\begin{answer} max at $-1$, min at $1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y = x^2+ 1/x$
+\begin{answer} min at $2^{-1/3}$
+\end{answer}\end{exercise}
+
+
+\endtwocol
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Sketching the Plot of a Function} 
+
+
+In this section, we will give some general guidelines for sketching
+the plot of a function.
+
+\begin{procedureForPlotting}\hfil
+\begin{itemize}
+\item Find the $y$-intercept, this is the point $(0,f(0))$. Place this
+  point on your graph.
+\item Find candidates for vertical asymptotes, these are points where
+  $f(x)$ is undefined.
+\item Compute $f'(x)$ and $f''(x)$.
+\item Find the critical points, the points where $f'(x) = 0$ or
+  $f'(x)$ is undefined.
+\item Use the second derivative test to identify local extrema and/or
+  find the intervals where your function is increasing/decreasing.
+\item Find the candidates for inflection points, the points where
+  $f''(x) = 0$ or $f''(x)$ is undefined.
+\item Identify inflection points and concavity.
+\item If possible find the $x$-intercepts, the points where $f(x) =
+  0$. Place these points on your graph.
+\item Find horizontal asymptotes.
+\item Determine an interval that shows all relevant behavior.
+\end{itemize}
+At this point you should be able to sketch the plot of your function.
+\end{procedureForPlotting}
+
+Let's see this procedure in action. We'll sketch the plot of
+$2x^3-3x^2-12x$.  Following our guidelines above, we start by
+computing $f(0) = 0$.  Hence we see that the $y$-intercept is
+$(0,0)$. Place this point on your plot, see Figure~\ref{figure:CS1}.
+\begin{marginfigure}[-2.5in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{We start by placing the point $(0,0)$.}
+\label{figure:CS1}
+\end{marginfigure}
+
+Note that there are no vertical asymptotes as our function is defined
+for all real numbers.  Now compute $f'(x)$ and $f''(x)$,
+\[
+f'(x) = 6x^2 -6x -12\qquad\text{and}\qquad f''(x) = 12x-6.
+\]
+
+The critical points are where $f'(x) = 0$, thus we need to solve $6x^2
+-6x -12 = 0$ for x. Write
+\begin{align*}
+6x^2 -6x -12 &= 0 \\
+x^2 - x -2 &=0\\
+(x-2)(x+1) &=0.
+\end{align*}
+Thus
+\[
+f'(2) = 0\qquad\text{and}\qquad f'(-1) = 0.
+\]
+Mark the critical points $x=2$ and $x=-1$ on your plot, see
+Figure~\ref{figure:CS2}.
+\begin{marginfigure}[-3in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+         \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+         \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{Now we add the critical points $x=-1$ and $x=2$.}
+\label{figure:CS2}
+\end{marginfigure}
+
+Check the second derivative evaluated at the critical points. In this
+case,
+\[
+f''(-1) = -18 \qquad\text{and}\qquad f''(2) = 18,
+\]
+hence $x=-1$, corresponding to the point $(-1,7)$ is a local maximum
+and $x=2$, corresponding to the point $(2,-20)$ is local minimum of
+$f(x)$. Moreover, this tells us that our function is increasing on
+$[-2,-1)$, decreasing on $(-1,2)$, and increasing on $(2,4]$. Identify
+this on your plot, see Figure~\ref{figure:CS3}.
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            axis on top=true,
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-2,-25) (-1,7)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-1,7) (2,-20)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(2,-20) (4,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,7)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-20)};  %% closed hole
+          %\addplot [very thick, penColor, samples=100, smooth,domain=(-1.2:-.8)] {2*x^3-3*x^2-12*x};
+          %\addplot [very thick, penColor, samples=100, smooth,domain=(1.8:2.2)] {2*x^3-3*x^2-12*x};
+        \end{axis}
+\end{tikzpicture}
+\caption{We have identified the local extrema of $f(x)$ and where this
+  function is increasing and decreasing.}
+\label{figure:CS3}
+\end{marginfigure}
+
+
+The candidates for the inflection points are where $f''(x) = 0$, thus
+we need to solve $12x-6=0$ for $x$.  Write
+\begin{align*}
+12x-6 &=0\\
+x - 1/2 &=0\\
+x &=1/2.
+\end{align*}
+Thus $f''(1/2) = 0$. Checking points, $f''(0) = -6$ and $f''(1) = 6$.
+Hence $x=1/2$ is an inflection point, with $f(x)$ concave down to the
+left of $x=1/2$ and $f(x)$ concave up to the right of $x=1/2$. We can
+add this information to our plot, see Figure~\ref{figure:CS4}.
+
+Finally, in this case, $f(x) =2x^3-3x^2-12x$, we can find the
+$x$-intercepts. Write
+\begin{align*}
+2x^3-3x^2-12x &=0\\
+x(2x^2 -3x -12) &=0.\\
+\end{align*}
+Using the quadratic formula, we see that the $x$-intercepts of $f(x)$ are
+\[
+x = 0, \qquad x= \frac{3-\sqrt{105}}{4}, \qquad x= \frac{3+\sqrt{105}}{4}.
+\]
+Since all of this behavior as described above occurs on the interval
+$[-2,4]$, we now have a complete sketch of $f(x)$ on this interval,
+see the figure below.
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            axis on top=true,
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-2,-25) (-1,7)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-1,7) (2,-20)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(2,-20) (4,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+          \addplot [dashed, penColor4] plot coordinates {(1/2,-25) (1/2,25)}; 
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1/2,-6.5)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,7)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-20)};  %% closed hole
+          \addplot [very thick, penColor, samples=100, smooth,domain=(-1.5:3)] {2*x^3-3*x^2-12*x};
+        \end{axis}
+\end{tikzpicture}
+\caption{We identify the inflection point and note that the curve is
+  concave down when $x<1/2$ and concave up when $x>1/2$.}
+\label{figure:CS4}
+\end{marginfigure}
+
+\begin{tikzpicture}
+	\begin{axis}[
+            axis on top=true,
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-2,-25) (-1,7)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-1,7) (2,-20)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(2,-20) (4,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+          \addplot [dashed, penColor4] plot coordinates {(1/2,-25) (1/2,25)}; 
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1/2,-6.5)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,7)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-20)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1.812,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.312,0)};  %% closed hole
+          \addplot [very thick, penColor, samples=100, smooth,domain=(-2:4)] {2*x^3-3*x^2-12*x};
+        \end{axis}
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+\begin{exercises}
+
+\noindent Sketch the curves via the procedure outlined in this
+section. Clearly identify any interesting features, including local
+maximum and minimum points, inflection points, asymptotes, and
+intercepts.
+
+\twocol
+
+
+\begin{exercise} $y= x^5 - x$
+\begin{answer}
+$y$-intercept at $(0,0)$; no vertical asymptotes; critical points:
+  $x=\pm1/\sqrt[4]{5}$; local max at $x=-1/\sqrt[4]{5}$, local min at
+  $x=-1/\sqrt[4]{5}$; increasing on $(-\infty,-1/\sqrt[4]{5})$, decreasing
+  on $(-1/\sqrt[4]{5},1/\sqrt[4]{5})$, increasing on
+  $(1/\sqrt[4]{5},\infty)$; concave down on $(-\infty,0)$, concave up on
+  $(0, \infty)$; root at $x=0$; no horizontal asymptotes; interval for
+  sketch: $[-1.2,1.2]$ (answers may vary)
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $y=x(x^2+1)$
+\begin{answer}
+$y$-intercept at $(0,0)$; no vertical asymptotes; no critical points;
+  no local extrema; increasing on $(-\infty,\infty)$; concave down on
+  $(-\infty,0)$, concave up on $(0, \infty)$; roots at $x=0$; no
+  horizontal asymptotes; interval for sketch: $[-3,3]$ (answers may
+  vary)
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $y=2\sqrt{x} - x$
+\begin{answer}
+$y$-intercept at $(0,0)$; no vertical asymptotes; critical points: $x=
+  1$; local max at $x=1$; increasing on $[0,1)$, decreasing on
+    $(1,\infty)$; concave down on $[0,\infty)$; roots at $x=0$, $x=4$;
+      no horizontal asymptotes; interval for sketch: $[0,6]$ (answers
+      may vary)
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $y=x^3+6x^2 + 9x$
+\begin{answer}
+$y$-intercept at $(0,0)$; no vertical asymptotes; critical points:
+  $x=-3$, $x= -1$; local max at $x=-3$, local min at $x=-1$;
+  increasing on $(-\infty,-3)$, decreasing on $(-3,-1)$, increasing on
+  $(-1,\infty)$; concave down on $(-\infty,-2)$, concave up on $(-2,
+  \infty)$; roots at $x=-3$, $x=0$; no horizontal asymptotes; interval
+  for sketch: $[-5,3]$ (answers may vary)
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $y=x^3-3x^2-9x+5$
+\begin{answer}
+$y$-intercept at $(0,5)$; no vertical asymptotes; critical points:
+  $x=-1$, $x= 3$; local max at $x=-1$, local min at $x=3$; increasing
+  on $(-\infty,-1)$, decreasing on $(-1,3)$, increasing on
+  $(3,\infty)$; concave down on $(-\infty,1)$, concave up on $(1,
+  \infty)$; roots are too difficult to be determined---cubic formula
+  could be used; no horizontal asymptotes; interval for sketch:
+  $[-2,5]$ (answers may vary)
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} $y=x^5-5x^4+5x^3$
+\begin{answer}
+$y$-intercept at $(0,0)$; no vertical asymptotes; critical points:
+  $x=0$, $x=1$, $x=3$; local max at $x=1$, local min at $x=3$;
+  increasing on $(-\infty,0)$ and $(0,1)$, decreasing on $(1,3)$,
+  increasing on $(3,\infty)$; concave down on $(-\infty,0)$, concave
+  up on $(0, (3-\sqrt{3})/2)$, concave down on
+  $((3-\sqrt{3})/2,(3+\sqrt{3})/2)$, concave up on
+  $((3+\sqrt{3})/2,\infty)$; roots at $x=0$, $x= \frac{5\pm
+    \sqrt{5}}{2}$; no horizontal asymptotes; interval for sketch:
+  $[-1,4]$ (answers may vary)
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} $y = x+ 1/x$
+\begin{answer}
+no $y$-intercept; vertical asymptote at $x=0$; critical points: $x=0$,
+$x=\pm 1$; local max at $x=-1$, local min at $1$; increasing on
+$(-\infty,-1)$, decreasing on $(-1,0)\cup(0,1)$, increasing on
+$(1,\infty)$; concave down on $(-\infty,0)$, concave up on $(0,
+\infty)$; no roots; no horizontal asymptotes; interval for sketch:
+$[-2,2]$ (answers may vary)
+\end{answer}
+\end{exercise}
+
+\begin{exercise} $y = x^2+ 1/x$
+\begin{answer}
+no $y$-intercept; vertical asymptote at $x=0$; critical points: $x=0$,
+$x=\frac{1}{\sqrt[3]{2}}$; local min at $x=\frac{1}{\sqrt[3]{2}}$;
+decreasing on $(-\infty,0)$, decreasing on
+$(0,\frac{1}{\sqrt[3]{2}})$, increasing on
+$(\frac{1}{\sqrt[3]{2}},\infty)$; concave up on $(-\infty,-1)$,
+concave down on $(-1,0)$, concave up on $(0,\infty)$; root at $x=-1$;
+no horizontal asymptotes; interval for sketch: $[-3,2]$ (answers may
+vary)
+\end{answer}
+\end{exercise}
+
+
+
+
+
+\endtwocol
+
+\end{exercises}

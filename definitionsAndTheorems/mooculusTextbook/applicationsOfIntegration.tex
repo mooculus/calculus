@@ -1,0 +1,940 @@
+\chapter{Applications of Integration}
+
+
+\section{Volume}
+
+We have seen how to compute certain areas by using integration. We can
+do more, some volumes may also be computed by evaluating an
+integral. 
+
+
+\subsection{The Slab Method}
+
+Generally, the volumes that we can compute this way have
+cross-sections that are easy to describe. Sometimes we think of these
+cross-sections as being ``slabs'' that we are layering to create a
+volume.
+
+
+\begin{example}
+Find the volume of a pyramid with a square base that is 20 meters tall
+and 20 meters on a side at the base. 
+\end{example}
+
+\begin{marginfigure}
+%pyramid
+\begin{tikzpicture}
+ \begin{axis}[view={30}{30},colormap/\surfaceColor,
+   xlabel=$x$, ylabel=$z$, zlabel=$y$,]
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=0:.5,
+  z buffer=sort]
+  ({10*(1-y)},{(1-y)*(x)}, {y*20});
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=0:.5,
+  z buffer=sort]
+  ({x*(1-y)},{(1-y)*(10)}, {y*20}); 
+
+  \addplot3[surf,shader=faceted,opacity=.7, %front
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=0:.5,
+  z buffer=sort]
+  ({x*(1-y)},{(1-y)*(-10)}, {y*20});
+ 
+ \addplot3[surf,shader=faceted,opacity=.7, %front
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=0:.5,
+  z buffer=sort]
+  ({10*(1-y)},{(1-y)*(x)}, {y*20});
+
+
+
+  %square
+  \addplot3[surf,colormap/\sliceColor,shader=flat,
+  samples=4,
+  samples y = 4,
+  domain=-1:1,y domain=-1:1,
+  z buffer=sort]
+  ({10*(.5)*y},{(.5)*(x)*10}, {.5*20});
+
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=.5:1,
+  z buffer=sort]
+  ({10*(1-y)},{(1-y)*(x)}, {y*20});
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=.5:1,
+  z buffer=sort]
+  ({x*(1-y)},{(1-y)*(10)}, {y*20}); 
+
+  \addplot3[surf,shader=faceted,opacity=.7, %front
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=.5:1,
+  z buffer=sort]
+  ({x*(1-y)},{(1-y)*(-10)}, {y*20});
+ 
+ \addplot3[surf,shader=faceted,opacity=.7, %front
+  samples=12,
+  samples y = 6,
+  domain=-10:10,y domain=.5:1,
+  z buffer=sort]
+  ({10*(1-y)},{(1-y)*(x)}, {y*20});
+ \end{axis}
+\end{tikzpicture}
+\caption{A pyramid with a 20 meter square base. Here we see the thin
+  slab used to generate the volume.}
+\label{fig:pyramid}
+\end{marginfigure}
+
+
+\begin{solution}
+As with most of our applications of integration, we begin by asking
+how we might approximate the volume. Since we can easily compute the
+volume of a box, we will use some ``thin'' boxes to approximate
+the volume of the pyramid, as shown in Figure~\ref{fig:pyramid}.
+
+Centering our pyramid at the origin, each box has volume of the form
+\[
+\text{width}\cdot\text{length}\cdot\text{height} = (2x)(2x)h
+\]
+where $h$ is understood to be a value close to zero. Write $x$ in
+terms of $y$, $x=10-y/2$. If we really were adding together many small
+rectangles, we might say $x_i=10-y_i/2$. In this case the total volume
+is approximately
+\[
+\sum_{i=0}^{n-1} 4(10-y_i/2)^2 h.
+\]
+This is a Riemann sum! If we take the limit as the number of slabs
+goes to infinity and the thickness of these slabs goes to zero, we
+obtain the following integral:
+\begin{align*}
+  \int_0^{20} 4(10-y/2)^2\d y &=\int_0^{20} (20-y)^2\d y\\
+  &=\left.-{(20-y)^3\over3}\right|_0^{20}\\
+  &=-{0^3\over3}-\left(-{20^3\over3}\right)={8000\over3}.
+\end{align*}
+As you may know, the volume of a pyramid is 
+$(1/3)(\hbox{height})(\hbox{area of base})=(1/3)(20)(400)$, which
+agrees with our answer.
+\end{solution}
+
+
+
+\begin{marginfigure}[-2.5in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-1, xmax=1,domain=-1:1,
+      clip=false,
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick] {x^2-1};
+    \addplot [penColor,very thick] {-x^2+1};
+  \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x^2-1$ and $g(x) = -x^2+1$.}
+\label{figure:regionApI}
+\end{marginfigure}
+
+
+\begin{example}
+The base of a solid is the region between $f(x)=x^2-1$ and
+$g(x)=-x^2+1$, see Figure~\ref{figure:regionApI}. Its cross-sections
+perpendicular to the $x$-axis are equilateral triangles. See
+Figure~\ref{fig:triangular cross-sections}. Find the volume of the
+solid.
+\end{example}
+
+\begin{marginfigure}
+% triangleRegion
+\begin{tikzpicture}
+ \begin{axis}[view={30}{30},colormap/\surfaceColor,
+   xlabel=$x$, ylabel=$z$, zlabel=$y$,]
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=12,
+  samples y = 6,
+  domain=-1:.5,y domain=0:1,
+  z buffer=sort]
+  (x,{(1-y)*(-x^2+1)}, {y*sqrt(3)*(1-x^2)});
+
+  \addplot3[surf,shader=faceted,opacity=.7,%front
+  samples=12,
+  samples y = 6,
+  domain=-1:.5,y domain=0:1,
+  z buffer=sort]
+  (x,{(1-y)*(x^2-1)}, {y*sqrt(3)*(1-x^2)});
+
+  %tri
+  \addplot3[surf,colormap/\sliceColor,shader=flat,
+  samples=6,
+  samples y = 6,
+  domain=-1:1,y domain=0:1,
+  z buffer=sort]
+  (.5,{x*(1-y)*(.5^2-1)}, {abs(x)*y*sqrt(3)*(1-.5^2)});
+
+  \addplot3[surf,shader=faceted,opacity=.3, 
+  samples=4,
+  samples y = 6,
+  domain=.5:1,y domain=0:1,
+  z buffer=sort]
+  (x,{(1-y)*(-x^2+1)}, {y*sqrt(3)*(1-x^2)});
+
+  \addplot3[surf,shader=faceted,opacity=.7,%front
+  samples=4,
+  samples y = 6,
+  domain=.5:1,y domain=0:1,
+  z buffer=sort]
+  (x,{(1-y)*(x^2-1)}, {y*sqrt(3)*(1-x^2)});
+
+ \end{axis}
+\end{tikzpicture}
+\caption{A solid with equilateral triangle cross-sections bounded by
+  the region between $f(x)=x^2-1$ and $g(x)=-x^2+1$.}
+\label{fig:triangular cross-sections}
+\end{marginfigure}
+
+
+
+\begin{solution}
+For any value of $x$, a cross-section is a triangle with base
+$2(1-x^2)$ and height $\sqrt3(1-x^2)$, so the area of the
+cross-section is
+\[
+  {1\over2}(\hbox{base})(\hbox{height})=
+  (1-x^2)\sqrt3(1-x^2),
+\]
+Thus the total volume is
+\[
+\int_{-1}^1 \sqrt3(1-x^2)^2\d x={16\over15}\sqrt3.
+\]
+\end{solution}
+
+One easy way to get ``nice'' cross-sections is by rotating a plane
+figure around a line. For example, in Figure~\ref{figure:regionCurve}
+we see $f(x)$ bounded by two vertical lines.  Rotating $f(x)$ around the
+$x$-axis will generate a figure whose volume we can compute.
+
+
+
+
+
+
+
+
+%disk
+\begin{tikzpicture}
+ \begin{axis}[view={30}{30},colormap/\surfaceColor,
+   xlabel=$x$, ylabel=$z$, zlabel=$y$,
+   ]
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=10,
+  samples y =20,
+  domain=1:2.7,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(16-19*x+8*x^2-x^3) * cos(deg(y))}, {(16-19*x+8*x^2-x^3) * sin(deg(y))});
+
+  \addplot3[surf,colormap/\sliceColor,shader=flat,%disk
+  samples=5,
+  samples y = 20,
+  domain=0:1,y domain=0:2*pi,
+  z buffer=sort
+]
+  (2.7,{3.337*x*cos(deg(y))}, {3.337*x*sin(deg(y))});
+
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=10,
+  samples y=20,
+  domain=2.7:4,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(16-19*x+8*x^2-x^3) * cos(deg(y))}, {(16-19*x+8*x^2-x^3) * sin(deg(y))});
+
+
+  \addplot3[surf,shader=faceted,opacity=.7,
+  samples=5,
+  samples y = 20,
+  domain=0:1,y domain=0:2*pi,
+  z buffer=sort
+]
+  (4,{4*x*cos(deg(y))}, {4*x*sin(deg(y))});
+
+ \end{axis}
+\end{tikzpicture}
+
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
+      xlabel=$x$, ylabel=$z$, every axis y label/.style={at=(current
+        axis.above origin),anchor=south}, every axis x
+      label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top, ] \addplot [penColor,very thick,smooth]
+    {16-19*x+8*x^2-x^3}; \addplot [textColor,dashed] plot coordinates
+    {(1,0) (1,4)}; \addplot [textColor,dashed] plot coordinates {(4,0)
+      (4,4)};
+  \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)$.}
+\label{figure:regionCurve}
+\end{marginfigure}
+
+
+The volume of each disk will have the form $\pi r^2 h$. As long as we
+can write $r$ in terms of $x$ we can compute the volume by an
+integral.
+
+
+
+
+\begin{example}
+Find the volume of a right circular cone with base radius 10 and
+height 20. Here, a right circular cone is one with a circular base and
+with the tip of the cone directly over the center of the base.
+\end{example}
+
+\begin{marginfigure}
+%cone
+\begin{tikzpicture}
+ \begin{axis}[
+     view={30}{30},colormap/\surfaceColor,
+     xlabel=$x$, ylabel=$z$, zlabel=$y$,
+   ]
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=10,
+  samples y =20,
+  domain=0:12,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(x/2) * cos(deg(y))}, {(x/2) * sin(deg(y))});
+
+  \addplot3[surf,colormap/\sliceColor,shader=flat,%disk
+  samples=5,
+  samples y = 20,
+  domain=0:1,y domain=0:2*pi,
+  z buffer=sort
+]
+  (12,{6*x*cos(deg(y))}, {6*x*sin(deg(y))});
+
+
+  \addplot3[surf,shader=faceted,opacity=.3,
+  samples=10,
+  samples y=20,
+  domain=12:20,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(x/2) * cos(deg(y))}, {(x/2) * sin(deg(y))});
+
+
+  \addplot3[surf,shader=faceted,opacity=.7,
+  samples=5,
+  samples y = 20,
+  domain=0:1,y domain=0:2*pi,
+  z buffer=sort
+]
+  (20,{10*x*cos(deg(y))}, {10*x*sin(deg(y))});
+
+ \end{axis}
+\end{tikzpicture}
+\caption{A right circular cone with base radius 10 and height 20.}
+\label{fig:line to cone}
+\end{marginfigure}
+
+
+\begin{solution}
+We can view this cone as produced by the rotation of the line
+$y=x/2$ rotated about the $x$-axis, as indicated in
+Figure~\ref{fig:line to cone}.
+
+At a particular point on the $x$-axis, the radius of the resulting
+cone is the $y$-coordinate of the corresponding point on the line
+$y=x/2$. The area of the cross section is given by
+\[
+\pi \cdot \text{radius}^2 = \pi \left(\frac{x}{2}\right)^2
+\]
+so the volume is given by
+$$
+  \int_0^{20} \pi
+  {x^2\over4}\d x={\pi\over4}{20^3\over3}={2000\pi\over3}.
+$$ 
+Note that we can instead do the calculation with a generic height and
+radius: 
+$$
+  \int_0^{h} \pi{r^2\over h^2}x^2\d x
+  ={\pi r^2\over h^2}{h^3\over3}={\pi r^2h\over3},
+$$ 
+giving us the usual formula for the volume of a cone.
+\end{solution}
+
+
+
+
+
+
+
+
+\subsection{The Washer Method}
+
+Sometimes the ``slabs'' look like disks with holes in them, or
+``washers.'' Let's see an example of this.
+
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=1,domain=0:1,
+      clip=false,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [draw=none,fill=fill1,very thick] {x} \closedcycle;
+    \addplot [draw=none, fill=background,very thick] {x^2}\closedcycle;
+
+    \addplot [penColor,very thick] {x};
+    \addplot [penColor2,very thick] {x^2};
+
+    \node at (axis cs:.5,.58) [penColor] {$f(x)$};
+    \node at (axis cs:.5,.2) [penColor2] {$g(x)$};
+    \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x$ and $g(x) = x^2$.}
+\label{figure:regionHole}
+\end{marginfigure}
+
+\begin{example}
+Find the volume of the object generated when the area between $f(x) =
+x$ and $g(x)=x^2$ is rotated around the $x$-axis, see
+Figure~\ref{figure:regionHole}.
+\end{example}
+
+\begin{marginfigure}
+%horn
+\begin{tikzpicture}
+ \begin{axis}[
+     view={30}{30},colormap/\surfaceColor,
+     xlabel=$x$, ylabel=$z$, zlabel=$y$,
+   ]
+
+  \addplot3[surf,shader=faceted,opacity=.7,
+  samples=10,
+  samples y =20,
+  domain=0:.5,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(x) * cos(deg(y))}, {(x) * sin(deg(y))});
+
+  \addplot3[surf,colormap/\surfaceColorTwo,shader=faceted,opacity=.1, %inside
+  samples=10,
+  samples y =20,
+  domain=0:.5,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(x^2) * cos(deg(y))}, {(x^2) * sin(deg(y))});
+
+  \addplot3[surf,colormap/\sliceColor,shader=flat,%disk
+  samples=5,
+  samples y = 20,
+  domain=.25:.5,y domain=0:2*pi,
+  z buffer=sort
+]
+  (.5,{x*cos(deg(y))}, {x*sin(deg(y))});
+
+
+  \addplot3[surf,shader=faceted,opacity=.7,
+  samples=10,
+  samples y=20,
+  domain=.5:1,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(x) * cos(deg(y))}, {(x) * sin(deg(y))});
+
+  \addplot3[surf,colormap/\surfaceColorTwo,shader=faceted,opacity=.1,
+  samples=10,
+  samples y=20,
+  domain=.5:1,y domain=0:2*pi,
+  z buffer=sort]
+  (x,{(x^2) * cos(deg(y))}, {(x^2) * sin(deg(y))});
+
+ \end{axis}
+\end{tikzpicture}
+\caption{A solid generated by revolving $f(x) = x$ around the $x$-axis
+  and then removing the volume generated by revolving $g(x) = x^2$
+  around the $x$-axis.}
+\label{fig:solid with hole}
+\end{marginfigure}
+
+
+\begin{solution}
+This solid has a ``hole'' in the middle. We can compute the volume by
+subtracting the volume of the hole from the volume enclosed by the
+outer surface of the solid. In Figure~\ref{fig:solid with hole} we
+show the region that is rotated, the resulting solid with the front
+half cut away, the cone that forms the outer surface, the horn-shaped
+hole, and a cross-section perpendicular to the $x$-axis.
+
+We can compute the desired volume ``all at once'' by approximating the
+volume of the actual solid. We can approximate the volume of a slice
+of the solid with a washer-shaped volume, as indicated in
+Figure~\ref{fig:solid with hole}. The area of the face is the area of
+the outer circle minus the area of the inner circle, say
+\[
+\pi R^2-\pi r^2.
+\] 
+In the present example, we have
+\[
+\pi x^2 - \pi x^4. 
+\]
+Hence, the whole volume is
+\begin{align*}
+  \int_0^1 \pi x^2-\pi x^4\d x &= \left.\pi\left({x^3\over3}-{x^5\over5}\right)\right|_0^1\\
+&=\pi\left({1\over3}-{1\over5}\right)={2\pi\over15}.
+\end{align*}
+\end{solution}
+
+\break
+
+\subsection{The Shell Method}
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=3,domain=0:3,
+      clip=false,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick] {x+1};
+    \addplot [penColor,very thick] {(x-1)^2};
+
+    \node at (axis cs:.5,1.7) [penColor2] {$f(x)$};
+    \node at (axis cs:2.5,1.7) [penColor] {$g(x)$};
+    \addplot [very thick, penColor4] plot coordinates {(.25,.56) (1.75,.56)};
+    \addplot [very thick, penColor4] plot coordinates {(1,2) (2.41,2)};
+    \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x+1$ and $g(x) = (x-1)^2$ with the two
+  types of ``washers'' indicated.}
+\label{figure:washerHARD}
+\end{marginfigure}
+
+Suppose the region between $f(x)=x+1$ and $g(x)=(x-1)^2$ is rotated
+around the $y$-axis. It is possible, but inconvenient, to compute the
+volume of the resulting solid by the method we have used so far. The
+problem is that there are two ``kinds'' of typical rectangles: those
+that go from the line to the parabola and those that touch the
+parabola on both ends, see Figure~\ref{figure:washerHARD}. To compute
+the volume using this approach, we need to break the problem into two
+parts and compute two integrals:
+$$
+  \pi\int_0^1 (1+\sqrt{y})^2-(1-\sqrt{y})^2\d y+
+  \pi\int_1^4  (1+\sqrt{y})^2-(y-1)^2\d y={8\over3}\pi + {65\over6}\pi
+  ={27\over2}\pi.
+$$
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=3,domain=0:3,
+      clip=false,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick] {x+1};
+    \addplot [penColor,very thick] {(x-1)^2};
+
+    \node at (axis cs:.5,1.7) [penColor2] {$f(x)$};
+    \node at (axis cs:2.5,1.7) [penColor] {$g(x)$};
+    \addplot [very thick, penColor4] plot coordinates {(1.5,2.5) (1.5,.25)};
+  \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x) = x+1$ and $g(x) = (x-1)^2$ with the
+  ``shell'' indicated.}
+\label{figure:shellIndicated}
+\end{marginfigure}
+
+
+If instead we consider a typical vertical rectangle, but still rotate
+around the $y$-axis, we get a thin ``shell'' instead of a thin
+``washer,'' see Figure~\ref{figure:shellIndicated}. If we add up the
+volume of such thin shells we will get an approximation to the true
+volume. 
+
+
+\begin{tikzpicture}
+ \begin{axis}[
+     view={30}{30},colormap/\surfaceColor,
+     xlabel=$x$, ylabel=$z$, zlabel=$y$,
+   ]
+
+  \addplot3[surf,colormap/\surfaceColorTwo,shader=faceted,opacity=.7, %inside
+  samples=10,
+  samples y =20,
+  domain=0:3,y domain=0:2*pi,
+  z buffer=sort]
+  (x* cos(deg(y)), {(x) * sin(deg(y))},{x+1});
+
+  \addplot3[surf,colormap/\sliceColor,shader=interp,%shell
+  samples=5,
+  samples y = 20,
+  domain=.25:2.5,y domain=0:2*pi,
+  z buffer=sort
+]
+  ({1.5*cos(deg(y))}, {1.5*sin(deg(y))},x);
+
+
+  \addplot3[surf,shader=faceted,opacity=.3, %outside
+  samples=10,
+  samples y =20,
+  domain=0:3,y domain=0:2*pi,
+  z buffer=sort]
+  (x*cos(deg(y)), {(x) * sin(deg(y))},{(x-1)^2});
+
+
+ \end{axis}
+\end{tikzpicture}
+
+
+
+
+What is the volume of such a shell?  Consider the shell at
+$x$.  Imagine that we cut the shell vertically in one place and
+``unroll'' it into a thin, flat sheet. This sheet will be $f(x)-g(x)$
+tall, and $2\pi x$ wide namely, the circumference of the shell before
+it was unrolled.  We may now write the integral
+$$
+  \int_0^3 2\pi x(f(x)-g(x))\d x=
+  \int_0^3 2\pi x(x+1-(x-1)^2)\d x={27\over2}\pi.
+$$
+Not only does this accomplish the task with only one integral, the
+integral is somewhat easier than those in the previous
+calculation. Things are not always so neat, but it is often the case
+that one of the two methods will be simpler than the other, so it is
+worth considering both before starting to do calculations.
+
+\begin{example} 
+Suppose the area under $y=-x^2+1$ between $x=0$ and $x=1$ is rotated
+around the $x$-axis.
+\end{example}
+
+\begin{solution}
+We'll just set up integrals for each method.
+
+Disk method: $\int_0^1 \pi(1-x^2)^2\d x={8\over15}\pi$.
+
+
+Shell method: $\int_0^1 2\pi y \sqrt{1-y}\d y={8\over15}\pi$.
+\end{solution}
+
+\begin{exercises}
+
+%% \begin{exercise}
+%% Verify that $\pi\int_0^1 (1+\sqrt{y})^2-(1-\sqrt{y})^2\d y+
+%% \pi\int_1^4  (1+\sqrt{y})^2-(y-1)^2={8\over3}\pi + {65\over6}\pi
+%% ={27\over2}\pi$.
+%% \end{exercise}
+
+%% \begin{exercise} Verify that $\int_0^3 2\pi x(x+1-(x-1)^2)\d x={27\over2}\pi$.
+%% \end{exercise}
+
+%% \begin{exercise} Verify that $\int_0^1 \pi(1-x^2)^2\d x={8\over15}\pi$.
+%% \end{exercise}
+
+%% \begin{exercise} Verify that $\int_0^1 2\pi y \sqrt{1-y}\d y={8\over15}\pi$.
+%% \end{exercise}
+
+\begin{exercise}
+Use integration to find the volume of the solid obtained by revolving 
+the region bounded by $x+y=2$ and the $x$ and $y$ axes around the
+$x$-axis. 
+\begin{answer} $8\pi/3$
+\end{answer}\end{exercise}
+
+\begin{exercise}
+Find the volume of the solid obtained by revolving 
+the region bounded by $y=x-x^2$
+and the $x$-axis around the
+$x$-axis. 
+\begin{answer} $\pi/30$
+\end{answer}\end{exercise}
+
+\begin{exercise}
+Find the volume of the solid obtained by revolving 
+the region bounded by $y=\sqrt{\sin x}$ between $x=0$ and
+$x=\pi/2$, the $y$-axis, and the line
+$y=1$ around the
+$x$-axis. 
+\begin{answer} $\pi(\pi/2-1)$
+\end{answer}\end{exercise}
+
+\begin{exercise}
+Let $S$ be the region of the $xy$-plane bounded above by the curve
+$x^3y=64$, below by the line $y=1$, on the left by  the line $x=2$, and
+on the right by the line $x=4$.  Find
+the volume of the solid obtained by rotating $S$ around (a) the $x$-axis,
+(b) the line $y=1$, (c) the $y$-axis, (d) the line $x=2$.
+\begin{answer} (a) $114\pi/5$ (b) $74\pi/5$ (c) $20\pi$\hfill\break
+(d) $4\pi$
+\end{answer}\end{exercise}
+
+\begin{exercise} The equation $x^2/9+y^2/4=1$ describes an ellipse.  Find the
+volume of the solid obtained by rotating the ellipse around the
+$x$-axis and also around the $y$-axis. These solids are
+called {\dfont ellipsoids\/}; one is vaguely rugby-ball shaped, one is
+sort of flying-saucer shaped, or perhaps squished-beach-ball-shaped.
+\begin{answer} $16\pi$, $24\pi$
+\end{answer}\end{exercise}
+
+%% AN IMAGE WAS HERE!!!!
+
+
+\begin{exercise} Use integration to compute the volume of a sphere of radius
+$r$. 
+\begin{answer}
+$4\pi r^3/3$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+A hemispheric bowl of radius $r$ contains water to a depth $h$.  Find
+the volume of water in the bowl.
+\begin{answer} $\pi h^2(3r-h)/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} The base of a tetrahedron (a triangular pyramid) of height $h$
+is an equilateral triangle of side $s$.  Its cross-sections
+perpendicular to an altitude are equilateral triangles.  Express its
+volume $V$ as an integral, and find a formula for $V$ in terms of $h$
+and $s$. 
+\begin{answer}
+$(1/3)(\hbox{area of base})(\hbox{height})$
+\end{answer}
+\end{exercise}
+
+%% fixme: include picture? see exercise_9.3.13.mw
+\begin{exercise}
+The base of a solid is the region between $f(x)=\cos x$ and
+$g(x)=-\cos x$, $-\pi/2\le x\le\pi/2$,
+and its cross-sections perpendicular to the $x$-axis 
+are squares.
+Find the volume of the solid.
+\begin{answer} $2\pi$
+\end{answer}\end{exercise}
+
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Arc Length}
+
+Here is another geometric application of the integral, finding the
+length of a portion of a curve. As usual, we need to think about how
+we might approximate the length, and turn the approximation into an
+integral.
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=7, ymin=0, ymax=5,
+      clip=false,
+      ticks=none,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [very thick, penColor] plot coordinates {(3,2) (6,4)};
+    \addplot [dashed, textColor] plot coordinates {(3,2) (6,2)};
+    \addplot [dashed, textColor] plot coordinates {(6,4) (6,2)};
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,2)};  %% closed hole
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,4)};  %% closed hole
+    \node at (axis cs:3,2) [anchor=east] {$(x_0,y_0)$};
+    \node at (axis cs:6,4) [anchor=west] {$(x_1,y_1)$};
+    \node at (axis cs:4.5,3.2) [penColor,anchor=east] {$\sqrt{(x_1-x_0)^2+(y_1-y_0)^2}$};
+  \end{axis}
+\end{tikzpicture}
+\caption{The length of a line segment.}
+\label{fig:length of a line segment}
+\end{marginfigure}
+
+
+We already know how to compute one simple arc length, that of a line
+segment. If the endpoints are $(x_0,y_0)$ and $(x_1,y_1)$ then the
+length of the segment is the distance between the points,
+$\sqrt{(x_1-x_0)^2+(y_1-y_0)^2}$, see Figure~\ref{fig:length of a line segment}.
+
+Now if $f(x)$ is ``nice'' (say, differentiable) it appears that we can
+approximate the length of a portion of the curve with line segments,
+and that as the number of segments increases, and their lengths
+decrease, the sum of the lengths of the line segments will approach
+the true arc length, see Figure~\ref{fig:approximating arc length}.
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:2,
+            ymax=5,
+            ymin=-5,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [dashed, textColor, smooth] {-(x^4)/4 - (x^3)/3 +x^2};
+          \addplot [very thick, penColor] plot coordinates {
+            (-3,-9/4) (-2,8/3) (-1,13/12) (0,0) (1,5/12) (2,-8/3)
+          };
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-3,-9/4) (-2,8/3) (-1,13/12) (0,0) (1,5/12) (2,-8/3)};  %% closed hole
+
+          \node at (axis cs:-1.3,2) [anchor=west,textColor] {$f(x)$};  
+        \end{axis}
+\end{tikzpicture}
+\caption{Approximating the arc length of the curve defined by $f(x)$.}
+\label{fig:approximating arc length}
+\end{marginfigure}
+
+Now we need to write a formula for the sum of the lengths of the line
+segments, in a form that we know becomes an integral in the limit.  So
+we suppose we have divided the interval $[a,b]$ into $n$ subintervals
+as usual, each with length $h=(b-a)/n$, and endpoints 
+\[
+a=x_0, x_1, x_2, \dots, x_n=b.
+\]
+The length of a typical line segment, joining $(x_i,f(x_i))$ to $
+(x_{i+1},f(x_{i+1}))$, is 
+\[
+\sqrt{h^2 +(f(x_{i+1})-f(x_i))^2}.
+\]
+By the Mean Value Theorem, Theorem~\ref{thm:mvt}, there is a number $c_i$
+in $(x_i,x_{i+1})$ such that 
+\[
+f'(c_i)=\frac{f(x_{i+1})-f(x_i)}{x_{i+1}-x_i} = \frac{f(x_{i+1})-f(x_i)}{h}.
+\]
+so $f'(c_i)h=f(x_{i+1})-f(x_i).$ Hence, the length of the line segment
+can be written as
+$$
+  \sqrt{h^2 + (f'(c_i))^2h^2}=
+  h\sqrt{1+(f'(c_i))^2}.
+$$ 
+The arc length is then
+\[
+\lim_{n\to\infty}\sum_{i=0}^{n-1} h\sqrt{1+(f'(c_i))^2} 
+\]
+This is a Riemann sum! Now we may take the limit as the number of
+$x_i$'s chosen goes to infinity and $h$ goes to zero to obtain the
+integral
+\[
+  \int_a^b \sqrt{1+(f'(x))^2}\d x.
+\]
+Note that the sum looks a bit different than others we have
+encountered, because the approximation contains a $c_i$ instead of an
+$x_i$. In the past we have always used left endpoints (namely, $x_i$)
+to get a representative value of $f$ on $[x_i,x_{i+1}]$; now we are
+using a different point, but the principle is the same.
+
+To summarize, to compute the length of a curve on the interval
+$[a,b]$, we compute the integral
+$$\int_a^b \sqrt{1+(f'(x))^2}\d x.$$ 
+Unfortunately, integrals of this form are typically difficult or
+impossible to compute exactly, because usually none of our methods for
+finding antiderivatives will work. In practice this means that the
+integral will usually have to be approximated.
+
+
+\begin{example} Let $f(x) = \sqrt{r^2-x^2}$, the upper half circle of radius
+$r$. The length of this curve is half the circumference, namely $\pi
+r$. Let's compute this with the arc length formula.
+The derivative $f'$ is $-x/\sqrt{r^2-x^2}$ so the integral is
+$$
+  \int_{-r}^r \sqrt{1+{x^2\over r^2-x^2}}\d x
+  =\int_{-r}^r \sqrt{r^2\over r^2-x^2}\d x
+  =r\int_{-r}^r \sqrt{1\over r^2-x^2}\d x.
+$$
+Using a trigonometric substitution, we find the antiderivative, namely
+$\arcsin(x/r)$. Notice that the integral is improper at both
+endpoints, as the function $\sqrt{1/(r^2-x^2)}$ is undefined when
+$x=\pm r$. So we need to compute
+$$
+  \lim_{D\to-r^+}\int_D^0  \sqrt{1\over r^2-x^2}\d x +
+  \lim_{D\to r^-}\int_0^D  \sqrt{1\over r^2-x^2}\d x.
+$$
+This is not difficult, and has value $\pi$, so the original integral,
+with the extra $r$ in front, has value $\pi r$ as expected.
+\end{example}
+
+\begin{exercises}
+
+\begin{exercise} Find the arc length of $f(x)=x^{3/2}$ on $[0,2]$.
+\begin{answer} $(22\sqrt{22}-8)/27$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the arc length of $f(x) = x^2/8-\ln x$
+on $[1,2]$.
+\begin{answer} $\ln(2)+3/8$
+\end{answer}\end{exercise}
+
+\begin{exercise}
+Find the arc length of $f(x) = (1/3)(x^2 +2)^{3/2}$
+on the interval $[0,a]$.
+\begin{answer} $a+a^3/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the arc length of $f(x)=\ln(\sin x)$ on the
+interval $[\pi/4,\pi/3]$.
+\begin{answer} $\ln((\sqrt2+1)/\sqrt3)$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} Set up the integral to find the arc length of $\sin x$ 
+on the interval $[0,\pi]$; do not evaluate the integral. If you have
+access to appropriate software, approximate the value of the integral.
+\begin{answer} $\approx 3.82$
+\end{answer}\end{exercise}
+
+\begin{exercise} Set up the integral to find the arc length of $y=x e^{-x}$
+on the interval $[2,3]$; do not evaluate the integral. If you have
+access to appropriate software, approximate the value of the integral.
+\begin{answer} $\approx 1.01$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the arc length of $y=e^x$ on the interval $[0,1]$.
+(This can be done exactly; it is a bit tricky and a bit long.)
+\begin{answer} $\sqrt{1+e^2}-\sqrt2+
+{1\over2}\ln\left({\sqrt{1+e^2}-1\over\sqrt{1+e^2}+1}\right)+
+{1\over2}\ln(3+2\sqrt2)$
+\end{answer}\end{exercise}
+
+\end{exercises}
+

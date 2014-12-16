@@ -1,0 +1,1624 @@
+\chapter{Applications of Differentiation}
+
+
+
+\section{L'H\^{o}pital's Rule}
+
+
+Derivatives allow us to take problems that were once difficult to
+solve and convert them to problems that are easier to solve. Let us
+consider l'H\^{o}pital's rule:
+
+\marginnote[1in]{L'H\^opital's rule applies even when $\lim_{x\to a}f(x) =
+  \pm \infty$ and $\lim_{x\to a}g(x) = \mp \infty$. See Example~\ref{example:xlnx infty}.}
+\begin{mainTheorem}[L'H\^opital's Rule]\index{l'H\^opital's Rule} 
+Let $f(x)$ and $g(x)$ be functions that are differentiable near $a$.  If
+\[
+\lim_{x \to a} f(x) = \lim_{x \to a}g(x) = 0 \qquad \text{or} \pm \infty,
+\]
+and $\lim_{x \to a} \frac{f'(x)}{g'(x)}$ exists, and $g'(x) \neq 0$
+for all $x$ near $a$, then 
+\[
+\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}.
+\]
+\end{mainTheorem}
+This theorem is somewhat difficult to prove, in part because it
+incorporates so many different possibilities, so we will not prove it
+here. 
+
+\break
+
+L'H\^{o}pital's rule allows us to investigate limits of
+\textit{indeterminate form}.
+
+\begin{definition}[List of Indeterminate Forms]\index{indeterminate form}\hfil
+\begin{itemize}
+\item[\textbf{0/0}] This refers to a limit of the form $\lim_{x\to a}
+  \frac{f(x)}{g(x)}$ where $f(x)\to 0$ and $g(x)\to 0$ as $x\to a$.
+\item[\textbf{$\pmb\infty$/$\pmb\infty$}] This refers to a limit of the form $\lim_{x\to a}
+  \frac{f(x)}{g(x)}$ where $f(x)\to \infty$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{0\,$\pmb{\cdot\infty}$}] This refers to a limit of the form $\lim_{x\to a}
+  \left(f(x)\cdot g(x)\right)$ where $f(x)\to 0$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{$\pmb\infty$--$\pmb\infty$}] This refers to a limit of the form $\lim_{x\to a}\left(
+  f(x)-g(x)\right)$ where $f(x)\to \infty$ and $g(x)\to \infty$ as $x\to a$.
+
+\item[\textbf{1$^{\pmb\infty}$}] This refers to a limit of the form $\lim_{x\to a}
+  f(x)^{g(x)}$ where $f(x)\to 1$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{0$^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
+  f(x)^{g(x)}$ where $f(x)\to 0$ and $g(x)\to 0$ as $x\to a$.
+\item[\textbf{$\pmb\infty^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
+  f(x)^{g(x)}$ where $f(x)\to \infty$ and $g(x)\to 0$ as $x\to a$.
+\end{itemize}
+In each of these cases, the value of the limit is \textbf{not} immediately
+obvious. Hence, a careful analysis is required!
+\end{definition}
+
+Our first example is the computation of a limit that was somewhat
+difficult before, see Example~\ref{example:sinx/x}. Note, this is an
+example of the indeterminate form $0/0$.
+
+\begin{example}[0/0]\label{example:sinx/x-lhopital}
+Compute
+\[
+\lim_{x\to 0} \frac{\sin(x)}{x}.
+\]
+\end{example}
+
+\begin{solution}
+Set $f(x) = \sin(x)$ and $g(x) = x$.  Since both $f(x)$ and $g(x)$ are
+differentiable functions at $0$, and 
+\[
+\lim_{x \to 0} f(x) = \lim_{x \to 0}g(x) = 0,
+\]
+this situation is ripe for l'H\^opital's Rule. Now
+\[
+f'(x) = \cos(x) \qquad\text{and}\qquad g'(x) = 1.
+\] 
+L'H\^opital's rule tells us that 
+\[
+\lim_{x \to 0} \frac{\sin(x)}{x} = \lim_{x \to 0} \frac{\cos(x)}{1} = 1.
+\]
+\end{solution}
+
+
+\begin{marginfigure}[-1in]
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1.6,xmax=1.6,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-1.57, 0, 1.57},
+            xticklabels={$-\pi/2$, $0$, $\pi/2$},
+            ytick={-1,1},
+            %ticks=none,
+            %width=3in,
+            %height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-1.6:1.6)] {sin(deg(x))};
+          \addplot [very thick, penColor2] {x};
+          \node at (axis cs:1,.6) [penColor] {$f(x)$};
+          \node at (axis cs:-1,-1.2) [penColor2] {$g(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\sin(x)$ and $g(x) = x$. Note how the tangent
+  lines for each curve are coincident at $x=0$.}
+\label{example:sinx and x}
+\end{marginfigure}
+
+
+From this example, we gain an intuitive feeling for why l'H\^opital's
+rule is true: If two functions are both $0$ when $x=a$, and if their
+tangent lines have the same slope, then the functions coincide as $x$
+approaches $a$. See Figure~\ref{example:sinx and x}. 
+
+
+
+
+Our next set of examples will run through the remaining indeterminate
+forms one is likely to encounter.
+
+\begin{example}[$\pmb\infty$/$\pmb\infty$] Compute 
+\[
+\lim_{x\to \pi/2+} \frac{\sec(x)}{\tan(x)}.
+\]
+\end{example}
+
+\begin{solution}
+Set $f(x) = \sec(x)$ and $g(x) = \tan(x)$. Both $f(x)$ and $g(x)$
+are differentiable near $\pi/2$. Additionally,
+\[
+\lim_{x \to \pi/2+} f(x) = \lim_{x \to \pi/2+}g(x) = -\infty.
+\]
+This situation is ripe for l'H\^opital's Rule. Now 
+\[
+f'(x) = \sec(x)\tan(x) \qquad\text{and}\qquad g'(x) = \sec^2(x).
+\]
+L'H\^opital's rule tells us that 
+\[
+\lim_{x\to \pi/2+} \frac{\sec(x)}{\tan(x)} = \lim_{x\to \pi/2+}
+\frac{\sec(x)\tan(x)}{\sec^2(x)} = \lim_{x\to \pi/2+} \sin(x) =
+1.
+\]
+\end{solution}
+
+
+
+\begin{example}[0\,$\pmb{\cdot\infty}$]\label{example:xlnx infty} 
+Compute 
+\[
+\lim_{x\to 0+} x\ln x.
+\]
+\end{example}
+
+\begin{solution}
+This doesn't appear to be suitable for l'H\^opital's Rule. As $x$
+approaches zero, $\ln x$ goes to $-\infty$, so the product looks like
+\[
+(\text{something very small})\cdot (\text{something very large and
+  negative}).
+\] 
+This product could be anything---a careful analysis is required.
+Write
+\[
+x\ln x = \frac{\ln x}{x^{-1}}.
+\]
+Set $f(x) = \ln(x)$ and $g(x) = x^{-1}$.  Since both functions are differentiable near zero and 
+\[
+\lim_{x\to 0+} \ln(x) = -\infty\qquad\text{and}\qquad \lim_{x\to 0+} x^{-1} = \infty,
+\]
+we may apply l'H\^opital's rule. Write
+\[
+f'(x) = x^{-1}\qquad \text{and}\qquad g'(x) = -x^{-2},
+\]
+so
+\[
+\lim_{x\to 0+} x\ln x = \lim_{x\to 0+} \frac{\ln x}{x^{-1}} = \lim_{x\to 0+} \frac{x^{-1}}{-x^{-2}} =\lim_{x\to 0+} -x = 0.
+\]
+One way to interpret this is that since $\lim_{x\to 0^+}x\ln x = 0$,
+the function $x$ approaches zero much faster than $\ln x$ approaches
+$-\infty$.
+\end{solution}
+
+\subsection*{Indeterminate Forms Involving Subtraction}
+
+There are two basic cases here, we'll do an example of each.
+
+\begin{example}[$\pmb\infty$--$\pmb\infty$]
+Compute
+\[
+\lim_{x\to 0} \left(\cot(x) - \csc(x)\right).
+\]
+\end{example}
+
+\begin{solution}
+Here we simply need to write each term as a fraction,
+\begin{align*}
+\lim_{x\to 0} \left(\cot(x) - \csc(x)\right) &= \lim_{x\to 0} \left(\frac{\cos(x)}{\sin(x)} - \frac{1}{\sin(x)}\right)\\
+&= \lim_{x\to 0} \frac{\cos(x)-1}{\sin(x)} 
+\end{align*}
+Setting $f(x) = \cos(x)-1$ and $g(x)=\sin(x)$, both functions are differentiable near zero and 
+\[
+\lim_{x\to 0}(\cos(x)-1)=\lim_{x\to 0}\sin(x) = 0.
+\]
+We may now apply l'H\^opital's rule. Write
+\[
+f'(x) = -\sin(x)\qquad \text{and}\qquad g'(x) = \cos(x),
+\]
+so
+\[
+\lim_{x\to 0} \left(\cot(x) - \csc(x)\right) = \lim_{x\to 0} \frac{\cos(x)-1}{\sin(x)} = \lim_{x\to 0} \frac{-\sin(x)}{\cos(x)} =0.
+\]
+\end{solution}
+
+
+Sometimes one must be slightly more clever. 
+
+\begin{example}[$\pmb\infty$--$\pmb\infty$]
+Compute
+\[
+\lim_{x\to\infty}\left(\sqrt{x^2+x}-x\right).
+\]
+\end{example}
+
+\begin{solution}
+Again, this doesn't appear to be suitable for l'H\^opital's Rule. A bit of algebraic manipulation will help. Write
+\begin{align*}
+\lim_{x\to\infty}\left(\sqrt{x^2+x}-x\right) &= \lim_{x\to\infty}\left(x\left(\sqrt{1+1/x}-1\right)\right)\\
+&=\lim_{x\to\infty}\frac{\sqrt{1+1/x}-1}{x^{-1}}
+\end{align*}
+Now set $f(x) = \sqrt{1+1/x}-1$, $g(x) = x^{-1}$. Since both
+  functions are differentiable for large values of $x$ and 
+\[
+\lim_{x\to\infty} (\sqrt{1+1/x}-1) = \lim_{x\to\infty}x^{-1} = 0, 
+\]
+we may apply l'H\^opital's rule. Write
+\[
+f'(x) = (1/2)(1+1/x)^{-1/2}\cdot(-x^{-2}) \qquad \text{and}\qquad g'(x) = -x^{-2}
+\]
+so
+\begin{align*}
+\lim_{x\to\infty}\left(\sqrt{x^2+x}-x\right) &= \lim_{x\to\infty}\frac{\sqrt{1+1/x}-1}{x^{-1}} \\
+&= \lim_{x\to\infty}\frac{(1/2)(1+1/x)^{-1/2}\cdot(-x^{-2})}{-x^{-2}} \\
+&= \lim_{x\to\infty} \frac{1}{2\sqrt{1+1/x}}\\
+&= \frac{1}{2}.
+\end{align*}
+\end{solution}
+
+
+\subsection*{Exponential Indeterminate Forms}
+
+There is a standard trick for dealing with the indeterminate forms
+\[
+1^\infty,\qquad 0^0,\qquad \infty^0.
+\]
+Given $u(x)$ and $v(x)$ such that
+\[
+\lim_{x\to a}u(x)^{v(x)}
+\]
+falls into one of the categories described above, rewrite as
+\[
+\lim_{x\to a}e^{v(x)\ln(u(x))}
+\]
+and then examine the limit of the exponent
+\[
+\lim_{x\to a} v(x)\ln(u(x)) = \lim_{x\to a} \frac{\ln(u(x))}{v(x)^{-1}}
+\]
+using l'H\^opital's rule.  Since these forms are all very similar, we
+will only give a single example.
+
+
+\begin{example}[1$^{\pmb\infty}$]
+Compute
+\[
+\lim_{x\to \infty}\left(1 + \frac{1}{x}\right)^x.
+\]
+\end{example}
+
+\begin{solution}
+Write
+\[
+\lim_{x\to \infty}\left(1 + \frac{1}{x}\right)^x = \lim_{x\to \infty}e^{x\ln\left(1 + \frac{1}{x}\right)}.
+\]
+So now look at the limit of the exponent
+\[
+\lim_{x\to\infty} x\ln\left(1 + \frac{1}{x}\right) = \lim_{x\to\infty} \frac{\ln\left(1 + \frac{1}{x}\right)}{x^{-1}}.
+\]
+Setting $f(x) = \ln\left(1 + \frac{1}{x}\right)$ and $g(x) = x^{-1}$,
+both functions are differentiable for large values of $x$ and
+\[
+\lim_{x\to \infty}\ln\left(1 + \frac{1}{x}\right)=\lim_{x\to \infty}x^{-1} = 0.
+\]
+We may now apply l'H\^opital's rule. Write
+\[
+f'(x) = \frac{-x^{-2}}{1 + \frac{1}{x}}\qquad\text{and}\qquad g'(x) = -x^{-2},
+\]
+so
+\begin{align*}
+\lim_{x\to\infty} \frac{\ln\left(1 + \frac{1}{x}\right)}{x^{-1}} &= \lim_{x\to\infty} \frac{\frac{-x^{-2}}{1 + \frac{1}{x}}}{-x^{-2}} \\
+&=\lim_{x\to\infty} \frac{1}{1 + \frac{1}{x}}\\
+&=1.
+\end{align*}
+Hence, 
+\[
+\lim_{x\to \infty}\left(1 + \frac{1}{x}\right)^x = \lim_{x\to \infty}e^{x\ln\left(1 + \frac{1}{x}\right)} =e^{1} = e.
+\]
+\end{solution}
+
+
+
+
+
+
+
+
+
+
+
+% Most from Keisler
+\begin{exercises}
+
+\noindent Compute the limits.
+
+\twocol
+
+\begin{exercise} $\lim_{x\to 0} {\cos x -1\over \sin x}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to \infty} {e^x\over x^3}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to \infty} \sqrt{x^2+x}-\sqrt{x^2-x}$
+\begin{answer} $1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to \infty} {\ln x\over x}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to \infty} {\ln x\over \sqrt{x}}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty} {e^x + e^{-x}\over e^x -e^{-x}}$
+\begin{answer} 1
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{\sqrt{9+x}-3\over x}$
+\begin{answer} $1/6$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{t\to1+}{(1/t)-1\over t^2-2t+1}$
+\begin{answer} $-\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to2}{2-\sqrt{x+2}\over 4-x^2}$
+\begin{answer} $1/16$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{t\to\infty}{t+5-2/t-1/t^3\over 3t+12-1/t^2}$
+\begin{answer} $1/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{y\to\infty}{\sqrt{y+1}+\sqrt{y-1}\over y}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1}\frac{\sqrt{x}-1}{\sqrt[3]{x}-1}$
+\begin{answer} $3/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{(1-x)^{1/4}-1\over x}$
+\begin{answer} $-1/4$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{t\to 0}{\left(t+{1\over t}\right)((4-t)^{3/2}-8)}$
+\begin{answer} $-3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{t\to 0+}\left({1\over t}+{1\over\sqrt{t}}\right)
+(\sqrt{t+1}-1)$
+\begin{answer} $1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 0}{x^2\over\sqrt{2x+1}-1}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{u\to 1}{(u-1)^3\over (1/u)-u^2+3/u-3}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 0}{2+(1/x)\over 3-(2/x)}$
+\begin{answer} $-1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 0+}{1+5/\sqrt{x}\over 2+1/\sqrt{x}}$
+\begin{answer} $5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 0+}{3+x^{-1/2}+x^{-1}\over 2+4x^{-1/2}}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty}{x+x^{1/2}+x^{1/3}\over x^{2/3}+x^{1/4}}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{t\to\infty}
+{1-\sqrt{t\over t+1}\over 2-\sqrt{4t+1\over t+2}}$
+\begin{answer} $2/7$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{t\to\infty}{1-{t\over t-1}\over 1-\sqrt{t\over t-1}}$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to-\infty}{x+x^{-1}\over 1+\sqrt{1-x}}$
+\begin{answer} $-\infty$
+\end{answer}\end{exercise}
+
+
+
+\begin{exercise} $\lim_{x\to\pi/2}{\cos x\over (\pi/2)-x}$
+\begin{answer} $1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{e^x-1\over x}$
+\begin{answer} $1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{x^2\over e^x-x-1}$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1}{\ln x\over x-1}$
+\begin{answer} $1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{\ln(x^2+1)\over x}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1}{x\ln x\over x^2-1}$
+\begin{answer} $1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{\sin(2x)\over\ln(x+1)}$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1}{x^{1/4}-1\over x}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1+}{\sqrt{x}\over x-1}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1}{\sqrt{x}-1\over x-1}$
+\begin{answer} $1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty}{x^{-1}+x^{-1/2}\over x+x^{-1/2}}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty}{x+x^{-2}\over 2x+x^{-2}}$
+\begin{answer} $1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty}{5+x^{-1}\over 1+2x^{-1}}$
+\begin{answer} $5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty}{4x\over\sqrt{2x^2+1}}$
+\begin{answer} $2\sqrt2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{3x^2+x+2\over x-4}$
+\begin{answer} $-1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{\sqrt{x+1}-1\over \sqrt{x+4}-2}$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{\sqrt{x+1}-1\over \sqrt{x+2}-2}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0+}{\sqrt{x+1}+1\over\sqrt{x+1}-1}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0}{\sqrt{x^2+1}-1\over\sqrt{x+1}-1}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to\infty}{(x+5)\left({1\over 2x}+{1\over x+2}\right)}$
+\begin{answer} $3/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to0+}{(x+5)\left({1\over 2x}+{1\over x+2}\right)}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1}{(x+5)\left({1\over 2x}+{1\over x+2}\right)}$
+\begin{answer} $5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to2}{x^3-6x-2\over x^3+4}$
+\begin{answer} $-1/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to2}{x^3-6x-2\over x^3-4x}$
+\begin{answer} does not exist
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to1+}{x^3+4x+8\over 2x^3-2}$
+\begin{answer} $\infty$
+\end{answer}\end{exercise}
+\endtwocol
+\end{exercises}
+
+
+
+
+
+
+
+
+\section{The Derivative as a Rate}
+
+The world is constantly changing around us. To simplify matters we
+will only consider change in one dimension. This means that if we
+think of a ball being tossed in the air, we will consider its vertical
+movement separately from its lateral and forward movement.  To
+understand how things change, we need to understand the \textit{rate}
+of change. Let's start out with some rather basic ideas.
+
+\begin{definition}\index{average rate of change}
+Given a function $f(x)$, the \textbf{average rate of change} over the
+interval $[a, a+\Delta x]$ is given by
+\[
+\frac{f(a+\Delta x) - f(a)}{\Delta x}.
+\]
+\end{definition}
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=0,xmax=12,ymin=0,ymax=600,
+            axis lines=center,
+            ytick={100,200,300,400,500,600},
+            xtick={1,...,12},
+            grid=both,
+            grid style={dashed, gridColor},
+            xlabel=$t$, ylabel=$d$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]                  
+          
+          \addplot[mark=none,penColor,very thick] coordinates { 
+
+            (0,0) (1.5, 50.)  (4.5, 270)  (6.5, 270.) (10.5, 540.)  (12.,600.)        
+          };
+        \end{axis}
+\end{tikzpicture}
+\caption{Here we see a plot of the distance traveled on a $600$ mile road trip.}
+\label{figure:road-trip}
+\end{marginfigure}
+
+\begin{example}
+Suppose you drive a car on a $600$ mile road trip. Your distance from
+home is recorded by the plot shown in
+Figure~\ref{figure:road-trip}. What was your average velocity during
+hours $4$--$8$ of your trip?
+\end{example}
+
+\begin{solution}
+Examining Figure~\ref{figure:road-trip}, we see that we were around
+$240$ miles from home at hour $4$, and $360$ miles from home at hour
+$8$. Hence our average velocity was
+\[
+\frac{360-240}{8-4} = \frac{120}{4} = 30~\text{miles per hour.}
+\]
+\end{solution}
+
+Of course if you look at Figure~\ref{figure:road-trip} closely, you
+see that sometimes we were driving faster and other times we were
+driving slower. To get more information, we need to know the
+\textit{instantaneous rate of change}.
+
+\begin{definition}\index{instantaneous rate of change}
+Given a function, the \textbf{instantaneous rate of change} at $x=a$ is given by
+\[
+\left.\ddx f(x) \right|_{x=a}.
+\] 
+\end{definition}
+
+\begin{example} 
+Again suppose, you drive a car 600 mile road trip. Your distance from
+home is recorded by the plot shown in
+Figure~\ref{figure:road-trip}. What was your instantaneous velocity
+$8$ hours into your trip?
+\end{example}
+\begin{solution}
+Since the instantaneous rate of change is measured by the derivative,
+we need to find the slope of the tangent line to the curve. At $7$
+hours, the curve is growing at an essentially constant rate. In fact,
+the growth rate seems to be constant from $(7,300)$ to
+$(10,500)$. This gives us an instantaneous growth rate at hour $8$ of
+about $200/3 \approx 67$ miles per hour.
+\end{solution}
+
+
+
+
+\subsection*{Physical Applications}
+
+In physical applications, we are often concerned about
+\textit{position}, \textit{velocity}, \textit{speed},
+\textit{acceleration}.
+\begin{align*}
+p(t) &= \text{position with respect to time.}\\
+v(t) &= p'(t) = \text{velocity with respect to time.}\\
+s(t) &= |v(t)| = \text{speed, the absolute value of velocity.}\\
+a(t) &=v'(t) = \text{acceleration with respect to time.}
+\end{align*}
+
+Let's see an example.
+
+\begin{example}
+The Mostar bridge in Bosnia is $25$ meters above the river
+Neretva. For fun, you decided to dive off the bridge. Your position
+$t$ seconds after jumping off is
+\[
+p(t) = -4.9t^2 + 25.
+\]
+When do you hit the water? What is your instantaneous velocity as you
+enter the water?  What is your average velocity during your dive?
+\end{example}
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=0,xmax=3,ymin=0,ymax=30,
+            axis lines=center,
+            xlabel=$t$, ylabel=$p$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor,smooth] {-4.9*x^2+25};
+        \end{axis}
+\end{tikzpicture}
+\caption{Here we see a plot of $p(t) = -4.9t^2 + 25$. Note, time is on
+  the $t$-axis and vertical height is on the $p$-axis.}
+\end{marginfigure}
+\begin{solution}
+To find when you hit the water, you must solve
+\[
+-4.9t^2 + 25 = 0
+\]
+Write
+\begin{align*}
+-4.9t^2 &= -25 \\
+t^2 &\approx 5.1 \\ 
+t &\approx 2.26.
+\end{align*}
+Hence after approximately $2.26$ seconds, you gracefully enter the
+river.
+
+Your instantaneous velocity is given by $p'(t)$. Write
+\[
+p'(t) = -9.8t,
+\]
+so your instantaneous velocity when you enter the water is
+approximately $-9.8\cdot 2.26\approx -22$ meters per second.
+
+Finally, your average velocity during your dive is given by
+\[
+\frac{p(2.26) -p(0)}{2.26} \approx \frac{0-25}{2.26} =
+-11.06~\text{meters per second}.
+\]
+\end{solution}
+
+
+
+
+
+\subsection*{Biological Applications}
+
+In biological applications, we are often concerned with how animals
+and plants grow, though there are numerous other applications too.
+
+\begin{example}
+A certain bacterium divides into two cells every 20 minutes. The
+initial population of a culture is 120 cells. Find a formula for the
+population.  What is the average growth rate during the first 4 hours?
+What is the instantaneous growth rate of the population at 4 hours?
+What rate is the population growing at 20 hours?
+\end{example}
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=0,xmax=5,ymin=0,ymax=1000000,
+            axis lines=center,
+            xlabel=$t$, ylabel=$p$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},restrict y to domain=0:10000000,
+          ]        
+          \addplot [very thick, penColor, smooth] {120*2^(3*x)};
+        \end{axis}
+\end{tikzpicture}
+\caption{Here we see a plot of $p(t) = 120\cdot 2^{3t}$. Note, time is on
+  the $t$-axis and population is on the $p$-axis.}
+\end{marginfigure}
+
+
+\begin{solution}
+Since we start with $120$ cells, and this population doubles every $20$
+minutes, then the population doubles three times an hour. So the
+formula for the population is
+\[
+p(t) = 120\cdot 2^{3t}
+\]
+where $t$ is time measured in hours.
+
+Now, the average growth rate during the first $4$ hours is given by
+\[
+\frac{p(4)-p(0)}{4} =\frac{491520-120}{4} = 122850~\text{cells per hour.}
+\]
+
+We compute the instantaneous growth rate of the population with
+\[
+p'(t) = \ln(2)\cdot 360\cdot 2^{3t}.
+\]
+So $p'(4) \approx 1022087$ cells per hour. Note how fast $p(t)$ is
+growing, this is why it is important to stop bacterial infections
+fast!
+\end{solution}
+
+
+%% \subsection*{Economic Applications}
+
+%% There are three main players when dealing with very basic economic
+%% questions: The \textit{revenue}, the amount of money acquired from
+%% selling a product; the \textit{cost}, the amount of money it takes to
+%% produce an item; and the \textit{profit}, the revenue minus the cost.
+%% \begin{align*}
+%% r(x) &= \text{revenue from selling $x$ items.}\\
+%% c(x) &= \text{cost of producing $x$ items.}\\
+%% p(x) &= r(x)-c(x) = \text{the profit from selling $x$ items}.
+%% \end{align*}
+%% The rate of change in these functions is denoted by the word \textit{marginal}, hence 
+%% \begin{align*}
+%% \dd[r]{x} &= \text{the marginal revenue, how the revenue is changing when selling $x$ items.}\\
+%% \dd[c]{x} &= \text{the marginal cost, how the cost is changing when selling $x$ items.}
+%% \end{align*}
+
+%% Let's see an example.
+
+%% \begin{example}
+%% A manufacturer sells backpacks at the price of \$$40$ each. The cost function for producing $x$ backpacks is
+%% \[
+%% c(x) = \frac{2100}{x} + 22x.
+%% \]
+%% Express profit as a function of backpacks sold. What is the average
+%% profit after $10$ backpacks are sold? What is the marginal profit when
+%% $10$ backpacks are sold?
+%% \end{example}
+%% \begin{marginfigure}
+%% \begin{tikzpicture}
+%% 	\begin{axis}[
+%%             xmin=1,xmax=30,ymin=-2100,ymax=500,
+%%             axis lines=center,
+%%             xlabel=$x$, ylabel=$p$,
+%%             every axis y label/.style={at=(current axis.above origin),anchor=south},
+%%             every axis x label/.style={at=(current axis.right of origin),anchor=west},restrict y to domain=-2500:500,
+%%           ]        
+%%           \addplot [very thick, penColor,smooth, samples=100,domain=(1:30)] {-2100/x + 18*x};
+%%         \end{axis}
+%% \end{tikzpicture}
+%% \caption{Here we see a plot of $p(x) = 18x - \frac{2100}{x}$. Note,
+%%   this graph shows that while initial production costs are high (and
+%%   hence profit is low) but this can be reduced as more backpacks are
+%%   produced.}
+%% \end{marginfigure}
+%% \begin{solution}
+%% The profit is given by
+%% \[
+%% p(x) = r(x) - c(x)  = 40x - \left(\frac{2100}{x} + 22x\right).
+%% \]
+%% So the average growth rate of the profit after 10 backpacks are sold is
+%% \[
+%% \frac{p(10)-p(1)}{10} = 205.20~\text{dollars per backpack sold}.
+%% \]
+%% On the other hand, the marginal profit when $10$ backpacks are sold is
+%% \[
+%% \left.\ddx p(x) \right|_{x=10} = \left.\left(18 + \frac{2100}{x^2}\right) \right|_{x=10} = 39~\text{dollars per backpack sold}.
+%% \]
+
+%% \end{solution}
+
+
+
+
+\begin{exercises}
+
+\noindent Exercises related to physical applications:
+
+
+\begin{exercise}
+The position of a particle in meters is given by $1/t^3$ where is $t$
+is measured in seconds. What is the acceleration of the particle after
+$4$ seconds?
+\begin{answer}
+$3/256$ m/s$^2$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+On the Earth, the position of a ball dropped from a height of 100
+meters is given by
+\[
+-4.9t^2+100,\qquad\text{(ignoring air resistance)}
+\]
+where time is in seconds.  On the Moon, the position of a ball dropped
+from a height of 100 meters is given by
+\[
+-0.8t^2+100,
+\]
+where time is in seconds.  How long does it take the ball to hit the
+ground on the Earth? What is the speed immediately before it hits the
+ground? How long does it take the ball to hit the ground on the Moon?
+What is the speed immediately before it hits the ground?
+\begin{answer}
+on the Earth: $\approx 4.5$ s, $\approx 44$ m/s; on the Moon: $\approx
+11.2$ s, $\approx 18$ m/s
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+A $10$ gallon jug is filled with water. If a valve can drain the jug
+in 15 minutes, Torricelli's Law tells us that the volume of water in the jug is given by
+\[
+V(t) = 10\left(1-t/15\right)^2 \qquad\text{where}\qquad 0\le t\le 14. 
+\]
+What is the average rate that water flows out (change in volume) from
+5 to 10 minutes? What is the instantaneous rate that water flows out at
+7 minutes?
+\begin{answer}
+average rate: $\approx -0.67$ gal/min; instantaneous rate: $\approx-0.71$
+gal/min
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Starting at rest, the position of a car is given by $p(t) = 1.4t^2$ m,
+where $t$ is time in seconds.  How many seconds does it take the car to reach
+$96$ km/hr? What is the car's average velocity (in km/h) on that time period?
+\begin{answer}
+$\approx 9.5$ s; $\approx 48$ km/h.
+\end{answer}
+\end{exercise}
+
+\noindent Exercises related to biological applications:
+
+\begin{exercise}
+A certain bacterium triples its population every 15 minutes. The
+initial population of a culture is 300 cells. Find a formula for the
+population after $t$ hours. 
+\begin{answer}
+$p(t) = 300\cdot3^{4t}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+The blood alcohol content of man starts at $0.18$ mg/ml. It is metabolized by the body over time, and after $t$ hours, it is given by
+\[
+c(t) = .18e^{-0.15 t}.
+\]
+What rate is the man metabolizing alcohol at after $2$ hours?
+\begin{answer}
+$\approx -.02$ mg/ml per hour
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+The area of mold on a square piece of bread that is $10$ cm per side
+is modeled by
+\[
+a(t) = \frac{90}{1+150e^{-1.8 t}}~\text{cm}^2
+\]
+where $t$ is time measured in days. What rate is the mold growing after 3 days? After 10 days?
+\begin{answer}
+$\approx 39$ cm/day; $\approx 0$ cm/day
+\end{answer}
+\end{exercise}
+
+
+%% \noindent Exercises related to economic applications:
+
+%% \begin{exercise}
+%% A certain item cost
+%% \[
+%% c(x) = 17x + 6500
+%% \]
+%% dollars to produce. If each 
+%% \begin{answer}
+%% \end{answer}
+%% \end{exercise}
+
+%% \begin{exercise}
+%% 9
+%% \begin{answer}
+%% \end{answer}
+%% \end{exercise}
+
+%% \begin{exercise}
+%% 10
+%% \begin{answer}
+%% \end{answer}
+%% \end{exercise}
+
+\end{exercises}
+
+
+
+
+
+
+
+\section{Related Rates Problems}
+
+Suppose we have two variables $x$ and $y$ which are both changing with
+respect to time.  A \textit{related rates} problem is a problem where
+we know one rate at a given instant, and wish to find the other.  If
+$y$ is written in terms of $x$, and we are given $\dd[x]{t}$, then it
+is easy to find $\dd[y]{t}$ using the chain rule:
+\[
+\dd[y]{t}=y'(x(t))\cdot x'(t).
+\]
+In many cases, particularly the interesting ones, our functions will
+be related in some other way. Nevertheless, in each case we'll use the
+same strategy:
+
+\begin{guidelinesForRelatedRates}\hfil
+\begin{itemize}
+\item[\textbf{Draw a picture.}] If possible, draw a schematic picture with all the relevant information. 
+\item[\textbf{Find an equation.}] We want an equation that relates all relevant functions. 
+\item[\textbf{Differentiate the equation.}] Here we will often use
+  implicit differentiation.
+\item[\textbf{Evaluate the equation at the desired values.} ] The known values
+  should let you solve for the relevant rate.
+\end{itemize}
+\end{guidelinesForRelatedRates}
+Let's see a concrete example. 
+
+\begin{example}
+\label{exam:receding airplane}
+A plane is flying directly away from you at $500$ mph at an altitude of
+$3$ miles.  How fast is the plane's distance from you increasing at the
+moment when the plane is flying over a point on the ground $4$ miles
+from you?
+\end{example}
+
+\begin{solution}
+We'll use our general strategy to solve this problem. To start,
+\textbf{draw a picture}.
+
+\begin{tikzpicture}
+\draw[penColor2, dashed, very thick] (0,0) -- (5,4);
+%\draw[penColor, dashed, very thick] (0,0) -- (0,4);
+\draw[penColor, dashed, very thick] (5,0) -- (5,4);
+\draw[penColor, dashed, very thick] (0,0) -- (5,0);
+\draw[->,penColor, very thick] (1,4) -- (6,4);
+\draw [penColor, fill] (5,4) circle [radius=.07];
+\node [left,penColor] at (0,0) {\scalebox{3} \Ladiesroom};
+\node [right,penColor] at (6,4) {\scalebox{3}{\ding{40}}};
+\node [right,penColor] at (5,2) {$3$ miles};
+\node [above,penColor] at (3,4) {$p'(t) = 500$ mph};
+\node [above,penColor] at (5,4) {$p(t)$};
+\node [below,penColor] at (2.5,0) {$4$ miles};
+\node [left,penColor2] at (2.4,2) {$s(t)$ miles};
+\end{tikzpicture}
+
+Next we need to \textbf{find an equation}. By the Pythagorean Theorem
+we know that
+\[
+p^2+3^2=s^2.
+\] 
+Now we \textbf{differentiate the equation}. Write
+\[
+2p(t)p'(t)  = 2s(t) s'(t).
+\] 
+Now we'll \textbf{evaluate the equation at the desired values}.  We
+are interested in the time at which $p(t)=4$ and $p'(t) =
+500$. Additionally, at this time we know that $4^2+9=s^2$, so
+$s(t)=5$.  Putting together all the information we get
+\[
+2(4)(500)=2(5)s'(t),
+\]
+thus $s'(t)=400$ mph.
+\end{solution}
+
+
+
+
+
+\begin{example}
+You are inflating a spherical balloon at the rate of 7 cm${}^3$/sec.  How
+fast is its radius increasing when the radius is 4 cm?
+\end{example}
+
+\begin{solution}
+To start, \textbf{draw a picture}.
+
+\begin{tikzpicture}
+%\draw[penColor!50!background,very thick] (0,0) ellipse (2 and 1);
+\draw[very thick,penColor!20!background] (2,0) arc (0:180:2 and .7);% top half of ellipse
+\draw [penColor, very thick] (0,0) circle [radius=2];
+\draw[penColor2, dashed, very thick] (0,0) -- (2,0);
+\node [below,penColor2] at (1,0) {$r=4$ cm};
+\draw[very thick,penColor] (-2,0) arc (180:360:2 and .7);% bottom half of ellipse
+\node [penColor,left] at (-1.5,1.42) {$\dd[V]{t} = 7$ cm$^3$/sec};
+\node [penColor, right] at (1.5,-1.42) {$V = \frac{4\pi r^3}{3}$ cm$^3$};
+\end{tikzpicture}
+
+Next we need to \textbf{find an equation}.  Thinking of the variables
+$r$ and $V$ as functions of time, they are related by the equation
+\[
+V(t)=\frac{4\pi (r(t))^3}{3}.
+\]
+
+Now we need to \textbf{differentiate the equation}.  Taking the
+derivative of both sides gives 
+\[
+\dd[V]{t}=4\pi (r(t))^2\cdot r'(t).
+\]  
+Finally we \textbf{evaluate the equation at the desired values}. Set
+$r(t)= 4$ cm and $\dd[V]{t}$ = 7 cm$^3$/sec. Write 
+\begin{align*}
+7 &=4\pi 4^2r'(t),\\
+r'(t) &=7/(64\pi)~\text{cm/sec}.
+\end{align*}
+\end{solution}
+
+\begin{example} Water is poured into a conical container at the rate of 10
+cm${}^3$/sec.  The cone points directly down, and it has a height of
+30 cm and a base radius of 10 cm.  How fast is the water level rising
+when the water is 4 cm deep?
+\end{example}
+
+\begin{solution}
+To start, \textbf{draw a picture}.
+
+\begin{tikzpicture}
+\draw[penColor,very thick] (0,4) ellipse (4 and 1);
+\draw[very thick,penColor!20!background] (2,2) arc (0:180:2 and .5);% top half of ellipse
+\draw[very thick,penColor] (-2,2) arc (180:360:2 and .5);% bottom half of ellipse
+\draw[penColor, very thick] (3.97,3.85) -- (0,0);
+\draw[penColor, very thick] (-3.97,3.85) -- (0,0);
+\draw[penColor, very thick] (0,4) -- (4,4);
+\draw[penColor!50!background, very thick] (0,2) -- (2,2);
+\draw[->,line width=0.4cm, penColor!20!background] (0,6) -- (0,4.25);
+\draw[dashed, penColor2, very thick] (2.1,0) -- (2.1,2);
+\draw[dashed, penColor, very thick] (-4.1,0) -- (-4.1,4);
+\node[right, penColor] at (.4,5.6) {$\dd[V]{t} = 10$ cm$^3$/sec};
+\node[below, penColor] at (2,4) {$10$ cm};
+\node[above, penColor] at (1,2) {$r$ cm};
+\node[right, penColor2] at (2.1,1) {$h(t) = 4$ cm};
+\node[left, penColor] at (-4.1,2) {$30$ cm};
+\end{tikzpicture}
+
+Note, no attempt was made to draw this picture to scale, rather we
+want all of the relevant information to be available to the
+mathematician.
+
+Now we need to \textbf{find an equation}. The formula for the volume of a cone tells us that 
+\[
+V = \frac{\pi}{3} r^2 h.
+\]
+
+Now we must \textbf{differentiate the equation}. We should use implicit differentiation, and treat each of the variables as functions of $t$. Write
+\begin{equation}\label{equation:cone/water}
+\dd[V]{t} = \frac{\pi}{3}\left(2rh \dd[r]{t} + r^2 \dd[h]{t}\right).
+\end{equation}
+
+At this point we \textbf{evaluate the equation at the desired values}.
+At first something seems to be wrong, we do not know $\dd[r]{t}$.
+However, the dimensions of the cone of water must have the same
+proportions as those of the container.  That is, because of similar
+triangles, 
+\[
+\frac{r}{h}=\frac{10}{30} \qquad\text{so}\qquad r={h/3}.
+\]  
+In particular, we see that when $h = 4$, $r=4/3$ and 
+\[
+\dd[r]{t} = \frac{1}{3}\cdot \dd[h]{t}.
+\]
+Now we can \textbf{evaluate the equation at the desired
+  values}. Starting with Equation~\ref{equation:cone/water}, we plug
+in $\dd[V]{t} = 10$, $r = 4/3$, $\dd[r]{t} = \frac{1}{3}\cdot \dd[h]{t}$
+and $h=4$. Write
+\begin{align*}
+10 &= \frac{\pi}{3}\left(2\cdot \frac{4}{3}\cdot 4 \cdot\frac{1}{3}\cdot\dd[h]{t} + \left(\frac{4}{3}\right)^2 \dd[h]{t}\right)\\
+10 &= \frac{\pi}{3}\left(\frac{32}{9}\dd[h]{t} + \frac{16}{9} \dd[h]{t}\right)\\
+10 &= \frac{16\pi}{9}\dd[h]{t}\\
+\frac{90}{16\pi} &= \dd[h]{t}.
+\end{align*}
+Thus, $\dd[h]{t}=\frac{90}{16\pi}$ cm/sec.
+\end{solution}
+
+\begin{example}
+A swing consists of a board at the end of a $10$ ft long rope.  Think
+of the board as a point $P$ at the end of the rope, and let $Q$ be the
+point of attachment at the other end.  Suppose that the swing is
+directly below $Q$ at time $t=0$, and is being pushed by someone who
+walks at 6 ft/sec from left to right.  What is the angular speed of
+the rope in deg/sec after 1 sec?
+\end{example}
+
+\begin{solution}
+To start, \textbf{draw a picture}.
+
+\begin{tikzpicture}[scale=1.3]
+\draw[penColor!50!background, very thick] (0,3) -- (0,-1);
+\draw[penColor, very thick] (0,3) -- (2.12,-.12);
+\draw [penColor!50!background, very thick] (-2.12,-.12) arc [radius=3, start angle=225, end angle= 315];
+\draw [penColor2, very thick] (0,2.3) arc [radius=.7, start angle=270, end angle= 305];
+\draw[->, penColor, very thick] (0,-.12) -- (2,-.12);
+
+\node[penColor] at (2.12,-.12) {\scalebox{3} \Ladiesroom};
+\node[penColor,right] at (2.3,-.12) {$P$};
+\node[penColor,right,above] at (0,3) {$Q$};
+\node[penColor,right] at (1.06,1.5) {$10$ ft};
+\node[penColor,above] at (1,-.12) {$\dd[x]{t} = 6$ ft/sec};
+\node[penColor2,right,above] at (.3,2) {$\theta$};
+\end{tikzpicture}
+
+Now we must \textbf{find an equation}. From the right triangle in our
+picture, we see
+\[
+\sin(\theta)=x/10.
+\]
+We can now \textbf{differentiate the equation}. Taking derivatives we obtain 
+\[
+\cos(\theta)\cdot \theta'(t)=0.1 x'(t).
+\]
+Now we can \textbf{evaluate the equation at the desired values}.  When
+$t=1$ sec, the person was pushed by someone who walks $6$
+ft/sec. Hence we have a $6-8-10$ right triangle, with $x'(t) = 6$, and
+$\cos\theta=8/10$. Thus
+\[
+(8/10) \theta'(t) =6/10,
+\]
+and so  $\theta'(t)=6/8=3/4$ rad/sec, or approximately $43$ deg/sec.
+\end{solution} 
+
+
+
+We have seen that sometimes there are apparently more than two
+variables that change with time, but as long as you know the rates of
+change of all but one of them you can find the rate of change of the
+remaining one.  As in the case when there are just two variables, take
+the derivative of both sides of the equation relating all of the
+variables, and then substitute all of the known values and solve for
+the unknown rate.
+
+
+
+\begin{example}
+A road running north to south crosses a road going east to west at the
+point $P$.  Cyclist $A$ is riding north along the first road, and cyclist $B$ is
+riding east along the second road.  At a particular time, cyclist $A$ is $3$
+kilometers to the north of $P$ and traveling at $20$ km/hr, while cyclist
+$B$ is $4$ kilometers to the east of $P$ and traveling at $15$ km/hr.
+How fast is the distance between the two cyclists changing?
+\end{example}
+
+\begin{solution}
+We start the same way we always do, we \textbf{draw a picture}.
+
+\begin{tikzpicture}
+\draw[->,penColor!50!background, very thick] (-1,0) -- (4,0);
+\draw[->,penColor!50!background, very thick] (0,-1) -- (0,4);
+\draw[->,penColor, very thick] (0,3) -- (0,4);
+\draw[->,penColor, very thick] (3,0) -- (4,0);
+\draw [penColor, fill] (0,0) circle [radius=.07];
+\draw [penColor, fill] (3,0) circle [radius=.07];
+\draw [penColor, fill] (0,3) circle [radius=.07];
+\draw[dashed,penColor2, very thick] (3,0) -- (0,3);
+
+\node[penColor,rotate=90,right] at (.5,3) {\scalebox{-2} \Bicycle};
+\node[penColor,right] at (0,.2) {$P$};
+\node[penColor,left] at (-.3,3) {$a'(t) = 20$ km/hr};
+\node[penColor,left] at (0,1.5) {$3$ km};
+\node[penColor,below] at (1.5,0) {$4$ km};
+\node[penColor,below] at (4,0) {$b'(t)= 15$ km/hr};
+\node[penColor2,above] at (1.6,1.6) {$c(t)$};
+\node[penColor,right,above] at (3.5,0) {\scalebox{-2}[2] \Bicycle};
+\end{tikzpicture}
+
+Here $a(t)$ is the distance of cyclist $A$ north of $P$ at time $t$,
+and $b(t)$ the distance of cyclist $B$ east of $P$ at time $t$, and
+$c(t)$ is the distance from cyclist $A$ to cyclist $B$ at time $t$.
+
+We must \textbf{find an equation}.  By the Pythagorean Theorem,
+\[
+c(t)^2=a(t)^2+b(t)^2.
+\] 
+Now we can \textbf{differentiate the equation}. Taking derivatives we get 
+\[
+2c(t)c'(t)=2a(t)a'(t)+2b(t)b'(t).
+\]
+Now we can  \textbf{evaluate the equation at the desired values}.
+We know that $a(t) = 3$, $a'(t) = 20$, $b(t) = 4$ and $b'(t) = 15$. Hence 
+by the Pythagorean Theorem, $c(t) = 5$. So 
+\[
+2\cdot 5 \cdot c'(t) = 2 \cdot 3\cdot 20 + 2 \cdot 4 \cdot 15
+\]
+solving for $c'(t)$ we find $c'(t) = 24$ km/hr.
+\end{solution}
+
+
+
+\begin{exercises}
+
+\begin{exercise}
+A cylindrical tank standing upright (with one circular base on the
+ground) has radius 20 cm.  How fast does the water level in the
+tank drop when the water is being drained at 25 cm${}^3$/sec?
+\begin{answer} $1/(16\pi)$ cm/s
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A cylindrical tank standing upright (with one circular base on the
+ground) has radius 1 meter.  How fast does the water level in the
+tank drop when the water is being drained at 3 liters per second?
+\begin{answer} $3/(1000\pi)$ meters/second
+\end{answer}\end{exercise}
+
+\begin{exercise} A ladder 13 meters long rests on horizontal ground and leans
+against a vertical wall.  The foot of the ladder is pulled away from
+the wall at the rate of 0.6 m/sec.  How fast is the top sliding down
+the wall when the foot of the ladder is 5 m from the wall?
+\begin{answer} $1/4$ m/s
+\end{answer}\end{exercise}
+
+\begin{exercise} A ladder 13 meters long rests on horizontal ground and leans
+against a vertical wall. The top of the ladder is being pulled up the
+wall at $0.1$ meters per second.
+How fast is the foot of the ladder approaching 
+the wall when the foot of the ladder is 5 m from the wall?
+\begin{answer} $6/25$ m/s
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A rotating beacon is located 2 miles out in the water.  Let $A$ be the
+point on the shore that is closest to the beacon.  As the beacon rotates at
+10 rev/min, the beam of light sweeps down the shore once each time it revolves.
+Assume that the shore is straight.  How fast is the point where the beam
+hits the shore moving at an instant when the beam is lighting up a point 2
+miles along the shore from the point $A$?
+\begin{answer} $80\pi$ mi/min
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A baseball diamond is a square 90 ft on a side.  A player runs from first
+base to second base at 15 ft/sec.  At what rate is the player's distance
+from third base decreasing when she is half way from first to second base?
+\begin{answer} $3\sqrt5$ ft/s
+\end{answer}\end{exercise}
+
+\begin{exercise} Sand is poured onto a surface at 15 cm${}^3$/sec, forming a
+conical pile whose base diameter is always equal to its altitude.  How
+fast is the altitude of the pile increasing when the pile is 3 cm
+high?
+\begin{answer} $20/(3\pi)$ cm/s
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A boat is pulled in to a dock by a rope with one end attached to the front
+of the boat and the other end passing through a ring attached to the dock
+at a point 5 ft higher than the front of the boat.  The rope is being
+pulled through the ring at the rate of 0.6 ft/sec.  How fast is the boat
+approaching the dock when 13 ft of rope are out?
+\begin{answer} $13/20$ ft/s
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A balloon is at a height of 50 meters, and is rising at the constant rate
+of 5 m/sec.  A bicyclist passes beneath it, traveling in a
+straight line at the constant speed of 10 m/sec.  How fast is the distance
+between the bicyclist and the balloon increasing 2 seconds later?
+\begin{answer} $5\sqrt{10}/2$ m/s
+\end{answer}\end{exercise}
+
+\begin{exercise} A pyramid-shaped vat has square cross-section and stands on its
+tip.  The dimensions at the top are 2 m $\times$ 2 m, and the depth is
+5 m.  If water is flowing into the vat at 3 m${}^3$/min, how fast is
+the water level rising when the depth of water (at the deepest point)
+is 4 m?  Note: the volume of any ``conical'' shape (including
+pyramids) is $(1/3)(\hbox{height})(\hbox{area of base})$.
+\begin{answer} $75/64$ m/min
+\end{answer}\end{exercise}
+
+%% \begin{exercise}
+%% The sun is rising at the rate of $1/4$ deg/min, and appears to be
+%% climbing into the sky perpendicular to the
+%% horizon, as depicted in figure~\xrefn{fig:sunrise sunset}.
+%% How fast is the shadow of a 200 meter building
+%% shrinking at the moment when the shadow is 500 meters long? 
+%% \begin{answer} $145\pi/72$ m/s
+%% \end{answer}\end{exercise}
+
+%% \begin{exercise} The sun is setting at the rate of $1/4$ deg/min, and appears
+%% to be dropping perpendicular to the horizon, as depicted in
+%% figure~\xrefn{fig:sunrise sunset}. How fast is the shadow of a 25
+%% meter wall lengthening at the moment when the shadow is 50 meters long?
+%% \begin{answer} $25\pi/144$ m/min
+%% \end{answer}\end{exercise}
+
+%% %% BADBAD
+%% %% \font\miscsymbols miscsymbols10 scaled 2000
+%% %% %\begin{psfigure}{2.45in}{1.25in}{124.figME.ps}
+%% %% \figure
+%% %% \vbox{\beginpicture
+%% %% \normalgraphs
+%% %% \sevenpoint
+%% %% \setcoordinatesystem units <0.3truecm,0.3truecm>
+%% %% \setplotarea x from -10 to 10, y from 0 to 8
+%% %% \axis bottom shiftedto y=0 /
+%% %% \setdashes\setlinear
+%% %% \plot 5 0 -8 8 /
+%% %% \setsolid
+%% %% \setplotsymbol ({\tenrm.}) 
+%% %% \plot 0 0 0 3 /
+%% %% \put {\miscsymbols k} at -9 8.6
+%% %% \endpicture}
+%% %% \figrdef{fig:sunrise sunset}
+%% %% \endfigure{Sunrise or sunset.}
+
+
+
+%% \begin{exercise}
+%% The trough shown in figure~\xrefn{fig:trough}
+%% is constructed by fastening together three
+%% slabs of wood of dimensions 10 ft $\times$ 1 ft, and then attaching the
+%% construction to a wooden wall at each end.  The angle $\theta$ was
+%% originally $30^\circ$, but because of poor construction the sides are
+%% collapsing.  The trough is full of water.  At what rate (in ft${}^3$/sec) 
+%% is 
+%% the water spilling out over the top of
+%% the trough if the sides have each fallen to an angle of $45^\circ$, and are
+%% collapsing at the rate of $1^\circ$ per second?
+%% \begin{answer} $\pi\sqrt2/36$ ft$^3$/s
+%% \end{answer}\end{exercise}
+
+%% %%BADBAD
+%% %\begin{psfigure}{2.5in}{1.5in}{124.figMF.ps}
+%% %% \figure
+%% %% \vbox{\beginpicture
+%% %% \normalgraphs
+%% %% \sevenpoint
+%% %% \setcoordinatesystem units <0.9truecm,0.9truecm>
+%% %% \setplotarea x from -1 to 12, y from 0 to 4
+%% %% \setlinear
+%% %% \plot -0.5 0.866 0 0 1 0 1.5 0.866 -0.5 0.866 /
+%% %% \plot 1 0 10.4 3.42 10.9 4.29 8.9 4.29 -0.5 0.866 /
+%% %% \plot 10.9 4.29 1.5 0.866 /
+%% %% \put {$\theta$} [b] <0pt,3pt> at -0.15 0.3
+%% %% \put {$\theta$} [b] <0pt,3pt> at 1.15 0.3
+%% %% \put {$1$} [t] <0pt,-4pt> at 0.5 0
+%% %% \put {$1$} [tr] <-2pt,-2pt> at -0.25 0.433
+%% %% \put {$1$} [tl] <2pt,-2pt> at 10.65 3.853
+%% %% \put {$10$} [tl] <2pt,-2pt> at 5.7 1.71
+%% %% \circulararc 30 degrees from 0 0.3 center at 0 0
+%% %% \circulararc -30 degrees from 1 0.3 center at 1 0
+%% %% \setdashes <2pt>
+%% %% \plot 0 0 9.4 3.42 10.4 3.42 / 
+%% %% \plot 9.4 3.42 8.9 4.29 / 
+%% %% \plot 0 0 0 0.866 /
+%% %% \plot 1 0 1 0.866 /
+%% %% \endpicture}
+%% %% \figrdef{fig:trough}
+%% %% \endfigure{Trough.}
+
+\begin{exercise}
+A woman 5 ft tall walks at the rate of 3.5 ft/sec away from a streetlight
+that is 12 ft above the ground.  At what rate is the tip of her shadow
+moving?  At what rate is her shadow lengthening?
+\begin{answer} tip: 6 ft/s, length: $5/2$ ft/s
+\end{answer}\end{exercise}
+
+\begin{exercise} A man 1.8 meters tall walks at the rate of 1 meter per
+second toward a streetlight that is 4 meters above the ground.  At
+what rate is the tip of his shadow moving?  At what rate is his shadow
+shortening?
+\begin{answer} tip: $20/11$ m/s, length: $9/11$ m/s
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A police helicopter is flying at 150 mph at a constant altitude of 0.5 mile
+above a straight road.  The pilot uses radar to determine that an oncoming
+car is at a distance of exactly 1 mile from the helicopter, and that this
+distance is decreasing at 190 mph.  Find the speed of the car.
+\begin{answer} $380/\sqrt3-150\approx 69.4$ mph
+\end{answer}\end{exercise}
+
+\begin{exercise} A police helicopter is flying at 200 kilometers per hour at
+a constant altitude of 1 km above a straight road.  The pilot uses
+radar to determine that an oncoming car is at a distance of exactly 2
+kilometers from the helicopter, and that this distance is decreasing at 250
+kph.  Find the speed of the car.
+\begin{answer} $500/\sqrt3-200\approx 88.7$ km/hr
+\end{answer}\end{exercise}
+
+%% %BADBAD
+%% %\font\miscsymbols miscsymbols10 scaled 2000
+%% \begin{exercise}
+%% A light shines from the top of a pole 20 m high. A ball is falling 10
+%% meters from the pole, casting a shadow on a building 30 meters away,
+%% as shown in figure~\xrefn{fig:falling ball}.
+%% When the ball is 25 meters from the ground it is falling at 6 meters
+%% per second. How fast is its shadow moving?
+%% \begin{answer} 18 m/s
+%% \end{answer}\end{exercise}
+
+%% %% BADBAD
+%% %% \figure
+%% %% \vbox{\beginpicture
+%% %% \normalgraphs
+%% %% \ninepoint
+%% %% \setcoordinatesystem units <.7truecm,.7truecm>
+%% %% \setplotarea x from 0 to 4.5, y from 0 to 4
+%% %% \axis bottom /
+%% %% \setlinear
+%% %% \linethickness1pt
+%% %% \putrule from 0 0 to 0 2
+%% %% \put {$\bullet$} at 1 2.5
+%% %% \put {\miscsymbols k} at 0.05 2
+%% %% \putrule from 3 0 to 3 4
+%% %% \putrule from 3 4 to 4.5 4
+%% %% \setdashes <2pt>
+%% %% \plot 0 2 3 3.5 /
+%% %% \endpicture}
+%% %% \figrdef{fig:falling ball}
+%% %% \endfigure{Falling ball.}
+
+\begin{exercise} 
+A road running in a northwest direction crosses a road going east to
+west at a $120^\circ$ at a point $P$. Car $A$ is driving northwesterly
+along the first road, and car $B$ is driving east along the second
+road. At a particular time car $A$ is $10$ kilometers to the northwest
+of P and traveling at $80$ km/hr, while car $B$ is $15$ kilometers to
+the east of $P$ and traveling at $100$ km/hr. How fast is the distance
+between the two cars changing? Hint, recall the law of cosines:
+$c^2=a^2+b^2-2ab\cos\theta$.
+\begin{answer} $136\sqrt{475}/19\approx 156$ km/hr
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A road running north to south crosses a road going east to west at the
+point $P$. Car A is 300 meters north of $P$, car B is 400 meters east
+of $P$, both cars are going at constant speed toward $P$, and the two
+cars will collide in 10 seconds. How fast is the distance between the
+two cars changing?
+\begin{answer} $-50$ m/s
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A road running north to south crosses a road going east to west at the
+point $P$. Eight seconds ago car $A$ started from rest at $P$ and has
+been driving north, picking up speed at the steady rate of $5$
+m/sec${}^2$. Six seconds after car $A$ started, car $B$ passed $P$
+moving east at constant speed 60 m/sec. How fast is the distance
+between the two cars changing?
+\begin{answer} $68$ m/s
+\end{answer}\end{exercise}
+
+\begin{exercise} 
+Suppose a car is driving north along a road at $80$ km/hr and an
+airplane is flying east at speed $200$ km/hr. Their paths crossed at a
+point $P$. At a certain time, the car is 10 kilometers north of $P$
+and the airplane is 15 kilometers to the east of $P$ at an altitude of
+2 km. How fast is the distance between car and airplane changing?
+\begin{answer} $3800/\sqrt{329}\approx 210$ km/hr 
+\end{answer}\end{exercise}
+
+%%BADBAD
+%% \figure
+%% \vbox{\beginpicture
+%% \normalgraphs
+%% \sevenpoint
+%% \setcoordinatesystem units <0.3truecm,0.3truecm>
+%% \setplotarea x from 0 to 8, y from -2 to 10
+%% \setlinear
+%% \plot 6 3 0 0 8 -2 /
+%% \setdashes <2pt>
+%% \plot 2.5 1.25 5 8.75 /
+%% \plot 5 -1.25 5 8.75 /
+%% \multiput {$\bullet$} at 2.5 1.25 5 8.75 /
+%% \put {$A$} [br] <-2pt,2pt> at 2.5 1.25
+%% \put {$B$} [b] <0pt,3pt> at 5 8.75
+%% \put {$c(t)$} [br] <-2pt,2pt> at 3.75 5
+%% \setplotsymbol ({\tenrm.}) 
+%% \setsolid
+%% \arrow <5pt> [.25, 1] from 2.5 1.25 to 4 2
+%% \arrow <5pt> [.25, 1] from 5 8.75 to 7 8.25
+%% \endpicture}
+%% \figrdef{fig:car and airplane}
+%% \endfigure{Car and airplane.}
+
+
+
+\begin{exercise} 
+Suppose a car is driving north along a road at $80$ km/hr and an
+airplane is flying east at speed $200$ km/hr. Their paths crossed at a
+point $P$. At a certain time, the car is 10 kilometers north of $P$
+and the airplane is 15 kilometers to the east of $P$ at an altitude of
+2 km---gaining altitude at 10 km/hr. How fast is the distance between
+car and airplane changing?
+\begin{answer} \hbox{$820/\sqrt{329}+150\sqrt{57}/\sqrt{47}\approx 210$ km/hr}
+\end{answer}\end{exercise}
+
+\begin{exercise}
+A light shines from the top of a pole 20 m high.  An object is dropped from
+the same height from a point 10 m away, so that its height at time $t$
+seconds is $h(t)=20-9.8t^2/2$.  How fast is the object's shadow
+moving on the ground one second later?
+\begin{answer} $4000/49$ m/s
+\end{answer}\end{exercise}
+
+%% \begin{exercise}
+%% The two blades of a pair of scissors are fastened at the point $A$ as
+%% shown in figure~\xrefn{fig:scissors}.  Let
+%% $a$ denote the distance from $A$ to the tip of the blade (the point $B$).
+%% Let $\beta$ denote the angle at the tip of the blade that is formed by the
+%% line $\overline{AB}$ and the bottom edge of the blade, line
+%% $\overline{BC}$, and let $\theta$ denote the angle between
+%% $\overline{AB}$ and the horizontal.
+%% Suppose that a piece of paper is cut in such a way that the center
+%% of the scissors at $A$ is fixed, and the paper is also fixed.  As the
+%% blades are closed (i.e., the angle $\theta$ in the diagram is decreased),
+%% the distance $x$ between $A$ and $C$ increases, cutting the paper.
+%% \begin{enumerate}
+%% \item{\bf a.} Express $x$ in terms of $a$, $\theta$, and $\beta$.
+
+%% \item{\bf b.} Express $dx/dt$ in terms of $a$,
+%% $\theta$, $\beta$, and $d\theta/dt$.
+
+%% \item{\bf c.} Suppose that the distance $a$ is 20 cm, and the
+%% angle $\beta$ is $5^\circ$.  Further suppose that $\theta$ is
+%% decreasing at 50
+%% deg/sec.  At the instant when $\theta=30^\circ$, find the rate (in
+%% cm/sec) at which the paper is being cut.
+%% \end{enumerate}
+%% \begin{answer} (a) $x=a\cos\theta-a\sin\theta\cot(\theta+\beta)=
+%% \hbox{$a\sin\beta/\sin(\theta+\beta$), (c) $\dot x\approx 3.79$ cm/s}$
+%% \end{answer}\end{exercise}
+
+
+%%BADBAD
+%% \figure
+%% \vbox{\beginpicture
+%% \normalgraphs
+%% \sevenpoint
+%% \setcoordinatesystem units <0.7truecm,0.7truecm>
+%% \setplotarea x from -3 to 6, y from -3.5 to 3.5
+%% \setlinear
+%% \plot 0.3 0 6 3.5 2 0 0.3 0 /
+%% \setdashes <2pt>
+%% \put {\beginpicture
+%% \setplotarea x from -1 to 1, y from -0.33 to 0.33
+%% \startrotation by 0.866 -0.5 about 0 0
+%% \ellipticalarc  axes ratio 3:1  360 degrees from 1 0 center at 0 0
+%% \stoprotation\endpicture} at -1 1
+%% \put {\beginpicture
+%% \setplotarea x from -1 to 1, y from -0.33 to 0.33
+%% \startrotation by 0.866 0.5 about 0 0
+%% \ellipticalarc  axes ratio 3:1  360 degrees from 1 0 center at 0 0
+%% \stoprotation\endpicture} at -1 -1
+%% \put {\beginpicture
+%% \setplotarea x from -1 to 1, y from -0.33 to 0.33
+%% \startrotation by 0.866 0.5 about 0 0
+%% \ellipticalarc  axes ratio 3:1  245 degrees from 1 0.58 center at 0 0
+%% \stoprotation\endpicture} at -1 -1
+%% \put {\beginpicture
+%% \setplotarea x from -1 to 1, y from -0.33 to 0.33
+%% \startrotation by 0.866 -0.5 about 0 0
+%% \ellipticalarc  axes ratio 3:1  -245 degrees from 1 -0.58 center at 0 0
+%% \stoprotation\endpicture} at -1 1
+%% %\multiput {$+$} at 0 0 0.27 0.9 -1 -1 /
+%% \setquadratic
+%% \plot 0.27 0.9 3 2.5 6 3.5 /
+%% \plot 0.27 -0.9 3 -2.5 6 -3.5 /
+%% \setlinear
+%% \plot 0.3 0 6 -3.5 2 0 /
+%% \plot 6 -3.5 6 3.5 /
+%% \plot 2 0 6 0 /
+%% \put {$B$} [l] <4pt,0pt> at 6 3.5
+%% \put {$A$} [r] <-3pt,0pt> at 0.3 0
+%% \put {$C$} [br] <0pt,3pt> at 2 0
+%% \put {$\theta$} at 1 0.2
+%% \endpicture}
+%% \figrdef{fig:scissors}
+%% \endfigure{Scissors.}
+
+%\epsfbox{124.figMG.ps}
+
+\end{exercises}
+
+
+
+
+
+
+
+
+

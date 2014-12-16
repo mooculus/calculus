@@ -1,0 +1,812 @@
+\chapter{Functions}
+
+\section{For Each Input, Exactly One Output}
+
+Life is complex. Part of this complexity stems from the fact that
+there are many relations between seemingly independent events. Armed
+with mathematics we seek to understand the world, and hence we need
+tools for talking about these relations.
+
+\marginnote{Something as simple as a dictionary could be thought of as
+  a relation, as it connects \textit{words} to
+  \textit{definitions}. However, a dictionary is not a function, as
+  there are words with multiple definitions. On the other hand, if
+  each word only had a single definition, then it would be a
+  function.}
+
+A \textit{function} is a relation between sets of objects that can be
+thought of as a ``mathematical machine.'' This means for each input,
+there is exactly one output. Let's say this explicitly.
+
+\begin{definition}\index{function}
+A \textbf{function} is a relation between sets, where for each input,
+there is exactly one output.
+\end{definition}
+
+Moreover, whenever we talk about functions, we should try to
+explicitly state what type of things the inputs are and what type of
+things the outputs are.  In calculus, functions often define a
+relation from (a subset of) the real numbers to (a subset of) the real
+numbers.
+
+
+\marginnote[.5in]{While the name of the function is technically ``$f$,'' we
+  will abuse notation and call the function ``$f(x)$'' to remind the
+  reader that it is a function.}
+\begin{example}
+Consider the function $f$ that maps from the real numbers to the real
+numbers by taking a number and mapping it to its cube:
+\begin{align*}
+1 &\mapsto 1\\
+-2 &\mapsto -8\\
+1.5 &\mapsto 3.375
+\end{align*}
+and so on. This function can be described by the formula $f(x)=x^3$ or
+by the plot shown in Figure~\ref{plot:fxn x^3}.
+\end{example}
+
+\begin{warning}
+A function is a relation (such that for each input, there is exactly one
+output) between sets and should not be confused with either its
+formula or its plot.
+\begin{itemize}
+\item A formula merely describes the mapping using algebra.
+\item A plot merely describes the mapping using pictures. 
+\end{itemize}
+\end{warning}
+
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:2,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {x^3};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=x^3$. Here we can see that for each input (a
+  value on the $x$-axis), there is exactly one output (a value on the
+  $y$-axis).}
+\label{plot:fxn x^3}
+\end{marginfigure}
+
+
+
+\begin{example}
+Consider the \textit{greatest integer function}, denoted by
+\[
+f(x) = \lfloor x \rfloor.
+\]
+This is the function that maps any real number $x$ to the greatest
+integer less than or equal to $x$. See Figure~\ref{plot:greatest-integer fxn} for a plot of
+this function. Some might be confused because here we have multiple
+inputs that give the same output. However, this is not a problem. To
+be a function, we merely need to check that for each input, there is exactly
+one output, and this is satisfied.
+\end{example}
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            %axis on top,
+          ]
+          \addplot [textColor, very thin, domain=(0:2.3)] {0}; % puts the axis back, axis on top clobbers our open holes
+          \addplot [textColor, very thin] plot coordinates {(0,0) (0,2)}; % puts the axis back, axis on top clobbers our open holes
+	  \addplot [very thick, penColor, domain=(-2:-1)] {-2};
+          \addplot [very thick, penColor, domain=(-1:0)] {-1};
+          \addplot [very thick, penColor, domain=(0:1)] {0};
+          \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot [very thick, penColor, domain=(3:4)] {3};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,-2)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole                  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-1,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4,3)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\lfloor x\rfloor$. Here we can see that for each input (a
+  value on the $x$-axis), there is exactly one output (a value on the
+  $y$-axis).}
+\label{plot:greatest-integer fxn}
+\end{marginfigure}
+
+
+Just to remind you, a function maps from one set to another. We call
+the set a function is mapping from the \textbf{domain}\index{domain}
+or \textit{source} and we call the set a function is mapping to the
+\textbf{range}\index{range} or \textit{target}.  In our previous
+examples the domain and range have both been the real numbers, denoted
+by $\R$. In our next examples we show that this is not always the
+case.
+
+
+\begin{example}
+Consider the function that maps non-negative real numbers to their positive square root. This function is denoted by 
+\[
+f(x) = \sqrt{x}.
+\]
+Note, since this is a function, and its range consists of the non-negative real numbers, we have that 
+\[
+\sqrt{x^2} = |x|.
+\]
+See Figure~\ref{plot:sqrt fxn} for a plot of $f(x) = \sqrt{x}$.
+\end{example}
+
+Finally, we will consider a function whose domain is all real numbers
+except for a single point.
+
+\begin{example}
+Consider the function defined by 
+\[
+f(x) = \frac{x^2 - 3x + 2}{x-2}
+\]
+This function may seem innocent enough; however, it is undefined at
+$x=2$. See Figure~\ref{plot:point undfed fxn} for a plot of this function.
+\end{example}
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-8,xmax=8,
+            ymin=-5,ymax=5,
+            domain=0:8,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth,samples=100] {sqrt(x)};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\sqrt{x}$. Here we can see that for each
+  input (a non-negative value on the $x$-axis), there is exactly one
+  output (a positive value on the $y$-axis).}
+\label{plot:sqrt fxn}
+\end{marginfigure}
+
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {x-1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\protect\frac{x^2 - 3x + 2}{x-2}$. Here we
+  can see that for each input (any value on the $x$-axis except for
+  $x=2$), there is exactly one output (a value on the $y$-axis).}
+\label{plot:point undfed fxn}
+\end{marginfigure}
+
+
+\begin{exercises}
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-5:5,
+            ymin=-2,
+            ymax=4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            grid=both,
+            grid style={dashed, gridColor},
+            xtick={-4,...,4},
+            ytick={-1,...,4},
+          ]
+	  \addplot [very thick, penColor,domain=2:5] {abs(x-2)};
+          \addplot [very thick, penColor,domain=-5:2] {abs(x-2)};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $y=f(x)$.}
+\label{plot:absforexer}
+\end{marginfigure}
+
+\begin{exercise} 
+In Figure~\ref{plot:absforexer} we see a plot of $y=f(x)$. What is $f(4)$?    %% insert picture of f(x) = abs(x-2) on [-5, 5].
+\begin{answer}
+$2$
+\end{answer}
+\end{exercise}
+
+
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            ymin=-4,
+            ymax=4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            grid=both,
+            grid style={dashed, gridColor},
+            xtick={-4,...,4},
+            ytick={-4,...,4},
+          ]
+	  \addplot [very thick, penColor,smooth,domain=-3:5] {(x-1)/(x+3)};
+          \addplot [very thick, penColor,smooth,domain=-5:-4.5] {(x-1)/(x+3)};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $y=f(x)$.}
+\label{plot:rtnlforexer}
+\end{marginfigure}
+\begin{exercise} 
+In Figure~\ref{plot:rtnlforexer} we see a plot of $y=f(x)$. What is $f(-2)$?  %% insert picture of f(x) = (x-1)/(x+3) on [-5, 5].
+\begin{answer}
+$-3$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} Consider the following points:
+\[
+(5,8),\qquad (3,6), \qquad(-6,-9), \qquad(-1,-4), \qquad(-10,7)
+\]
+Could these points all be on the graph of a function $y =f(x)$?
+\begin{answer}
+Yes.  Every input has exactly one output.
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} Consider the following points:
+\[
+(7,-4),\qquad (0,3), \qquad(-2,-2), \qquad(-1,-8), \qquad(10,4)
+\]
+Could these points all be on the graph of a function $y =f(x)$?
+\begin{answer}
+Yes.  Every input has exactly one output.
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} Consider the following points that lie on the graph of $y =f(x)$:
+\[
+(-5,8),\qquad (5,-1), \qquad(-4,0), \qquad(2,-9), \qquad(4,10)
+\]
+If $f(x)=-9$ find the value of $x$.
+\begin{answer}
+$x=2$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} A student thinks the set of points does not define a function:
+\[
+(-7,-4),\qquad (10,-4), \qquad(0,-4), \qquad(3,-4)
+\]
+They argue that the output $-4$ has four different inputs.  Are they
+correct?
+\begin{answer}
+No.  These points define a function as every input has a unique output.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Consider the following points:
+\[
+(-1,5),\qquad (-3,4), \qquad(x,3), \qquad(5,-3), \qquad(8,5)
+\]
+Name a value of $x$ so that these points do not define a function. 
+\begin{answer}
+If $x$ were one of $-1$, $-3$, $5$, or $8$.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) = 18x^5-27x^4-32x^3+11x^2 -7x +4$. Evaluate $f(0)$.
+\begin{answer}
+$4$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) = x^5+2x^4+3x^3+4x^2+5x+6$. Evaluate $f(1)$.
+\begin{answer}
+$21$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) = x^5+2x^4+3x^3+4x^2+5x+6$. Evaluate $f(-1)$.
+\begin{answer}
+$3$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) =\sqrt{x^2+x+1}$. Evaluate $f(w)$.
+\begin{answer}
+$\sqrt{w^2+w+1}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) =\sqrt{x^2+x+1}$. Evaluate $f(x+h)$.
+\begin{answer}
+$\sqrt{(x+h)^2+(x+h)+1}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) = \sqrt{x^2+x+1}$. Evaluate $f(x+h) - f(x)$.
+\begin{answer}
+$\sqrt{(x+h)^2+(x+h)+1} - \sqrt{x^2+x+1}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) = x+1$. What is $f(f(f(f(1))))$?
+\begin{answer}
+$5$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} Let $f(x) = x+1$. What is $f(f(f(f(x+h))))$?
+\begin{answer}
+$4+x+h$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+If $f(8) = 8$ and $g(x)=3\cdot f(x)$, what point must satisfy $y=g(x)$?
+\begin{answer}
+$x=8$, $y=24$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+If $f(7) = 6$ and $g(x)=f(8\cdot x)$, what point must satisfy $y=g(x)$?
+\begin{answer}
+$x=7/8$, $y=6$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+If $f(-1) = -7$ and $f(x)=g(-6\cdot x)$, what point must satisfy
+$y=g(x)$?
+\begin{answer}
+$x=6$, $y=-7$
+\end{answer}
+\end{exercise}
+
+\end{exercises}
+
+
+
+
+
+
+
+
+\section{Inverses of Functions}
+
+
+If a function maps every input to exactly one output, an inverse of that
+function maps every ``output'' to exactly one ``input.'' While this
+might sound somewhat esoteric, let's see if we can ground this in
+some real-life contexts.
+
+\begin{example}
+Suppose that you are filling a swimming pool using a garden
+hose---though because it rained last night, the pool starts with some
+water in it. The volume of water in gallons after $t$ hours of
+filling the pool is given by:
+\[
+v(t) = 700t + 200
+\]
+What does the inverse of this function tell you? What is the inverse
+of this function?
+\end{example}
+
+
+\marginnote[.5in]{Here we abuse notation slightly, allowing $v$ and $t$
+  to simultaneously be names of variables and functions.  This is
+  standard practice in calculus classes.}
+\begin{solution}
+While $v(t)$ tells you how many gallons of water are in the pool after
+a period of time, the inverse of $v(t)$ tells you how much time must
+be spent to obtain a given volume. To compute the inverse function,
+first set $v=v(t)$ and write
+\[
+v = 700t + 200.
+\]
+Now solve for $t$:
+\[
+t = v/700 - 2/7
+\]
+This is a function that maps volumes to times, and 
+$t(v) = v/700-2/7$.
+\end{solution}
+
+
+Now let's consider a different example.
+
+\begin{example}\label{E:example-ball-bridge}
+Suppose you are standing on a bridge that is 60 meters above
+sea-level. You toss a ball up into the air with an initial velocity of
+30 meters per second.  If $t$ is the time (in seconds) after we toss
+the ball, then the height at time $t$ is approximately $h(t) = -5 t^2
++30t+60$. What does the inverse of this function tell you? What is the inverse
+of this function?
+\end{example}
+
+
+\begin{solution}
+While $h(t)$ tells you how the height the ball is above sea-level at an
+instant of time, the inverse of $h(t)$ tells you what time it is when
+the ball is at a given height. There is only one problem: There is no
+function that is the inverse of $h(t)$. Consider Figure~\ref{plot:fxn
+  ball}, we can see that for some heights---namely 60 meters, there
+are two times. 
+
+While there is no inverse function for $h(t)$, we can find one if we
+\textit{restrict the domain} of $h(t)$. Take it as given that the
+maximum of $h(t)$ is at $105$ meters and $t=3$ seconds, later on in
+this course you'll know how to find points like this with ease. In
+this case, we may find an inverse of $h(t)$ on the interval
+$[3,\infty)$. Write
+\begin{align*}
+h &=  -5 t^2 +30t+60\\
+0 &= -5 t^2 +30t+(60 - h)
+\end{align*}
+and solve for $t$ using the quadratic formula
+\begin{align*}
+t &= \frac{-30\pm \sqrt{30^2 -4(-5)(60-h)}}{2(-5)}\\
+&= \frac{-30\pm \sqrt{30^2 +20(60-h)}}{-10}\\
+&=3\mp \sqrt{3^2+ .2(60-h)}\\
+&=3\mp \sqrt{9+ .2(60-h)}\\
+&=3\mp \sqrt{21-.2h}
+\end{align*}
+Now we must think about what it means to restrict the domain of $h(t)$
+to values of $t$ in $[3,\infty)$. Since $h(t)$ has its maximum value
+  of $105$ when $t=3$, the largest $h$ could be is $105$. This means
+  that $21-.2h \ge 0$ and so $\sqrt{21-.2h}$ is a real number. We know
+  something else too, $t>3$. This means that the ``$\mp$'' that we see
+  above must be a ``$+$.''  So the inverse of $h(t)$ on the interval
+  $[3,\infty)$ is $t(h) = 3+ \sqrt{21-.2h}$. A similar argument will
+    show that the inverse of $h(t)$ on the interval $(-\infty, 3]$ is
+  $t(h) = 3- \sqrt{21-.2h}$.
+\end{solution}
+
+\begin{marginfigure}[-7in]
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false, domain=0:7.58, axis lines =middle, xlabel=$t$,
+            ylabel=$h$, every axis y label/.style={at=(current
+              axis.above origin),anchor=south}, every axis x
+            label/.style={at=(current axis.right of
+              origin),anchor=west}, ] \addplot [very thick, penColor,
+            smooth] {-5*x^2 +30*x+60};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $h(t)=-5t^2+30t+60$. Here we can see that for each
+  input (a value on the $t$-axis), there is exactly one output (a
+  value on the $h$-axis). However, for each value on the $h$ axis,
+  sometimes there are two values on the $t$-axis. Hence there is no
+  function that is the inverse of $h(t)$.}
+\label{plot:fxn ball}
+\end{marginfigure}
+
+
+
+\begin{marginfigure}[-2in]
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false, domain=0:7.58, axis lines =middle, xlabel=$t$,
+            ylabel=$h$, every axis y label/.style={at=(current
+              axis.above origin),anchor=south}, every axis x
+            label/.style={at=(current axis.right of
+              origin),anchor=west}, ] 
+          \addplot [very thick, penColor, smooth] {-5*x^2 +30*x+60};
+          \addplot [very thick, penColor2] {80};
+          \addplot [very thick, penColor4] plot coordinates {(5,0) (5,110)};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $h(t)=-5t^2+30t+60$. While this plot passes the
+  vertical line test, and hence represents $h$ as a function of $t$,
+  it does not pass the horizontal line test, so the function is not one-to-one.}
+\label{plot:fxn vert/horiz}
+\end{marginfigure}
+
+
+
+We see two different cases with our examples above. To clearly
+describe the difference we need a definition.
+
+\begin{definition}\index{one-to-one} 
+A function is \textbf{one-to-one} if for every value in the range,
+there is exactly one value in the domain.
+\end{definition}
+
+You may recall that a plot gives $y$ as a function of $x$ if every
+vertical line crosses the plot at most once, this is commonly known as
+the vertical line test. A function is one-to-one if every horizontal
+line crosses the plot at most once, which is commonly known as the
+horizontal line test, see Figure~\ref{plot:fxn vert/horiz}.  We can
+only find an inverse to a function when it is one-to-one, otherwise we
+must restrict the domain as we did in
+Example~\ref{E:example-ball-bridge}.
+
+
+Let's look at several examples.
+
+
+
+\begin{example}
+Consider the function
+\[
+f(x) = x^3.
+\]
+Does $f(x)$ have an inverse? If so what is it? If not, attempt to
+restrict the domain of $f(x)$ and find an inverse on the restricted
+domain.
+\end{example}
+
+
+\begin{solution}
+In this case $f(x)$ is one-to-one and $f^{-1}(x) = \sqrt[3]{x}$. See Figure~\ref{plot:fxn and inverse x^3}.
+\end{solution}
+
+\begin{marginfigure}[-2in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:2,
+            xmin=-2, xmax=2,
+            ymin=-2, ymax=2,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {x^3};
+          \addplot [very thick, penColor2, smooth, samples=100,domain=.01:2] {x^(1/3)};
+          \addplot [very thick, penColor2, smooth, samples=100,domain=-2:-.01] {-abs(x)^(1/3)};
+          \addplot [very thick, penColor2] plot coordinates {(.01,.215) (-.01,-.215)};
+          \addplot [dashed, textColor] {x};
+          \node at (axis cs:-1.2,-.42) [penColor,anchor=west] {$f(x)$};
+          \node at (axis cs:1.2,.9) [penColor2, anchor=west] {$f^{-1}(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=x^3$ and $f^{-1}(x) = \sqrt[3]{x}$. Note
+  $f^{-1}(x)$ is the image of $f(x)$ after being flipped over the line
+  $y=x$.}
+\label{plot:fxn and inverse x^3}
+\end{marginfigure}
+
+
+\begin{example}
+Consider the function
+\[
+f(x) = x^2.
+\]
+Does $f(x)$ have an inverse? If so what is it? If not, attempt to
+restrict the domain of $f(x)$ and find an inverse on the restricted
+domain.
+\end{example}
+
+
+\begin{solution}
+In this case $f(x)$ is not one-to-one. However, it is one-to-one on
+the interval $[0,\infty)$. Hence we can find an inverse of $f(x)=x^2$
+  on this interval, and it is our familiar function $\sqrt{x}$.  See
+  Figure~\ref{plot:fxn and inverse x^2}.
+\end{solution}
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:2,
+            xmin=-2, xmax=2,
+            ymin=-2, ymax=2,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {x^2};
+          \addplot [very thick, penColor2, smooth, samples=100,domain=0:2] {sqrt(x)};
+          \addplot [dashed, textColor] {x};
+          \node at (axis cs:-1.2,.55) [penColor,anchor=west] {$f(x)$};
+          \node at (axis cs:1.4,1) [penColor2, anchor=west] {$f^{-1}(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=x^2$ and $f^{-1}(x) = \sqrt{x}$. While
+  $f(x)=x^2$ is not one-to-one on $\R$, it is one-to-one on
+  $[0,\infty)$.}
+\label{plot:fxn and inverse x^2}
+\end{marginfigure}
+
+
+\subsection{A Word on Notation}
+
+Given a function $f(x)$, we have a way of writing an inverse of $f(x)$, assuming it exists
+\[
+f^{-1}(x) = \text{the inverse of $f(x)$, if it exists.}
+\]
+On the other hand,
+\[
+f(x)^{-1} = \frac{1}{f(x)}.
+\]
+
+\begin{warning}
+It is not usually the case that 
+\[
+f^{-1}(x) = f(x)^{-1}.
+\]
+\end{warning}
+
+This confusing notation is often exacerbated by the fact that 
+\[
+\sin^2(x) = (\sin(x))^2\qquad \text{but} \qquad \sin^{-1}(x)
+\ne(\sin(x))^{-1}.
+\]
+
+In the case of trigonometric functions, this confusion can be avoided
+by using the notation $\arcsin$ and so on for other trigonometric
+functions.
+
+
+
+
+\begin{exercises}
+
+\begin{exercise}
+The length in centimeters of Rapunzel's hair after $t$ months is given
+by
+\[
+\l(t) = \frac{8t}{3}+8.
+\]
+Give the inverse of $\l(t)$.  What does the inverse of $\l(t)$
+ represent?
+\begin{answer}
+$\l^{-1}(t) = \frac{3t}{8} - 3$, this function gives the number of
+  months required to grow hair to a given length.
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+The value of someone's savings account in dollars is given by
+\[
+m(t) = 900t + 300
+\]
+where $t$ is time in months. Give the inverse of $m(t)$.  What does 
+the inverse of $m(t)$ represent?
+\begin{answer}
+$m^{-1}(t) = \frac{t}{900} - \frac{1}{3}$, this function gives the
+  number of months required to acquire a given amount of money.
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+At graduation the students all grabbed their caps and threw them into
+the air.  The height of their caps can be described by 
+\[
+h(t) = -5t^2+10t+2
+\]
+where $h(t)$ is the height in meters and $t$ is in seconds after
+letting go. Given that this $h(t)$ attains a maximum at $(1,7)$, give two
+different inverses on two different restricted domains. What do these
+inverses represent?
+\begin{answer}
+$h^{-1}(t) = 1 \mp \sqrt{1.4-0.2t}$.  Either function gives the time
+  in terms of a height the cap reaches.
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+The number $n$ of bacteria in refrigerated food can be modeled by
+\[
+n(t) =17t^2 - 20t + 700
+\]
+where $t$ is the temperature of the food in degrees Celsius.  Give two
+different inverses on two different restricted domains. What do these
+inverses represent?
+\begin{answer}
+$n^{-1}(t)= \frac{10}{17} \pm \frac{\sqrt{68t-47200}}{34}$, where
+  either function describes the temperature it takes to reach a
+  certain number of bacteria.
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+The height in meters of a person off the ground as they ride a 
+Ferris Wheel can be modeled by
+\[
+h(t) = 18\cdot \sin( \frac{\pi \cdot t}{7} ) + 20
+\]
+where $t$ is time elapsed in seconds.  If $h$ is restricted to the
+domain $[3.5, 10.5]$, find and interpret the meaning of $h^{-1}(20)$.
+\begin{answer}
+  $h^{-1}(20)=7$.  This means that a height of 20 meters is achieved
+  at 7 seconds in the restricted interval.  In fact, it turns out that
+  $h^{-1}(t) = 7 \cdot (\pi - \arcsin((t-20)/18))/\pi$ when $h$ is
+  restricted to the given interval.
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+The value $v$ of a car in dollars after $t$ years of ownership can be
+modeled by
+\[
+v(t) = 10000\cdot 0.8^{t}.
+\]
+Find $v^{-1}(4000)$ and explain in words what it represents.
+\begin{answer}
+$v^{-1}(4000) = 4.1$.  This means that it takes approximately 4.1 years
+for the car's value to reach 4000 dollars.
+\end{answer}
+\end{exercise}
+
+
+
+\begin{exercise}
+The loudness $d$ (in decibels) is given by the equation
+\[
+d(I) = 10\cdot \log_{10}\left(\frac{I}{I_0}\right)
+\]
+where $I$ is the given intensity and $I_0$ is the threshold sound (the
+quietest detectable intensity).  Determine $d^{-1}(85)$ in terms of the
+threshold sound.
+\begin{answer}
+$d^{-1}(85) = 3.2 \cdot 10^{8} \cdot  I_0$ or approximately 320 million times the threshold sound.
+\end{answer}
+\end{exercise}
+
+
+
+\begin{exercise}
+What is the difference in meaning between $f^{-1}(x)$ and $f(x)^{-1}$?
+\begin{answer}
+$f^{-1}(x)$ is the inverse function (if it exists) of $f(x)$;
+  $f(x)^{-1}$ is $1/f(x)$, the multiplicative inverse.
+\end{answer}
+\end{exercise}
+
+
+
+\begin{exercise}
+Sort the following expressions into two equivalent groups:
+\[
+\sin^2 x, \qquad \sin(x)^2, \qquad (\sin x)^2, \qquad \sin(x^2), \qquad  \sin x^2, \qquad (\sin x)(\sin x)
+\]
+\begin{answer}
+Group A: $\sin^2x$, $\sin(x)^2$, $(\sin x)^2$, $(\sin x)(\sin x)$;
+Group B: $\sin(x^2)$, $\sin x^2$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Sort the following expressions into two equivalent groups:
+\[
+\arcsin(x), \qquad (\sin x)^{-1}, \qquad  \sin^{-1}(x), \qquad \frac{1}{\sin(x)} 
+\]
+\begin{answer}
+Group A: $\arcsin(x)$, $\sin^{-1}(x)$;
+Group B: $\frac{1}{\sin(x)}$, $(\sin x)^{-1}$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Is $\sqrt{x^2} = \sqrt[3]{x^3}$? Explain your reasoning.
+\begin{answer}
+No. Consider $x = -1$. $\sqrt{(-1)^2} = \sqrt{1} = 1$. However, $\sqrt[3]{(-1)^3} =  \sqrt[3]{-1} = -1$.  
+\end{answer}
+\end{exercise}
+
+
+
+\end{exercises}

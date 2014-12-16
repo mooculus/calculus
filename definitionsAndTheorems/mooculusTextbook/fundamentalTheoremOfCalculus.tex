@@ -1,0 +1,596 @@
+\chapter{The Fundamental Theorem of Calculus}
+
+\section{The Fundamental Theorem}
+
+Let $f(x)$ be continuous on the real numbers and consider
+\[
+  F(x) = \int_a^x f(t)\d t.
+\]
+From our previous work we know that $F(x)$ is increasing when $f(x)$
+is positive and $F(x)$ is decreasing when $f(x)$ is negative. Moreover,
+with careful observation, we can even see that $F(x)$ is concave up
+when $f'(x)$ is positive and that $F(x)$ is concave down when $f'(x)$
+is negative. Thinking about what we have learned about the
+relationship of a function to its first and second derivatives, it is
+not too hard to guess that there must be a connection between $F'(x)$
+and the function $f(x)$. This is a good guess, check out our next
+theorem:
+
+
+\begin{mainTheorem}[Fundamental Theorem of Calculus---Version I]
+\index{fundamental theorem of calculus---version 1}
+\label{thm:fundamental_theorem_I}\hfil
+
+\noindent Suppose that $f(x)$ is continuous on the real numbers and let
+\[
+  F(x)=\int_a^x f(t)\d t.
+\]
+Then $F'(x)=f(x)$.
+\end{mainTheorem}
+
+\begin{proof}
+Using the limit definition of the derivative we'll compute $F'(x)$.
+Write
+\begin{align*}
+F'(x) &= \lim_{h\to 0}\frac{F(x+h)-F(x)}{h}\\ 
+&=\lim_{h\to 0}\frac{1}{h}\left( \int_a^{x+h} f(t)\d t - \int_a^x f(t)\d t\right).
+\end{align*}
+Recall that if the limits of integration are swapped, then the sign
+of the integral is swapped, so we have
+\[
+F'(x) =\lim_{h\to 0} \frac{1}{h}\left( \int_a^{x+h} f(t)\d t + \int_x^a f(t)\d t\right)
+\]
+At this point, we can combine the integrals, as we are just ``connecting'' adjacent signed areas to find
+\begin{equation}\label{ftc:eqn1}
+F'(x)=\lim_{h\to 0} \frac{1}{h}\int_x^{x+h} f(t)\d t.
+\end{equation}
+Since $f(x)$ is continuous on the interval $[x,x+h]$, and $h$ is
+approaching zero, there is an $\epsilon$ that goes to zero as $h$ goes
+to zero such that
+\[
+f(x)-\epsilon < f(x^*) < f(x) + \epsilon \qquad \text{for all }x^*\in[x,x+h],
+\]
+see Figure~\ref{F:fun diagram}. This means that 
+\[
+(f(x) - \epsilon)h < \int_x^{x+h} f(t)\d t < (f(x) + \epsilon)h
+\]
+Dividing all sides by $h$ we find
+\[
+f(x) - \epsilon < \frac{1}{h}\int_x^{x+h} f(t)\d t < f(x) + \epsilon.
+\]
+Comparing this to Equation~\ref{ftc:eqn1}, and taking the limit as $h$
+goes to zero (remembering that this also means that $\epsilon$ goes to
+zero) we see that $F'(x) = f(x)$.
+\end{proof}
+
+\begin{marginfigure}[-6in]
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=2,ymin=0,ymax=2.3,domain=0:2,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+      xtick={.5,1.3,1.453,1.7}, 
+      ytickmin=4, ytickmax=1,
+      xticklabels={$a$,$x$,$x^*$,$x+h$}, 
+    ] 
+    \addplot [draw=none, fill=fill1,domain=1.3:1.7] {1+sin(deg(x))*sin(deg(x^2/1.3))} \closedcycle;
+    \addplot [textColor,dashed] plot coordinates {(1.453,0) (1.453,1.99)};
+    \addplot [penColor,very thick,smooth] {1+sin(deg(x))*sin(deg(x^2/1.3))};
+    
+    \node at (axis cs:.9,1.7) [penColor] {$f(x)$};
+  \end{axis}
+\end{tikzpicture}
+\caption{Here we see $f(x)$ along with $a$, $x$, $x^*$ and $x+h$.}
+\label{F:fun diagram}
+\end{marginfigure}
+
+
+The Fundamental Theorem of Calculus says that an accumulation function
+of $f(x)$ is an antiderivative of $f(x)$.  Because of the close
+relationship between an integral and an antiderivative, the integral
+sign is also used to mean ``antiderivative.'' You can tell which is
+intended by whether the limits of integration are included. Hence
+\[
+  \int_a^b f(x)\d x
+\] 
+is a definite integral, because it has a definite value---the signed
+area between $f(x)$ and the $x$-axis.  On the other hand, we use
+\[
+  \int f(x)\d x
+\]
+to denote the antiderivative of $f(x)$, also called an
+\textit{indefinite integral}\index{indefinite integral}.
+This is evaluated as
+\[
+  \int f(x)\d x = F(x)+C.
+\]
+Where $F'(x) = f(x)$ and the constant $C$ indicates that there are
+really an infinite number of antiderivatives. We do not need to add
+this $C$ to compute definite integrals, but in other circumstances we
+will need to remember that the $C$ is there, so it is best to get into
+the habit of writing the $C$.
+
+There is a another common form of the Fundamental Theorem of Calculus:
+
+\marginnote[.4in]{
+Here the notation
+\[
+F(x) \Biggr|_a^b
+\]
+means that one should evaluate $F(x)$ at $b$ and then subtract from this $F(x)$ evaluated at $a$. Hence
+\[
+F(x) \Biggr|_a^b = F(b)-F(a).
+\]  
+}
+\begin{mainTheorem}[Fundamental Theorem of Calculus---Version II]\index{fundamental theorem of calculus---version 2}
+\label{thm:fundamental_theorem_II}\hfil
+
+\noindent Suppose that $f(x)$ is continuous on the interval $[a,b]$. If $F(x)$
+is any antiderivative of $f(x)$, then
+\[
+  \left.\int_a^b f(x)\d x = F(x) \right|_a^b = F(b)-F(a).
+\]
+\end{mainTheorem}
+
+\begin{proof}
+We know from Theorem~\ref{thm:fundamental_theorem_I} 
+\[
+  G(x)=\int_a^x f(t)\d t
+\]
+is an antiderivative of $f(x)$, and therefore any antiderivative
+$F(x)$ of $f(x)$ is of the form $F(x)=G(x)+k$. Then 
+\begin{align*}
+  F(b)-F(a) &=G(b)+k-(G(a)+k) 
+  &= G(b)-G(a) \\
+  &=\int_a^b f(t)\d t-\int_a^a f(t)\d t.
+\end{align*}
+It is not hard to see that $\int_a^a f(t)\d t=0$, so this means that
+\[
+  F(b)-F(a)=\int_a^b f(t)\d t,
+\]
+which is exactly what Theorem~\ref{thm:fundamental_theorem_II} says.
+\end{proof}
+
+From this you should see that the two versions of the Fundamental
+Theorem are very closely related. To avoid confusion, some people call
+the two versions of the theorem ``The Fundamental Theorem of
+Calculus---Version I'' and ``The Fundamental Theorem of
+Calculus---Version II'', although unfortunately there is no universal
+agreement as to which is ``Version I'' and which ``Version II''. Since
+it really is the same theorem, differently stated, people often simply
+call them both ``The Fundamental Theorem of Calculus.''
+
+Let's see an example of the fundamental theorem in action.
+
+\begin{example}
+Compute
+\[
+\int_1^2\left(x^9 + \frac{1}{x}\right) \d x
+\]
+\end{example}
+
+\begin{solution}
+Here we start by finding an antiderivative of 
+\[
+x^9 + \frac{1}{x}.
+\]
+The correct choice is $\frac{x^{10}}{10} + \ln(x)$, one could verify this by
+taking the derivative. Hence
+\begin{align*}
+\int_1^2\left(x^9 + \frac{1}{x}\right) \d x &= \left(\frac{x^{10}}{10} + \ln(x)\right)\Bigg|_1^2 \\
+&= \frac{2^{10}}{10} + \ln(2) - \frac{1}{10}.
+\end{align*}
+\end{solution}
+
+
+When we compute a definite integral, we first find an antiderivative
+and then substitute. It is convenient to first display the
+antiderivative and then do the substitution; we need a notation
+indicating that the substitution is yet to be done. A typical solution
+would look like this:
+\[
+  \left.\int_1^2 x^2\d x={x^3\over 3}\right|_1^2 = 
+  {2^3\over3}-{1^3\over3}={7\over3}.
+\]
+The vertical line with subscript and superscript is used to indicate
+the operation ``substitute and subtract'' that is needed to finish the
+evaluation. 
+
+Now we know that to solve certain kinds of problems, those that lead
+to a sum of a certain form, we ``merely'' find an antiderivative and
+substitute two values and subtract. Unfortunately, finding
+antiderivatives can be quite difficult. While there are a small number
+of rules that allow us to compute the derivative of any common
+function, there are no such rules for antiderivatives. There are some
+techniques that frequently prove useful, but we will never be able to
+reduce the problem to a completely mechanical process.
+
+
+
+
+
+
+\subsection*{Euler's Method}
+
+We have given a proof of the Fundamental Theorem of Calculus,
+nevertheless it is good to give intuition as to why it is
+true. Consider the following example:
+
+\begin{example}
+Suppose that the velocity in meters per second of a ball tossed from a
+height of 1 meter is given by
+\[
+v(t) = -9.8t + 6.
+\]
+What is the height of the ball after 1 second?
+\end{example}
+
+\begin{solution}
+Since the derivative of position is velocity, and we want to know the
+height (position) after one second, we need to compute
+\begin{align*}
+\int_0^1 -9.8t + 6 \d t &= (-4.9t^2 + 6t)\Bigg|_0^1\\
+&= -4.9 + 6 - 0\\
+&= 1.1.
+\end{align*}
+However, since the ball was tossed at an initial height of $1$ meter,
+the ball is at a height of $2.1$ meters.
+\end{solution}
+
+We did this example before in
+Example~\ref{example:eulersMethodBall}. At that time we used Euler's
+Method to give an approximate solution. Recall, the basic idea is to
+break the time interval between 0 and 1 seconds into many small
+partitions. Then at each step multiply the time duration by the
+velocity of the ball. In essence you are computing a Riemann
+sum. Hence, Euler's method gives some rational as to why the area
+under the curve that gives the velocity should give us the position of
+the ball.
+
+What's wrong with this? In some sense, nothing. As a practical matter
+it is a very convincing argument, because our understanding of the
+relationship between velocity and position seems to be quite
+solid. From the point of view of mathematics, however, it is
+unsatisfactory to justify a purely mathematical relationship by
+appealing to our understanding of the physical universe, which could,
+however unlikely it is in this case, be wrong.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{exercises}
+\noindent Compute the following definite integrals:
+
+\twocol
+
+\begin{exercise} $\int_1^4 t^2+3t\d t$
+\begin{answer} $87/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_0^\pi \sin t\d t$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_1^{10} {1\over x}\d x$
+\begin{answer} $\ln(10)$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_0^5 e^x\d x$
+\begin{answer} $e^5-1$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_0^3 x^3\d x$
+\begin{answer} $3^4/4$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_1^2 x^5\d x$
+\begin{answer} $2^6/6 -1/6$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\int_1^9 8\sqrt{x}\d x$
+\begin{answer} $416/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_1^4 \frac{4}{\sqrt{x}}\d x$
+\begin{answer} $8$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\int_{-2}^{-1}7x^{-1}\d x$
+\begin{answer} $-7\ln(2)$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} $\int_{-2}^3 (5x+1)^2\d x$
+\begin{answer} $965/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_{-7}^4(x-6)^2 \d x$
+\begin{answer} $2189/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_3^{27}x^{3/2}\d x$
+\begin{answer} $4356 \sqrt{3}/5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_4^9\frac{2}{x\sqrt x}\d x$
+\begin{answer} $2/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\int_{-4}^1|2x-4|\d x$
+\begin{answer} $35$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\begin{exercise} Find the derivative of $F(x)=\int_1^x \left(t^2-3t\right)\d t$
+\begin{answer} $x^2-3x$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $F(x)=\int_1^{x^2} \left(t^2-3t\right)\d t$
+\begin{answer} $2x(x^4-3x^2)$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $F(x)=\int_1^x e^{\left(t^2\right)}\d t$
+\begin{answer} $e^{\left(x^2\right)}$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $F(x)=\int_1^{x^2} e^{\left(t^2\right)}\d t$
+\begin{answer} $2xe^{\left(x^4\right)}$
+\end{answer}\end{exercise}
+
+
+\begin{exercise} Find the derivative of $F(x)=\int_1^x \tan(t^2)\d t$
+\begin{answer} $\tan(x^2)$
+\end{answer}\end{exercise}
+
+\begin{exercise} Find the derivative of $F(x)=\int_1^{x^2} \tan(t^2)\d t$
+\begin{answer} $2x\tan(x^4)$
+\end{answer}\end{exercise}
+
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Area Between Curves}
+
+We have seen how integration can be used to find signed area between a
+curve and the $x$-axis. With very little change we can find some areas
+between curves. Let's see an example:
+
+\begin{example} Find the area below $f(x)= -x^2+4x+3$ and above
+$g(x)=-x^3+7x^2-10x+5$ over the interval $1\le x\le2$. 
+\end{example}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:3, ymax=14,xmax=3,ymin=0, xmin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=1:2] {-x^2+4*x+3} \closedcycle;
+          \addplot [draw=none,fill=background,domain=1:2] {-x^3 + 7*x^2-10*x+5} \closedcycle;
+          \addplot [draw=penColor,very thick] {-x^2+4*x+3};
+          \addplot [draw=penColor2,very thick] {-x^3 + 7*x^2-10*x+5};
+          \node at (axis cs:1,6.7) [penColor] {$f(x)$};
+          \node at (axis cs:2,4) [penColor2] {$g(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{The area below $f(x)= -x^2+4x+3$ and above
+$g(x)=-x^3+7x^2-10x+5$ over the interval $1\le x\le2$. }
+\label{fig:area between curves}
+\end{marginfigure}
+
+\begin{solution}
+In Figure~\ref{fig:area between curves} we show the two curves
+together, with the desired area shaded.
+
+It is clear from the figure that the area we want is the area under
+$f(x)$ minus the area under $g(x)$, which is to say
+\[
+\int_1^2 f(x)\d x-\int_1^2 g(x)\d x = \int_1^2 \left(f(x)-g(x)\right)\d x.
+\]
+It doesn't matter whether we compute the two integrals on the left and
+then subtract or compute the single integral on the right. In this
+case, the latter is perhaps a bit easier:
+\begin{align*}
+  \int_1^2 f(x)-g(x)\d x&=\int_1^2 -x^2+4x+3-(-x^3+7x^2-10x+5)\d x \\
+  &=\int_1^2 x^3-8x^2+14x-2\d x \\
+  &=\left.{x^4\over4}-{8x^3\over3}+7x^2-2x\right|_1^2 \\
+  &={16\over4}-{64\over3}+28-4-({1\over4}-{8\over3}+7-2) \\
+  &=23-{56\over3}-{1\over4}={49\over12}.
+\end{align*}
+\end{solution}
+
+In our first example, one curve was higher than the other over the
+entire interval. This does not always happen.
+
+
+\begin{example} Find the area between $f(x)= -x^2+4x$ and
+$g(x)=x^2-6x+5$ over the interval $0\le x\le 1$.
+\end{example}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-1:2, ymax=6,xmax=1.5,ymin=0, xmin=-.5,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=0:0.56] {x^2-6*x+5} \closedcycle;
+          \addplot [draw=none,fill=background,domain=0:0.56] {-x^2+4*x} \closedcycle;
+          \addplot [draw=none,fill=fillp,domain=0.56:1] {-x^2+4*x} \closedcycle;
+          \addplot [draw=none,fill=background,domain=0.56:1] {x^2-6*x+5} \closedcycle;
+          \addplot [draw=penColor,very thick] {-x^2+4*x};
+          \addplot [draw=penColor2,very thick] {x^2 - 6*x+5};
+          \node at (axis cs:1.25,3.1) [penColor] {$f(x)$};
+          \node at (axis cs:.25,4.3) [penColor2] {$g(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{The area between $f(x)= -x^2+4x$ and
+$g(x)=x^2-6x+5$ over the interval $0\le x\le 1$.}
+\label{fig:curves cross}
+\end{marginfigure}
+
+
+\begin{solution}
+The curves are shown in Figure~\ref{fig:curves cross}. Generally we
+should interpret ``area'' in the usual sense, as a necessarily
+positive quantity. Since the two curves cross, we need to compute two
+areas and add them. First we find the intersection point of the
+curves:
+\begin{align*}
+  -x^2+4x&=x^2-6x+5 \\
+  0&=2x^2-10x+5 \\
+  x&={10\pm\sqrt{100-40}\over4}={5\pm\sqrt{15}\over2}.
+\end{align*}
+The intersection point we want is $x=a=(5-\sqrt{15})/2$. Then
+the total area is 
+\begin{align*}
+  \int_0^a x^2-6x+5-(-x^2+4x)\d x&+\int_a^1 -x^2+4x-(x^2-6x+5)\d x \\
+  &=\int_0^a 2x^2-10x+5\d x+\int_a^1 -2x^2+10x-5\d x \\
+  &=\left.{2x^3\over3}-5x^2+5x\right|_0^a + 
+    \left.-{2x^3\over3}+5x^2-5x\right|_a^1 \\
+  &=-{52\over3}+5\sqrt{15},
+\end{align*}
+after a bit of simplification.
+\end{solution}
+
+
+In both of our examples above, we gave you the limits of integration
+by bounding the $x$-values between $0$ and $1$. However, some problems
+are not so simple.
+
+\begin{example} Find the area between $f(x)= -x^2+4x$ and
+$g(x)=x^2-6x+5$.
+\end{example}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:5, ymax=5,xmax=5,ymin=-5, xmin=0,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=.56:4] {-x^2+4*x} \closedcycle;
+          \addplot [draw=none,fill=fillp,domain=.56:4.44] {x^2-6*x+5} \closedcycle;
+          \addplot [draw=none,fill=background,domain=4:5] {-x^2+4*x} \closedcycle;
+          \addplot [draw=none,fill=background,domain=0:1] {x^2-6*x+5} \closedcycle;
+          %\addplot [draw=none,fill=fillp,domain=.56:4] {-x^2+4*x} \closedcycle;       
+          \addplot [draw=penColor,very thick,smooth] {-x^2+4*x};
+          \addplot [draw=penColor2,very thick,smooth] {x^2-6*x+5};
+          
+          \node at (axis cs:2,4.4) [penColor] {$f(x)$};
+          \node at (axis cs:1,-1) [penColor2] {$g(x)$};
+        \end{axis}
+\end{tikzpicture}
+\caption{The area between $f(x)= -x^2+4x$ and $g(x)=x^2-6x+5$.}
+\label{fig:area bounded by curves}
+\end{marginfigure}
+
+\begin{solution}
+The curves are shown in Figure~\ref{fig:area bounded by curves}. Here
+we are not given a specific interval, so it must be the case that
+there is a ``natural'' region involved. Since the curves are both
+parabolas, the only reasonable interpretation is the region between
+the two intersection points, which we found in the previous example:
+$${5\pm\sqrt{15}\over2}.$$
+If we let $a=(5-\sqrt{15})/2$ and $b=(5+\sqrt{15})/2$,
+the total area is 
+\begin{align*}
+  \int_a^b -x^2+4x-(x^2-6x+5)\d x
+  &=\int_a^b -2x^2+10x-5\d x \\
+  &=\left.-{2x^3\over3}+5x^2-5x\right|_a^b \\
+  &=5\sqrt{15},
+\end{align*}
+after a bit of simplification.
+\end{solution}
+
+
+
+\begin{exercises}
+
+\noindent Find the area bounded by the curves.
+
+\begin{exercise} $y=x^4-x^2$ and $y=x^2$ (the part to the right of the $y$-axis)
+\begin{answer} $8\sqrt2/15$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x=y^3$ and $x=y^2$
+\begin{answer} $1/12$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x=1-y^2$ and $y=-x-1$
+\begin{answer} $9/2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x=3y-y^2$ and $x+y=3$
+\begin{answer} $4/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=\cos(\pi x/2)$ and $y=1- x^2$ (in the first quadrant)
+\begin{answer} $2/3-2/\pi$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=\sin(\pi x/3)$ and $y=x$ (in the first quadrant)
+\begin{answer} $3/\pi - 3\sqrt3/(2\pi)-1/8$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=\sqrt{x}$ and $y=x^2$
+\begin{answer} $1/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=\sqrt x$ and $y=\sqrt{x+1}$, $0\le x\le 4$
+\begin{answer} $10\sqrt{5}/3-6$
+\end{answer}\end{exercise}
+
+\begin{exercise} $x=0$ and $x=25-y^2$
+\begin{answer} $500/3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=\sin x\cos x$ and $y=\sin x$, $0\le x\le \pi$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^{3/2}$ and $y=x^{2/3}$
+\begin{answer} $1/5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $y=x^2-2x$ and $y=x-2$
+\begin{answer} $1/6$
+\end{answer}\end{exercise}
+
+
+
+\end{exercises}
+

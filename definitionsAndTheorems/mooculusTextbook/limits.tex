@@ -1,0 +1,1063 @@
+\chapter{Limits}
+
+
+\section{The Basic Ideas of Limits}{}{}
+
+
+
+Consider the function:
+\[
+f(x) = \frac{x^2 - 3x + 2}{x-2}
+\]
+While $f(x)$ is undefined at $x=2$, we can still plot $f(x)$ at other
+values, see Figure~\ref{plot:(x^2 - 3x + 2)/(x-2)}. Examining
+Table~\ref{table:(x^2 - 3x + 2)/(x-2)}, we see that as $x$ approaches
+$2$, $f(x)$ approaches $1$. We write this: 
+\[
+\text{As $x \to 2$, $f(x) \to 1$}\qquad\text{or}\qquad \lim_{x\to 2} f(x) = 1.
+\]
+Intuitively, $\lim_{x\to a} f(x) = L$ when the value of $f(x)$ can
+be made arbitrarily close to $L$ by making $x$ sufficiently close, but
+not equal to, $a$.  This leads us to the formal definition of a
+\textit{limit}.
+\begin{marginfigure}[-5in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            grid=both,
+            grid style={dashed, gridColor},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {x-1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\protect\frac{x^2 - 3x + 2}{x-2}$.}
+\label{plot:(x^2 - 3x + 2)/(x-2)}
+\end{marginfigure}
+
+\begin{margintable}[-1in]
+\[
+\begin{tchart}{ll}
+ x & f(x) \\ \hline
+ 1.7 &  0.7 \\
+ 1.9 &  0.9 \\
+ 1.99 &  0.99 \\
+ 1.999 &  0.999 \\
+  2 &  \text{undefined}
+\end{tchart}\qquad
+\begin{tchart}{ll}
+ x & f(x) \\ \hline
+  2 & \text{undefined}\\
+ 2.001&  1.001\\
+ 2.01&  1.01\\
+ 2.1 &  1.1 \\
+ 2.3 &  1.3 \\
+\end{tchart}
+\]
+\caption{Values of $f(x)=\protect\frac{x^2 - 3x + 2}{x-2}$.}
+\label{table:(x^2 - 3x + 2)/(x-2)}
+\end{margintable}
+
+\marginnote[1in]{Equivalently, $\lim_{x\to a}f(x)=L$, if for
+  every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x\ne a$
+  and $a- \delta < x < a+ \delta$, we have $L-\epsilon<
+  f(x)<L+\epsilon$.}
+\begin{definition}\label{def:limit}\index{limit!definition}
+The \textbf{limit} of $f(x)$ as $x$ goes to $a$ is $L$,
+\[
+\lim_{x\to a}f(x)=L,
+\] 
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever
+\[
+0 < |x-a| < \delta, \qquad\text{we have} \qquad |f(x)-L|<\epsilon.
+\] 
+If no such value of $L$ can be
+found, then we say that $\lim_{x\to a}f(x)$ \textbf{does not exist}.
+\end{definition}
+
+In Figure~\ref{figure:epsilon-delta}, we see a geometric
+interpretation of this definition.
+
+\begin{figure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:2, 
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={0.7,1,1.3}, ytick={3,4,5},
+            xticklabels={$a-\delta$,$a$,$a+\delta$}, yticklabels={$L-\epsilon$,$L$,$L+\epsilon$},
+            axis on top,
+          ]          
+          \addplot [color=textColor, fill=fill2, smooth, domain=(0:1.570)] {5} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill1, smooth, domain=(0:1.3)] {4.537} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill2, domain=(0:.7)] {3.283} \closedcycle;       
+          \addplot [textColor, very thick, smooth, domain=(0:1)] {4};
+          \addplot [color=textColor, fill=background, smooth, domain=(0:0.607)] {3} \closedcycle;
+	  \addplot [draw=none, fill=background, smooth] {x*(x-2)^2+3*x} \closedcycle;
+          \addplot [fill=fill1, draw=none, domain=.7:1.3] {x*(x-2)^2+3*x} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(1,0) (1,4)};
+          \addplot [textColor] plot coordinates {(.7,0) (.7,3.283)};
+          \addplot [textColor] plot coordinates {(1.3,0) (1.3,4.537)};
+	  \addplot [very thick,penColor, smooth] {x*(x-2)^2+3*x};
+        \end{axis}
+\end{tikzpicture}
+\caption{A geometric interpretation of the
+  $(\epsilon,\delta)$-criterion for limits.  If $0<|x-a|<\delta$, then we have that $a
+  -\delta < x < a+\delta$. In our diagram, we see that for all such
+  $x$ we are sure to have $L - \epsilon< f(x) < L+\epsilon$, and hence
+  $|f(x) - L|<\epsilon$.}
+\label{figure:epsilon-delta}
+\end{figure}
+Limits need not exist, let's examine two cases of this.
+
+\begin{example}
+Let $f(x) = \lfloor x\rfloor$. Explain why the limit
+\[
+\lim_{x\to 2} f(x)
+\]
+does not exist.
+\end{example}
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            %axis on top,
+          ]
+          \addplot [draw=none,, fill=fill1, domain=(0:2)] {2} \closedcycle; %% fill for epsilon  
+          \addplot [color=textColor, dashed, domain=(0:2)] {2};  %% bndry for epsilon  
+          \addplot [draw=none, fill=background, domain=(0:1.8)] {1} \closedcycle;
+          \addplot [color=textColor, dashed, domain=(0:1)] {1};  %% bndry for epsilon  
+          \addplot [draw=none, fill=fill1, domain=(1.8:2)] {1} \closedcycle;
+          \addplot [draw=none, fill=fill1, domain=(2:2.2)] {2} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(2,0) (2,2)};
+          \addplot [textColor] plot coordinates {(1.8,0) (1.8,1)};
+          \addplot [textColor] plot coordinates {(2.2,0) (2.2,2)};
+          \addplot [textColor, very thin, domain=(0:2.3)] {0}; % puts the axis back, axis on top clobbers our open holes
+          \addplot [textColor, very thin] plot coordinates {(0,0) (0,2)}; % puts the axis back, axis on top clobbers our open holes
+	  \addplot [very thick, penColor, domain=(-2:-1)] {-2};
+          \addplot [very thick, penColor, domain=(-1:0)] {-1};
+          \addplot [very thick, penColor, domain=(0:1)] {0};
+          \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot [very thick, penColor, domain=(3:4)] {3};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,-2)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole                  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-1,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4,3)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\lfloor x\rfloor$. Note, no matter which
+  $\delta>0$ is chosen, we can only at best bound $f(x)$ in the
+  interval $[1,2]$. With the example of $f(x) = \lfloor x \rfloor$, we
+  see that taking limits is truly different from evaluating
+  functions.}
+\label{plot:greatest-integer}
+\end{marginfigure}
+\begin{solution}
+The function $\lfloor x \rfloor$ is the function that returns the
+greatest integer less than or equal to $x$. Since $f(x)$ is defined
+for all real numbers, one might be tempted to think that the limit
+above is simply $f(2) = 2$. However, this is not the case.  If $x<2$,
+then $f(x) =1$. Hence if $\epsilon = .5$, we can \textbf{always} find
+a value for $x$ (just to the left of $2$) such that
+\[
+0< |x -2|< \delta, \qquad\text{where} \qquad \epsilon < |f(x)-2|.
+\]
+On the other hand, $\lim_{x\to 2} f(x)\ne 1$, as in this case if
+$\epsilon=.5$, we can \textbf{always} find a value for $x$ (just to
+the right of $2$) such that
+\[
+0<|x- 2|<\delta, \qquad\text{where} \qquad  \epsilon<|f(x)-1|.
+\]
+We've illustrated this in
+Figure~\ref{plot:greatest-integer}. Moreover, no matter what value one
+chooses for $\lim_{x\to 2} f(x)$, we will always have a similar
+issue.
+\end{solution}
+
+
+Limits may not exist even if the formula for the function looks
+innocent.
+
+\begin{example}
+Let  $f(x) = \sin\left(\frac{1}{x}\right)$. Explain why the limit
+\[
+\lim_{x\to 0} f(x)
+\]
+does not exist.
+\end{example}
+\begin{solution}
+In this case $f(x)$ oscillates ``wildly'' as $x$ approaches $0$, see
+Figure~\ref{plot:sin 1/x}. In fact, one can show that for any given
+  $\delta$, There is a value for $x$ in the interval
+\[
+0-\delta < x < 0+\delta
+\]
+such that $f(x)$ is \textbf{any} value in the interval $[-1,1]$. Hence
+the limit does not exist.
+\end{solution}
+\begin{marginfigure}[-1in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-.2:.2,    
+            samples=500,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            yticklabels = {}, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-.2:-.02)] {sin(deg(1/x))};
+          \addplot [very thick, penColor, smooth, domain=(.02:.2)] {sin(deg(1/x))};
+	  \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.02:.02)] {1} \closedcycle;
+          \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.02:.02)] {-1} \closedcycle;
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)=\protect\sin\left(\frac{1}{x}\right)$.}
+\label{plot:sin 1/x}
+\end{marginfigure}
+
+Sometimes the limit of a function exists from one side or the other
+(or both) even though the limit does not exist. Since it is useful to
+be able to talk about this situation, we introduce the concept of a
+\textit{one-sided limit}\index{one-sided limit}:
+
+\begin{definition} We say that the \textbf{limit} of $f(x)$ as $x$ goes to $a$ from the \textbf{left} is $L$,
+\[
+\lim_{x\to a-}f(x)=L
+\]
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x< a$ and 
+\[
+a-\delta < x \qquad\text{we have}\qquad |f(x)-L|<\epsilon.
+\]
+
+We say that the \textbf{limit} of $f(x)$ as $x$ goes to $a$ from the \textbf{right} is $L$,
+\[
+\lim_{x\to a+}f(x)=L
+\] 
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x > a$ and 
+\[
+x<a+\delta \qquad\text{we have}\qquad |f(x)-L|<\epsilon.
+\]
+\end{definition}
+\marginnote[-1in]{Limits from the left, or from the right, are collectively called \textbf{one-sided limits}.}
+
+
+\begin{example}
+Let $f(x) = \lfloor x\rfloor$. Discuss
+\[
+\lim_{x\to 2-} f(x), \qquad \lim_{x\to 2+} f(x), \qquad\text{and}\qquad\lim_{x\to 2} f(x).
+\]
+\end{example}
+\begin{solution}
+From the plot of $f(x)$, see Figure~\ref{plot:greatest-integer}, we see that 
+\[
+\lim_{x\to 2-} f(x)=1, \qquad\text{and}\quad \lim_{x\to 2+} f(x) = 2.
+\]
+Since these limits are different, $\lim_{x\to 2} f(x)$ does not exist.
+\end{solution}
+
+
+
+\begin{exercises}
+\begin{exercise} Evaluate the expressions by referencing the plot in Figure~\ref{plot:piecewise-exercise}.
+\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-4:6, xmin=-4, xmax=6, ymin=-3,ymax=10,    
+            unit vector ratio*=1 1 1,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-4,...,6}, ytick={-3,...,10},
+            xticklabels={-4,,-2,,0,,2,,4,,6}, yticklabels={,-2,,0,,2,,4,,6,,8,,10},
+            grid=major,
+            grid style={dashed, gridColor},
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-4:-2)] {6};
+	  \addplot [very thick, penColor, smooth, domain=(-2:0)] {x^2-2};
+          \addplot [very thick, penColor, smooth, domain=(0:2)] {(x-1)^3+3*(x-1)+3};
+          \addplot [very thick, penColor, smooth, domain=(2:6)] {(x-4)^3+8};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,6)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,8)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-1.5)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)$, a piecewise defined function.}
+\label{plot:piecewise-exercise}
+\end{marginfigure}
+\begin{enumerate}
+\begin{multicols}{3}
+\item $\lim_{x\to 4} f(x)$  
+\item $\lim_{x\to -3} f(x)$  
+\item $\lim_{x\to 0} f(x)$ 
+\item $\lim_{x\to 0-} f(x)$  
+\item $\lim_{x\to 0+} f(x)$  
+\item $f(-2)$  
+\item $\lim_{x\to 2-} f(x)$  
+\item $\lim_{x\to -2-} f(x)$  
+\item $\lim_{x\to 0} f(x+1)$  
+\item $f(0)$ 
+\item $\lim_{x\to 1-} f(x-4)$  
+\item $\lim_{x\to 0+} f(x-2)$
+\end{multicols}  
+\end{enumerate}
+\begin{answer}
+ (a) $8$, (b) $6$, (c) DNE,
+ (d) $-2$, (e) $-1$, (f) $8$,
+ (g) $7$, (h) $6$, (i) $3$,
+ (j) $-3/2$, (k) $6$, (l) $2$
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} 
+Use a table and a calculator to estimate $\lim_{x\to 0}
+\frac{\sin(x)}{x}$.
+\begin{answer}
+  $1$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use a table and a calculator to estimate $\lim_{x\to 0} \frac{\sin(2x)}{x}$.
+\begin{answer}
+  $2$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use a table and a calculator to estimate $\lim_{x\to 0} \frac{x}{\sin\left(\frac{x}{3}\right)}$.
+\begin{answer}
+  $3$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use a table and a calculator to estimate $\lim_{x\to 0}\frac{\tan(3x)}{\tan(5x)}$.
+\begin{answer}
+  $3/5$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use a table and a calculator to estimate $\lim_{x\to 0}
+\frac{2^x-1}{x}$.
+\begin{answer}
+  $0.6931\approx\ln(2)$
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use a table and a calculator to estimate $\lim_{x\to 0} (1+x)^{1/x}$. 
+\begin{answer}
+  $2.718 \approx e$
+\end{answer}
+\end{exercise}
+
+
+
+\begin{exercise} 
+Sketch a plot of $f(x) = \dfrac{x}{|x|}$ and explain why $\lim_{x\to
+  0} \frac{x}{|x|}$ does not exist.
+\begin{answer}
+  Consider what happens when $x$ is near zero and positive, as compared to when $x$ is near zero and negative.
+\end{answer}
+\end{exercise}
+
+
+
+\begin{exercise} 
+Let $f(x) = \sin\left(\dfrac{\pi}{x}\right)$. Construct three tables
+of the following form
+\[
+\begin{array}{l|l}
+ x & f(x) \\ \hline
+ 0.d &   \\
+ 0.0d &  \\
+ 0.00d &   \\
+ 0.000d &  
+\end{array}
+\]
+where $d = 1,3,7$. What do you notice? How do you reconcile the
+entries in your tables with the value of $\lim_{x\to 0} f(x)$?
+\begin{answer}
+  The limit does not exist, so it is not surprising that the resulting values are so different.
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise}
+In the theory of special relativity, a moving clock ticks slower than
+a stationary observer's clock. If the stationary observer records that
+$t_s$ seconds have passed, then the clock moving at velocity $v$ has
+recorded that
+\[
+t_v = t_s \sqrt{1 - v^2/c^2}
+\]
+seconds have passed, where $c$ is the speed of light. What happens as $v\to c$ from below?
+\begin{answer}
+  When $v$ approaches $c$ from below, then $t_v$ approaches zero---meaning that one second to the stationary observations seems like very little time at all for our traveler.
+\end{answer}
+\end{exercise}
+
+
+\end{exercises}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Limits by the Definition}
+
+
+Now we are going to get our hands dirty, and really use the definition
+of a limit.\marginnote{Recall, $\lim_{x\to a}f(x)=L$, if for every
+  $\epsilon>0$ there is a $\delta > 0$ so that whenever $0< |x -a|<
+  \delta$, we have $|f(x)- L|<\epsilon$.}
+
+\begin{marginfigure}[.5in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=1:3, 
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1.8,2,2.2}, ytick={3,4,5},
+            xticklabels={$2-\delta$,$2$,$2+\delta$}, yticklabels={$4-\epsilon$,$4$,$4+\epsilon$},
+            axis on top,
+          ]          
+          \addplot [color=textColor, fill=fill2, smooth, domain=(1:2.236)] {5} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill1, domain=(1:2.2)] {4.84} \closedcycle;       
+          \addplot [color=textColor, dashed, fill=fill2, domain=(1:1.8)] {3.24} \closedcycle;       
+          \addplot [textColor, very thick, smooth, domain=(1:2)] {4};
+          \addplot [color=textColor, fill=background, smooth, domain=(1:1.8)] {3} \closedcycle;
+	  \addplot [draw=none, fill=background, smooth] {x^2} \closedcycle;
+          \addplot [fill=fill1, draw=none, domain=1.8:2.2] {x^2} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(2,0) (2,4)};
+          \addplot [textColor] plot coordinates {(1.8,0) (1.8,3.24)};
+          \addplot [textColor] plot coordinates {(2.2,0) (2.2,4.84)};
+	  \addplot [very thick,penColor, smooth] {x^2};
+        \end{axis}
+\end{tikzpicture}
+\label{plot:x^2 lim dfn}
+\caption{The $(\epsilon,\delta)$-criterion for $\lim_{x\to 2}
+  x^2=4$. Here $\delta= \min\left(\dfrac{\epsilon}{5},1\right)$.}
+\end{marginfigure}
+\begin{example} Show that $\lim_{x\to 2} x^2=4$.
+\end{example}
+\begin{solution}
+We want to show that for any given $\epsilon>0$, we can find a
+$\delta>0$ such that
+\[
+|x^2 -4|<\epsilon
+\]
+whenever $0<|x - 2|<\delta$. Start by factoring the left-hand side of
+the inequality above
+\[
+|x+2||x-2|<\epsilon.
+\]
+Since we are going to assume that $0<|x - 2|<\delta$, we will focus on
+the factor $|x+2|$. Since $x$ is assumed to be close to $2$, suppose that $x\in[1,3]$. In this case
+\[
+|x+2| \le 3+2 = 5,
+\]
+and so we want
+\begin{align*}
+5\cdot |x-2| &< \epsilon\\
+|x-2| &< \frac{\epsilon}{5}
+\end{align*}
+Recall, we assumed that $x\in[1,3]$, which is equivalent to
+$|x-2|\le 1$. Hence we must set $\delta = \min\left(\dfrac{\epsilon}{5},1\right)$.
+\end{solution}
+
+
+When dealing with limits of polynomials, the general strategy is
+always the same. Let $p(x)$ be a polynomial. If showing
+\[
+\lim_{x\to a} p(x) = L,
+\]
+one must first factor out $|x-a|$ from $|p(x) - L|$. Next bound $x\in
+[a-1,a+1]$ and estimate the largest possible value of
+\[
+\left|\frac{p(x) -L}{x-a}\right|
+\]
+for $x\in[a-1,a+1]$, call this estimation $M$. Finally, one must set
+$\delta = \min\left(\frac{\epsilon}{M}, 1\right)$.
+
+As you work with limits, you find that you need to do the same
+procedures again and again. The next theorems will expedite this
+process.
+\begin{theorem}[Limit Product Law]\label{theorem:limit-product} 
+Suppose $\lim_{x\to a} f(x)=L$ and $\lim_{x\to a}g(x)=M$. Then
+\[
+\lim_{x\to a} f(x)g(x) = LM.
+\]
+\end{theorem}
+
+\marginnote[1.5in]{We will use this same trick again of ``adding $0$'' in
+  the proof of Theorem~\ref{theorem:product-rule}.}
+\marginnote[.5in]{This is all straightforward except perhaps for the
+  ``$\le$''. This follows from the \textit{Triangle
+    Inequality}\index{triangle inequality}. The \textbf{Triangle
+    Inequality} states: If $a$ and $b$ are any real numbers then
+  $|a+b|\le |a|+|b|$.}
+\begin{proof} 
+Given any $\epsilon$ we need to find a $\delta$ such that
+\[
+0<|x - a|< \delta
+\]
+implies 
+\[
+|f(x)g(x)-LM|< \epsilon.  
+\]
+Here we use an algebraic trick, add $0 = -f(x)M+f(x)M$:
+\begin{align*}
+|f(x)g(x)-LM| &= |f(x)g(x){\color{penColor2}-f(x)M+f(x)M}-LM| \\
+&=|f(x)(g(x)-M)+(f(x)-L)M| \\
+&\le |f(x)(g(x)-M)|+|(f(x)-L)M| \\
+&=|f(x)||g(x)-M|+|f(x)-L||M|.
+\end{align*}
+Since $\lim_{x\to a}f(x) =L$, there is a value $\delta_1$ so that
+$0<|x-a|<\delta_1$ implies $|f(x)-L|<|\epsilon/(2M)|$. This means that
+$0<|x-a|<\delta_1$ implies $|f(x)-L||M|< \epsilon/2$. 
+\[
+|f(x)g(x)-LM|\le|f(x)||g(x)-M|+\underbrace{|f(x)-L||M|}_{<\dfrac{\epsilon}{2}}.
+\]
+If we can make $|f(x)||g(x)-M|<\epsilon/2$, then we'll be done. We can
+make $|g(x)-M|$ smaller than any fixed number by making $x$ close
+enough to $a$. Unfortunately, $\epsilon/(2f(x))$ is not a fixed number
+since $x$ is a variable.
+
+Here we need another trick. We can find a $\delta_2$ so that
+$|x-a|<\delta_2$ implies that $|f(x)-L|<1$, meaning that $L-1 < f(x) <
+L+1$. This means that $|f(x)|<N$, where $N$ is either $|L-1|$ or
+$|L+1|$, depending on whether $L$ is negative or positive. The
+important point is that $N$ doesn't depend on $x$. Finally, we know
+that there is a $\delta_3$ so that $0<|x-a|<\delta_3$ implies
+$|g(x)-M|<\epsilon/(2N)$. Now we're ready to put everything
+together. Let $\delta$ be the smallest of $\delta_1$, $\delta_2$, and
+$\delta_3$. Then $|x-a|<\delta$ implies that
+\[
+|f(x)g(x)-LM|\le\underbrace{|f(x)|}_{<N}\underbrace{|g(x)-M|}_{<\dfrac{\epsilon}{2N}}+\underbrace{|f(x)-L||M|}_{<\dfrac{\epsilon}{2}}.
+\]
+so
+\begin{align*}
+|f(x)g(x)-LM|&\le|f(x)||g(x)-M|+|f(x)-L||M| \\
+&<N{\epsilon\over 2N}+\left|{\epsilon\over 2M}\right||M| \\
+&={\epsilon\over 2}+{\epsilon\over 2}=\epsilon.
+\end{align*}
+This is just what we needed, so by the definition of a limit,
+$\lim_{x\to a}f(x)g(x)=LM$.
+\end{proof}
+
+
+
+Another useful way to put functions together is
+composition\index{composition of functions}. If $f(x)$ and $g(x)$ are
+functions, we can form two functions by composition: $f(g(x))$ and
+$g(f(x))$. For example, if $f(x)=\sqrt{x}$ and $g(x)=x^2+5$, then
+$f(g(x))=\sqrt{x^2+5}$ and $g(f(x))=(\sqrt{x})^2+5=x+5$.  This brings
+us to our next theorem.
+
+\marginnote[.5in]{This is sometimes written as \[
+\lim_{x\to a}f(g(x)) = \lim_{g(x)\to M}f(g(x)).
+\]}
+\begin{theorem}[Limit Composition Law]\label{thm:limit of composition}
+Suppose that $\lim_{x\to a}g(x)=M$ and $\lim_{x\to M}f(x) = f(M)$. Then
+\[
+\lim_{x\to a} f(g(x)) = f(M).
+\]
+\end{theorem}
+
+\begin{warning}
+You may be tempted to think that the condition on $f(x)$ in
+Theorem~\ref{thm:limit of composition} is unneeded, and that it will
+always be the case that if $\lim_{x\to a}g(x)=M$ and 
+$\lim_{x\to M}f(x) = L$ then
+\[
+\lim_{x\to a} f(g(x)) = L.
+\]
+However, consider
+\[
+f(x) =\begin{cases}
+3 & \text{if $x=2$,}\\
+4 & \text{if $x\ne 2$.}
+\end{cases}
+\]
+and $g(x) = 2$. Now the conditions of Theorem~\ref{thm:limit of composition} are not satisfied, and
+\[
+\lim_{x\to 1} f(g(x)) = 3 \qquad{but}\qquad \lim_{x\to 2} f(x) = 4.
+\]
+\end{warning}
+
+
+Many of the most familiar functions do satisfy the conditions of
+Theorem~\ref{thm:limit of composition}. For example:
+
+\begin{theorem}[Limit Root Law]
+Suppose that $n$ is a positive integer. Then
+$$\lim_{x\to a}\root n\of{x} = \root n\of{a},$$
+provided that $a$ is positive if $n$ is even.
+\label{thm:continuity of roots}
+\end{theorem}
+
+This theorem is not too difficult to prove from the definition of limit.
+
+
+
+
+
+
+
+
+\begin{exercises}
+
+
+\begin{exercise} 
+For each of the following limits, $\lim_{x\to a} f(x) =L$, use a
+graphing device to find $\delta$ such that $0<|x -a|<\delta$ implies
+that $|f(x)-L|<\epsilon$ where $\epsilon = .1$.
+\begin{enumerate}
+\begin{multicols}{3}
+\item $\lim_{x\to 2}(3x+1) = 7$  
+\item $\lim_{x\to 1} (x^2+2) = 3$  
+\item $\lim_{x\to \pi} \sin(x) = 0$  
+\item $\lim_{x\to 0} \tan(x) = 0$
+\item $\lim_{x\to 1} \sqrt{3x+1} = 2$
+\item $\lim_{x\to -2} \sqrt{1-4x} = 3$
+\end{multicols}  
+\end{enumerate}
+\begin{answer}
+  For these problems, there are many possible values of $\delta$, so we provide an inequality that $\delta$ must satisfy when $\epsilon = 0.1$.\hspace{1em}
+  (a)~$\delta < 1/30$,
+  (b)~$\delta < \frac{\sqrt{110}}{10} - 1 \approx 0.0488$,
+  (c)~$\delta < \arcsin \left( 1/10 \right) \approx 0.1002$,
+  (d)~$\delta < \arctan \left( 1/10 \right) \approx 0.0997$
+  (e)~$\delta < 13/100$,
+  (f)~$\delta < 59/400$
+\end{answer}
+\end{exercise}
+
+\noindent The next set of exercises are for advanced students and can be
+skipped on first reading.
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to 0 } x\sin
+\left( {1\over x}\right) = 0$.  Hint: Use the fact that $|\sin(a) |\le 1
+$ for any real number $a$.
+\begin{answer}
+ Let $\epsilon >0$. Set $\delta = \epsilon$. If $0<|x-0| <\delta$,
+ then $|x\cdot 1|<\epsilon$, since $\sin\left(\frac{1}{x}\right)\le
+ 1$, $|x\sin \left( {1\over x}\right)-0|< \epsilon$.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to 4} (2x-5)
+= 3$.
+\begin{answer}
+  Let $\epsilon > 0$.  Set $\delta = \epsilon/2$.  If $0 < |x - 4| < \delta$, then $|2x - 8| < 2 \delta = \epsilon$, and then because $|2x - 8| = |(2x - 5) - 3|$, we conclude $|(2x - 5) - 3| < \epsilon$.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to -3} (-4x-11)
+= 1$.
+\begin{answer}
+  Let $\epsilon > 0$.  Set $\delta = \epsilon/4$.  If $0 < |x - (-3)| < \delta$, then $|-4x - 12| < 4 \delta = \epsilon$, and then because $|-4x - 12| = |(-4x - 11) - 1|$, we conclude $|(-4x - 11) - 1| < \epsilon$.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to -2} \pi = \pi$.
+\begin{answer}
+  Let $\epsilon > 0$.  No matter what I choose for $\delta$, if $x$ is within $\delta$ of $-2$, then $\pi$ is within $\epsilon$ of $\pi$.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to -2} \frac{x^2-4}{x+2} = -4$.
+\begin{answer}
+  As long as $x \neq -2$, we have $\frac{x^2-4}{x+2} = x-2$, and the limit is not sensitive to the value of the function at the point $-2$; the limit only depends on nearby values, so we really want to compute $\lim_{x \to -2} (x-2)$.  Let $\epsilon > 0$.  Set $\delta = \epsilon$.  Then if $0 < |x - (-2)| < \delta$, we have $|(x - 2) - (-4)| < \epsilon$.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to 4} x^3 = 64$.
+\begin{answer}
+  Let $\epsilon > 0$.   Pick $\delta$ so that $\delta < 1$ and $\delta < \frac{\epsilon}{61}$.  Suppose $0 < |x-4| < \delta$.  Then $4 - \delta < x < 4 + \delta$.  Cube to get $\left( 4 - \delta \right)^3 < x^3 < \left( 4 + \delta \right)^3$.  Expanding the right-side inequality, we get $x^3 < \delta^3 + 12\cdot\delta^2 + 48\cdot\delta + 64 < \delta + 12 \delta + 48 \delta + 64 = 64 + \epsilon$.  The other inequality is similar.
+\end{answer}
+\end{exercise}
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to 1} (x^2+3x-1) = 3$.
+\begin{answer}
+  Let $\epsilon > 0$.  Pick $\delta$ small enough so that $\delta < \epsilon / 6$ and $\delta < 1$.  Assume $|x - 1| < \delta$, so $6 \cdot |x - 1| < \epsilon$.  Since $x$ is within $\delta < 1$ of $1$, we know $0 < x < 2$.  So $|x+4| < 6$.  Putting it together, $|x+4| \cdot |x-1| < \epsilon$, so $|x^2 + 3x - 4| < \epsilon$, and therefore $|(x^2 + 3x - 1) - 3| < \epsilon$.
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to 9} \frac{x-9}{\sqrt{x}-3}
+= 6$.
+\begin{answer}
+  Let $\epsilon > 0$.  Set $\delta = 3\epsilon$.  Assume $0 < |x-9| < \delta$.  Divide both sides by $3$ to get $\frac{|x-9|}{3} < \epsilon$.  Note that $\sqrt{x}+3 > 3$, so $\frac{|x-9|}{\sqrt{x} + 3} < \epsilon$.  This can be rearranged to conclude $\left|\frac{x-9}{\sqrt{x} - 3} - 6\right| < \epsilon$.
+\end{answer}
+\end{exercise}
+
+
+\begin{exercise} 
+Use the definition of limits to explain why $\lim_{x\to 2}\frac{1}{x}
+= \frac{1}{2}$.
+\begin{answer}
+  Let $\epsilon > 0$.  Set $\delta$ to be the minimum of $2\epsilon$ and $1$.  Assume $x$ is within $\delta$ of $2$, so $|x - 2| < 2 \epsilon$ and $1 < x < 3$.  So $\left| \frac{x-2}{2} \right| < \epsilon$.  Since $1 < x < 3$, we also have $2x > 2$, so $\left| \frac{x-2}{2x} \right| < \epsilon$.  Simplifying, $\left| \frac{1}{2} - \frac{1}{x} \right| < \epsilon$, which is what we wanted.
+\end{answer}
+\end{exercise}
+
+
+
+
+
+
+\end{exercises}
+
+
+\section{Limit Laws}
+
+In this section, we present a handful of tools to compute many limits
+without explicitly working with the definition of limit. Each of these
+could be proved directly as we did in the previous section.
+
+\begin{mainTheorem}[Limit Laws]\index{limit laws}\label{theorem:limit-laws}
+Suppose that $\lim_{x\to a}f(x)=L$, $\lim_{x\to a}g(x)=M$, $k$
+is some constant, and $n$ is a positive integer.
+\begin{itemize}
+\item[\textbf{Constant Law}] $\lim_{x\to a} kf(x) = k\lim_{x\to a}f(x)=kL$.
+\item[\textbf{Sum Law}] $\lim_{x\to a} (f(x)+g(x)) = \lim_{x\to a}f(x)+\lim_{x\to a}g(x)=L+M$.  
+\item[\textbf{Product Law}] $\lim_{x\to a} (f(x)g(x)) = \lim_{x\to a}f(x)\cdot\lim_{x\to a}g(x)=LM$. 
+\item[\textbf{Quotient Law}] $\lim_{x\to a} \frac{f(x)}{g(x)} =
+  \frac{\lim_{x\to a}f(x)}{\lim_{x\to a}g(x)}=\frac{L}{M}$, if $M\ne0$.
+\item[\textbf{Power Law}] $\lim_{x\to a} f(x)^n = \left(\lim_{x\to a}f(x)\right)^n=L^n$.
+\item[\textbf{Root Law}] $\lim_{x\to a} \sqrt[n]{f(x)} = \sqrt[n]{\lim_{x\to
+    a}f(x)}=\sqrt[n]{L}$ provided if $n$ is even, then $f(x)\ge 0$
+  near $a$.
+\item[\textbf{Composition Law}] If $\lim_{x\to a}g(x)=M$ and
+  $\lim_{x\to M}f(x) = f(M)$, then $\lim_{x\to a} f(g(x)) = f(M)$.
+\end{itemize}
+\label{thm:limit laws}
+\end{mainTheorem}
+
+Roughly speaking, these rules say that to compute the limit of an
+algebraic expression, it is enough to compute the limits of the
+``innermost bits'' and then combine these limits. This often means
+that it is possible to simply plug in a value for the variable, since
+$\lim_{x\to a} x =a$.
+
+
+\begin{example}
+Compute $\lim_{x\to 1}{x^2-3x+5\over x-2}$. 
+\end{example}
+\begin{solution}
+Using limit laws, 
+\begin{align*}
+\lim_{x\to 1}{x^2-3x+5\over x-2}&=
+\dfrac{\lim_{x\to 1}x^2-3x+5}{\lim_{x\to1}(x-2)} \\
+&=\frac{\lim_{x\to 1}x^2-\lim_{x\to1}3x+\lim_{x\to1}5}{\lim_{x\to1}x-\lim_{x\to1}2} \\
+&=\dfrac{\left(\lim_{x\to 1}x\right)^2-3\lim_{x\to1}x+5}{\lim_{x\to1}x-2} \\
+&=\dfrac{1^2-3\cdot1+5}{1-2} \\
+&=\dfrac{1-3+5}{-1} = -3.
+\end{align*}
+\end{solution}
+
+
+It is worth commenting on the trivial limit $\lim_{x\to1}5$. From one
+point of view this might seem meaningless, as the number 5 can't
+``approach'' any value, since it is simply a fixed number. But 5 can,
+and should, be interpreted here as the function that has value 5
+everywhere, $f(x)=5$, with graph a horizontal line. From this point of
+view it makes sense to ask what happens to the height of the function
+as $x$ approaches 1.
+
+We're primarily interested in limits that aren't so easy, namely
+limits in which a denominator approaches zero. The basic idea is to
+``divide out'' by the offending factor. This is often easier said than
+done---here we give two examples of algebraic tricks that work on many
+of these limits.
+
+
+\begin{example}
+Compute $\lim_{x\to1}{x^2+2x-3\over x-1}$. 
+\end{example}
+\begin{solution}
+We can't simply plug in $x=1$ because that makes the denominator zero.
+However, when taking limits we assume $x\ne 1$:
+\begin{align*}
+\lim_{x\to1}{x^2+2x-3\over x-1}&=\lim_{x\to1}{(x-1)(x+3)\over x-1} \\
+&=\lim_{x\to1}(x+3)=4
+\end{align*}
+\end{solution}
+\marginnote[-1in]{Limits allow us to examine functions where they are not defined.}
+
+\begin{example}
+Compute $\lim_{x\to-1} {\sqrt{x+5}-2\over x+1}$.
+\end{example}
+\begin{solution} 
+Using limit laws,
+\begin{align*}
+\lim_{x\to-1} {\sqrt{x+5}-2\over x+1}&=
+\lim_{x\to-1} {\sqrt{x+5}-2\over x+1}{\sqrt{x+5}+2\over \sqrt{x+5}+2} \\
+&=\lim_{x\to-1} {x+5-4\over (x+1)(\sqrt{x+5}+2)} \\
+&=\lim_{x\to-1} {x+1\over (x+1)(\sqrt{x+5}+2)} \\
+&=\lim_{x\to-1} {1\over \sqrt{x+5}+2}={1\over4}.
+\end{align*}
+\end{solution}
+\marginnote[-1.5in]{Here we are rationalizing the numerator by multiplying by the conjugate.}
+
+
+We'll conclude with one more theorem that will allow us to compute
+more difficult limits.
+
+\begin{mainTheorem}[Squeeze Theorem]\label{theorem:squeeze}\index{Squeeze Theorem}
+Suppose that $g(x) \le f(x) \le h(x)$ for all $x$
+close to $a$ but not necessarily equal to $a$. If 
+\[
+\lim_{x\to a} g(x) = L = \lim_{x\to a} h(x),
+\] 
+then $\lim_{x\to a} f(x) = L$.
+\end{mainTheorem}
+
+\marginnote[.2in]{For a nice discussion of this limit, see: Richman,
+  Fred. \textit{A circular argument}. College Math. J. 24 (1993),
+  no. 2, 160--162.}
+\begin{example}\label{example:sinx/x}
+Compute
+\[
+\lim_{x\to 0} \frac{\sin(x)}{x}.
+\]
+\end{example}
+
+\marginnote[.2in]{The limit in this example will be used in
+  Theorem~\ref{theorem:deriv sin}, and we will give another derivation
+  of this limit in Example~\ref{example:sinx/x-lhopital}.}
+
+\break
+
+\begin{solution}
+To compute this limit, use the Squeeze Theorem,
+Theorem~\ref{theorem:squeeze}. First note that we only need to examine
+$x\in \left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$ and for the present
+time, we'll assume that $x$ is positive---consider the diagrams below:
+
+%\vspace{5cm}
+
+\begin{fullwidth}
+\begin{tabular}{ccc}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$u$, ylabel=$v$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees
+          \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (.766,.643)}\closedcycle; %% triangle
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$x$};
+          \node at (axis cs:.766,.322) [anchor=east] {$\sin(x)$};
+          \node at (axis cs:.383,0) [anchor=north] {$\cos(x)$};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$u$, ylabel=$v$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [draw=none,fill=fill1] plot coordinates {(0,0) (.766,.643)}\closedcycle; %% sector
+          \addplot [draw=none, fill=fill1, samples=100, domain=(0:40)] ({cos(x)},{sin(x)})\closedcycle; %% sector 
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \addplot [very thick,penColor] plot coordinates {(0,0) (.766,.643)}; %% sector
+          \addplot [very thick,penColor] plot coordinates {(0,0) (1,0)}; %% sector
+          \addplot [very thick, penColor, smooth, domain=(0:40)] ({cos(x)},{sin(x)}); %% sector
+          \node at (axis cs:.15,.07) [anchor=west] {$x$};
+          \node at (axis cs:.5,0) [anchor=north] {$1$};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[clip=false,
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$u$, ylabel=$v$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (1,.839)}\closedcycle; %% triangle          
+          \addplot [very thick, penColor2, smooth, domain=(-.1:1.671)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [very thick, penColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [very thick, penColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$x$};
+          \node at (axis cs:.5,0) [anchor=north] {$1$};
+          \node at (axis cs:1,.42) [anchor=west] {$\tan(x)$};
+        \end{axis}
+\end{tikzpicture}\\
+Triangle $A$ & Sector & Triangle $B$ \\
+\end{tabular}
+\end{fullwidth}
+
+
+
+From our diagrams above we see that
+\[
+\text{Area of Triangle $A$} \le \text{Area of Sector} \le \text{Area of Triangle $B$}
+\]
+and computing these areas we find
+\[
+\frac{\cos(x)\sin(x)}{2} \le \left(\frac{x}{2\pi}\right)\cdot\pi \le \frac{\tan(x)}{2}.
+\]
+Multiplying through by $2$, and recalling that $\tan(x) =
+\frac{\sin(x)}{\cos(x)}$ we obtain
+\[
+\cos(x)\sin(x) \le x \le \frac{\sin(x)}{\cos(x)}.
+\]
+Dividing through by $\sin(x)$ and taking the reciprocals, we find
+\[
+\cos(x) \le \frac{\sin(x)}{x} \le \frac{1}{\cos(x)}.
+\]
+Note, $\cos(-x) = \cos(x)$ and $\frac{\sin(-x)}{-x} =
+\frac{\sin(x)}{x}$, so these inequalities hold for all $x\in
+\left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$.  Additionally, we know
+\[
+\lim_{x \to 0}\cos(x) = 1 = \lim_{x\to 0}\frac{1}{\cos(x)},
+\]
+and so we conclude by the Squeeze Theorem,
+Theorem~\ref{theorem:squeeze}, $\lim_{x \to 0}\frac{\sin(x)}{x} = 1$.
+\end{solution}
+
+
+\begin{exercises}
+
+\noindent Compute the limits. If a limit does not exist, explain why.
+
+\twocol
+
+\begin{exercise} $\lim_{x\to 3}{x^2+x-12\over x-3}$
+\begin{answer} $7$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 1}{x^2+x-12\over x-3}$
+\begin{answer} $5$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to -4}{x^2+x-12\over x-3}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 2} {x^2+x-12\over x-2}$
+\begin{answer} DNE
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 1} {\sqrt{x+8}-3\over x-1}$
+\begin{answer} $1/6$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim_{x\to 0+} \sqrt{{1\over x}+2} - \sqrt{1\over x}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 2} 3$
+\begin{answer} $3$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 4 } 3x^3 - 5x $
+\begin{answer} $172$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 0 } {4x - 5x^2\over x-1}$
+\begin{answer} $0$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 1 } {x^2 -1 \over x-1 }$
+\begin{answer} $2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 0 + } {\sqrt{2-x^2 }\over x}$
+\begin{answer} DNE
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 0 + } {\sqrt{2-x^2}\over x+1}$
+\begin{answer} $\sqrt2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to a } {x^3 -a^3\over x-a}$
+\begin{answer} $3a^2$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 2 } (x^2 +4)^3$
+\begin{answer} $512$
+\end{answer}\end{exercise}
+
+\begin{exercise} $\lim _{x\to 1 } \begin{cases}
+x-5 & \text{if $x\ne 1$}, \\
+7 & \text{if $x=1$}. \end{cases}$
+\begin{answer} $-4$
+\end{answer}\end{exercise}
+
+\endtwocol
+
+\end{exercises}
+
+
+

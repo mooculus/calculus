@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+\usepackage[active, tightpage]{preview}
+\setlength\PreviewBorder{10pt}%
+\usepackage{tikz}
+
+\usepackage[notextcomp]{kpfonts}
+\RequirePackage[T1]{fontenc}
+
+\newcommand{\drawfoot}{%
+  \begin{scope}[xshift=0.06in,color=black]
+    \draw[fill=black!70!white] (0,0) arc (0:180:0.12in) -- (0,0) -- cycle;
+    \draw (-0.1in,0) arc (0:30:0.12in);
+  \end{scope}
+}
+
+\newcommand{\drawhorn}{%
+      \draw[color=brown!80!black,fill=brown] (0,0)
+      arc (30:60:0.45in)
+      arc (30:0:0.4in);
+}
+
+\newcommand{\draweye}{%
+      \draw[fill=white] (0,0) circle (0.09in);
+      \draw[fill=black] (0.02in,-0.02in) circle (0.02in);
+}
+
+\newcommand{\headpath}{%
+(0,0in)
+arc (90:175:0.35in) % top ear
+arc (250:300:0.25in) % bottom ear
+arc (170:270:0.30in) % chin
+arc (-90:10:0.30in) % chin
+arc (-120:-70:0.25in) % bottom ear
+arc (5:90:0.35in) % top ear
+-- cycle
+}
+
+\begin{document}
+
+\begin{preview}
+  \begin{tikzpicture}[line width=2pt]
+    % draw body
+    \begin{scope}
+      \draw[line width=2pt] (0,0) circle (0.5in);
+      
+      \clip (0,0) circle (0.5in);
+      \begin{scope}[color=black!85!white]
+        
+    \fill[xshift=0.2in,yshift=0.1in] plot [smooth cycle, tension=2] coordinates { (0,0) (0.6,0.6) (-0.6,0.6) };
+
+    \fill[xshift=0.4in,yshift=-0.4in] plot [smooth cycle, tension=2] coordinates { (0,0) (0.6,0.6) (-0.6,0.6) };
+
+    \fill[xshift=-0.4in,yshift=-0.6in] plot [smooth cycle, tension=2] coordinates { (0,0) (0.6,0.6) (-0.6,0.6) };
+
+    \fill[xshift=-0.2in,yshift=0.1in] plot [smooth cycle, tension=2] coordinates { (0,0) (-0.2,-0.6) (0.6,-0.6) };
+
+    \fill[xshift=-0.2in,yshift=0.5in] plot [smooth cycle, tension=2] coordinates { (0.35,0.35) (-0.9,-0.8) (0.2,-0.2) };
+
+      \end{scope}
+
+    \end{scope}
+
+    \begin{scope}
+      \clip (0,0) circle (0.5in);
+
+      \fill[color=black,join=round] (1.75,-1.75) -- (1.75,0.5) --
+        (3.75, 0.5) -- (3.75,-1.75);
+    \end{scope}
+
+    % draw right foot
+    \begin{scope}[yshift=-0.53in]
+      \begin{scope}[xshift=0.3in]
+        \drawfoot
+      \end{scope}
+
+      % draw left foot
+      \begin{scope}[xshift=-0.3in,xscale=-1]
+        \drawfoot
+      \end{scope}
+    \end{scope}
+
+    % draw head
+    \begin{scope}[yshift=0.6in,xshift=-.15in]
+    \draw[fill=white] \headpath;
+
+    \clip \headpath;
+    \fill[color=black!85!white,xshift=0.65in,yshift=0.2in] plot [smooth cycle, tension=2] coordinates { (0,0) (-1,-1) (-0.5,0.5) };
+
+    % draw nose
+    \begin{scope}[xshift=.15in,xscale=1.5,yshift=-0.6in,color=pink!50!black]
+      \draw[fill=pink] (0in,0) circle (0.09in);
+      \draw (0.1,0.1) -- (0.1,0);
+      \draw (-0.1,0.1) -- (-0.1,0);
+    \end{scope}
+
+    \draw[stroke=black,fill=none] \headpath;
+    \end{scope}
+
+    % draw horn
+    \begin{scope}[yshift=0.55in]
+      \begin{scope}[xshift=-.15in]
+        \drawhorn
+      \end{scope}
+      \begin{scope}[xshift=.15in,xscale=-1]
+        \drawhorn
+      \end{scope}
+    \end{scope}
+
+    % draw eyes
+    \begin{scope}[yshift=0.4in]
+      \begin{scope}[xshift=-.11in]
+        \draweye
+      \end{scope}
+      \begin{scope}[xshift=.11in,xscale=-1]
+        \draweye
+      \end{scope}
+    \end{scope}
+
+    % draw title MOOCulus
+    \node[anchor=west] at (0.5in,0.2) {\scalebox{3.2}{\sffamily\Huge\textbf{M}}};
+    \node[anchor=west] at (1.35in,0.2) {\scalebox{3.2}{\sffamily\Huge\textbf{O}}};
+    \node[anchor=west] at (2.16in,0.2) {\scalebox{3.2}{\sffamily\Huge\textbf{O}}};
+    \node[anchor=west] at (2.97in,0.2) {\scalebox{3.2}{\sffamily\Huge\textbf{C}}};
+    \node[anchor=west] at (3.7in,-0.08) {\scalebox{3.2}{\sffamily\scshape\Huge ulus}};
+
+    % draw subtitle
+    \node[anchor=north west] at (0.6in,-0.30in) {\sffamily\scalebox{2.1}{\footnotesize massive open online calculus}};
+
+    
+  \end{tikzpicture}
+\end{preview}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

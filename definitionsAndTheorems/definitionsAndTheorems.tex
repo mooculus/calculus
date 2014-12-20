@@ -1,5 +1,7 @@
 \documentclass{ximera}
 
+\usepackage{multicol}
+
 \newcommand{\RR}{\mathbb R}
 \newcommand{\R}{\mathbb R}
 \renewcommand{\d}{\,d}
@@ -9,25 +11,44 @@
 \everymath{\displaystyle}
 \newcommand{\dfn}{\textbf}
 \newcommand{\eval}[1]{\bigg[ #1 \bigg]}
-\newcommand{\fxn}{}
+
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccsc}{arccsc}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arcsech}{arcsech}
+\DeclareMathOperator{\arccosh}{arccosh}
 
 
 \title{Draft of Definitions and Theorems from MOOCulus}
-
 \begin{document}
 \begin{abstract}
+
 This document contains a draft of every definition and theorem from
 MOOCulus.
+
 \end{abstract}
+
 \maketitle
 
 
+
+
+
+
 \section*{Functions}
+
+
+
 
 \begin{definition}
 A \textbf{function} is a relation between sets, where for each input,
 there is exactly one output.
 \end{definition}
+
+
 
 \begin{definition}
 A function is \textbf{one-to-one} if for every value in the range,
@@ -37,44 +58,48 @@ there is exactly one value in the domain.
 
 
 
+
+
 \section*{Limits}
+
+
+
+
 
 \begin{definition}
 The \textbf{limit} of $f(x)$ as $x$ goes to $a$ is $L$,
 \[
 \lim_{x\to a}f(x)=L,
-\] 
+\]
 if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever
 \[
 0 < |x-a| < \delta, \qquad\text{we have} \qquad |f(x)-L|<\epsilon.
-\] 
+\]
 If no such value of $L$ can be
 found, then we say that $\lim_{x\to a}f(x)$ \textbf{does not exist}.
 \end{definition}
 
 
 
-\begin{definition} 
+\begin{definition}
 We say that the \textbf{limit} of $f(x)$ as $x$ goes to $a$ from the
 \textbf{left} is $L$,
 \[
 \lim_{x\to a-}f(x)=L
 \]
-if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x< a$ and 
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x< a$ and
 \[
 a-\delta < x \qquad\text{we have}\qquad |f(x)-L|<\epsilon.
 \]
-
 We say that the \textbf{limit} of $f(x)$ as $x$ goes to $a$ from the \textbf{right} is $L$,
 \[
 \lim_{x\to a+}f(x)=L
-\] 
-if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x > a$ and 
+\]
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x > a$ and
 \[
 x<a+\delta \qquad\text{we have}\qquad |f(x)-L|<\epsilon.
 \]
 \end{definition}
-
 
 
 
@@ -86,6 +111,9 @@ Suppose $\lim_{x\to a} f(x)=L$ and $\lim_{x\to a}g(x)=M$. Then
 \]
 \end{theorem}
 
+
+
+
 \begin{theorem}[Limit Composition Law]
 Suppose that $\lim_{x\to a}g(x)=M$ and $\lim_{x\to M}f(x) =
 f(M)$. Then
@@ -95,6 +123,8 @@ f(M)$. Then
 \end{theorem}
 
 
+
+
 \begin{theorem}[Limit Root Law]
 Suppose that $n$ is a positive integer. Then
 $$\lim_{x\to a}\root n\of{x} = \root n\of{a},$$ provided that $a$ is
@@ -102,46 +132,61 @@ positive if $n$ is even.
 \end{theorem}
 
 
+
+
 \begin{theorem}[Limit Laws]
 Suppose that $\lim_{x\to a}f(x)=L$, $\lim_{x\to a}g(x)=M$, $k$
 is some constant, and $n$ is a positive integer.
 \begin{itemize}
 \item[\textbf{Constant Law}] $\lim_{x\to a} kf(x) = k\lim_{x\to a}f(x)=kL$.
-\item[\textbf{Sum Law}] $\lim_{x\to a} (f(x)+g(x)) = \lim_{x\to a}f(x)+\lim_{x\to a}g(x)=L+M$.  
-\item[\textbf{Product Law}] $\lim_{x\to a} (f(x)g(x)) = \lim_{x\to a}f(x)\cdot\lim_{x\to a}g(x)=LM$. 
+\item[\textbf{Sum Law}] $\lim_{x\to a} (f(x)+g(x)) = \lim_{x\to a}f(x)+\lim_{x\to a}g(x)=L+M$.
+\item[\textbf{Product Law}] $\lim_{x\to a} (f(x)g(x)) = \lim_{x\to a}f(x)\cdot\lim_{x\to a}g(x)=LM$.
 \item[\textbf{Quotient Law}] $\lim_{x\to a} \frac{f(x)}{g(x)} =
-  \frac{\lim_{x\to a}f(x)}{\lim_{x\to a}g(x)}=\frac{L}{M}$, if $M\ne0$.
+\frac{\lim_{x\to a}f(x)}{\lim_{x\to a}g(x)}=\frac{L}{M}$, if $M\ne0$.
 \item[\textbf{Power Law}] $\lim_{x\to a} f(x)^n = \left(\lim_{x\to a}f(x)\right)^n=L^n$.
 \item[\textbf{Root Law}] $\lim_{x\to a} \sqrt[n]{f(x)} = \sqrt[n]{\lim_{x\to
-    a}f(x)}=\sqrt[n]{L}$ provided if $n$ is even, then $f(x)\ge 0$
-  near $a$.
+a}f(x)}=\sqrt[n]{L}$ provided if $n$ is even, then $f(x)\ge 0$
+near $a$.
 \item[\textbf{Composition Law}] If $\lim_{x\to a}g(x)=M$ and
-  $\lim_{x\to M}f(x) = f(M)$, then $\lim_{x\to a} f(g(x)) = f(M)$.
+$\lim_{x\to M}f(x) = f(M)$, then $\lim_{x\to a} f(g(x)) = f(M)$.
 \end{itemize}
 \end{theorem}
 
-\begin{theorem}[Squeeze Theorem]
-Suppose that $g(x) \le f(x) \le h(x)$ for all $x$
-close to $a$ but not necessarily equal to $a$. If 
-\[
-\lim_{x\to a} g(x) = L = \lim_{x\to a} h(x),
-\] 
-then $\lim_{x\to a} f(x) = L$.
-\end{theorem}
 
 
 
 \begin{theorem}[Squeeze Theorem]
 Suppose that $g(x) \le f(x) \le h(x)$ for all $x$
-close to $a$ but not necessarily equal to $a$. If 
+close to $a$ but not necessarily equal to $a$. If
 \[
 \lim_{x\to a} g(x) = L = \lim_{x\to a} h(x),
-\] 
+\]
 then $\lim_{x\to a} f(x) = L$.
 \end{theorem}
+
+
+
+
+\begin{theorem}[Squeeze Theorem]
+Suppose that $g(x) \le f(x) \le h(x)$ for all $x$
+close to $a$ but not necessarily equal to $a$. If
+\[
+\lim_{x\to a} g(x) = L = \lim_{x\to a} h(x),
+\]
+then $\lim_{x\to a} f(x) = L$.
+\end{theorem}
+
+
+
+
 
 
 \section*{Infinite limits}
+
+
+
+
+
 
 \begin{definition}
 If $f(x)$ grows arbitrarily large as $x$ approaches $a$, we write
@@ -150,7 +195,6 @@ If $f(x)$ grows arbitrarily large as $x$ approaches $a$, we write
 \]
 and say that the limit of $f(x)$ \textbf{approaches infinity} as $x$
 goes to $a$.
-
 If $|f(x)|$ grows arbitrarily large as $x$ approaches $a$ and $f(x)$ is
 negative, we write
 \[
@@ -162,8 +206,9 @@ as $x$ goes to $a$.
 
 
 
+
 \begin{definition}
-If 
+If
 \[
 \lim_{x\to a} f(x) = \pm\infty, \qquad \lim_{x\to a+} f(x) = \pm\infty, \qquad\text{or}\qquad \lim_{x\to a-} f(x) = \pm\infty,
 \]
@@ -171,7 +216,15 @@ then the line $x=a$ is a \textbf{vertical asymptote} of $f(x)$.
 \end{definition}
 
 
+
+
+
+
 \section*{Limits at infinity}
+
+
+
+
 
 
 
@@ -181,21 +234,21 @@ $x$ sufficiently large, we write
 \[
 \lim_{x\to \infty} f(x) = L
 \]
-and we say, the \textbf{limit at infinity} of $f(x)$ is $L$.  
-
+and we say, the \textbf{limit at infinity} of $f(x)$ is $L$.
 If $f(x)$ becomes
 arbitrarily close to a specific value $L$ by making $x$ sufficiently
 large and negative, we write
 \[
 \lim_{x\to -\infty} f(x) = L
 \]
-and we say, the \textbf{limit at negative infinity} of $f(x)$ is $L$.  
+and we say, the \textbf{limit at negative infinity} of $f(x)$ is $L$.
 \end{definition}
 
 
 
+
 \begin{definition}
-If  
+If
 \[
 \lim_{x\to \infty} f(x) = L \qquad\text{or}\qquad \lim_{x\to -\infty} f(x) = L,
 \]
@@ -206,20 +259,30 @@ then the line $y=L$ is a \textbf{horizontal asymptote} of $f(x)$.
 
 
 
+
+
 \section*{Continuity}
 
 
-\begin{definition} 
+
+
+
+
+\begin{definition}
 A function $f$ is \textbf{continuous at a point} $a$ if $\lim_{x\to a}
 f(x) = f(a)$.
 \end{definition}
 
 
 
-\begin{definition} 
+
+\begin{definition}
 A function $f$ is \textbf{continuous on an interval} if it is
 continuous at every point in the interval.
 \end{definition}
+
+
+
 
 \begin{theorem}[Intermediate Value Theorem]
 If $f(x)$ is a continuous function for all $x$ in the closed interval
@@ -229,7 +292,17 @@ $c$ in $[a, b]$ such that $f(c) = d$.
 
 
 
+
+
+
+
 \section*{Slopes of tangent lines via limits}
+
+
+
+
+
+
 
 \begin{definition}
 The \textbf{derivative} of $f(x)$ is the function
@@ -239,6 +312,8 @@ The \textbf{derivative} of $f(x)$ is the function
 If this limit does not exist for a given value of $x$, then $f(x)$ is
 not \textbf{differentiable} at $x$.
 \end{definition}
+
+
 
 
 \begin{definition}
@@ -256,6 +331,8 @@ also used.
 \end{definition}
 
 
+
+
 \begin{theorem}[Differentiability Implies Continuity]
 If $f(x)$ is a differentiable function at $x = a$, then $f(x)$ is
 continuous at $x=a$.
@@ -263,7 +340,16 @@ continuous at $x=a$.
 
 
 
+
+
+
+
 \section*{Basic derivative rules}
+
+
+
+
+
 
 
 \begin{theorem}[The Constant Rule]
@@ -272,6 +358,8 @@ Given a constant $c$,
 \ddx c = 0.
 \]
 \end{theorem}
+
+
 
 
 \begin{theorem}[The Power Rule]
@@ -283,14 +371,17 @@ For any real number $n$,
 
 
 
+
 \begin{theorem}[The Sum Rule]
-If $f(x)$ and $g(x)$ are differentiable and $c$ is a constant, then 
+If $f(x)$ and $g(x)$ are differentiable and $c$ is a constant, then
 \begin{enumerate}
 \item\label{SR:1} $\ddx \big( f(x) + g(x)\big) = f'(x) + g'(x)$,
 \item $\ddx \big( f(x) - g(x)\big) = f'(x) - g'(x)$,
 \item $\ddx \big(c\cdot f(x)\big) = c\cdot f'(x)$.
 \end{enumerate}
 \end{theorem}
+
+
 
 
 \begin{definition}
@@ -300,27 +391,39 @@ Euler's number is defined to be the number $e$ such that
 \]
 \end{definition}
 
+
+
+
 \begin{theorem}[The Derivative of $\textit{e}^\textit{x}$]
 \[
 \ddx e^x = e^x.
 \]
 \end{theorem}
 
+
+
+
+
+
+
 \section*{Curve Sketching}
+
+
 
 
 
 \begin{definition}\hfil
 \begin{enumerate}
 \item A point $(x,f(x))$ is a \textbf{local maximum} if there is an interval $a<x<b$ with $f(x)\ge f(z)$ for
-  every $z$ in $(a,b)$.
+every $z$ in $(a,b)$.
 \item A point $(x,f(x))$ is a \textbf{local minimum} if
-  there is an interval $a<x<b$ with $f(x)\le f(z)$ for every $z$ in
-  $(a,b)$.
+there is an interval $a<x<b$ with $f(x)\le f(z)$ for every $z$ in
+$(a,b)$.
 \end{enumerate}
 A \textbf{local extremum}\index{extremum!local} is either a local
 maximum or a local minimum.
 \end{definition}
+
 
 
 \begin{theorem}[Fermat's Theorem]
@@ -329,9 +432,11 @@ at $a$, then $f'(a)=0$.
 \end{theorem}
 
 
+
 \begin{definition}
 Any value of $x$ for which $f'(x)$ is zero or undefined is called a
 \textbf{critical point} for $f(x)$.
+% critical 'number' and also most books insist that the crit num be in the domain of f.  Is that necessary? This def is nicer
 \end{definition}
 
 
@@ -341,13 +446,14 @@ Suppose that $f(x)$ is continuous on an interval, and that $f'(a)=0$
 for some value of $a$ in that interval.
 \begin{itemize}
 \item If $f'(x)>0$ to the left of $a$ and $f'(x)<0$ to the right of
-  $a$, then $f(a)$ is a local maximum.
+$a$, then $f(a)$ is a local maximum.
 \item If $f'(x)<0$ to the left of $a$ and $f'(x)>0$ to the right of
-  $a$, then $f(a)$ is a local minimum.
+$a$, then $f(a)$ is a local minimum.
 \item If $f'(x)$ has the same sign to the left and right of $a$,
-  then $f(a)$ is not a local extremum.
+then $f(a)$ is not a local extremum.
 \end{itemize}
 \end{theorem}
+
 
 
 \begin{theorem}[Test for Concavity]\index{concavity test}
@@ -359,6 +465,7 @@ Suppose that $f''(x)$ exists on an interval.
 \end{theorem}
 
 
+
 \begin{theorem}[Second Derivative Test]\index{second derivative test}\label{T:sdt}
 Suppose that $f''(x)$ is continuous on an open interval and that
 $f'(a)=0$ for some value of $a$ in that interval.
@@ -366,13 +473,698 @@ $f'(a)=0$ for some value of $a$ in that interval.
 \item If $f''(a) <0$, then $f(x)$ has a local maximum at $a$.
 \item If $f''(a) >0$, then $f(x)$ has a local minimum at $a$.
 \item If $f''(a) =0$, then the test is inconclusive. In this case,
-  $f(x)$ may or may not have a local extremum at $x=a$.
+$f(x)$ may or may not have a local extremum at $x=a$.
 \end{itemize}
 \end{theorem}
 
 
 
+
+
+
 \section*{Product Rule}
+
+
+
+
+
+\begin{theorem}[The Product Rule]\index{derivative rules!product}\index{product rule}\label{theorem:product-rule}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(x)g(x) = f(x)g'(x)+f'(x)g(x).
+\]
+\end{theorem}
+
+
+
+
+
+
+
+\section*{Quotient Rule}
+
+
+
+
+
+\begin{theorem}[The Quotient Rule]\index{derivative rules!quotient}\index{quotient rule}\label{theorem:quotient-rule}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx \frac{f(x)}{g(x)} = \frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}.
+\]
+\end{theorem}
+
+
+
+
+
+
+
+
+\section*{The Chain Rule}
+
+
+
+
+
+
+\begin{theorem}[Chain Rule]\index{chain rule}\index{derivative rules!chain}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(g(x)) = f'(g(x))g'(x).
+\]
+\end{theorem}
+
+
+
+
+
+
+
+\section*{Implicit Differentiation}
+
+
+
+
+
+
+\begin{theorem}[The Derivative of the Natural Logrithm]\index{derivative!of the natural logarithm}
+\[
+\ddx \ln(x) = \frac{1}{x}.
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[Inverse Function Theorem]\index{Inverse Function Theorem}\label{theorem:IFT}
+If $f(x)$ is a differentiable function, and $f'(x)$ is continuous, and
+$f'(a) \neq 0$, then
+\begin{enumerate}
+\item $f^{-1}(y)$ is defined for $y$ near $f(a)$,
+\item $f^{-1}(y)$ is differentiable near $f(a)$,
+\item $\dd{y} f^{-1}(y)$ is continuous near $f(a)$, and
+\item $\dd{y} f^{-1}(y) = \displaystyle\frac{1}{f'(f^{-1}(y))}$.
+\end{enumerate}
+\end{theorem}
+
+
+
+
+
+
+\section*{Logarithmic Differentiation}
+
+
+
+
+
+\begin{theorem}[Power Rule]
+For any real number $n$,
+\[
+\ddx x^n = n x^{n-1}.
+\]
+\end{theorem}
+
+
+
+
+
+
+
+
+\section*{The Derivatives of Trigonometric Functions}
+
+
+
+
+
+\begin{theorem}[The Derivative of sin(\textit{x})]\index{derivative!of sine}\label{theorem:deriv sin}
+\[
+\ddx \sin(x) = \cos(x).
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[The Derivative of cos(\textit{x})]\index{derivative!of cosine}
+\[
+\ddx \cos(x) = -\sin(x).
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[The Derivative of tan(\textit{x})]\index{derivative!of tangent}
+\[
+\ddx \tan(x) = \sec^2(x).
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[The Derivative of sec(\textit{x})]\index{derivative!of secant}
+\[
+\ddx \sec(x) = \sec(x)\tan(x).
+\]
+\end{theorem}
+
+
+
+
+
+
+\section*{Inverse Trigonometric Functions}
+
+
+
+
+
+
+
+\section*{The Derivatives of Inverse Trigonometric Functions}
+
+
+
+
+
+
+\begin{theorem}[The Derivative of arcsin(\textit{y})]\index{derivative!of arcsine}
+\[
+\dd{y} \arcsin(y) = \frac{1}{\sqrt{1-y^2}}.
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[The Derivative of arccos(\textit{y})]\index{derivative!of arccosine}
+\[
+\dd{y} \arccos(y) = \frac{-1}{\sqrt{1-y^2}}.
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[The Derivative of arctan(\textit{y})]\index{derivative!of arctangent}
+\[
+\dd{y} \arctan(y) = \frac{1}{1+y^2}.
+\]
+\end{theorem}
+
+
+
+\begin{theorem}[The Derivatives of Inverse Trigonometric Functions] \hfil
+\begin{itemize}
+\item $\dd{y} \arcsin(y) = \frac{1}{\sqrt{1-y^2}}$.
+\item $\dd{y} \arccos(y) = \frac{-1}{\sqrt{1-y^2}}$.
+\item $\dd{y} \arctan(y) = \frac{1}{1+y^2}$.
+\item $\dd{y} \arcsec(y) = \frac{1}{|y|\sqrt{y^2-1}}$ for $|y|>1$.
+\item $\dd{y} \arccsc(y) = \frac{-1}{|y|\sqrt{y^2-1}}$ for $|y|>1$.
+\item $\dd{y} \arccot(y) = \frac{-1}{1+y^2}$.
+\end{itemize}
+\end{theorem}
+
+
+
+
+
+
+
+\section*{L'Hopital's Rule}
+
+
+
+
+
+\begin{theorem}[L'H\^opital's Rule]\index{l'H\^opital's Rule}
+Let $f(x)$ and $g(x)$ be functions that are differentiable near $a$. If
+\[
+\lim_{x \to a} f(x) = \lim_{x \to a}g(x) = 0 \qquad \text{or} \pm \infty,
+\]
+and $\lim_{x \to a} \frac{f'(x)}{g'(x)}$ exists, and $g'(x) \neq 0$
+for all $x$ near $a$, then
+\[
+\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}.
+\]
+\end{theorem}
+
+
+
+
+\begin{definition}[List of Indeterminate Forms]\index{indeterminate form}\hfil
+\begin{itemize}
+\item[\textbf{0/0}] This refers to a limit of the form $\lim_{x\to a}
+\frac{f(x)}{g(x)}$ where $f(x)\to 0$ and $g(x)\to 0$ as $x\to a$.
+\item[\textbf{$\pmb\infty$/$\pmb\infty$}] This refers to a limit of the form $\lim_{x\to a}
+\frac{f(x)}{g(x)}$ where $f(x)\to \infty$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{0\,$\pmb{\cdot\infty}$}] This refers to a limit of the form $\lim_{x\to a}
+\left(f(x)\cdot g(x)\right)$ where $f(x)\to 0$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{$\pmb\infty$--$\pmb\infty$}] This refers to a limit of the form $\lim_{x\to a}\left(
+f(x)-g(x)\right)$ where $f(x)\to \infty$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{1$^{\pmb\infty}$}] This refers to a limit of the form $\lim_{x\to a}
+f(x)^{g(x)}$ where $f(x)\to 1$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{0$^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
+f(x)^{g(x)}$ where $f(x)\to 0$ and $g(x)\to 0$ as $x\to a$.
+\item[\textbf{$\pmb\infty^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
+f(x)^{g(x)}$ where $f(x)\to \infty$ and $g(x)\to 0$ as $x\to a$.
+\end{itemize}
+In each of these cases, the value of the limit is \textbf{not} immediately
+obvious. Hence, a careful analysis is required!
+\end{definition}
+
+
+
+
+
+
+
+\section*{The Derivative as a Rate}
+
+
+
+
+
+
+
+\begin{definition}\index{average rate of change}
+Given a function $f(x)$, the \textbf{average rate of change} over the
+interval $[a, a+\Delta x]$ is given by
+\[
+\frac{f(a+\Delta x) - f(a)}{\Delta x}.
+\]
+\end{definition}
+
+
+
+\begin{definition}\index{instantaneous rate of change}
+Given a function, the \textbf{instantaneous rate of change} at $x=a$ is given by
+\[
+\left.\ddx f(x) \right|_{x=a}.
+\]
+\end{definition}
+
+
+
+
+
+\section*{Related Rates Problems}
+
+
+
+
+
+
+
+
+\section*{Maximum and Minimum Values of Curves}
+
+
+
+
+
+
+
+\begin{definition}\hfil\index{maximum/minimum!absolute}
+\begin{enumerate}
+\item A point $(x,f(x))$ is an \textbf{absolute maximum} on an interval
+if $f(x)\ge f(z)$ for every $z$ in that interval.
+\item A point $(x,f(x))$ is an \textbf{absolute minimum} on an interval if
+$f(x)\le f(z)$ for every $z$ in that interval.
+\end{enumerate}
+An \textbf{absolute extremum}\index{extremum!absolute} is either an
+absolute maximum or an absolute minimum.
+\end{definition}
+
+
+
+\begin{theorem}[Extreme Value Theorem]\label{theorem:evt}\index{Extreme Value Theorem}
+If $f(x)$ is a continuous function for all $x$ in the closed interval
+$[a,b]$, then there are points $c$ and $d$ in $[a,b]$, such that
+$(c,f(c))$ is an absolute maximum and $(d,f(d))$ is an absolute
+minimum on $[a, b]$.
+\end{theorem}
+
+
+
+
+
+
+\section*{Basic Optimization Problems}
+
+
+
+
+
+
+
+\section*{Linear Approximation and Differentials}
+
+
+
+
+
+
+\begin{definition}\index{linear approximation}
+If $f(x)$ is a differentiable function at $x=a$, then a \textbf{linear
+approximation} for $f(x)$ at $x=a$ is given by
+\[
+\l(x) = f'(a)(x-a) +f(a).
+\]
+\end{definition}
+
+
+
+\begin{definition}\index{differential}  %in subsection: Differentials
+Let $f(x)$ be a differentiable function. We define a new
+independent variable $dx$, and a new dependent variable
+\[
+dy=f'(x)\cdot dx.
+\]
+The variables $dx$ and $dy$ are called \textbf{differentials}, see
+Figure~\ref{figure:differentials}.
+\end{definition}
+
+
+
+
+
+
+
+\section*{Iterative Methods}
+
+
+
+
+
+
+
+
+\section*{The Mean Value Theorem}
+
+
+
+
+
+
+
+\begin{theorem}[Rolle's Theorem]\index{Rolle's Theorem}
+Suppose that $f(x)$ is differentiable on the interval $(a,b)$, is
+continuous on the interval $[a,b]$, and $f(a)=f(b)$. Then
+\[
+f'(c)=0
+\]
+for some $a<c<b$.
+\label{thm:rolle}
+\end{theorem}
+
+
+
+
+\begin{theorem}[Mean Value Theorem]\label{thm:mvt}\index{Mean Value Theorem}
+Suppose that $f(x)$ has a derivative on the interval $(a,b)$ and is
+continuous on the interval $[a,b]$. Then
+\[
+f'(c)=\frac{f(b)-f(a)}{b-a}
+\]
+for some $a<c<b$.
+\end{theorem}
+
+
+
+\begin{theorem}
+If $f'(x)=0$ for all $x$ in an interval $I$, then $f(x)$ is constant
+on $I$.
+\end{theorem}
+
+
+
+
+
+
+\section*{Basic Antiderivatives}
+
+
+
+
+
+
+
+\begin{definition}\index{antiderivative}
+A function $F(x)$ is called an \textbf{antiderivative} of $f(x)$ on an
+interval if
+\[
+F'(x) = f(x)
+\]
+for all $x$ in the interval.
+\end{definition}
+
+
+
+
+\begin{definition}\index{antiderivative!notation}\index{indefinite integral}
+The antiderivative is denoted by
+\[
+\int f(x) \d x = F(x)+C,
+\]
+where $dx$ identifies $x$ as the variable and $C$ is a constant
+indicating that there are many possible antiderivatives, each varying by
+the addition of a constant. This is often called the
+\textbf{indefinite integral}.
+\end{definition}
+
+
+
+\begin{theorem}[Basic Antiderivatives]\label{theorem:basicAnti} \hfil
+\begin{multicols}{3}
+\begin{itemize}
+\item $\int k \d x= kx+C$.
+\item $\int x^n \d x= \frac{x^{n+1}}{n+1}+C\qquad(n\ne-1)$.
+\item $\int e^x \d x= e^x + C$.
+\item $\int a^x \d x= \frac{a^x}{\ln(a)}+C$.
+\item $\int \frac{1}{x} \d x= \ln|x|+C$.
+\item $\int \cos(x) \d x = \sin(x) + C$.
+\item $\int \sin(x) \d x = -\cos(x) + C$.
+\item $\int \tan(x) \d x = -\ln|\cos(x)| + C$.
+\item $\int \sec^2(x) \d x = \tan(x) + C$.
+\item $\int \csc^2(x) \d x = -\cot(x) + C$.
+\item $\int \sec(x)\tan(x) \d x = \sec(x) + C$.
+\item $\int \csc(x)\cot(x) \d x = -\csc(x) + C$.
+\item $\int \frac{1}{x^2+1}\d x = \arctan(x) + C$.
+\item $\int \frac{1}{\sqrt{1-x^2}}\d x= \arcsin(x)+C$.
+\end{itemize}
+\end{multicols}
+\end{theorem}
+
+
+
+
+\begin{theorem}[The Sum Rule for Antiderivatives]\label{theorem:SRA}
+Given two functions $f(x)$ and $g(x)$ where $k$ is a constant:
+\begin{itemize}
+\item $\int k f(x) \d x= kF(x) + C$.
+\item $\int \left(f(x) + g(x)\right) \d x = F(x) + G(x) + C$.
+\end{itemize}
+\end{theorem}
+
+
+
+
+
+
+\section*{Differential Equations}
+
+
+
+
+
+
+
+\section*{Definite Integrals Compute Signed Area}
+
+
+
+
+
+\begin{definition}\index{integral}\index{definite integral}
+The \textbf{definite integral}
+\[
+\int_a^b f(x) \d x
+\]
+computes the signed area in the region $[a,b]$ between $f(x)$ and the
+$x$-axis. If the region is above the $x$-axis, then the area has
+positive sign. If the region is below the $x$-axis, then the area has
+negative sign.
+\end{definition}
+
+
+\begin{theorem}[Properties of Definite Integrals]
+\begin{enumerate}
+\item $\int_a^b k \d x= kb-ka$, where $k$ is a constant.
+\item $\int_a^b \left( f(x) + g(x) \right) \d x = \int_a^b f(x) \d x + \int_a^b
+g(x) \d x$.
+\item $\int_a^b k \cdot f(x) \d x = k \int_a^b f(x) \d x$.
+\end{enumerate}
+\end{theorem}
+
+
+
+\begin{definition} %in the subsection: Accumulation Functions
+Given a function $f(x)$, an \textbf{accumulation function} for
+$f(x)$ is given by
+\[
+F(x) = \int_a^x f(t) \d t.
+\]
+\end{definition}
+
+
+
+
+
+
+\section*{Riemann Sums}
+
+
+
+
+
+\begin{definition}\index{Riemann sum}
+Given an interval $[a,b]$ and a partition defined by
+\[
+a = x_0 < x_1 <x_2 < \cdots x_{n-1}< x_n = b,
+\]
+a \textbf{Riemann sum} for $f(x)$ is a sum of the form
+\[
+\sum_{i=0}^{n-1} f(x_i^*) \cdot (x_{i+1}-x_i)
+\]
+where $x_i^*\in [x_i,x_{i+1}]$.
+\end{definition}
+
+
+
+
+\begin{definition}
+Consider the following Riemann sum:
+\[
+\sum_{i=0}^{n-1} f(x_i^*) \cdot (x_{i+1}-x_i)
+\]
+\begin{itemize}
+\item This is called a \textbf{left} Riemann sum if each $x_i^* =
+x_i$.
+\item This is called a \textbf{right} Riemann sum if each $x_i^* =
+x_{i+1}$.
+\item This is called a \textbf{midpoint} Riemann sum if each $x_i^*
+= \frac{x_i+x_{i+1}}{2}$.
+\item This is called a \textbf{upper} Riemann sum if each $x_i^*$ is
+a point that gives a maximum value $f(x)$ on the interval
+$[x_i,x_{i+1}]$.
+\item This is called a \textbf{lower} Riemann sum if each $x_i^*$ is a
+point that gives a minimum value $f(x)$ on the interval
+$[x_i,x_{i+1}]$.
+\end{itemize}
+\end{definition}
+
+
+
+
+
+
+
+\section*{The Fundamental Theorem}
+
+
+
+
+
+
+
+\begin{theorem}[Fundamental Theorem of Calculus---Version I]
+\index{fundamental theorem of calculus---version 1}
+\label{thm:fundamental_theorem_I}\hfil
+\noindent Suppose that $f(x)$ is continuous on the real numbers and let
+\[
+F(x)=\int_a^x f(t)\d t.
+\]
+Then $F'(x)=f(x)$.
+\end{theorem}
+
+
+
+\begin{theorem}[Fundamental Theorem of Calculus---Version II]\index{fundamental theorem of calculus---version 2}
+\label{thm:fundamental_theorem_II}\hfil
+\noindent Suppose that $f(x)$ is continuous on the interval $[a,b]$. If $F(x)$
+is any antiderivative of $f(x)$, then
+\[
+\left.\int_a^b f(x)\d x = F(x) \right|_a^b = F(b)-F(a).
+\]
+\end{theorem}
+
+
+
+
+
+
+\section*{Integration by Substitution}
+
+
+
+
+
+
+
+\begin{theorem}[Integral Substitution Formula]
+If $u(x)$ is differentiable on the interval $[a,b]$ and $f(x)$ is
+differentiable on the interval $[u(a),u(b)]$, then
+\[
+\int_a^b f'(u(x)) u'(x) \d x =\int_{u(a)}^{u(b)} f'(u) \d u.
+\]
+\end{theorem}
+
+
+
+
+
+
+
+\section*{Powers of Sine and Cosine}
+
+
+
+
+
+
+
+
+\section*{Integration by Parts}
+
+
+
+
+
+
+
+\begin{theorem}[Integration by Parts Formula]
+If $f(x)g(x)$ is differentiable on the interval $[a,b]$, then
+\[
+\int_a^b f(x) g'(x) \d x =f(x)g(x) \bigg|_a^b - \int_a^b f'(x) g(x) \d x.
+\]
+\end{theorem}
+
+
+
+
+
+\section*{Volume}
+
+
+
+
+
+
+
+\section*{Arc Length}
+
+
+
+
 
 
 
@@ -385,4 +1177,6 @@ $f'(a)=0$ for some value of $a$ in that interval.
 
 
 \end{document}
+
+   
 

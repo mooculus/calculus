@@ -323,6 +323,7 @@ Compute
 \[
 \ddx \left(x^2 - 3\right).
 \]
+
 Start by writing out the limit definition of the derivative where
 $f(x) = x^3+1$.
 \begin{freeResponse}[given]
@@ -360,14 +361,6 @@ Take the limit as $h$ goes to $0$.
 \ddx f(x) = 2x
 \]
 \end{freeResponse}
-%% Using the definition of the derivative,
-%% \begin{align*}
-%% \ddx f(x) &= \lim_{h\to 0}\frac{(x+h)^3 + 1 - (x^3 +1)}{h}\\
-%% &= \lim_{h\to 0}\frac{x^3+3x^2h+3xh^2 + h^3 + 1 - x^3 -1}{h}\\
-%% &= \lim_{h\to 0}\frac{3x^2h+3xh^2 + h^3}{h}\\
-%% &= \lim_{h\to 0}(3x^2+3xh + h^2)\\
-%% &= 3x^2.
-%% \end{align*}
 For your viewing pleasure, we have supplied a plot of both $f(x)$ and
 $f'(x)$:
 \begin{image}
@@ -382,15 +375,14 @@ $f'(x)$:
             xmin=-4,
             ymax=4,
             ymin=-4,
-            %samples=100,
             axis lines =middle, xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west}
           ]
-          \addplot [very thick, penColor2, smooth] {2*x};
           \addplot [very thick, penColor, smooth] {x^2-3};
-          \node at (axis cs:1.2,-2) [anchor=west] {\color{penColor}$f(x)$};  
-          \node at (axis cs:.2,3) [anchor=west] {\color{penColor2}$f'(x)$};
+          \addplot [very thick, penColor2, smooth] {2*x};
+          \node at (axis cs:1.5,-2) {\color{penColor}$f(x)$};  
+          \node at (axis cs:.8,3) {\color{penColor2}$f'(x)$};
         \end{axis}
 \end{tikzpicture}
 %\caption{A plot of $f(x) = x^3+1$ and $f'(x) = 3x^2$.}
@@ -406,6 +398,7 @@ Compute
 \[
 \ddx \sqrt{x+3}.
 \]
+
 Start by writing out the limit definition of the derivative where
 $f(x) = \sqrt{x+3}$.
 \begin{freeResponse}[given]
@@ -413,22 +406,22 @@ $f(x) = \sqrt{x+3}$.
 \ddx f(x) = \lim_{h\to 0}\frac{\sqrt{(x+h)+3} - \sqrt{x+3}}{h}
 \]
 \end{freeResponse}
-Now multiply by the conguagte.
+Now multiply by $\frac{\sqrt{(x+h)+3} + \sqrt{x+3}}{\sqrt{(x+h)+3} + \sqrt{x+3}}$.
 \begin{freeResponse}[given]
 \[
-\ddx f(x) = \lim_{h\to 0}\frac{(\sqrt{(x+h)+3} - \sqrt{x+3})(\sqrt{(x+h)+3} + \sqrt{x+3})}{h(\sqrt{(x+h)+3} + \sqrt{x+3})}
+\ddx f(x) = \lim_{h\to 0}\frac{\left(\sqrt{(x+h)+3} - \sqrt{x+3}\right)\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}{h\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}
 \]
 \end{freeResponse}
 Now expand the numerator.
 \begin{freeResponse}[given]
 \[
-\ddx f(x) = \lim_{h\to 0}\frac{x+h+3 - (x+3)}{h(\sqrt{(x+h)+3} + \sqrt{x+3})}
+\ddx f(x) = \lim_{h\to 0}\frac{x+h+3 - (x+3)}{h\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}
 \]
 \end{freeResponse}
 Combine like-terms.
 \begin{freeResponse}[given]
 \[
-\ddx f(x) = \lim_{h\to 0}\frac{h}{h(\sqrt{(x+h)+3} + \sqrt{x+3})}
+\ddx f(x) = \lim_{h\to 0}\frac{h}{h\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}
 \]
 \end{freeResponse}
 Cancel $h$ from the numerator and denominator.
@@ -443,8 +436,7 @@ Take the limit as $h$ goes to $0$.
 \ddx f(x) = \frac{1}{2\sqrt{x+3}}
 \]
 \end{freeResponse}
-For your viewing pleasure, we have supplied a plot of both $f(x)$ and
-$f'(x)$:
+As a gesture of friendship, here is a plot of both $f(x)$ and $f'(x)$:
 \begin{image}
 \begin{tikzpicture}
   \colorlet{background}{white}
@@ -457,21 +449,19 @@ $f'(x)$:
             xmin=-4,
             ymax=4,
             ymin=-1,
-            %samples=100,
             axis lines =middle, xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west}
           ]
-          \addplot [very thick, penColor2, smooth] {sqrt(x+3)};
-          \addplot [very thick, penColor, smooth] {x^2-3};
-          \node at (axis cs:1.2,-2) [anchor=west] {\color{penColor}$f(x)$};  
-          \node at (axis cs:.2,3) [anchor=west] {\color{penColor2}$f'(x)$};
+          \addplot [very thick, penColor, smooth,domain=0:3] ({x^2-3},{x}); %% tricking out the plot
+          \addplot [very thick, penColor2, smooth,samples=50,domain=.1:4] ({1/(4*x^2)-3},{x}); %% tricking out the plot
+          \node at (axis cs:2,2.5) {\color{penColor}$f(x)$};  
+          \node at (axis cs:-2.4,3) {\color{penColor2}$f'(x)$};
         \end{axis}
 \end{tikzpicture}
 \end{image}
 \end{example}
 
-\end{document}
 
 Next we will consider the derivative a function that is not continuous
 on $\RR$.
@@ -480,47 +470,154 @@ on $\RR$.
 \begin{example}
 Compute
 \[
-\dd t \frac{1}{t}.
+\ddx \frac{1}{3-x}.
 \]
-\end{example}
 
-\begin{solution}
-Using the definition of the derivative,
-\begin{align*}
-\dd{t}\frac{1}{t}&=\lim_{ h\to0}\frac{\frac{1}{t+ h} - \frac{1}{t}}{h} \\
-&=\lim_{h\to0}\frac{\frac{t}{t(t+ h)} - \frac{t+ h}{t(t+ h)}}{h} \\
-&=\lim_{h\to0}\frac{\frac{t-(t+ h)}{t(t+ h)}}{h} \\
-&=\lim_{h\to0}\frac{t-t- h}{t(t+ h) h} \\
-&=\lim_{h\to0}\frac{- h}{t(t+ h) h} \\
-&=\lim_{h\to0}\frac{-1}{t(t+ h)}\\
-&=\frac{-1}{t^2}.
-\end{align*}
-This function is differentiable at all real numbers except for $t=0$, see Figure~\ref{figure:plot1/x}.
-\end{solution}
-\begin{marginfigure}
+Start by writing out the limit definition of the derivative where
+$f(x) = \frac{1}{3-x}$.
+\begin{freeResponse}[given]
+\[
+\ddx f(x) = \lim_{h\to 0}\frac{\frac{1}{3-(x+h)} - \frac{1}{3-x}}{h}
+\]
+\end{freeResponse}
+Now multiply by $\frac{(3-(x+h))(3-x)}{(3-(x+h))(3-x)}$.
+\begin{freeResponse}[given]
+\[
+\ddx f(x) = \lim_{h\to 0}\frac{(3-x) - (3-(x+h))}{h(3-(x+h))(3-x)}
+\]
+\end{freeResponse}
+Simplify the numerator
+\begin{freeResponse}[given]
+\[
+\ddx f(x) = \lim_{h\to 0}\frac{h}{h(3-(x+h))(3-x)}
+\]
+\end{freeResponse}
+Cancel $h$ from the numerator and denominator.
+\begin{freeResponse}[given]
+\[
+\ddx f(x) = \lim_{h\to 0}\frac{1}{(3-(x+h))(3-x)}
+\]
+\end{freeResponse}
+Take the limit as $h$ goes to $0$. 
+\begin{freeResponse}[given]
+\[
+\ddx f(x) = \frac{1}{(3-x)^2}
+\]
+\end{freeResponse}
+It is our pleasure to present a plot of both $f(x)$ and $f'(x)$:
+\begin{image}
 \begin{tikzpicture}
+  \colorlet{background}{white}
+  \colorlet{textColor}{black}
+  \colorlet{penColor}{blue!50!black}
+  \colorlet{penColor2}{red!50!black}
 	\begin{axis}[
-            domain=-3:3,
-            ymax=4,
-            ymin=-4,
-            samples=100,
-            axis lines =middle, xlabel=$t$, ylabel=$y$,
+            xmax=5,
+            xmin=-1,
+            ymax=5,
+            ymin=-5,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west}
           ]
-          \addplot [very thick, penColor2, smooth,domain=(-3:-.1)] {-1/x^2};
-          \addplot [very thick, penColor2, smooth,domain=(.1:3)] {-1/x^2};
-	  \addplot [very thick, penColor, smooth,domain=(-3:-.1)] {1/x};
-          \addplot [very thick, penColor, smooth,domain=(.1:3)] {1/x};
-          \node at (axis cs:1,1.3) [anchor=west] {\color{penColor}$f(t)$}; 
-          \node at (axis cs:1,-1.1) [anchor=west] {\color{penColor2}$f'(t)$};
+          \addplot [very thick, penColor, smooth,domain=3.1:5] {1/(3-x)};
+          \addplot [very thick, penColor, smooth,domain=-1:2.9] {1/(3-x)};
+          \addplot [very thick, penColor2, smooth,domain=3.1:5] {1/(3-x)^2};
+          \addplot [very thick, penColor2, smooth,domain=-1:2.9] {1/(3-x)^2};
+          \node at (axis cs:4,-2) {\color{penColor}$f(x)$};  
+          \node at (axis cs:4.1,3) {\color{penColor2}$f'(x)$};
         \end{axis}
 \end{tikzpicture}
-\caption{A plot of $f(t) = \frac{1}{t}$ and $f'(t) = \frac{-1}{t^2}$.}
-\label{figure:plot1/x}
-\end{marginfigure}
+\end{image}
+\end{example}
 
-Let us now answer the following question: MOOCulus MOBILE
+
+Recall that we started this discussion by thinking about the
+\textit{MOOCulus-Mobile}.
+
+\begin{example}
+  If the position west of Columbus of the MOOCulus-Mobile is modeled by 
+  \[
+  s(t) = 36t^2 - 4.8t^3 \qquad \text{$for 0\le t\le 5$}
+  \] 
+  how do we find a formula for the velocity of the MOOCulus-Mobile?
+
+  To solve this problem, we use the derivative. This is because the
+  derivative comuptes the change in position with respect to time, and
+  this is precisely the definition of velocity! Let's do this.
+
+  Start by writing out the limit definition of the derivative where
+  $s(t) = 36t^2 - 4.8t^3$.
+  \begin{freeResponse}[given]
+    \[
+    \dd t s(t) = \lim_{h\to 0}\frac{36(t+h)^2 - 4.8(t+h)^3 - \left(36t^2 - 4.8t^3\right)}{h}
+    \]
+  \end{freeResponse}
+  Now expand the numerator of the fraction.
+  \begin{freeResponse}[given]
+    \[
+    \dd t s(t) = \lim_{h\to 0}\frac{36t^2 + 72th + 36h^2 - 4.8t^3 - 14.4t^2h - 14.4th^2 - 4.8h^3 - 36t^2 + 4.8t^3}{h}
+    \]
+  \end{freeResponse}
+  Now combine like-terms.
+  \begin{freeResponse}[given]
+    \[
+    \dd t s(t) = \lim_{h\to 0}\frac{72th + 36h^2 - 14.4t^2h - 14.4th^2 - 4.8h^3}{h}
+    \]
+  \end{freeResponse}
+  Factor an $h$ from every term in the numerator.
+  \begin{freeResponse}[given]
+    \[
+    \dd t s(t) = \lim_{h\to 0}\frac{h\left(72t + 36h - 14.4t^2 - 14.4th - 4.8h^2\right)}{h}
+    \]
+  \end{freeResponse}
+  Cancel $h$ from the numerator and denominator.
+  \begin{freeResponse}[given]
+    \[
+    \dd t s(t) = \lim_{h\to 0}\left(72t + 36h - 14.4t^2 - 14.4th - 4.8h^2\right)
+    \]
+  \end{freeResponse}
+  Take the limit as $h$ goes to $0$. 
+  \begin{freeResponse}[given]
+    \[
+    \dd t s(t) = 72t-14.4t^2
+    \]
+  \end{freeResponse}
+  Behold the beauty of $s(t)$ and $s'(t)$:
+  \begin{image}
+    \begin{tikzpicture}
+      \colorlet{background}{white}
+      \colorlet{textColor}{black}
+      \colorlet{penColor}{blue!50!black}
+  \colorlet{penColor2}{red!50!black}
+  \begin{axis}[
+      clip=false,
+      domain=0:5,
+      xmax=5,
+      xmin=0,
+      ymax=300,
+      ymin=0,
+      axis lines =middle, 
+      y label style={at={(axis description cs:-0.1,0.5)},rotate=90,anchor=south},
+      x label style={at={(axis description cs:0.5,-.2)}},
+      xlabel=hours into road-trip, ylabel=distance traveled in miles,
+      %% xlabel=$t$, ylabel=$y$,
+      %% every axis y label/.style={at=(current axis.above origin),anchor=south},
+      %% every axis x label/.style={at=(current axis.right of origin),anchor=west}
+    ]
+          \addplot [very thick, penColor, smooth] {36*x^2 - 4.8*x^3};
+          \addplot [very thick, penColor2, smooth] {72*x-14.4*x^2};
+          \node at (axis cs:3,230) {\color{penColor}$s(t)$};  
+          \node at (axis cs:3,100) {\color{penColor2}$s'(t)$};
+  \end{axis}
+    \end{tikzpicture}
+  \end{image}
+\end{example}
+
+MAYBE GIVE TWO PLOTS?
+
+\end{document}
 
 
 

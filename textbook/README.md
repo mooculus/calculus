@@ -1,3 +1,6 @@
+# Note to authors
+* There is a preamble file in this directory. Please add needed macros there.
+
 # Textbook outline
 
 * [Introduction to famous functions](introductionToFunctions/)

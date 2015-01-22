@@ -1,0 +1,254 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In]{The squeeze theorem}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+
+
+\begin{theorem}[Squeeze Theorem]
+Suppose that $g(x) \le f(x) \le h(x)$ for all $x$
+close to $a$ but not necessarily equal to $a$. If 
+\[
+\lim_{x\to a} g(x) = L = \lim_{x\to a} h(x),
+\] 
+then $\lim_{x\to a} f(x) = L$.
+\end{theorem}
+
+%% \marginnote[.2in]{For a nice discussion of this limit, see: Richman,
+%%   Fred. \textit{A circular argument}. College Math. J. 24 (1993),
+%%   no. 2, 160--162.}
+\begin{example}
+Compute
+\[
+\lim_{\theta\to 0} \frac{\sin(\theta)}{\theta}.
+\]
+
+
+
+To compute this limit, use the Squeeze Theorem. First note that we
+only need to examine $\theta\in \left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$
+and for the present time, we'll assume that $\theta$ is positive---consider
+the diagrams below:
+
+
+\begin{tabular}{ccc}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees
+          \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (.766,.643)}\closedcycle; %% triangle
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.766,.322) [anchor=east] {$\sin(\theta)$};
+          \node at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [draw=none,fill=fill1] plot coordinates {(0,0) (.766,.643)}\closedcycle; %% sector
+          \addplot [draw=none, fill=fill1, samples=100, domain=(0:40)] ({cos(x)},{sin(x)})\closedcycle; %% sector 
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \addplot [very thick,penColor] plot coordinates {(0,0) (.766,.643)}; %% sector
+          \addplot [very thick,penColor] plot coordinates {(0,0) (1,0)}; %% sector
+          \addplot [very thick, penColor, smooth, domain=(0:40)] ({cos(x)},{sin(x)}); %% sector
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.5,0) [anchor=north] {$1$};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[clip=false,
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (1,.839)}\closedcycle; %% triangle          
+          \addplot [very thick, penColor2, smooth, domain=(-.1:1.671)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [very thick, penColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [very thick, penColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.5,0) [anchor=north] {$1$};
+          \node at (axis cs:1,.42) [anchor=west] {$\tan(\theta)$};
+        \end{axis}
+\end{tikzpicture}\\
+Triangle $A$ & Sector & Triangle $B$ \\
+\end{tabular}
+
+From our diagrams above we see that
+\[
+\text{Area of Triangle $A$} \le \text{Area of Sector} \le \text{Area of Triangle $B$}
+\]
+and computing these areas we find
+\[
+\frac{\cos(\theta)\sin(\theta)}{2} \le \left(\frac{\theta}{2\pi}\right)\cdot\pi \le \frac{\tan(\theta)}{2}.
+\]
+Multiplying through by $2$, and recalling that $\tan(\theta) =
+\frac{\sin(\theta)}{\cos(\theta)}$ we obtain
+\[
+\cos(\theta)\sin(\theta) \le \theta \le \frac{\sin(\theta)}{\cos(\theta)}.
+\]
+Dividing through by $\sin(\theta)$ and taking the reciprocals, we find
+\[
+\cos(\theta) \le \frac{\sin(\theta)}{\theta} \le \frac{1}{\cos(\theta)}.
+\]
+Note, $\cos(-\theta) = \cos(\theta)$ and $\frac{\sin(-\theta)}{-\theta} =
+\frac{\sin(\theta)}{\theta}$, so these inequalities hold for all $\theta\in
+\left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$.  Additionally, we know
+\[
+\lim_{\theta \to 0}\cos(\theta) = 1 = \lim_{\theta\to 0}\frac{1}{\cos(\theta)},
+\]
+and so we conclude by the Squeeze Theorem, $\lim_{\theta \to
+  0}\frac{\sin(\theta)}{\theta} = 1$.
+\end{example}
+
+
+
+
+
+\begin{example}
+Compute
+\[
+\lim_{\theta\to 0} \frac{\cos(\theta)-1}{\theta}.
+\]
+
+
+
+To compute this limit, use the Squeeze Theorem. First note that we
+only need to examine $\theta\in \left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$
+and for the present time, we'll assume that $\theta$ is positive---consider
+the diagrams below:
+
+
+\begin{tabular}{ccc}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))}); %% Circle
+          \addplot [textColor] plot coordinates {(0,0) (.766,.643)}; %% diagonal line at 40 degrees
+          \addplot [textColor] plot coordinates {(1,.643) (.766,.643)}; %% top of rect
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% left hand side of triangle
+          \addplot [textColor] plot coordinates {(1,0) (1,.643)}; %% right hand side of rect
+          \addplot [line cap=round,line join=round,very thick,penColor,fill=fill1] plot coordinates {(.766,.643) (1,0)}\closedcycle; %% triangle
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.766,.322) [anchor=east] {$\sin(\theta)$};
+          \node at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))}); %% Circle
+          \addplot [draw=none, fill=fill1, samples=100, domain=(0:40)] ({cos(x)},{sin(x)})\closedcycle; %% sector 
+          \addplot [textColor] plot coordinates {(0,0) (.766,.643)}; %% diagonal line at 40 degrees
+          \addplot [textColor] plot coordinates {(1,.643) (.766,.643)}; %% top of rect
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% left hand side of triangle
+          \addplot [textColor] plot coordinates {(1,0) (1,.643)}; %% right hand side of rect
+          \addplot [very thick, penColor, smooth, domain=(0:40)] ({cos(x)},{sin(x)});
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (1,0)};
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.766,.322) [anchor=east] {$\sin(\theta)$};
+          \node at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture} & 
+\begin{tikzpicture}
+	\begin{axis}[clip=false,
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (1,.839)}\closedcycle; %% triangle          
+          \addplot [very thick, penColor2, smooth, domain=(-.1:1.671)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [very thick, penColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
+          \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [very thick, penColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees 
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.5,0) [anchor=north] {$1$};
+          \node at (axis cs:1,.42) [anchor=west] {$\tan(\theta)$};
+        \end{axis}
+\end{tikzpicture}\\
+Triangle & Region & Rectangle \\
+\end{tabular}
+
+From our diagrams above we see that
+\[
+\text{Area of Triangle} \le \text{Area of Region} \le \text{Area of Rectangle}
+\]
+and computing these areas we find
+\[
+\frac{\cos(\theta)\sin(\theta)}{2} \le \left(\frac{\theta}{2\pi}\right)\cdot\pi \le \frac{\tan(\theta)}{2}.
+\]
+Multiplying through by $2$, and recalling that $\tan(\theta) =
+\frac{\sin(\theta)}{\cos(\theta)}$ we obtain
+\[
+\cos(\theta)\sin(\theta) \le \theta \le \frac{\sin(\theta)}{\cos(\theta)}.
+\]
+Dividing through by $\sin(\theta)$ and taking the reciprocals, we find
+\[
+\cos(\theta) \le \frac{\sin(\theta)}{\theta} \le \frac{1}{\cos(\theta)}.
+\]
+Note, $\cos(-\theta) = \cos(\theta)$ and $\frac{\sin(-\theta)}{-\theta} =
+\frac{\sin(\theta)}{\theta}$, so these inequalities hold for all $\theta\in
+\left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$.  Additionally, we know
+\[
+\lim_{\theta \to 0}\cos(\theta) = 1 = \lim_{\theta\to 0}\frac{1}{\cos(\theta)},
+\]
+and so we conclude by the Squeeze Theorem, $\lim_{\theta \to
+  0}\frac{\sin(\theta)}{\theta} = 1$.
+\end{example}
+
+
+\end{document}

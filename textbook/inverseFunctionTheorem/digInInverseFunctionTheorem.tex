@@ -1,0 +1,79 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{The inverse function theorem}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+
+Geometrically, there is a close relationship between the plots of
+$e^x$ and $\ln(x)$, they are reflections of each other over the line
+$y=x$, see Figure~\ref{plot:e^x lnx}. One may suspect that we can use the fact
+that $\ddx e^x = e^x$, to deduce the derivative of $\ln(x)$.  We will
+use implicit differentiation to exploit this relationship
+computationally.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, domain=(-6:6)] {e^x};
+          \addplot [very thick, penColor2, samples=100, smooth, domain=(.002:6)] {ln(x)};
+          \addplot [dashed, textColor, domain=(-6:6)] {x};
+          \node at (axis cs:-2,1) [penColor] {$e^x$};
+          \node at (axis cs:1,-2) [penColor2] {$\ln(x)$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $e^x$ and $\ln(x)$. Since they are inverse
+%%   functions, they are reflections of each other across the line $y=x$.}
+%% \label{plot:e^x lnx}
+\end{image}
+
+
+\begin{theorem}[The Derivative of the Natural Logrithm]\index{derivative!of the natural logarithm}
+\[
+\ddx \ln(x) = \frac{1}{x}.
+\]
+\end{theorem}
+\begin{proof}
+Recall
+\[
+\ln(x) = y \qquad\Leftrightarrow\qquad e^y = x.
+\]
+Hence
+\begin{align*}
+e^y &= x\\
+\ddx e^y &= \ddx x &\text{Differentiate both sides.}\\
+e^y \dd[y]{x} &= 1 &\text{Implicit differentiation.}\\
+\dd[y]{x} &= \frac{1}{e^y} = \frac{1}{x}.
+\end{align*}
+Since $y=\ln(x)$, $\ddx \ln(x) = \frac{1}{x}$.
+\end{proof}
+
+There is one catch to the proof given above. To write
+$\ddx(e^y)=e^y\dd[y]{x}$ we need to know that the function $y$
+\textit{has} a derivative. All we have shown is that \textit{if} it
+has a derivative then that derivative must be $1/x$. The \textit{Inverse
+Function Theorem} guarantees this.
+
+\begin{theorem}[Inverse Function Theorem]\index{Inverse Function Theorem}\label{theorem:IFT}
+If $f(x)$ is a differentiable function, and $f'(x)$ is continuous, and
+$f'(a) \neq 0$, then
+\begin{enumerate}
+\item $f^{-1}(y)$ is defined for $y$ near $f(a)$,
+\item $f^{-1}(y)$ is differentiable near $f(a)$, 
+\item $\dd{y} f^{-1}(y)$ is continuous near $f(a)$, and
+\item $\dd{y} f^{-1}(y)  = \displaystyle\frac{1}{f'(f^{-1}(y))}$.
+\end{enumerate}
+\end{theorem}
+
+\end{document}

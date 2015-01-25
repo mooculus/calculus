@@ -1,0 +1,147 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Implicit differentiation}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+The functions we've been dealing with so far have been
+\textit{explicit functions}\index{explicit function}, meaning that the
+dependent variable is written in terms of the independent variable. For
+example:
+\[
+y=3x^2-2x+1,\qquad y=e^{3x}, \qquad y = \frac{x-2}{x^2-3x+2}.
+\]
+However, there are another type of functions, called \textit{implicit
+  functions}. In this case, the dependent variable is not stated
+explicitly in terms of the independent variable. For example:
+\[
+x^2+y^2 = 4,\qquad x^3+y^3 = 9xy, \qquad x^4+3x^2 = x^{2/3}+y^{2/3} = 1.
+\]
+Your inclination might be simply to solve each of these for $y$ and go
+merrily on your way. However this can be difficult and it may require
+two \textit{branches}, for example to explicitly plot $x^2+y^2 = 4$,
+one needs both $y= \sqrt{4-x^2}$ and $y=-\sqrt{4-x^2}$. Moreover, it
+may not even be possible to solve for $y$. To deal with such
+situations, we use \index{implicit differentiation}\textit{implicit
+  differentiation}. Let's see an illustrative example:
+
+
+\begin{example}
+Consider the curve defined by
+\[
+x^3+y^3 = 9xy.
+\]
+\begin{enumerate}
+\item Compute $\dd[y]{x}$.
+\item Find the slope of the tangent line at $(4,2)$.
+\end{enumerate}
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $x^3+y^3 = 9xy$. While this is not a function of
+%%   $y$ in terms of $x$, the equation still defines a relation between
+%%   $x$ and $y$.}
+\end{image}
+
+
+Starting with 
+\[
+x^3+y^3 = 9xy,
+\]
+we apply the differential operator $\ddx$ to both sides of the
+equation to obtain
+\[
+\ddx \left(x^3+y^3\right) = \ddx 9xy.
+\]
+Applying the sum rule we see
+\[
+\ddx x^3+\ddx y^3 = \ddx 9xy.
+\]
+Let's examine each of these terms in turn. To start
+\[
+\ddx x^3 = 3x^2.
+\]
+On the other hand $\ddx y^3$ is somewhat different. Here you imagine that $y = y(x)$, and hence by the chain rule
+\begin{align*}
+\ddx y^3 &= \ddx (y(x))^3 \\ 
+&= 3(y(x))^2 \cdot y'(x) \\
+&= 3y^2\dd[y]{x}.
+\end{align*}
+Considering the final term $\ddx 9xy$, we again imagine that $y=y(x)$. Hence 
+\begin{align*}
+\ddx 9xy &= 9\ddx x\cdot y(x) \\
+&= 9 \left(x\cdot y'(x) + y(x)\right)\\
+&= 9x \dd[y]{x} + 9y.
+\end{align*}
+Putting this all together we are left with the equation
+\[
+3x^2 + 3y^2\dd[y]{x} =9x \dd[y]{x} + 9y.
+\]
+At this point, we solve for $\dd[y]{x}$. Write
+\begin{align*}
+3x^2 + 3y^2\dd[y]{x} &= 9x \dd[y]{x} + 9y\\
+3y^2\dd[y]{x} -  9x \dd[y]{x} &= 9y - 3x^2\\
+\dd[y]{x}\left(3y^2-9x\right)&= 9y - 3x^2\\
+\dd[y]{x} &=\frac{9y - 3x^2}{3y^2-9x} = \frac{3y - x^2}{y^2-3x}.
+\end{align*}
+
+For the second part of the problem, we simply plug $x=4$ and $y=2$
+into the formula above, hence the slope of the tangent line at $(4,2)$
+is $\frac{5}{4}$, see Figure~\ref{plot:x^3+y^3=9xy}.
+\end{example}
+%\enlargethispage{1in}
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(-.99:0)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x/(1+x^3)},{9*x^2/(1+x^3)});
+          \addplot [very thick, penColor, smooth, samples=100, domain=(0:1)] ({9*x^2/(1+x^3)},{9*x/(1+x^3)});
+
+          \addplot [very thick, penColor2, domain=(-6:6)] {(5/4)*(x-4)+2};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,2)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $x^3+y^3 = 9xy$ along with the tangent line at
+%%   $(4,2)$.}
+%% \label{plot:x^3+y^3=9xy}
+\end{image}
+
+You might think that the step in which we solve for $\dd[y]{x}$ could
+sometimes be difficult---after all, we're using implicit
+differentiation here instead of the more difficult task of solving the
+equation $x^3+y^3=9xy$ for $y$, so maybe there are functions where
+after taking the derivative we obtain something where it is hard to
+solve for $\dd[y]{x}$. In fact, \textit{this never happens}. All
+occurrences $\dd[y]{x}$ arise from applying the chain rule, and whenever
+the chain rule is used it deposits a single $\dd[y]{x}$ multiplied by some
+other expression. Hence our expression is linear in $\dd[y]{x}$, it will
+always be possible to group the terms containing $\dd[y]{x}$ together and
+factor out the $\dd[y]{x}$, just as in the previous example. 
+
+\end{document}

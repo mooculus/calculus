@@ -1,0 +1,301 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title{L'H\^{o}pital's rule}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+Derivatives allow us to take problems that were once difficult to
+solve and convert them to problems that are easier to solve. Let us
+consider l'H\^{o}pital's rule:
+
+\todo{L'H\^opital's rule applies even when $\lim_{x\to a}f(x) =
+  \pm \infty$ and $\lim_{x\to a}g(x) = \mp \infty$. See Example~\ref{example:xlnx infty}.}
+\begin{theorem}[L'H\^opital's Rule]\index{l'H\^opital's Rule} 
+Let $f(x)$ and $g(x)$ be functions that are differentiable near $a$.  If
+\[
+\lim_{x \to a} f(x) = \lim_{x \to a}g(x) = 0 \qquad \text{or} \pm \infty,
+\]
+and $\lim_{x \to a} \frac{f'(x)}{g'(x)}$ exists, and $g'(x) \neq 0$
+for all $x$ near $a$, then 
+\[
+\lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}.
+\]
+\end{theorem}
+This theorem is somewhat difficult to prove, in part because it
+incorporates so many different possibilities, so we will not prove it
+here. 
+
+L'H\^{o}pital's rule allows us to investigate limits of
+\textit{indeterminate form}.
+
+\begin{definition}[List of Indeterminate Forms]\hfil
+\begin{itemize}
+\item[\textbf{0/0}] This refers to a limit of the form $\lim_{x\to a}
+  \frac{f(x)}{g(x)}$ where $f(x)\to 0$ and $g(x)\to 0$ as $x\to a$.
+\item[\textbf{$\pmb\infty$/$\pmb\infty$}] This refers to a limit of the form $\lim_{x\to a}
+  \frac{f(x)}{g(x)}$ where $f(x)\to \infty$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{0\,$\pmb{\cdot\infty}$}] This refers to a limit of the form $\lim_{x\to a}
+  \left(f(x)\cdot g(x)\right)$ where $f(x)\to 0$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{$\pmb\infty$--$\pmb\infty$}] This refers to a limit of the form $\lim_{x\to a}\left(
+  f(x)-g(x)\right)$ where $f(x)\to \infty$ and $g(x)\to \infty$ as $x\to a$.
+
+\item[\textbf{1$^{\pmb\infty}$}] This refers to a limit of the form $\lim_{x\to a}
+  f(x)^{g(x)}$ where $f(x)\to 1$ and $g(x)\to \infty$ as $x\to a$.
+\item[\textbf{0$^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
+  f(x)^{g(x)}$ where $f(x)\to 0$ and $g(x)\to 0$ as $x\to a$.
+\item[\textbf{$\pmb\infty^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
+  f(x)^{g(x)}$ where $f(x)\to \infty$ and $g(x)\to 0$ as $x\to a$.
+\end{itemize}
+In each of these cases, the value of the limit is \textbf{not} immediately
+obvious. Hence, a careful analysis is required!
+\end{definition}
+
+Our first example is the computation of a limit that was somewhat
+difficult before, see Example~\ref{example:sinx/x}. Note, this is an
+example of the indeterminate form $0/0$.
+
+\begin{example}[0/0]\label{example:sinx/x-lhopital}
+\todo{Silly example}
+Compute
+\[
+\lim_{x\to 0} \frac{\sin(x)}{x}.
+\]
+
+Set $f(x) = \sin(x)$ and $g(x) = x$.  Since both $f(x)$ and $g(x)$ are
+differentiable functions at $0$, and 
+\[
+\lim_{x \to 0} f(x) = \lim_{x \to 0}g(x) = 0,
+\]
+this situation is ripe for l'H\^opital's Rule. Now
+\[
+f'(x) = \cos(x) \qquad\text{and}\qquad g'(x) = 1.
+\] 
+L'H\^opital's rule tells us that 
+\[
+\lim_{x \to 0} \frac{\sin(x)}{x} = \lim_{x \to 0} \frac{\cos(x)}{1} = 1.
+\]
+\end{example}
+
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1.6,xmax=1.6,ymin=-1.5,ymax=1.5, axis lines=center,
+            xtick={-1.57, 0, 1.57}, xticklabels={$-\pi/2$, $0$,
+              $\pi/2$}, ytick={-1,1},
+            %ticks=none,
+            %width=3in,
+            %height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-1.6:1.6)] {sin(deg(x))};
+          \addplot [very thick, penColor2] {x};
+          \node at (axis cs:1,.6) [penColor] {$f(x)$};
+          \node at (axis cs:-1,-1.2) [penColor2] {$g(x)$};
+        \end{axis}
+\end{tikzpicture}
+%\caption{A plot of $f(x)=\sin(x)$ and $g(x) = x$. Note how the tangent
+%  lines for each curve are coincident at $x=0$.}
+%\label{example:sinx and x}
+\end{image}
+
+
+From this example, we gain an intuitive feeling for why l'H\^opital's
+rule is true: If two functions are both $0$ when $x=a$, and if their
+tangent lines have the same slope, then the functions coincide as $x$
+approaches $a$. See Figure~\ref{example:sinx and x}. 
+
+
+
+
+Our next set of examples will run through the remaining indeterminate
+forms one is likely to encounter.
+
+\begin{example}[$\pmb\infty$/$\pmb\infty$] Compute 
+\[
+\lim_{x\to \pi/2+} \frac{\sec(x)}{\tan(x)}.
+\]
+
+Set $f(x) = \sec(x)$ and $g(x) = \tan(x)$. Both $f(x)$ and $g(x)$
+are differentiable near $\pi/2$. Additionally,
+\[
+\lim_{x \to \pi/2+} f(x) = \lim_{x \to \pi/2+}g(x) = -\infty.
+\]
+This situation is ripe for l'H\^opital's Rule. Now 
+\[
+f'(x) = \sec(x)\tan(x) \qquad\text{and}\qquad g'(x) = \sec^2(x).
+\]
+L'H\^opital's rule tells us that 
+\[
+\lim_{x\to \pi/2+} \frac{\sec(x)}{\tan(x)} = \lim_{x\to \pi/2+}
+\frac{\sec(x)\tan(x)}{\sec^2(x)} = \lim_{x\to \pi/2+} \sin(x) =
+1.
+\]
+\end{example}
+
+
+
+\begin{example}[0\,$\pmb{\cdot\infty}$]\label{example:xlnx infty} 
+Compute 
+\[
+\lim_{x\to 0+} x\ln x.
+\]
+
+This doesn't appear to be suitable for l'H\^opital's Rule. As $x$
+approaches zero, $\ln x$ goes to $-\infty$, so the product looks like
+\[
+(\text{something very small})\cdot (\text{something very large and
+  negative}).
+\] 
+This product could be anything---a careful analysis is required.
+Write
+\[
+x\ln x = \frac{\ln x}{x^{-1}}.
+\]
+Set $f(x) = \ln(x)$ and $g(x) = x^{-1}$.  Since both functions are differentiable near zero and 
+\[
+\lim_{x\to 0+} \ln(x) = -\infty\qquad\text{and}\qquad \lim_{x\to 0+} x^{-1} = \infty,
+\]
+we may apply l'H\^opital's rule. Write
+\[
+f'(x) = x^{-1}\qquad \text{and}\qquad g'(x) = -x^{-2},
+\]
+so
+\[
+\lim_{x\to 0+} x\ln x = \lim_{x\to 0+} \frac{\ln x}{x^{-1}} = \lim_{x\to 0+} \frac{x^{-1}}{-x^{-2}} =\lim_{x\to 0+} -x = 0.
+\]
+One way to interpret this is that since $\lim_{x\to 0^+}x\ln x = 0$,
+the function $x$ approaches zero much faster than $\ln x$ approaches
+$-\infty$.
+\end{example}
+
+\subsection*{Indeterminate Forms Involving Subtraction}
+
+There are two basic cases here, we'll do an example of each.
+
+\begin{example}[$\pmb\infty$--$\pmb\infty$]
+Compute
+\[
+\lim_{x\to 0} \left(\cot(x) - \csc(x)\right).
+\]
+
+Here we simply need to write each term as a fraction,
+\begin{align*}
+\lim_{x\to 0} \left(\cot(x) - \csc(x)\right) &= \lim_{x\to 0} \left(\frac{\cos(x)}{\sin(x)} - \frac{1}{\sin(x)}\right)\\
+&= \lim_{x\to 0} \frac{\cos(x)-1}{\sin(x)} 
+\end{align*}
+Setting $f(x) = \cos(x)-1$ and $g(x)=\sin(x)$, both functions are differentiable near zero and 
+\[
+\lim_{x\to 0}(\cos(x)-1)=\lim_{x\to 0}\sin(x) = 0.
+\]
+We may now apply l'H\^opital's rule. Write
+\[
+f'(x) = -\sin(x)\qquad \text{and}\qquad g'(x) = \cos(x),
+\]
+so
+\[
+\lim_{x\to 0} \left(\cot(x) - \csc(x)\right) = \lim_{x\to 0} \frac{\cos(x)-1}{\sin(x)} = \lim_{x\to 0} \frac{-\sin(x)}{\cos(x)} =0.
+\]
+\end{example}
+
+
+Sometimes one must be slightly more clever. 
+
+\begin{example}[$\pmb\infty$--$\pmb\infty$]
+Compute
+\[
+\lim_{x\to\infty}\left(\sqrt{x^2+x}-x\right).
+\]
+
+Again, this doesn't appear to be suitable for l'H\^opital's Rule. A bit of algebraic manipulation will help. Write
+\begin{align*}
+\lim_{x\to\infty}\left(\sqrt{x^2+x}-x\right) &= \lim_{x\to\infty}\left(x\left(\sqrt{1+1/x}-1\right)\right)\\
+&=\lim_{x\to\infty}\frac{\sqrt{1+1/x}-1}{x^{-1}}
+\end{align*}
+Now set $f(x) = \sqrt{1+1/x}-1$, $g(x) = x^{-1}$. Since both
+  functions are differentiable for large values of $x$ and 
+\[
+\lim_{x\to\infty} (\sqrt{1+1/x}-1) = \lim_{x\to\infty}x^{-1} = 0, 
+\]
+we may apply l'H\^opital's rule. Write
+\[
+f'(x) = (1/2)(1+1/x)^{-1/2}\cdot(-x^{-2}) \qquad \text{and}\qquad g'(x) = -x^{-2}
+\]
+so
+\begin{align*}
+\lim_{x\to\infty}\left(\sqrt{x^2+x}-x\right) &= \lim_{x\to\infty}\frac{\sqrt{1+1/x}-1}{x^{-1}} \\
+&= \lim_{x\to\infty}\frac{(1/2)(1+1/x)^{-1/2}\cdot(-x^{-2})}{-x^{-2}} \\
+&= \lim_{x\to\infty} \frac{1}{2\sqrt{1+1/x}}\\
+&= \frac{1}{2}.
+\end{align*}
+\end{example}
+
+
+\subsection*{Exponential Indeterminate Forms}
+
+There is a standard trick for dealing with the indeterminate forms
+\[
+1^\infty,\qquad 0^0,\qquad \infty^0.
+\]
+Given $u(x)$ and $v(x)$ such that
+\[
+\lim_{x\to a}u(x)^{v(x)}
+\]
+falls into one of the categories described above, rewrite as
+\[
+\lim_{x\to a}e^{v(x)\ln(u(x))}
+\]
+and then examine the limit of the exponent
+\[
+\lim_{x\to a} v(x)\ln(u(x)) = \lim_{x\to a} \frac{\ln(u(x))}{v(x)^{-1}}
+\]
+using l'H\^opital's rule.  Since these forms are all very similar, we
+will only give a single example.
+
+
+\begin{example}[1$^{\pmb\infty}$]
+Compute
+\[
+\lim_{x\to \infty}\left(1 + \frac{1}{x}\right)^x.
+\]
+
+
+Write
+\[
+\lim_{x\to \infty}\left(1 + \frac{1}{x}\right)^x = \lim_{x\to \infty}e^{x\ln\left(1 + \frac{1}{x}\right)}.
+\]
+So now look at the limit of the exponent
+\[
+\lim_{x\to\infty} x\ln\left(1 + \frac{1}{x}\right) = \lim_{x\to\infty} \frac{\ln\left(1 + \frac{1}{x}\right)}{x^{-1}}.
+\]
+Setting $f(x) = \ln\left(1 + \frac{1}{x}\right)$ and $g(x) = x^{-1}$,
+both functions are differentiable for large values of $x$ and
+\[
+\lim_{x\to \infty}\ln\left(1 + \frac{1}{x}\right)=\lim_{x\to \infty}x^{-1} = 0.
+\]
+We may now apply l'H\^opital's rule. Write
+\[
+f'(x) = \frac{-x^{-2}}{1 + \frac{1}{x}}\qquad\text{and}\qquad g'(x) = -x^{-2},
+\]
+so
+\begin{align*}
+\lim_{x\to\infty} \frac{\ln\left(1 + \frac{1}{x}\right)}{x^{-1}} &= \lim_{x\to\infty} \frac{\frac{-x^{-2}}{1 + \frac{1}{x}}}{-x^{-2}} \\
+&=\lim_{x\to\infty} \frac{1}{1 + \frac{1}{x}}\\
+&=1.
+\end{align*}
+Hence, 
+\[
+\lim_{x\to \infty}\left(1 + \frac{1}{x}\right)^x = \lim_{x\to \infty}e^{x\ln\left(1 + \frac{1}{x}\right)} =e^{1} = e.
+\]
+\end{example}
+
+
+\end{document}

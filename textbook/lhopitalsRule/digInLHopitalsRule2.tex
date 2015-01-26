@@ -2,33 +2,80 @@
 
 \input{../preamble.tex}
 
-\title{L'H\^{o}pital's rule}
+\title{The Theorem}
 
 \begin{document}
 \begin{abstract}
 \end{abstract}
 \maketitle
 
-Derivatives allow us to take problems that were once difficult to
-solve and convert them to problems that are easier to solve. Let us
-consider l'H\^{o}pital's rule:
+In the previous activity, we gathered some strong intuitive evidence for a theorem which would let us compute limits
+by using derivatives.
 
 \todo{L'H\^opital's rule applies even when $\lim_{x\to a}f(x) =
   \pm \infty$ and $\lim_{x\to a}g(x) = \mp \infty$. See Example~\ref{example:xlnx infty}.}
+  
 \begin{theorem}[L'H\^opital's Rule]\index{l'H\^opital's Rule} 
-Let $f(x)$ and $g(x)$ be functions that are differentiable near $a$.  If
+Let $f(x)$ and $g(x)$ be functions that are differentiable near (but not necessarily at) $a$.  
+Here $a$ is also allowed to be $\infty$ or $-\infty\$, and in this case we require that $f$ and $g$ 
+be differentiable on some interval $(N,\infty)$ or $(-\infty,N)$.
+
+If
+
 \[
 \lim_{x \to a} f(x) = \lim_{x \to a}g(x) = 0 \qquad \text{or} \pm \infty,
 \]
 and $\lim_{x \to a} \frac{f'(x)}{g'(x)}$ exists, and $g'(x) \neq 0$
-for all $x$ near $a$, then 
+for all $x$ on an interval containing $a$, then 
 \[
 \lim_{x \to a} \frac{f(x)}{g(x)} = \lim_{x \to a} \frac{f'(x)}{g'(x)}.
 \]
 \end{theorem}
-This theorem is somewhat difficult to prove, in part because it
-incorporates so many different possibilities, so we will not prove it
-here. 
+
+Intuitively the theorem says "To compare the growth of two quantites which are diminishing in size, 
+we can instead compare the rates at which they are diminishing".  The proof of this theorem is outside 
+the scope of this course, but you may enjoying reading a sketch of the proof 
+\href{here}{https://www.math.hmc.edu/calculus/tutorials/lhopital/sketch_proof.html}.
+
+\begin{question}
+	Select all of the limits to which l'H\^{o}pital's rule immediately applies.
+	\begin{hint}
+		It applies to $\displaystyle\lim_{x \to 0} \frac{x^{-1}}{x^{-1}}$ 
+		since the numerator and denominator both go to $\pm \infty$, and the derivative of the denominator is $\frac{-1}{x^2}$,
+		which has no roots.  Note that while $l'H\^opitals$ rule applies to this example, it would be \textbf{very silly} to use it.
+	\end{hint}
+	\begin{hint}
+		It does not apply to $\displaystyle \lim_{x \to 3} \frac{x+1}{x+4}$ 
+		since $\displaystyle\lim_{x \to 3} (x+1) = 4$, which is not $0$, $\infty$ or $-\infty$
+	\end{hint}
+	\begin{hint}
+		It does not apply to $\displaystyle \lim_{x \to 3} \displaystyle} \lim_{x \to 0} \frac{x}{x\sin(x)}$ 
+		since even though the numerator and denominator both go to $0$ as $x \to 0$, 
+		the derivative of the denominator has zeros arbitrarily close to $x=0$ (try graphing $y=x\sin(x)$).
+	\end{hint}
+	\begin{hint}
+		It applies to $\displaystyle\lim_{x \to 2} \frac{e^x-e^2}{x-2}$ 
+		since the numerator and denominator both go to $0$, and the derivative of the denominator is the constant function $1$,
+		which has no roots at all.  Note that, while it is fine to use l'H\^{0}pital's rule to solve this limit,
+		it is better to recognise that this is the definition of the derivative of $e^x$ at $x=2$.
+	\end{hint}
+	
+	\todo{Implement multiple select choice}
+	\begin{multiple-choice}
+		\choice[correct]{$\displaystyle\lim_{x \to 2} \frac{e^x-e^2}{x-2}$}
+		\choice[correct]{$\displaystyle\lim_{x \to 0}\frac{x^{-1}}{x^{-1}}$}
+		\choice[correct]{$\displaystyle \lim_{x \to \infty}\frac{\log(x)}{x}$}
+		\choice{$\displaystyle \lim_{x \to 3} \frac{x+1}{x+4}$}
+		\choice{$\displaystyle} \lim_{x \to 0} \frac{x}{x\sin(x)$}
+	\end{multiple-choice}
+\end{question}
+
+\todo{Implement \infty answer type}
+
+\begin{question}
+	$\displaystyle \lim_{x \to \infty} \frac{e^x}{x}=\answer{\infty}$.
+	
+\end{question}
 
 L'H\^{o}pital's rule allows us to investigate limits of
 \textit{indeterminate form}.
@@ -51,9 +98,36 @@ L'H\^{o}pital's rule allows us to investigate limits of
 \item[\textbf{$\pmb\infty^\text{0}$}] This refers to a limit of the form $\lim_{x\to a}
   f(x)^{g(x)}$ where $f(x)\to \infty$ and $g(x)\to 0$ as $x\to a$.
 \end{itemize}
-In each of these cases, the value of the limit is \textbf{not} immediately
-obvious. Hence, a careful analysis is required!
+ 
 \end{definition}
+
+In each of these cases, the value of the limit is \textbf{not} immediately
+obvious.  For example, if we have a limit of the form $[0^0]$, then the base of the exponent is 
+"driving the limit to $0$", while the exponent is "driving the limit to $1$".  
+In this tug of war, it is not clear which of the two combatants will triumpf, 
+or (if neither "wins") to what value they will reach a compromise. Hence, a careful analysis is required.
+
+\todo{dropdown}
+
+\begin{question}
+    $\lim_{x \to 0} \left(\frac{1}{x}\right)^x$ is
+    \begin{multiple-choice}[dropdown]
+    	\choice[correct]{a $[\infty^0}]$ indeterminate form}
+    	\choice{a $[0^0]$ indeterminate form}
+    	\choice{a $\frac{0}{0}$ indeterminate form}
+    	\choice{not an indeterminate form}
+    \end{multiple-choice}
+\end{question}
+
+\begin{question}
+    $\lim_{x \to 0} x^{left(\frac{1}{x}\right}$ is
+    \begin{multiple-choice}[dropdown]
+    	\choice{a $[\infty^0}]$ indeterminate form}
+    	\choice{a $[0^0]$ indeterminate form}
+    	\choice{a $\frac{0}{0}$ indeterminate form}
+    	\choice[correct]{not an indeterminate form}
+    \end{multiple-choice}
+\end{question}
 
 Our first example is the computation of a limit that was somewhat
 difficult before, see Example~\ref{example:sinx/x}. Note, this is an

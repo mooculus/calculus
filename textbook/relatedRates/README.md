@@ -1,3 +1,5 @@
 # Related Rates
 
-This section needs to be written.
+Let's ask how many "miles per dollar"
+
+rates are changing...

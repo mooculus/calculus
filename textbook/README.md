@@ -1,6 +1,9 @@
 # Note to authors
 * There is a preamble file in this directory. Please add needed macros there.
 
+# Note to typesetters
+* It may be a good idea to number pages by chapter.section.page-within-section
+
 # Textbook outline
 
 * [Introduction to famous functions](introductionToFunctions/)

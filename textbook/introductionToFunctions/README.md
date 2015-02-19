@@ -1,3 +1,10 @@
 # Introduction to famous functions
 
-This section needs to be written.
+Some ideas:
+
+Include paraenthesis for sin/cos/tan/ln
+Explain that
+
+sin(x)^2 is sin(x)*sin(x)
+
+

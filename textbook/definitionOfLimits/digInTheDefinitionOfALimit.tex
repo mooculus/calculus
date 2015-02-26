@@ -1,0 +1,284 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{The definition of a limit}
+\begin{document}
+\begin{abstract}
+  Here we get to the gritty details of limits.
+\end{abstract}
+\maketitle
+
+Consider the function:
+\[
+f(x) = \frac{x^2 - 3x + 2}{x-2}
+\]
+While $f(x)$ is undefined at $x=2$, we can still plot $f(x)$ at other
+values, see Figure~\ref{plot:(x^2 - 3x + 2)/(x-2)}. Examining
+Table~\ref{table:(x^2 - 3x + 2)/(x-2)}, we see that as $x$ approaches
+$2$, $f(x)$ approaches $1$. We write this: 
+\[
+\text{As $x \to 2$, $f(x) \to 1$}\qquad\text{or}\qquad \lim_{x\to 2} f(x) = 1.
+\]
+Intuitively, $\lim_{x\to a} f(x) = L$ when the value of $f(x)$ can
+be made arbitrarily close to $L$ by making $x$ sufficiently close, but
+not equal to, $a$.  This leads us to the formal definition of a
+\textit{limit}.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            grid=both,
+            grid style={dashed, gridColor},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {x-1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\protect\frac{x^2 - 3x + 2}{x-2}$.}
+%% \label{plot:(x^2 - 3x + 2)/(x-2)}
+\end{image}
+
+\[
+\begin{tchart}{ll}
+ x & f(x) \\ \hline
+ 1.7 &  0.7 \\
+ 1.9 &  0.9 \\
+ 1.99 &  0.99 \\
+ 1.999 &  0.999 \\
+  2 &  \text{undefined}
+\end{tchart}\qquad
+\begin{tchart}{ll}
+ x & f(x) \\ \hline
+  2 & \text{undefined}\\
+ 2.001&  1.001\\
+ 2.01&  1.01\\
+ 2.1 &  1.1 \\
+ 2.3 &  1.3 \\
+\end{tchart}
+\]
+%% \caption{Values of $f(x)=\protect\frac{x^2 - 3x + 2}{x-2}$.}
+%% \label{table:(x^2 - 3x + 2)/(x-2)}
+
+\begin{definition}\label{def:limit}\index{limit!definition}
+The \textbf{limit} of $f(x)$ as $x$ goes to $a$ is $L$,
+\[
+\lim_{x\to a}f(x)=L,
+\] 
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever
+\[
+0 < |x-a| < \delta, \qquad\text{we have} \qquad |f(x)-L|<\epsilon.
+\] 
+If no such value of $L$ can be
+found, then we say that $\lim_{x\to a}f(x)$ \textbf{does not exist}.
+\end{definition}
+Equivalently, $\lim_{x\to a}f(x)=L$, if for
+  every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x\ne a$
+  and $a- \delta < x < a+ \delta$, we have $L-\epsilon<
+  f(x)<L+\epsilon$.
+
+
+
+In Figure~\ref{figure:epsilon-delta}, we see a geometric
+interpretation of this definition.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:2, 
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={0.7,1,1.3}, ytick={3,4,5},
+            xticklabels={$a-\delta$,$a$,$a+\delta$}, yticklabels={$L-\epsilon$,$L$,$L+\epsilon$},
+            axis on top,
+          ]          
+          \addplot [color=textColor, fill=fill2, smooth, domain=(0:1.570)] {5} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill1, smooth, domain=(0:1.3)] {4.537} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill2, domain=(0:.7)] {3.283} \closedcycle;       
+          \addplot [textColor, very thick, smooth, domain=(0:1)] {4};
+          \addplot [color=textColor, fill=background, smooth, domain=(0:0.607)] {3} \closedcycle;
+	  \addplot [draw=none, fill=background, smooth] {x*(x-2)^2+3*x} \closedcycle;
+          \addplot [fill=fill1, draw=none, domain=.7:1.3] {x*(x-2)^2+3*x} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(1,0) (1,4)};
+          \addplot [textColor] plot coordinates {(.7,0) (.7,3.283)};
+          \addplot [textColor] plot coordinates {(1.3,0) (1.3,4.537)};
+	  \addplot [very thick,penColor, smooth] {x*(x-2)^2+3*x};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A geometric interpretation of the
+%%   $(\epsilon,\delta)$-criterion for limits.  If $0<|x-a|<\delta$, then we have that $a
+%%   -\delta < x < a+\delta$. In our diagram, we see that for all such
+%%   $x$ we are sure to have $L - \epsilon< f(x) < L+\epsilon$, and hence
+%%   $|f(x) - L|<\epsilon$.}
+%% \label{figure:epsilon-delta}
+\end{image}
+Limits need not exist, let's examine two cases of this.
+
+\begin{example}
+Let $f(x) = \lfloor x\rfloor$. Explain why the limit
+\[
+\lim_{x\to 2} f(x)
+\]
+does not exist.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            %axis on top,
+          ]
+          \addplot [draw=none,, fill=fill1, domain=(0:2)] {2} \closedcycle; %% fill for epsilon  
+          \addplot [color=textColor, dashed, domain=(0:2)] {2};  %% bndry for epsilon  
+          \addplot [draw=none, fill=background, domain=(0:1.8)] {1} \closedcycle;
+          \addplot [color=textColor, dashed, domain=(0:1)] {1};  %% bndry for epsilon  
+          \addplot [draw=none, fill=fill1, domain=(1.8:2)] {1} \closedcycle;
+          \addplot [draw=none, fill=fill1, domain=(2:2.2)] {2} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(2,0) (2,2)};
+          \addplot [textColor] plot coordinates {(1.8,0) (1.8,1)};
+          \addplot [textColor] plot coordinates {(2.2,0) (2.2,2)};
+          \addplot [textColor, very thin, domain=(0:2.3)] {0}; % puts the axis back, axis on top clobbers our open holes
+          \addplot [textColor, very thin] plot coordinates {(0,0) (0,2)}; % puts the axis back, axis on top clobbers our open holes
+	  \addplot [very thick, penColor, domain=(-2:-1)] {-2};
+          \addplot [very thick, penColor, domain=(-1:0)] {-1};
+          \addplot [very thick, penColor, domain=(0:1)] {0};
+          \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot [very thick, penColor, domain=(3:4)] {3};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,-2)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole                  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-1,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4,3)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\lfloor x\rfloor$. Note, no matter which
+%%   $\delta>0$ is chosen, we can only at best bound $f(x)$ in the
+%%   interval $[1,2]$. With the example of $f(x) = \lfloor x \rfloor$, we
+%%   see that taking limits is truly different from evaluating
+%%   functions.}
+%% \label{plot:greatest-integer}
+\end{image}
+
+
+The function $\lfloor x \rfloor$ is the function that returns the
+greatest integer less than or equal to $x$. Since $f(x)$ is defined
+for all real numbers, one might be tempted to think that the limit
+above is simply $f(2) = 2$. However, this is not the case.  If $x<2$,
+then $f(x) =1$. Hence if $\epsilon = .5$, we can \textbf{always} find
+a value for $x$ (just to the left of $2$) such that
+\[
+0< |x -2|< \delta, \qquad\text{where} \qquad \epsilon < |f(x)-2|.
+\]
+On the other hand, $\lim_{x\to 2} f(x)\ne 1$, as in this case if
+$\epsilon=.5$, we can \textbf{always} find a value for $x$ (just to
+the right of $2$) such that
+\[
+0<|x- 2|<\delta, \qquad\text{where} \qquad  \epsilon<|f(x)-1|.
+\]
+We've illustrated this in
+Figure~\ref{plot:greatest-integer}. Moreover, no matter what value one
+chooses for $\lim_{x\to 2} f(x)$, we will always have a similar
+issue.
+\end{example}
+
+
+Limits may not exist even if the formula for the function looks
+innocent.
+
+\begin{example}
+Let  $f(x) = \sin\left(\frac{1}{x}\right)$. Explain why the limit
+\[
+\lim_{x\to 0} f(x)
+\]
+does not exist.
+
+In this case $f(x)$ oscillates ``wildly'' as $x$ approaches $0$, see
+Figure~\ref{plot:sin 1/x}. In fact, one can show that for any given
+  $\delta$, There is a value for $x$ in the interval
+\[
+0-\delta < x < 0+\delta
+\]
+such that $f(x)$ is \textbf{any} value in the interval $[-1,1]$. Hence
+the limit does not exist.
+
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-.2:.2,    
+            samples=500,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            yticklabels = {}, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-.2:-.02)] {sin(deg(1/x))};
+          \addplot [very thick, penColor, smooth, domain=(.02:.2)] {sin(deg(1/x))};
+	  \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.02:.02)] {1} \closedcycle;
+          \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.02:.02)] {-1} \closedcycle;
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\protect\sin\left(\frac{1}{x}\right)$.}
+%% \label{plot:sin 1/x}
+\end{image}
+\end{example}
+
+
+Sometimes the limit of a function exists from one side or the other
+(or both) even though the limit does not exist. Since it is useful to
+be able to talk about this situation, we introduce the concept of a
+\textit{one-sided limit}\index{one-sided limit}:
+
+\begin{definition} We say that the \textbf{limit} of $f(x)$ as $x$ goes to $a$ from the \textbf{left} is $L$,
+\[
+\lim_{x\to a-}f(x)=L
+\]
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x< a$ and 
+\[
+a-\delta < x \qquad\text{we have}\qquad |f(x)-L|<\epsilon.
+\]
+
+We say that the \textbf{limit} of $f(x)$ as $x$ goes to $a$ from the \textbf{right} is $L$,
+\[
+\lim_{x\to a+}f(x)=L
+\] 
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x > a$ and 
+\[
+x<a+\delta \qquad\text{we have}\qquad |f(x)-L|<\epsilon.
+\]
+\end{definition}
+Limits from the left, or from the right, are collectively called \textbf{one-sided limits}.
+
+
+\begin{example}
+Let $f(x) = \lfloor x\rfloor$. Discuss
+\[
+\lim_{x\to 2-} f(x), \qquad \lim_{x\to 2+} f(x), \qquad\text{and}\qquad\lim_{x\to 2} f(x).
+\]
+
+From the plot of $f(x)$, see Figure~\ref{plot:greatest-integer}, we see that 
+\[
+\lim_{x\to 2-} f(x)=1, \qquad\text{and}\quad \lim_{x\to 2+} f(x) = 2.
+\]
+Since these limits are different, $\lim_{x\to 2} f(x)$ does not exist.
+\end{example}
+\end{document}

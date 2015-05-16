@@ -73,6 +73,50 @@ $c$ in $[a, b]$ such that $f(c) = d$.
 %% \label{figure:intermediate-value}
 \end{image}
 
+Now, let's contrast this with a time when the conclusion of the
+Intermediate Value Theorem does not hold.
+
+\begin{question}
+  Consider the following situation,
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          domain=0:6, ymin=0, ymax=2.2,xmax=6,
+          axis lines =left, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          xtick={1,5}, ytick={.2,1,1.7},
+          xticklabels={$a$,$b$}, yticklabels={$f(a)$,$d$,$f(b)$},
+          axis on top,
+        ]
+        \addplot [draw=none, fill=fill2, domain=(0:7)] {1.7} \closedcycle;
+        \addplot [draw=none, fill=background, domain=(0:7)] {.2} \closedcycle;
+        \addplot [textColor,dashed] plot coordinates {(0,1.7) (6,1.7)};
+        \addplot [textColor,dashed] plot coordinates {(0,.2) (6,.2)};
+        \addplot [textColor,dashed] plot coordinates {(5,0) (5,1.7)};
+        \addplot [textColor,dashed] plot coordinates {(1,0) (1,.2)};
+        \addplot [penColor2,domain=(0:6)] {1};
+        \addplot [very thick,penColor] plot coordinates {(1,.2) (5,.7)};
+        \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,.2)};  %% closed hole
+        \addplot [color=penColor,fill=fill2,only marks,mark=*] coordinates{(5,.7)};  %% open hole          
+        \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,1.7)};  %% closed hole          
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  and select all that are true:
+  \begin{multipleChoice}
+    \choice[correct]{$f$ is continuous on $(a,b)$.}
+    \choice[correct]{$f$ is continuous on $[a,b)$.}
+    \choice{$f$ is continuous on $(a,b]$.}
+    \choice{$f$ is continuous on $[a,b]$.}
+    \choice{There is a point $c$ in $[a,b]$ with $f(c) = d$.}
+  \end{multipleChoice}
+\end{question}
+
+Building on the question above, it is not difficult to see that 
+each of the hypothesis of the Intermediate Value Theorem are necessary.
+
+
 
 Let's see the Intermediate Value Theorem in action.
 
@@ -127,7 +171,7 @@ $0.62$, and the root is $0.6$ rounded to one decimal place.
 \end{example}
 
 
-The Intermediate Value Theorem can be use to show curves cross:
+The Intermediate Value Theorem can be use to show that curves cross:
 
 
 \begin{example} 
@@ -142,13 +186,13 @@ The Intermediate Value Theorem can be use to show curves cross:
   hence $h = f-g$ is also a continuous function. Now
   \begin{align*}
     h(1) &= f(1) - g(1) \\
-    &= \answer[given]{1}^2\ln(\answer[given]{1}) - 2\cdot\answer[given]{1}\cos(\ln(\answer[given]{1}))\\
+    &= (\answer[given]{1})^2\cdot \ln(\answer[given]{1}) - 2\cdot\answer[given]{1}\cdot \cos(\ln(\answer[given]{1}))\\
     &= \answer[given]{-2}.
   \end{align*}
   and in a similar fashion
    \begin{align*}
     h(e) &= f(e) - g(e) \\
-    &= e^2\answer[given]{1} - 2\cdot e\cos(\answer[given]{1})
+    &= e^2\cdot \answer[given]{1} - 2\cdot e\cos(\answer[given]{1})
    \end{align*}
    Since $e>2$ and $0 < \cos(1)<1$ we see that the expression above is
    positive. Hence by the Intermediate Value Theorem, $f$ and $g$

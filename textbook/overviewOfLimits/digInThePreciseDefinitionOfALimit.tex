@@ -1,0 +1,156 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{The precise definition of a limit}
+
+\begin{document}
+\begin{abstract}
+  We give a mathematically precise definition of a limit.
+\end{abstract}
+\maketitle
+
+Recall that intuitively, the \textit{limit} of $f(x)$ as $x$
+approaches $a$ is $L$, written
+\[
+\lim_{x\to a} f(x) = L,
+\]
+if the value $f(x)$ can be made as close as one wishes to $L$ for
+all $x$ sufficiently close, but not equal to, $a$.  This leads us to a
+precise definition of a \textit{limit}.
+
+\section{The definition of a limit}
+
+
+%% \marginnote[1in]{Equivalently, $\lim_{x\to a}f(x)=L$, if for
+%%   every $\epsilon>0$ there is a $\delta > 0$ so that whenever $x\ne a$
+%%   and $a- \delta < x < a+ \delta$, we have $L-\epsilon<
+%%   f(x)<L+\epsilon$.}
+
+\begin{definition}\label{def:limit}\index{limit!definition}
+The \dfn{limit} of $f(x)$ as $x$ goes to $a$ is $L$,
+\[
+\lim_{x\to a} f(x) = L,
+\] 
+if for every $\epsilon>0$ there is a $\delta > 0$ so that whenever
+\[
+0 < |x-a| < \delta, \qquad\text{we have} \qquad |f(x)-L|<\epsilon.
+\] 
+If no such value of $L$ can be found, then we say that the \dfn{limit
+  does not exist}.
+\end{definition}
+
+In the figure below, we see a geometric interpretation of this
+definition.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:2, 
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={0.7,1,1.3}, ytick={3,4,5},
+            xticklabels={$a-\delta$,$a$,$a+\delta$}, yticklabels={$L-\epsilon$,$L$,$L+\epsilon$},
+            axis on top,
+          ]          
+          \addplot [color=textColor, fill=fill2, smooth, domain=(0:1.570)] {5} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill1, smooth, domain=(0:1.3)] {4.537} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill2, domain=(0:.7)] {3.283} \closedcycle;       
+          \addplot [textColor, very thick, smooth, domain=(0:1)] {4};
+          \addplot [color=textColor, fill=background, smooth, domain=(0:0.607)] {3} \closedcycle;
+	  \addplot [draw=none, fill=background, smooth] {x*(x-2)^2+3*x} \closedcycle;
+          \addplot [fill=fill1, draw=none, domain=.7:1.3] {x*(x-2)^2+3*x} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(1,0) (1,4)};
+          \addplot [textColor] plot coordinates {(.7,0) (.7,3.283)};
+          \addplot [textColor] plot coordinates {(1.3,0) (1.3,4.537)};
+	  \addplot [very thick,penColor, smooth] {x*(x-2)^2+3*x};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A geometric interpretation of the
+%%   $(\epsilon,\delta)$-criterion for limits.  If $0<|x-a|<\delta$, then we have that $a
+%%   -\delta < x < a+\delta$. In our diagram, we see that for all such
+%%   $x$ we are sure to have $L - \epsilon< f(x) < L+\epsilon$, and hence
+%%   $|f(x) - L|<\epsilon$.}
+%% \label{figure:epsilon-delta}
+\end{image}
+
+
+Now we are going to get our hands dirty, and really use the definition
+of a limit.
+
+
+\begin{example} Show that $\lim_{x\to 2} x^2=4$. 
+\begin{explanation}
+We want to show that for any given $\epsilon>0$, we can find a
+$\delta>0$ such that
+\[
+|x^2 -4|<\epsilon
+\]
+whenever $0<|x - 2|<\delta$.
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=1:3, 
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1.8,2,2.2}, ytick={3,4,5},
+            xticklabels={$2-\delta$,$2$,$2+\delta$}, yticklabels={$4-\epsilon$,$4$,$4+\epsilon$},
+            axis on top,
+          ]          
+          \addplot [color=textColor, fill=fill2, smooth, domain=(1:2.236)] {5} \closedcycle;
+          \addplot [color=textColor, dashed, fill=fill1, domain=(1:2.2)] {4.84} \closedcycle;       
+          \addplot [color=textColor, dashed, fill=fill2, domain=(1:1.8)] {3.24} \closedcycle;       
+          \addplot [textColor, very thick, smooth, domain=(1:2)] {4};
+          \addplot [color=textColor, fill=background, smooth, domain=(1:1.8)] {3} \closedcycle;
+	  \addplot [draw=none, fill=background, smooth] {x^2} \closedcycle;
+          \addplot [fill=fill1, draw=none, domain=1.8:2.2] {x^2} \closedcycle;
+          \addplot [textColor, very thick] plot coordinates {(2,0) (2,4)};
+          \addplot [textColor] plot coordinates {(1.8,0) (1.8,3.24)};
+          \addplot [textColor] plot coordinates {(2.2,0) (2.2,4.84)};
+	  \addplot [very thick,penColor, smooth] {x^2};
+        \end{axis}
+\end{tikzpicture}
+%% label{plot:x^2 lim dfn}
+%% \caption{The $(\epsilon,\delta)$-criterion for $\lim_{x\to 2}
+%%   x^2=4$. Here $\delta= \min\left(\dfrac{\epsilon}{5},1\right)$.}
+\end{image}
+Start by factoring the left-hand side of
+the inequality above
+\[
+|x+2||x-2|<\epsilon.
+\]
+Since we are going to assume that $0<|x - 2|<\delta$, we will focus on
+the factor $|x+2|$. Since $x$ is assumed to be close to $2$, suppose that $x\in[1,3]$. In this case
+\[
+|x+2| \le 3+2 = 5,
+\]
+and so we want
+\begin{align*}
+5\cdot |x-2| &< \epsilon\\
+|x-2| &< \frac{\epsilon}{5}
+\end{align*}
+Recall, we assumed that $x\in[1,3]$, which is equivalent to
+$|x-2|\le 1$. Hence we must set $\delta = \min\left(\dfrac{\epsilon}{5},1\right)$.
+\end{explanation}
+\end{example}
+
+When dealing with limits of polynomials, the general strategy is
+always the same. Let $p(x)$ be a polynomial. If showing
+\[
+\lim_{x\to a} p(x) = L,
+\]
+one must first factor out $|x-a|$ from $|p(x) - L|$. Next bound $x\in
+[a-1,a+1]$ and estimate the largest possible value of
+\[
+\left|\frac{p(x) -L}{x-a}\right|
+\]
+for $x\in[a-1,a+1]$, call this estimation $M$. Finally, one must set
+$\delta = \min\left(\frac{\epsilon}{M}, 1\right)$.
+
+\section{Tolerance problems}
+
+
+
+\end{document}

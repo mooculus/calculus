@@ -1,0 +1,122 @@
+\documentclass[numbers]{ximera}
+%% handout
+%% nohints
+%% newpage
+
+\input{../preamble.tex}
+
+\usepackage[framemethod=TikZ]{mdframed}
+
+\usepackage{geometry}
+\geometry{landscape, 
+  left=1in,
+  top=1in,
+  textheight=6.5in,
+  textwidth=5in,
+  marginparsep=0.5in,
+  marginparwidth=2.5in}
+
+
+
+
+%% Allows for a wide text/regular text
+\renewcommand{\fullwidth}{\newgeometry{textwidth=10cm,textheight=10cm}}
+\renewcommand{\normalwidth}{\restoregeometry}
+%% End
+
+
+%% Allows us to combine documents with document classes
+\let\masterdocument\document
+\let\endmasterdocument\enddocument
+\let\otherinput\input %% Numbering starts a page too soon without this
+\newcommand{\masterinput}[1]{\otherinput{#1}\clearpage} %% Numbering starts a page too soon without this
+%% End combo hack
+
+
+
+%% This is the code that will allow us to redefine the title with
+%% \let\maketitle\makesectiontitle
+
+%% \makeatletter
+%% \newcommand\makesectiontitle{
+%%   \addtocounter{titlenumber}{1}\addcontentsline{toc}{subsection}{\thetitlenumber~\@title} %% puts titles in the toc
+%%   {\flushleft\large\bfseries \@pretitle\par\vspace{-1em}}%
+%%   {\flushleft\LARGE\bfseries {\ifnumbers\thetitlenumber\fi}{\ifnumbers\hspace{1em}\else\hspace{0em}\fi}\@title \par }
+%%   \vskip .6em\noindent\textit\theabstract\setcounter{problem}{0}\setcounter{subsection}{0}\par\vspace{2em}
+%%   \ifnooutcomes\else\ifhandout\else\let\thefootnote\relax\footnote{Learning outcomes: \theoutcomes}\fi\fi
+%%   \aftergroup\@afterindentfalse
+%%   \aftergroup\@afterheading}
+%% \makeatother
+
+
+
+
+\begin{masterdocument}
+%% Redefines "explanation"
+\renewmdenv[outerlinewidth=2,topline=false, bottomline=false, leftline=true, rightline=false, 
+leftmargin=40,innertopmargin=0pt,innerbottommargin=0pt,skipbelow=\baselineskip,
+outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explanation}%
+%%
+  
+
+
+  \begin{titlepage}
+    \vspace*{1in}
+    \begin{center}
+      \Huge \bfseries Textbook\\[0.5cm]
+      \normalsize This document was typeset on \today.
+    \end{center}
+    %\vspace*{\fill}
+  \end{titlepage}
+  
+  \tableofcontents
+  \setcounter{page}{2}
+
+\cleardoublepage
+  
+\renewcommand{\documentclass}{\setbox0\vbox}
+\renewcommand{\input}{\setbox0\vbox}
+\renewenvironment{document}{\renewcommand{\input}{\masterinput}
+}{\renewcommand{\input}{\setbox0\vbox}}
+%% Understanding Functions
+%% BreakGround
+\masterinput{../understandingFunctions/breakGround.tex}\def\theoutcomes{}
+%% DigIns
+\masterinput{../understandingFunctions/digInForEachInputExactlyOneOutput.tex}\def\theoutcomes{}
+\masterinput{../understandingFunctions/digInOperationsAndCompositionsOfFunctions.tex}\def\theoutcomes{}
+\masterinput{../understandingFunctions/digInInversesOfFunctions.tex}\def\theoutcomes{}
+\masterinput{../understandingFunctions/digInAWordOnNotation.tex}\def\theoutcomes{}
+
+
+
+%% What is a limit
+\masterinput{../whatIsALimit/breakGround.tex}\def\theoutcomes{}
+\masterinput{../whatIsALimit/digInWhatIsALimit.tex}\def\theoutcomes{}
+
+%% Limit Laws
+\masterinput{../limitLaws/breakGround.tex}\def\theoutcomes{}
+\masterinput{../limitLaws/digInLimitLawsAndIndeterminantForms.tex}\def\theoutcomes{}
+\masterinput{../limitLaws/digInTheSqueezeTheorem.tex}\def\theoutcomes{}
+
+%% Indeterminant forms
+\masterinput{../indeterminateForms/breakGround.tex}\def\theoutcomes{}
+
+%% Using limits to detect asymptotes
+
+%% The intermediate value theorem
+\masterinput{../continuity/breakGround.tex}\def\theoutcomes{}
+\masterinput{../continuity/digInTheIntermediateValueTheorem.tex}\def\theoutcomes{}
+
+%% Overview of limits
+\masterinput{../overviewOfLimits/breakGround.tex}\def\theoutcomes{}
+\masterinput{../overviewOfLimits/digInInstantaneousVelocity.tex}\def\theoutcomes{}
+\masterinput{../overviewOfLimits/digInThePreciseDefinitionOfALimit.tex}\def\theoutcomes{}
+
+%% Product and quotient rules
+\masterinput{../productAndQuotientRules/breakGround.tex}\def\theoutcomes{}
+
+
+\masterinput{../moreThanOneRate/breakGround.tex}\def\theoutcomes{}
+\masterinput{../lHospitalsRule/breakGround.tex}\def\theoutcomes{}
+
+\end{masterdocument}

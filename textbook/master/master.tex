@@ -7,27 +7,58 @@
 
 \usepackage[framemethod=TikZ]{mdframed}
 
-\usepackage[left=1in, textwidth=6in,includehead, includefoot, paperwidth=11in, paperheight=8.5in]{geometry}
+\usepackage{geometry}
+\geometry{landscape, 
+  left=1in,
+  top=1in,
+  textheight=6.5in,
+  textwidth=5in,
+  marginparsep=0.5in,
+  marginparwidth=2.5in}
 
+
+
+
+%% Allows for a wide text/regular text
 \renewcommand{\fullwidth}{\newgeometry{textwidth=10cm,textheight=10cm}}
 \renewcommand{\normalwidth}{\restoregeometry}
+%% End
 
 
-
+%% Allows us to combine documents with document classes
 \let\masterdocument\document
 \let\endmasterdocument\enddocument
 \let\otherinput\input %% Numbering starts a page too soon without this
 \newcommand{\masterinput}[1]{\otherinput{#1}\clearpage} %% Numbering starts a page too soon without this
+%% End combo hack
+
+
+
+%% This is the code that will allow us to redefine the title with
+%% \let\maketitle\makesectiontitle
+
+%% \makeatletter
+%% \newcommand\makesectiontitle{
+%%   \addtocounter{titlenumber}{1}\addcontentsline{toc}{subsection}{\thetitlenumber~\@title} %% puts titles in the toc
+%%   {\flushleft\large\bfseries \@pretitle\par\vspace{-1em}}%
+%%   {\flushleft\LARGE\bfseries {\ifnumbers\thetitlenumber\fi}{\ifnumbers\hspace{1em}\else\hspace{0em}\fi}\@title \par }
+%%   \vskip .6em\noindent\textit\theabstract\setcounter{problem}{0}\setcounter{subsection}{0}\par\vspace{2em}
+%%   \ifnooutcomes\else\ifhandout\else\let\thefootnote\relax\footnote{Learning outcomes: \theoutcomes}\fi\fi
+%%   \aftergroup\@afterindentfalse
+%%   \aftergroup\@afterheading}
+%% \makeatother
+
 
 
 
 \begin{masterdocument}
-
+%% Redefines "explanation"
 \renewmdenv[outerlinewidth=2,topline=false, bottomline=false, leftline=true, rightline=false, 
 leftmargin=40,innertopmargin=0pt,innerbottommargin=0pt,skipbelow=\baselineskip,
 outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explanation}%
-
+%%
   
+
 
   \begin{titlepage}
     \vspace*{1in}
@@ -37,11 +68,12 @@ outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explana
     \end{center}
     %\vspace*{\fill}
   \end{titlepage}
+  
+  \tableofcontents
+  \setcounter{page}{2}
 
-\setcounter{page}{2}
-
-\tableofcontents
-
+\cleardoublepage
+  
 \renewcommand{\documentclass}{\setbox0\vbox}
 \renewcommand{\input}{\setbox0\vbox}
 \renewenvironment{document}{\renewcommand{\input}{\masterinput}
@@ -54,6 +86,7 @@ outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explana
 \masterinput{../understandingFunctions/digInOperationsAndCompositionsOfFunctions.tex}\def\theoutcomes{}
 \masterinput{../understandingFunctions/digInInversesOfFunctions.tex}\def\theoutcomes{}
 \masterinput{../understandingFunctions/digInAWordOnNotation.tex}\def\theoutcomes{}
+
 
 
 %% What is a limit

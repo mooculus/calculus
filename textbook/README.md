@@ -109,12 +109,11 @@
 * [Approximating the area under a curve](approximatingTheAreaUnderACurve/)
      - Right, Left, and Midpoint Riemann Sums with $n < 10$
      - idea that more rectangles is better, infinite would be great, a limit might be useful (do not compute)
-* [Net area](netArea/)
 * Sigma Notation
      - Sigma notation and its properties (many students have never seen before)
      - Riemann sums with 1000 rectangles and $n$ rectangles
      - Idea that more rectangles is better, infinite would be great, a limit might be useful.
-* Net Area
+* [Net Area](netArea/)
      - Find the exact area under the curve
      - Idea of Net Area
      - Find Net Area

@@ -93,13 +93,39 @@
 * [Logarithmic differentiation](logarithmicDifferentiation/)
 * [Advanced graphing of functions](advancedGraphingOfFunctions/)
 * [More than one rate](moreThanOneRate/)
+     - ``Abstract'' examples of related rates
+     - basic or intro examples (to avoid student rebellion)
+     - Geometric examples
 * [Applied related rates](appliedRelatedRates/)
 * [Differential equations](differentialEquations/)
+     - Basic vocabulary
+     - Verifying solutions
+     - Context
 * [Antiderivatives](antiderivatives/)
+     - Basic vocabulary
+     - Basic formulas
+     - Basic separable differential equations
 * [L'Hospital's rule](lhopitalsRule/)
 * [Approximating the area under a curve](approximatingTheAreaUnderACurve/)
+     - Right, Left, and Midpoint Riemann Sums with $n < 10$
+     - idea that more rectangles is better, infinite would be great, a limit might be useful (do not compute)
 * [Net area](netArea/)
+* Sigma Notation
+     - Sigma notation and its properties (many students have never seen before)
+     - Riemann sums with 1000 rectangles and $n$ rectangles
+     - Idea that more rectangles is better, infinite would be great, a limit might be useful.
+* Net Area
+     - Find the exact area under the curve
+     - Idea of Net Area
+     - Find Net Area
+     - Idea of splitting the area if trying to find total area
+     - Idea of Distance being Net Area of Velocity
 * [The Definite integral](definiteIntegral/)
+     - Introduce Integral Notation for the first time
+     - Define a Definite Integral
+     - Properties of Definite Integrals
+     - Integrability
+     - Generalized Reimann Sum
 * [First Fundemental Theorem of Calculus](firstFundamentalTheoremOfCalculus/)
 * [Second Fundemental Theorem of Calculus](secondFundamentalTheoremOfCalculus/)
 * [The idea of substitution](substitution/)

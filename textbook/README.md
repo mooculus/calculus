@@ -109,17 +109,17 @@
 * [Approximating the area under a curve](approximatingTheAreaUnderACurve/)
      - Right, Left, and Midpoint Riemann Sums with $n < 10$
      - idea that more rectangles is better, infinite would be great, a limit might be useful (do not compute)
-* Sigma Notation
+* Sigma notation
      - Sigma notation and its properties (many students have never seen before)
      - Riemann sums with 1000 rectangles and $n$ rectangles
      - Idea that more rectangles is better, infinite would be great, a limit might be useful.
-* [Net Area](netArea/)
+* [Net area](netArea/)
      - Find the exact area under the curve
      - Idea of Net Area
      - Find Net Area
      - Idea of splitting the area if trying to find total area
      - Idea of Distance being Net Area of Velocity
-* [The Definite integral](definiteIntegral/)
+* [The definite integral](definiteIntegral/)
      - Introduce Integral Notation for the first time
      - Define a Definite Integral
      - Properties of Definite Integrals

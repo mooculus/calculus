@@ -10,142 +10,118 @@ We give basic laws for working with limits.
 \end{abstract}
 \maketitle
 
-In this section, we present a handful of tools to compute many limits
-without explicitly working with the definition of limit.  We learned
-previously that just estimating limits by plugging in nearby values
-does not always give the correct answer.  We need some theorems that
-tell us how to quickly find limits, at least in some special cases.
-Each of these can be proved directly, though we will not do that
-here. We start by listing a set of basic limits.
+%This section comes second.
 
+In this section, we present a handful of rules called the Limit Laws that allow us to find limits of various combinations of functions.  
 
-\begin{theorem}[Limit Laws: Basic Limits]
-  Here are some basic limits:
-  \begin{description}
-  \item[\textbf{Limit of a Constant}] $\lim_{x\to a} k = k$ where $k$
-    is a constant..
-  \item[\textbf{Limit of $\boldsymbol{x}$}] $\lim_{x\to a}x =a$.
-  \item[\textbf{Limit of $\boldsymbol{\sin(x)}$}] $\lim_{x\to a}
-    \sin(x) = \sin(a)$.
-  \item[\textbf{Limit of $\boldsymbol{b^x}$}] $\lim_{x\to a} b^x =
-    b^a$ provided $b\ne 0$.
-  \item[\textbf{Limit of $\boldsymbol{\log_b(x)}$}] $\lim_{x\to a}
-    \log_b(x) = \log_b(a)$ provided $a$ and $b$ are both greater than
-    zero.
-  \end{description}
-\end{theorem}
-
-\begin{question}
-  For the ``Limit of $b^x$'' why is it necessary that $b\ne 0$?
-  \begin{hint}
-    Suppose that $b=0$. Compute:
-    \[
-    0^1
-    \begin{prompt}
-      = \answer[given]{0}
-    \end{prompt}
-    \qquad
-    0^{0.1}
-    \begin{prompt}
-      = \answer[given]{0}
-    \end{prompt}
-    \qquad
-    0^{0.01}
-    \begin{prompt}
-      = \answer[given]{0}
-    \end{prompt}
-    \]
-    However, we should compare this to
-    \[
-    0^0
-    \begin{prompt}
-      = \answer[given]{1}
-    \end{prompt}
-    \]
-  \end{hint}
-  \begin{freeResponse}[given]
-    If $b=0$, then $0^x = 0$ for all $x$ except $x=0$. On the other
-    hand, $0^0 = 1$.
-  \end{freeResponse}
-\end{question}
-
-Now we will give some basic rules describing how operations interact
-with limits.
-
-\begin{theorem}[Limit Laws: Operations]\index{limit laws}\label{theorem:limit-laws}
+\begin{theorem}[Limit Laws]\index{limit laws}\label{theorem:limit-laws}
 Suppose that $\lim_{x\to a}f(x)=L$, $\lim_{x\to a}g(x)=M$.
-\begin{description}
+\begin{itemize}
 %\item[\textbf{Constant Multiple Law}] $\lim_{x\to a} kf(x) = k\lim_{x\to a}f(x)=kL$.
-\item[\textbf{Sum/Difference Law}] $\lim_{x\to a} (f(x) \pm g(x)) =
+\item \textbf{Sum/Difference Law} $\lim_{x\to a} (f(x) \pm g(x)) =
   \lim_{x\to a}f(x) \pm \lim_{x\to a}g(x)=L \pm M$.
-\item[\textbf{Product Law}] $\lim_{x\to a} (f(x)g(x)) = \lim_{x\to
+\item \textbf{Product Law}  $\lim_{x\to a} (f(x)g(x)) = \lim_{x\to
   a}f(x)\cdot\lim_{x\to a}g(x)=LM$.
-\item[\textbf{Quotient Law}] $\lim_{x\to a} \frac{f(x)}{g(x)} =
+\item \textbf{Quotient Law}  $\lim_{x\to a} \frac{f(x)}{g(x)} =
   \frac{\lim_{x\to a}f(x)}{\lim_{x\to a}g(x)}=\frac{L}{M}$, if
   $M\ne0$.
-\end{description}
+\end{itemize}
 \label{thm:limit laws}
 \end{theorem}
-\begin{question}
-  Suppose $k$ is a constant, which limit laws are used in the
-  computations below?
-  \begin{explanation}%%BADBAD Need drop-down
+
+In particular, if $f(x)$ and $g(x)$ are continuous functions on an interval $I$, then $f(x)\pm g(x)$ and $f(x)g(x)$ are also continuous on $I$.  $\frac{f(x)}{g(x)}$ is continuous on all points in $I$ except those where $g(x)=0$. 
+
+\begin{example}
+$\lim_{x\to 1}(5x^2+3x-2) = \answer[given]{6}$
+\end{example}
+  \begin{explanation}
     \begin{align*}
-      \lim_{x\to a} k\cdot f(x) &= \lim_{x\to a} k \cdot \lim_{x\to a} f(x) && \answer[given]{\text{Product Law}}\\
-      &= k \cdot L && \answer[given]{\text{Limit of a Constant}}
+      \lim_{x\to 1} (5x^2+3x-2) &= \lim_{x\to 1} 5x^2 + \lim_{x\to 1} 3x - \lim_{x\to 1}2 && \text{Sum/Difference Law}\\
+      &= 5\lim_{x\to 1} x^2 + 3\lim_{x\to 1} x - \lim_{x\to 1}2 && \text{Product Law}\\
+      &= 5(1)^2 + 3(1) - 2 =6 && \text{Continuity of $x^k$ and $k$}
     \end{align*}
   \end{explanation}  
-\end{question}
 
+We can generalize the example above to get the following theorems.
 
-Finally, we give basic rules for how limits interact with composition
-of functions.
-
-\begin{theorem}[Limit Laws: Composition]\index{limit laws}\label{theorem:limit-laws}
-Suppose that $\lim_{x\to a}f(x)=L$, $\lim_{x\to a}g(x)=M$, $k$ is some
-constant, $b$ is a nonzero constant, and $n$ is a positive integer.
-\begin{description}
-\item[\textbf{Power Law}] $\lim_{x\to a} f(x)^n = \left(\lim_{x\to a}f(x)\right)^n=L^n$. 
-\item[\textbf{Root Law}] $\lim_{x\to a} \sqrt[n]{f(x)}= \sqrt[n]{\lim_{x\to  a}f(x)}=\sqrt[n]{L}$.%; if $n$ is even then $f(x)$ must be greater than $0$ for all $x$ near $a$.
-\item[\textbf{General Composition Law}] If $\lim_{x\to a}g(x)=M$ and
-  $\lim_{x\to M}f(x) = f(M)$, then $\lim_{x\to a} f(g(x)) = f(M)$.
-\end{description}
+\begin{theorem}
+Polynomials $a_0+a_1x^1+a_2x^2+a_3x^3+...+a_nx^n$ are continuous for all real numbers.
 \end{theorem}
 
-\begin{question}
-  Which limit laws are used in the computations below?
-  \begin{explanation}%%BADBAD Need drop-down
-    \begin{align*}
-      \lim_{x\to 0} \cos x &= \sin(x+\pi/2) && \answer[given]{\text{Definition of Cosine}}\\
-      &= \sin(\pi/2) && \answer[given]{\text{General Composition Law}}
+\begin{theorem} 
+Let $f(x)$ and $g(x)$ be polynomials.  Then, $h(x)=\frac{f(x)}{g(x)}$ is continuous for all real numbers except where $g(x)=0$.  That is, rational functions are continuous wherever they are defined.
+\end{theorem}
+
+\begin{proof}
+      Let $a$ be a real number such that $g(a)\neq 0$.   Then, since $g(x)$ is continuous at $a$,  $\lim_{x\to a} g(x) \neq 0$.  Therefore, 
+\begin{align*}
+            \lim_{x \to a} h(x) &= \lim_{x\to a} \frac{f(x)}{g(x)} &&\\
+             &= \frac{\lim_{x\to a} f(x)}{ \lim_{x\to a} g(x)} && \text{Quotient Law}\\
+      &= \frac{f(a)}{g(a)}=h(a) && \text{Continuity of polynomials}
     \end{align*}
-  \end{explanation}  
-\end{question}
+\end{proof}
 
-For the purpose of this course, the young mathematician must be able
-to recognize when limit laws apply. We end this section with a
+Now, we give basic rules for how limits interact with composition
+of functions.
+
+\begin{theorem}[Limit Laws: Composition]If $\lim_{x\to a}g(x)=M$ and
+  $\lim_{x\to M}f(x) = f(M)$, then $\lim_{x\to a} f(g(x)) = f(M)$.
+\end{theorem}
+
+Because the limit of a continuous function is the same as the function value, we can now pass limits inside continuous functions.  
+
+\begin{theorem}[Continuity of Composite Functions]\index{continuity of famous functions}\label{theorem:continuity}
+Let $\lim_{x\to a} g(x) = L$ and let $f(x)$ be continuous at the point $g(a)$.  Then, $\lim_{x\to a} f(g(x)) = f(\lim_{x\to a} g(x))$.  In particular, if $g(x)$ is continuous at $a$, then $f(g(x))$ is continuous at $a$.
+\end{theorem}
+
+\begin{example}
+$\lim_{x \to 0} \sqrt{\cos(x)} = \answer[given]{1}$
+\begin{explanation}
+\begin{align*}
+  \lim_{x \to 0} \sqrt{\cos(x)} &= 
+  \sqrt{\lim_{x \to 0} (\cos(x))} \text{\ \ (by continuity of $x^k$, assuming $\lim_{x \to 0} \cos(x) >0$})\\
+  &= \sqrt{\cos(0)} = \sqrt{1} = 1 \text{\ \ (by continuity of $\cos(x)$)}\\
+\end{align*}
+\end{explanation}
+\end{example}
+
+Many of the Limit Laws and theorems about continuity in this section might seem like they should be obvious.  You may be wondering why we spent an entire section on these theorems.  The answer is that these theorems will tell you exactly when it is easy to find the value of a limit, and exactly what to do in those cases.  The most important thing to learn from this section is whether the limit laws can be applied for a certain problem, and when we need to do something more interesting.  We will begin discussing those more interesting cases in the next section.  For now, we end this section with a
 question:
-
+ 
 \begin{question}
-  Identify which of the following limits can be directly computed by
-  the limit laws above.
-  \begin{multipleResponse}
-    \choice[correct]{$\lim_{x\to 2}\frac{x^2+3x+2}{x+2}$}
-    \choice{$\lim_{x\to 2}\frac{x^2-3x+2}{x-2}$}
-    \choice{$\lim_{x\to 0} x\cos(1/x)$}
-    \choice{$\lim_{x\to 0} \cot(\sin(x^3))$}
-    \choice[correct]{$\lim_{x\to 0}\sec^2(e^x-1)$}
-    \choice{$\lim_{x\to 1}{(x-1)\cdot \csc(\ln(x))}$}
-    \choice{$\lim_{x\to 0} x\ln x$}
-    \choice[correct]{$\lim_{x\to 0}\frac{2^x-1}{3^{x-1}}$}
-    \choice{$\lim_{x\to 0}(1+x)^{1/x}$}
-  \end{multipleResponse}
-  %% 9 Examples would be nice.
-  %% Make a list and use feedback to give the approperate laws.
-  %% Feedback can also state when laws do not apply.
+Can the following limits can be directly computed by theorems given in this section? If so, find the value of the limit.
+\begin{align*}
+    &\text{Limit} && \text{Computed?}  &&& \text{Answer} \\
+   a)  &\lim_{x\to 2}\frac{x^2+3x+2}{x+2} && \answer[given]{yes} &&& \answer[given]{3}\\
+   b)  &\lim_{x\to 2}\frac{x^2-3x+2}{x-2} && \answer[given]{no} &&& \answer[given]{}\\
+   c)  &\lim_{x\to 0} x\cos(1/x) && \answer[given]{no} &&& \answer[given]{}\\
+   d) &\lim_{x\to 0} \cot(x^3) && \answer[given]{no} &&& \answer[given]{}\\
+   e) &\lim_{x\to 0}\sec^2(e^x-1) && \answer[given]{} &&& \answer[given]{}\\
+   f) &\lim_{x\to 1}{(x-1)\cdot \csc(\ln(x))}  && \answer[given]{} &&& \answer[given]{}\\
+  g) &\lim_{x\to 0} x\ln x  && \answer[given]{} &&& \answer[given]{}\\
+  h) &\lim_{x\to 0}\frac{2^x-1}{3^{x-1}}  && \answer[given]{} &&& \answer[given]{}\\
+   i) &\lim_{x\to 0}(1+x)^{1/x}  && \answer[given]{} &&& \answer[given]{}
+\end{align*}
+
+    \begin{feedback} See explanations below:
+    \begin{enumerate}
+    \item $f(x)=\frac{x^2+3x+2}{x+2}$ is a rational function, and the denominator does not equal 0, so $f(x)$ is continuous.  Thus, to find this limit, it suffices to plug 2 into $f(x)$.
+    \item $f(x)=\frac{x^2-3x+2}{x-2}$ is a rational function, but the denominator does equal 0 when $x=2$.  None of our current theorems address the situation when the bottom of a fraction approaches 0 as x approaches the limiting value. 
+    \item If we make the assumption that this limit is one we can compute using limit laws, we would have 
+    $\lim_{x\to 0} x\cos(1/x) = \lim_{x\to 0} x \cdot \lim_{x\to 0} \cos(1/x) = \lim_{x\to 0} x \cdot  \cos(\lim_{x\to 0}1/x)$ 
+     but we do not have a way to evaluate $\lim_{x\to 0}1/x$ so we cannot compute this limit.  Note that it is not enough to say    that $\lim_{x\to 0} x =0$ so the whole problem must equal 0.  Limits do not always work that way.
+    \item Notice that $\cot(x^3) = \frac{\cos(x^3)}{\sin(x^3)}$.  If we make the assumption that this limit is one we can compute using limit laws, we would have 
+    $\lim_{x\to 0} \cot(x^3) = 
+    \lim_{x\to 0} \frac{\cos(x^3)}{\sin(x^3)} = 
+    \frac{\lim_{x\to 0} \cos(x^3)}{\lim_{x\to 0} \sin(x^3)} = 
+    \frac{ \cos(\lim_{x\to 0}x^3)}{ \sin(\lim_{x\to 0}x^3)}= 
+    \frac{ \cos(0)}{ \sin(0)}$ but $sin(0)=0$ and our limit laws do not tell us what to do when we would have to divide by 0.  Because of this, the step where we said the limit of the fraction equaled the limit of the numerator over the limit of the denominator was invalid. 
+    \end{enumerate}
+    \end{feedback} 
+    
 \end{question}
 
-
+\end{document}
 %% \begin{example}
 %% Find $\lim_{x\to1}(x-2)$.
 %% \begin{explanation}
@@ -196,5 +172,62 @@ question:
 %% \end{explanation}
 %% \end{example}
 
+%%\begin{theorem}[Limit Laws: Basic Limits]
+%%  Here are some basic limits:
+ %% \begin{description}
+ %% \item[\textbf{Limit of a Constant}] $\lim_{x\to a} k = k$ where $k$
+%%    is a constant..
+%%  \item[\textbf{Limit of $\boldsymbol{x}$}] $\lim_{x\to a}x =a$.
+%%  \item[\textbf{Limit of $\boldsymbol{\sin(x)}$}] $\lim_{x\to a}
+%%    \sin(x) = \sin(a)$.
+%%  \item[\textbf{Limit of $\boldsymbol{b^x}$}] $\lim_{x\to a} b^x =
+%%    b^a$ provided $b\ne 0$.
+%%  \item[\textbf{Limit of $\boldsymbol{\log_b(x)}$}] $\lim_{x\to a}
+%%    \log_b(x) = \log_b(a)$ provided $a$ and $b$ are both greater than zero.
+%%  \end{description}
+%%\end{theorem}
 
-\end{document}
+%%\begin{question}
+ %% For the ``Limit of $b^x$'' why is it necessary that $b\ne 0$?
+ % \begin{hint}
+    %Suppose that $b=0$. Compute:
+    %\[
+    %0^1
+    %\begin{prompt}
+    %  = \answer[given]{0}
+    %\end{prompt}
+    %\qquad
+    %0^{0.1}
+    %\begin{prompt}
+      %= \answer[given]{0}
+    %\end{prompt}
+    %\qquad
+    %0^{0.01}
+    %\begin{prompt}
+      %= \answer[given]{0}
+    %\end{prompt}
+    %\]
+    %However, we should compare this to
+    %\[
+    %0^0
+    %\begin{prompt}
+     % = \answer[given]{1}
+    %\end{prompt}
+    %\]
+  %\end{hint}
+  %\begin{freeResponse}[given]
+   % If $b=0$, then $0^x = 0$ for all $x$ except $x=0$. On the other
+    %hand, $0^0 = 1$.
+ % \end{freeResponse}
+%\end{question}
+
+%For some reason it will not compile if I comment this out
+\begin{question}
+  Which limit laws are used in the computations below?
+ \begin{explanation}%%BADBAD Need drop-down
+   \begin{align*}
+    \lim_{x\to 0} \cos x &= \sin(x+\pi/2) && \answer[given]{\text{Definition of Cosine}}\\
+     &= \sin(\pi/2) && \answer[given]{\text{General Composition Law}}
+  \end{align*} \end{explanation}  
+\end{question}
+

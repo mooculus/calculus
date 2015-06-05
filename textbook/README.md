@@ -15,7 +15,6 @@ Each lecture will have a
      - Basic functions: linear, polynomial, rational, roots, piecewise, absolute value
      - Emphasize piecewise (difficult for students on exams)
      - Triangle problems?
-     - test change
 * [Review of famous functions](reviewOfFamousFunctions/)
      - quiz (in all sections) to assess understanding; say something (not in writing) emphasizing that students struggling with this quiz could move to 1150.
      - table of properties

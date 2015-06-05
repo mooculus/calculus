@@ -7,4 +7,143 @@
 \title[Dig In:]{The derivative of sine}
 
 \begin{document}
+\begin{abstract}
+  Some abstrct
+\end{abstract}
+
+It is now time to visit our two friends who concern themselves
+periodically with triangles and circles.
+
+\begin{theorem}[The Derivative of sin(\textit{x})]\index{derivative!of sine}\label{theorem:deriv sin}
+\[
+\ddx \sin(x) = \cos(x).
+\]
+\end{theorem}
+
+\begin{align*}
+\lim_{h\to 0}\frac{\cos(h)-1}{h} &= \lim_{h\to 0}\left(\frac{\cos(h)-1}{h}\cdot\frac{\cos(h)+1}{\cos(h)+1}\right)\\
+&=\lim_{h\to 0}\frac{\cos^2(h)-1}{h(\cos(h)+1)}\\
+&=\lim_{h\to 0}\frac{-\sin^2(h)}{h(\cos(h)+1)}\\
+&=-\lim_{h\to 0}\left(\frac{\sin(h)}{h}\cdot\frac{\sin(h)}{(\cos(h)+1)}\right)\\
+&= -1 \cdot \frac{0}{2} = 0.
+\end{align*}
+
+\begin{proof}
+Using the definition of the derivative, write
+\begin{align*}
+\ddx \sin(x) &= \lim_{h\to0} \frac{\sin(x+h)-\sin(x)}{h} \\
+&= \lim_{h\to0} \frac{\sin(x)\cos(h)+\sin(h)\cos(x)-\sin(x)}{h}  & \text{Trig Identity.}\\
+&= \lim_{h\to0} \left(\frac{\sin(x)\cos(h)-\sin(x)}{h} + \frac{\sin(h)\cos{x}}{h} \right)\\
+&=\lim_{h\to0} \left(\sin (x)\frac{\cos(h) - 1}{h}+\cos(x)\frac{\sin(h)}{h}\right) \\
+&=\sin(x) \cdot 0 + \cos(x) \cdot 1 = \cos x. & \text{See Example~\ref{example:sinx/x}.}
+\end{align*}
+\end{proof}
+
+Consider the following geometric interpretation of the derivative of
+$\sin(\theta)$.  
+%\begin{figure}
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            width=5in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, textColor!30!background, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor,very thick] plot coordinates {(0,0) (.766,.643)}; %% 40 degrees
+          \addplot [textColor,very thick] plot coordinates {(0,0) (.766,0)}; %% bottom
+          \addplot [very thick, penColor2!30!background] {(x-.766)*(-.766/.643)+.643};
+          \addplot [textColor,dashed] plot coordinates {(0,0) (.766-.196,.643+1-.766)}; %% 40+16.98 degrees          
+
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.643) (1,.839)}; %% hyp
+          %% \addplot [textColor!20!background] plot coordinates {(1,.643) (1,.839)}; %% side
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.643) (1,.643)}; %% bottom
+          %% \addplot [textColor!20!background,smooth, domain=(0:40)] ({.05*cos(x)+.766},{.05*sin(x)+.643}); %% angle
+          %% \node at (axis cs:.84,.670) [textColor!20!background] {\footnotesize$\theta$};
+          
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.643) (.766,.839)}; %% side
+          %% \addplot [textColor!20!background] plot coordinates {(.766,.839) (1,.839)}; %% bottom
+          %% \addplot [textColor!20!background,smooth, domain=(180:220)] ({.05*cos(x)+1},{.05*sin(x)+.839}); %% angle
+          %% \node at (axis cs:.926,.812) [textColor!20!background] {\footnotesize$\theta$};
+          
+          \draw[rotate around={30:(.5,.5)}] (.7,.7) rectangle (.25,.25);
+
+          %\draw[textColor, rotate around={45:(.5,.5)}] (.5,.5) rectangle (.2,.2);
+
+          \addplot [penColor4,very thick] plot coordinates {(.766,.643) (.766,.643+1-.766)}; %% side
+          \addplot [textColor,very thick] plot coordinates {(.766,.643+1-.766) (.766-.196,.643+1-.766)}; %% top
+          \addplot [textColor,smooth, domain=(90:130)] ({.05*cos(x)+.766},{.05*sin(x)+.643}); %% angle
+          \addplot [very thick, textColor] plot coordinates {(.766-.196,.643+1-.766) (.766,.643)}; %% hyp
+          \node at (axis cs:.739,.717) [textColor] {\footnotesize$\theta$};
+          
+          \node at (axis cs:.668,.877) [anchor=south] {\footnotesize$h\sin(\theta)$};
+          \node at (axis cs:.766,.76) [anchor=west] {\footnotesize$h\cos(\theta)$};
+          \node at (axis cs:.65,.78) [anchor=west] {\footnotesize$\approx h$};
+
+          \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% sin theta          
+          
+          \addplot [textColor, smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \addplot [textColor, smooth, domain=(40:56.90)] ({.17*cos(x)},{.17*sin(x)});
+          \addplot [textColor, smooth, domain=(40:56.90)] ({.185*cos(x)},{.185*sin(x)});
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.15,.17) {$h$};
+          \node at (axis cs:.766,.322) [anchor=east] {$\sin(\theta)$};
+          \node at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+%\label{figure:geo-interp sinx/x}
+%\end{figure}
+
+Here we see that increasing $\theta$ by a ``small amount'' $h$,
+increases $\sin(\theta)$ by approximately $h\cos(\theta)$. Hence,
+\[
+\frac{\Delta y}{\Delta \theta}\approx \frac{h\cos(\theta)}{h} =
+\cos(\theta).
+\]
+
+With this said, the derivative of a function measures the slope of the
+plot of a function.  If we examine the graphs of the sine and cosine
+side by side, it should be that the latter appears to accurately
+describe the slope of the former, and indeed this is true, see
+Figure~\ref{figure:sin/cos}.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=9in,
+            height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-6.75:6.75)] {sin(deg(x))};
+          \addplot [very thick, penColor2, samples=100,smooth, domain=(-6.75:6.75)] {cos(deg(x))};
+          \node at (axis cs:3.14,.75) [penColor] {$f(x)$};
+          \node at (axis cs:-1.57,.75) [penColor2] {$f'(x)$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{Here we see a plot of $f(x)=\sin(x)$ and its derivative
+%%   $f'(x)=\cos(x)$. One can readily see that $\cos(x)$ is positive when
+%%   $\sin(x)$ is increasing, and that $\cos(x)$ is negative when
+%%   $\sin(x)$ is decreasing.}
+%% \label{figure:sin/co
+%%  s}
+\end{image}
+
+Of course, now that we know the derivative of the sine, we can compute
+derivatives of more complicated functions involving sine.
+
 \end{document}

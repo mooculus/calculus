@@ -21,6 +21,7 @@ Each lecture will have a
      - some problems in homework emphasizing that you should already know all this
      - graphs, properties, algebraic properties, domain and range, idea of inverse functions
      - $e^x$, $\ln(x)$, trig functions, inverse trig functions
+     - something else (this is a test)
 * [What is a limit?](whatIsALimit/)
      - Limits as understanding local behavior of functions. $\sin(x)/x$
      - Wishy-washy ``nearer and nearer'' definition of limits.

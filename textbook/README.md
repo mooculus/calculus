@@ -71,7 +71,7 @@
 * [The chain rule](chainRule/)
      - Review composition of functions
      - Some rates of change word problems
-* [Mean value theorem](meanValueTheorem/)
+* [Mean Value Theorem](meanValueTheorem/)
 * [Linear approximation](linearApproximation/)
      - Emphasis on relationship between linear approximation and tangent line
 * [Maximums and minimums](maximumsAndMinimums/)
@@ -124,9 +124,9 @@
      - Define a Definite Integral
      - Properties of Definite Integrals
      - Integrability
-     - Generalized Reimann Sum
-* [First Fundemental Theorem of Calculus](firstFundamentalTheoremOfCalculus/)
-* [Second Fundemental Theorem of Calculus](secondFundamentalTheoremOfCalculus/)
+     - Generalized Riemann Sum
+* [First Fundamental Theorem of Calculus](firstFundamentalTheoremOfCalculus/)
+* [Second Fundamental Theorem of Calculus](secondFundamentalTheoremOfCalculus/)
 * [The idea of substitution](substitution/)
 * [Working with substitution](workingWithSubstitution/)
 * [Applications of integrals](applicationsOfIntegrals/)

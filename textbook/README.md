@@ -1,3 +1,11 @@
+# Textbook overview
+Each lecture will have a
+	* welcome (Short paragraph/video along with outcomes)
+	* breakGround (Devyn and Riley)
+	* multiple digIn's (sections of the chapter)
+	* collaborate (recitations)
+	* reinforce (problems)
+
 # Textbook outline
 
 * [Understanding functions](understandingFunctions/)

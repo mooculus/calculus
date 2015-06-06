@@ -99,6 +99,8 @@ Each lecture will have a
      - Take derivative of $\log_b(x)$
      - Take derivative of inverse Trig Formulas
 * [Logarithmic differentiation](logarithmicDifferentiation/)
+     - Potential examples: Percentage growth rate, 
+     - 
 * [Advanced graphing of functions](advancedGraphingOfFunctions/)
 * [More than one rate](moreThanOneRate/)
      - ``Abstract'' examples of related rates
@@ -136,5 +138,10 @@ Each lecture will have a
 * [First Fundamental Theorem of Calculus](firstFundamentalTheoremOfCalculus/)
 * [Second Fundamental Theorem of Calculus](secondFundamentalTheoremOfCalculus/)
 * [The idea of substitution](substitution/)
+     - Integration rules are differentiation rules in reverse
+     - Definite integration: area of a rectangle is unchanged if we scale its length and witdth by the same factor in opposite directions
+     - Linear change of variables
+     - How do we know substitution works for definite integrals without the fundamental theorem?
 * [Working with substitution](workingWithSubstitution/)
+     - Mechanical process of substitution
 * [Applications of integrals](applicationsOfIntegrals/)

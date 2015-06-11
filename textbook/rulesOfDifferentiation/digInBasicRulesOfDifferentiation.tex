@@ -75,9 +75,11 @@ From the limit definition of the derivative, write
 Now let's examine derivatives of powers of a single variable.  Here we
 have a nice rule.  To gain intuition, you should compute the
 derivative of $f(x) = x^3$ using the limit definition of the
-derivative. Before we do this, we need to recall the \dfn{Binomial
-  Theorem}\index{Binomial Theorem}. This states that if $n$ is a
-nonnegative integer, then
+derivative. Before we do this, we need to recall the \textit{Binomial
+  Theorem}.
+
+\begin{theorem}[Binomial Theorem]\index{Binomial Theorem}
+If $n$ is a nonnegative integer, then
 \[
 (a+b)^n = a^nb^0 + \binom{n}{1} a^{n-1}b^1 + \dots + \binom{n}{n-1} a^{1}b^{n-1} +  a^{0}b^n   
 \]
@@ -85,11 +87,13 @@ where
 \[
 \binom{n}{k} = \frac{n!}{k!(n-k)!}.
 \]
-The binomial theorem tells us the pattern of the coefficients for the expanded form of
+\end{theorem}
+The Binomial Theorem tells us the pattern of the coefficients for the
+expanded form of
 \[
 (a+b)^n.
 \]
-Knowing this helps prove the next theorem.
+Knowing this helps us prove our next derivative rule.
 
 \begin{theorem}[The Power Rule]\index{derivative rules!power}\index{power rule}\label{T:powerrule}
 For any real number $n$, 
@@ -99,7 +103,7 @@ For any real number $n$,
 
 \begin{proof}
 At this point we will only prove this theorem for $n$ being a positive
-integer. Later in Section~\ref{S:logdiff}, we will give the complete proof. From the limit
+integer. Later we will give the complete proof. From the limit
 definition of the derivative, write
 \[
 \ddx x^n = \lim_{ h\to0} \frac{(x+ h)^n-x^n}{h}.
@@ -110,7 +114,7 @@ Start by expanding the term $(x+h)^n$
 \]
 Note, by the Binomial Theorem, we write $\binom{n}{k}$ for the
 coefficients. Canceling the terms $x^n$ and $-x^n$, and noting
-$\binom{n}{1}= \binom{n}{n-1}= n$, write
+$\binom{n}{1}= n$, write
 \begin{align*}
 \ddx x^n&=\lim_{h\to0} \frac{nx^{n-1} h + \binom{n}{2}x^{n-2} h^2+\cdots+\binom{n}{n-1}x h^{n-1} +  h^n}{h} \\
 &=\lim_{h\to0} nx^{n-1} + \binom{n}{2}x^{n-2} h+\cdots+\binom{n}{n-1}x h^{n-2} +  h^{n-1}.
@@ -129,11 +133,12 @@ Compute
 \[
 \ddx x^{13}.
 \]
-
+\begin{explanation}
 Applying the power rule, we write
 \[
-\ddx x^{13} = 13x^{12}.
+\ddx x^{13} = \answer[given]{13x^{12}}.
 \]
+\end{explanation}
 \end{example}
 
 Sometimes, it is not as obvious that one should apply the power rule.
@@ -143,11 +148,12 @@ Compute
 \[
 \ddx \frac{1}{x^4}.
 \]
-
+\begin{explanation}
 Applying the power rule, we write
 \[
-\ddx \frac{1}{x^4} = \ddx x^{-4} = -4x^{-5}.
+\ddx \frac{1}{x^4} = \ddx x^{-4} = \answer[given]{-4x^{-5}}.
 \]
+\end{explanation}
 \end{example}
 
 The power rule also applies to radicals once we rewrite them as exponents.
@@ -157,11 +163,12 @@ Compute
 \[
 \ddx \sqrt[5]{x}.
 \]
-
+\begin{explanation}
 Applying the power rule, we write
 \[
-\ddx \sqrt[5]{x} = \ddx x^{1/5} = \frac{x^{-4/5}}{5}.
+\ddx \sqrt[5]{x} = \ddx x^{1/5} = \answer[given]{\frac{x^{-4/5}}{5}}.
 \]
+\end{explanation}
 \end{example}
 
 
@@ -187,7 +194,22 @@ If $f(x)$ and $g(x)$ are differentiable and $c$ is a constant, then
 \item $\ddx \big( f(x) - g(x)\big) = f'(x) - g'(x)$,
 \item $\ddx \big(c\cdot f(x)\big) = c\cdot f'(x)$.
 \end{enumerate}
+
+\begin{proof}
+We will only prove part~\ref{SR:1} above, the rest are similar. Write
+\begin{align*}
+\ddx\big(f(x)+g(x)\big) &= \lim_{ h\to 0} {f(x+h)+g(x+ h) - (f(x)+g(x))\over  h}  \\
+&= \lim_{ h\to 0} {f(x+h)+g(x+ h) - f(x)-g(x)\over  h}  \\
+&= \lim_{ h\to 0} {f(x+h)-f(x) +g(x+ h) -g(x)\over  h}  \\
+&= \lim_{ h\to 0} \left({f(x+h)-f(x)\over  h}  +{g(x+ h) -g(x)\over  h}\right)  \\
+&= \lim_{ h\to 0} {f(x+h)-f(x)\over  h}  +
+\lim_{ h\to 0} {g(x+ h) -g(x)\over  h}  \\
+&=f'(x)+g'(x).
+\end{align*}
+\end{proof}
 \end{theorem}
+
+For a geometric interpretation of the sum rule, consider the plot below:
 
 \begin{image}
 \begin{tikzpicture}
@@ -245,19 +267,8 @@ If $f(x)$ and $g(x)$ are differentiable and $c$ is a constant, then
 %% \]}
 \end{image}
 
-\begin{proof}
-We will only prove part~\ref{SR:1} above, the rest are similar. Write
-\begin{align*}
-\ddx\big(f(x)+g(x)\big) &= \lim_{ h\to 0} {f(x+h)+g(x+ h) - (f(x)+g(x))\over  h}  \\
-&= \lim_{ h\to 0} {f(x+h)+g(x+ h) - f(x)-g(x)\over  h}  \\
-&= \lim_{ h\to 0} {f(x+h)-f(x) +g(x+ h) -g(x)\over  h}  \\
-&= \lim_{ h\to 0} \left({f(x+h)-f(x)\over  h}  +{g(x+ h) -g(x)\over  h}\right)  \\
-&= \lim_{ h\to 0} {f(x+h)-f(x)\over  h}  +
-\lim_{ h\to 0} {g(x+ h) -g(x)\over  h}  \\
-&=f'(x)+g'(x).
-\end{align*}
-\end{proof}
 
+We will now work some basic examples. 
 
 
 \begin{example}
@@ -265,12 +276,13 @@ Compute
 \[
 \ddx \left( x^5+\frac{1}{x}\right).
 \] 
-
+\begin{explanation}
 Write
 \begin{align*}
 \ddx \left(x^5+\frac{1}{x}\right) &= \ddx x^5 + \ddx x^{-1} \\
-&=5x^4 - x^{-2}.
+&=\answer[given]{5x^4 - x^{-2}}.
 \end{align*}
+\end{explanation}
 \end{example}
 
 \begin{example}
@@ -278,12 +290,13 @@ Compute
 \[
 \ddx \left(\frac{3}{\sqrt[3]{x}}-2\sqrt{x}+\frac{1}{x^7}\right).
 \]
-
+\begin{explanation}
 Write
 \begin{align*}
 \ddx \left(\frac{3}{\sqrt[3]{x}}-2\sqrt{x}+\frac{1}{x^7}\right) &= 3\ddx x^{-1/3} -2\ddx x^{1/2}+\ddx x^{-7}\\
-&=-x^{-4/3} - x^{-1/2}-7x^{-8}.
+&=\answer[given]{-x^{-4/3} - x^{-1/2}-7x^{-8}}.
 \end{align*}
+\end{explanation}
 \end{example}
 
 

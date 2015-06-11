@@ -1,9 +1,15 @@
 #Current textbook outline
 
+This outline represents what is currently in the master document.
+
 * [Understanding functions](../understandingFunctions/)
-     - 
+     - [Break Ground](../understandingFunctions/breakGround.tex)
+     - [Dig In: For each input exactly one output](../understandingFunctions/digInForEachInputExactlyOneOutput.tex)
+     - [Dig In: Operations and compositions of fucntions](../understandingFunctions/digInOperationsAndCompositionsOfFunctions.tex)
+     - [Dig In: Inverses of functions](../understandingFunctions/digInInversesOfFunctions.tex)
+     - [Dig In: A word on notation](../understandingFunctions/digInAWordOnNotation.tex)
 * [Review of famous functions](reviewOfFamousFunctions/)
-     - 
+     - Nothing yet!
 * [What is a limit?](whatIsALimit/)
      - 
 * [Limit laws](limitLaws/)

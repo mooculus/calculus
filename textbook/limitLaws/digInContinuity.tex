@@ -88,7 +88,7 @@ now define what it means for a function to be \textit{continuous} on
 an interval.
 
 \begin{definition}
-  A function $f$ is \dfn{continuous on the interval $I$} if $\lim_{x\to a}
+  A function $f$ is \dfn{continuous on the open interval $I$} if $\lim_{x\to a}
   f(x) = f(a)$ for all $a$ in $I$.
 \end{definition}
 
@@ -106,8 +106,7 @@ The following functions are continuous on the given intervals for $k$ a real num
 \item $f(x)=k$, $-\infty <x <\infty$
 \item $f(x)=x$,  $-\infty <x <\infty$
 %We can get polynomials and rationals with the limit laws
-\item $f(x)=x^k$, $-\infty<x<\infty$ (Note: When $k$ is even, we
-  insist $0< x < \infty$.) %% at zero is a problem
+\item $f(x)=x^k$, $-\infty<x<\infty$ (Note: When $k$ is such that $x^k$ is an even root of x, $0\leq x <\infty$ ) %% at zero is a problem
 \item $f(x)=b^x$,  $-\infty <x <\infty$
 \item $f(x)=\log_b(x)$, $0<x<\infty$ 
 \item $f(x)=\sin(x)$, $-\infty <x <\infty$
@@ -115,9 +114,51 @@ The following functions are continuous on the given intervals for $k$ a real num
 \end{itemize}
 \end{theorem}
 
-This theorem can be summarized by saying that the functions listed above are continuous wherever they are defined, that is, on their natural domain. For many of the functions we are most familiar with, we can use
-continuity to determine limit values.
+This theorem can be summarized by saying that the functions listed above are continuous wherever they are defined, that is, on their natural domain. 
 
+We have a small problem, though.  For functions such as $\sqrt{x}$, the natural domain is $0\leq x <\infty$.  This is not an open interval.  What does it mean to say that $\sqrt{x}$ is continuous at 0 when $\sqrt{x}$ is not defined for $x<0$?  We need a new definition:
+
+\begin{definition}
+  A function $f$ is \dfn{left continuous} at a point $a$ if $\lim_{x\to a^-}
+  f(x) = f(a)$.   A function $f$ is \dfn{right continuous} at a point $a$ if $\lim_{x\to a^+}
+  f(x) = f(a)$.  
+\end{definition}
+
+Now we can say that a function is continuous at a left endpoint of an interval if it is right continuous there, and a function is continuous at the right endpoint of an interval if it is left continuous there. This allows us to talk about continuity on closed intervals.  
+
+\begin{example}
+List the largest intervals of continuity for the function discribed below.  Make the assumption the function is defined on $[0,10]$.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:10,
+            ymax=5,
+            ymin=0,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(4:10)] {3 + sin(deg(x*2))/(x-1)};
+          \addplot [very thick, penColor, smooth, domain=(0:4)] {1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4,3.30)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(6,2.893)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,1)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,2)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of a function with discontinuities at $x=4$ and $x=6$.}
+%% \label{plot:discontinuous-function}
+\end{image}
+
+List the largest intervals of continuity for this function.  Separate your intervals with commas.  $\answer[given]{[0,4],(4,6),(6,10]}$ %%BADBAD Need list of answers
+
+\begin{feedback}
+Notice that our function is left continuous at $x=4$ so we can include 4 in the interval $[0,4]$. Four is not included in the interval (4,6) because our function is not right continuous at $x=4$.  Similarly, our function is neither right or left continuous at $x=6$, so 6 is not included in any intervals.  Our function is left continuous at $x=0$ and right continuous at $x=10$ so we included these endpoints in our intervals. 
+\end{feedback}
+\end{example}
+
+For many of the functions we are most familiar with, we can use continuity to determine limit values.
 
 \begin{example}
 $\lim_{x\to 3} x^\pi = \answer[given]{3^\pi}$

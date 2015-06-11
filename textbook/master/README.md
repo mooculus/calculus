@@ -1,6 +1,6 @@
 #Current textbook outline
 
-* [Understanding functions](understandingFunctions/)
+* [Understanding functions](../understandingFunctions/)
      - 
 * [Review of famous functions](reviewOfFamousFunctions/)
      - 

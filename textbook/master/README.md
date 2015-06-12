@@ -19,7 +19,7 @@ This outline represents what is currently in the master document.
      - [Dig In: Limit laws](../limitLaws/digInLimitLaws.tex)
 * [Indeterminate forms](../indeterminateForms/)
      - [Break Ground](../indeterminateForms/breakGround.tex)
-- [Dig In: The Squeeze Theorem](../limitLaws/digInTheSqueezeTheorem.tex)
+     - [Dig In: The Squeeze Theorem](../limitLaws/digInTheSqueezeTheorem.tex)
 * [Using limits to detect asymptotes](../asymptotesAsLimits/)
      - Nothing yet!
 * [Continuity and the Intermediate Value Theorem](../continuity/)

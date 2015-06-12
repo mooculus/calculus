@@ -1,0 +1,114 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Recall the meaning and properties of inverse trigonometric functions.}
+\outcome{Understand how the derivative of an inverse function relates to the
+original derivative.}
+
+\title[Break-Ground:]{Derivatives of inverse functions}
+
+\begin{document}
+\begin{abstract}
+Two young mathematicians discuss the derivative of inverse functions.
+\end{abstract}
+\maketitle
+
+Check out this dialogue between two calculus students:
+
+\begin{dialogue}
+\item[Devyn] Riley, I have a calculus question.
+\item[Riley] Hit me with it.
+\item[Devyn] What's the derivative of $\arctan(x)$?
+\item[Riley] Hmmm\dots we haven't talked about that yet in our class.
+\item[Devyn] I know! But maybe we can figure it out.
+\item[Riley] Well
+  \[
+  \arctan(x) = \tan^{-1}(x)
+  \]
+  and now we can use the chain rule to take its derivative
+  \begin{align*}
+    \ddx \tan^{-1}(x) &= -\tan^{-2}(x)\sec^2(x)\\
+    &= -\frac{\cos^2x}{\sin^2x}\cdot \frac{1}{\cos^2x}\\
+    &= \frac{-1}{\sin^2x}\\
+    &= -\csc^2x
+  \end{align*}
+\item[Devyn] But is this right?
+\end{dialogue}
+
+Let's see if we can figure out if Devyn and Riley are correct. Start by looking at a plot of $\theta = \arctan(x)$:
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-2,ymax=2,
+            axis lines=center,
+            ytick={0, -1.57,1.57},
+            width=9in,
+            height=2.5in,
+            yticklabels={$0$, $-\pi/2$,$\pi/2$},
+            xtick={0},
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$\theta$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor3!20!penColor2, samples=100,smooth, domain=(-6:6)] {atan(x)*pi/180};
+          \addplot [textColor,dashed] plot coordinates {(-6,-1.57) (6,-1.57)};
+          \addplot [textColor,dashed] plot coordinates {(-6,1.57) (6,1.57)};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{Here we see a plot of $\arctan(y)$, the inverse function of
+%% $\tan(\theta)$ when it is restricted to the interval $(-\pi/2,\pi/2)$.}
+\end{image}
+
+\begin{problem}
+  Let $f(x) = \arctan(x)$. Use the plot above to determine the behavior of the derivative of $f$ as $x$ gets very large.  If the limit does not exist, enter ``DNE''.
+  \[
+  \lim_{x\to \infty} f'(x)
+  \begin{prompt}
+    = \answer{0}
+  \end{prompt}
+  \]
+\end{problem}
+
+On the other hand,
+
+\begin{problem}
+  Compute the limit of $- \csc^2 (x)$ as $x$ goes to infinity.  If the limit does not exist, enter ``DNE''.
+  \[
+  \lim_{x\to \infty}(-\csc^2 (x))
+  \begin{prompt}
+    = \answer{DNE}
+  \end{prompt}
+  \]
+\end{problem}
+
+\begin{problem}
+In light of the problems above, is it possible that
+\[
+\ddx \arctan(x) = -\csc^2(x)?
+\]
+\begin{multipleChoice}
+	\choice{Yes.}
+	\choice[correct]{No.}
+\end{multipleChoice}
+\end{problem}
+
+\begin{problem}
+	When our friends wrote $\arctan(x) = \tan^{-1}(x)$, what do they think the ``$-1$'' represents?  Are they correct?
+	\begin{freeResponse}
+		Riley thinks that we can use the power rule on the $-1$, which tells us that the students are using $-1$ as an exponent for the tangent function.  However, in the case of inverse functions such as $\arctan(x)$, the $-1$ is not an exponent.
+	\end{freeResponse}
+\end{problem}
+
+
+% This gets at what the notation sin^{-1} x means, and what the inverse function theorem is saying
+
+% Contrast it with a geometric interpretation that since the inverse is the fxn flipped over the line y=x, we should have this info once we know f'
+
+% becaue we want to actually have two answers that both seem reasonable and demand that they student resolve the contradiction in mathematics
+
+\input{../leveledQuestions.tex}
+
+\end{document}

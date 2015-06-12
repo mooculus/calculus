@@ -1,4 +1,4 @@
-\documentclass[numbers]{ximera}
+\documentclass{ximera}
 %% handout
 %% nohints
 %% newpage
@@ -7,47 +7,110 @@
 
 \usepackage[framemethod=TikZ]{mdframed}
 
-\usepackage[left=1in, textwidth=6in,includehead, includefoot, paperwidth=11in, paperheight=8.5in]{geometry}
+\usepackage{geometry}
+\geometry{landscape, 
+  left=1in,
+  top=1in,
+  textheight=6.5in,
+  textwidth=5in,
+  marginparsep=0.5in,
+  marginparwidth=2.5in}
 
+
+%% %% Attempting to add a ``notes'' in margin
+%% %\usepackage[some]{background} %% remove the [some] to have the header
+%% \usepackage{background} %% remove the [some] to have the header
+%% %% Code for the header
+%% \backgroundsetup{
+%%   opacity=1,
+%%   color=black,
+%%   position={19,-8cm},
+%%   angle=0,scale=1,
+%%   firstpage=true, 
+%%   contents={
+%%     \begin{tikzpicture}[x=1cm, y=1cm]
+%%       \node at (5, 16.5) {\Large Notes:};
+%%       \draw[step=5mm, line width=0.1mm, black!40!white] (0,0) grid (10,16);
+%%      \end{tikzpicture}
+%%      }}
+%% %% End code of notes
+
+
+
+
+
+
+%% Allows for a wide text/regular text
 \renewcommand{\fullwidth}{\newgeometry{textwidth=10cm,textheight=10cm}}
 \renewcommand{\normalwidth}{\restoregeometry}
+%% End
 
 
-
+%% Allows us to combine documents with document classes
 \let\masterdocument\document
 \let\endmasterdocument\enddocument
 \let\otherinput\input %% Numbering starts a page too soon without this
 \newcommand{\masterinput}[1]{\otherinput{#1}\clearpage} %% Numbering starts a page too soon without this
+%% End combo hack
+
+
+
+%% This is the code that will allow us to redefine the title with
+%% \let\maketitle\makesectiontitle
+
+%% \makeatletter
+%% \newcommand\makesectiontitle{
+%%   \addtocounter{titlenumber}{1}\addcontentsline{toc}{subsection}{\thetitlenumber~\@title} %% puts titles in the toc
+%%   {\flushleft\large\bfseries \@pretitle\par\vspace{-1em}}%
+%%   {\flushleft\LARGE\bfseries {\ifnumbers\thetitlenumber\fi}{\ifnumbers\hspace{1em}\else\hspace{0em}\fi}\@title \par }
+%%   \vskip .6em\noindent\textit\theabstract\setcounter{problem}{0}\setcounter{subsection}{0}\par\vspace{2em}
+%%   \ifnooutcomes\else\ifhandout\else\let\thefootnote\relax\footnote{Learning outcomes: \theoutcomes}\fi\fi
+%%   \aftergroup\@afterindentfalse
+%%   \aftergroup\@afterheading}
+%% \makeatother
+
 
 
 
 \begin{masterdocument}
-
+%% Redefines "explanation"
 \renewmdenv[outerlinewidth=2,topline=false, bottomline=false, leftline=true, rightline=false, 
 leftmargin=40,innertopmargin=0pt,innerbottommargin=0pt,skipbelow=\baselineskip,
 outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explanation}%
-
+%%
   
 
-  \begin{titlepage}
+
+\begin{titlepage}
+% \NoBgThispage %(Makes it barf currently)
+
     \vspace*{1in}
     \begin{center}
       \Huge \bfseries Textbook\\[0.5cm]
       \normalsize This document was typeset on \today.
     \end{center}
     %\vspace*{\fill}
-  \end{titlepage}
+\end{titlepage}
 
-\setcounter{page}{2}
+  \tableofcontents
+  \setcounter{page}{2}
 
-\tableofcontents
-
+\cleardoublepage
+  
 \renewcommand{\documentclass}{\setbox0\vbox}
 \renewcommand{\input}{\setbox0\vbox}
 \renewenvironment{document}{\renewcommand{\input}{\masterinput}
 }{\renewcommand{\input}{\setbox0\vbox}}
 %% Understanding Functions
+%% BreakGround
 \masterinput{../understandingFunctions/breakGround.tex}\def\theoutcomes{}
+%% DigIns
+\masterinput{../understandingFunctions/digInForEachInputExactlyOneOutput.tex}\def\theoutcomes{}
+\masterinput{../understandingFunctions/digInOperationsAndCompositionsOfFunctions.tex}\def\theoutcomes{}
+\masterinput{../understandingFunctions/digInInversesOfFunctions.tex}\def\theoutcomes{}
+\masterinput{../understandingFunctions/digInAWordOnNotation.tex}\def\theoutcomes{}
+
+
 
 %% What is a limit
 \masterinput{../whatIsALimit/breakGround.tex}\def\theoutcomes{}
@@ -55,7 +118,8 @@ outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explana
 
 %% Limit Laws
 \masterinput{../limitLaws/breakGround.tex}\def\theoutcomes{}
-\masterinput{../limitLaws/digInLimitLawsAndIndeterminantForms.tex}\def\theoutcomes{}
+\masterinput{../limitLaws/digInContinuity.tex}\def\theoutcomes{}
+\masterinput{../limitLaws/digInLimitLaws.tex}\def\theoutcomes{}
 \masterinput{../limitLaws/digInTheSqueezeTheorem.tex}\def\theoutcomes{}
 
 %% Indeterminant forms
@@ -72,11 +136,40 @@ outerlinecolor=textColor,fontcolor=textColor,backgroundcolor=background]{explana
 \masterinput{../overviewOfLimits/digInInstantaneousVelocity.tex}\def\theoutcomes{}
 \masterinput{../overviewOfLimits/digInThePreciseDefinitionOfALimit.tex}\def\theoutcomes{}
 
+
+%% Definition of the derivative
+\masterinput{../definitionOfTheDerivative/breakGround.tex}\def\theoutcomes{}
+\masterinput{../definitionOfTheDerivative/digInTheDerivativeViaLimits.tex}\def\theoutcomes{}
+\masterinput{../definitionOfTheDerivative/digInDifferentiabilityImpliesContinuity.tex}\def\theoutcomes{}
+
+
+%% Higher order derivatives and graphs
+
+\masterinput{../higherOrderDerivativesAndGraphs/breakGround.tex}\def\theoutcomes{}
+
+%% Rules of differentiation
+\masterinput{../rulesOfDifferentiation/breakGround.tex}\def\theoutcomes{}
+\masterinput{../rulesOfDifferentiation/digInBasicRulesOfDifferentiation.tex}\def\theoutcomes{}
+\masterinput{../rulesOfDifferentiation/digInTheDerivativeOfEToTheX.tex}\def\theoutcomes{}
+\masterinput{../rulesOfDifferentiation/digInTheDerivativeOfSine.tex}\def\theoutcomes{}
+
+
+
+
 %% Product and quotient rules
 \masterinput{../productAndQuotientRules/breakGround.tex}\def\theoutcomes{}
 
+%% Applied optimization
+\masterinput{../appliedOptimization/breakGround.tex}\def\theoutcomes{}
+
+%% Derivatives of inverse functions
+
+\masterinput{../derivativesOfInverseFunctions/breakGround.tex}\def\theoutcomes{}
+
 
 \masterinput{../moreThanOneRate/breakGround.tex}\def\theoutcomes{}
-\masterinput{../lHospitalsRule/breakGround.tex}\def\theoutcomes{}
+\masterinput{../lhopitalsRule/breakGround.tex}\def\theoutcomes{}
+
+\masterinput{../workingWithSubstitution/breakGround.tex}\def\theoutcomes{}
 
 \end{masterdocument}

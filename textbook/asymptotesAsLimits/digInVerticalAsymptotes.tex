@@ -1,0 +1,156 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Vertical asymptotes}
+
+\begin{document}
+\begin{abstract}
+We explore functions that ``shoot to infinity'' at certain points in
+their domain.
+\end{abstract}
+\maketitle
+
+Consider the function
+\[
+f(x) = \frac{1}{(x+1)^2},
+\]
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:1,
+            ymax=100,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-2:-1.1)] {1/(x+1)^2};
+          \addplot [very thick, penColor, smooth, domain=(-.9:1)] {1/(x+1)^2};
+          \addplot [textColor, dashed] plot coordinates {(-1,0) (-1,100)};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\protect\frac{1}{(x+1)^2}$.}
+%% \label{plot:1/(x+1)^2}
+\end{image}
+While the $\lim_{x\to -1} f(x)$ does not exist, something can still be
+said.
+
+\begin{definition}\label{def:inflimit}\index{limit!infinite}\index{infinite limit}
+If $f(x)$ grows arbitrarily large as $x$ approaches $a$, we write
+\[
+\lim_{x\to a} f(x) = \infty
+\]
+and say that the limit of $f(x)$ \dfn{approaches infinity} as $x$
+goes to $a$.
+
+If $|f(x)|$ grows arbitrarily large as $x$ approaches $a$ and $f(x)$ is
+negative, we write
+\[
+\lim_{x\to a} f(x) = -\infty
+\]
+and say that the limit of $f(x)$ \dfn{approaches negative infinity}
+as $x$ goes to $a$.
+\end{definition}
+
+\begin{question}
+  Which of the following are correct?
+  \begin{multipleResponse}
+    \choice[correct]{$\lim_{x\to -1} \frac{1}{(x+1)^2} = \infty$}
+    \choice{$\lim_{x\to -1} \frac{1}{(x+1)^2} \to \infty$}
+    \choice{$f(x) = \frac{1}{(x+1)^2}$, so $f(-1) = \infty$}
+    \choice[correct]{$f(x) = \frac{1}{(x+1)^2}$, so as $x\to -1$,
+      $f(x) \to \infty$}
+  \end{multipleResponse}
+\end{question}
+
+On the other hand, if we consider the function 
+\[
+f(x) = \frac{1}{(x-1)},
+\]
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-1:2,
+            ymax=50,
+            ymin=-50,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(1.02:2)] {1/(x-1)};
+          \addplot [very thick, penColor, smooth, domain=(-1:.98)] {1/(x-1)};
+          \addplot [textColor, dashed] plot coordinates {(1,-50) (1,50)};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\protect\frac{1}{x-1}$.}
+%% \label{plot:1/(x-1)}
+\end{image}
+While we have $\lim_{x\to 1} f(x) \ne \pm\infty$, we do have one-sided
+limits, $\lim_{x\to 1+} f(x) = \infty$ and $\lim_{x\to 1-} f(x) =
+-\infty$.
+
+
+\begin{definition}\label{def:vert asymptote}\index{asymptote!vertical}\index{vertical asymptote}
+If 
+\[
+\lim_{x\to a} f(x) = \pm\infty, \qquad \lim_{x\to a+} f(x) = \pm\infty, \qquad\text{or}\qquad \lim_{x\to a-} f(x) = \pm\infty,
+\]
+then the line $x=a$ is a \dfn{vertical asymptote} of $f$.
+\end{definition}
+
+
+\begin{example}
+Find the vertical asymptotes of 
+\[
+f(x) = \frac{x^2-9x+14}{x^2-5x+6}.
+\]
+
+\begin{explanation}
+Start by factoring both the numerator and the denominator:
+\[
+\frac{x^2-9x+14}{x^2-5x+6} = \frac{(x-2)(x-7)}{(x-2)(x-3)}
+\]
+Using limits, we must investigate when $x\to 2$ and $x\to 3$. Write
+\begin{align*}
+\lim_{x\to 2} \frac{(x-2)(x-7)}{(x-2)(x-3)} &= \lim_{x\to 2} \frac{(x-7)}{(x-3)}\\
+&= \frac{-5}{-1}\\
+&=5.
+\end{align*}
+Now write
+\begin{align*}
+\lim_{x\to 3} \frac{(x-2)(x-7)}{(x-2)(x-3)} &= \lim_{x\to 3} \frac{(x-7)}{(x-3)}\\
+&= \lim_{x\to 3}\frac{-4}{x-3}.
+\end{align*}
+Since $\lim_{x\to 3+} x-3$ approaches $0$ from the right and the
+numerator is negative, $\lim_{x\to 3+} f(x) = -\infty$. Since
+$\lim_{x\to 3-} x-3$ approaches $0$ from the left and the numerator is
+negative, $\lim_{x\to 3-} f(x) = \infty$.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=1:4,
+            ymax=50,
+            ymin=-50,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(3.02:4)] {(x-7)/(x-3)};
+          \addplot [very thick, penColor, smooth, domain=(1:2.98)] {(x-7)/(x-3)};
+          \addplot [textColor, dashed] plot coordinates {(3,-50) (3,50)};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,5)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\protect\frac{x^2-9x+14}{x^2-5+6}$.}
+%% \label{plot:(x^2-9x+14)/(x^2-5x+6)}
+\end{image}
+Hence we have a vertical asymptote at $x=3$.
+\end{explanation}
+\end{example}
+
+
+
+\end{document}

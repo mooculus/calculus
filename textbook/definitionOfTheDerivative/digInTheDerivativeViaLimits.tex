@@ -1,14 +1,12 @@
 \documentclass{ximera}
 
 \outcome{Use limits to find the slope of the tangent line at a point.}
-\outcome{Find the derivative function using the limit definition.}
 \outcome{Understand the definition of the derivative at a point.}
 \outcome{Recognize and distinguish between secant and tangent lines.}
-\outcome{Understand the derivative as a function.}
 
 \input{../preamble.tex}
 
-\title[Dig-In:]{The derivative via limits} %% I don't know about this title
+\title[Dig-In:]{The definition of the derivative} 
 
 \begin{document}
 \begin{abstract}
@@ -72,10 +70,9 @@ of a line is the slope of the line.  Hence the instantaneous rate of
 change of a function is the slope of the tangent line. For now,
 consider the following informal definition of a \textit{tangent line}:
 \begin{quote}\index{tangent line}
-Given a function $f(x)$, if one can ``zoom in''
-on $f(x)$ sufficiently so that $f(x)$ seems to be a straight line,
-then that line is the \dfn{tangent line} to $f(x)$ at the point
-determined by $x$.
+Given a function $f$ and a number $a$ in the domain of $f$, if one can ``zoom in''
+on the graph at $(a, f(a))$ sufficiently so that it appears to be a straight line,
+then that line is the \dfn{tangent line} to $f(x)$ at the point $(a,f(a))$.
 \end{quote}
 We illustrate this informal definition with the following diagram:
 \begin{image}
@@ -144,40 +141,75 @@ We illustrate this informal definition with the following diagram:
           \node at (axis cs:0,6.6) [anchor=north] {$y$};
         \end{axis}
 \end{tikzpicture}
-%% \caption{Given a function $f(x)$, if one can ``zoom in''
-%% on $f(x)$ sufficiently so that $f(x)$ seems to be a straight line,
-%% then that line is the \textbf{tangent line} to $f(x)$ at the point
-%% determined by $x$.}
+%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+%% sufficiently so that the graph seems to be a straight line,
+%% then that line is the \textbf{tangent line} to $f$ at the point
+%% determined by $(a, f(a))$.}
 %% \label{figure:informal-tangent}
 \end{image}
-\todo{This image should be interactive.}
+%% \todo{This image should be interactive.}
 
 
 
-The \textit{derivative} of a function $f(x)$ at $x$, is the instantaneous
-rate of change, and hence is the slope of the tangent line at $x$. To
-find the slope of this line, we consider \textit{secant} lines, lines
-that locally intersect the curve at two points.  The slope of any
-secant line that passes through the points $(x,f(x))$ and $(x+h,
-f(x+h))$ is given by
+
+The \textit{derivative} of a function $f$ at $a$, is the instantaneous
+rate of change, and hence is the slope of the tangent line at $(a,f(a))$. 
+
+\begin{question}
+	What is the instantaneous rate of change of $f(x) = 4x-3$?
+	\begin{hint}
+		The rate of change is the slope of the tangent line.
+	\end{hint}
+	\begin{hint}
+		The line tangent to $f(x) = 4x-3$, is simply itself!
+	\end{hint}
+	\begin{prompt}
+		The derivative is \answer{4}.
+	\end{prompt}
+\end{question}
+
+
+Unfortunately, if $f$ is not a straight line we cannot use the slope formula to calculate this rate of change, since
+$(a,f(a))$ is the only point on this line that we know.  In order to deal with this
+problem, we consider \textit{secant} lines, lines that locally intersect the curve at two points.
+One of these points will be $(a, f(a))$, the point at which we are trying to find the rate of change.
+If we call $h$ the difference between the $x$-coordinates of the two points, then the second point
+for our secant line is $(a+h, f(a+h))$.
+The slope of any secant line that passes through the points $(a,f(a))$ and $(a+h,
+f(a+h))$ is given by
 \[
-\frac{\Delta y}{\Delta x}=\frac{f(x+h) -f(x)}{(x+h)-x} =
-\frac{f(x+h)-f(x)}{h}.
+\frac{\Delta y}{\Delta x}=\frac{f(a+h) - f(a)}{(a+h) - a} =
+\frac{f(a+h)-f(a)}{h}.
 \]
-%see Figure~\ref{figure:limit-dfn}. 
-This leads to the \textit{limit definition of the derivative}:
 
-%\begin{definitionOfTheDerivative}\index{limit!definition of the derivative}\index{derivative!limit definition}
-\begin{definition}
-The \dfn{derivative} of $f(x)$ is the function
-\[
-\ddx f(x) = \lim_{h\to 0} \frac{f(x+h) - f(x)}{h}.
-\]
-If this limit does not exist for a given value of $x$, then $f(x)$ is
-not \dfn{differentiable} at $x$.
-\end{definition}
-%\end{definitionOfTheDerivative}
-%\begin{marginfigure}[-1.75in]
+\begin{example}
+	If $f(x) = x^2-2x$, find the slope of the secant line through $x=2$ and $x=2+h$, in terms of $h$.
+	\begin{explanation}
+		Start with the slope formula we just found.
+		\[ \frac{\Delta y}{\Delta x} = \frac{f(2+h)-f(2)}{h} \]
+
+		Now substitute in for the function we know.
+		\[ \frac{\Delta y}{\Delta x} = \frac{( (2+h)^2-2(2+h) )-(0)}{h} \]
+
+		Now expand the numerator of the fraction.
+		\[ \frac{\Delta y}{\Delta x} = \frac{( 4+4h+h^2-4-2h )-(0)}{h} \]
+		
+		Now combine like-terms.
+		\[ \frac{\Delta y}{\Delta x} = \frac{2h+h^2}{h} \]
+
+		Factor an $h$ from every term in the numerator.
+		\[ \frac{\Delta y}{\Delta x} = \frac{h(2+h)}{h} \]
+
+		Cancel $h$ from the numerator and denominator.
+		\[ \frac{\Delta y}{\Delta x} = 2+h \]
+	\end{explanation}
+\end{example}
+
+
+
+The following diagram shows the secant lines for several values of $h$, as well as the tangent line
+at $(a,f(a))$.   
+
 \begin{image}
 \begin{tikzpicture}
   \begin{axis}[
@@ -186,7 +218,7 @@ not \dfn{differentiable} at $x$.
       every axis y label/.style={at=(current axis.above origin),anchor=south},
       every axis x label/.style={at=(current axis.right of origin),anchor=west},
             xtick={1,1.666}, ytick={1,3},
-            xticklabels={$x$,$x+h$}, yticklabels={$f(x)$,$f(x+h)$},
+            xticklabels={$a$,$a+h$}, yticklabels={$f(a)$,$f(a+h)$},
             axis on top,
     ]         
           \addplot [penColor2!15!background, domain=(0:2)] {-3.348+4.348*x};
@@ -205,31 +237,24 @@ not \dfn{differentiable} at $x$.
         \end{axis}
 \end{tikzpicture}
 \end{image}
-\todo{This image should be interactive.}
-%% \caption{Tangent lines can be found as the limit of secant lines. The slope of the tangent line is given by
-%% $\lim_{h\to 0} \frac{f(x+h) - f(x)}{h}.$}
-%%  \label{figure:limit-dfn}
-%% \end{marginfigure}
-
-%\break
+%\todo{This image should be interactive.}
 
 
-\begin{question}
-What is the derivative of $f(x) = 2x-3$?
-\begin{hint}
-The derivative is the slope of the tangent line.
-\end{hint}
-\begin{hint}
-The line tangent to $f(x) = 2x-3$, is simply itself!
-\end{hint}
-\begin{prompt}
-The derivative is \answer{2}.
-\end{prompt}
-\end{question}
+Notice that as $a+h$ approaches $a$, the slopes of the secant lines are approaching
+the slope of the tangent line.  This leads to the \textit{definition of the derivative}:
 
+\begin{definition}
+The \dfn{derivative} of $f$ at $a$ is 
+\[
+  f'(a) = \lim_{h\to 0} \frac{f(a+h) - f(a)}{h}.
+\]
+If this limit exists, then we say that $f$ is \dfn{differentiable} at $a$.  If this 
+limit does not exist for a given value of $a$, then $f$ is
+\dfn{non-differentiable} at $a$.
+\end{definition}
 
 \begin{question} 
-    Which of the following computes the derivative?
+    Which of the following computes the derivative, $f'(a)$?
     \begin{multipleResponse}
       \choice{$\lim_{h\to 0}\frac{(f(a)+h) - f(a)}{(a+h)-a}$}
       \choice[correct]{$\lim_{h\to 0}\frac{f(a+h) - f(a)}{(a+h)-a}$}
@@ -243,226 +268,90 @@ The derivative is \answer{2}.
 \end{question}
 
 
-
 \begin{definition}\index{derivative!notation}
-There are several different notations for the derivative, we'll mainly
-use
-\[
-\ddx f(x) = f'(x).
-\]
-If one is working with a function of a variable other than $x$, say $t$ we write
-\[
-\dd{t} f(t) = f'(t).
-\]
-However, if $y = f(x)$, $\dd[y]{x}$, $\dot{y}$, and $D_x f(x)$ are
-also used.
+	There are several different notations for the derivative, we'll mainly
+	use
+	\[ \ddx f(a) = f'(a). \]
 \end{definition}
 
-Now we will give a number of examples, starting with a basic example.
 
+Now we will give a number of examples.
 \begin{example}
-Compute 
-\[
-\ddx \left(x^2 - 3\right).
-\]
-\begin{explanation}
-Start by writing out the limit definition of the derivative where
-$f(x) = x^2-3$.
-\begin{freeResponse}[given]%%BADBAD is this the best we can do for answers?
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{(x+h)^2 - 3 - (x^2 - 3)}{h}
-\]
-\end{freeResponse}
-Now expand the numerator of the fraction.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{x^2 + 2xh + h^2 -3 - x^2 +3}{h}
-\]
-\end{freeResponse}
-Now combine like-terms.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{2xh + h^2}{h}
-\]
-\end{freeResponse}
-Factor an $h$ from every term in the numerator.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{h(2x + h)}{h}
-\]
-\end{freeResponse}
-Cancel $h$ from the numerator and denominator.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0} \left(2x + h\right)
-\]
-\end{freeResponse}
-Take the limit as $h$ goes to $0$. 
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = 2x
-\]
-\end{freeResponse}
-For your viewing pleasure, we have supplied a plot of both $f(x)$ and
-$f'(x)$:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      domain=-4:4,
-      xmax=4,
-      xmin=-4,
-      ymax=4,
-      ymin=-4,
-      axis lines =middle, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west}
-    ]
-          \addplot [very thick, penColor, smooth] {x^2-3};
-          \addplot [very thick, penColor2, smooth] {2*x};
-          \node at (axis cs:1.5,-2) {\color{penColor}$f(x)$};  
-          \node at (axis cs:.8,3) {\color{penColor2}$f'(x)$};
-        \end{axis}
-\end{tikzpicture}
-%\caption{A plot of $f(x) = x^3+1$ and $f'(x) = 3x^2$.}
-%\label{figure:x^3+1}
-\end{image}
+	If $f(x) = x^2-2x$, find the derivative of $f$ at $2$.
+	\begin{explanation}
+		Start with the definition of the derivative.
+		\[ f'(2) = \lim_{h\to 0} \frac{f(2+h)-f(2)}{h} \] 
+
+		In a previous example we determined that
+		\[ \frac{f(2+h)-f(2)}{h} = 2+h. \]
+
+		Substituting this into our derivative calculation gives
+		\[ f'(2) = \lim_{h\to 0} 2+h. \]
+
+		Take the limit as $h$ goes to $0$. 
+		\[ f'(2) = 2 \]
 \end{explanation}
 \end{example}
 
 
-Now we will consider a function that isn't defined on all of $\RR$.
-
 \begin{example}
-Compute 
-\[
-\ddx \sqrt{x+3}.
-\]
-\begin{explanation}
-Start by writing out the limit definition of the derivative where
-$f(x) = \sqrt{x+3}$.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{\sqrt{(x+h)+3} - \sqrt{x+3}}{h}
-\]
-\end{freeResponse}
-Now multiply by $\frac{\sqrt{(x+h)+3} + \sqrt{x+3}}{\sqrt{(x+h)+3} + \sqrt{x+3}}$.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{\left(\sqrt{(x+h)+3} - \sqrt{x+3}\right)\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}{h\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}
-\]
-\end{freeResponse}
-Now expand the numerator.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{x+h+3 - (x+3)}{h\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}
-\]
-\end{freeResponse}
-Combine like-terms.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{h}{h\left(\sqrt{(x+h)+3} + \sqrt{x+3}\right)}
-\]
-\end{freeResponse}
-Cancel $h$ from the numerator and denominator.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{1}{\sqrt{(x+h)+3} + \sqrt{x+3}}
-\]
-\end{freeResponse}
-Take the limit as $h$ goes to $0$. 
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \frac{1}{2\sqrt{x+3}}
-\]
-\end{freeResponse}
-As a gesture of friendship, here is a plot of both $f$ and $f'$:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      domain=-4:4,
-      xmax=4,
-      xmin=-4,
-      ymax=4,
-      ymin=-1,
-      axis lines =middle, xlabel=$x$, %ylabel=$y$,
-            %every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west}
-    ]
-    \addplot [very thick, penColor, smooth,domain=0:3] ({x^2-3},{x}); %% tricking out the plot
-    \addplot [very thick, penColor2, smooth,samples=50,domain=.1:4] ({1/(4*x^2)-3},{x}); %% tricking out the plot
-    \node at (axis cs:2,2.5) {\color{penColor}$f$};  
-    \node at (axis cs:-2.4,3) {\color{penColor2}$f'$};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-\end{explanation}
+	An object moving along a straight line has displacement given by $s(t) = \sqrt{t+3}$.  Find the velocity of the
+	object at time $t=6$.
+	\begin{explanation}
+		Velocity is the rate of change of displacement with respect to time.  We are being asked to
+		find $s'(6)$.
+		The definition of the derivative gives
+		\[ s'(6) = \lim_{h \to 0} \frac{s(6+h)-s(6)}{h} = \lim_{h\to 0} \frac{\sqrt{9+h}-3}{h}. \]
+		
+		Multiply by $\frac{\sqrt{9+h}+3}{\sqrt{9+h}+3}$.
+		\[ s'(6) = \lim_{h\to 0} \left(\frac{\sqrt{9+h}-3}{h} \right)\left( \frac{\sqrt{9+h}+3}{\sqrt{9+h}+3} \right) \]		
+		
+		Now expand the numerator.		
+		\[ s'(6) = \lim_{h \to 0} \frac{(9+h) - (9)}{h\left(\sqrt{9+h}+3 \right)} \]
+
+		Combine like-terms.
+		\[ s'(6) = \lim_{h \to 0} \frac{h}{h\left(\sqrt{9+h}+3\right)} \]
+
+		Cancel $h$ from the numerator and denominator.
+		\[ s'(6) = \lim_{h\to 0} \frac{1}{\sqrt{9+h}+3} \]
+
+		Take the limit as $h$ tends to $0$.
+		\[ s'(6) = \frac{1}{6} \]
+	
+		The object has velocity $\frac{1}{6}$ at time $t=6$.
+	\end{explanation}
 \end{example}
 
 
-Next we will consider the derivative a function that is not continuous
-on $\RR$.
 
 
 \begin{example}
-Compute
-\[
-\ddx \frac{1}{3-x}.
-\]
-\begin{explanation}
-Start by writing out the limit definition of the derivative where
-$f(x) = \frac{1}{3-x}$.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{\frac{1}{3-(x+h)} - \frac{1}{3-x}}{h}
-\]
-\end{freeResponse}
-Now multiply by $\frac{(3-(x+h))(3-x)}{(3-(x+h))(3-x)}$.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{(3-x) - (3-(x+h))}{h(3-(x+h))(3-x)}
-\]
-\end{freeResponse}
-Simplify the numerator
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{h}{h(3-(x+h))(3-x)}
-\]
-\end{freeResponse}
-Cancel $h$ from the numerator and denominator.
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \lim_{h\to 0}\frac{1}{(3-(x+h))(3-x)}
-\]
-\end{freeResponse}
-Take the limit as $h$ goes to $0$. 
-\begin{freeResponse}[given]
-\[
-\ddx f(x) = \frac{1}{(3-x)^2}
-\]
-\end{freeResponse}
-It is our pleasure to present a plot of both $f(x)$ and $f'(x)$:
-\begin{image}
-  \begin{tikzpicture}
-    \begin{axis}[
-        xmax=5,
-        xmin=-1,
-        ymax=5,
-        ymin=-5,
-        %samples=100,
-        axis lines =middle, xlabel=$x$, ylabel=$y$,
-        every axis y label/.style={at=(current axis.above origin),anchor=south},
-        every axis x label/.style={at=(current axis.right of origin),anchor=west}
-      ]
-      \addplot [very thick, penColor, smooth,domain=3.1:5] {1/(3-x)};
-      \addplot [very thick, penColor, smooth,domain=-1:2.9] {1/(3-x)};
-      \addplot [very thick, penColor2, smooth,domain=3.1:5] {1/(3-x)^2};
-          \addplot [very thick, penColor2, smooth,domain=-1:2.9] {1/(3-x)^2};
-          \node at (axis cs:4,-2) {\color{penColor}$f(x)$};  
-          \node at (axis cs:4.1,3) {\color{penColor2}$f'(x)$};
-    \end{axis}
-  \end{tikzpicture}
-\end{image}
-\end{explanation}
+	Find an equation for the line tangent to $f(x) = \frac{1}{3-x}$ at the point $(2, 1)$.
+	\begin{explanation}
+		To find an equation for a line, we need two pieces of information.  We need to know
+		a point on the line, and we need to know the slope.  In this question, we are given
+		that $(2,1)$ is on the line.  That means we need to find the slope of the tangent line.
+		Finding the slope of the tangent line at the point $(2,1)$ means finding $f'(2)$.
+		
+		Start by writing out the definition of the derivative.
+		\[ f'(2) = \lim_{h\to 0} \frac{f(2+h)-f(2)}{h} = \lim_{h\to 0} \frac{\frac{1}{1-h} - 1}{h} \]
+
+		Multiply by $\frac{1-h}{1-h}$ to clear the fraction in the numerator.
+		\[ f'(2) = \lim_{h\to 0} \frac{1 - (1-h)}{h(1-h)} \]
+
+		Combine like-terms in the numerator.
+		\[ f'(2) = \lim_{h\to 0} \frac{h}{h(1-h)} \]
+
+		Cancel $h$ from the numerator and denominator.
+		\[ f'(2) = \lim_{h\to 0} \frac{1}{1-h} \]
+		
+		Take the limit as $h$ goes to $0$. 
+		\[ f'(2) = \frac{1}{1} = 1 \]
+
+		We are looking for an equation of the line through the point $(2,1)$ with slope $m = f'(2) = 1$.
+		The point-slope formula tells us that the line has equation given by
+		\[ y-1 = 1(x-2). \]	
+	\end{explanation}
 \end{example}
 
 

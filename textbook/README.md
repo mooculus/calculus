@@ -28,11 +28,13 @@ Each lecture will have a
      - Determine graphically whether a particular limit exists.
      - estimating limits numerically and possible errors to this method.
      - determinate and indeterminate forms.
+     - include limits with variables in them (to help with derivatives later)
 * [Limit laws](limitLaws/)
-     - Definiton of Contiunity
+     - Definition of Continuity
      - Limit Laws
      - Sin/Cos Cont. 
      - Replace a function with a continuous function.
+     - Squeeze Theorem
 * [Indeterminate forms](indeterminateForms/)
      - AKA ``functions that blow up''
      - idea of the form of a limit (e.g., first time seeing indeterminate forms versus ``determinate'' forms)
@@ -50,15 +52,18 @@ Each lecture will have a
      - bisection method
 * [Overview of limits](overviewOfLimits/)
      - epsilon-delta content in ``bonus'' section
+     - ??? include some error estimation ???
 * [Definition of the derivative](definitionOfTheDerivative/)
      - derivative as instantaneous velocity
      - derivative as slope of the tangent line
      - average vs. instantaneous rate of change
      - compute the derivative at a point
+     - ??? introduce some linear approximation ideas ???
 * [The derivative as a function](derivativeAsAFunction/)
      - Computing the limits that arise from derivatives, finding $f'(x)$ for general $x$
      - Finding the derivative from the graph of the function
      - Relationship between Differentiability and Continuity
+     - making piecewise functions continuous
      - Send out some mechanical practice
 * [Higher order derivatives and graphs](higherOrderDerivativesAndGraphs/)
      - Higher Order Derivatives Notation/Definition
@@ -66,7 +71,7 @@ Each lecture will have a
      - Concavity
      - Some word problems where you are given a table of values or graph
      - Identifying the relationships between $f$, $f'$, $f''$, such as $f'<0$ implies $f$ decreasing, etc.  (proof later)
-     - Drawing graphes: given two of $f$, $f'$, $f''$, draw the third
+     - Drawing graphs: given two of $f$, $f'$, $f''$, draw the third
      - Given a list of properties, draw the (``a'') graph; there isn't a single answer
 * [Rules of differentiation](rulesOfDifferentiation/)
      - Constant Rule, Constant Multiple, Sum and Difference
@@ -80,8 +85,13 @@ Each lecture will have a
      - Review composition of functions
      - Some rates of change word problems
 * [Mean Value Theorem](meanValueTheorem/)
+     - ??? MVT as a linear version of Taylor’s Theorem ???
 * [Linear approximation](linearApproximation/)
      - Emphasis on relationship between linear approximation and tangent line
+     - Linear approximation as a function whose graph is the tangent line
+     - Second derivative measuring failure of linear approximation
+     - ??? differentials ???
+     - ??? error bounds ???
 * [Maximums and minimums](maximumsAndMinimums/)
      - Define Critical Points, Inflection Points
      - local maxs and mins
@@ -100,7 +110,7 @@ Each lecture will have a
      - Take derivative of inverse Trig Formulas
 * [Logarithmic differentiation](logarithmicDifferentiation/)
      - Potential examples: Percentage growth rate, 
-     - 
+     - x^x?
 * [Advanced graphing of functions](advancedGraphingOfFunctions/)
 * [More than one rate](moreThanOneRate/)
      - ``Abstract'' examples of related rates
@@ -111,19 +121,29 @@ Each lecture will have a
      - Basic vocabulary
      - Verifying solutions
      - Context
+     - Euler’s method?
+     - difference between equations and functions
+     - sometimes easier to equate rates than quantities
 * [Antiderivatives](antiderivatives/)
      - Basic vocabulary
      - Basic formulas
      - Basic separable differential equations
+     - velocities to distances examples
 * [L'Hospital's rule](lhopitalsRule/)
+     - include checklist for conditions with examples
 * [Approximating the area under a curve](approximatingTheAreaUnderACurve/)
+     - what is area?
      - Right, Left, and Midpoint Riemann Sums with $n < 10$
      - idea that more rectangles is better, infinite would be great, a limit might be useful (do not compute)
+     - some examples with positive velocity, find net displacement (to use later)
+     - relate to “algebra 1” methods
 * Sigma notation
+     - (maybe a digIn if we have too many days)
      - Sigma notation and its properties (many students have never seen before)
      - Riemann sums with 1000 rectangles and $n$ rectangles
      - Idea that more rectangles is better, infinite would be great, a limit might be useful.
 * [Net area](netArea/)
+     - Sum of signed area
      - Find the exact area under the curve
      - Idea of Net Area
      - Find Net Area

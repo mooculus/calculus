@@ -1,0 +1,226 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Sketching the plot of a function}
+
+\begin{document}
+\begin{abstract}
+  We will give some general guidelines for sketching the plot of a
+  function.
+\end{abstract}
+\maketitle
+
+Let's get to the point. Here we use all of the tools we know to sketch
+the plots of functions.
+
+
+\begin{itemize}
+\item Find the $y$-intercept, this is the point $(0,f(0))$. Place this
+  point on your graph.
+\item Find candidates for vertical asymptotes, these are points where
+  $f(x)$ is undefined.
+\item Compute $f'(x)$ and $f''(x)$.
+\item Find the critical points, the points where $f'(x) = 0$ or
+  $f'(x)$ is undefined.
+\item Use the second derivative test to identify local extrema and/or
+  find the intervals where your function is increasing/decreasing.
+\item Find the candidates for inflection points, the points where
+  $f''(x) = 0$ or $f''(x)$ is undefined.
+\item Identify inflection points and concavity.
+\item If possible find the $x$-intercepts, the points where $f(x) =
+  0$. Place these points on your graph.
+\item Find horizontal asymptotes.
+\item Determine an interval that shows all relevant behavior.
+\end{itemize}
+At this point you should be able to sketch the plot of your function.
+
+
+Let's see this procedure in action. We'll sketch the plot of
+$2x^3-3x^2-12x$.  Following our guidelines above, we start by
+computing $f(0) = 0$.  Hence we see that the $y$-intercept is
+$(0,0)$. Place this point on your plot, see Figure~\ref{figure:CS1}.
+\begin{marginfigure}[-2.5in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{We start by placing the point $(0,0)$.}
+\label{figure:CS1}
+\end{marginfigure}
+
+Note that there are no vertical asymptotes as our function is defined
+for all real numbers.  Now compute $f'(x)$ and $f''(x)$,
+\[
+f'(x) = 6x^2 -6x -12\qquad\text{and}\qquad f''(x) = 12x-6.
+\]
+
+The critical points are where $f'(x) = 0$, thus we need to solve $6x^2
+-6x -12 = 0$ for x. Write
+\begin{align*}
+6x^2 -6x -12 &= 0 \\
+x^2 - x -2 &=0\\
+(x-2)(x+1) &=0.
+\end{align*}
+Thus
+\[
+f'(2) = 0\qquad\text{and}\qquad f'(-1) = 0.
+\]
+Mark the critical points $x=2$ and $x=-1$ on your plot, see
+Figure~\ref{figure:CS2}.
+\begin{marginfigure}[-3in]
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+         \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+         \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\caption{Now we add the critical points $x=-1$ and $x=2$.}
+\label{figure:CS2}
+\end{marginfigure}
+
+Check the second derivative evaluated at the critical points. In this
+case,
+\[
+f''(-1) = -18 \qquad\text{and}\qquad f''(2) = 18,
+\]
+hence $x=-1$, corresponding to the point $(-1,7)$ is a local maximum
+and $x=2$, corresponding to the point $(2,-20)$ is local minimum of
+$f(x)$. Moreover, this tells us that our function is increasing on
+$[-2,-1)$, decreasing on $(-1,2)$, and increasing on $(2,4]$. Identify
+this on your plot, see Figure~\ref{figure:CS3}.
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            axis on top=true,
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-2,-25) (-1,7)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-1,7) (2,-20)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(2,-20) (4,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,7)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-20)};  %% closed hole
+          %\addplot [very thick, penColor, samples=100, smooth,domain=(-1.2:-.8)] {2*x^3-3*x^2-12*x};
+          %\addplot [very thick, penColor, samples=100, smooth,domain=(1.8:2.2)] {2*x^3-3*x^2-12*x};
+        \end{axis}
+\end{tikzpicture}
+\caption{We have identified the local extrema of $f(x)$ and where this
+  function is increasing and decreasing.}
+\label{figure:CS3}
+\end{marginfigure}
+
+
+The candidates for the inflection points are where $f''(x) = 0$, thus
+we need to solve $12x-6=0$ for $x$.  Write
+\begin{align*}
+12x-6 &=0\\
+x - 1/2 &=0\\
+x &=1/2.
+\end{align*}
+Thus $f''(1/2) = 0$. Checking points, $f''(0) = -6$ and $f''(1) = 6$.
+Hence $x=1/2$ is an inflection point, with $f(x)$ concave down to the
+left of $x=1/2$ and $f(x)$ concave up to the right of $x=1/2$. We can
+add this information to our plot, see Figure~\ref{figure:CS4}.
+
+Finally, in this case, $f(x) =2x^3-3x^2-12x$, we can find the
+$x$-intercepts. Write
+\begin{align*}
+2x^3-3x^2-12x &=0\\
+x(2x^2 -3x -12) &=0.\\
+\end{align*}
+Using the quadratic formula, we see that the $x$-intercepts of $f(x)$ are
+\[
+x = 0, \qquad x= \frac{3-\sqrt{105}}{4}, \qquad x= \frac{3+\sqrt{105}}{4}.
+\]
+Since all of this behavior as described above occurs on the interval
+$[-2,4]$, we now have a complete sketch of $f(x)$ on this interval,
+see the figure below.
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            axis on top=true,
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-2,-25) (-1,7)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-1,7) (2,-20)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(2,-20) (4,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+          \addplot [dashed, penColor4] plot coordinates {(1/2,-25) (1/2,25)}; 
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1/2,-6.5)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,7)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-20)};  %% closed hole
+          \addplot [very thick, penColor, samples=100, smooth,domain=(-1.5:3)] {2*x^3-3*x^2-12*x};
+        \end{axis}
+\end{tikzpicture}
+\caption{We identify the inflection point and note that the curve is
+  concave down when $x<1/2$ and concave up when $x>1/2$.}
+\label{figure:CS4}
+\end{marginfigure}
+
+\begin{tikzpicture}
+	\begin{axis}[
+            axis on top=true,
+            domain=-2:4,
+            xmin=-2,
+            xmax=4,
+            ymax=25,
+            ymin=-25,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-2,-25) (-1,7)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(-1,7) (2,-20)}; 
+          \addplot [->, line width=10, penColor!10!background] plot coordinates {(2,-20) (4,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(-1,-25) (-1,25)}; 
+          \addplot [dashed, penColor2] plot coordinates {(2,-25) (2,25)}; 
+          \addplot [dashed, penColor4] plot coordinates {(1/2,-25) (1/2,25)}; 
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1/2,-6.5)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,7)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-20)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1.812,0)};  %% closed hole
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.312,0)};  %% closed hole
+          \addplot [very thick, penColor, samples=100, smooth,domain=(-2:4)] {2*x^3-3*x^2-12*x};
+        \end{axis}
+\end{tikzpicture}
+\end{document}

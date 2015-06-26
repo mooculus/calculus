@@ -40,20 +40,43 @@ In this case, the asymptote is the line
 A \textit{slant asymptote} is a somewhat different beast.
 
 \begin{definition}\index{slant asymptote}\index{asymptote!slant}
-  If there is a line $\l$ such that
+  If there is a nonhorizontal line $\l(x) = m\cdot x+b$ such that
   \[
   \lim_{x\to \infty}\left(f(x) - \l(x)\right) = 0,
   \]
-  then $\l$ is a \textbf{slant asymptote} for $f(x)$.
+  then $\l$ is a \dfn{slant asymptote} for $f(x)$.
 \end{definition}
 \begin{question}
-  image with slant asymptote
+  Consider the plot of the following function. 
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          samples=100,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]
+	\addplot [very thick, penColor, smooth,domain=0:5] {x/2-1};
+        \addplot [very thick, penColor, smooth,domain=-5:0] {sqrt(-x)};
+        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+        \addplot[color=penColor,fill=penColor,only marks,] coordinates{(0,0)};  %% closed hole
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  What is the slant asymptote of this function?
+  \begin{prompt}
+    \l(x) = \answer{x/2 -1}
+  \end{prompt}
 \end{question}
 
 To analytically find slant asymptotes, one must find the required
-information to determine a line, namely the slope and $y$-intercept.
-While there are several ways to do this, we wil give a method that is
-fairly general. 
+information to determine a line:
+\begin{itemize}
+\item The slope.
+\item The $y$-intercept.
+\end{itemize}
+While there are several ways to do this, we will give a method that is
+fairly general.
 
 
 \begin{example}
@@ -68,7 +91,7 @@ f(x) = \frac{x^2-3x+2}{x+2}.
     \]
     We will imagine that we have such a line
     \[
-    \l(x) = mx + b
+    \l(x) = m\cdot x + b
     \]
     and attempt to find such a line. We see
     \begin{align*}
@@ -77,7 +100,7 @@ f(x) = \frac{x^2-3x+2}{x+2}.
       &= \lim_{x\to\infty}\frac{x^2-3x+2}{x^2+2x}\\
       &= \lim_{x\to\infty}\frac{x^2-3x+2}{x^2+2x}\cdot\frac{1/x^2}{1/x^2}\\
       &= \lim_{x\to\infty}\frac{1-3/x+2/x^2}{1+2/x}\\
-      &= 1.
+      &= \answer[given]{1}.
     \end{align*}
     So $m=1$. To find the $y$-intercept, write
     \begin{align*}
@@ -86,7 +109,7 @@ f(x) = \frac{x^2-3x+2}{x+2}.
       &=\lim_{x\to\infty} \frac{-3x+2}{x+2}\\
       &=\lim_{x\to\infty} \frac{-3x+2}{x+2}\cdot\frac{1/x}{1/x}\\
       &=\lim_{x\to\infty} \frac{-3+2/x}{1+2/x}\\
-      &= -3.
+      &= \answer[given]{-3}.
     \end{align*}
     Hence our slant asymptote is $\l(x) = x-3$.
   \end{explanation}

@@ -11,9 +11,12 @@ Each lecture will have a
 * [Understanding functions](understandingFunctions/)
      - What is a function
      - Domain and range, intervals of increasing and decreasing
+     - largest subset which could be the domain
+     - questions: restrict domain of the function to include this point.
      - Function operations including composition
      - Basic functions: linear, polynomial, rational, roots, piecewise, absolute value
      - Emphasize piecewise (difficult for students on exams)
+     - inverse functions: use f(f^{-1}(x)) = x as an explanation for “switch x and y”
      - Triangle problems?
 * [Review of famous functions](reviewOfFamousFunctions/)
      - quiz (in all sections) to assess understanding; say something (not in writing) emphasizing that students struggling with this quiz could move to 1150.
@@ -50,9 +53,11 @@ Each lecture will have a
      - limits to infinity of famous functions
 * [Continuity and the Intermediate Value Theorem](continuity/)
      - bisection method
-* [Overview of limits](overviewOfLimits/)
-     - epsilon-delta content in ``bonus'' section
+* [An Application of limits](anApplicationOfLimits/)
+     - average velocity stuff goes here
      - ??? include some error estimation ???
+* [Bonus Section: The precise definition of a limit](preciseDefinitionOfALimit/)
+     - epsilon-delta content in ``bonus'' section
 * [Definition of the derivative](definitionOfTheDerivative/)
      - derivative as instantaneous velocity
      - derivative as slope of the tangent line
@@ -78,12 +83,12 @@ Each lecture will have a
      - Generalized Power Rule (proof for integers only, general proof later)
      - Derivatives of $e^x$ and $\sin(x)$ with proof
      - Derivative of $\ln(x)$ but proof later
-     - Some Rates of Change Word Problems
+     - (!) Some Rates of Change Word Problems
 * [The product and quotient rules](productAndQuotientRules/)
-     - Some rates of change word problems
+     - (!) Some rates of change word problems
 * [The chain rule](chainRule/)
      - Review composition of functions
-     - Some rates of change word problems
+     - (!) Some rates of change word problems
 * [Mean Value Theorem](meanValueTheorem/)
      - ??? MVT as a linear version of Taylor’s Theorem ???
 * [Linear approximation](linearApproximation/)
@@ -129,6 +134,7 @@ Each lecture will have a
      - Basic formulas
      - Basic separable differential equations
      - velocities to distances examples
+     - Note: we are not planning to use the integral notation at this point! (Here is f’(x), find f(x).)
 * [L'Hospital's rule](lhopitalsRule/)
      - include checklist for conditions with examples
 * [Approximating the area under a curve](approximatingTheAreaUnderACurve/)
@@ -157,6 +163,8 @@ Each lecture will have a
      - Generalized Riemann Sum
 * [First Fundamental Theorem of Calculus](firstFundamentalTheoremOfCalculus/)
 * [Second Fundamental Theorem of Calculus](secondFundamentalTheoremOfCalculus/)
+     - Notation: $f(b) - f(a) = \int^a_b f’(x) \dx$
+     - Make some notes on notation for indefinite integrals
 * [The idea of substitution](substitution/)
      - Integration rules are differentiation rules in reverse
      - Definite integration: area of a rectangle is unchanged if we scale its length and witdth by the same factor in opposite directions

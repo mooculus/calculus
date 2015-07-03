@@ -10,56 +10,21 @@ Each lecture will have a
 
 * [Understanding functions](understandingFunctions/)
      - intervals of increasing and decreasing
-     - Basic functions: linear, polynomial, rational, roots, piecewise, absolute value
      - Triangle problems?
+     - \mathbb{R} as real numbers
 * [Review of famous functions](reviewOfFamousFunctions/)
      - quiz (in all sections) to assess understanding; say something (not in writing) emphasizing that students struggling with this quiz could move to 1150.
-     - table of properties
-     - some problems in homework emphasizing that you should already know all this
 * [What is a limit?](whatIsALimit/)
-     - Limits as understanding local behavior of functions. $\sin(x)/x$
-     - Determine graphically whether a particular limit exists.
-     - estimating limits numerically and possible errors to this method.
-     - determinate and indeterminate forms.
-     - include limits with variables in them (to help with derivatives later)
 * [Limit laws](limitLaws/)
-     - Definition of Continuity
-     - Limit Laws
-     - Sin/Cos Cont. 
-     - Replace a function with a continuous function.
-     - Squeeze Theorem
 * [Indeterminate forms](indeterminateForms/)
-     - AKA ``functions that blow up''
-     - idea of the form of a limit (e.g., first time seeing indeterminate forms versus ``determinate'' forms)
-     - determinate and indeterminate forms
-     - limits of the form non-zero/zero
-     - limits of the form zero/zero (do more algebra)
-     - determinate and indeterminate forms
 * [Using limits to detect asymptotes](asymptotesAsLimits/)
-     - definition of vertical asymptotes
-     - definition of horizontal asymptotes
-     - Slant asymptotes
-     - Algebra with infinity. (Determinants forms with infinity) 
-     - limits to infinity of famous functions
 * [Continuity and the Intermediate Value Theorem](continuity/)
-     - bisection method
 * [An Application of limits](anApplicationOfLimits/)
-     - average velocity stuff goes here
-     - ??? include some error estimation ???
 * [Bonus Section: The precise definition of a limit](preciseDefinitionOfALimit/)
-     - epsilon-delta content in ``bonus'' section
 * [Definition of the derivative](definitionOfTheDerivative/)
-     - derivative as instantaneous velocity
-     - derivative as slope of the tangent line
-     - average vs. instantaneous rate of change
-     - compute the derivative at a point
      - ??? introduce some linear approximation ideas ???
+     - We can get change in outputs by multiplying change in inputs by slope
 * [The derivative as a function](derivativeAsAFunction/)
-     - Computing the limits that arise from derivatives, finding $f'(x)$ for general $x$
-     - Finding the derivative from the graph of the function
-     - Relationship between Differentiability and Continuity
-     - making piecewise functions continuous
-     - Send out some mechanical practice
 * [Higher order derivatives and graphs](higherOrderDerivativesAndGraphs/)
      - Higher Order Derivatives Notation/Definition
      - $f''$ as acceleration
@@ -69,10 +34,6 @@ Each lecture will have a
      - Drawing graphs: given two of $f$, $f'$, $f''$, draw the third
      - Given a list of properties, draw the (``a'') graph; there isn't a single answer
 * [Rules of differentiation](rulesOfDifferentiation/)
-     - Constant Rule, Constant Multiple, Sum and Difference
-     - Generalized Power Rule (proof for integers only, general proof later)
-     - Derivatives of $e^x$ and $\sin(x)$ with proof
-     - Derivative of $\ln(x)$ but proof later
      - (!) Some Rates of Change Word Problems
 * [The product and quotient rules](productAndQuotientRules/)
      - (!) Some rates of change word problems

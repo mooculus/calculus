@@ -26,33 +26,12 @@ Each lecture will have a
      - We can get change in outputs by multiplying change in inputs by slope
 * [The derivative as a function](derivativeAsAFunction/)
 * [Higher order derivatives and graphs](higherOrderDerivativesAndGraphs/)
-     - Higher Order Derivatives Notation/Definition
-     - $f''$ as acceleration
-     - Concavity
-     - Some word problems where you are given a table of values or graph
-     - Identifying the relationships between $f$, $f'$, $f''$, such as $f'<0$ implies $f$ decreasing, etc.  (proof later)
-     - Drawing graphs: given two of $f$, $f'$, $f''$, draw the third
-     - Given a list of properties, draw the (``a'') graph; there isn't a single answer
 * [Rules of differentiation](rulesOfDifferentiation/)
-     - (!) Some Rates of Change Word Problems
 * [The product and quotient rules](productAndQuotientRules/)
-     - (!) Some rates of change word problems
 * [The chain rule](chainRule/)
-     - Review composition of functions
-     - (!) Some rates of change word problems
 * [Mean Value Theorem](meanValueTheorem/)
-     - ??? MVT as a linear version of Taylor’s Theorem ???
 * [Linear approximation](linearApproximation/)
-     - Emphasis on relationship between linear approximation and tangent line
-     - Linear approximation as a function whose graph is the tangent line
-     - Second derivative measuring failure of linear approximation
-     - ??? differentials ???
-     - ??? error bounds ???
 * [Maximums and minimums](maximumsAndMinimums/)
-     - Define Critical Points, Inflection Points
-     - local maxs and mins
-     - absolute maxs and mins
-     - Derivative Tests (First, Second, Abs on a Closed interval, if only one critical point then absolute)
 * [Optimization](optimization/)
 * [Applied optimization](appliedOptimization/)
 * [Derivatives of trigonometric functions](trigonometricDerivatives/)

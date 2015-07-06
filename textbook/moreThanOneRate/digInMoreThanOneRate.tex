@@ -2,10 +2,15 @@
 
 \input{../preamble.tex}
 
+\outcome{Solve basic related rates word problems.}
+\outcome{Understand the process of solving related rates problems.}
+\outcome{Calculate derivatives of expressions with multiple variables implicitly.}
+
 \title[Dig-In:]{More than one rate}
 
 \begin{document}
 \begin{abstract}
+  Here we work abstract related rates problems.
 \end{abstract}
 \maketitle
 
@@ -148,9 +153,9 @@ triangles.
     \]
     we are now able to \textbf{differentiate the equation} using
     implicit differentiation, treating all functions as functions of
-    $t$, note $a$ is constant.
+    $t$, note $a$ is constant,
     \[
-    2\cdot c(t)\cdot c'(t) = 2\cdot b(t)\cdot b'(t)
+    2\cdot c(t)\cdot c'(t) = 2\cdot b(t)\cdot b'(t).
     \]
     Now we \textbf{evaluate the equation at the desired values.} We
     know that $b'(t) = 2$ and that $b(t) = 3$
@@ -179,22 +184,74 @@ triangles.
 We can also investigate problems involving angular rates.
 
 \begin{example}
- 
+  Imagine an expanding right triangle. If one leg has a fixed length
+  of $3$ m, one leg is increasing with a rate of $2$ m/s, and the
+  hypotenuse is expanding to accomidate the expanding leg, at what
+  rate is the angle attached to the fixed leg changing when both legs
+  are $3$ m long?
   \begin{explanation}
     To start, we \textbf{draw a picture.}
- 
+    \begin{image}
+      \begin{tikzpicture}
+        \coordinate (A) at (0,2);
+        \coordinate (B) at (0,5);
+        \coordinate (C) at (6.5,2);
+        \tkzMarkRightAngle(C,A,B)
+        \tkzMarkAngle[size=1.2cm,thin](B,C,A)
+        \tkzLabelAngle[pos = 1](B,C,A){$\theta$}
+        \tkzDefMidPoint(A,B) \tkzGetPoint{a}
+        \tkzDefMidPoint(A,C) \tkzGetPoint{b}
+        \tkzDefMidPoint(B,C) \tkzGetPoint{c}
+        \draw (A)--(B)--(C)--cycle;
+        \tkzLabelPoints[above](c)
+        \tkzLabelPoints[above](b)
+        %\tkzLabelPoints[left](a)
+        \node [left] at (a) {$a = 3$};
+        \node [below] at (b) {$b'(t) = 2$};
+      \end{tikzpicture}
+    \end{image} 
 
     We must \textbf{find an equation} that combines relevant
-    functions.
-
-    
+    functions. Here we note that
+    \[
+    \tan(\theta) = \frac{a}{b}
+    \]
+    Imagining $\theta$ and $b$ as being functions of time
+    \[
+    \tan(\theta(t)) = \frac{a}{b(t)}
+    \]
     we are now able to \textbf{differentiate the equation} using
     implicit differentiation, treating all functions as functions of
-    $t$,
-
-   
-    Now we \textbf{evaluate the equation at the desired values.}
-    
+    $t$, note $a$ is constant,
+    \[
+    \sec^2(\theta(t))\theta'(t) = \frac{-a\cdot b'(t)}{b(t)^2}.
+    \]
+    Now we \textbf{evaluate the equation at the desired values.}  We
+    know that $a=3$, $b'(t) = 2$, and that $b(t) = 3$
+    \begin{align*}
+    \sec^2(\theta(t))\cdot \theta'(t) &= \frac{-3\cdot 2}{3^2}\\
+    &= \frac{-6}{9}\\
+    &= \frac{-2}{3}.
+    \end{align*}
+    However, we still need to know $\sec^2(\theta)$. Here we use the
+    Pythagorean Theorem,
+    \begin{align*}
+    c^2(t) &= 3^2 + 3^2\\
+    &=18,
+    \end{align*}
+    and so we see that $c(t) = 3\sqrt{2}$. Now
+    \begin{align*}
+      \sec^2(\theta) &= \frac{\mathrm{hypotenuse}^2}{\mathrm{adjacent}^2}\\
+      &= \frac{\left(3\sqrt{2}\right)^2}{3^2}\\
+      &= 2.
+    \end{align*}
+    Hence
+    \begin{align*}
+      \sec^2(\theta(t))\cdot \theta'(t) &= \frac{-2}{3}\\
+      2\cdot \theta'(t) &= \frac{-2}{3}\\
+      \theta'(t) &= \frac{-1}{3}.
+    \end{align*}
+    So when $a=b=3$, the angle is changing at $-1/3$ radians per second.
   \end{explanation}
 \end{example}
 
@@ -202,10 +259,14 @@ We can also investigate problems involving angular rates.
 
 \section{Similar triangles}
 
-
+Finally, facts about similar triangles are often useful when solving
+related rates problems.
 
 \begin{example}
- 
+  Imagine an expanding right triangle. If one leg has a fixed length
+  of $3$ m, one leg is increasing with a rate of $2$ m/s, and the
+  hypotenuse is expanding to accomidate the expanding leg, at what
+  rate is the hypotenuse expanding when both legs are $3$ m long? 
   \begin{explanation}
     To start, we \textbf{draw a picture.}
  

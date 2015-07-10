@@ -31,22 +31,122 @@ each problem.
 
 
 \begin{example}
-A plane is flying directly away from you at $500$ mph at an altitude
-of $3$ miles.  How fast is the plane's distance from you increasing at
-the moment when the plane is flying over a point on the ground $4$
-miles from you?
+A hand-tossed pizza crust starts off as a ball of dough with a volume
+of $400\pi\, \text{cm}^3$. First, the cook stretches the dough to the
+shape of a cylinder of radius $12$ cm. Next the cook tosses the
+dough.
 
+If during tossing, the dough maintains the shape of a cylinder and the
+radius is increasing at a rate of $15$ cm/min, how fast is its
+thickness changing when the radius is $20$ cm?
 \begin{explanation}
-  To start, \textbf{draw a picture}.
-  
-  Next we need to \textbf{find equations}.
-  
-  Imagining that $p$ and $s$ are functions of time, we now
-  \textbf{differentiate the equation}.
-
-  Now we'll \textbf{evaluate and solve}.
+  To start, \textbf{draw a picture}. Here we see a cylinder that
+  represents our pizza dough.
+  \begin{image}
+  \begin{tikzpicture}
+    \draw[penColor,very thick] (0,0) ellipse (2.5 and .8);
+    \draw[very thick,penColor] (-2.5,-.5) arc (180:360:2.5 and .8);% bottom
+    \draw[penColor] (0,0) -- (2.5,0);
+    \draw[penColor,very thick] (-2.5,0) -- (-2.5,-.5);
+    \draw[penColor,very thick] (2.5,0) -- (2.5,-.5);
+    \node[above,penColor] at (1,0) {$r$};
+    \node[below,penColor] at (1,0) {$r' = 15$};
+    \draw[decoration={brace,raise=.2cm},decorate,thin] (2.5,0)--(2.5,-.5);
+    \node [penColor,right] at (2.7,-.25) {$h$};
+    \node [penColor,left] at (-1.5,1.2) {$V = 400\pi$ cm$^3$};
+    \node [penColor, right] at (1.5,-1.42) {$V = \pi\cdot r^2 \cdot h$ cm$^3$};
+  \end{tikzpicture}
+  \end{image}
+  Next we need to \textbf{find equations}. We see that we have
+  \[
+  400\pi = \pi \cdot r^2 \cdot h,
+  \]
+  which immediately simplifies to
+  \[
+  400 = r^2 \cdot h.
+  \]
+  Imagining that $r$ and $h$ are functions of time, we now may write
+  \[
+  400 = r(t)^2 \cdot h(t)
+  \]
+  and so we may now \textbf{differentiate the equation} using implicit
+  differentiation, treating all functions as functions of $t$,
+  \[
+  0 = 2\cdot r(t) \cdot r'(t) \cdot h(t) + r(t)^2 \cdot h'(t).
+  \]
+  Now we'll \textbf{evaluate and solve}. We know that $r(t) = 20$ cm
+  and that $r'(t) = 15$ cm/min. Moreover, we can now find $h(t)$ as we have
+  \[
+  400 = r(t)^2 \cdot h(t) \qquad{meaning}\qquad h(t) = \frac{400}{r(t)^2}.
+  \]
+  Since $20^2 = 400$, we see that $h(t) = 1$. Substituting in, we see
+  \begin{align*}
+    0 &= 2\cdot 20 \cdot 15 \cdot 1 + 20^2 \cdot h'(t),\\
+    -2\cdot 20 \cdot 15  &= 20^2 \cdot h'(t),\\
+    \frac{-2\cdot 20 \cdot 15}{20^2}  &= h'(t)\\
+    -1.5  &= h'(t).
+  \end{align*}
+  Hence the thickness of the dough is changing at a rate of $-1.5$
+  cm/min.
 \end{explanation}
 \end{example}
+
+
+
+\begin{example}
+  Consider a melting snowball. We will assume that the rate that the
+  snowball is melting is proportional to its surface area. Show that
+  the radius of the snowball is changing at a constant rate.
+  
+\begin{explanation}
+  To start, \textbf{draw a picture}.
+  \begin{image}
+    \begin{tikzpicture}
+      %\draw[penColor!50!background,very thick] (0,0) ellipse (2 and 1);
+      \draw[very thick,penColor!20!background] (2,0) arc (0:180:2 and .7);% top half of ellipse
+      \draw [penColor, very thick] (0,0) circle [radius=2];
+      \draw[penColor] (0,0) -- (2,0);
+      \node [below,penColor] at (1,0) {$r$ cm};
+      \draw[very thick,penColor] (-2,0) arc (180:360:2 and .7);% bottom half of ellipse
+      \node [penColor,left] at (-1.5,1.42) {$V = \frac{4}{3}\cdot \pi \cdot r^3$};
+      \node [penColor, right] at (1.5,-1.42) {$A = 4\cdot \pi \cdot r^2$};
+    \end{tikzpicture}
+  \end{image}
+  Next we need to \textbf{find equations}. The equations we'll use are
+  \[
+  V = \frac{4}{3}\cdot \pi \cdot r^3 \qquad\text{and}\qquad A = 4\cdot
+  \pi \cdot r^2.
+  \]
+  Now the key words are ``the rate that the snowball is melting is
+  proportional to its surface area.'' From this we have the following
+  equation:
+  \[
+  \underbrace{V'}_{\text{rate that the snowball is melting}} =
+  \overbrace{k\cdot}^{\text{is proportional to}}
+  \underbrace{A}_{\text{its surface area}}
+  \]
+  This tells us that we should imagine $r$ as a function of $t$ and write
+  \[
+  V'(t) = 4\cdot \pi\cdot r(t)^2 \cdot r'(t)
+  \]
+  Now we'll \textbf{evaluate and solve}. We now know
+  \[
+  V'(t) = 4\cdot \pi \cdot r(t)^2 \cdot r'(t) =  k\cdot 4\cdot
+  \pi \cdot r(t)^2 = k\cdot A(t).
+  \]
+  So
+  \begin{align*}
+  4\cdot \pi \cdot r(t)^2 \cdot r'(t) &=  k\cdot 4\cdot
+  \pi \cdot r(t)^2\\
+  r'(t) = k.
+  \end{align*}
+  Hence the radius is changing at a constant rate. 
+\end{explanation}
+\end{example}
+
+
+
+
 
 \section{Right triangles}
 
@@ -172,7 +272,7 @@ the rope in deg/sec after 1 sec?
 
 \begin{explanation}
 To start, \textbf{draw a picture}.
-
+\begin{image}
 \begin{tikzpicture}[scale=1.3]
 \draw[penColor!50!background, very thick] (0,3) -- (0,-1);
 \draw[penColor, very thick] (0,3) -- (2.12,-.12);
@@ -188,7 +288,7 @@ To start, \textbf{draw a picture}.
 \node[penColor,above] at (1,-.12) {$\dd[x]{t} = 6$ ft/sec};
 \node[penColor2,right,above] at (.3,2) {$\theta$};
 \end{tikzpicture}
-
+\end{image}
 Now we must \textbf{find equations}. From the right triangle in our
 picture, we see
 \[
@@ -268,10 +368,9 @@ In particular, we see that when $h = 4$, $r=4/3$ and
 \[
 \dd[r]{t} = \frac{1}{3}\cdot \dd[h]{t}.
 \]
-Now we can \textbf{evaluate the equation at the desired
-  values}. Starting with Equation~\ref{equation:cone/water}, we plug
-in $\dd[V]{t} = 10$, $r = 4/3$, $\dd[r]{t} = \frac{1}{3}\cdot \dd[h]{t}$
-and $h=4$. Write
+Now we can \textbf{evaluate and solve}. We
+plug in $\dd[V]{t} = 10$, $r = 4/3$, $\dd[r]{t} = \frac{1}{3}\cdot
+\dd[h]{t}$ and $h=4$. Write
 \begin{align*}
 10 &= \frac{\pi}{3}\left(2\cdot \frac{4}{3}\cdot 4 \cdot\frac{1}{3}\cdot\dd[h]{t} + \left(\frac{4}{3}\right)^2 \dd[h]{t}\right)\\
 10 &= \frac{\pi}{3}\left(\frac{32}{9}\dd[h]{t} + \frac{16}{9} \dd[h]{t}\right)\\

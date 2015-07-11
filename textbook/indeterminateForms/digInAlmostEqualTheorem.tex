@@ -31,9 +31,61 @@ $a$.
 \end{theorem}
 
 That is, if two functions agree at every point near $a$, then they
-have the same limit at $a$.  This should make sense since we already
-know that the limit does not care about what is happening exactly at
-$a$.
+have the same limit at $a$.
+\begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            ymin=-3,
+            ymax=3,
+            width=2.5in,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {-.5*x^3 + 1.6*x^2-.2*x -1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-1.5)};  %% closed hole
+        \end{axis}
+      \end{tikzpicture}\qquad
+      \begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            ymin=-3,
+            ymax=3,
+            width=2.5in,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {-.5*x^3 + 1.6*x^2-.2*x -1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(.4,-.86)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(.4,2)};  %% closed hole
+        \end{axis}
+      \end{tikzpicture}
+\end{image}
+\begin{question}
+  Are the two functions that produce the graphs above almost equal on
+  the interval $(-1,3)$?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{Yes.}
+      \choice{No.}
+  \end{multipleChoice}
+  \end{prompt}
+  \begin{feedback}
+    Since these functions are equal on the open interval $(-1,3)$,
+    except for at two disconnected points, they are almost equal on
+    the interval.
+  \end{feedback}
+\end{question}
+This should make sense since we already know that the limit does not
+``see'' what is happening exactly at $a$, it only sees what is
+happening nearer and nearer to $a$.
 
 Let's consider an example that we looked at in the previous section:
 
@@ -62,9 +114,38 @@ Let's consider an example that we looked at in the previous section:
     domain of $(x-1)$ is $(-\infty,\infty)$.  More specifically,
     $(x-1)$ is continuous for all real numbers, but
     $\frac{(x-2)(x-1)}{(x-2)}$ is discontinuous at $x=2$.
- 
- %insert graphs of $\frac{(x-2)(x-1)}{(x-2)}$ and $(x-1)$ side by side.
- 
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            domain=-2:4,
+            width=2.5in,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {x-1};
+        \end{axis}
+        \node [penColor] at (2,-.75) {$y= x-1$};
+      \end{tikzpicture}
+      \qquad
+      \begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            width=2.5in,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-2,...,4},
+            ytick={-3,...,3},
+          ]
+	  \addplot [very thick, penColor, smooth] {x-1};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+        \end{axis}
+        \node [penColor] at (2,-.5) {$y=\frac{x^2-3x+2}{x-2}$};
+\end{tikzpicture}
+\end{image}
     We have found a function that agrees with
     $\frac{(x-2)(x-1)}{(x-2)}$ everywhere except at $x=2$.  While
     \[
@@ -255,10 +336,12 @@ $x=1$.
 \lim_{x\to-1} \frac{\sqrt{x+5}-2}{x+1}&=
 \lim_{x\to-1} \frac{(\sqrt{x+5}-2)}{(x+1)} \cdot \frac{(\sqrt{x+5}+2)}{(\sqrt{x+5}+2)} \\
 &=\lim_{x\to-1} \frac{(\sqrt{x+5})^2-(2)^2}{(x+1)(\sqrt{x+5}+2)} \\
-&=\lim_{x\to-1} {x+5-4\over (x+1)(\sqrt{x+5}+2)} \\
-&=\lim_{x\to-1} {(x+1)\over (x+1)(\sqrt{x+5}+2)} \\
-&=\lim_{x\to-1} {\cancel{(x+1)}\over \cancel{(x+1)}(\sqrt{x+5}+2)} \\
-&=\lim_{x\to-1} {1\over \sqrt{x+5}+2}= \frac{1}{\sqrt{-1+5}+2}={1\over4}.
+&=\lim_{x\to-1} \frac{x+5-4}{(x+1)(\sqrt{x+5}+2)} \\
+&=\lim_{x\to-1} \frac{(x+1)}{(x+1)(\sqrt{x+5}+2)} \\
+&=\lim_{x\to-1} \frac{\cancel{(x+1)}}{\cancel{(x+1)}(\sqrt{x+5}+2)} \\
+&=\lim_{x\to-1} \frac{1}{\sqrt{x+5}+2}\\
+&= \frac{1}{\sqrt{-1+5}+2}\\
+&=\frac{1}{4}.
 \end{align*}
 \end{explanation}
 \end{example}

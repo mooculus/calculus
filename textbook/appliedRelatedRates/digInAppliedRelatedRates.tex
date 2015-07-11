@@ -2,6 +2,9 @@
 
 \input{../preamble.tex}
 
+\usepackage{mathtools}
+
+
 \title[Dig-In:]{Applied related rates}
 
 \begin{document}
@@ -121,9 +124,9 @@ thickness changing when the radius is $20$ cm?
   proportional to its surface area.'' From this we have the following
   equation:
   \[
-  \underbrace{V'}_{\text{rate that the snowball is melting}} =
-  \overbrace{k\cdot}^{\text{is proportional to}}
-  \underbrace{A}_{\text{its surface area}}
+  \underbrace{V'}_{\mathllap{\text{rate that the snowball is melting}}} =
+  \overbrace{k}^{\mathclap{\text{is proportional to}}}\cdot
+  \underbrace{A}_{\mathrlap{\text{its surface area}}}
   \]
   This tells us that we should imagine $r$ as a function of $t$ and write
   \[
@@ -310,11 +313,38 @@ and so  $\theta'(t)=6/8=3/4$ rad/sec, or approximately $43$ deg/sec.
 \end{example}
 
 \begin{example}
-  The Palace of Westminster in London has a large clock tower.  Here
-  the minute hand is 4.2 meters long and the hour hand is 2.7 meters
-  long. At 3 pm, at what rate is the distance between the tip of the
-  hands is changing? Hint: The Law of Cosines states that given a
-  triangle with sides $a$, $b$, and $c$,
+  The Palace of Westminster in London has a large clock tower.  The
+  minute hand is $4.2$ meters long and the hour hand is $2.7$ meters
+  long. At what rate is the distance between the tip of the hands is
+  changing when the clock strikes $3$ pm?
+  \begin{hint}
+  Recall the \textit{Law of Cosines}: Given a triangle with sides
+  lengths $a$, $b$, and $c$,
+  \begin{image}
+    \begin{tikzpicture}
+      \coordinate (A) at (0,2);
+      \coordinate (B) at (2,5);
+      \coordinate (C) at (6.5,2);
+      \draw[very thick,penColor] (A)--(B)--(C)--cycle;
+            
+      \tkzMarkAngle[penColor,size=0.6cm,thin](C,A,B)
+      \tkzLabelAngle[penColor,pos = 0.35](C,A,B){$\theta$}
+
+      \tkzDefMidPoint(A,B) \tkzGetPoint{a}
+      \node [left] at (a) {$a$};
+
+      \tkzDefMidPoint(A,C) \tkzGetPoint{b}
+      \node [below] at (b) {$b$};
+
+      \tkzDefMidPoint(B,C) \tkzGetPoint{c}
+      \node [right,above] at (c) {$c$};
+    \end{tikzpicture}
+  \end{image}
+  we then have
+  \[
+  c^2 = a^2 + b^2 -2ab\cos(\theta).
+  \]
+  \end{hint}
 
   \begin{explanation}
     To start, we \textbf{draw a picture}.
@@ -336,15 +366,43 @@ and so  $\theta'(t)=6/8=3/4$ rad/sec, or approximately $43$ deg/sec.
         \node [right] at (d) {$d$};
       \end{tikzpicture}
     \end{image}
-    We must \textbf{find equations} that combine relevant
-    functions. First we might see that
+    Now we must \textbf{find equations} that combine relevant
+    functions. Initially we might suppose that
     \[
-    m^2 + h^2 = d^2
+    d^2 = m^2 + h^2;
     \]
-    but we also have that 
-
-    nd we \textbf{differentiate the equations} using implicit
-    differentiation, treating all functions as functions of $t$
+    however, here $\theta$ is function of time, so this relationship
+    only holds for certain times. Hence we must use the Law of Cosines
+    to write
+    \[
+    d^2 = m^2 + h^2 - 2mh\cos(\theta).
+    \]
+    To find $\theta$, imagine we are meauring the angle starting at
+    ``twelve o'clock'' with $t$ being measured in hours. Then letting
+    $\theta_m$ be the angle made by the minute hand and $\theta_h$ be
+    the angle made by the hour hand we have
+    \begin{align*}
+    \theta_m(t) &= 2\pi \cdot t,\\
+    \theta_h(t) &= \frac{2\pi}{12}\cdot t =\frac{\pi}{6}\cdot t.
+    \end{align*}
+    Finally
+    \[
+    \theta(t) = \theta_h(t) - \theta_m(t).
+    \]
+    On the other hand, $m$ and $h$ are constants. We may now write
+    \[
+    d(t)^2 = m^2 + h^2 - 2mh\cos(\theta(t)).
+    \]
+    If \textbf{differentiate the equations} using implicit
+    differentiation we find
+    \[
+    \theta'(t) = 2\pi - \frac{\pi}{6}
+    \]
+    and
+    \[
+    2\cdot d(t) \cdot d'(t)  = 2mh\sin(\theta(t))\cdot \theta'(t).
+    \]
+    
 
     Now we \textbf{evaluate and solve}.  We
 

@@ -2,23 +2,54 @@
 
 \input{../preamble.tex}
 
+\outcome{Implicitly differentiate expressions.}
+\outcome{Find the equation of the tangent line for curves that
+  are not plots of functions.}
+\outcome{Understand how changing the variable changes how we take
+  the derivative.}
+\outcome{Understand the derivatives of expressions that are not
+  functions or not ``solved for $y$''.}
+
+
 \title[Dig-In:]{Implicit differentiation}
 
 \begin{document}
 \begin{abstract}
+In this section we differentiate equations without expressing them in
+terms of a single variable.
 \end{abstract}
 \maketitle
 
+\section{Review of the chain rule}
+
+Implicit differentiation is really just an application of the chain rule.
+So recall:
+
+\begin{theorem}[Chain Rule]\index{chain rule}\index{derivative rules!chain}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(g(x)) = f'(g(x))g'(x).
+\]
+\end{theorem}
+
+Of particular use in this section is the following.  
+If $y$ is a differentiable function of $x$ and if $f$ is a differentiable function, then
+\[
+\ddx (f(y)) = f'(y) \cdot \ddx (y) = f'(y) \dd[y]{x}.
+\]
+
+\section{Implicit differentiation}
+
 The functions we've been dealing with so far have been
 \textit{explicit functions}\index{explicit function}, meaning that the
-dependent variable is written in terms of the independent variable. For
-example:
+dependent variable is written in terms of the independent
+variable. Some examples are:
 \[
 y=3x^2-2x+1,\qquad y=e^{3x}, \qquad y = \frac{x-2}{x^2-3x+2}.
 \]
-However, there are another type of functions, called \textit{implicit
-  functions}. In this case, the dependent variable is not stated
-explicitly in terms of the independent variable. For example:
+However, there is another type of function, called an \textit{implicit
+  function}. In this case, the dependent variable is not stated
+explicitly in terms of the independent variable. Some examples are:
 \[
 x^2+y^2 = 4,\qquad x^3+y^3 = 9xy, \qquad x^4+3x^2 = x^{2/3}+y^{2/3} = 1.
 \]
@@ -28,19 +59,67 @@ two \textit{branches}, for example to explicitly plot $x^2+y^2 = 4$,
 one needs both $y= \sqrt{4-x^2}$ and $y=-\sqrt{4-x^2}$. Moreover, it
 may not even be possible to solve for $y$. To deal with such
 situations, we use \index{implicit differentiation}\textit{implicit
-  differentiation}. Let's see an illustrative example:
-
+  differentiation}. We'll start with a basic example.
 
 \begin{example}
-Consider the curve defined by
+Consider the curve defined by:
 \[
-x^3+y^3 = 9xy.
+x^2 + y^2 = 1
 \]
 \begin{enumerate}
 \item Compute $\dd[y]{x}$.
-\item Find the slope of the tangent line at $(4,2)$.
+\item Find the slope of the tangent line at $\left(\frac{\sqrt{2}}{2},\frac{\sqrt{2}}{2}\right)$.
 \end{enumerate}
+\begin{explanation}
+  Starting with 
+\[
+x^2 + y^2 = 1
+\]
+we apply the differential operator $\ddx$ to both sides of the
+equation to obtain
+\[
+\ddx \left(x^2+y^2\right) = \ddx 1.
+\]
+Applying the sum rule we see
+\[
+\ddx x^2+\ddx y^2 = 0.
+\]
+Let's examine each of these terms in turn. To start
+\[
+\ddx x^2 = \answer[given]{2x}.
+\]
+On the other hand, $\ddx y^2$ is somewhat different. Here you imagine that $y = f(x)$, and hence by the chain rule
+\begin{align*}
+\ddx y^2 &= \ddx (f(x))^2 \\ 
+&= 2\cdot f(x) \cdot f'(x) \\
+&= 2y\dd[y]{x}.
+\end{align*}
+Putting this together we are left with the equation
+\[
+2x + 2y\dd[y]{x} =0
+\]
+At this point, we solve for $\dd[y]{x}$. Write
+\begin{align*}
+2x + 2y\dd[y]{x} &= 0\\
+2y \dd[y]{x} &= -2x\\
+\dd[y]{x} &= \answer[given]{\frac{-x}{y}}.
+\end{align*}
 
+For the second part of the problem, we simply plug $x=\frac{\sqrt{2}}{2}$ and $y=\frac{\sqrt{2}}{2}$
+into the formula above, hence the slope of the tangent line at this point 
+is $\answer[given]{-1}$.
+\end{explanation}
+\end{example}
+
+
+Let's see another illustrative example:
+
+
+\begin{example}
+Consider the curve defined by:
+\[
+x^3+y^3 = 9xy
+\]
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -60,8 +139,14 @@ x^3+y^3 = 9xy.
 %%   $y$ in terms of $x$, the equation still defines a relation between
 %%   $x$ and $y$.}
 \end{image}
+\begin{enumerate}
+\item Compute $\dd[y]{x}$.
+\item Find the slope of the tangent line at $(4,2)$.
+\end{enumerate}
 
 
+
+\begin{explanation}
 Starting with 
 \[
 x^3+y^3 = 9xy,
@@ -77,18 +162,18 @@ Applying the sum rule we see
 \]
 Let's examine each of these terms in turn. To start
 \[
-\ddx x^3 = 3x^2.
+\ddx x^3 = \answer[given]{3x^2}.
 \]
-On the other hand $\ddx y^3$ is somewhat different. Here you imagine that $y = y(x)$, and hence by the chain rule
+On the other hand $\ddx y^3$ is somewhat different. Here you imagine that $y = f(x)$, and hence by the chain rule
 \begin{align*}
 \ddx y^3 &= \ddx (y(x))^3 \\ 
-&= 3(y(x))^2 \cdot y'(x) \\
+&= 3(f(x))^2 \cdot f'(x) \\
 &= 3y^2\dd[y]{x}.
 \end{align*}
-Considering the final term $\ddx 9xy$, we again imagine that $y=y(x)$. Hence 
+Considering the final term $\ddx 9xy$, we again imagine that $y=f(x)$. Hence 
 \begin{align*}
-\ddx 9xy &= 9\ddx x\cdot y(x) \\
-&= 9 \left(x\cdot y'(x) + y(x)\right)\\
+\ddx 9xy &= 9\ddx x\cdot f(x) \\
+&= 9 \left(x\cdot y'(x) + f(x)\right)\\
 &= 9x \dd[y]{x} + 9y.
 \end{align*}
 Putting this all together we are left with the equation
@@ -105,9 +190,7 @@ At this point, we solve for $\dd[y]{x}$. Write
 
 For the second part of the problem, we simply plug $x=4$ and $y=2$
 into the formula above, hence the slope of the tangent line at $(4,2)$
-is $\frac{5}{4}$, see Figure~\ref{plot:x^3+y^3=9xy}.
-\end{example}
-%\enlargethispage{1in}
+is $\frac{5}{4}$. We've included a plot for your viewing pleasure:
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -131,6 +214,10 @@ is $\frac{5}{4}$, see Figure~\ref{plot:x^3+y^3=9xy}.
 %%   $(4,2)$.}
 %% \label{plot:x^3+y^3=9xy}
 \end{image}
+\end{explanation}
+
+\end{example}
+
 
 You might think that the step in which we solve for $\dd[y]{x}$ could
 sometimes be difficult---after all, we're using implicit
@@ -142,6 +229,39 @@ occurrences $\dd[y]{x}$ arise from applying the chain rule, and whenever
 the chain rule is used it deposits a single $\dd[y]{x}$ multiplied by some
 other expression. Hence our expression is linear in $\dd[y]{x}$, it will
 always be possible to group the terms containing $\dd[y]{x}$ together and
-factor out the $\dd[y]{x}$, just as in the previous example. 
+factor out the $\dd[y]{x}$, just as in the previous examples. 
+
+One more last example:
+
+\begin{example}
+Consider the curve defined by
+\[
+\cos(xy) - \frac{y}{x} = 4x^2 y^3.
+\]
+Compute $\dd[x]{y}$.
+\begin{explanation}
+First, notice that the problem asks for $\dd[x]{y}$, \dfn{not} $\dd[y]{x}$.  
+So we are considering $x$ as a function of $y$.....the variables have changed places!
+Not to worry, everything is exactly the same.
+We apply the $\dd[]{y}$ operator to both sides of the equation to get
+\[
+\dd[]{y} \left( \cos(xy) - \frac{y}{x} \right) = \dd[]{y} (4x^2 y^3)
+\]
+which gives us
+\[
+-\answer[given]{\sin(xy)} \left(y \dd[x]{y} + x \right) - \frac{\answer[given]{x - y \dd[x]{y}}}{x^2} = \answer[given]{8xy^3 \dd[x]{y}} + 12 x^2 y^2 .
+\]
+Distributing and multiplying across by $x^2$ yields
+\[
+-x^2 y \sin(xy) \dd[x]{y} - x^3 \sin(xy) - x + y \dd[x]{y} = 8x^3y^3 \dd[x]{y} + 12x^4y^2.
+\]
+Grouping terms, factoring, and dividing finally gives us
+\begin{align*}
+-x^2 y \sin(xy) \dd[x]{y} + y \dd[x]{y} - 8x^3y^3 \dd[x]{y} &= x^3 \sin(xy) + x + 12x^4 y^2  \\
+\left( y - x^2y\sin(xy) - 8x^3 y^3 \right) \dd[x]{y} &= x^3 \sin(xy) + x + 12x^4 y^2  \\
+\dd[x]{y} &= \frac{x^3 \sin(xy) + x + 12x^4 y^2}{y - x^2y\sin(xy) - 8x^3 y^3}
+\end{align*}
+\end{explanation}
+\end{example}
 
 \end{document}

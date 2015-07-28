@@ -1,0 +1,260 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Identify products of functions.}
+\outcome{Use the product rule to calculate derivatives.}
+\outcome{Identify quotients of functions.}
+\outcome{Use the quotient rule to calculate derivatives.}
+\outcome{Combine derivative rules to take derivatives of more complicated functions.}
+\outcome{Explain the signs of the terms in the numerator of the quotient rule.}
+\outcome{Multiply tangent lines to justify the product rule.}
+\outcome{Use the product and quotient rule to calculate derivatives from a table of values.}
+
+\title[Dig-In:]{The Product Rule and Quotient Rule}
+
+\begin{document}
+\begin{abstract}
+Here we compute derivatives of products and quotients of functions
+\end{abstract}
+\maketitle
+
+
+\section{The Product Rule}
+
+
+Consider the product of two simple functions, say
+\[
+f(x)\cdot g(x)
+\]
+where $f(x)=x^2+1$ and $g(x)=x^3-3x$. An obvious guess for the
+derivative of $f(x)g(x)$ is the product of the derivatives:
+\begin{align*}
+f'(x)g'(x) &= (\answer[given]{2x})(3x^2-3)\\
+&= \answer[given]{6x^3-6x}.
+\end{align*}
+Is this guess correct? We can check by rewriting $f(x)$
+and $g(x)$ and doing the calculation in a way that is known to
+work. Write 
+\begin{align*}
+f(x)g(x) &= (x^2+1)(x^3-3x)\\
+&=x^5-3x^3+x^3-3x\\
+&=x^5-2x^3-3x.
+\end{align*} 
+Hence
+\[
+\ddx f(x) g(x) = \ddx(x^5 - 2x^3 - 3x) = \answer[given]{5x^4-6x^2-3}, 
+\]
+so we see that 
+\[
+\ddx f(x) g(x) \ne  f'(x)g'(x).
+\]
+So the derivative of $f(x)g(x)$ is \textbf{not} as simple as
+$f'(x)g'(x)$. Never fear, we have a rule for exactly this
+situation.
+\begin{theorem}[The Product Rule]\index{derivative rules!product}\index{product rule}\label{theorem:product-rule}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(x)g(x) = f(x)g'(x)+f'(x)g(x).
+\]
+\end{theorem}
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false,
+            domain=1.5:6, 
+            ytickmin=1,ytickmax=0,
+            xtick={4},ytickmin=1,ytickmax=0,
+            xticklabels={$a$},
+            ymin=0, ymax=6,
+            xlabel=$x$, ylabel=$y$,
+            axis lines=center,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]          
+          %\addplot [dashed, textColor] plot coordinates {(4,0) (4,3.08)};
+          %\node at (axis cs:4,0) [anchor=north] {$x$};
+
+          \addplot [penColor5,very thick] plot coordinates {(5,1.4) (5,1.9)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(4,1.4) (5,1.4)};
+
+          \addplot [penColor4,very thick] plot coordinates {(5,2.2) (5,2.6)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(4,2.2) (5,2.2)};
+
+          \addplot [very thick, penColor5!50!penColor2] plot coordinates {(5,3.08) (5,4.18)};
+          \addplot [very thick, penColor4!50!penColor] plot coordinates {(5,4.18) (5,4.74)};
+          \addplot [dashed, very thick, textColor] plot coordinates {(4,3.08) (5,3.08)};
+        
+          \addplot [very thick,penColor,smooth] {-.6+.5*x};
+          \addplot [very thick,penColor2,smooth] {.6+.4*x};         
+          \addplot [very thick,penColor3,smooth,domain=1:5.5] {-.36+.06*x+.2*x^2};      
+          \addplot [penColor3!70!background,smooth, domain=1.6:5.6] {-3.56+1.66*x};      
+          
+          \addplot [dashed, textColor] plot coordinates {(4,0) (4,3.08)};
+
+          \node at (axis cs:3.5,1.1) [anchor=north,penColor] {$f(x)$};
+          \node at (axis cs:2,1.95) [anchor=north,penColor2] {$g(x)$};
+          \node at (axis cs:4.7,4.3) [anchor=east,penColor3] {$f(x)g(x)$};
+
+          \node at (axis cs:5,3.91) [anchor=west] {${\color{penColor}f(a)}{\color{penColor4}g'(a)h}+{\color{penColor5}f'(a)h}{\color{penColor2}g(a)} + {\color{penColor5}f'(a)h}{\color{penColor4}g'(a)h}$};
+          \node at (axis cs:5,1.65) [anchor=west,penColor5] {$f'(a)h$};
+          \node at (axis cs:5,2.4) [anchor=west,penColor4] {$g'(a)h$};
+          \node at (axis cs:4.5,1.5) [anchor=north] {$\underbrace{\hspace{.40in}}_{h}$};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,1.4)};  %% closed hole          
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(4,2.2)};  %% closed hole          
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(4,3.08)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+%% \caption[A geometric interpretation of the product rule.]{A geometric interpretation of the product rule. Since every
+%%   point on $f(x)g(x)$ is the product of the corresponding points on
+%%   $f(x)$ and $g(x)$, increasing $a$ by a ``small amount'' $h$,
+%%   increases $f(a)g(a)$ by the sum of $f(a)g'(a)h$ and
+%%   $f'(a)hg(a)$. Hence,
+%% \begin{align*}
+%% \frac{\Delta y}{\Delta x} &\approx \frac{f(a)g'(a)h+f'(a)g(a)h + f'(a)g'(a)h^2}{h}\\
+%% &\approx f(a)g'(a) + f'(a)g(a).
+%% \end{align*}}
+\end{image}
+
+\begin{proof}
+From the limit definition of the derivative, write
+\[
+\ddx (f(x)g(x)) = \lim_{h \to0} \frac{f(\answer[given]{x+h})g(\answer[given]{x+h}) - f(\answer[given]{x})g(\answer[given]{x})}{\answer[given]{h}}
+\]
+Now we use the exact same trick we used in the proof of
+Theorem~\ref{theorem:limit-product}, we add $0 = -f(x+h)g(x) + f(x+h)g(x)$:
+\begin{align*}
+&=\lim_{h \to0} \frac{f(x+h)g(x+h){\color{penColor2}-f(x+h)g(x) + f(x+h)g(x)}- f(x)g(x)}{h} \\ 
+&=\lim_{h \to0} \frac{f(x+h)g(x+h)-f(x+h)g(x)}{h} + \lim_{h \to0} \frac{f(x+h)g(x)- f(x)g(x)}{h}.
+\end{align*}
+Now since both $f(x)$ and $g(x)$ are differentiable, they are
+continuous, see Theorem~\ref{theorem:diff-cont}. Hence
+\begin{align*}
+&=\lim_{h \to0} f(x+h)\frac{g(x+h)-g(x)}{h} + \lim_{h \to0} \frac{f(x+h)- f(x)}{h}g(x) \\ 
+&=\lim_{h \to0} f(x+h)\lim_{h \to0}\frac{g(x+h)-g(x)}{h} + \lim_{h \to0} \frac{f(x+h)- f(x)}{h}\lim_{h \to0}g(x) \\ 
+&=f(x)g'(x) + f'(x)g(x).
+\end{align*}
+\end{proof}
+
+
+
+Let's return to the example with which we started.
+\begin{example} 
+Let $f(x)=(x^2+1)$ and $g(x)=(x^3-3x)$. Compute:
+\[
+\ddx f(x)g(x).
+\]
+
+\begin{explanation}
+Write
+\begin{align*}
+\ddx f(x)g(x) &= f(x)g'(x) + f'(x)g(x)\\
+&=(x^2+1)(\answer[given]{3x^2-3}) + (\answer[given]{2x})(x^3-3x).
+\end{align*}
+We could stop here---but we should show that expanding this out recovers our previous result. Write
+\begin{align*}
+(x^2+1)(3x^2-3) + 2x(x^3-3x) &= 3x^4-3x^2 +3x^2 -3 + 2x^4-6x^2\\
+&=\answer[given]{5x^4-6x^2-3},
+\end{align*}
+which is precisely what we obtained before.
+\end{explanation}
+\end{example}
+
+
+
+
+
+\section{The Quotient Rule}
+
+\index{quotient rule} 
+
+We'd like to have a formula to compute
+\[
+\ddx \frac{f(x)}{g(x)}
+\]
+if we already know $f'(x)$ and $g'(x)$. Instead of attacking this
+problem head-on, let's notice that we've already done part of the
+problem: $f(x)/g(x)= f(x)\cdot(1/g(x))$, that is, this is really a
+product, and we can compute the derivative if we know $f'(x)$ and
+$(1/g(x))'$. This brings us to our next derivative rule.
+
+\begin{theorem}[The Quotient Rule]\index{derivative rules!quotient}\index{quotient rule}\label{theorem:quotient-rule}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx \frac{f(x)}{g(x)} = \frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}.
+\]
+\end{theorem}
+\begin{proof}
+First note that if we knew how to compute
+\[
+\ddx \frac{1}{g(x)}
+\]
+then we could use the product rule to complete our proof.  Write
+\begin{align*}
+\ddx\frac{1}{g(x)}&=\lim_{h\to0} \frac{\frac{1}{g(x+h)}-\frac{1}{g(x)}}{h} \\
+&=\lim_{h\to0} \frac{\frac{g(\answer[given]{x})-g(\answer[given]{x+h})}{g(x+h)g(x)}}{h} \\
+&=\lim_{h\to0} \frac{g(x)-g(x+h)}{g(x+h)g(x)h} \\
+&=\lim_{h\to0} -\frac{g(x+h)-g(x)}{h} \frac{1}{g(x+h)g(x)} \\
+&=-\frac{g'(x)}{g(x)^2}.
+\end{align*}
+Now we can put this together with the product rule:
+\begin{align*}
+\ddx\frac{f(x)}{g(x)} &=f(x)\frac{-g'(x)}{g(x)^2}+f'(x)\frac{1}{g(x)}\\
+&=\frac{-f(x)g'(x)+f'(x)g(x)}{g(x)^2}\\
+&=\frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}.
+\end{align*}
+
+\end{proof}
+
+
+\begin{example}
+Compute:
+\[
+\ddx \frac{x^2+1}{x^3-3x}.
+\]
+
+\begin{explanation}
+Write
+\begin{align*}
+\ddx \frac{x^2+1}{x^3-3x} &= \frac{2x(\answer[given]{x^3-3x})-(\answer[given]{x^2+1})(3x^2-3)}{(\answer[given]{x^3-3x})^2}\\
+&=\frac{-x^4-6x^2+3}{(\answer[given]{x^3-3x})^2}.
+\end{align*}
+\end{explanation}
+\end{example}
+
+It is often possible to calculate derivatives in more than one way, as
+we have already seen. Since every quotient can be written as a
+product, it is always possible to use the product rule to compute the
+derivative, though it is not always simpler.
+
+\begin{example}
+Compute 
+\[
+\ddx \frac{625-x^2}{\sqrt{x}}
+\] 
+in two ways. First using the quotient rule and then using the product
+rule.
+\begin{explanation}
+First, we'll compute the derivative using the quotient rule. Write
+\[
+\ddx \frac{625-x^2}{\sqrt{x}} = \frac{\left(-2x\right)\left(\answer[given]{\sqrt{x}}\right) - (\answer[given]{625-x^2})\left(\frac{1}{2}x^{-1/2}\right)}{\answer[given]{x}}.
+\]
+\end{explanation}
+\begin{explanation}
+Second, we'll compute the derivative using the product rule:
+\begin{align*}
+\ddx \frac{625-x^2}{\sqrt{x}} &= \ddx \left(625-x^2\right)x^{-1/2}\\
+&=\left(625-x^2\right)\left(\answer[given]{\frac{-x^{-3/2}}{2}}\right)+ (\answer[given]{-2x})\left(x^{-1/2}\right).
+\end{align*}
+With a bit of algebra, both of these simplify to
+\[
+-\frac{3x^2+625}{2x^{3/2}}.
+\]
+\end{explanation}
+\end{example}
+
+
+\end{document}

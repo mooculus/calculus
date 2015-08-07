@@ -13,36 +13,305 @@
 
 \section{Limits and areas}
 
+Here is the idea. We want to compute the area between the curve and
+the horizontal axis.
+
+Consider the function $f(x) = x^2 +1$ and suppose we wanted to know
+the area between the curve $y=f(x)$ and the $x$-axis.
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=-1:1, smooth] {x^2+1} \closedcycle;
+          \addplot [very thick,penColor, smooth] {x^2+1};
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+One way to do this would be to approximate the area with rectangles.
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,8}
+                   {
+                     \addplot [draw=penColor,fill=fillp]
+                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{(-1+\rectnumber * 2/8)^2+1} ) ({-1+(\rectnumber) * 2/8},{(-1+\rectnumber * 2/8)^2+1 })} \closedcycle;
+                     }
+          \addplot [very thick,penColor, smooth] {x^2+1};
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+We could find the area exaclty if we could compute the limit
+as the width of the rectangles goes to zero (and hence the number of
+rectangles will often go to infinity). We'll take this very slowly.
 
 
 
 
 \section{But which set of rectangles?}
 
-If we are going to try an actually use many small rectangles to
+If we are going to try and actually use many small rectangles to
 compute the area under a curve, we should decide on exactly
 \textit{which} rectangles we want to use. Here are three options that
 we consider:
 
 \paragraph{Rectangles defined by a left endpoint}
 
+We can set the rectangles up so that the left endpoint touches the
+curve.
+
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,8}
+                   {
+                     \addplot [draw=penColor,fill=fillp]
+                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{(-1+(\rectnumber-1) * 2/8)^2+1} ) ({-1+(\rectnumber) * 2/8},{(-1+(\rectnumber-1) * 2/8)^2+1 })} \closedcycle;
+                     }
+          \addplot [very thick,penColor, smooth] {x^2+1};
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+In the graph above, every rectangle is touching the curve at its
+left-endpoint.
+
 
 \paragraph{Rectangles defined by a right endpoint}
 
+We can set the rectangles up so that the right endpoint touches the
+curve.
+
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,8}
+                   {
+                     \addplot [draw=penColor,fill=fillp]
+                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{(-1+\rectnumber * 2/8)^2+1} ) ({-1+(\rectnumber) * 2/8},{(-1+\rectnumber * 2/8)^2+1 })} \closedcycle;
+                     }
+          \addplot [very thick,penColor, smooth] {x^2+1};
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+In the graph above, every rectangle is touching the curve at its
+right-endpoint.
 
 \paragraph{Rectangles defined by a midpoint}
 
 
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,8}
+                   {
+                     \addplot [draw=penColor,fill=fillp]
+                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{(-1+(\rectnumber-.5) * 2/8)^2+1} ) ({-1+(\rectnumber) * 2/8},{(-1+(\rectnumber -.5)* 2/8)^2+1 })} \closedcycle;
+                   }
+          \addplot [very thick,penColor, smooth] {x^2+1};
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+In the graph above, every rectangle is touching the curve at its
+midpoint.
+
 \section{Computing these approximations}
+
+Once we know how to identify our rectangles, we can compute some
+approximate areas. To help us out we need the following definitions:
+
+\begin{definition}
+  When approximating an area with rectangles, a \dfn{grid point} is a
+  point $x$ that determines the edge of a rectangle.
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.09545,xmax=1.09545,ymax=2.2,ymin=-0.2,
+            clip=false,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,8}
+          {
+          \addplot [draw=penColor,fill=fillp]
+          plot coordinates {({-1+(\rectnumber -1)*2/8},{(-1+(\rectnumber -.5)*2/8)^2+1}) ({-1+(\rectnumber)*2/8},{(-1+(\rectnumber -.5)*2/8)^2+1})}
+          \closedcycle;
+          \pgfmathparse{-1+(\rectnumber -1)*2/8}\let\a\pgfmathresult
+          \draw [->,very thick] (axis cs:0,-.5) -- (axis cs:{\aa},-0.5);
+          }
+          \addplot [very thick,penColor, smooth] {x^2+1};
+
+          
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+Note, if we are approximating the area between a curve and the
+horizontal axis for $a\le x\le b$ with $n$ rectangles, then it is always the case that
+\[
+x_0=a\qquad\text{and}\qquad x_n = b.
+\]
+\end{definition}
+
+\begin{question}
+  If we are approximating the area between a curve and the horizontal
+  axis with $11$ rectangles, how many grid points will we have?
+  \begin{hint}
+    You can draw it!
+  \end{hint}
+  \begin{prompt}
+    We'll have $\answer{12}$ grid points.
+  \end{prompt}
+\end{question}
+
 
 
 \paragraph{Rectangles defined by a left endpoint}
 
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,8}
+                   {
+                     \addplot [draw=penColor,fill=fillp]
+                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{(-1+(\rectnumber-1) * 2/8)^2+1} ) ({-1+(\rectnumber) * 2/8},{(-1+(\rectnumber-1) * 2/8)^2+1 })} \closedcycle;
+                   }
+          \addplot [very thick,penColor, smooth] {x^2+1};
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
+%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
+          
+          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
+          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
+          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
+          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+\[
+\begin{tchart}{c|c|c|c}
+  k &  x_k  & x^*_k & f(x^*_k) \\ \hline
+  0 & -1    & \text{NA} & \text{NA}  \\
+  1 & -0.75 & -1    &   2      \\
+  2 & -0.5  & -0.75 & 1.5625   \\
+  3 & -0.25 & -0.5  & 1.25     \\
+  4 &  0    & -0.25 & 1.0625   \\
+  5 &  0.25 &  0    & 1        \\
+  6 &  0.5  &  0.25 & 1.0625   \\
+  7 &  0.75 &  0.5  & 1.25     \\
+  8 &  1    &  0.75 & 1.5625   
+\end{tchart}
+\]
 
 \paragraph{Rectangles defined by a right endpoint}
 
 
 \paragraph{Rectangles defined by a midpoint}
+
+\section{Riemann sums}
 
 
 

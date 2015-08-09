@@ -1,6 +1,15 @@
 \documentclass{ximera}
 \usetikzlibrary{arrows.meta}
+\usepackage{tkz-euclide}
+\usetkzobj{all}
 \usepackage{draftwatermark}
+
+\colorlet{penColor}{blue!50!black} % Color of a curve in a plot
+\colorlet{penColor2}{red!50!black}% Color of a curve in a plot
+\colorlet{penColor3}{red!50!blue} % Color of a curve in a plot
+\colorlet{penColor4}{green!50!black} % Color of a curve in a plot
+\colorlet{penColor5}{orange!80!black} % Color of a curve in a plot
+
 \SetWatermarkScale{2}
 \SetWatermarkLightness{0.9}
 \SetWatermarkText{\textsf{\shortstack{DRAFT  \\[0.5cm] {\fontsize{38}{12}\selectfont \today}}}}
@@ -1198,6 +1207,38 @@ born your weight in pounds equaled your height in inches.
 \end{problem}
 
 
+\begin{problem}
+  \recommendation{Vic}
+  A slow freight train chugs along a straight track.  The distance it
+  has traveled after $x$ hours is given by a function $f(x)$.  An
+  engineer is walking along the top of the box cars at the rate of $3$
+  mi/hr in the same direction as the train is moving.  The speed of
+  the man relative to the ground is
+  \begin{multipleChoice}
+    \choice{$f(x)+3$}
+    \choice[correct]{$f'(x)+3$}
+    \choice{$f(x)-3$}
+    \choice{$f'(x)-3$}
+  \end{multipleChoice}
+\end{problem}
+
+
+
+\begin{problem}
+  \recommendation{Vic}
+  Gravel is poured into a pile. The rate at which gravel is added to
+  the pile is:
+\begin{multipleChoice}
+  \choice[correct]{$\frac{dV}{dt}$}
+  \choice{$\frac{dr}{dt}$}
+  \choice{$\frac{dV}{dr}$}
+  \choice{none of the above}
+\end{multipleChoice}
+\end{problem}
+
+
+
+
 \clearpage
 
 \section{Higher order derivatives and graphs}
@@ -1231,6 +1272,45 @@ born your weight in pounds equaled your height in inches.
     \choice[correct]{No}
   \end{multipleChoice}
 \end{problem}
+
+\begin{problem}
+  \recommendation{Vic}
+  Suppose you cut a slice of pizza from a circular pizza of radius
+  $r$, as shown.
+  \begin{image}
+      \begin{tikzpicture}
+        \coordinate (O) at (0,0);
+        \coordinate (A) at (3,0);
+        \coordinate (B) at (3*.866,3*.5);
+        \draw (A)--(O)--(B);
+        \draw [very thick] (0,0) circle [radius=3];
+        \tkzMarkAngle[size=1cm,thin](A,O,B)
+        \tkzLabelAngle[pos = .7](A,O,B){$\theta$}
+      \end{tikzpicture}
+  \end{image}
+  As you change the size of the angle $\theta$, you change the area of
+  the slice, $A=\frac{1}{2}r^2\theta$. Then $A'$ is
+  \begin{multipleChoice}
+    \choice{constant.}
+    \choice[correct]{$r\theta$}
+    \choice{$\frac{1}{2}r^2$}
+    \choice{not possible to determine from the given information.}
+  \end{multipleChoice}
+\end{problem}
+
+
+\begin{problem}
+  \recommendation{Vic}
+  $\lim_{h\to 0}\frac{\sin (2x+h)-\sin (2x)}{h}$ equals
+  \begin{multipleChoice}
+    \choice{$\cos x$}
+    \choice[correct]{$\cos (2x)$}
+    \choice{zero}
+    \choice{does not exist because $0/0$ is not defined}
+  \end{multipleChoice}
+\end{problem}
+
+
 
 \clearpage
 
@@ -1314,6 +1394,40 @@ born your weight in pounds equaled your height in inches.
     \choice{$9$}
   \end{multipleChoice}
 \end{problem}
+
+
+
+\begin{problem}
+  \recommendation{Vic}
+  If $f$ and $g$ are both differentiable and $h=f\circ g$,
+  $h'(2)$ equals
+  \begin{multipleChoice}
+    \choice{$f'(2)\circ g'(2)$}
+    \choice{$f'(2)g'(2)$}
+    \choice[correct]{$f'(g(2)) g'(2)$}
+    \choice{$f'(g(x)) g'(2)$}
+  \end{multipleChoice}
+\end{problem}
+
+
+\begin{problem}
+  \recommendation{Vic}
+  The area of a circle, $A=\pi r^2$, changes as its radius changes. If
+  the radius changes with respect to time, the change in area with
+  respect to time is
+  \begin{multipleChoice}
+    \choice{$\frac{dA}{dr}=2\pi r$}
+    \choice{$\frac{dA}{dt}=2\pi r+\frac{dr}{dt}$}
+    \choice[correct]{$\frac{dA}{dt}=2\pi r \frac{dr}{dt}$}
+    \choice{not enough information}
+  \end{multipleChoice}
+\end{problem}
+
+
+
+
+
+
 
 \clearpage
 
@@ -1802,6 +1916,50 @@ born your weight in pounds equaled your height in inches.
     \choice{$\frac{h^2}{f(f(h))}$}
   \end{multipleChoice}
 \end{problem}
+
+
+\begin{problem}
+
+  Suppose you have two functions $f$ and $g$ shown below, and their
+  tangent lines $L_1$ and $L_2$
+  \begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            xmin=-9,xmax=2,ymin=-4,ymax=8,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            width=4in,
+            height=3in,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top = true,
+            xtick={-7}, ytick={3,6},
+            xticklabels={$a$}%, yticklabels={$f(x)$,$f(x+h)$}
+          ]        
+          \addplot [very thick, penColor, samples=150,smooth,domain=(-9:2)] {7+8*x + (97*x^2) / 49 + (48*x^3) / 343};
+          \addplot [very thick, penColor3, samples=150,smooth,domain=(-9:2)] {7 + (9*x) / 2 + (48*x^2) / 49 + (47*x^3) / 686};
+          \addplot [very thick, penColor2, domain=(-9:2)] {3*x/7+3};
+          \addplot [very thick, penColor4, domain=(-9:2)] {6*x/7+6};
+          %\addplot [dashed] plot coordinates {(64,0) (64,4)};
+          %\addplot [dashed] plot coordinates {(0,4) (64,4)};
+          %\node at (axis cs:20,2.3) [penColor] {$f(x)$};
+          \node at (axis cs:-1.5,-2) [penColor] {$f$};
+          \node at (axis cs:-1.8,1) [penColor2] {$g$};
+          \node at (axis cs:1,6) [penColor4] {$L_1$};
+          \node at (axis cs:1,2.8) [penColor3] {$L_2$};
+        \end{axis}
+  \end{tikzpicture}
+  \end{image}
+  In this case, $\lim_{x\to a}\frac{f(x)}{g(x)}$
+  \begin{multipleChoice}
+    \choice[correct]{is 2.}
+    \choice{does not exist, because $0/0$ does not exist.}
+    \choice{cannot be determined with this information. You need to know $a$.}
+    \choice{is 3.}
+  \end{multipleChoice}
+\end{problem}
+
+
 
 \clearpage
 

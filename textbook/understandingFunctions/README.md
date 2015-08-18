@@ -8,3 +8,6 @@ Explain that
 sin(x)^2 is sin(x)*sin(x)
 
 
+idioms for functions
+
+You can't be in two places at the same time!

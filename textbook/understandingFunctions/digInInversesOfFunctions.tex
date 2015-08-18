@@ -4,6 +4,9 @@
 
 \title{Inverses of functions}
 
+\outcome{Perform basic operations and compositions on functions.}
+\outcome{Determine if a function is one-to-one.}
+
 \begin{document}
 \begin{abstract}
   Here we ``undo'' functions.
@@ -42,7 +45,7 @@ with rigor.
     \begin{tikzpicture}
       \node[cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=2, inner ysep=1em] at (-.5,0) {$B$};
       \node[cloud, draw,cloud puffs=10,cloud puff arc=120, aspect=2, inner ysep=1em] at (5,0) {$B$};
-      \node at (2.25,.3) {$f(f^{-1})$};
+      \node at (2.25,.3) {$f\circ f^{-1}$};
       \draw[->] (1.5,0) to (3,0);
     \end{tikzpicture}
   \end{image}
@@ -51,11 +54,11 @@ with rigor.
     \begin{tikzpicture}
       \node[star,star points=7,star point ratio=2.5,draw] at (0,0) {$A$};
       \node[star,star points=7,star point ratio=2.5,draw] at (4.5,0) {$A$};
-      \node at (2.25,.3) {$f^{-1}(f)$};
+      \node at (2.25,.3) {$f^{-1}\circ f$};
       \draw[->] (1.5,0) to (3,0);
     \end{tikzpicture}
   \end{image}
-  So we could rephrase the conditions as
+  So, we could rephrase these conditions as
   \[
   f(f^{-1}(x)) = x\qquad\text{and}\qquad f^{-1}(f(x)) = x.
   \]
@@ -72,21 +75,21 @@ initially appear.
   \begin{feedback}
     Since $f(1) = 9$, we must have $f^{-1}(f(1)) = 1$, so $f^{-1}(9) =
     1$.  Thus $(9,1)$ is on the graph of $f^{-1}$.  This is a general
-    rule.  If $(a,b)$ is on the graph of $f$, and $(b,a)$ will be the
+    rule.  If $(a,b)$ is on the graph of $f$, then $(b,a)$ will be on the
     graph of $f^{-1}$.
   \end{feedback}
 \end{question}
 
 \begin{warning}
-  Keep a watchful eye:
+  This notation can be very confusing.  Keep a watchful eye:
   \begin{align*}
     f^{-1}(x) &= \text{the inverse function of $f(x)$.}\\
     f(x)^{-1} &= \text{$\frac{1}{f(x)}$.}
   \end{align*}
 \end{warning}
 \begin{question}
-  Which of the following represents the inverse of the function
-  $\sin(\theta)$ on the interval $[-\pi/2,\pi/2]$
+  Which of the following is notation for the inverse of the function
+  $\sin(\theta)$ on the interval $[-\pi/2,\pi/2]$?
   \begin{multipleChoice}
     \choice[correct]{$\sin^{-1}(\theta)$}
     \choice{$\sin(\theta)^{-1}$}
@@ -94,23 +97,24 @@ initially appear.
 \end{question}
 
 
-While this might sound somewhat esoteric, let's see
-if we can ground this in some real-life contexts.
+So far, we've only dealt with abstract examples.  Let's see
+if we can ground this in a real-life context.
 
 \begin{example}
-  The the following function
+  The function
   \[
   f(t) = \left(\frac{9}{5}\right) t + 32
   \]	
-  is the function which takes Celsius measurements (its domain is
-  $-\infty < t < \infty$) and converts them to Fahrenheit
-  measurements of temperature.  What does the inverse of this function
-  tell you? What is the inverse of this function?
+  takes a temperature $t$ in degrees Celsius, and converts it into Fahrenheit.  
+  The domain of this function is $-\infty < t < \infty$.  What does the inverse 
+  of this function tell you? What is the inverse of this function?
 
   \begin{explanation}
-    If $f$ converts Celsius measurments to Fahrenheit measurements of
-    temperature, then $f^{-1}$ converts Fahrenheit measurments to
-    Celsius measurments of temperature. First note that 
+    If $f$ converts Celsius measurements into Fahrenheit measurements of
+    temperature, then $f^{-1}$ converts Fahrenheit measurements to
+    Celsius measurements of temperature. 
+    
+    To find the inverse function, first note that 
     \[
     f(f^{-1}(t)) = t \qquad \text{by the definition of inverse
       functions.}
@@ -127,22 +131,27 @@ if we can ground this in some real-life contexts.
     \end{align*}
     So $f^{-1}(t) = \left(\frac{5}{9}\right)(t - 32)$ is the inverse
     function of $f$, which converts a Fahrenheit measurement back into
-    a Celsius measurement and has a domain of $-\infty < t <\infty$.
-    Finally note that
+    a Celsius measurement.  The domain of this inverse function is $-\infty < t <\infty$.
+    
+    Finally, we could check our work again using the definition of inverse functions.
+     We have already guaranteed that
     \[
     f(f^{-1}(t)) = t,
     \]
-    since we solved for $f^{-1}$ to ensure this is so, and that
+    since we solved for $f^{-1}$ in our calculation.  On the other hand, 
     \begin{align*}
     f^{-1}(f(t)) &=\left(\frac{5}{9}\right)(f(t) - 32)\\
     &= \left(\frac{5}{9}\right)(f(t) - 32)\\
     \end{align*}
+    which you should simplify to check that $f^{-1}(f(t)) = t$.
   \end{explanation}
 \end{example}
 
 
 
-
+We have examined several functions in order to determine their inverse 
+functions, but there is still more to this story.  Not every function has an inverse function, 
+so we must learn how to check for this situation.
 
 
 \begin{question}
@@ -161,10 +170,10 @@ if we can ground this in some real-life contexts.
   \end{feedback}
 \end{question}
 
-The last question highlights something interesting about inverse functions.  If two different inputs into a function have the same output, there is no hope  of that function having an inverse, since a function can only have one output.  This leads us to the following definition:
+Look again at the last question.  If two different inputs for a function have the same output, there is no hope  of that function having an inverse function.  Why?  The inverse function must also be a function, and a function can only have one output for each input.  More specifically, we have the next definition.
 
 \begin{definition}
-A function is \dfn{one-to-one} if for every value in the range,
+A function is called \dfn{one-to-one} if for every value in the range,
 there is exactly one value in the domain.
 \end{definition}
 
@@ -181,11 +190,11 @@ apply.
 \end{question}
 
 You may recall that a plot gives $y$ as a function of $x$ if every
-vertical line crosses the plot at most once, this is commonly known as
-the \dfn{vertical line test}. At this point the function is one-to-one
-if every horizontal line crosses the plot at most once, which is
-commonly known as the \dfn{horizontal line test}. Below we give a plot
-of $f(x)=-5x^2+30x+60$. While this plot passes the vertical line test,
+vertical line crosses the plot at most once, and we called this
+the \dfn{vertical line test}. Similarly, a function is one-to-one
+if every horizontal line crosses the plot at most once, and we call this 
+ the \dfn{horizontal line test}. Below, we give a graph
+of $f(x)=-5x^2+30x+60$. While this graph passes the vertical line test,
 and hence represents $y$ as a function of $x$, it does not pass the
 horizontal line test, so the function is not one-to-one.
 \begin{image}
@@ -203,17 +212,22 @@ horizontal line test, so the function is not one-to-one.
 \end{tikzpicture}
 \end{image}
 
+The green line in the picture is an example of a vertical line.  You can see that any 
+such vertical line will intersect the graph at most once.  The red line  
+is an example of a horizontal line, and you can see that this horizontal 
+line intersects the graph twice.
 
-We can only find an inverse to a function when it is one-to-one,
-otherwise we must restrict the domain. Let's see what this means in
-our next example.
+As we have discussed, we can only find an inverse of a function when 
+it is one-to-one.  If a function is not one-to-one, but we still want an inverse, 
+we must restrict the domain. Let's see what this means in
+our next examples.
 
 \begin{example}
 Consider the function
 \[
 f(x) = x^2.
 \]
-Does $f$ have an inverse? If so what is it? If not, attempt to
+Does $f$ have an inverse? If so, what is it? If not, attempt to
 restrict the domain of $f$ and find an inverse on the restricted
 domain.
 \end{example}
@@ -250,16 +264,12 @@ the interval $[0,\infty)$. Hence we can find an inverse of $f(x)=x^2$
 
 
 
-Let's look at several examples.
-
-
-
 \begin{example}
 Consider the function
 \[
 f(x) = x^3.
 \]
-Does $f(x)$ have an inverse? If so what is it? If not, attempt to
+Does $f(x)$ have an inverse? If so, what is it? If not, attempt to
 restrict the domain of $f(x)$ and find an inverse on the restricted
 domain.
 \begin{explanation}

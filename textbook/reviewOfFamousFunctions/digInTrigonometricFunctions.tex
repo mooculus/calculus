@@ -25,14 +25,81 @@
 \end{definition}
 
 
-The basic trigonometric functions are sine and cosine. A convienient
-way to think about sine and cosine is via the unit circle.
+The basic trigonometric functions are sine and cosine. They are called
+``trigonometric'' because they relate angles to measurements of
+triangles. Given a right triangle
+\begin{image}
+  \begin{tikzpicture}
+    \coordinate (C) at (0,2);
+    \coordinate (D) at (4,2);
+    \coordinate (E) at (4,4);
+    \tkzMarkRightAngle(C,D,E)
+    \tkzMarkAngle(D,C,E)
+    \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (0,2)--(4,2);
+    \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (4,2)--(4,4);
+    \draw[decoration={brace,raise=.2cm},decorate,thin] (0,2)--(4,4);
+    \draw[very thick] (D)--(E)--(C)--cycle;
+    \node at (2,2-.5) {adjacent};
+    \node[rotate=-90] at (4+.5,3) {opposite};
+    \node[rotate=26.5] at (2-.2,3+.4) {hypotenuse};
+    \node at (1.2,2.3) {$\theta$};
+  \end{tikzpicture}
+\end{image}
+we define
+\[
+\cos(\theta) =
+\frac{\text{adjacent}}{\text{hypotenuse}}\qquad\text{and}\qquad\sin(\theta)
+= \frac{\text{opposite}}{\text{hypotenuse}}.
+\]
+Note, the values of sine and cosine do not depend on the scale of the
+triangle. Being very explicit, if we scale a triangle by a scale
+factor $k$,
+
+\begin{image}
+      \begin{tikzpicture}
+      \coordinate (A) at (6,2);
+      \coordinate (B) at (6,5);
+      \coordinate (C) at (0,2);
+      \coordinate (D) at (4,2);
+      \coordinate (E) at (4,4);
+      \tkzMarkRightAngle(C,A,B)
+      \tkzMarkRightAngle(C,D,E)
+      \tkzMarkAngle(D,C,E)
+      
+      
+      \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (0,2)--(6,2);
+      \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (6,2)--(6,5);
+      \draw[decoration={brace,raise=.2cm},decorate,thin] (0,2)--(6,5);
+      \draw[dashed] (A)--(B)--(C)--cycle;
+      \draw[very thick] (D)--(E)--(C)--cycle;
+      \node at (3,2-.5) {\text{$k\cdot$adjacent}};
+      \node[rotate=-90] at (6+.5,3.5) {$k\cdot$opposite};
+      \node[rotate=26.5] at (3-.2,3.5+.4) {$k\cdot$hypotenuse};
+    \node at (1.2,2.3) {$\theta$};
+      \end{tikzpicture}
+\end{image}
+\[
+\cos(\theta) = \frac{k\cdot\text{adjacent}}{k\cdot\text{hypotenuse}} =\frac{\text{adjacent}}{\text{hypotenuse}}
+\]
+and
+\[
+\sin(\theta) = \frac{k\cdot\text{opposite}}{k\cdot\text{hypotenuse}} = \frac{\text{opposite}}{\text{hypotenuse}}.
+\]
+
+At this point we could simply assume that whenever we draw a triangle
+for computing sine and cosine, that the hypotenuse will be $1$. We can
+do this becasue we are simply scaling the triangle, and as we see
+above, this make absolutely no difference when computing sine and
+cosine.
+
+When the hypotuse is $1$, we find that a convienient way to think
+about sine and cosine is via the unit circle.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
             xmin=-1.1,xmax=1.1,ymin=-1.1,ymax=1.1,
             axis lines=center,
-            width=5in,
+            width=4in,
             ticks=none,
             clip=false,
             unit vector ratio*=1 1 1,
@@ -61,6 +128,11 @@ way to think about sine and cosine is via the unit circle.
 \end{tikzpicture}
 \end{image}
 
+If we consider all possible combinations of ratios of
+\begin{center}
+  adjacent \qquad opposite \qquad hypotenuse
+\end{center}
+we obtain all of the trigonometric functions.
 
 \begin{definition}
   The trigonometric functions are:
@@ -77,13 +149,22 @@ way to think about sine and cosine is via the unit circle.
   \cot(\theta) &= \frac{\cos(\theta)}{\sin(\theta)}    
   \end{aligned}
   \]
-  
+  where the domain of sine and cosine is all real numbers, and the
+  other trigonometric functions are defined precisely when their
+  denominators are nonzero.
 \end{definition}
-ADD DOMAINS, convert to whatever.
 
-
-
-id plots of sine/cos
+\begin{question}
+  Which of the following expressions are equal to $\sec(\theta)$?
+  \begin{selectAll}
+    \choice[correct]{$\frac{1}{\cos(\theta)}$}
+    \choice{$\frac{1}{\sin(\theta)}$}
+    \choice{$\frac{\text{adj}}{\text{hyp}}$}
+    \choice[correct]{$\frac{\text{hyp}}{\text{adj}}$}
+    \choice[correct]{$\frac{\tan(\theta)}{\sin(\theta)}$}
+    \choice[correct]{${1}{\sin(\theta)\cdot\cot(\theta)}$}
+  \end{selectAll}
+\end{question}
 
 
   
@@ -113,8 +194,8 @@ inverse.
             xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
             ytick={-1,1},
             %ticks=none,
-            width=9in,
-            height=2in,
+            width=6in,
+            height=3in,
             unit vector ratio*=1 1 1,
             xlabel=$\theta$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
@@ -148,8 +229,8 @@ In a similar fashion, we need to restrict cosine to be able to take an inverse.
             xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
             ytick={-1,1},
             %ticks=none,
-            width=9in,
-            height=2in,
+            width=6in,
+            height=3in,
             unit vector ratio*=1 1 1,
             xlabel=$\theta$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
@@ -258,8 +339,8 @@ Once you get a feel for how $\arcsin(y)$ and $\arccos(y)$ behave, let's examine 
 	\begin{axis}[
             xmin=-6.75,xmax=6.75,ymin=-3,ymax=3,
             axis lines=center,
-            width=9in,
-            height=3.5in,
+            width=6in,
+            height=3in,
             xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
             xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},       
             unit vector ratio*=1 1 1,
@@ -297,8 +378,8 @@ Again, only working on a restricted domain of tangent, we can produce an inverse
             xmin=-6,xmax=6,ymin=-2,ymax=2,
             axis lines=center,
             ytick={0, -1.57,1.57},
-            width=9in,
-            height=2.5in,
+            width=6in,
+            height=3in,
             yticklabels={$0$, $-\pi/2$,$\pi/2$},
             xtick={0},
             unit vector ratio*=1 1 1,

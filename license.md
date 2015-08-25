@@ -30,7 +30,4 @@ http://www.math.wisc.edu/~keisler/calc.html
 under a Creative Commons license.
 
 We will be glad to receive corrections and suggestions for improvement
-at
-
-fowler@math.osu.edu
-snapp@math.osu.edu
+at ximera@math.osu.edu

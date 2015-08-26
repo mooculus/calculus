@@ -29,5 +29,5 @@ available at
 
 under a Creative Commons license.
 
-We will be glad to receive corrections and suggestions for improvement
+We will be very glad to receive corrections and suggestions for improvement
 at ximera@math.osu.edu

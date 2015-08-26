@@ -197,7 +197,7 @@ exactly once on the interval $[0,\pi]$.
             width=6in,
             height=3in,
             unit vector ratio*=1 1 1,
-            xlabel=$\theta$, ylabel=$y$,
+            xlabel=$\theta$, ylabel=$x$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
           ]        
@@ -311,7 +311,7 @@ and $1$ exactly once on the interval $[-\pi/2,\pi/2]$.
             width=6in,
             height=3in,
             unit vector ratio*=1 1 1,
-            xlabel=$\theta$, ylabel=$y$,
+            xlabel=$\theta$, ylabel=$x$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
           ]        
@@ -522,7 +522,7 @@ Once you get a feel for how $\arcsin(x)$ and $\arccos(x)$ behave, let's examine 
             xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
             xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},       
             unit vector ratio*=1 1 1,
-            xlabel=$\theta$, ylabel=$y$,
+            xlabel=$\theta$, ylabel=$x$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
           ]        
@@ -658,23 +658,20 @@ interval $(-\pi/2,\pi/2)$.
 We are now please to present the so-called ``inverse'' trigonometric
 functions.
 
-\paragraph{Arcosine and arcsine}
-\[
-\arccos(x) = \theta\qquad \iff\qquad\cos(\theta) = x\text{ and } 0\le \theta\le \pi
-\]
+\paragraph{Arccosine}
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
-            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=3.375,
             axis lines=center,
             xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
             xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
             ytick={-1,1},
             %ticks=none,
             width=6in,
-            height=3in,
+            height=4.8375in,
             unit vector ratio*=1 1 1,
-            xlabel=$\theta$, ylabel=$y$,
+            xlabel=$\theta$, ylabel=$x$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
           ]        
@@ -684,20 +681,70 @@ functions.
           
           \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(0,1)};  %% closed hole          
           \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(pi,-1)};  %% closed hole          
-          \node at (axis cs:-1.57,.75) [penColor2] {$\cos(\theta)$};
+          \addplot [very thick, penColor5, samples=100,smooth, domain=(-1:1)] {acos(x)*pi/180};
+                    
+          \addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(1,0)};  %% closed hole          
+          \addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(-1,pi)}; 
+          
         \end{axis}
 \end{tikzpicture}
 \end{image}
-The domain of $\arccos(x)$ is $-1<x<1$. 
+\[
+\arccos(x) = \theta\qquad \iff\qquad\cos(\theta) = x\text{ and } 0\le \theta\le \pi
+\]
+The domain of $\arccos(x)$ is $-\le x\le 1$.
 
+
+\paragraph{Arcsine}
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-2,ymax=2,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=6in,
+            height=4in,
+            unit vector ratio*=1 1 1,
+            xlabel=$\theta$, ylabel=$x$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor!20!background, samples=100,smooth, domain=(-6.75:-1.57)] {sin(deg(x))};
+          \addplot [very thick, penColor!20!background, samples=100,smooth, domain=(1.57:6.75)] {sin(deg(x))};
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-1.57:1.57)] {sin(deg(x))};
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1.57,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.57,1)};  %% closed hole   
+          \addplot [very thick, penColor4, samples=100,smooth, domain=(-1:1)] {asin(x)*pi/180};
+                    
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(-1,-pi/2)};  %% closed hole          
+          \addplot[color=penColor4,fill=penColor4,only marks,mark=*] coordinates{(1,pi/2)};  %% closed hole     
+          
+        \end{axis}
+\end{tikzpicture}
+\end{image}
 \[
 \arcsin(x) = \theta\qquad \iff\qquad\sin(\theta) = x\text{ and } -\frac{\pi}{2}\le \theta\le \frac{\pi}{2}
 \]
-  
-   \begin{align*}%% Domain of -\infty<x<\infty
-    \arctan(x) = \theta\qquad &\iff\quad\tan(\theta) = x\text{ and } -\frac{\pi}{2}< \theta< \frac{\pi}{2}\\
-    \arccot(x) = \theta\qquad &\iff\quad\cot(\theta) = x\text{ and } 0< \theta< \pi
-   \end{align*}
+The domain of $\arcsin(x)$ is $-1\le x\le 1$. 
+
+\paragraph{Arctangent}
+   
+
+     \[
+     \arctan(x) = \theta\qquad \iff\quad\tan(\theta) = x\text{ and } -\frac{\pi}{2}< \theta< \frac{\pi}{2}
+     \]
+     The domain of $\arctan(x)$ is $-\infty<x<\infty$.
+     
+
+\[
+     \arccot(x) = \theta\qquad \iff\quad\cot(\theta) = x\text{ and } 0< \theta< \pi
+\]
+The domain of $\arccot(x)$ is $-\infty<x<\infty$. 
+    
    \begin{align*}%% Domain of \{x:|x|\ge 1\}
     \arcsec(x) = \theta\qquad &\iff\qquad\sec(\theta) = x\text{ and } 0\le \theta\le \pi\text{ with } x\ne \pi/2\\
     \arccsc(x) = \theta\qquad &\iff\qquad\csc(\theta) = x\text{ and } -\frac{\pi}{2}\le \theta\le \frac{\pi}{2}\text{ with } x\ne 0

@@ -16,183 +16,454 @@
 \end{abstract}
 \maketitle
 
-\begin{question}
+\section{The basic idea}
+
 Consider the function
 \[
 f(x) = \frac{\sin(x)}{x}.
 \]
 While $f(x)$ is undefined at $x=0$, we can still plot $f(x)$ at other
-values near $x = 0$. Create a table of values of $f$ below:
-\[
-\begin{tchart}{c|c}
-  x & f(x) \\ \hline
-  1 &  \answer{\sin(1)} \\
-  0.1 &  \answer{10\cdot\sin(0.1)} \\
-  0.01 &  \answer{100\cdot\sin(0.01)} \\
-  0.001 &   \answer{1000\cdot\sin(0.001)} \\
-  0 & \text{undefined}\\
-  -0.001 &  \answer{1000\cdot\sin(0.001)}\\
- -0.01&   \answer{100\cdot\sin(0.01)}\\
- -0.1&   \answer{10\cdot\sin(0.1)}\\
- -1 &   \answer{\sin(1)}
-\end{tchart}
-\]
-It appears that $f$ is approaching the value $\answer[given]{1}$ as $x$ gets
-closer and closer to $0$.
+values near $x = 0$.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+        axis lines=center,
+        xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+        xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+        ytick={-1,1},
+        %ticks=none,
+        width=6in,
+        height=3in,
+        unit vector ratio*=1 1 1,
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]        
+      \addplot [very thick, penColor, samples=100,smooth, domain=(-6.75:6.75)] {sin(deg(x))/x};
+      
+      \addplot[color=penColor,fill=white,only marks,mark=*] coordinates{(0,1)};  %% open hole          
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+\begin{question}
+  Use the graph of $f(x) = \frac{\sin(x)}{x}$ above to answer the
+  following question: As $x$ approaches $0$, $f(x)$ approaches what
+  number?
+  \begin{multipleChoice}
+    \choice{$0$}
+    \choice{$f(0)$}
+    \choice[correct]{$1$}
+    \choice{it is impossible to say}
+  \end{multipleChoice}
 \end{question}
 
-This example leads to the following intuitive concept.  We will meet a more precise formulation of this definition in an optional section (``the $\epsilon - \delta$ definition of a limit'').
+From this question we come to our definition of a limit.
 
-\begin{definition}[Intuitive ``definition'' of a limit]
-Let $f$ be a function.  If $f(x)$ can be made arbitrarily close to $L$ by making $x$ sufficiently close, but not equal to, $a$, then we say that the \textbf{limit} of $f(x)$ as $x$ approaches $a$ is $L$.  This is written symbolically as
-
-\[
-\lim_{x\to a} f(x) = L.
-\]
+\begin{definition}
+  Intuitively,
+  \begin{center}
+    the \dfn{limit} of $f(x)$ as $x$ approaches $a$ is $L$,
+  \end{center}
+  written
+  \[
+  \lim_{x\to a} f(x) = L,
+  \]
+  if the value of $f(x)$ can be made as close as one wishes to $L$ for
+  all $x$ sufficiently close, but not equal to, $a$.
 \end{definition}
 
 \begin{question}
+  Use the graph of $f(x) = \frac{\sin(x)}{x}$ above to answer the
+  following question: A good guess is that
+  \begin{multipleChoice}
+    \choice[correct]{$\lim_{x\to 0}\frac{\sin(x)}{x} = 1$}
+    \choice{$\lim_{x\to 1}\frac{\sin(x)}{x} = 0$}
+    \choice{$\lim_{x\to 1}f(x) = \frac{\sin(1)}{1}$}
+    \choice{$\lim_{x\to 0}f(x) = \frac{\sin(0)}{0}=\infty$}
+  \end{multipleChoice}
+\end{question}
 
-Select the appropriate way to verbalize the symbolic expression 
 
+\begin{question}
+  Consider the following graph of $f(x)$
+\begin{image}
+          
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-4, xmax=4, ymin=-3,ymax=3,    
+            unit vector ratio*=1 1 1,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-4,...,4}, ytick={-3,...,3},
+            %xticklabels={-4,,-2,,0,,2,,4,,6}, yticklabels={,-2,,0,,2,,4,,6,,8,,10},
+            grid=major,width=4in,
+            grid style={dashed, gridColor},
+          ]
+	  \addplot[color=penColor,very thick] plot coordinates
+                  {(-4,-1) (-1,2) (1,-2) (4,1)};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-2)};  %% closed hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,-2)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+  Use the graph to evaluate the following. Write DNE if the value does
+  not exist.
+  \begin{enumerate}
+    \begin{multicols}{4}
+    \item $f(-2) = \answer{1}$
+    \item $\lim_{x\to -2}f(x)= \answer{1}$
+    \item $f(-1) = \answer{1}$
+    \item $\lim_{x\to -1}f(x)= \answer{2}$
+    \item $f(0) = \answer{-2}$
+    \item $\lim_{x\to 0} f(x)= \answer{0}$
+    \item $f(1) = \answer{DNE}$
+    \item $\lim_{x\to 1} f(x)= \answer{-2}$
+    \end{multicols}
+  \end{enumerate}
+\end{question}
+
+
+
+
+
+\section{Limits might not exist}
+
+Limits might not exist. Let's see how this happens.
+
+
+\begin{example}
+  Consider the graph of $f(x) = \lfloor x\rfloor$.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+          \addplot [very thick, penColor, domain=(-2:-1)] {-2};
+          \addplot [very thick, penColor, domain=(-1:0)] {-1};
+          \addplot [very thick, penColor, domain=(0:1)] {0};
+          \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot [very thick, penColor, domain=(3:4)] {3};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,-2)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole                  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-1,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4,3)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\lfloor x\rfloor$. Note, no matter which
+%%   $\delta>0$ is chosen, we can only at best bound $f(x)$ in the
+%%   interval $[1,2]$. With the example of $f(x) = \lfloor x \rfloor$, we
+%%   see that taking limits is truly different from evaluating
+%%   functions.}
+\end{image}
+Explain why the limit
 \[
-\lim_{x \to 4} \sin(x)
+\lim_{x\to 2} f(x)
 \]
-
-\begin{multipleChoice}
-\choice[correct] {``The limit of sine of $x$ as $x$ approaches $4$''.}
-\choice {``Lim $x$ to $4$ sine $x$''}
-\choice {``Limit of $x$ approaches $4$ of sine''}
-\end{multipleChoice}
-\end{question}
-
-Let's begin to explore some of the meaning of this definition.  Remember 
-that a limit tells us what is happening to function values {\em near} some value of $x$.
-
-\begin{question}
-Is the following statement true for any function $f$?
-
-``If $f(3) = 4$ then $\displaystyle \lim_{x \to 3} f(x) = 4$''
-
-\begin{multipleChoice}
-\choice[correct]{False}
-\choice{True}
-\end{multipleChoice}
-
-\begin{feedback}
-  For instance, if
-  \[
-  f(x) =
-  \begin{cases}
-    4 &\text{if $x=3$} \\
-    0 &\text{else}
-  \end{cases}
-  \]
-  then $f(3)=4$, but $\lim_{x \to 3} f(x) =0$.
-\end{feedback}
-\end{question}
-
-The last question points to a very important concept.  Just because we know the 
-behavior of a function at the point in question does not tell us anything about the 
-limit value of the function.  In the previous question, we know that at $x = 3$, we 
-have $f(x) = 4$.  However, this statement doesn't tell us anything about the behavior 
-of the function near to $x = 3$.
-
-Similarly, knowing the limit value does not tell us anything about the function value. 
-In the feedback to the previous question, we looked at the function 
-  \[
-  f(x) =
-  \begin{cases}
-    4 &\text{if $x=3$} \\
-    0 &\text{else}.
-  \end{cases}
-  \]
-In this case, if we knew only that $\lim_{x \to 3} f(x) = 0$, we would not be able 
-to predict that $f(3) = 4$.
-
-\begin{question}
-Using the graph of $f$ below, does it appear that $\lim_{x \to 1} f(x)$ exists?  
-
-%graph
-
-\begin{multipleChoice}
-\choice[correct]{Yes}
-\choice{No}
-\end{multipleChoice}
-
-%only reveal after correct answer
-
-\begin{feedback}
-	It appears that $\lim_{x\to 1} f(x) =  \answer{4}$ 
-\end{feedback}
-
-
-\end{question}
-
-%replicate last question with  a removable discontinuity,  a continuous function, and finally a jump discontinuity.
-
-%Jump discontinuity model:
-
-\begin{question}
-Using the graph of $f$ below, does it appear that $\lim_{x \to 1} f(x)$ exists?  
-
-%graph
-
-\begin{multipleChoice}
-\choice{Yes}
-\choice[correct]{No}
-\end{multipleChoice}
-
-%only reveal after correct answer
-
-\begin{feedback}
-  Even though $\lim_{x \to 1} f(x)$ does not exist, values of
-  $f(x)$ appear to be approaching \answer{3} when $x \to 1$
-  through numbers greater than $1$, and values of $f(x)$ appear
-  to be approaching \answer{6} when $x \to 1$ through numbers
-  less than $1$.
-\end{feedback}
-
-\end{question}
-
-The last question motivates the following:
-
-\begin{definition}[Intuitive ``definition'' of a one sided limit]
-  Let $f$ be a function.  If $f(x)$ can be made arbitrarily close to $L$ by making $x>a$ sufficiently close, but not equal to, $a$, then we say that the \textbf{limit} of $f(x)$ as $x$ approaches $a$ from the right is $L$.  This is written symbolically as
-
-  \[
-\lim_{x\to a^+} f(x) = L
-\]
-
-Similarly, if $f(x)$ can be made arbitrarily close to $L$ by making
-$x<a$ sufficiently close, but not equal to, $a$, then we say that the
-\textbf{limit} of $f(x)$ as $x$ approaches $a$ from the left is $L$.
-This is written symbolically as
-
+does not exist.
+\begin{explanation}
+The function $\lfloor x \rfloor$ is the function that returns the
+greatest integer less than or equal to $x$. Recall that
 \[
-\lim_{x\to a^-} f(x) = L
+\lim_{x\to 2} \lfloor x \rfloor  = L
 \]
+if $\lfloor x\rfloor$ can be made arbitrarily close to $L$ by making
+$x$ sufficiently close, but not equal to, $2$. So let's examine $x$
+near, but not equal to, $2$. Now the question is: What is $L$?
 
+
+
+If this limit exists, then we should be able to look sufficiently
+close, but at, $x=2$, and see that $f(x)$ is approaching some number.
+Let's look at a graph:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=1.5:2.5,
+            ymin=-.5,ymax=3.5,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          
+          \addplot[(-),color=penColor2,ultra thick] plot coordinates {(1.75,0) (2.25,0)};
+
+          \addplot[color=penColor2,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
+          \addplot[textColor,dashed] plot coordinates {(1.9,0) (1.9,1)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+If we look closer and closer to $x=2$ (on the left of $x=2$) we see
+that $f(x) = 1$. However, if we look closer and closer to $x=2$ (on
+the right of $x=2$) we see
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=1.5:2.5,
+            ymin=-.5,ymax=3.5,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          
+          \addplot[(-),color=penColor2,ultra thick] plot coordinates {(1.75,0) (2.25,0)};
+
+          \addplot[color=penColor2,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
+          \addplot[textColor,dashed] plot coordinates {(2.1,0) (2.1,2)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+So just to the right of $x=2$, $f(x)=2$. We cannot find a single
+number that $f(x)$ approaches as $x$ approaches $x=2$, and so the
+limit does not exists.
+\end{explanation}
+\end{example}
+
+Tables can be used to help guess limits, but one must be careful.
+
+\begin{question}
+  Consider $f(x) = \sin\left(\frac{\pi}{x}\right)$. Fill in the 
+  tables below:
+  \[
+  \begin{array}{l|l}
+    x      & f(x)      \\ \hline
+    0.1    & \answer{0}\\
+    0.01   & \answer{0}\\
+    0.001  & \answer{0}\\
+    0.0001 & \answer{0} 
+  \end{array}
+  \qquad\text{and}\qquad
+  \begin{array}{l|l}
+    x      & f(x)            \\ \hline
+    0.3    &  \answer{-.866} \\
+    0.03   &  \answer{-.866} \\
+    0.003  &  \answer{-.866} \\
+    0.0003 &  \answer{-.866} \\
+  \end{array}
+  \]
+  What do the tables tell us about
+  \[
+  \lim_{x\to 0}\sin\left(\frac{\pi}{x}\right)?
+  \]
+  \begin{multipleChoice}
+    \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right) = 0$}
+    \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right)=1$}
+    \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right) = -.866$}
+    \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right) = -.433$}
+    \choice[correct]{it is unclear what the tables are telling us about the limit}
+  \end{multipleChoice}
+  \begin{feedback}
+    Neither tables nor graphs can ever tell us for certain what a
+    limit is. However, sometimes they can help ``guess'' the limit. In
+    this case the graph of $f(x)$ is somewhat more helpful:
+    \begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            domain=-.2:.2,    
+            samples=500,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            yticklabels = {}, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-.2:-.02)] {sin(deg(pi/x))};
+          \addplot [very thick, penColor, smooth, domain=(.02:.2)] {sin(deg(pi/x))};
+	  \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.05:.05)] {1} \closedcycle;
+          \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.05:.05)] {-1} \closedcycle;
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+   We see that $f(x)$ oscillates ``wildly'' as $x$ approaches $0$, and hence does not approach any one number.
+  \end{feedback}
+\end{question}
+
+
+
+\section{One-sided limits}
+
+
+While we have seen that $\lim_{x\to 2}\lfloor x\rfloor$ does not
+exist, more can still be said.
+
+
+
+\begin{definition}
+  Intuitively,
+  \begin{center}
+    the limit of $f(x)$ as $x$ approaches $a$ \dfn{from
+      the right} is $L$,
+  \end{center}
+  written
+  \[
+  \lim_{x\to a^+} f(x) = L,
+  \]
+  if the value of $f(x)$ can be made as close as one wishes to $L$ for
+  all $x>a$ sufficiently close, but not equal to, $a$.
+  
+  Similarly,
+  \begin{center}
+    the limit of $f(x)$ as $x$ approaches $a$ \dfn{from the left} is
+    $L$,
+  \end{center}
+  written
+  \[
+  \lim_{x\to a^-} f(x) = L,
+  \]
+  if the value of $f(x)$ can be made as close as one wishes to $L$ for
+  all $x<a$ sufficiently close, but not equal to, $a$.
 \end{definition}
 
-% oracle one sided limits here
+
+\begin{example}
+Compute:
+\[
+\lim_{x\to 2^-} f(x)\qquad\text{and}\qquad \lim_{x\to 2^+} f(x)
+\]
+by using the graph below
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:4,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+          \addplot [very thick, penColor, domain=(-2:-1)] {-2};
+          \addplot [very thick, penColor, domain=(-1:0)] {-1};
+          \addplot [very thick, penColor, domain=(0:1)] {0};
+          \addplot [very thick, penColor, domain=(1:2)] {1};
+          \addplot [very thick, penColor, domain=(2:3)] {2};
+          \addplot [very thick, penColor, domain=(3:4)] {3};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,-2)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,-1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole                  
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-1,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(4,3)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=\lfloor x\rfloor$. Note, no matter which
+%%   $\delta>0$ is chosen, we can only at best bound $f(x)$ in the
+%%   interval $[1,2]$. With the example of $f(x) = \lfloor x \rfloor$, we
+%%   see that taking limits is truly different from evaluating
+%%   functions.}
+\end{image}
+\begin{explanation}
+  From the graph we can see that as $x$ approaches $2$ from the left, $\lfloor x\rfloor$ remains at $y=1$ up  until the exact point that $x=2$. Hence
+  \[
+  \lim_{x\to 2^-} f(x)=1.
+  \]
+  Also from the graph we can see that as $x$ approaches $2$ from the
+  right, $\lfloor x\rfloor$ remains at $y=2$ up to $x=2$. Hence
+  \[
+  \lim_{x\to 2^+} f(x)=2.
+  \]
+\end{explanation}
+\end{example}
+
+
+
+\section{When you put this all together}
+
+One-sided limits help us talk about limits.
 
 \begin{theorem}
-	$\lim_{x \to a} f(x)$ exists if and only if  
-	\begin{itemize}
-	   \item $\lim_{x \to a^-} f(x)$ exists
-	   \item $\lim_{x \to a^+} f(x)$ exists
-	   \item $\lim_{x \to a^-} f(x) = \lim_{x \to a^+} f(x)$
-	\end{itemize}
-	In this case, $\lim_{x \to a} f(x)$ is equal to the common
-        value of the two one sided limits.
+  A limit
+  \[
+  \lim_{x \to a} f(x)
+  \]
+  exists if and only if
+  \begin{itemize}
+  \item $\lim_{x \to a^-} f(x)$ exists
+  \item $\lim_{x \to a^+} f(x)$ exists
+  \item $\lim_{x \to a^-} f(x) = \lim_{x \to a^+} f(x)$
+  \end{itemize}
+  In this case, $\lim_{x \to a} f(x)$ is equal to the common
+  value of the two one sided limits.
 \end{theorem}
 
 
-
-
-
-
+\begin{question}
+  Evaluate the expressions by referencing the graph below. Write DNE
+  if the limit does not exist.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-4:6, xmin=-4, xmax=6, ymin=-3,ymax=10,    
+            unit vector ratio*=1 1 1,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-4,...,6}, ytick={-3,...,10},
+            xticklabels={-4,,-2,,0,,2,,4,,6}, yticklabels={,-2,,0,,2,,4,,6,,8,,10},
+            grid=major,width=4in,
+            grid style={dashed, gridColor},
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-4:-2)] {6};
+	  \addplot [very thick, penColor, smooth, domain=(-2:0)] {x^2-2};
+          \addplot [very thick, penColor, smooth, domain=(0:2)] {(x-1)^3+3*(x-1)+3};
+          \addplot [very thick, penColor, smooth, domain=(2:6)] {(x-4)^3+8};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,6)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,8)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-1.5)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{enumerate}
+\begin{multicols}{3}
+\item $\lim_{x\to 4} f(x) = \answer{8}$  
+\item $\lim_{x\to -3} f(x)= \answer{6}$  
+\item $\lim_{x\to 0} f(x) = \answer{DNE}$ 
+\item $\lim_{x\to 0^-} f(x) = \answer{-2}$  
+\item $\lim_{x\to 0^+} f(x) = \answer{-1}$  
+\item $f(-2) = \answer{8}$  
+\item $\lim_{x\to 2^-} f(x) = \answer{7}$  
+\item $\lim_{x\to -2^-} f(x) = \answer{6}$  
+\item $\lim_{x\to 0} f(x+1) = \answer{3}$  
+\item $f(0) = \answer{-3/2}$ 
+\item $\lim_{x\to 1^-} f(x-4) = \answer{6}$  
+\item $\lim_{x\to 0^+} f(x-2) = \answer{2}$
+\end{multicols}  
+\end{enumerate}
+\end{question}
 
 
 

@@ -8,7 +8,7 @@ or send a letter to Creative Commons, 543 Howard Street, 5th Floor,
 San Francisco, California, 94105, USA. If you distribute this work or
 a derivative, include the history of the document.
 
-The source code is available at:
+The source code is available at
 
   https://github.com/ASCTech/mooculus/tree/master/public/textbook
 

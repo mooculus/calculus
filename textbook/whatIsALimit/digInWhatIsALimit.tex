@@ -86,6 +86,48 @@ From this question we come to our definition of a limit.
 \end{question}
 
 
+\begin{question}
+  Consider the following graph of $f(x)$
+\begin{image}
+          
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-4, xmax=4, ymin=-3,ymax=3,    
+            unit vector ratio*=1 1 1,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-4,...,4}, ytick={-3,...,3},
+            %xticklabels={-4,,-2,,0,,2,,4,,6}, yticklabels={,-2,,0,,2,,4,,6,,8,,10},
+            grid=major,width=4in,
+            grid style={dashed, gridColor},
+          ]
+	  \addplot[color=penColor,very thick] plot coordinates
+                  {(-4,-1) (-1,2) (1,-2) (4,1)};
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-2)};  %% closed hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,0)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,-2)};  %% open hole
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+  Use the graph to evaluate the following. Write DNE if the value does
+  not exist.
+  \begin{enumerate}
+    \begin{multicols}{4}
+    \item $f(-2) = \answer{1}$
+    \item $\lim_{x\to -2}= \answer{1}$
+    \item $f(-1) = \answer{1}$
+    \item $\lim_{x\to -1}= \answer{2}$
+    \item $f(0) = \answer{-2}$
+    \item $\lim_{x\to 0} = \answer{0}$
+    \item $f(1) = \answer{DNE}$
+    \item $\lim_{x\to 1} = \answer{-2}$
+    \end{multicols}
+  \end{enumerate}
+\end{question}
+
+
 
 
 
@@ -95,8 +137,7 @@ Limits might not exist. Let's see how this happens.
 
 
 \begin{example}
-  Consider $f(x) = \lfloor x\rfloor$. For your convienence, we give a
-  graph:
+  Consider the graph of $f(x) = \lfloor x\rfloor$.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -267,10 +308,46 @@ Tables can be used to help guess limits, but one must be careful.
 \section{One-sided limits}
 
 
-Consider again the greatest integer function
+While we have seen that
 \[
-f(x) \lfloor x\rfloor
+ \lim_{x\to 2}\lfloor x\rfloor \qquad\text{does not exist,}
 \]
+more can be said.
+
+
+\begin{definition}
+  Intuitively,
+  \begin{center}
+    the limit of $f(x)$ as $x$ approaches $a$ \dfn{from
+      the right} is $L$,
+  \end{center}
+  written
+  \[
+  \lim_{x\to a^+} f(x) = L,
+  \]
+  if the value of $f(x)$ can be made as close as one wishes to $L$ for
+  all $x>a$ sufficiently close, but not equal to, $a$.
+  
+  Similarly,
+  \begin{center}
+    the limit of $f(x)$ as $x$ approaches $a$ \dfn{from the left} is
+    $L$,
+  \end{center}
+  written
+  \[
+  \lim_{x\to a^-} f(x) = L,
+  \]
+  if the value of $f(x)$ can be made as close as one wishes to $L$ for
+  all $x<a$ sufficiently close, but not equal to, $a$.
+\end{definition}
+
+
+\begin{example}
+Compute:
+\[
+\lim_{x\to 2^-} f(x)\qquad\text{and}\qquad \lim_{x\to 2^+} f(x)
+\]
+by using the graph below
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -306,56 +383,89 @@ f(x) \lfloor x\rfloor
 %%   see that taking limits is truly different from evaluating
 %%   functions.}
 \end{image}
-
-PROSE ABOUT MAYBE EXISTING
-
-
-\begin{definition}
-  Intuitively,
-  \begin{center}
-    the limit of $f(x)$ as $x$ approaches $a$ \dfn{from
-      the right} is $L$,
-  \end{center}
-  written
+\begin{explanation}
+  From the graph we can see that as $x$ approaches $2$ from the left, $\lfloor x\rfloor$ remains at $y=1$ up  until the exact point that $x=2$. Hence
   \[
-  \lim_{x\to a^+} f(x) = L,
+  \lim_{x\to 2^-} f(x)=1.
   \]
-  if the value of $f(x)$ can be made as close as one wishes to $L$ for
-  all $x>a$ sufficiently close, but not equal to, $a$.
-  
-  Similarly,
-  \begin{center}
-    the limit of $f(x)$ as $x$ approaches $a$ \dfn{from the left} is
-    $L$,
-  \end{center}
-  written
+  Also from the graph we can see that as $x$ approaches $2$ from the
+  right, $\lfloor x\rfloor$ remains at $y=2$ up to $x=2$. Hence
   \[
-  \lim_{x\to a^-} f(x) = L,
+  \lim_{x\to 2^+} f(x)=2.
   \]
-  if the value of $f(x)$ can be made as close as one wishes to $L$ for
-  all $x<a$ sufficiently close, but not equal to, $a$.
-\end{definition}
+\end{explanation}
+\end{example}
+
 
 
 \section{When you put this all together}
 
+One-sided limits help us talk about limits.
+
 \begin{theorem}
-	$\lim_{x \to a} f(x)$ exists if and only if
-	\begin{itemize}
-	   \item $\lim_{x \to a^-} f(x)$ exists
-	   \item $\lim_{x \to a^+} f(x)$ exists
-	   \item $\lim_{x \to a^-} f(x) = \lim_{x \to a^+} f(x)$
-	\end{itemize}
-	In this case, $\lim_{x \to a} f(x)$ is equal to the common
-        value of the two one sided limits.
+  A limit
+  \[
+  \lim_{x \to a} f(x)
+  \]
+  exists if and only if
+  \begin{itemize}
+  \item $\lim_{x \to a^-} f(x)$ exists
+  \item $\lim_{x \to a^+} f(x)$ exists
+  \item $\lim_{x \to a^-} f(x) = \lim_{x \to a^+} f(x)$
+  \end{itemize}
+  In this case, $\lim_{x \to a} f(x)$ is equal to the common
+  value of the two one sided limits.
 \end{theorem}
 
 
-ADD PICT FROM MOOCULUS/SEE CALC PRELECT
-
-
-
-
+\begin{question}
+  Evaluate the expressions by referencing the graph below. Write DNE
+  if the limit does not exist.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-4:6, xmin=-4, xmax=6, ymin=-3,ymax=10,    
+            unit vector ratio*=1 1 1,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-4,...,6}, ytick={-3,...,10},
+            xticklabels={-4,,-2,,0,,2,,4,,6}, yticklabels={,-2,,0,,2,,4,,6,,8,,10},
+            grid=major,width=4in,
+            grid style={dashed, gridColor},
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-4:-2)] {6};
+	  \addplot [very thick, penColor, smooth, domain=(-2:0)] {x^2-2};
+          \addplot [very thick, penColor, smooth, domain=(0:2)] {(x-1)^3+3*(x-1)+3};
+          \addplot [very thick, penColor, smooth, domain=(2:6)] {(x-4)^3+8};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,6)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-2)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,8)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-1.5)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7)};  %% closed hole
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{enumerate}
+\begin{multicols}{3}
+\item $\lim_{x\to 4} f(x) = \answer{8}$  
+\item $\lim_{x\to -3} f(x)= \answer{6}$  
+\item $\lim_{x\to 0} f(x) = \answer{DNE}$ 
+\item $\lim_{x\to 0^-} f(x) = \answer{-2}$  
+\item $\lim_{x\to 0^+} f(x) = \answer{-1}$  
+\item $f(-2) = \answer{8}$  
+\item $\lim_{x\to 2^-} f(x) = \answer{7}$  
+\item $\lim_{x\to -2^-} f(x) = \answer{6}$  
+\item $\lim_{x\to 0} f(x+1) = \answer{3}$  
+\item $f(0) = \answer{-3/2}$ 
+\item $\lim_{x\to 1^-} f(x-4) = \answer{6}$  
+\item $\lim_{x\to 0^+} f(x-2) = \answer{2}$
+\end{multicols}  
+\end{enumerate}
+\end{question}
 
 
 

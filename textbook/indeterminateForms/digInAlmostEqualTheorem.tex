@@ -15,23 +15,25 @@
 %This chapter will consist of three dig in's 1. The Almost Equal Theorem 2. Limits of the form non-zero over zero 3. Determinate and indeterminate forms 
 
 In the last section, we were interested in the limits we could compute
-using continuity and the limit laws, but what about the limits that
-cannot be directly computed using these methods?  Is it possible to
-determine these limits?  Often times, it is.  We will use two
-important tools to find these limits.  The first is the following
-theorem:
+using continuity and the limit laws. What about the limits that cannot
+be directly computed using these methods?  Is it possible to determine
+these limits?  Often times, it is.  We will use two important tools to
+find these limits.  The first is the following theorem:
 
 \begin{theorem}[Almost Equal Theorem]
-Let $f$ and $g$ be two functions such that $f(x)=g(x)$ for every x in
-some open interval $I$ except for at some point $a$ in $I$.  Then,
-$\lim_{x\to a} f(x)= \lim_{x\to a} g(x)$, provided at least one of
-these limits exists.  We call $f$ and $g$ \textbf{almost equal
-  functions} in the context of considering the limit as $x$ approaches
-$a$.
+Let $f$ and $g$ be two functions such that $f(x)=g(x)$ for every $x$
+in some open interval $I$ except for at a finite set of points in $I$.
+Then,
+\[
+\lim_{x\to a} f(x)= \lim_{x\to a} g(x),
+\]
+provided at least one of these limits exists.  We call $f$ and $g$
+\dfn{almost equal functions} in the context of considering the limit
+as $x$ approaches $a$.
 \end{theorem}
 
-That is, if two functions agree at every point near $a$, then they
-have the same limit at $a$.
+Here's the upshot: If two functions agree at every point near $a$,
+then they have the same limit at $a$.
 \begin{image}
       \begin{tikzpicture}
 	\begin{axis}[
@@ -71,19 +73,17 @@ have the same limit at $a$.
 \begin{question}
   Are the two functions that produce the graphs above almost equal on
   the interval $(-1,3)$?
-  \begin{prompt}
     \begin{multipleChoice}
-      \choice[correct]{Yes.}
-      \choice{No.}
-  \end{multipleChoice}
-  \end{prompt}
+      \choice[correct]{Yes}
+      \choice{No}
+    \end{multipleChoice}
   \begin{feedback}
     Since these functions are equal on the open interval $(-1,3)$,
     except for at two disconnected points, they are almost equal on
     the interval.
   \end{feedback}
 \end{question}
-This should make sense since we already know that the limit does not
+This should make sense. We already know that the limit does not
 ``see'' what is happening exactly at $a$, it only sees what is
 happening nearer and nearer to $a$.
 
@@ -97,23 +97,16 @@ Let's consider an example that we looked at in the previous section:
   \begin{explanation}
     In the previous section, we decided that we could not find this
     limit using the Quotient Law because the denominator is equal to 0
-    at $x=2$.  Can we use the Almost Equal Thoerem? Can we find an
-    equation that has the same outputs as $\frac{x^2-3x+2}{x-2}$ at
-    every value of $x$ except $x=2$?
-    
-    Notice that the numerator of this fraction can be factored to give us:
+    at $x=2$.  Can we use the Almost Equal Thoerem?
+
+    Well note that if we assume $x\ne 2$, then we can write
     \[
-    \frac{x^2-3x+2}{x-2} =  \frac{(x-2)(x-1)}{(x-2)} \stackrel{?}{=}\frac{\cancel{(x-2)}(x-1)}{\cancel{(x-2)}}=x-1
+    \frac{x^2-3x+2}{x-2} = \frac{(x-2)(x-1)}{(x-2)} = x-1.
     \]
-    It is very tempting to automatically cancel the $(x-2)$ term out
-    of the top and bottom of the fraction, but can we?  In fact, this
-    is what we are going to do, but we need to be clear about what we
-    are doing when we cancel that term.  By canceling out the $(x-2)$,
-    we will be changing the domain of the function.  The domain of
-    $\frac{(x-2)(x-1)}{(x-2)}$ is $(-\infty,2)\cup(2,\infty)$, but the
-    domain of $(x-1)$ is $(-\infty,\infty)$.  More specifically,
-    $(x-1)$ is continuous for all real numbers, but
-    $\frac{(x-2)(x-1)}{(x-2)}$ is discontinuous at $x=2$.
+    Since this relation is true provided $x\ne 2$, we have that
+    \[
+    \frac{x^2-3x+2}{x-2} \text{ is almost equal to }x-1.
+    \]
     \begin{image}
       \begin{tikzpicture}
         \begin{axis}[
@@ -144,19 +137,16 @@ Let's consider an example that we looked at in the previous section:
           \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
         \end{axis}
         \node [penColor] at (2,-.5) {$y=\frac{x^2-3x+2}{x-2}$};
-\end{tikzpicture}
-\end{image}
-    We have found a function that agrees with
-    $\frac{(x-2)(x-1)}{(x-2)}$ everywhere except at $x=2$.  While
+      \end{tikzpicture}
+    \end{image}
+    This means
     \[
-    \frac{(x-2)(x-1)}{(x-2)} \neq x-1,
+    \lim_{x\to 2}\frac{x^2-3x+2}{x-2} = \lim_{x\to 2} (x-1).
     \]
-    we can use our theorem to say that the limits are equal.
-    Therefore, we have:
+    Ah! $\lim_{x\to 2} (x-1) =1$. Hence
     \[
-    \lim_{x\to 2}\frac{x^2-3x+2}{x-2} = \lim_{x\to 2} (x-1) = 2-1 =1.
+    \lim_{x\to 2}\frac{x^2-3x+2}{x-2} = \lim_{x\to 2} (x-1) = 1.
     \]
-    %\marginnote[-1in]{Limits allow us to examine functions where they are not defined.}
   \end{explanation}
 \end{example} 
 
@@ -173,33 +163,89 @@ this example.
 
 In order to give us a concrete way of talking about the differences
 between these two examples, we are going to introduce a new idea, the
-form of a limit.
+\textit{form} of a limit.
 
 \begin{definition}
-  Consider
+  A limit
   \[
-  \lim_{x\to a}f(x).
+  \lim_{x\to a} \frac{f(x)}{g(x)}
   \]
-  The \dfn{form} of this limit is a symbol which is not a number that
-  results when $a$ is plugged directly into $f(x)$ and the result is
-  simplified as much as possible.  Because a form is not a number, we
-  will not say that a limit equals its form.  We will use the symbol
-  $\sim$ to say that a limit has a certain form.
-\end{definition} 
+  is said to be of the form \zeroOverZero\ if
+  \[
+  \lim_{x\to a} f(x) = 0\qquad\text{and}\qquad \lim_{x\to a} g(x) =0.
+  \]
+\end{definition}
+
+\begin{question}
+  Which of the following limits are of the form \zeroOverZero?
+  \begin{multipleChoice}
+    \choice[correct]{$\lim_{x\to 0}\frac{\sin(x)}{x}$}
+    \choice{$\lim_{x\to 0}\frac{\cos(x)}{x}$}
+    \choice{$\lim_{x\to 0}\frac{x^2-3x+2}{x-2}$}
+    \choice[correct]{$\lim_{x\to 2}\frac{x^2-3x+2}{x-2}$}
+    \choice{$\lim_{x\to 3}\frac{x^2-3x+2}{x-3}$}
+  \end{multipleChoice}
+\end{question}
+
+
+%% \begin{definition}
+%%   Consider
+%%   \[
+%%   \lim_{x\to a} f(x).
+%%   \]
+%%   The \dfn{form} of this limit is a symbol which is not a number that
+%%   results when $a$ is plugged directly into $f(x)$ and the result is
+%%   simplified as much as possible.  Because a form is not a number, we
+%%   will not say that a limit equals its form.  We will use the symbol
+%%   $\sim$ to say that a limit has a certain form.
+%% \end{definition} 
 
 Consider the first example.
 \[
-\lim_{x\to 2}\frac{x^2-3x+2}{x-2} \sim \frac{(2)^2-3(2)+2}{(2)-2} \sim \frac{0}{0}.
+\lim_{x\to 2}\frac{x^2-3x+2}{x-2}.
 \]
-This is a limit of the form $\frac{0}{0}$.  Knowing this form is
-informative.  Since we know that both the numerator and the
-denominator are approaching $0$ as $x$ approaches $2$, we suspect that
-there might be a common factor in both the top and the bottom which
-are going to $0$.  If we could find that factor and cancel it, we would
-have a function which is almost equal to the original function and
-whose limit we may be able to find using the Limit Laws.  In fact,
-this is exactly what happened in this example when we factored out the
-$(x-2)$ term.
+Since
+\[
+\lim_{x\to 2}\left(x^2-3x+2\right) = 0\qquad\text{and}\qquad \lim_{x\to
+  2}\left(x-2\right) = 0
+\]
+we see that $\lim_{x\to 2}\frac{x^2-3x+2}{x-2}$ is of the form
+\zeroOverZero.
+
+Knowing this form is informative.  Since we know that both the
+numerator and the denominator are approaching $0$ as $x$ approaches
+$2$, we suspect that there might be a common factor in both the top
+and the bottom which are going to $0$.  If we could find that factor
+and cancel it, we would have a function which is almost equal to the
+original function and whose limit we may be able to find using the
+Limit Laws.  In fact, this is exactly what happened in this example
+when we factored out the $(x-2)$ term.
+
+For now, lets consider some more examples of the form $\frac{0}{0}$.
+
+\begin{example}
+  Compute:
+  \[
+  \lim_{x\to1}\frac{x^2+2x-3}{x-1}
+  \]
+  \begin{explanation}
+    We begin by finding the form of this limit.
+    \[
+    \lim_{x\to1}\frac{x^2+2x-3}{x-1} \sim \frac{(1)^2+2(1)-3}{(1)-1} \sim
+    \frac{0}{0}.
+    \]
+    This tells us we can likely find an almost equal function if we can
+    cancel a term going to $0$ out of the numerator and denominator.  Since
+    $(x-1)$ is a term going to $0$ in the denominator, let's see if we can
+    factor a $(x-1)$ out of the numerator as well.
+    \begin{align*}
+      \lim_{x\to1}{x^2+2x-3\over x-1}&=\lim_{x\to1}{(x-1)(x+3)\over x-1} \\
+      &=\lim_{x\to1}(x+3)=4
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
 
 Now consider again
 \[
@@ -211,26 +257,6 @@ denominator.  In fact, it tells us more than that.  We will look at
 how to solve limits with a form $\frac{\text{non-zero}}{\text{zero}}$
 in the next dig in.
 
-For now, lets consider some more examples of the form $\frac{0}{0}$.
-
-\begin{example}
-$\lim_{x\to1}\frac{x^2+2x-3}{x-1}$. 
-\begin{explanation}
-We begin by finding the form of this limit.
-\[
-\lim_{x\to1}\frac{x^2+2x-3}{x-1} \sim \frac{(1)^2+2(1)-3}{(1)-1} \sim
-\frac{0}{0}.
-\]
-This tells us we can likely find an almost equal function if we can
-cancel a term going to $0$ out of the numerator and denominator.  Since
-$(x-1)$ is a term going to $0$ in the denominator, let's see if we can
-factor a $(x-1)$ out of the numerator as well.
-\begin{align*}
-\lim_{x\to1}{x^2+2x-3\over x-1}&=\lim_{x\to1}{(x-1)(x+3)\over x-1} \\
-&=\lim_{x\to1}(x+3)=4
-\end{align*}
-\end{explanation}
-\end{example}
 
 \begin{example}
   Compute:

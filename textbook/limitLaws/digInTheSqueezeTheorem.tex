@@ -2,10 +2,14 @@
 
 \input{../preamble.tex}
 
+\outcome{Understand the Squeeze Theorem and how it can be used to find limit values.}
+\outcome{Calculate limits using the Squeeze Theorem.}
+
 \title[Dig-In:]{The squeeze theorem}
 
 \begin{document}
 \begin{abstract}
+The Squeeze theorem allows us to exchange difficult functions for easy functions.
 \end{abstract}
 \maketitle
 
@@ -23,27 +27,90 @@ then $\lim_{x\to a} f(x) = L$.
 \end{theorem}
 
 \begin{question}
+  I'm thinking of a function $f$. I know that for all $x$
+  \[
+  0 \le f(x) \le x^2.
+  \]
+  What is $\lim_{x\to 0} f(x)$?
+  \begin{multipleChoice}
+    \choice{$f(x)$}
+    \choice{$f(0)$}
+    \choice[correct]{$0$}
+    \choice{impossible to say}
+  \end{multipleChoice}
 \end{question}
 
 
 
-%% \marginnote[.2in]{For a nice discussion of this limit, see: Richman,
-%%   Fred. \textit{A circular argument}. College Math. J. 24 (1993),
-%%   no. 2, 160--162.}
+\begin{example}
+Consider the function
+\[
+f(x) = 
+\begin{cases}
+\sqrt[5]{x}\sin\left(\frac{1}{x}\right) & \text{if $x \ne 0$,}\\
+0 & \text{if $x = 0$,}
+\end{cases}
+\]
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-.2:.2,    
+            samples=500,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            yticklabels = {}, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-.2:-.02)] {abs(x)^(1/5)*sin(deg(1/x))};
+          \addplot [very thick, penColor, smooth, domain=(.02:.2)] {x^(1/5)*sin(deg(1/x))};
+	  \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.02:.02)] {abs(x)^(1/5)} \closedcycle;
+          \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.02:.02)] {-abs(x)^(1/5)} \closedcycle;
+        \end{axis}
+\end{tikzpicture}
+%% \caption[A continuous function.]{A plot of
+%% \[
+%% f(x)=
+%% \begin{cases}
+%% \sqrt[5]{x}\sin\left(\frac{1}{x}\right) & \text{if $x \ne 0$,}\\
+%%  0 & \text{if $x = 0$.}
+%% \end{cases}
+%% \]
+%% }
+\end{image}
+Is this function continuous at $x=0$?
+\begin{explanation}
+We must show that $\lim_{x\to 0} f(x) = \answer[given]{0}$. Note
+\[
+-|\sqrt[5]{x}|\le f(x) \le |\sqrt[5]{x}|.
+\]
+Since
+\[
+\lim_{x\to 0} -|\sqrt[5]{x}| = \answer[given]{0} = \lim_{x\to 0}|\sqrt[5]{x}|,
+\]
+we see by the Squeeze Theorem, Theorem, that
+$\lim_{x\to 0} f(x) = \answer[given]{0}$. Hence $f(x)$ is continuous.
+
+Here we see how the informal definition of continuity being that you
+can ``draw it'' without ``lifting your pencil'' differs from the
+formal definition.
+\end{explanation}
+\end{example}
+
+
+
+
 \begin{example}
 Compute
 \[
 \lim_{\theta\to 0} \frac{\sin(\theta)}{\theta}.
 \]
-
-
-
 To compute this limit, use the Squeeze Theorem. First note that we
 only need to examine $\theta\in \left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$
 and for the present time, we'll assume that $\theta$ is positive---consider
 the diagrams below:
 
-
+\begin{image}
 \begin{tabular}{ccc}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -113,6 +180,8 @@ the diagrams below:
 \end{tikzpicture}\\
 Triangle $A$ & Sector & Triangle $B$ \\
 \end{tabular}
+\end{image}
+
 
 From our diagrams above we see that
 \[
@@ -136,14 +205,11 @@ Note, $\cos(-\theta) = \cos(\theta)$ and $\frac{\sin(-\theta)}{-\theta} =
 \frac{\sin(\theta)}{\theta}$, so these inequalities hold for all $\theta\in
 \left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$.  Additionally, we know
 \[
-\lim_{\theta \to 0}\cos(\theta) = 1 = \lim_{\theta\to 0}\frac{1}{\cos(\theta)},
+\lim_{\theta \to 0}\cos(\theta) = \answer[given]{1} = \lim_{\theta\to 0}\frac{1}{\cos(\theta)},
 \]
 and so we conclude by the Squeeze Theorem, $\lim_{\theta \to
-  0}\frac{\sin(\theta)}{\theta} = 1$.
+  0}\frac{\sin(\theta)}{\theta} = \answer[given]{1}$.
 \end{example}
-
-%%BADBAD
-%% now do the necessary limit with cos.
 
 
 

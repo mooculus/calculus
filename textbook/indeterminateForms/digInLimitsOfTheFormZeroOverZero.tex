@@ -2,7 +2,7 @@
 
 \input{../preamble.tex}
 
-\title[Dig-In:]{The Almost Equal Theorem}
+\title[Dig-In:]{Limits of the form zero over zero}
 
 \begin{document}
 \begin{abstract}
@@ -12,81 +12,46 @@
 
 \maketitle
 
-%This chapter will consist of three dig in's 1. The Almost Equal Theorem 2. Limits of the form non-zero over zero 3. Determinate and indeterminate forms 
-
 In the last section, we were interested in the limits we could compute
 using continuity and the limit laws. What about limits that cannot be
-directly computed using these methods?  We will use two important
-tools to find these limits.  The first is the following theorem:
-
-\begin{theorem}[Almost Equal Theorem]
-Let $f$ and $g$ be two functions such that $f(x)=g(x)$ for every $x$
-in some open interval $I$ except for at a finite set of points in $I$.
-Then,
+directly computed using these methods? Let's think about an example. Consider
 \[
-\lim_{x\to a} f(x)= \lim_{x\to a} g(x),
+\lim_{x\to 2}\frac{x^2-3x+2}{x-2}
 \]
-provided at least one of these limits exists.  We call $f$ and $g$
-\dfn{almost equal functions} in the context of considering the limit
-as $x$ approaches $a$.
-\end{theorem}
+here 
+\[
+\lim_{x\to 2}\left(x^2-3x+2\right) = 0\qquad\text{and}\qquad \lim_{x\to
+  2}\left(x-2\right) = 0
+\]
+in light of this, you may think that the limit is zero. Not so
+fast. This limit is of an \textit{indeterminate form}.
 
-This theorem should make sense. We already know that the limit does
-not ``see'' what is happening exactly at $a$, it only sees what is
-happening nearer and nearer to $a$. 
+\begin{definition}
+  A limit
+  \[
+  \lim_{x\to a} \frac{f(x)}{g(x)}
+  \]
+  is said to be of the form \zeroOverZero\ if
+  \[
+  \lim_{x\to a} f(x) = 0\qquad\text{and}\qquad \lim_{x\to a} g(x) =0.
+  \]
+\end{definition}
 
 \begin{question}
-  Are the two functions that produce the graphs below almost equal on
-  the interval $(-1,3)$?
-\begin{image}
-      \begin{tikzpicture}
-	\begin{axis}[
-            domain=-2:4,
-            ymin=-3,
-            ymax=3,
-            width=2.5in,
-            axis lines =middle, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            xtick={-2,...,4},
-            ytick={-3,...,3},
-          ]
-	  \addplot [very thick, penColor, smooth] {-.5*x^3 + 1.6*x^2-.2*x -1};
-          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,-1.5)};  %% closed hole
-        \end{axis}
-      \end{tikzpicture}\qquad
-      \begin{tikzpicture}
-	\begin{axis}[
-            domain=-2:4,
-            ymin=-3,
-            ymax=3,
-            width=2.5in,
-            axis lines =middle, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            xtick={-2,...,4},
-            ytick={-3,...,3},
-          ]
-	  \addplot [very thick, penColor, smooth] {-.5*x^3 + 1.6*x^2-.2*x -1};
-          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(.4,-.86)};  %% open hole
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(.4,2)};  %% closed hole
-        \end{axis}
-      \end{tikzpicture}
-\end{image}
-    \begin{multipleChoice}
-      \choice[correct]{Yes}
-      \choice{No}
-    \end{multipleChoice}
-  \begin{feedback}
-    Since these functions are equal on the open interval $(-1,3)$,
-    except for at two disconnected points, they are almost equal on
-    the interval.
-  \end{feedback}
+  Which of the following limits are of the form \zeroOverZero?
+  \begin{multipleChoice}
+    \choice[correct]{$\lim_{x\to 0}\frac{\sin(x)}{x}$}
+    \choice{$\lim_{x\to 0}\frac{\cos(x)}{x}$}
+    \choice{$\lim_{x\to 0}\frac{x^2-3x+2}{x-2}$}
+    \choice[correct]{$\lim_{x\to 2}\frac{x^2-3x+2}{x-2}$}
+    \choice{$\lim_{x\to 3}\frac{x^2-3x+2}{x-3}$}
+  \end{multipleChoice}
 \end{question}
 
-
-
+\begin{warning}
+  A limit of the indeterminate form \zeroOverZero\ could attain
+  \textbf{any} value or not exist.
+\end{warning}
 
 Let's consider an example that we looked at in the previous section:
 
@@ -96,17 +61,10 @@ Let's consider an example that we looked at in the previous section:
   \lim_{x\to 2}\frac{x^2-3x+2}{x-2}
   \]
   \begin{explanation}
-    In the previous section, we decided that we could not find this
-    limit using the Quotient Law because the denominator is equal to 0
-    at $x=2$.  Can we use the Almost Equal Thoerem?
-
-    Well note that if we assume $x\ne 2$, then we can write
+  This limit is of the form \zeroOverZero. However, note that if we
+  assume $x\ne 2$, then we can write
     \[
     \frac{x^2-3x+2}{x-2} = \frac{(x-2)(x-1)}{(x-2)} = x-1.
-    \]
-    Since this relation is true provided $x\ne 2$, we have that
-    \[
-    \frac{x^2-3x+2}{x-2} \text{ is almost equal to }x-1.
     \]
     \begin{image}
       \begin{tikzpicture}
@@ -151,53 +109,7 @@ Let's consider an example that we looked at in the previous section:
   \end{explanation}
 \end{example} 
 
-So the stragety above was to replace a ``bad'' function,
-\[
-$\frac{x^2-3x+2}{x-2}$
-\]
-with an a function almost equal to this one that we can work
-with. However, this is not always possible.  Consider
-\[
-\lim_{x\to 3}\frac{x^2-3x+2}{x-3}.
-\]
-First note that if we plug $3$ into the denominator of this fraction,
-the denominator will equal $0$.  Therefore, we cannot use the Quotient
-Law to solve this problem.  Factoring will give us
-\[
-\frac{x^2-3x+2}{x-3}=\frac{(x-2)(x-1)}{x-3}
-\]
-and nothing cancels.  We seem to be stuck.  We need to develop some
-new tools and come back to this example.
 
-In order to give us a concrete way of talking about the differences
-between these two examples, we are going to introduce a new idea, the
-\textit{form} of a limit.
-
-\begin{definition}
-  A limit
-  \[
-  \lim_{x\to a} \frac{f(x)}{g(x)}
-  \]
-  is said to be of the form \zeroOverZero\ if
-  \[
-  \lim_{x\to a} f(x) = 0\qquad\text{and}\qquad \lim_{x\to a} g(x) =0.
-  \]
-\end{definition}
-
-\begin{question}
-  Which of the following limits are of the form \zeroOverZero?
-  \begin{multipleChoice}
-    \choice[correct]{$\lim_{x\to 0}\frac{\sin(x)}{x}$}
-    \choice{$\lim_{x\to 0}\frac{\cos(x)}{x}$}
-    \choice{$\lim_{x\to 0}\frac{x^2-3x+2}{x-2}$}
-    \choice[correct]{$\lim_{x\to 2}\frac{x^2-3x+2}{x-2}$}
-    \choice{$\lim_{x\to 3}\frac{x^2-3x+2}{x-3}$}
-  \end{multipleChoice}
-\end{question}
-
-Someone might say, ``So what if a limit is of the form
-\zeroOverZero. It's just zero right?'' Wrong. Limits of the form
-\zeroOverZero\ can in fact equal any number and beyond.
 
 %% \begin{definition}
 %%   Consider
@@ -227,10 +139,10 @@ Knowing this form is informative.  Since we know that both the
 numerator and the denominator are approaching $0$ as $x$ approaches
 $2$, we suspect that there might be a common factor in both the top
 and the bottom which are going to $0$.  If we could find that factor
-and cancel it, we would have a function which is almost equal to the
-original function and whose limit we may be able to find using the
-Limit Laws.  In fact, this is exactly what happened in this example
-when we factored out the $(x-2)$ term.
+and cancel it, we would have a another (easier to work with) function
+whose limit is equal to the limit of the original function.  In fact,
+this is exactly what happened in this example when we factored out the
+$(x-2)$ term.
 
 For now, lets consider some more examples of the form \zeroOverZero.
 
@@ -245,10 +157,10 @@ For now, lets consider some more examples of the form \zeroOverZero.
     \lim_{x\to1}\left(x^2+2x-3\right)=0 \qquad\text{and}\qquad  \lim_{x\to1}\left(x^2+2x-3\right) = 0
     \]
     Hence this limit is of the form \zeroOverZero.  This tells us we
-    can likely find an almost equal function if we can cancel a factor
-    going to $0$ out of the numerator and denominator.  Since $(x-1)$
-    is a factor going to $0$ in the numerator, let's see if we can
-    factor a $(x-1)$ out of the denominator as well.
+    can likely cancel a factor going to $0$ out of the numerator and
+    denominator.  Since $(x-1)$ is a factor going to $0$ in the
+    numerator, let's see if we can factor a $(x-1)$ out of the
+    denominator as well.
     \begin{align*}
       \lim_{x\to1}\frac{x-1}{x^2+2x-3}&=\lim_{x\to1}\frac{x-1}{(x-1)(x+3)} \\
       &=\lim_{x\to1}\frac{1}{x+3)}\\
@@ -257,28 +169,6 @@ For now, lets consider some more examples of the form \zeroOverZero.
   \end{explanation}
 \end{example}
 
-%% \begin{example}
-%%   Compute:
-%%   \[
-%%   \lim_{x\to1}\frac{x^2+2x-4}{x-2}
-%%   \]
-%% \begin{explanation}
-%%   We begin by finding the form of this
-%%   limit.
-%%   \[
-%%   \lim_{x\to1}\frac{x^2+2x-4}{x-2} \sim\frac{(1)^2+2(1)-4}{(1)-2} \sim \frac{-1}{-1}.
-%%   \]
-%%   This is a number, not an indeterminate form! We have discovered
-%%   that this is a limit for which we could have and should have used
-%%   the continuity of rational functions on their domains to compute
-%%   this limit.  All we have to do is change our $\sim$ symbols to $=$
-%%   symbols to complete the problem.
-%%   \[
-%%   \lim_{x\to1}\frac{x^2+2x-4}{x-2} = \frac{(1)^2+2(1)-4}{(1)-2} =
-%%   \frac{-1}{-1} =1.
-%%   \]
-%% \end{explanation}
-%% \end{example}
 
 \begin{example}
   Compute:
@@ -316,8 +206,7 @@ factored out of the denominator and that was the goal.
 &= \lim_{x\to 1}\frac{-2}{(x+1)(x+5)}.
 \end{align*}
   
-Now we finally have an almost equal function that is continuous at
-$x=1$. Hence
+Hence
 
 \[
 \lim_{x\to 1} \frac{\frac{1}{x+1}-\frac{3}{x+5}}{x-1}=\lim_{x\to 1}\frac{-2}{(x+1)(x+5)} = \frac{-2}{((1)+1)((1)+5)} = \frac{-1}{6}
@@ -356,8 +245,8 @@ And one more example:
   \]
   In our case, we will use $a=\sqrt{x+5}$ and $b=2$.  Then, we have
   the $(a-b)$ term.  If we introduce the $(a+b)$ term by multiplying
-  both the numerator and denonimator by $(\sqrt{x+5}+2)$, we will be
-  able to simpify our result using the differences of squares.
+  both the numerator and denominator by $(\sqrt{x+5}+2)$, we will be
+  able to simplify our result using the differences of squares.
  
 \begin{align*}
 \lim_{x\to-1} \frac{\sqrt{x+5}-2}{x+1}&=
@@ -372,11 +261,10 @@ And one more example:
 \end{explanation}
 \end{example}
 
-All the examples in this section use the Almost Equal Theorem to
-compute limits of the form \zeroOverZero.  When you come across a
-limit of the form \zeroOverZero, you should try to use various algebra
-techniques to come up with an almost equal function whose limit you
-can evaluate.
+All the examples in this section are limits of the form \zeroOverZero.
+When you come across a limit of the form \zeroOverZero, you should try
+to use various algebraic techniques to come up with a continuous
+function whose limit you can evaluate.
 
 Notice that we solved multiple examples of limits of the form
 \zeroOverZero\ and we got different answers each time.  This tells us
@@ -392,21 +280,6 @@ There are some forms which we will see in future sections which will
 be able to tell us the answer to the limit from just looking at the
 form. These forms are called \dfn{determinate forms}.
 \end{definition}  
-
-The form \zeroOverZero\ is an indeterminate form.  Consider again
-\[
-\lim_{x\to 3}\frac{x^2-3x+2}{x-3} 
-\]
-Since
-\[
-\lim_{x\to3}\left(x^2-3x+2\right) = 2 \qquad\text{and}\qquad  \lim_{x\to3}\left(x-3\right) = 0
-\]
-This limit is not of the form \zeroOverZero. It is of the form
-\numOverZero, which immediately tells us that there cannot be a factor
-$(x-3)$ which can be factored out of the denominator.  In fact, it
-tells us more than that.  We will look at how to solve limits of the
-form \numOverZero in the next dig in.
-
 
 
 

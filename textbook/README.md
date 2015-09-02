@@ -1,3 +1,13 @@
+# Textbook TODO:
+
+* In [Understanding functions](understandingFunctions/)
+add a problem with a graph, and finding f^{-1}(2) on a restricted domain.
+
+* In [Limit laws](limitLaws/) add more graphs to squeeze theorem.
+
+
+
+
 # Textbook overview
 Each lecture will have a
 	* welcome (Short paragraph/video along with outcomes)
@@ -14,7 +24,7 @@ Each lecture will have a
      - \mathbb{R} as real numbers
 * [Review of famous functions](reviewOfFamousFunctions/)
      - quiz (in all sections) to assess understanding; say something (not in writing) emphasizing that students struggling with this quiz could move to 1150.
-* [What is a limit?](whatIsALimit/)
+	 * [What is a limit?](whatIsALimit/)
 * [Limit laws](limitLaws/)
 * [Indeterminate forms](indeterminateForms/)
 * [Using limits to detect asymptotes](asymptotesAsLimits/)

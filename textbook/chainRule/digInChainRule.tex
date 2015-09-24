@@ -34,9 +34,20 @@ h(x) = (1+2x)^5.
 
 While there are several different ways to differentiate this function,
 if we let $f(x) = x^5$ and $g(x) = 1+2x$, then we can express $h(x) =
-\answer[given]{f}(\answer[given]{g}(x))$. The question is, can we compute the derivative of a
+f(g(x))$. The question is, can we compute the derivative of a
 composition of functions using the derivatives of the constituents
 $f(x)$ and $g(x)$? To do so, we need the \textit{chain rule}.
+
+
+
+\begin{theorem}[Chain Rule]\index{chain rule}\index{derivative rules!chain}
+If $f(x)$ and $g(x)$ are differentiable, then
+\[
+\ddx f(g(x)) = f'(g(x))g'(x).
+\]
+\begin{explanation}
+Here we give a somewhat unrigoroius explanation, but it will serve our
+purposes.
 
 \begin{image}
 \begin{tikzpicture}
@@ -84,112 +95,10 @@ $f(x)$ and $g(x)$? To do so, we need the \textit{chain rule}.
 %% f'(g(a))g'(a).
 %% \]} 
 \end{image}
-\begin{theorem}[Chain Rule]\index{chain rule}\index{derivative rules!chain}
-If $f(x)$ and $g(x)$ are differentiable, then
-\[
-\ddx f(g(x)) = f'(g(x))g'(x).
-\]
+
+\end{explanation}
 \end{theorem}
 
-\begin{explanation}
-Let $g_0$ be some $x$-value and consider the following:
-\[
-f'(g_0) = \lim_{h\to 0}\frac{f(g_0+h)-f(g_0)}{h}.
-\]
-
-Set $h = g-g_0$ and we have
-\begin{equation}\label{E:chainRuleLim}
-f'(g_0) = \lim_{g\to g_0} \frac{f(g)-f(g_0)}{g-g_0}.
-\end{equation}
-At this point, we might like to set $g=g(x+h)$ and $g_0=g(x)$;
-however, we cannot as we cannot be sure that
-\[
-g(x+h) - g(x) \ne 0\qquad\text{when $h\ne 0$.}
-\]
-To overcome this difficulty, let $E(g)$ be the ``error term'' that
-gives the difference between the slope of the secant line from
-$f(g_0)$ to $f(g)$ and $f'(g_0)$,
-\[
-E(g) = \frac{f(g)-f(g_0)}{g-g_0} - f'(g_0).
-\]
-In particular, $E(g)(g-g_0)$ is the difference between $f(g)$ and the
-tangent line of $f(x)$ at $x=g$, see the figure below:
-
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            clip=false,
-            domain=0:2, range=0:6,ymax=4,ymin=0,
-            axis lines =left, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            xtick={1,1.666}, ytick={1,3},
-            xticklabels={$g_0$,$g$}, yticklabels={$f(g_0)$,$f(g)$},
-            axis on top,
-          ]         
-	  \addplot [textColor,dashed] plot coordinates {(1,0) (1,1)};
-          \addplot [textColor,dashed] plot coordinates {(0,1) (1,1)};
-          \addplot [textColor,dashed] plot coordinates {(0,3) (1.666,3)};
-          \addplot [textColor,dashed] plot coordinates {(1.666,0) (1.666,1)};
-
-          \addplot [textColor,dashed,very thick] plot coordinates {(1,1) (1.666,1)};
-          \node at (axis cs:1.333,1) [anchor=north] {$\underbrace{\hspace{.75in}}_{g-g_0}$};
-
-          \addplot [penColor4,very thick] plot coordinates {(1.666,1) (1.666,1.666)};
-          \addplot [penColor5,very thick] plot coordinates {(1.666,1.666) (1.666,3)};
-
-          \node at (axis cs:1.666,1.333) [anchor=west] {$f'(g_0)(g-g_0)$};
-          \node at (axis cs:1.666,2.333) [anchor=west] {$E(g)(g-g_0)$};
-
-          \addplot [very thick,penColor, smooth,domain=(0:7/4)] {-1/(x-2)};
-          \addplot [very thick,penColor2, smooth,domain=(0:2)] {x};
-
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.666,3)};  %% closed hole          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-
-Hence we see that
-\[
-f(g)-f(g_0) = \left(f'(g_0) + E(g)\right)(g-g_0),
-\]
-and so
-\[
-\frac{f(g)-f(g_0)}{g-g_0} = f'(g_0) + E(g).
-\]
-Combining this with the fact that 
-\[
-f'(g_0) = \lim_{g\to g_0} \frac{f(g)-f(g_0)}{g-g_0}
-\]
-we have that
-\begin{align*}
-f'(g_0) &= \lim_{g\to g_0}\frac{f(g)-f(g_0)}{g-g_0} \\
-&= \lim_{g\to g_0}f'(g_0) + E(g)\\
-&= f'(g_0) + \lim_{g\to g_0} E(g),
-\end{align*}
-and hence it follows that $\lim_{g\to g_0} E(g) = 0$. At this point,
-we may return to the ``well-worn path.''
-
-
-
-
-divide both sides by $h$ and set
-$g=g(x+h)$ and $g_0=g(x)$
-\[
-\frac{f(g(x+h))-f(g(x))}{h} = \left(f'(g(x)) +
-E(g(x+h))\right)\frac{g(x+h)-g(x)}{h}.
-\]
-Taking the limit as $h$ approaches $0$, we see 
-\begin{align*}
-\lim_{h\to 0}\frac{f(g(x+h))-f(g(x))}{h} &= \lim_{h\to 0}\left(f'(g(x))
-+ E(g(x+h))\right)\frac{g(x+h)-g(x)}{h}\\
-&= \lim_{h\to 0}\left(f'(g(x))
-+ E(g(x+h))\right)\lim_{h\to 0}\frac{g(x+h)-g(x)}{h}\\
-&= f'(g(x))g'(x).
-\end{align*}
-Hence, $\ddx f(g(x))= f'(g(x))g'(x)$.
-\end{explanation}
 
 
 It will take a bit of practice to make the use of the chain rule come

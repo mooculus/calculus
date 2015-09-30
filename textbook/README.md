@@ -5,9 +5,6 @@ add a problem with a graph, and finding f^{-1}(2) on a restricted domain.
 
 * In [Limit laws](limitLaws/) add more graphs to squeeze theorem.
 
-
-
-
 # Textbook overview
 Each lecture will have a
 	* welcome (Short paragraph/video along with outcomes)

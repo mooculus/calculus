@@ -1,0 +1,86 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Understand the statement of the Extreme Value Theorem.}
+
+\title[Dig-In:]{The extreme value theorem}
+
+\begin{document}
+\begin{abstract}
+  We examine a fact about continuous functions.
+\end{abstract}
+\maketitle
+
+\begin{definition}\hfil\index{maximum/minimum!absolute}
+\begin{enumerate}
+\item A function $f$ has an \dfn{absolute maximum} at $x=a$ in an
+  interval if $f(a)\ge f(x)$ for every $x$ and $a$ in that interval.
+\item A function $f$ has an \dfn{absolute minimum} at $x=a$ in an interval if
+  $f(a)\le f(x)$ for every $x$ in that interval.
+\end{enumerate} 
+An \dfn{absolute extremum}\index{extremum!absolute} is either an
+absolute maximum or an absolute minimum.
+\end{definition}
+
+If we are working on an finite closed interval, then we have the
+following theorem.
+
+\begin{theorem}[Extreme Value Theorem]\label{theorem:evt}\index{Extreme Value Theorem}
+If $f(x)$ is a continuous function for all $x$ in the closed interval
+$[a,b]$, then there are points $c$ and $d$ in $[a,b]$, such that
+$(c,f(c))$ is an absolute maximum and $(d,f(d))$ is an absolute
+minimum on $[a, b]$.
+
+Below, we see a geometric interpretation of this theorem.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6, xmin=0, xmax=6, ymin=0, ymax=2.5,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,2,4,5}, ytick={.2,2.2},
+            xticklabels={$a$,$c$,$d$,$b$}, yticklabels={$f(d)$,$f(c)$},
+            axis on top,
+          ]
+          \addplot [draw=none, fill=fill2, domain=(1:5)] {2.5} \closedcycle;
+
+          \addplot [textColor,dashed] plot coordinates {(0,2.2) (2,2.2)};
+          \addplot [textColor,dashed] plot coordinates {(0,.2) (4,.2)};
+          \addplot [textColor,dashed] plot coordinates {(2,0) (2,2.2)};
+          \addplot [textColor,dashed] plot coordinates {(4,0) (4,.2)};
+
+          \addplot [fill1,very thick] plot coordinates {(1,0) (1,2.5)};
+          \addplot [fill1,very thick] plot coordinates {(5,0) (5,2.5)};
+
+          \addplot [very thick,penColor, smooth,domain=(1.5:2.5)] {sin(deg(x*1.57-1.57)) + 1.2};%max
+          \addplot [very thick,penColor, smooth,domain=(3.5:4.5)] {sin(deg(x*1.57-1.57)) + 1.2};%min
+          \addplot [very thick,dashed,penColor!50!background, smooth,domain=(2.5:3.5)] {sin(deg(x*1.57 - 1.57)) + 1.2}; 
+          \addplot [very thick,dashed,penColor!50!background, smooth,domain=(1:1.5)] {sin(deg(x*1.57 - 1.57)) + 1.2}; 
+          \addplot [very thick,dashed,penColor!50!background, smooth,domain=(4.5:5)] {sin(deg(x*1.57 - 1.57)) + 1.2}; 
+          
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2.2)};  %% closed hole          
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,.2)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A geometric interpretation of the Extreme Value Theorem. A
+%%   continuous function $f(x)$ attains both an absolute maximum and an
+%%   absolute minimum on an interval $[a,b]$. Note, it may be the case
+%%   that $a=c$, $b=d$, or that $d<c$.}
+%% \label{figure:extreme-value}
+%% \end{marginfigure}
+\end{image}
+\end{theorem}
+\begin{question}
+  Would this theorem hold if we were working on an open interval?
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{hint}
+    Consider $\tan(\theta)$ for $-\pi/2 < \theta < \pi/2$. Does this function achieve its maximum and minimum? 
+  \end{hint}
+\end{question}
+
+\end{document}

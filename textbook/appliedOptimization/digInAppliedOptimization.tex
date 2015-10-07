@@ -1,0 +1,324 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{}
+
+\title[Dig-In:]{Applied optimization}
+
+\begin{document}
+\begin{abstract}
+  Now we put our optimization skills to work.
+\end{abstract}
+\maketitle
+
+
+In this section, we will present several worked examples of
+optimization problems. Our method for solving these problems is
+essentially the following:
+\begin{itemize}
+\item[\textbf{Draw a picture.}] If possible, draw a schematic picture with all the relevant information. 
+\item[\textbf{Determine your goal.}] We need identify what needs to be
+  optimized.
+\item[\textbf{Find constraints.}] What limitations are set on our
+  optimization?
+\item[\textbf{Solve for a single variable.}] Now you should have a function to optimize.
+\item[\textbf{Use calculus to find the extreme values.}] Be sure to check your answer!
+\end{itemize}
+
+\begin{example}
+You want to sell a certain number $n$ of items in order to maximize your
+profit.  Market research tells you that if you set the price at \$$1.50$, you
+will be able to sell $5000$ items, and for every $10$ cents you lower the price
+below \$$1.50$ you will be able to sell another $1000$ items.  Suppose that
+your fixed costs (``start-up costs'') total \$$2000$, and the per item cost
+of production (``marginal cost'') is \$$0.50$.  Find the price to set per
+item and the number of items sold in order to maximize profit, and also
+determine the maximum profit you can get.
+\end{example}
+
+\begin{solution}
+The first step is to convert the problem into a function maximization
+problem. The revenue for selling $n$ items at $x$ dollars is given by
+\[
+r(x) = nx
+\]
+and the cost of producing $n$ items is given by
+\[
+c(x) = 2000+0.5 n. 
+\]
+However, from the problem we see that the number of items sold is
+itself a function of $x$,
+\[
+n(x) =5000+1000(1.5-x)/0.10
+\]
+So profit is give by:
+\begin{align*}
+P(x) &= r(x) - c(x)\\
+&= nx - (2000+0.5 n)\\
+&= (5000+1000(1.5-x)/0.10)x - 2000 - 0.5 (5000+1000(1.5-x)/0.10)\\
+&=-10000x^2+25000x-12000. 
+\end{align*}
+We want to know the maximum value of this function when $x$ is between
+0 and $1.5$. The derivative is $P'(x)=-20000x+25000$, which is zero
+when $x=1.25$. Since $P''(x)=-20000<0$, there must be a local maximum
+at $x=1.25$, and since this is the only critical value it must be a
+global maximum as well. Alternately, we could compute $P(0)=-12000$,
+$P(1.25)=3625$, and $P(1.5)=3000$ and note that $P(1.25)$ is the
+maximum of these. Thus the maximum profit is \$$3625$, attained when we
+set the price at \$$1.25$ and sell $7500$ items. 
+\end{solution}
+
+
+\begin{example}
+If you fit the largest possible cone inside a sphere, what fraction of the
+volume of the sphere is occupied by the cone?  (Here by ``cone'' we mean a
+right circular cone, i.e., a cone for which the base is perpendicular to
+the axis of symmetry, and for which the cross-section cut perpendicular to
+the axis of symmetry at any point is a circle.)
+\end{example}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+\draw[very thick,penColor2!20!background] (2,0) arc (0:180:2 and .7);% top half of ellipse
+\draw [penColor, very thick] (0,1) ellipse (1.7 and .5);
+\draw[penColor, very thick] (1.7,.95) -- (0,-2);
+\draw[penColor, very thick] (-1.7,.95) -- (0,-2);
+\draw[very thick,penColor2] (-2,0) arc (180:360:2 and .7);% bottom half of ellipse
+
+
+\draw [penColor2, very thick] (0,0) circle [radius=2];
+
+\draw[penColor2, dashed, very thick] (0,0) -- (2,0);
+\draw[penColor, dashed, very thick] (0,1) -- (1.7,1);
+\draw[penColor, dashed, very thick] (0,1) -- (0,-2);
+
+\node [below,penColor2] at (1.5,0) {$R$};
+\node [above,penColor] at (.85,1) {$r$};
+\node [left,penColor] at (0,-.33) {$h$};
+
+\node [penColor,left] at (-1.5,1.42) {$V_{\text{c}} = \frac{\pi r^2h}{3}$};
+\node [penColor2, right] at (1.5,-1.42) {$V_{s} = \frac{4\pi R^3}{3}$};
+\end{tikzpicture}
+\caption{A cone inside a sphere.}
+\label{fig:cone-sphere}
+\end{marginfigure}
+
+\begin{solution}
+Let $R$ be the radius of the sphere, and let $r$ and $h$ be the base
+radius and height of the cone inside the sphere.  Our goal is to
+maximize the volume of the cone: $V_c=\pi r^2h/3$.  The largest $r$
+could be is $R$ and the largest $h$ could be is $2R$.
+
+Notice that the function we want to maximize, $\pi r^2h/3$, depends on
+\textit{two} variables.  Our next step is to find the relationship and
+use it to solve for one of the variables in terms of the other, so as
+to have a function of only one variable to maximize.  In this problem,
+the condition is apparent in the figure, as the upper corner of the
+triangle, whose coordinates are $(r,h-R)$, must be on the circle of
+radius $R$. Write
+\[
+r^2 + (h-R)^2=R^2.
+\] 
+Solving for $r^2$, since $r^2$ is found in the formula for the volume
+of the cone, we find 
+\[
+r^2=R^2-(h-R)^2.
+\]  
+Substitute this into the formula for the volume of the cone to find
+
+\begin{align*}
+ V_{\text{c}}(h)&=\pi(R^2-(h-R)^2)h/3 \\
+&=-{\pi\over3}h^3+{2\over3}\pi h^2R
+\end{align*}
+
+We want to maximize $V_{\text{c}}(h)$ when $h$ is between 0 and $2R$.  We
+solve 
+\[
+V_{\text{c}}'(h)=-\pi h^2+(4/3)\pi h R=0,
+\] 
+finding $h=0$ or $h=4R/3$.  We compute
+\[
+V_{\text{c}}(0)=V_{\text{c}}(2R)=0\qquad\text{and}\qquad V_{\text{c}}(4R/3)=(32/81)\pi R^3.
+\] 
+The maximum is the latter. Since the volume of the sphere is $(4/3)\pi
+R^3$, the fraction of the sphere occupied by the cone is
+\[
+\frac{(32/81)\pi R^3}{(4/3)\pi R^3}=\frac{8}{27}\approx 30\%.
+\]
+\end{solution}
+
+
+
+
+
+\begin{example}
+You are making cylindrical containers to contain a given volume.  Suppose
+that the top and bottom are made of a material that is $N$ times as
+expensive (cost per unit area) as the material used for the lateral side of
+the cylinder.  Find (in terms of $N$) the ratio of height to base radius of
+the cylinder that minimizes the cost of making the containers.
+\end{example}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+\draw[penColor,very thick] (0,2) ellipse (2 and .7);
+\draw[very thick,penColor!20!background] (2,-2) arc (0:180:2 and .7);% top half of ellipse
+\draw[very thick,penColor] (-2,-2) arc (180:360:2 and .7);% bottom half of ellipse
+
+\draw[penColor, very thick] (2,2) -- (2,-2);
+\draw[penColor, very thick] (-2,2) -- (-2,-2);
+
+\draw[penColor, dashed, very thick] (0,2) -- (2,2);
+\draw[penColor, dashed, very thick] (0,2) -- (0,-2);
+
+\node [above,penColor] at (1,2) {$r$};
+\node [left,penColor] at (0,-.33) {$h$};
+\node [penColor,right] at (2,-1.42) {$V = \pi r^2h$};
+\end{tikzpicture}
+\caption{A cylinder with radius $r$, height $h$, volume $V$, $c$ for
+  the cost per unit area of the lateral side of the cylinder.}
+\label{fig:cylinder}
+\end{marginfigure}
+
+\begin{solution}
+First we draw a picture, see Figure~\ref{fig:cylinder}.  Now we can
+write an expression for the cost of materials:
+\[
+  C = 2\pi crh+2\pi r^2Nc.
+\]
+Since we know that $V=\pi r^2h$, we can use this relationship to
+eliminate $h$ (we could eliminate $r$, but it's a little easier if we
+eliminate $h$, which appears in only one place in the above formula
+for cost).  We find
+\begin{align*}
+C(r)&=2c\pi r\frac{V}{\pi r^2}+2Nc\pi r^2\\
+&=\frac{2cV}{r}+2Nc\pi r^2.
+\end{align*}
+We want to know the minimum value of this function when $r$ is in
+$(0,\infty)$. Setting
+\[
+C'(r)=-2cV/r^2+4Nc\pi r =0
+\]
+we find $r=\sqrt[3]{V/(2N\pi)}$.  Since $C''(r)=4cV/r^3+4Nc\pi$ is
+  positive when $r$ is positive, there is a local minimum at the
+  critical value, and hence a global minimum since there is only one
+  critical value.
+
+Finally, since $h=V/(\pi r^2)$, 
+\begin{align*}
+\frac{h}{r}&=\frac{V}{\pi r^3}\\ 
+&=\frac{V}{\pi(V/(2N\pi))}\\ 
+&=2N,
+\end{align*}
+so the minimum cost occurs when the height $h$ is $2N$ times the
+radius. If, for example, there is no difference in the cost of
+materials, the height is twice the radius.
+\end{solution}
+
+
+
+
+\begin{example}\label{exam:sand and road} Suppose you want to reach a point $A$ that is located across the
+sand from a nearby road, see Figure~\ref{fig:roadsand}.  Suppose that
+the road is straight, and $b$ is the distance from $A$ to the closest
+point $C$ on the road.  Let $v$ be your speed on the road, and let
+$w$, which is less than $v$, be your speed on the sand.  Right now you
+are at the point $D$, which is a distance $a$ from $C$.  At what point
+$B$ should you turn off the road and head across the sand in order to
+minimize your travel time to $A$?
+\end{example}
+
+\begin{marginfigure}
+\begin{tikzpicture}
+\draw[fill2, fill=fill2] (0,0) rectangle (6,4);
+\draw[fill1, fill=fill1] (0,.4) rectangle (6,1);
+
+\node[penColor] at (.5,.75) {\scalebox{-2}[2] \Bicycle};
+
+\draw [penColor, fill] (1,.75) circle [radius=.07];
+\draw [penColor, fill] (2.5,.75) circle [radius=.07];
+\draw [penColor, fill] (5,.75) circle [radius=.07];
+\draw [penColor, fill] (5,3) circle [radius=.07];
+
+\draw[penColor2, very thick, ->] (1.2,.75) -- (2.3,.75);
+\draw[penColor2, very thick, ->] (2.6,.85) -- (4.9,2.9);
+
+\draw[penColor, very thick, dashed] (5,.75) -- (5,3);
+\draw[penColor, very thick, dashed] (5,.75) -- (2.5,.75);
+\draw[penColor, very thick, dashed] (1,.4) -- (5,.4);
+
+\node [right,penColor] at (5,3) {$A$};
+\node [below,penColor] at (1,.75) {$D$};
+\node [below,penColor] at (2.5,.75) {$B$};
+\node [below,penColor] at (5,.75) {$C$};
+\node [right,penColor] at (5,2) {$b$};
+\node [above,penColor] at (4,.75) {$x$};
+\node [left,penColor2] at (3.8,2) {$w$};
+\node [above,penColor2] at (1.75,.75) {$v$};
+\node [below,penColor] at (3,.4) {$a$};
+\end{tikzpicture}
+\caption{A road where one travels at rate $v$, with sand where one
+  travels at rate $w$. Where should one turn off of the road to
+  minimize total travel time from $D$ to $A$?}
+\label{fig:roadsand}
+\end{marginfigure}
+
+\begin{solution}
+Let $x$ be the distance short of $C$ where you turn off, the distance
+from $B$ to $C$.  We want to minimize the total travel time.  Recall
+that when traveling at constant velocity, time is distance divided by
+velocity.
+
+You travel the distance from $D$ to $B$ at speed $v$, and then the
+distance from $B$ to $A$ at speed $w$.  The distance from $D$ to $B$
+is $a-x$. By the Pythagorean theorem, the distance from $B$ to $A$
+is
+\[
+\sqrt{x^2+b^2}.
+\] 
+Hence the total time for the trip is
+\[
+   T(x)=\frac{a-x}{v}+\frac{\sqrt{x^2+b^2}}{w}.
+\]
+We want to find the minimum value of $T$ when $x$ is between 0 and
+$a$.  As usual we set $T'(x)=0$ and solve for $x$. Write
+\[
+  T'(x)=-\frac{1}{v}+\frac{x}{w\sqrt{x^2+b^2}} =0.
+\]
+We find that 
+\[
+x=\frac{wb}{\sqrt{v^2-w^2}}
+\]
+Notice that $a$ does not appear in the last expression, but $a$ is not
+irrelevant, since we are interested only in critical values that are
+in $[0,a]$, and $wb/\sqrt{v^2-w^2}$ is either in this interval or not.
+If it is, we can use the second derivative to test it:
+\[
+T''(x) = {b^2\over (x^2+b^2)^{3/2}w}.
+\]
+Since this is always positive there is a local minimum at the critical
+point, and so it is a global minimum as well.
+
+If the critical value is not in $[0,a]$ it is larger than $a$. In this
+case the minimum must occur at one of the endpoints. We can compute
+\begin{align*}
+T(0)&={a\over v}+{b\over w} \\
+T(a)&={\sqrt{a^2+b^2}\over w} 
+\end{align*}
+but it is difficult to determine which of these is smaller by direct
+comparison. If, as is likely in practice, we know the values of $v$,
+$w$, $a$, and $b$, then it is easy to determine this. With a little
+cleverness, however, we can determine the minimum in general. We have seen that
+$T''(x)$ is always positive, so the derivative $T'(x)$ is always increasing.
+We know that at $wb/\sqrt{v^2-w^2}$ the derivative is zero, so for
+values of $x$ less than that critical value, the derivative is
+negative. This means that $T(0)>T(a)$, so the minimum occurs when $x=a$.
+
+So the upshot is this: If you start farther away from $C$ than
+$wb/\sqrt{v^2-w^2}$ then you always want to cut across the sand 
+when you are a distance $wb/\sqrt{v^2-w^2}$ from point $C$. If you
+start closer than this to $C$, you should cut directly across the sand.
+\end{solution}
+
+\end{document}

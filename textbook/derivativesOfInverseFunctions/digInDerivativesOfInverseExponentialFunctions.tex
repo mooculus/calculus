@@ -1,0 +1,114 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+
+\outcome{Find derivatives of inverse functions in general.}
+\outcome{Understand how the derivative of an inverse function relates to the original derivative.}
+\outcome{Explain the previous formula for the derivative of the natural log function.}
+\outcome{Calculate derivatives of logs in any base.}
+
+\title[Dig-In:]{Derivatives of inverse exponential functions}
+
+\begin{document}
+\begin{abstract}
+  We derive the derivatives of inverse exponential functions using
+  implicit differentiation.
+\end{abstract}
+\maketitle
+
+
+\section{The derivative of the natural logarithm}
+
+Geometrically, there is a close relationship between the plots of
+$e^x$ and $\ln(x)$, they are reflections of each other over the line
+$y=x$:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6,xmax=6,ymin=-6,ymax=6,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, smooth, domain=(-6:6)] {e^x};
+          \addplot [very thick, penColor2, samples=100, smooth, domain=(.002:6)] {ln(x)};
+          \addplot [dashed, textColor, domain=(-6:6)] {x};
+          \node at (axis cs:-2,1) [penColor] {$e^x$};
+          \node at (axis cs:1,-2) [penColor2] {$\ln(x)$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $e^x$ and $\ln(x)$. Since they are inverse
+%%   functions, they are reflections of each other across the line $y=x$.}
+%% \label{plot:e^x lnx}
+\end{image}
+One may suspect that we can use the fact that $\ddx e^x = e^x$, to
+deduce the derivative of $\ln(x)$.  We will use implicit
+differentiation to exploit this relationship computationally.
+
+\begin{theorem}[The Derivative of the Natural Logrithm]\index{derivative!of the natural logarithm}
+\[
+\ddx \ln(x) = \frac{1}{x}.
+\]
+\begin{explanation}
+ %% To start, note that the Inverse Function Theorem assures us that this
+  %% derivative actually exists.
+  Recall
+\[
+\ln(x) = y \qquad\Leftrightarrow\qquad e^y = x.
+\]
+Hence
+\begin{align*}
+e^y &= x\\
+\ddx e^y &= \ddx x &\text{Differentiate both sides.}\\
+e^y \dd[y]{x} &= 1 &\text{Implicit differentiation.}\\
+\dd[y]{x} &= \frac{1}{e^y} = \frac{1}{x}&\text{Solve for $\dd[y]{x}$.}
+\end{align*}
+Since $y=\ln(x)$, $\ddx \ln(x) = \frac{1}{x}$.
+\end{explanation}
+\end{theorem}
+
+From this fact, we can deduce another:
+
+\begin{theorem}[The derivative of any logarithm]
+  Let $b$ be a positive real number. Then
+  \[
+  \ddx \log_b(x) = \frac{1}{x\ln(b)}.
+  \]
+  \begin{explanation}
+    Here we need to remember that
+    \[
+    \log_b(x) = \frac{\ln(x)}{\ln(b)}.
+    \]
+    So we may write
+    \begin{align*}
+      \ddx \log_b(x) &= \frac{\ln(x)}{\ln(b)}\\
+      &= \frac{1}{x\ln(b)}.
+    \end{align*}
+  \end{explanation}
+\end{theorem}
+
+
+
+
+
+\begin{theorem}[The derivative of an exponential function]
+  \[
+  \ddx a^x = a^x\cdot \ln(a).
+  \]
+  \begin{explanation}
+    Here we need to be slightly sneaky. Note
+    \[
+    a^x = e^{\ln(a^x)} = e^{x\ln(a)}.
+    \]
+    So we may write
+    \begin{align*}
+      \ddx a^x &= \ddx e^{x\ln(a)}\\
+      &= e^{x\ln(a)} \cdot \ln(a)\\
+      &= a^x\cdot \ln(a).
+    \end{align*}
+  \end{explanation}
+\end{theorem}
+
+\end{document}

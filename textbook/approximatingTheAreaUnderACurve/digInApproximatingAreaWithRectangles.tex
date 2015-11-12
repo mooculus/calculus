@@ -4,6 +4,11 @@
 
 \title[Dig-In:]{Approximating area with rectangles}
 
+\outcome{Define area.}
+\outcome{Understand the relationship between area under a curve and sums of rectangles.}
+\outcome{Approximate area under a curve.}
+\outcome{Compute left, right, and midpoint Riemann Sums with 10 or fewer rectangles.}
+
 \begin{document}
 \begin{abstract}
   We introduce the basic idea of using rectangles to approximate the
@@ -11,7 +16,7 @@
 \end{abstract}
 \maketitle
 
-\section{Limits and areas}
+\section{Rectangles and areas}
 
 We want to compute the area between the curve $y=f(x)$ and the
 horizontal axis on the interval $[a,b]$:
@@ -37,44 +42,47 @@ horizontal axis on the interval $[a,b]$:
 \end{tikzpicture}
 \end{image}
 One way to do this would be to approximate the area with rectangles.
-\begin{image}
-  \begin{tikzpicture}[
-      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
-	\begin{axis}[
-            domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.2,
-            width=6in,
-            height=3in,xtick={1,6},
-            xticklabels={$a$,$b$},
-            ytick style={draw=none},
-            yticklabels={},
-            axis lines=center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \foreach \rectnumber in {1,2,...,5}
-                   {
-                     \addplot [draw=penColor,fill=fillp] plot coordinates
-                              {({1+(\rectnumber - 1) * 1},{f(1+\rectnumber * 1)})
-                               ({1+(\rectnumber) * 1},{f(1+\rectnumber * 1) })} \closedcycle;
-                   };
-                   \addplot [very thick,penColor, smooth] {f(x)};
-                   \foreach \rectnumber in {1,2,...,5}
-        \end{axis}
-  \end{tikzpicture}
-\end{image}
-We could find the area exactly if we could compute the limit as the
-width of the rectangles goes to zero and the number of rectangles goes
-to infinity.
-
 \begin{definition}
-  If we are apporoximating the area between a curve and the $x$-axis
+  If we are approximating the area between a curve and the $x$-axis
   on $[a,b]$ with $n$ rectangles of width $\Delta x$, then
   \[
   \Delta x = \frac{b-a}{n}.
   \]
 \end{definition}
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={1,6},
+        xticklabels={$a$,$b$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {1,2,...,5}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+(\rectnumber - 1) * 1},{f(1+\rectnumber * 1)})
+                            ({1+(\rectnumber) * 1},{f(1+\rectnumber * 1) })} \closedcycle;
 
+                 \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates
+                          {(\rectnumber+.1,0)
+                            (1+\rectnumber-.1,0)};
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+               \node at (axis cs:1.5,-.5) {$\Delta x$};
+               \node at (axis cs:2.5,-.5) {$\Delta x$};
+               \node at (axis cs:3.5,-.5) {$\Delta x$};
+               \node at (axis cs:4.5,-.5) {$\Delta x$};
+               \node at (axis cs:5.5,-.5) {$\Delta x$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
 \begin{question}
   Suppose we wanted to approximate area between the curve $y=x^2+1$
   and the $x$-axis on the interval $[-1,1]$, with $8$ rectangles. What is $\Delta x$?
@@ -85,34 +93,83 @@ to infinity.
   \end{prompt}
 \end{question}
 
-\begin{definition}
-  When approximating an area with rectangles, the \dfn{grid points}
-  are the $x$-coordinates that determine the edges of the rectangles.
+
+
+We could find the area exactly if we could compute the limit as the
+width of the rectangles goes to zero and the number of rectangles goes
+to infinity.
+
 \begin{image}
   \begin{tikzpicture}[
-      declare function = {f(\x) = pow(\x,2) + 1;}
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={1,6},
+        xticklabels={$a$,$b$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
       ]
-	\begin{axis}[
-            domain=-1.2:1.2, xmin =-1.09545,xmax=1.09545,ymax=2.2,ymin=-0.2,
-            clip=false,
-            axis lines=center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \foreach \rectnumber in {1,2,...,8}
-          {
-          \addplot [draw=penColor,fill=fillp]
-          plot coordinates {({-1+(\rectnumber -1)*2/8},{f(-1+(\rectnumber -.5)*2/8)}) ({-1+(\rectnumber)*2/8},{f(-1+(\rectnumber -.5)*2/8)})}
-          \closedcycle;
-          }
-          \addplot [very thick,penColor, smooth] {f(x)};
-        \end{axis}
-\end{tikzpicture}
+      \foreach \rectnumber in {1,2,...,30}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+(\rectnumber - 1) * 5/30},{f(1+\rectnumber * 5/30)})
+                            ({1+(\rectnumber) * 5/30},{f(1+\rectnumber * 5/30) })} \closedcycle;
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
+
+\begin{definition}
+  When approximating an area with $n$ rectangles, the \dfn{grid
+    points}
+  \[
+  x_0,x_1,x_2,\dots,x_n
+  \]
+  are the $x$-coordinates that determine the edges of the
+  rectangles. In the graph below, we've numbered the rectangles to
+  help you see the relation between the indices of the grid points
+  and the $k$th rectangle.
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={1,2,...,6},
+        xticklabels={$x_0=a$,$x_1$,$x_2$,$x_3$,$x_4$,$x_5=b$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {1,2,...,5}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+(\rectnumber - 1) * 5/5},{f(1+\rectnumber * 5/5)})
+                            ({1+(\rectnumber) * 5/5},{f(1+\rectnumber * 5/5) })} \closedcycle;
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+               \node[fillp!50!black] at (axis cs:1.5,1) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:2.5,1) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:3.5,1) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:4.5,1) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:5.5,1) {\huge$\mathsf{5}$};       
+    \end{axis}
+  \end{tikzpicture}
 \end{image}
 Note, if we are approximating the area between a curve and the
-horizontal axis for $a\le x\le b$ with $n$ rectangles, then it is
-always the case that
+horizontal axis on $[a,b]$ with $n$ rectangles, then it is always the
+case that
 \[
 x_0=a\qquad\text{and}\qquad x_n = b.
 \]
@@ -128,6 +185,8 @@ x_0=a\qquad\text{and}\qquad x_n = b.
     We'll have $\answer{12}$ grid points.
   \end{prompt}
 \end{question}
+
+
 
 
 
@@ -151,139 +210,140 @@ compute the area under a curve, we should decide on exactly
 
 Here are three options for sample points that we consider:
 
-\paragraph{Rectangles defined by left endpoints}
+\subsection{Rectangles defined by left-endpoints}
 
-We can set the rectangles up so that the left endpoint touches the
+We can set the rectangles up so that the left-endpoint touches the
 curve.
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={1,2,...,5},
+        xticklabels={$x_1^*$,$x_2^*$,$x_3^*$,$x_4^*$,$x_5^*$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {1,2,...,5}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+\rectnumber-1) * 5/5},{f(1+(\rectnumber-1) * 5/5)})
+                            ({(1+\rectnumber) * 5/5},{f(1+(\rectnumber-1) * 5/5) })} \closedcycle;
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+               \node[fillp!50!black] at (axis cs:1.5,1) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:2.5,1) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:3.5,1) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:4.5,1) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:5.5,1) {\huge$\mathsf{5}$}; 
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+In the graph above, the $k$th rectangle is touching the curve at its
+left-endpoint.
+
+
+
+
+
+\subsection{Rectangles defined by right-endpoints}
+
+We can set the rectangles up so that the right-endpoint touches the
+curve.
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={2,3,...,6},
+        xticklabels={$x_1^*$,$x_2^*$,$x_3^*$,$x_4^*$,$x_5^*$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {1,2,...,5}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+\rectnumber-1) * 5/5},{f(1+(\rectnumber) * 5/5)})
+                            ({(1+\rectnumber) * 5/5},{f(1+(\rectnumber) * 5/5) })} \closedcycle;
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+               \node[fillp!50!black] at (axis cs:1.5,1) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:2.5,1) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:3.5,1) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:4.5,1) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:5.5,1) {\huge$\mathsf{5}$}; 
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+In the graph above, the $k$th rectangle is touching the curve at its
+right-endpoint.
+
+\subsection{Rectangles defined by midpoints}
+
 
 \begin{image}
   \begin{tikzpicture}[
-      declare function = {f(\x) = pow(\x,2) + 1;}
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={1.5,2.5,...,5.5},
+        xticklabels={$x_1^*$,$x_2^*$,$x_3^*$,$x_4^*$,$x_5^*$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
       ]
-	\begin{axis}[
-            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
-            axis lines=center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \foreach \rectnumber in {1,2,...,8}
-                   {
-                     \addplot [draw=penColor,fill=fillp]
-                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{f(-1+(\rectnumber-1) * 2/8)} ) ({-1+(\rectnumber) * 2/8},{f(-1+(\rectnumber-1) * 2/8) })} \closedcycle;
-                     }
-          \addplot [very thick,penColor, smooth] {f(x)};
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
-          
-          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
-          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
-          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
-          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
-        \end{axis}
-\end{tikzpicture}
+      \foreach \rectnumber in {1,2,...,5}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+\rectnumber-1) * 5/5},{f(1+(\rectnumber-.5) * 5/5)})
+                            ({(1+\rectnumber) * 5/5},{f(1+(\rectnumber-.5) * 5/5) })} \closedcycle;
+                 \addplot [draw=black,dashed] plot coordinates
+                                   {({1+\rectnumber-.5) * 5/5},{0 * 5/5)})
+                            ({(1+\rectnumber-.5) * 5/5},{f(1+(\rectnumber-.5) * 5/5) })};
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+               \node[fillp!50!black] at (axis cs:1.5,1) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:2.5,1) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:3.5,1) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:4.5,1) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:5.5,1) {\huge$\mathsf{5}$}; 
+    \end{axis}
+  \end{tikzpicture}
 \end{image}
+In the graph above, the $k$th rectangle is touching the curve at its
+midpoint.
 
-In the graph above, every rectangle is touching the curve at its
-left-endpoint.
 
 \begin{question}
-  What are the grid points for the rectangles above?
-  \begin{enumerate}
-  \item $x_0$ = 
-  \end{enumerate}
+  Which approximation is most accurate?
+  \begin{multipleChoice}
+    \choice{Approximations with left-endpoints.}
+    \choice{Approximations with right-endpoints.}
+    \choice{Approximations with midpoints.}
+    \choice[correct]{It depends on the function.}
+  \end{multipleChoice}
 \end{question}
 
 
 
-
-\paragraph{Rectangles defined by right endpoints}
-
-We can set the rectangles up so that the right endpoint touches the
-curve.
-
-\begin{image}
-  \begin{tikzpicture}[
-      declare function = {f(\x) = pow(\x,2) + 1;}
-    ]
-    \begin{axis}[
-        domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
-        axis lines=center, xlabel=$x$, ylabel=$y$,
-        every axis y label/.style={at=(current axis.above origin),anchor=south},
-        every axis x label/.style={at=(current axis.right of origin),anchor=west},
-        %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
-        axis on top,
-      ]
-      \foreach \rectnumber in {1,2,...,8}
-               {
-                 \addplot [draw=penColor,fill=fillp]
-                 plot coordinates {({-1+(\rectnumber - 1) * 2/8},{f(-1+\rectnumber * 2/8)} ) ({-1+(\rectnumber) * 2/8},{f(-1+\rectnumber * 2/8)})} \closedcycle;
-               }
-               \addplot [very thick,penColor, smooth] {f(x)};
-               %          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
-               %          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
-               %          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
-               %          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
-               
-               %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
-               %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
-               %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
-               %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
-    \end{axis}
-  \end{tikzpicture}
-\end{image}
-
-
-In the graph above, every rectangle is touching the curve at its
-right-endpoint.
-
-\paragraph{Rectangles defined by midpoints}
-
-
-\begin{image}
-  \begin{tikzpicture}[
-      declare function = {f(\x) = pow(\x,2) + 1;}
-      ]
-	\begin{axis}[
-            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
-            axis lines=center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
-            axis on top,
-          ]
-          \foreach \rectnumber in {1,2,...,8}
-                   {
-                     \addplot [draw=penColor,fill=fillp]
-                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{f(-1+(\rectnumber-.5) * 2/8)} ) ({-1+(\rectnumber) * 2/8},{f(-1+(\rectnumber -.5)* 2/8)})} \closedcycle;
-                   }
-          \addplot [very thick,penColor, smooth] {f(x)};
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
-          
-          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
-          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
-          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
-          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-
-
-In the graph above, every rectangle is touching the curve at its
-midpoint.
-
-\section{Riemann sums}
+\section{Riemann sums and approximating area}
 
 Once we know how to identify our rectangles, we can compute some
-approximate areas.
-
-
-From this definition we see that if we are approximating area with $n$ rectangles, then 
+approximate areas. If we are approximating area with $n$ rectangles, then 
 \begin{align*}
   \text{Area} &\approx \sum_{k=1}^n (\text{height of $k$th rectangle})\times(\text{width of $k$th rectangle}) \\
   &=\sum_{k=1}^n  f(x_k^*)\Delta x \\
@@ -296,66 +356,378 @@ From this definition we see that if we are approximating area with $n$ rectangle
   \[
   \sum_{k=1}^n  f(x_k^*)\Delta x  = f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x + \dots +   f(x_n^*)\Delta x
   \]
-  is called a \dfn{Riemann sum}, pronounced ``ree-mahn'' sum.
+  is called a \dfn{Riemann sum}, pronounced ``ree-mahn'' sum. 
 \end{definition}
 
-
-
-\paragraph{Rectangles defined by a left endpoint}
-
+A Riemann sum computes an approximation of the area between a curve
+and the $x$-axis on the interval $[a,b]$. It can be defined several
+different ways. In our class, it will be defined via left-endpoints,
+right-endpoints, or midpoints. Here we see the explicit connection
+between a Riemann sum defined by left-endpoints and the area between a curve
+and the $x$-axis on the interval $[a,b]$:
 \begin{image}
   \begin{tikzpicture}[
-      declare function = {f(\x) = pow(\x,2) + 1;}
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,
+        xtick style={draw=none},
+        xticklabels={},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {1,2,...,5}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+\rectnumber-1) * 5/5},{f(1+(\rectnumber-1) * 5/5)})
+                            ({(1+\rectnumber) * 5/5},{f(1+(\rectnumber-1) * 5/5) })} \closedcycle;
+                 \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates
+                          {(\rectnumber+.1,0)
+                            (1+\rectnumber-.1,0)};
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+               \node at (axis cs:1.5,-.5) {$\Delta x$};
+               \node at (axis cs:2.5,-.5) {$\Delta x$};
+               \node at (axis cs:3.5,-.5) {$\Delta x$};
+               \node at (axis cs:4.5,-.5) {$\Delta x$};
+               \node at (axis cs:5.5,-.5) {$\Delta x$};
+
+               \node at (axis cs:1.5,1) {\large$f(x_1^*)\Delta x$};
+               \node at (axis cs:2.5,1) {\large$f(x_2^*)\Delta x$};
+               \node at (axis cs:3.5,1) {\large$f(x_3^*)\Delta x$};
+               \node at (axis cs:4.5,1) {\large$f(x_4^*)\Delta x$};
+               \node at (axis cs:5.5,1) {\large$f(x_5^*)\Delta x$};
+
+               \node[anchor=south] at (axis cs:1,{f(1)}) {$f(x_1^*)$};
+               \node[anchor=south] at (axis cs:2,{f(2)}) {$f(x_2^*)$};
+               \node[anchor=south] at (axis cs:3,{f(3)}) {$f(x_3^*)$};
+               \node[anchor=south] at (axis cs:4,{f(4)}) {$f(x_4^*)$};
+               \node[anchor=south] at (axis cs:5,{f(5)}) {$f(x_5^*)$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+Here is the associated Riemann sum
+\[
+\sum_{k=1}^5  f(x_k^*)\Delta x  = f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x + f(x_4^*)\Delta x + f(x_5^*)\Delta x.
+\]
+
+
+
+\subsection{Rectangles defined by a left-endpoint}
+
+\begin{example}
+  Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
+  the $x$-axis on the interval $[-1,3]$ using a left-endpoint Riemann
+  sum with $n=5$ rectangles.
+  
+  \begin{explanation}
+    First note that the width of each rectangle is
+    \[
+    \Delta x = \frac{3-(-1)}{5} = \answer[given]{4/5}.
+    \]
+    The grid points define the edges of the rectangle and are seen below:
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = pow(\x/2,3) -\x+2;}
       ]
 	\begin{axis}[
-            domain=-1.2:1.2, xmin =-1.2,xmax=1.2,ymax=2.2,ymin=-.2,
+            domain=-1.2:3.2, xmin =-1.2,xmax=3.2,ymax=4,ymin=-.2,
+            width=6in,
+            height=3in,
             axis lines=center, xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            %xtick={1,1.25,1.5,1.75,2}, ytickmin=4, ytickmax=1,
+            xtick={-1,-.2,...,3.8},
+            xticklabels={$x_0=-1$,$x_1=-0.2$,$x_2=0.6$,$x_3=1.4$,$x_4=2.2$,$x_5=3$},
+            ytick style={draw=none},
+            yticklabels={},
             axis on top,
           ]
-          \foreach \rectnumber in {1,2,...,8}
+          \foreach \rectnumber in {1,2,...,5}
                    {
-                     \addplot [draw=penColor,fill=fillp]
-                     plot coordinates {({-1+(\rectnumber - 1) * 2/8},{f(-1+(\rectnumber-1) * 2/8)} ) ({-1+(\rectnumber) * 2/8},{f(-1+(\rectnumber-1) * 2/8) })} \closedcycle;
-                   }
-          \addplot [very thick,penColor, smooth] {f(x)};
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.25,1.06)};  %% closed hole       
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.5,1.25)};  %% closed hole  
-%          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.75,1.56)};  %% closed hole       
-          
-          %\node at (axis cs:1,1) [textColor,above] {$f(x_0^*)$};
-          %\node at (axis cs:1.25,1.06) [textColor,above] {$f(x_1^*)$};
-          %\node at (axis cs:1.5,1.3) [textColor,above] {$f(x_2^*)$};
-          %\node at (axis cs:1.75,1.6) [textColor,above] {$f(x_3^*)$};
+                     \addplot [draw=penColor,fill=fillp] plot coordinates
+                              {({-1+(\rectnumber-1) * 4/5},{f(-1+(\rectnumber-1) * 4/5)})
+                                ({-1+(\rectnumber) * 4/5},{f(-1+(\rectnumber-1) * 4/5) })} \closedcycle;
+               };
+                   \addplot [very thick,penColor, smooth] {f(x)};
         \end{axis}
 \end{tikzpicture}
 \end{image}
-
-
+On the other hand, the sample points identify which endpoints we use:
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = pow(\x/2,3) -\x+2;}
+      ]
+	\begin{axis}[
+            domain=-1.2:3.2, xmin =-1.2,xmax=3.2,ymax=4,ymin=-.2,
+            width=6in,
+            height=3in,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-1,-.2,...,3},
+            xticklabels={$x_1^*=-1$,$x_2^*=-0.2$,$x_3^*=0.6$,$x_4^*=1.4$,$x_5^*=2.2$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,5}
+                   {
+                     \addplot [draw=penColor,fill=fillp] plot coordinates
+                              {({-1+(\rectnumber-1) * 4/5},{f(-1+(\rectnumber-1) * 4/5)})
+                                ({-1+(\rectnumber) * 4/5},{f(-1+(\rectnumber-1) * 4/5) })} \closedcycle;
+               };
+                   \addplot [very thick,penColor, smooth] {f(x)};
+                   \node[fillp!50!black] at (axis cs:-.6,.4) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:.2,.4) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:1,.4) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:1.8,.4) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:2.6,.4) {\huge$\mathsf{5}$}; 
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+It is helpful to collect all of this data into a table:
 \[
 \begin{array}{c|c|c|c}
-  k &  x_k  & x^*_k & f(x^*_k) \\ \hline
-  0 & -1    & \text{NA} & \text{NA}  \\
-  1 & -0.75 & -1    &   2      \\
-  2 & -0.5  & -0.75 & 1.5625   \\
-  3 & -0.25 & -0.5  & 1.25     \\
-  4 &  0    & -0.25 & 1.0625   \\
-  5 &  0.25 &  0    & 1        \\
-  6 &  0.5  &  0.25 & 1.0625   \\
-  7 &  0.75 &  0.5  & 1.25     \\
-  8 &  1    &  0.75 & 1.5625   
+  k &  x_k & x^*_k & f(x^*_k) \\ \hline
+  0 & \answer[given]{-1}   & \text{NA} & \text{NA}  \\
+  1 & \answer[given]{-0.2} & \answer[given]{-1}        &   \answer[given]{2.875}     \\
+  2 & \answer[given]{0.6}  & \answer[given]{-0.2}      & \answer[given]{2.199}   \\
+  3 & \answer[given]{1.4}  & \answer[given]{0.6}       & \answer[given]{1.427}    \\
+  4 & \answer[given]{2.2}  & \answer[given]{1.4}       & \answer[given]{0.943}   \\
+  5 & \answer[given]{3}    & \answer[given]{2.2}      & \answer[given]{1.131}        \\
 \end{array}
 \]
+Now we may write a Riemann sum and approximate the area
+\begin{align*}
+  \sum_{k=1}^5  f(x_k^*)\Delta x  &= f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x\\
+  &= 2.875 \cdot (4/5) + 2.199  \cdot(4/5) + 1.427  \cdot(4/5) + 0.943  \cdot(4/5) + 1.131  \cdot(4/5)\\
+  &= \answer[given]{6.86}.
+\end{align*}
+  \end{explanation}
+\end{example}
 
-\paragraph{Rectangles defined by a right endpoint}
+
+\subsection{Rectangles defined by a right-endpoint}
 
 
-\paragraph{Rectangles defined by a midpoint}
+\begin{example}
+  Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
+  the $x$-axis on the interval $[-1,3]$ using a right-endpoint Riemann
+  sum with $n=5$ rectangles.
+  
+  \begin{explanation}
+    First note that the width of each rectangle is
+    \[
+    \Delta x = \frac{3-(-1)}{5} = \answer[given]{4/5}.
+    \]
+    The grid points define the edges of the rectangle and are seen below:
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = pow(\x/2,3) -\x+2;}
+      ]
+	\begin{axis}[
+            domain=-1.2:3.2, xmin =-1.2,xmax=3.2,ymax=4,ymin=-.2,
+            width=6in,
+            height=3in,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-1,-.2,...,3.8},
+            xticklabels={$x_0=-1$,$x_1=-0.2$,$x_2=0.6$,$x_3=1.4$,$x_4=2.2$,$x_5=3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,5}
+                   {
+                     \addplot [draw=penColor,fill=fillp] plot coordinates
+                              {({-1+(\rectnumber-1) * 4/5},{f(-1+(\rectnumber) * 4/5)})
+                                ({-1+(\rectnumber) * 4/5},{f(-1+(\rectnumber) * 4/5) })} \closedcycle;
+               };
+                   \addplot [very thick,penColor, smooth] {f(x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+On the other hand, the sample points identify which endpoints we use:
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = pow(\x/2,3) -\x+2;}
+      ]
+	\begin{axis}[
+            domain=-1.2:3.2, xmin =-1.2,xmax=3.2,ymax=4,ymin=-.2,
+            width=6in,
+            height=3in,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-.2,.6,1.4,2.2,3},
+            xticklabels={$x_1^*=-0.2$,$x_2^*=0.6$,$x_3^*=1.4$,$x_4^*=2.2$,$x_5^*=3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,5}
+                   {
+                     \addplot [draw=penColor,fill=fillp] plot coordinates
+                              {({-1+(\rectnumber-1) * 4/5},{f(-1+(\rectnumber) * 4/5)})
+                                ({-1+(\rectnumber) * 4/5},{f(-1+(\rectnumber) * 4/5) })} \closedcycle;
+               };
+                   \addplot [very thick,penColor, smooth] {f(x)};
+                   \node[fillp!50!black] at (axis cs:-.6,.4) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:.2,.4) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:1,.4) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:1.8,.4) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:2.6,.4) {\huge$\mathsf{5}$}; 
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+It is helpful to collect all of this data into a table:
+\[
+\begin{array}{c|c|c|c}
+  k &  x_k & x^*_k & f(x^*_k) \\ \hline
+  0 & \answer[given]{-1}   & \text{NA} & \text{NA}  \\
+  1 & \answer[given]{-0.2} & \answer[given]{-0.2}      & \answer[given]{2.199}   \\
+  2 & \answer[given]{0.6}  & \answer[given]{0.6}       & \answer[given]{1.427}   \\
+  3 & \answer[given]{1.4}  & \answer[given]{1.4}       & \answer[given]{0.943}   \\
+  4 & \answer[given]{2.2}  & \answer[given]{2.2}       & \answer[given]{1.131}   \\
+  5 & \answer[given]{3}    & \answer[given]{3}         & \answer[given]{2.375}   \\
+\end{array}
+\]
+Now we may write a Riemann sum and approximate the area
+\begin{align*}
+  \sum_{k=1}^5  f(x_k^*)\Delta x  &= f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x\\
+  &= 2.199 \cdot (4/5) + 1.427  \cdot(4/5) + 0.943  \cdot(4/5) + 1.131  \cdot(4/5) + 2.375  \cdot(4/5)\\
+  &= \answer[given]{6.46}.
+\end{align*}
+  \end{explanation}
+\end{example}
 
 
+
+
+\subsection{Rectangles defined by a midpoint}
+
+\begin{example}
+  Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
+  the $x$-axis on the interval $[-1,3]$ using a right-endpoint Riemann
+  sum with $n=5$ rectangles.
+  
+  \begin{explanation}
+    First note that the width of each rectangle is
+    \[
+    \Delta x = \frac{3-(-1)}{5} = \answer[given]{4/5}.
+    \]
+    The grid points define the edges of the rectangle and are seen below:
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = pow(\x/2,3) -\x+2;}
+      ]
+	\begin{axis}[
+            domain=-1.2:3.2, xmin =-1.2,xmax=3.2,ymax=4,ymin=-.2,
+            width=6in,
+            height=3in,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-1,-.2,...,3.8},
+            xticklabels={$x_0=-1$,$x_1=-0.2$,$x_2=0.6$,$x_3=1.4$,$x_4=2.2$,$x_5=3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,5}
+                   {
+                     \addplot [draw=penColor,fill=fillp] plot coordinates
+                              {({-1+(\rectnumber-1) * 4/5},{f(-1+(\rectnumber-.5) * 4/5)})
+                                ({-1+(\rectnumber) * 4/5},{f(-1+(\rectnumber-.5) * 4/5) })} \closedcycle;
+               };
+                   \addplot [very thick,penColor, smooth] {f(x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+On the other hand, the sample points identify which endpoints we use:
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = pow(\x/2,3) -\x+2;}
+      ]
+	\begin{axis}[
+            domain=-1.2:3.2, xmin =-1.2,xmax=3.2,ymax=4,ymin=-.2,
+            width=6in,
+            height=3in,
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-.6,.2,1,1.8,2.6},
+            xticklabels={$x_1^*=-0.6$,$x_2^*=0.2$,$x_3^*=1$,$x_4^*=1.8$,$x_5^*=2.6$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis on top,
+          ]
+          \foreach \rectnumber in {1,2,...,5}
+                   {
+                     \addplot [draw=penColor,fill=fillp] plot coordinates
+                              {({-1+(\rectnumber-1) * 4/5},{f(-1+(\rectnumber-.5) * 4/5)})
+                                ({-1+(\rectnumber) * 4/5},{f(-1+(\rectnumber-.5) * 4/5) })} \closedcycle;
+                     \addplot [draw=black,dashed] plot coordinates
+                                   {({-1+(\rectnumber-.5) * 4/5},{0 * 4/5)})
+                            ({(-1+(\rectnumber-.5) * 4/5},{f(-1+(\rectnumber-.5) * 4/5) })};
+               };
+                   \addplot [very thick,penColor, smooth] {f(x)};
+                   \node[fillp!50!black] at (axis cs:-.6,.4) {\huge$\mathsf{1}$};
+               \node[fillp!50!black] at (axis cs:.2,.4) {\huge$\mathsf{2}$};
+               \node[fillp!50!black] at (axis cs:1,.4) {\huge$\mathsf{3}$};
+               \node[fillp!50!black] at (axis cs:1.8,.4) {\huge$\mathsf{4}$};
+               \node[fillp!50!black] at (axis cs:2.6,.4) {\huge$\mathsf{5}$}; 
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+It is helpful to collect all of this data into a table:
+\[
+\begin{array}{c|c|c|c}
+  k &  x_k & x^*_k & f(x^*_k) \\ \hline
+  0 & \answer[given]{-1}   & \text{NA} & \text{NA}  \\
+  1 & \answer[given]{-0.2} & \answer[given]{-0.6}    & \answer[given]{2.573}   \\
+  2 & \answer[given]{0.6}  & \answer[given]{0.2}     & \answer[given]{1.801}   \\
+  3 & \answer[given]{1.4}  & \answer[given]{1}       & \answer[given]{1.125}   \\
+  4 & \answer[given]{2.2}  & \answer[given]{1.8}     & \answer[given]{0.929}   \\
+  5 & \answer[given]{3}    & \answer[given]{2.6}     & \answer[given]{1.597}   \\
+\end{array}
+\]
+Now we may write a Riemann sum and approximate the area
+\begin{align*}
+  \sum_{k=1}^5  f(x_k^*)\Delta x  &= f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x\\
+  &= 2.573 \cdot (4/5) + 1.801  \cdot(4/5) + 1.125  \cdot(4/5) + 0.929  \cdot(4/5) + 1.597  \cdot(4/5)\\
+  &= \answer[given]{6.42}.
+\end{align*}
+  \end{explanation}
+\end{example}
+
+
+
+\subsection{Summary}
+
+Riemann sums approximate the area between curves and the $x$-axis via
+rectangles.  When computing this area via rectangles, there are
+several things to know:
+\begin{itemize}
+\item What interval are we on? In our discussion above we call this
+    $[a,b]$.
+  \item How many rectangles will be used? In our discussion above we
+    called this $n$.
+  \item What is the width of each individual rectangle? In our discussion above we
+    called this $\Delta x$.
+  \item What points will determine the height of the rectangle? In our
+    discussion above we called these sample points, $x_k^*$, and they
+    can be left-endpoints, right-endpoints, or midpoints.
+  \item What is the actual height of the rectangle? This will always
+    be $f(x_k^*)$.
+\end{itemize}
 
 
 

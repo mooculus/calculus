@@ -1,0 +1,309 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{}
+
+\title[Dig-In:]{The definite integral}
+
+\begin{document}
+\begin{abstract}
+  Definite integrals compute signed area.
+\end{abstract}
+\maketitle
+
+
+Definite integrals, often simply called integrals, compute signed area. 
+
+\begin{definition}\index{integral}\index{definite integral}
+The \dfn{definite integral}
+\[
+\int_a^b f(x) \d x
+\]
+computes the signed area between $y=f(x)$ and the $x$-axis on the
+interval $[a,b]$.
+\begin{itemize}
+  \item If the region is above the $x$-axis, then the area has
+    positive sign.
+  \item If the region is below the $x$-axis, then the area has
+    negative sign.
+\end{itemize}
+Note, when working with signed area, ``positive'' and ``negative''
+area cancel each other out.
+\end{definition}
+
+\begin{question}
+Consider the following graph of $y=f(x)$:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        height=3in,
+        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=1.2,domain=0:6,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, fill=fillp,domain=0:1] {x} \closedcycle;
+      \addplot [draw=none, fill=fillp,domain=1:5] {1.5-x/2} \closedcycle;
+      
+      \addplot [penColor,very thick,domain=0:1] {x};
+      \addplot [penColor,very thick,domain=1:5] {1.5-x/2};
+  \end{axis}
+  \end{tikzpicture}
+\end{image}
+Compute:
+\begin{enumerate}
+\item $\int_0^3 f(x) \d x \begin{prompt}= \answer{1.5}\end{prompt}$
+\item $\int_3^5 f(x) \d x \begin{prompt}= \answer{-1}\end{prompt}$
+\item $\int_0^5 f(x) \d x \begin{prompt}= \answer{0.5}\end{prompt}$
+\item $\int_0^3 5\cdot f(x) \d x \begin{prompt}= \answer{7.5}\end{prompt}$
+\item $\int_1^1 5\cdot f(x) \d x \begin{prompt}= \answer{0}\end{prompt}$
+\end{enumerate}
+\begin{hint}
+  Use the formula for the area of a triangle.
+\end{hint}
+\begin{hint}
+  Remember, we are dealing with ``signed'' area here:
+  \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        height=3in,
+        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=1.2,domain=0:6,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, fill=fillp,domain=0:1] {x} \closedcycle;
+      \addplot [draw=none, fill=fillp,domain=1:3] {1.5-x/2} \closedcycle;
+      \addplot [draw=none, fill=filln,domain=3:5] {1.5-x/2} \closedcycle;
+      
+      \addplot [penColor,very thick,domain=0:1] {x};
+      \addplot [penColor,very thick,domain=1:5] {1.5-x/2};
+      \node at (axis cs:1.1,.4) [textColor] {\scalebox{2}{$\boldsymbol+$}};
+      \node at (axis cs:4.5,-.4) [textColor] {\scalebox{2}{$\boldsymbol-$}};
+  \end{axis}
+  \end{tikzpicture}
+\end{image}
+\end{hint}
+\end{question}
+
+\begin{theorem}[Properties of the definite integral]
+Let $f$ and $g$ be defined on a closed interval $[a,b]$ that contains the
+value $c$, and let $k$ be a constant. The following
+hold:
+\begin{enumerate}
+\item $\int_a^a f(x)\d x = 0$
+\item $\int_a^b f(x)\d x + \int_b^c f(x)\d x = \int_a^cf(x)\d x$
+\item $\int_a^bf(x)\d x = -\int_b^a f(x)\d x$
+\item $\int_a^b f(x)\pm g(x)\d x = \int_a^bf(x)\d x \pm \int_a^bg(x)\d x$
+\item $\int_a^bk\cdot f(x)\d x = k\cdot\int_a^bf(x)\d x$
+\end{enumerate}
+\end{theorem}
+
+\end{document}
+
+
+
+
+
+
+
+\begin{solution}
+The definite integral $\int_0^3 x \d x$ measures signed area of the
+shaded region shown in figure~\ref{figure:intfirst}. Since this region
+is a triangle, we can use the formula for the area of the triangle to
+compute
+\[
+\int_0^3 x \d x = \frac{1}{2} 3\cdot 3 = 9/2.
+\]
+\end{solution}
+
+
+
+\begin{example} Compute
+\[
+\int_{-1}^3 \lfloor x \rfloor \d x.
+\]
+\end{example}
+
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      domain=-1:3,
+      axis lines =middle, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      clip=false,
+      axis on top,
+    ]
+    \addplot [draw=none, fill=filln, domain=(-1:0)] {-1} \closedcycle;
+    \addplot [draw=none, fill=fillp, domain=(0:1)] {0} \closedcycle;
+    \addplot [draw=none, fill=fillp, domain=(1:2)] {1} \closedcycle;
+    \addplot [draw=none, fill=fillp, domain=(2:3)] {2} \closedcycle;
+    \addplot [very thick, penColor, domain=(-1:0)] {-1};
+    \addplot [very thick, penColor, domain=(0:1)] {0};
+    \addplot [very thick, penColor, domain=(1:2)] {1};
+    \addplot [very thick, penColor, domain=(2:3)] {2};
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-1,-1)};  %% closed hole          
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
+    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole                  
+    \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)};  %% open hole
+    \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,0)};  %% open hole
+    \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+    \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(3,2)};  %% open hole
+
+    \node at (axis cs:-.5,-.5) [textColor] {\scalebox{2}{$\boldsymbol-$}};
+    \node at (axis cs:2,.5) [textColor] {\scalebox{2}{$\boldsymbol+$}};
+  \end{axis}
+\end{tikzpicture}
+\caption{The integral $\int_{-1}^3 \lfloor x\rfloor \d x$ measures the
+  shaded area. Area above the $x$-axis has positive sign and the area below the $x$-axis has negative sign.}
+\label{plot:int-greatist-integer}
+\end{marginfigure}
+
+\begin{solution}
+The definite integral $\int_{-1}^3 \lfloor x\rfloor \d x$ measures
+signed area of the shaded region shown in
+figure~\ref{plot:int-greatist-integer}. We see that 
+\[
+\int_{-1}^3 \lfloor x\rfloor \d x = 
+\int_{-1}^0 \lfloor x\rfloor \d x + \int_{0}^1 \lfloor x\rfloor \d x + \int_{1}^2 \lfloor x\rfloor \d x + \int_{2}^3 \lfloor x\rfloor \d x.
+\]
+So computing each of these areas separately
+\begin{align*}
+\int_{-1}^3 \lfloor x\rfloor \d x &= -1 + 0 + 1+2 \\
+&= 2.
+\end{align*}
+\end{solution}
+
+Our previous examples hopefully give us enough insight that this next
+theorem is unsurprising.
+
+\begin{mainTheorem}[Properties of Definite Integrals]
+\begin{enumerate}
+\item $\int_a^b k \d x= kb-ka$, where $k$ is a constant.
+\item $\int_a^b \left( f(x) + g(x) \right) \d x = \int_a^b f(x) \d x + \int_a^b
+  g(x) \d x$.
+\item $\int_a^b k \cdot f(x) \d x = k \int_a^b f(x) \d x$.
+\end{enumerate}
+\end{mainTheorem}
+Each of these properties follows from the notion that definite
+integrals compute signed area.
+
+
+
+\noindent For the following exercises consider the plot of $f(x)$
+shown in Figure~\ref{figure:intExerPlot1}.
+\begin{marginfigure}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-2.5, xmax=2.5,ymin=-1,ymax=1,domain=-2.2:2.2,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor,very thick,smooth] {sin(deg(x))*sin(deg(x^2/1.3))};
+  \end{axis}
+\end{tikzpicture}
+\caption{A plot of $f(x)$.}
+\label{figure:intExerPlot1}
+\end{marginfigure}
+\twocol
+\begin{exercise}
+Is $\int_1^2 f(x) \d x$ \\
+positive, negative, or zero?
+\begin{answer}
+positive
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Is $\int_{-1}^0 f(x) \d x$ \\
+positive, negative, or zero?
+\begin{answer}
+negative
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Is $\int_{-1}^1 f(x) \d x$ \\
+positive, negative, or zero?
+\begin{answer}
+zero
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+Is $\int_{-1}^2 f(x) \d x$ \\
+positive, negative, or zero?
+\begin{answer}
+positive
+\end{answer}
+\end{exercise}
+
+\endtwocol
+
+\noindent For the following exercises use the plot of $g(x)$ shown in
+Figure~\ref{plot:intExerPlot2} to compute the integrals below.
+\begin{marginfigure}[0in]
+\begin{tikzpicture}
+  \begin{axis}[
+      domain=-2:3,
+      axis lines =middle, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      clip=false,
+      grid=both,
+      grid style={dashed, gridColor},
+    ]
+    \addplot [penColor, very thick] plot coordinates {
+      (-2,1) (-1,1) (0,-2) (2,2) (3,0)};
+  \end{axis}
+\end{tikzpicture}
+\caption{A plot of $g(x)$.}
+\label{plot:intExerPlot2}
+\end{marginfigure}
+
+\twocol
+
+\begin{exercise}
+$\int_{-2}^{-1} g(x) \d x$
+\begin{answer}
+$1$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+$\int_1^3 g(x) \d x$
+\begin{answer}
+$2$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+$\int_0^3 g(x) \d x$
+\begin{answer}
+$1$
+\end{answer}
+\end{exercise}
+
+\begin{exercise}
+$\int_{-1}^3 g(x) \d x$
+\begin{answer}
+$1/2$
+\end{answer}
+\end{exercise}
+
+
+
+
+
+
+\end{document}

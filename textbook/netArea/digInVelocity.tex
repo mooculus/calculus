@@ -2,14 +2,11 @@
 
 \input{../preamble.tex}
 
-\outcome{}
-
 \title[Dig-In:]{Relating velocity and position}
-\begin{abstract}
-\end{abstract}
-\maketitle
+
 
 \begin{document}
+
 A central theme of this course has been that we can often gain a
 better understanding of a function by looking at its derivative, and
 then working backwards.  This has been our approach to max/min
@@ -19,7 +16,7 @@ antiderivatives have really been important to us all along.
 We have a graphical interpretation of the derivative as the slope of a
 tangent line at a point.  We have not yet found a graphical
 interpretation of the antiderivative.
-\begin{question}
+
   \begin{question}
    Let $f$ be the constant function $4$. Let $F$ be any antiderivative
    of $f$.  Then $F(5)-F(2) = \answer{12}$.
@@ -35,16 +32,36 @@ interpretation of the antiderivative.
   
   \begin{question}
     The area of the region bounded by the grpah of $f$, the horizontal
-    axis, and the vertical lines $x=2$ and $x=5$ i \answer{12}.
+    axis, and the vertical lines $x=2$ and $x=5$ is \answer{12}.
     
     \begin{hint}
-      %BADBAD PICTURE
+      \begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = 4;} ]
+	\begin{axis}[
+            domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.2,
+            width=4in,
+            height=2in,
+            xtick={2,5}, 
+	   ytick={4},
+            xticklabels={$2$,$5$},
+            yticklabels={$4$},
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=2:5, smooth] {f(x)} \closedcycle;
+          \addplot [very thick,penColor, smooth, domain=0:7] {f(x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
     \end{hint}
     \begin{hint}
       This is a rectangle with height $4$ and width $3$, so the area is $12$
     \end{hint}
   \end{question}
-\end{question}
+
 
 The fact that these two answers are the same is the germ of one of the
 most ``fundamental'' ideas in all of calculus.
@@ -61,22 +78,145 @@ most ``fundamental'' ideas in all of calculus.
 We can apply this basic idea to the problem of approximating
 antiderivatives.
 
-  Let $f$ be a given function, and let $F$ be an antiderivative of $f$.  We want to approximate $F(3) - F(1)$.  Let's get an approximation using $4$ subintervals.
+  Let $f$ be a given function, like this one:
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = cos((\x-1.1)*360/6.28);} ]
+	\begin{axis}[
+            domain=-.2:4, xmin =-.2,xmax=4,ymax=1,ymin=-1,
+            width=4in,
+            height=2in,
+            xtick={1,3}, 
+            xticklabels={$1$,$3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+
+          \addplot [very thick,penColor, smooth] {f(x)};
+          \node at (axis cs:3.5,4.5) [anchor=west] {$f$};  
+
+
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+ and let $F$ be an antiderivative of $f$.  We want to approximate $F(3) - F(1)$.  Let's get an approximation using $4$ subintervals.
   
   \begin{align*}F(3) - F(1) &= (F(3) - F(2.5))+(F(2.5) - F(2))+(F(2) - F(1.5))+(F(1.5) - F(1))\\
   &\approx F'(3)\frac{1}{2}+F'(2.5)\frac{1}{2}+F'(2)\frac{1}{2}+F'(1.5)\frac{1}{2}\\
   &=f(3)\frac{1}{2}+f(2.5)\frac{1}{2}+f(2)\frac{1}{2}+f(1.5)\frac{1}{2}
   \end{align*}
   
-  We can visualize this by the following piecewise linear function
+  We can visualize this as the sum of the areas of $4$ rectangles:
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = cos((\x-1.1)*360/6.28);} ]
+	\begin{axis}[
+            domain=-.2:4, xmin =-.2,xmax=4,ymax=1,ymin=-1,
+            width=4in,
+            height=2in,
+            xtick={1,1.5,2,2.5,3}, 
+            xticklabels={$1$,$1.5$,$2$, , $ \hphantom{22}3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+        
+\foreach \rectnumber in {1,2,3,4}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+(\rectnumber - 1) * 0.5},{f(1+\rectnumber * 0.5)})
+                            ({1+(\rectnumber) * 0.5},{f(1+\rectnumber * 0.5) })} \closedcycle;
+
+          
+               };
+
+	
+         \addplot [very thick,penColor, smooth] {f(x)};
+          \node at (axis cs:3.5,4.5) [anchor=west] {$f$};  
+        \end{axis}
+\end{tikzpicture}
+\end{image}
   
-  %BADBAD GRAPH  graph of $f$ on $[1,3]$ with  piecewise linear approximation to $F$ below it.  One line segment is highlighted, with its corresponding rectangle also highlighted.
+By approximating $f$ by a piecewise constant function, we are approximating $F$ by a piecewise linear function:
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = \x^3/3+1;} ]
+	\begin{axis}[
+            domain=-.2:4, xmin =-.2,xmax=4,ymax=11,ymin=-.2,
+            width=4in,
+            height=2in,
+            xtick={1,1.5,2,2.5,3}, 
+            xticklabels={$1$,$1.5$,$2$, $2.5$, $3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+
+          \addplot [very thick,penColor2, smooth, domain=1:1.5] {f(1.5)*(x-1)};
+          \addplot [very thick,penColor2, smooth, domain=1.5:2] {f(2)*(x-1.5)+f(1.5)*0.5};
+          \addplot [very thick,penColor2, smooth, domain=2:2.5] {f(2.5)*(x-2)+f(2)*0.5+f(1.5)*0.5};
+          \addplot [very thick,penColor2, smooth, domain=2.5:3] {f(3)*(x-2.5)+f(2.5)*(0.5)+f(2)*0.5+f(1.5)*0.5};
+
+  \addplot [draw=penColor] plot coordinates {(1,0) (1.5,0) (1.5, {f(1.5)*(0.5)}) (2, {f(1.5)*(0.5)}) (2, {f(2)*0.5+f(1.5)*0.5}) (2.5, {f(2)*0.5+f(1.5)*0.5}) (2.5, {f(2.5)*(0.5)+f(2)*0.5+f(1.5)*0.5}) (3, {f(2.5)*(0.5)+f(2)*0.5+f(1.5)*0.5})  (3, { f(3)*0.5+f(2.5)*(0.5)+f(2)*0.5+f(1.5)*0.5})};
+
+          \node at (axis cs:3.1,10) [anchor=west] {$F$};  
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
   
-  On the one hand, we can interpret each $F'(x)\Delta x$ as an approximation in the change in the height of $F$ over the subinterval.  On the other hand, since $F' =f$, we can think of $F'(x)\Delta x = f(x)\Delta x$ as the area of a rectangle based on the subinterval, and with hieght $f(x)$.  So the total change in $F$ over $[1,3]$ can be reinterpreted as the sum of the areas of these rectangles.
+  On the one hand, we can interpret each $F'(x)\Delta x$ as an approximation in the change in the height of $F$ over the subinterval.  On the other hand, since $F' =f$, we can think of $F'(x)\Delta x = f(x)\Delta x$ as the area of a rectangle based on the subinterval, and with hieght $f(x)$.  So the total change in $F$ over $[1,3]$ can be reinterpreted as the sum of the areas of the rectangles under $f$.
   
-  %BADBAD GRAPH  A lot more partitions
-  
-  If we make our subintervals smaller, the repeated linear approximation should get more precise, and the sum of the areas of the rectangles gets closer to the area under the curve.
-  
+  If we make our subintervals smaller, the repeated linear approximation should get more precise, and the sum of the areas of the rectangles gets closer to the area under the curve:
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = \x^2/3+1;} ]
+	\begin{axis}[
+            domain=-.2:4, xmin =-.2,xmax=4,ymax=7,ymin=-.2,
+            width=4in,
+            height=2in,
+            xtick={1,3}, 
+            xticklabels={$1$,$3$},
+            ytick style={draw=none},
+            yticklabels={},
+            axis lines=center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+        
+\foreach \rectnumber in {1,2,...,20}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+(\rectnumber - 1) * 0.1},{f(1+\rectnumber * 0.1)})
+                            ({1+(\rectnumber) * 0.1},{f(1+\rectnumber * 0.1) })} \closedcycle;
+
+                 \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates
+                          {(\rectnumber+.1,0)
+                            (1+\rectnumber-.1,0)};
+               };
+          \addplot [very thick,penColor, smooth] {f(x)};
+          \node at (axis cs:3.5,4.5) [anchor=west] {$f$};  
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
   
 \end{document}

@@ -69,7 +69,7 @@ rectangles. With one rectangle we get a rough approximation:
     \end{axis}
   \end{tikzpicture}
 \end{image}
-Two rectangles make a better approximation:
+Two rectangles might make a better approximation:
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -88,8 +88,8 @@ Two rectangles make a better approximation:
       \foreach \rectnumber in {1,2}
                {
                  \addplot [draw=penColor,fill=fillp] plot coordinates
-                          {({1+(\rectnumber - 1) * 5/2},{f(1+\rectnumber * 5/2)})
-                            ({1+(\rectnumber) * 5/2},{f(1+\rectnumber * 5/2) })} \closedcycle;
+                          {({1+(\rectnumber - 1) * 5/2},{f(1+(\rectnumber-1) * 5/2)})
+                            ({1+(\rectnumber) * 5/2},{f(1+(\rectnumber-1) * 5/2) })} \closedcycle;
                };
                \addplot [very thick,penColor, smooth] {f(x)};
                \node[fillp!50!black] at (axis cs:2.25,1) {\huge$\mathsf{1}$};
@@ -335,8 +335,7 @@ curve.
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the $k$th rectangle is touching the curve at its
-left-endpoint.
+In the graph above, the $k$th rectangle's left-endpoint is touching the curve.
 
 
 
@@ -376,12 +375,13 @@ curve.
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the $k$th rectangle is touching the curve at its
-right-endpoint.
+In the graph above, the $k$th rectangle's right-endpoint is touching the curve.
+
 
 \subsection{Rectangles defined by midpoints}
 
-
+We can set the rectangles up so that the midpoint of one of the
+horizontal sides touches the curve.
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -415,19 +415,19 @@ right-endpoint.
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the $k$th rectangle is touching the curve at its
-midpoint.
+In the graph above, the midpoint of the horizontal side of the $k$th
+rectangle is touching the curve.
 
 
-\begin{question}
-  Which approximation is most accurate?
-  \begin{multipleChoice}
-    \choice{Approximations with left-endpoints.}
-    \choice{Approximations with right-endpoints.}
-    \choice{Approximations with midpoints.}
-    \choice[correct]{It depends on the function.}
-  \end{multipleChoice}
-\end{question}
+%% \begin{question}
+%%   Which approximation is most accurate?
+%%   \begin{multipleChoice}
+%%     \choice{Approximations with left-endpoints.}
+%%     \choice{Approximations with right-endpoints.}
+%%     \choice{Approximations with midpoints.}
+%%     \choice[correct]{It depends on the function.}
+%%   \end{multipleChoice}
+%% \end{question}
 
 
 
@@ -509,14 +509,14 @@ and the $x$-axis on the interval $[a,b]$:
     \end{axis}
   \end{tikzpicture}
 \end{image}
-Here is the associated Riemann sum
+and here is the associated Riemann sum
 \[
 \sum_{k=1}^5  f(x_k^*)\Delta x  = f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x + f(x_4^*)\Delta x + f(x_5^*)\Delta x.
 \]
 
 
 
-\subsection{Rectangles defined by a left-endpoint}
+\subsection{Left Riemann sums}
 
 \begin{example}
   Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
@@ -601,7 +601,7 @@ It is helpful to collect all of this data into a table:
   5 & \answer[given]{3}    & \answer[given]{2.2}      & \answer[given]{1.131}        \\
 \end{array}
 \]
-Now we may write a Riemann sum and approximate the area
+Now we may write a left Riemann sum and approximate the area
 \begin{align*}
   \sum_{k=1}^5  f(x_k^*)\Delta x  &= f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x\\
   &= 2.875 \cdot (4/5) + 2.199  \cdot(4/5) + 1.427  \cdot(4/5) + 0.943  \cdot(4/5) + 1.131  \cdot(4/5)\\
@@ -611,7 +611,7 @@ Now we may write a Riemann sum and approximate the area
 \end{example}
 
 
-\subsection{Rectangles defined by a right-endpoint}
+\subsection{Right Riemann sums}
 
 
 \begin{example}
@@ -697,7 +697,7 @@ It is helpful to collect all of this data into a table:
   5 & \answer[given]{3}    & \answer[given]{3}         & \answer[given]{2.375}   \\
 \end{array}
 \]
-Now we may write a Riemann sum and approximate the area
+Now we may write a right Riemann sum and approximate the area
 \begin{align*}
   \sum_{k=1}^5  f(x_k^*)\Delta x  &= f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x\\
   &= 2.199 \cdot (4/5) + 1.427  \cdot(4/5) + 0.943  \cdot(4/5) + 1.131  \cdot(4/5) + 2.375  \cdot(4/5)\\
@@ -709,7 +709,7 @@ Now we may write a Riemann sum and approximate the area
 
 
 
-\subsection{Rectangles defined by a midpoint}
+\subsection{Midpoint Riemann sums}
 
 \begin{example}
   Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
@@ -797,7 +797,7 @@ It is helpful to collect all of this data into a table:
   5 & \answer[given]{3}    & \answer[given]{2.6}     & \answer[given]{1.597}   \\
 \end{array}
 \]
-Now we may write a Riemann sum and approximate the area
+Now we may write a midpoint Riemann sum and approximate the area
 \begin{align*}
   \sum_{k=1}^5  f(x_k^*)\Delta x  &= f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x\\
   &= 2.573 \cdot (4/5) + 1.801  \cdot(4/5) + 1.125  \cdot(4/5) + 0.929  \cdot(4/5) + 1.597  \cdot(4/5)\\

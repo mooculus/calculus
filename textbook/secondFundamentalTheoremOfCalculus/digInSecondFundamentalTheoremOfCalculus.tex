@@ -1,45 +1,108 @@
 \documentclass{ximera}
 
+\input{../preamble.tex}
 
 \title[Dig-In:]{Second Fundamental Theorem of Calculus}
 
 \begin{document}
 \begin{abstract}
-dlkfjsdklj  
+Accumulated area is computed by undoing the derivative. 
 \end{abstract}
 \maketitle
 
 
 
 
+There is a another common form of the Fundamental Theorem of Calculus:
 
-
-
-\section{A tale of three integrals}
-
-
-The Fundamental Theorem of Calculus says that an accumulation function
-of $f(x)$ is an antiderivative of $f(x)$.  Because of the close
-relationship between an integral and an antiderivative, the integral
-sign is also used to mean ``antiderivative.'' You can tell which is
-intended by whether the limits of integration are included. Hence
+Here the notation
 \[
-  \int_a^b f(x)\d x
-\] 
-is a definite integral, because it has a definite value---the signed
-area between $f(x)$ and the $x$-axis.  On the other hand, we use
-\[
-  \int f(x)\d x
+F(x) \Biggr|_a^b
 \]
-to denote the antiderivative of $f(x)$, also called an
-\textit{indefinite integral}\index{indefinite integral}.
-This is evaluated as
+means that one should evaluate $F(x)$ at $b$ and then subtract from this $F(x)$ evaluated at $a$. Hence
 \[
-  \int f(x)\d x = F(x)+C.
+F(x) \Biggr|_a^b = F(b)-F(a).
+\]  
+
+\begin{theorem}[Second Fundamental Theorem of Calculus]
+  Suppose that $f(x)$ is continuous on the interval $[a,b]$. If $F(x)$
+  is any antiderivative of $f(x)$, then
+  \[
+  \int_a^b f(x)\d x = \eval{F(x)}_a^b = F(b)-F(a).
+  \]
+\end{theorem}
+
+\begin{proof}
+We know from Theorem~\ref{thm:fundamental_theorem_I} 
+\[
+  G(x)=\int_a^x f(t)\d t
 \]
-Where $F'(x) = f(x)$ and the constant $C$ indicates that there are
-really an infinite number of antiderivatives. We do not need to add
-this $C$ to compute definite integrals, but in other circumstances we
-will need to remember that the $C$ is there, so it is best to get into
-the habit of writing the $C$.
+is an antiderivative of $f(x)$, and therefore any antiderivative
+$F(x)$ of $f(x)$ is of the form $F(x)=G(x)+k$. Then 
+\begin{align*}
+  F(b)-F(a) &=G(b)+k-(G(a)+k) 
+  &= G(b)-G(a) \\
+  &=\int_a^b f(t)\d t-\int_a^a f(t)\d t.
+\end{align*}
+It is not hard to see that $\int_a^a f(t)\d t=0$, so this means that
+\[
+  F(b)-F(a)=\int_a^b f(t)\d t,
+\]
+which is exactly what Theorem~\ref{thm:fundamental_theorem_II} says.
+\end{proof}
+
+From this you should see that the two versions of the Fundamental
+Theorem are very closely related. To avoid confusion, some people call
+the two versions of the theorem ``The Fundamental Theorem of
+Calculus---Version I'' and ``The Fundamental Theorem of
+Calculus---Version II'', although unfortunately there is no universal
+agreement as to which is ``Version I'' and which ``Version II''. Since
+it really is the same theorem, differently stated, people often simply
+call them both ``The Fundamental Theorem of Calculus.''
+
+Let's see an example of the fundamental theorem in action.
+
+\begin{example}
+Compute
+\[
+\int_1^2\left(x^9 + \frac{1}{x}\right) \d x
+\]
+\end{example}
+
+\begin{solution}
+Here we start by finding an antiderivative of 
+\[
+x^9 + \frac{1}{x}.
+\]
+The correct choice is $\frac{x^{10}}{10} + \ln(x)$, one could verify this by
+taking the derivative. Hence
+\begin{align*}
+\int_1^2\left(x^9 + \frac{1}{x}\right) \d x &= \left(\frac{x^{10}}{10} + \ln(x)\right)\Bigg|_1^2 \\
+&= \frac{2^{10}}{10} + \ln(2) - \frac{1}{10}.
+\end{align*}
+\end{solution}
+
+
+When we compute a definite integral, we first find an antiderivative
+and then substitute. It is convenient to first display the
+antiderivative and then do the substitution; we need a notation
+indicating that the substitution is yet to be done. A typical solution
+would look like this:
+\[
+  \left.\int_1^2 x^2\d x={x^3\over 3}\right|_1^2 = 
+  {2^3\over3}-{1^3\over3}={7\over3}.
+\]
+The vertical line with subscript and superscript is used to indicate
+the operation ``substitute and subtract'' that is needed to finish the
+evaluation. 
+
+Now we know that to solve certain kinds of problems, those that lead
+to a sum of a certain form, we ``merely'' find an antiderivative and
+substitute two values and subtract. Unfortunately, finding
+antiderivatives can be quite difficult. While there are a small number
+of rules that allow us to compute the derivative of any common
+function, there are no such rules for antiderivatives. There are some
+techniques that frequently prove useful, but we will never be able to
+reduce the problem to a completely mechanical process.
+
 \end{document}

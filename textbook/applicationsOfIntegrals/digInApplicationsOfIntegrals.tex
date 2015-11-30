@@ -40,9 +40,38 @@ We give more contexts to understand integrals.
   \end{itemize}
 \end{definition}
 
-\begin{example}
-  Consider the following velocity plot... something like $sin(x)$ on $[0,2\pi]$. 
-\end{example}
+\begin{question}
+  Consider a particle whose velocity at time $t$ is given by $v(t) = \sin(t)$.
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = sin(deg(\x));}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=1.2,ymin=-1.2,
+        width=6in,
+        height=3in,xtick={3.141,6.282},
+        xticklabels={$\pi$, $2\pi$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+               \addplot [very thick,penColor, smooth] {f(x)};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+The displacement of the particle from $t=0$ to $t=\pi$ is  $ \int_0^\pi \sin(t) \d t = \answer[given]{2}$ 
+
+The displacement of the particle from $t=0$ to $t=2\pi$ is $\int_0^{2\pi} \sin(t) \d t = \answer[given]{0}$
+
+The distance traveled by the particle from $t=0$ to $t=\pi$ is $\int_0^\pi  \left| \sin(t) \right|  \d t = \answer[given]{2}$
+
+The distance traveled by the particle from $t=0$ to $t=2\pi$ is $\int_0^{2\pi}  \left| \sin(t) \right|  \d t = \answer[given]{4}$
+
+\end{question}
 
 
 
@@ -148,6 +177,39 @@ average speed? The answer is simple:
 \end{align*}
 
 
+\begin{question}
+	When we take the average of a finite set of values, it does not matter how we order those values.  When we are taking the average value of a function, however, we need to be more careful.
+
+For instance, there are at least two different ways to make sense of a vague phrase like "The average height of a point on the unit semi circle"
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = sin(deg(\x));}]
+    \begin{axis}[  
+        domain=-3:3, xmin =-1.2,xmax=1.2,ymax=1.2,ymin=-.2,
+        width=6in,
+        height=3in,xtick={-1,1},
+        xticklabels={$-1$, $1$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+              \addplot [penColor, very thick, smooth, domain=(0:180)] ({cos(x)},{sin(x)});
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+One way we can make sense of "The average height of a point on the unit semi circle" is the average value of the function $f_1(x) = \sqrt{1-x^2}$ on $[-1,1]$.  This is $\frac{1}{2}\int_{-1}^1 \sqrt{1-x^2} \d x$, which can be evaluated geometrically to be $\answer[given]{\frac{\pi}{4}}$.
+
+Another way we can make sense of "The average height of a point on the unit semi circle" is the average value of the function $f_2(\theta) = \sin(\theta)$ on $[0,\pi]$, since $\sin(\theta)$ is the height of the point on the unit circle at the angle $\theta$.  This is $\frac{1}{\pi} \int_0^\pi \sin(\theta) \d \theta$, which can be evaluated using the fundamental theorem to be $\answer[given]{\frac{2}{\pi}}$.
+
+See if you can understand intuitively what the average using $f_1$ should be larger than the average using $f_2$.  It is amusing that this shows that $\pi^2>8$.
+
+\end{question}
+
 
 
 
@@ -173,7 +235,6 @@ Integrals tells us:
   the function.}
 \end{quote}
 
-
 We demonstrate the principles involved in this version of the Mean
 Value Theorem in the following example.
 
@@ -188,34 +249,65 @@ Value Theorem in the following example.
     \[
     \pi\sin c = 2\ \ \Rightarrow\ \ \sin c = 2/\pi\ \ \Rightarrow\ \ c = \arcsin(2/\pi) \approx 0.69.
     \]
-    A graph of $y=\sin x$ on $[0,\pi]$ and the rectangle guaranteed by the Mean Value Theorem.
+
+A graph of $\sin x$ is sketched along with a rectangle
+with height $\sin (0.69)$ are pictured below . The area of the rectangle is the same as
+the area under $\sin x$ on $[0,\pi]$.
+
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = sin(deg(\x));}]
+    \begin{axis}[  
+        domain=-.2:3.3, xmin =-.2,xmax=3.3,ymax=1.2,ymin=-.2,
+        width=6in,
+        height=3in,xtick={3.141,6.282},
+        xticklabels={$\pi$, $2\pi$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+	\addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({0},{2/pi})
+                            ({pi},{2/pi})} \closedcycle;
+               \addplot [very thick,penColor, smooth] {f(x)};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
   \end{explanation}
 \end{example}
-In Figure \ref{fig:ftc8} $\sin x$ is sketched along with a rectangle
-with height $\sin (0.69)$. The area of the rectangle is the same as
-the area under $\sin x$ on $[0,\pi]$. 
-
-Let $f$ be a function on $[a,b]$ with $c$ such that $f(c)(b-a) =
-\int_a^bf(x)\d x$. Consider $\int_a^b\big(f(x)-f(c)\big)\d x$:
-\begin{align*}
-  \int_a^b\big(f(x)-f(c)\big)\d x &= \int_a^b f(x) - \int_a^b f(c)\d x\\
-  &= f(c)(b-a) - f(c)(b-a) \\
-  &= 0.
-\end{align*}
-When $f(x)$ is shifted by $-f(c)$, the amount of area under $f$ above
-the $x$--axis on $[a,b]$ is the same as the amount of area below the
-$x$--axis above $f$; see Figure \ref{fig:ftc9} for an illustration of
-this. In this sense, we can say that $f(c)$ is the \textit{average
-  value} of $f$ on $[a,b]$.
 
 
-Finally, in (c) the height of the rectangle is such that the area of
-the rectangle is \textit{exactly} that of $\int_0^4 f(x)\d x$. Since
-rectangles that are ``too big'', as in (a), and rectangles that are
-``too little,'' as in (b), give areas greater/lesser than $\int_1^4
-f(x)\d x$, it makes sense that there is a rectangle, whose top
-intersects $f(x)$ somewhere on $[1,4]$, whose area is \textit{exactly}
-that of the definite integral.
+
+
+ 
+%This stuff seemed redundant?
+%
+%Let $f$ be a function on $[a,b]$ with $c$ such that $f(c)(b-a) =
+%\int_a^bf(x)\d x$. Consider $\int_a^b\big(f(x)-f(c)\big)\d x$:
+%\begin{align*}
+%  \int_a^b\big(f(x)-f(c)\big)\d x &= \int_a^b f(x) - \int_a^b f(c)\d x\\
+%  &= f(c)(b-a) - f(c)(b-a) \\
+%  &= 0.
+%\end{align*}
+%When $f(x)$ is shifted by $-f(c)$, the amount of area under $f$ above
+%the $x$--axis on $[a,b]$ is the same as the amount of area below the
+%$x$--axis above $f$; see Figure \ref{fig:ftc9} for an illustration of
+%this. In this sense, we can say that $f(c)$ is the \textit{average
+%  value} of $f$ on $[a,b]$.
+%
+%
+%Finally, in (c) the height of the rectangle is such that the area of
+%the rectangle is \textit{exactly} that of $\int_0^4 f(x)\d x$. Since
+%rectangles that are ``too big'', as in (a), and rectangles that are
+%``too little,'' as in (b), give areas greater/lesser than $\int_1^4
+%f(x)\d x$, it makes sense that there is a rectangle, whose top
+%intersects $f(x)$ somewhere on $[1,4]$, whose area is \textit{exactly}
+%that of the definite integral.
 
 
 

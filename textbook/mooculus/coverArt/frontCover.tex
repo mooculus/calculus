@@ -5,21 +5,21 @@
 \usepackage{gillius}
 \usepackage[margin=0in, includehead, includefoot, paperwidth=8.625in, paperheight=8.75in]{geometry}
 \usetikzlibrary{backgrounds}
-
+\usetikzlibrary{patterns}
 
 \definecolor{scarlet}{RGB}{187,0,0}
 
 \begin{document}
 \pagenumbering{gobble}
 
-%\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=8.625in]{classical.jpg}};
+
 \tikz[remember picture,overlay] \node[inner sep=0pt,%fill=black,opacity=.4
 ] at (current page.center){\includegraphics[height=8.75in]{starsRed.jpg}};
 %\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=8.625in]{frontTemplate.png}};
 
 \flushright
-\begin{tikzpicture}[opacity=.7]
-  \node at (0,0) {\scalebox{4}{\Huge\textsf{\textbf{\textcolor{white}{calculus}}}}};
+\begin{tikzpicture}[opacity=.8]
+  \node at (1,0) {\scalebox{4}{\Huge\textsf{\textbf{\textcolor{white}{calculus}}}}};
   \node at (8,1.85) {\scalebox{10}{\Huge\textsf{\textbf{\textcolor{white}{1}}}}};
   %\draw[yellow] (-9,-1.2)--(9,-1.2); %guide line
   \end{tikzpicture}\hspace{.2in}
@@ -28,7 +28,7 @@
 \vspace{1in}
 
 \flushright
-  \begin{tikzpicture}[opacity =.8,declare function = {f(\x) = sin(deg(\x))/\x;}]]
+  \begin{tikzpicture}[opacity =.3,declare function = {f(\x) = sin(deg(\x))/\x;}]]
     \begin{axis}[
         xmin=-16,
         xmax=16,
@@ -36,21 +36,19 @@
         ymax=2.5,
         width=8.2in,
         height=4in,
-        axis lines=middle, xlabel=$x$, ylabel=$y$,
+        axis lines=middle, %xlabel=$x$, ylabel=$y$,
         every axis y label/.style={white,at=(current axis.above origin),anchor=south},
         every axis x label/.style={white,at=(current axis.right of origin),anchor=west},
-        %grid=both,
-        x tick style={color=white},
-        y tick style={color=white},
-        grid style={dashed, gray!50},
+        ticks=none,
         axis line style={white},
       ]
-      \addplot [draw=white,fill=gray!50!scarlet] plot coordinates %% last rect
+      \addplot [draw=white,pattern=north west lines, pattern color=white] plot coordinates %% last rect
                {({-1},{1})
                  ({0},{1})} \closedcycle;
       \foreach \rectnumber in {1,2,3,...,15} %% left hand rect
                {
-                 \addplot [draw=white,fill=gray!50!scarlet] plot coordinates
+                 \addplot [draw=white,%fill=gray!50!scarlet,
+                   pattern=north west lines, pattern color=white] plot coordinates
                           {({(\rectnumber - 17)},{f(\rectnumber-16)})
                             ({1+(\rectnumber) -17 },{f(\rectnumber -16) })} \closedcycle;
                };

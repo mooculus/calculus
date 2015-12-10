@@ -3,7 +3,9 @@
 \input{../preamble}
 
 \outcome{To be able to use the method of substitution to solve some ``simple'' integrals, with an emphasis on being able to correctly identify what to substitute for.}
-
+\outcome{Undo the Chain Rule.}
+\outcome{Calculate indefinite integrals (antiderivatives) using basic substitution.}
+\outcome{Calculate definite integrals using basic substitution.}
 \title[Dig-In:]{The idea of substitution}
 \begin{document}
 \begin{abstract}
@@ -13,35 +15,38 @@
 \maketitle
 
 
-Computing antiderivatives is not as easy as computing derivatives. 
-One issue is that the chain rule can be difficult to ``undo.'' 
-Sometimes  it is helpful to transform the integral in question via substitution. 
+Computing antiderivatives is not as easy as computing derivatives.
+One issue is that the chain rule can be difficult to ``undo.''  We
+have a general method called ``integration by substitution'' that will
+somewhat help with this difficulty. The idea is this: We know by the
+chain rule that
+\[
+\ddx f(g(x)) = f'(g(x))g'(x)
+\]
+so if we conisder
+\begin{align*}
+  \int_a^b f'(g(x))g'(x) \d x &= \eval{f(g(x))}_a^b \\
+  &= f(g(b)) - f(g(a)) \\
+  &= \eval{f(g)}_{g(a)}^{g(b)}\\
+  &= \int_{g(a)}^{g(b)}f(g) \d g.
+\end{align*}
 
+This ``transformation'' is worth stating explicity:
 
 \begin{theorem}[Integral Substitution Formula] 
-If $u(x)$ is differentiable on the interval $[a,b]$ and $f(x)$ is
-differentiable on the interval $[u(a),u(b)]$, then
+If $g$ is differentiable on the interval $[a,b]$ and $f$ is
+differentiable on the interval $[g(a),g(b)]$, then
 \[
-\int_a^b f'(u(x)) u'(x) \d x =\int_{u(a)}^{u(b)} f'(u) \d u.
+\int_a^b f'(g(x)) g'(x) \d x =\int_{g(a)}^{g(b)} f'(g) \d g.
 \]
 \end{theorem}
-\begin{proof} First we recognize the chain rule
-\[
-\int_a^b f'(u(x)) u'(x) \d x = \int_a^b (f\circ u)'(x) \d x.
-\]
-Next we apply the Fundamental Theorem of Calculus. 
-\begin{align*} 
-\int_a^b (f\circ u)'(x) \d x &= \eval{f(u(x))}_a^b \\
-&= \eval{f(x)}_{u(a)}^{u(b)}\\ 
-&= \int_{g(a)}^{g(b)} f'(u) \d u.
-\end{align*}
-\end{proof}
 
+\section{Three similar techinques}
 
 There are several different ways to think about substitution. The
 first is directly using the formula
 \[
-\int_a^b f'(u(x)) u'(x) \d x = \int_{u(a)}^{u(b)} f'(u) \d u.
+\int_a^b f'(g(x)) g'(x) \d x = \int_{g(a)}^{g(b)} f'(g) \d g.
 \]
 \begin{example}
 Compute
@@ -56,24 +61,25 @@ $x^2$ on the ``inside,''
 \[
 \int \underbrace{x}_{\text{outside}}\cos(\underbrace{x^2}_{\text{inside}})\d x.
 \]
-Set $u(x) = x^2$, so $u'(x) = 2x$, and now it must be that $f'(u) =
-\frac{\cos(u)}{2}$. Now we see
+Set $g(x) = x^2$, so $g'(x) = 2x$, and now it must be that $f'(g) =
+\frac{\cos(g)}{2}$. Now we see
 \begin{align*}
-\int_1^3 x\cos(x^2)\d x &= \int_1^9 \frac{\cos(u)}{2}\d u\\
-&= \eval{\frac{\sin(u)}{2}}_1^9 \\
+\int_1^3 x\cos(x^2)\d x &= \int_1^9 \frac{\cos(g)}{2}\d g\\
+&= \eval{\frac{\sin(g)}{2}}_1^9 \\
 &= \frac{\sin(9) -\sin(1)}{2}.
 \end{align*}
 Notice the change of endpoints in the first equality!  
 We obtained the new integrands by the computations
 \begin{align*}
-u(1) &= 1^2 = 1  \\
-u(3) &= 3^2 = 9.
+g(1) &= 1^2 = 1  \\
+g(3) &= 3^2 = 9.
 \end{align*}
 \end{explanation}
 \end{example}
 
-We will usually solve these problems in a slightly different way. Let's do the same
-example again, this time we will think in terms of differentials.
+We will usually solve these problems in a slightly different
+way. Let's do the same example again, this time we will think in terms
+of differentials.
 
 \begin{example}\label{main example}
 Compute
@@ -81,11 +87,14 @@ Compute
 \int_1^3 x\cos(x^2)\d x.
 \]
 \begin{explanation}
-Here we will set $u=x^2$. Then $du = \answer[given]{2x} \d x$, where we are thinking in terms
-of differentials. So we can solve for $\d x$ to get $\d x = \frac{\d u}{\answer[given]{2x}}$.  We then see that
-\[
-\int_1^3 x \cos(x^2) \d x = \int_{u(1)}^{u(3)} x \cos(u) \frac{\d u}{2x} = \int_{1}^{9} \frac{\cos(u)}{2}\d u .
-\]
+Here we will set $g(x) = x^2$. Then $\d g = \answer[given]{2x} \d x$,
+where we are thinking in terms of differentials. So we can solve for
+$\d x$ to get $\d x = \frac{\d g}{\answer[given]{2x}}$.  We then see
+that
+\begin{align*}
+  \int_1^3 x \cos(x^2) \d x &= \int_{g(1)}^{g(3)} x \cos(g) \frac{\d g}{2x}\\
+  &= \int_{1}^{9} \frac{\cos(g)}{2}\d g .
+\end{align*}
 At this point, we can continue as we did before and write
 \[
 \int_1^3 x\cos(x^2)\d x= \frac{\sin(9) -\sin(1)}{2}.
@@ -102,14 +111,14 @@ Compute
 \int_1^3 x\cos(x^2)\d x.
 \]
 \begin{explanation}
-Here we start as we did before, setting $u=x^2$. Now $du = 2x \d x$,
+Here we start as we did before, setting $g(x)=x^2$. Now $\d g =  2x \d x$,
 again thinking in terms of differentials. Now we see that
 \[
-\int x \cos(x^2) \d x = \int x \cos(u) \frac{\d u}{2x} = \int \frac{\cos(u)}{2}\d u .
+\int x \cos(x^2) \d x = \int x \cos(g) \frac{\d g}{2x} = \int \frac{\cos(g)}{2}\d g .
 \]
 Hence 
 \[
-\int x\cos(x^2)\d x = \frac{\sin(u)}{2} = \frac{\sin(x^2)}{2}.
+\int x\cos(x^2)\d x = \frac{\sin(g)}{2} = \frac{\sin(x^2)}{2}.
 \]
 So
 \begin{align*}
@@ -119,9 +128,12 @@ So
 \end{explanation}
 \end{example}
 
-With some experience, it is (usually) not too hard to see what to substitute as $u(x)$.
-We will work through the following examples in the same way that we did for Example \ref{main example}.  
-% let's see another example.
+\section{More examples}
+
+With some experience, it is (usually) not too hard to see what to
+substitute as $g$.  We will work through the following examples in the
+same way that we did for Example \ref{main example}. Let's see another
+example.
 
 \begin{example}
 Compute
@@ -129,15 +141,16 @@ Compute
 \int x^4(x^5+1)^{99} \d x.
 \]
 \begin{explanation}
-Here we set $u = \answer[given]{x^5+1}$, so $du = \answer[given]{5x^4} \d x$.  Then
+Here we set $g(x) =  \answer[given]{x^5+1}$, so $\d g =  \answer[given]{5x^4} \d x$.  Then
 \begin{align*}
-\int x^4(x^5+1)^{99} \d x = \frac{1}{5} \int 5x^4 (x^5+1)^{99} \d x &= \frac{1}{5} \int u^{99} \d u\\
-&= \answer[given]{\frac{u^{100}}{500}}.
+  \int x^4(x^5+1)^{99} \d x &= \frac{1}{5} \int 5x^4 (x^5+1)^{99} \d x \\
+  &= \frac{1}{5} \int g^{99} \d g\\
+&= \answer[given]{\frac{g^{100}}{500}}.
 \end{align*}
 Notice that this example is an indefinite integral and not a definite integral, meaning that there are no endpoints on the integral.  
 So we do not need to worry about changing the endpoints of the integral.  
 But we do need to back-substitute into our answer, so that our final answer is a function of $x$.  
-Recalling that $u = x^5+1$, we have our final answer
+Recalling that $g(x) =  x^5+1$, we have our final answer
 \[
 \int x^4(x^5+1)^{99} \d x= \answer[given]{\frac{(x^5+1)^{100}}{500}}+C.
 \]
@@ -161,17 +174,17 @@ The ``ugly'' part of the function being integrated is pretty clearly $e^{x^4}$.
 The ``inside'' of this term is then $x^4$.  
 So a good possibility is to try 
 \[
-u = \answer[given]{x^4}.
+g(x) =  \answer[given]{x^4}.
 \]
 Then
 \[
-\d u = \answer[given]{4x^3} \d x 	\qquad	\Longrightarrow	\qquad	\d x = \answer[given]{\frac{1}{4x^3}} \d u
+\d g =  \answer[given]{4x^3} \d x 	\qquad	\Longrightarrow	\qquad	\d x = \answer[given]{\frac{1}{4x^3}} \d g
 \]
 and so
 \begin{align*}
-\int_{-1}^0 12x^3 e^{x^4} \d x &= \int_{u(-1)}^{u(0)} 12 x^3 e^u \answer[given]{\frac{1}{4x^3}} \d u  \\
-&= \int_{\answer[given]{1}}^{\answer[given]{0}} \answer[given]{3 e^u} \d u  \\
-&= \eval{\answer[given]{3e^u}}_{\answer[given]{1}}^{\answer[given]{0}}  \\
+\int_{-1}^0 12x^3 e^{x^4} \d x &= \int_{g(-1)}^{g(0)} 12 x^3 e^g \answer[given]{\frac{1}{4x^3}} \d g  \\
+&= \int_{\answer[given]{1}}^{\answer[given]{0}} \answer[given]{3 e^g} \d g  \\
+&= \eval{\answer[given]{3e^g}}_{\answer[given]{1}}^{\answer[given]{0}}  \\
 &= \answer[given]{3(1-e)}.
 \end{align*}
 \end{explanation}
@@ -188,33 +201,33 @@ and so
 As in the previous example, it is pretty clear that the ``ugly'' part here is $\cos(\ln x)$.  
 So we substitute for the inside:
 \[
-u = \answer[given]{\ln x}.
+g(x)\answer[given]{\ln x}.
 \]
 Then
 \[
-\d u = \answer[given]{\frac{1}{x}} \d x 	\qquad	\Longrightarrow	\qquad	\d x = \answer[given]{x} \d u.
+\d g =  \answer[given]{\frac{1}{x}} \d x 	\qquad	\Longrightarrow	\qquad	\d x = \answer[given]{x} \d g.
 \]
 Notice that
 \begin{align*}
-u(1) &= \ln (1) = \answer[given]{0} \\
-u \left( e^{\frac{\pi}{4}} \right) &= \ln \left( e^{\frac{\pi}{4}} \right) = \answer[given]{\frac{\pi}{4}}.
+g(1) &= \ln (1) = \answer[given]{0} \\
+g \left( e^{\frac{\pi}{4}} \right) &= \ln \left( e^{\frac{\pi}{4}} \right) = \answer[given]{\frac{\pi}{4}}.
 \end{align*}
 Then we substitute back into the original integral and solve:
 \begin{align*}
-\int_{1}^{e^{\frac{\pi}{4}}} \frac{\cos(\ln x)}{x} \d x &= \int_0^{\frac{\pi}{4}} \frac{\cos(u)}{x} x \d u  \\
-&= \int_0^{\frac{\pi}{4}} \cos(u) \d u  \\
-&= \eval{\answer[given]{\sin(u)}}_{0}^{\frac{\pi}{4}}  \\
+\int_{1}^{e^{\frac{\pi}{4}}} \frac{\cos(\ln x)}{x} \d x &= \int_0^{\frac{\pi}{4}} \frac{\cos(g)}{x} x \d g  \\
+&= \int_0^{\frac{\pi}{4}} \cos(g) \d g  \\
+&= \eval{\answer[given]{\sin(g)}}_{0}^{\frac{\pi}{4}}  \\
 &= \answer[given]{\frac{\sqrt{2}}{2}} - \answer[given]{0} = \answer[given]{\frac{\sqrt{2}}{2}}.
 \end{align*}
 \end{explanation}
 \end{example}
 
 To summarize, if we suspect that a given function is the derivative of
-another via the chain rule, we let $u$ denote a likely candidate for
+another via the chain rule, we let $g$ denote a likely candidate for
 the inner function, then translate the given function so that it is
-written entirely in terms of $u$, with no $x$ remaining in the
-expression. If we can integrate this new function of $u$, then the
-antiderivative of the original function is obtained by replacing $u$
+written entirely in terms of $g$, with no $x$ remaining in the
+expression. If we can integrate this new function of $g$, then the
+antiderivative of the original function is obtained by replacing $g$
 by the equivalent expression in $x$.
 
 

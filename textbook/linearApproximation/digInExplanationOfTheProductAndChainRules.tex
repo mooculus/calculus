@@ -12,6 +12,10 @@
 \maketitle
 
 
+Now that we know about differentials, let's use them to give some
+intuition as to why the product and chain rules are true.
+
+
 \section{Explanation of the product rule}
 
 Linear approximations can help us explain why the product rule works.
@@ -26,7 +30,7 @@ If $f$ and $g$ are differentiable, then
   \[
   A(x) = f(x) \cdot g(x).
   \]
-  One interpertation of multiplication is it is the area of a $f(x)
+  One interpretation of multiplication is it is the area of a $f(x)
   \times g(x)$ rectangle:
   \begin{image}
     \begin{tikzpicture}
@@ -128,51 +132,127 @@ If $f$ and $g$ are differentiable, then
 \ddx f(g(x)) = f'(g(x))g'(x).
 \]
 \begin{explanation}
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            axis lines=none,
-            clip=false,
-            width=6in,
-            height=3in,
-          ]          
-          \addplot [->,textColor] plot coordinates {(0,0) (-2,-4)}; %% x axis
-          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% y axis
-          \addplot [->,textColor] plot coordinates {(0,0) (6,0)}; %% g axis
+  We'll try to understand this geometrically. In what follows, the
+  functions $f$ and $g$ look like lines; however, the young
+  mathematician should realize that we are \textbf{not} looking a true
+  lines, instead we are looking at $f$ and $g$ sufficiently
+  ``zoomed-in'' so that they appear to be lines.  First consider a
+  graph of $g$ with respect to $x$:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          domain=-.1:2,
+          ymin=-.1,
+          ymax=4,
+          xtick={.75}, 
+          xticklabels={$x$},
+          ytick={1.5},
+          yticklabels={$g(x)$},
+          axis lines =middle, %xlabel=, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]
+	\addplot [very thick, penColor2] {2*x};
+        \addplot [textColor!50!background] plot coordinates {(.75,0) (.75,1.5)};
+        \addplot [textColor!50!background] plot coordinates {(.75,1.5) (0,1.5)};
+        
+        \addplot [dashed,->] plot coordinates {(.75,2*.75) (1.25,2*.75)};
+        \addplot [dashed,->] plot coordinates {(1.25,2*.75) (1.25,2*1.25)};
 
-          \addplot [textColor!50!background] plot coordinates {(-.7,-1.4) (1.4,-1.4)};
-          \addplot [textColor!50!background] plot coordinates {(1.4,-1.4) (2.1,0)};
-          \addplot [textColor!50!background] plot coordinates {(2.1,0) (2.1,4.1)};
-          
-          \addplot [textColor!50!background] plot coordinates {(2.6,-2.6) (3.5,0)};
-          \addplot [textColor!50!background] plot coordinates {(3.5,0) (3.5,4.1)};
+        \node at (axis cs:1,2*.75) [anchor=north] {$\d x$};
+        \node at (axis cs:1.25,2) [anchor=west] {$\d g$};
 
-          \addplot [dashed,->] plot coordinates {(1.4,-1.4) (.8,-2.6)};
-          \addplot [dashed,->] plot coordinates {(2.1,4.1) (3.5,4.1)};
+        \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.75,1.5)};  %% closed hole         
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Now consider a graph of $f$ with respect to $g$:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          domain=-.1:2,
+          ymin=-.1,
+          ymax=4,
+          xtick={1}, 
+          xticklabels={$g$},
+          ytick={3},
+          yticklabels={$f(g)$},
+          axis lines =middle, %xlabel=, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]
+	\addplot [very thick, penColor] {2+x};
+        \addplot [textColor!50!background] plot coordinates {(1,0) (1,3)};
+        \addplot [textColor!50!background] plot coordinates {(1,3) (0,3)};
+        
+        \addplot [dashed,->] plot coordinates {(1,3) (1.5,3)};
+        \addplot [dashed,->] plot coordinates {(1.5,3) (1.5,3.5)};
 
-          \addplot [dashed,->] plot coordinates {(.8,-2.6) (2.6,-2.6)};
-          \addplot [dashed,->] plot coordinates {(3.5,4.1) (3.5,5.5)};
+        \node at (axis cs:1.25,3) [anchor=north] {$\d g$};
+        \node at (axis cs:1.5,3.25) [anchor=west] {$\d f$};
 
-          \addplot [very thick,penColor,domain=(0:4)] {2+x};
-          \addplot [very thick,penColor2,domain=(0:4)] {-x};
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,3)};  %% closed hole         
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  If we combine these graphs, by laying the graph of $g$ on its side,
+  we obtain:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines=none,
+          clip=false,
+          width=6in,
+          height=3in,
+        ]          
+        \addplot [->,textColor] plot coordinates {(0,0) (-2,-4)}; %% x axis
+        \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% y axis
+        \addplot [->,textColor] plot coordinates {(0,0) (6,0)}; %% g axis
+        
+        \addplot [textColor!50!background] plot coordinates {(-.7,-1.4) (1.4,-1.4)};
+        \addplot [textColor!50!background] plot coordinates {(1.4,-1.4) (2.1,0)};
+        \addplot [textColor!50!background] plot coordinates {(2.1,0) (2.1,4.1)};
+        
+        \addplot [textColor!50!background] plot coordinates {(2.6,-2.6) (3.5,0)};
+        \addplot [textColor!50!background] plot coordinates {(3.5,0) (3.5,4.1)};
+        
+        \addplot [dashed,->] plot coordinates {(1.4,-1.4) (.8,-2.6)};
+        \addplot [dashed,->] plot coordinates {(2.1,4.1) (3.5,4.1)};
+        
+        \addplot [dashed,->] plot coordinates {(.8,-2.6) (2.6,-2.6)};
+        \addplot [dashed,->] plot coordinates {(3.5,4.1) (3.5,5.5)};
 
-          \node at (axis cs:3.5,4.8) [anchor=west] {$\d f$};
-          \node at (axis cs:1.7,-2.6) [anchor=north] {$\d g$};
-          \node at (axis cs:2.8,4.1) [anchor=north] {$\d g$};
-          
-          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.4,-1.4)};  %% closed hole          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2.1,4.1)};  %% closed hole          
-
-          %\node at (axis cs:1,-2.1) [anchor=south,yslant=0,xslant=0,rotate=53] {$\overbrace{\hspace{.36in}}^{h}$};
-          \node at (axis cs:.7,-1.9) {$\d x$};
-
-          %\node at (axis cs:7,0) [anchor=east] {$g(x)$};
-          %\node at (axis cs:0,6.7) [anchor=north] {$y$};
-          %\node at (axis cs:-2.15,-4) [anchor=north] {$x$};
-          \node at (axis cs:-.7,-1.4) [anchor=east] {$x$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
+        \addplot [very thick,penColor,domain=(0:4)] {2+x};
+        \addplot [very thick,penColor2,domain=(0:4)] {-x};
+        
+        \node at (axis cs:3.5,4.8) [anchor=west] {$\d f$};
+        \node at (axis cs:1.7,-2.6) [anchor=north] {$\d g$};
+        \node at (axis cs:2.8,4.1) [anchor=north] {$\d g$};
+        \node at (axis cs:2.1,0) [anchor=north west] {$g(x)$};
+        
+        \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.4,-1.4)};  %% closed hole          
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2.1,4.1)};  %% closed hole
+        %\addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(2.1,0)};  %% closed hole          
+        
+        %\node at (axis cs:1,-2.1) [anchor=south,yslant=0,xslant=0,rotate=53] {$\overbrace{\hspace{.36in}}^{h}$};
+        \node at (axis cs:.7,-1.9) {$\d x$};
+        
+        %\node at (axis cs:7,0) [anchor=east] {$g(x)$};
+        %\node at (axis cs:0,6.7) [anchor=north] {$y$};
+        %\node at (axis cs:-2.15,-4) [anchor=north] {$x$};
+        \node at (axis cs:-.7,-1.3) [anchor=east] {$x$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Ah! From this we see that
+  \begin{align*}
+    \d f &= f'(g) \d g\\
+    &= f'(g(x)) g'(x) \d x,
+  \end{align*}
+  so
+  \[
+  \dd[f]{x} = f'(g(x))g'(x).
+  \]
 \end{explanation}
 \end{theorem}
 

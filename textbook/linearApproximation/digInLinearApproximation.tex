@@ -3,8 +3,16 @@
 
 \input{../preamble.tex}
 
-\outcome{Compute the linear approximation to a differentiable function at a point.}
+\outcome{Define linear approximation as an application of the tangent to a curve.}
+\outcome{Find the linear approximation to a function at a point and use it to approximate the function value.}
+\outcome{Identify when a linear approximation can be used.}
+\outcome{Label a graph with the appropriate quantities used in linear approximation.}
+\outcome{Find the error of a linear approximation.}
 \outcome{Compute differentials.}
+%\outcome{Use the second derivative to discuss whether the linear approximation over or underestimates the actual function value.}
+\outcome{Contrast the notation and meaning of $\d y$ versus $\Delta y$.}
+%\outcome{Understand that the error shrinks faster than the displacement in the input.}
+\outcome{Justify the chain rule via the composition of linear approximations.}
 
 
 \title[Dig-In:]{Linear approximation}
@@ -185,9 +193,9 @@ via the diagram below
           \node at (axis cs:1.7,2.08) [right] {$\d f$};
         \end{axis}
 \end{tikzpicture}
-%\caption{While $dy$ and $dx$ are both variables, $dy$ depends on $dx$,
+%\caption{While $dy$ and $\d x$ are both variables, $dy$ depends on $\d x$,
   %and approximates how much a function grows after a change of size
-  %$dx$ from a given point.}
+  %$\d x$ from a given point.}
 %\label{figure:differentials}
 %\end{marginfigure}
 \end{image}
@@ -222,14 +230,14 @@ hence,
 \[
 f'(x)h \approx f(x+h)-f(x).
 \]
-Since $h$ is simply a variable, and $dx$ is simply a variable, we can replace $h$ with $dx$ to write
+Since $h$ is simply a variable, and $\d x$ is simply a variable, we can replace $h$ with $\d x$ to write
 \begin{align*}
-f'(x)\cdot dx &\approx f(x+\d x)-f(x)\\
+f'(x)\cdot \d x &\approx f(x+\d x)-f(x)\\
 \d f &\approx f(x+\d x)-f(x).
 \end{align*}
 Adding $f(x)$ to both sides we see
 \[
-f(x+dx)\approx f(x) + \d f.
+f(x+\d x)\approx f(x) + \d f.
 \]
 While this is something of a ``sleight of hand'' with variables, there
 are contexts where the language of differentials is common. Here is
@@ -251,7 +259,7 @@ We will repeat our previous examples using differentials.
 Use differentials to approximate $\sqrt[3]{50}$.
 \begin{explanation}
   Set $f(x) = \sqrt[3]{x}$. We want to know $\sqrt[3]{50}$.  Since
-  $4^3 = 64$, we set $x=64$.  Setting $dx=-14$, we have
+  $4^3 = 64$, we set $x=64$.  Setting $\d x=-14$, we have
   \begin{align*}
   \sqrt[3]{50} = f(x + \d x) &\approx  f(x) + \d f\\
   &\approx \sqrt[3]{64} + \d f.
@@ -278,7 +286,7 @@ Use differentials to approximate $\sqrt[3]{50}$.
         \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole            
       \end{axis}
     \end{tikzpicture}
-    %\caption{A plot of $f(x) = \sqrt[3]{x}$  along with the differentials $dx$ and $dy$.}
+    %\caption{A plot of $f(x) = \sqrt[3]{x}$  along with the differentials $\d x$ and $dy$.}
     \label{figure:diff sqrt3x}
   \end{image}
   Now we must compute $\d f$:
@@ -333,7 +341,7 @@ we will set $x = 0$ and $\d x=0.3$. Write with me
           \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
         \end{axis}
 \end{tikzpicture}
-%\caption{A plot of $f(x) = \sin(x)$ along with the differentials $dx$ and $dy$.}
+%\caption{A plot of $f(x) = \sin(x)$ along with the differentials $\d x$ and $dy$.}
 \label{figure:diff sin}
 %\end{marginfigure}
 \end{image}
@@ -351,59 +359,100 @@ Hence $\sin(0.3) \approx \sin(0) + 0.3 \approx 0.3$.
 The upshot is that linear approximations and differentials are simply
 two slightly different ways of doing the exact same thing.
 
-%% \section{Error approximation}
+\section{Error approximation}
 
-%% Differentials also help us estimate error in real life settings.
+Differentials also help us estimate error in real life settings.
 
-%% \begin{example}
-%%   The cross-section of a $250$ ml glass can be modeled by the function
-%%   \[
-%%   r(x) = \frac{x^4}{3}
-%%   \]
-%%   \begin{image}
-%%     \begin{tikzpicture}[
-%%         declare function = {f(\x) = (1/3)* pow(\x,4);} ]
-%%       \begin{axis}[
-%%           xmin =-4,xmax=4,ymax=23,ymin=-.2,
-%%           axis lines=center, xlabel=$x$, ylabel=$y$,
-%%           every axis y label/.style={at=(current axis.above origin),anchor=south},
-%%           every axis x label/.style={at=(current axis.right of origin),anchor=west},
-%%           axis on top,
-%%         ]
-%%         \addplot [draw=none,fill=fillp!50!white,domain=-2.65:2.65, smooth] {.8*sqrt(2.65^2-x^2)+16.8} \closedcycle;
-%%         \addplot [draw=none,fill=fillp,domain=-2.65:2.65, smooth] {-.8*sqrt(2.65^2-x^2)+16.8} \closedcycle; 
-%%         \addplot [draw=none,fill=white,domain=-2.7:2.7, smooth] {f(x)} \closedcycle;
-%%         \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
+\begin{example}
+  The cross-section of a $250$ ml glass can be modeled by the function
+  $r(x) = \frac{x^4}{3}$:
+  \begin{image}
+    \begin{tikzpicture}[
+        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
+      \begin{axis}[
+          xmin =-4,xmax=4,ymax=23,ymin=-.2,
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+        ]
+        \addplot [draw=none,fill=fillp!50!white,domain=-2.65:2.65, smooth] {.8*sqrt(2.65^2-x^2)+16.8} \closedcycle;
+        \addplot [draw=none,fill=fillp,domain=-2.65:2.65, smooth] {-.8*sqrt(2.65^2-x^2)+16.8} \closedcycle; 
+        \addplot [draw=none,fill=white,domain=-2.7:2.7, smooth] {f(x)} \closedcycle;
+        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
 
-%%         \draw[penColor,very thick] (axis cs:0,16.8) ellipse (265 and 20);
-%%         \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
+        \draw[penColor,very thick] (axis cs:0,16.8) ellipse (265 and 20);
+        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
 
-%%         \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
-%%       \end{axis}
-%%     \end{tikzpicture}
-%%   \end{image}
-%%   At $16.8$ cm from the base of the glass, there is a mark indicating
-%%   when the glass is filled to $250$ ml. If the glass is filled within
-%%   $\pm 2$ millimeters of the mark, what are the bounds on the volume?
-%%   As a gesture of friendship, we will tell you that the volume is given by
-%%   \[
-%%   V(x) = \pi r(x)^2.
-%%   \]
-%%   \begin{explanation}
-%%     This question is ripe to be solved with differentials. We are
-%%     looking for $dV$, but we know
-%%     \[
-%%     dV = V'(x) \d x
-%%     \]
-%%     Since
-%%     \[
-%%     V'(x) = 2 \pi r(x) r'(x)
-%%     \]
-%%     and
-%%     \[
-%%     r'(x) = \left{4 x^2}{3}
-%%     \]
-%%   \end{explanation}
-%% \end{example}
+        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  At $16.8$ cm from the base of the glass, there is a mark indicating
+  when the glass is filled to $250$ ml. If the glass is filled within
+  $\pm 2$ millimeters of the mark, what are the bounds on the volume?
+  As a gesture of friendship, we will tell you that the volume in
+  milliliters, as a function of the height of water in centimeters, $y$,
+  is given by
+  \[
+  V(y) = \frac{2\pi y^{3/2}}{\sqrt{3}}.
+  \]
+  Note: If you persist in your quest to learn calculus, you will be
+  able to derive the formula above like it's no-big-deal.
+  \begin{explanation}
+    We want to know what a small change in the height, $y$ does to the
+    volume $V$.  These small changes can be modeled by the
+    differentials $\d V$ and $\d y$. Since
+    \[
+    \d V = V'(y) \d y
+    \]
+    and $V'(x) = \answer[given]{\pi \sqrt{3 y}}$ we use the fact that
+    $\d y = \pm 0.2$ with $y=\answer[given]{16.8}$ to see
+    \[
+    \d V = \answer[given]{\pi \sqrt{3 \cdot 16.8}} \cdot 0.2.
+    \]
+    Hence the volume will vary by at most $\pm\answer[given,tolerance=.01]{4.46062}$
+    milliliters.
+  \end{explanation}
+\end{example}
+
+\section{New and old friends}
+
+You might be wondering, given a plot $y=f(x)$,
+\begin{quote}
+  What's the difference between $\Delta x$ and $\d x$? What about
+  $\Delta y$ and $\d y$?
+\end{quote}
+Regardless, it is now a pressing question. Here's the deal: 
+\[
+\frac{\Delta y}{\Delta x}
+\]
+is the \dfn{average rate of change} of $y=f(x)$ with respect to $x$.
+On the other hand:
+\[
+\frac{\d y}{\d x}
+\]
+is the \dfn{instantaneous rate of change} of $y=f(x)$ with respect to
+$x$. Essentially, $\Delta x$ and $\d x$ are the same type of thing,
+they are (usually small) changes in $x$. However, $\Delta y$ and $\d
+y$ are very different things.
+\begin{itemize}
+\item $\Delta y$ is the change of $y$ associated to $\Delta x$.
+\item $\d y$ is the change in $y$ needed to make the following relation true:
+  \[
+  \d y = f'(x)\d x
+  \]
+\end{itemize}
+\begin{question}
+  Suppose $f(x) = x^2$. If $\Delta x =\d x = 0.1$, what is $\Delta y$? What
+  is $\d y$?
+  \begin{prompt}
+    \[
+    \Delta y = \answer{0.01}\qquad \d y = \answer{0.02}
+    \]
+  \end{prompt}
+\end{question}
+Differentials can be confusing at first. However, when you master
+them, you will have a powerful tool at your disposal.
 
 \end{document}

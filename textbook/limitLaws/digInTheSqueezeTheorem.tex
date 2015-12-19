@@ -59,6 +59,8 @@ f(x) =
 	\begin{axis}[
             domain=-.2:.2,    
             samples=500,
+            width=6in,
+            height=3in,
             axis lines =middle, xlabel=$x$, ylabel=$y$,
             yticklabels = {}, 
             every axis y label/.style={at=(current axis.above origin),anchor=south},
@@ -111,7 +113,7 @@ Compute:
 \begin{explanation}
 To compute this limit, use the Squeeze Theorem. First note that we
 only need to examine $\theta\in \left(\frac{-\pi}{2}, \frac{\pi}{2}\right)$
-and for the present time, we'll assume that $\theta$ is positive---consider
+and for the present time, we'll assume that $\theta$ is positive. Consider
 the diagrams below:
 
 \begin{image}
@@ -216,6 +218,39 @@ and so we conclude by the Squeeze Theorem, $\lim_{\theta \to
 \end{explanation}
 \end{example}
 
+When solving a problem with the Squeeze Theorem, one must write a sort
+of mathematical poem. You have to tell your friendly reader exactly
+which functions you are using to ``squeeze-out'' your limit.
 
+\begin{example}
+  Compute:
+  \[
+  \lim_{x\to 0} \sin(x) e^{\cos\left(\frac{1}{x^8}\right)}
+  \]
+  \begin{explanation}
+    Let's graph this function to see what's going on:
+    \begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            domain=-4:4,    
+            width=6in,
+            height=3in,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            yticklabels = {}, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+          ]
+	  \addplot [very thick, penColor, smooth, samples=500,
+            domain=(-4:-.4)] {sin(deg(x))*e^(cos(deg(1/x^4)))};
+          \addplot [very thick, penColor, smooth, samples=500,
+            domain=(.4:4)]  {sin(deg(x))*e^(cos(deg(1/x^8)))};
+	  \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:.3)] {abs(sin(deg(x))*e)} \closedcycle;
+          \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:.3)] {-abs(sin(deg(x)*1/e)} \closedcycle;
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+  \end{explanation}
+\end{example}
 
 \end{document}

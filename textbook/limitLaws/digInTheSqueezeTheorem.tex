@@ -225,7 +225,7 @@ which functions you are using to ``squeeze-out'' your limit.
 \begin{example}
   Compute:
   \[
-  \lim_{x\to 0} \sin(x) e^{\cos\left(\frac{1}{x^8}\right)}
+  \lim_{x\to 0} \left(\sin(x) e^{\cos\left(\frac{1}{x^3}\right)}\right)
   \]
   \begin{explanation}
     Let's graph this function to see what's going on:
@@ -240,16 +240,30 @@ which functions you are using to ``squeeze-out'' your limit.
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
             clip=false,
+            axis on top,
           ]
 	  \addplot [very thick, penColor, smooth, samples=500,
-            domain=(-4:-.4)] {sin(deg(x))*e^(cos(deg(1/x^4)))};
+            domain=(-4:-.35)] {sin(deg(x))*e^(cos(deg(1/x^3)))};
           \addplot [very thick, penColor, smooth, samples=500,
-            domain=(.4:4)]  {sin(deg(x))*e^(cos(deg(1/x^8)))};
-	  \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:.3)] {abs(sin(deg(x))*e)} \closedcycle;
-          \addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:.3)] {-abs(sin(deg(x)*1/e)} \closedcycle;
+            domain=(.35:4)]  {sin(deg(x))*e^(cos(deg(1/x^3)))};
+	  \addplot [color=penColor, fill=penColor,smooth,domain=(-.35:.35)] {sin(deg(x))*e} \closedcycle;
+          \addplot [color=background, fill=background, smooth,domain=(-.35:.35)] {sin(deg(x)*1/e} \closedcycle;
+          
+          %\addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:0)] {-abs(sin(deg(x))*e)} \closedcycle;
+          %\addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:0)] {abs(sin(deg(x)*1/e)} \closedcycle;
         \end{axis}
-\end{tikzpicture}
-\end{image}
+      \end{tikzpicture}
+    \end{image}
+    The function $\sin(x) e^{\cos\left(\frac{1}{x^3}\right)}$ has two factors
+    \begin{image}
+      \begin{tikzpicture}
+        \node at (0,0) {
+      $\overbrace{\sin(x)} \cdot \underbrace{e^{\cos\left(\frac{1}{x^3}\right)}}$
+          };
+          \node at (-1,.7) {\small{bounded between $-1$ and $1$}};
+          \node at (1,-.7) {\small{bounded between $e^{-1}$ and $e$}};
+      \end{tikzpicture}
+    \end{image}
   \end{explanation}
 \end{example}
 

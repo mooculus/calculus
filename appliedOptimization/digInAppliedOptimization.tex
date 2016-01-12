@@ -1,0 +1,483 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Recognize optimization problem.}
+\outcome{Translate a word problem into the problem of finding the extreme values of a function.}
+\outcome{Solve basic word problems involving maxima or minima.}
+\outcome{Interpret an optimization problem as the procedure used to make a system or design as effective or functional as possible.}
+\outcome{Set up an optimization problem by identifying the objective function and appropriate constraints.}
+\outcome{Solve optimization problems by finding the appropriate absolute extremum.}
+\outcome{Identify the appropriate domain for functions which are models of real-world phenomena.}
+
+\title[Dig-In:]{Applied optimization}
+
+\begin{document}
+\begin{abstract}
+  Now we put our optimization skills to work.
+\end{abstract}
+\maketitle
+
+
+In this section, we will present several worked examples of
+optimization problems. Our method for solving these problems is
+essentially the following:
+\begin{description}
+\item[Draw a picture.] If possible, draw a schematic picture with all the relevant information. 
+\item[Determine your goal.] We need identify what needs to be
+  optimized.
+\item[Find constraints.] What limitations are set on our
+  optimization?
+\item[Solve for a single variable.] Now you should have a function to optimize.
+\item[Use calculus to find the extreme values.] Be sure to check your answer!
+\end{description}
+
+
+
+
+
+
+\begin{example}
+You are making cylindrical containers to contain a given volume.  Suppose
+that the top and bottom are made of a material that is $N$ times as
+expensive (cost per unit area) as the material used for the lateral side of
+the cylinder.  Find (in terms of $N$) the ratio of height to base radius of
+the cylinder that minimizes the cost of making the containers.
+\begin{explanation}
+  First we draw a picture:
+\begin{image}
+\begin{tikzpicture}
+\draw[penColor,very thick] (0,2) ellipse (2 and .7);
+\draw[very thick,penColor!20!background] (2,-2) arc (0:180:2 and .7);% top half of ellipse
+\draw[very thick,penColor] (-2,-2) arc (180:360:2 and .7);% bottom half of ellipse
+
+\draw[penColor, very thick] (2,2) -- (2,-2);
+\draw[penColor, very thick] (-2,2) -- (-2,-2);
+
+\draw[penColor, dashed, very thick] (0,2) -- (2,2);
+\draw[penColor, dashed, very thick] (0,2) -- (0,-2);
+
+\node [above,penColor] at (1,2) {$r$};
+\node [left,penColor] at (0,-.33) {$h$};
+\node [penColor,right] at (2,-1.42) {$V = \pi r^2h$};
+\end{tikzpicture}
+\end{image}
+  Letting $c$ represent the cost of the lateral side, we can write an
+  expression for the cost of materials:
+  \[
+  C = 2\pi crh+\answer[given]{2\pi r^2Nc}.
+  \]
+  Since we know that $V=\pi r^2h$, we can use this relationship to
+  eliminate $h$ (we could eliminate $r$, but it's a little easier if we
+  eliminate $h$, which appears in only one place in the above formula
+  for cost).  We find
+\begin{align*}
+  C(r)&=2c\pi r\frac{V}{\pi r^2}+2Nc\pi r^2\\
+  &=\frac{2cV}{r}+2Nc\pi r^2.
+\end{align*}
+We want to know the minimum value of this function when $r$ is in
+$(0,\infty)$. Setting
+\[
+C'(r)=\answer[given]{-2cV/r^2+4Nc\pi r} =0
+\]
+we find $r=\sqrt[3]{V/(2N\pi)}$.  Since $C''(r)=\answer[given]{4cV/r^3+4Nc\pi}$ is
+positive when $r$ is positive, there is a local minimum at the
+critical value, and hence a global minimum since there is only one
+critical value.
+
+Finally, since $h=V/(\pi r^2)$, 
+\begin{align*}
+\frac{h}{r}&=\frac{V}{\pi r^3}\\ 
+&=\frac{V}{\pi(V/(2N\pi))}\\ 
+&=\answer[given]{2N},
+\end{align*}
+so the minimum cost occurs when the height $h$ is $2N$ times the
+radius. If, for example, there is no difference in the cost of
+materials, the height is twice the radius.
+\end{explanation}
+\end{example}
+
+
+
+
+
+
+\begin{example}
+  You want to sell a certain number $n$ of items in order to maximize
+  your profit.  Market research tells you that if you set the price at
+  \$$1.50$, you will be able to sell $5000$ items, and for every $10$
+  cents you lower the price below \$$1.50$ you will be able to sell
+  another $1000$ items.  Suppose that your fixed costs (``start-up
+  costs'') total \$$2000$, and the per item cost of production
+  (``marginal cost'') is \$$0.50$.  Find the price to set per item and
+  the number of items sold in order to maximize profit, and also
+  determine the maximum profit you can get.
+\begin{explanation}
+The first step is to convert the problem into a function maximization
+problem. The revenue for selling $n$ items at $x$ dollars is given by
+\[
+r(x) = nx
+\]
+and the cost of producing $n$ items is given by
+\[
+c(x) = 2000+0.5 n. 
+\]
+However, from the problem we see that the number of items sold is
+itself a function of $x$,
+\[
+n(x) =5000+\frac{1000(1.5-x)}{0.10}
+\]
+So profit is give by:
+\begin{align*}
+P(x) &= r(x) - c(x)\\
+&= nx - (2000+0.5 n)\\
+&=-10000x^2+25000x-12000. 
+\end{align*}
+We want to know the maximum value of this function when $x$ is between
+0 and $1.5$. The derivative is
+\[
+P'(x)=\answer[given]{-20000x+25000},
+\]
+which is zero when $x=1.25$. Since $P''(x)=-20000<0$, there must be a
+local maximum at $x=1.25$, and since this is the only critical value
+it must be a global maximum as well. Alternately, we could compute
+$P(0)=-12000$, $P(1.25)=3625$, and $P(1.5)=3000$ and note that
+$P(1.25)$ is the maximum of these. Thus the maximum profit is
+\$$3625$, attained when we set the price at \$$1.25$ and sell $7500$
+items.
+\end{explanation}
+\end{example}
+
+
+\begin{example}
+If you fit the largest possible cone inside a sphere, what fraction of the
+volume of the sphere is occupied by the cone?  (Here by ``cone'' we mean a
+right circular cone, i.e., a cone for which the base is perpendicular to
+the axis of symmetry, and for which the cross-section cut perpendicular to
+the axis of symmetry at any point is a circle.)
+\begin{image}
+\begin{tikzpicture}
+\draw[very thick,penColor2!20!background] (2,0) arc (0:180:2 and .7);% top half of ellipse
+\draw [penColor, very thick] (0,1) ellipse (1.7 and .5);
+\draw[penColor, very thick] (1.7,.95) -- (0,-2);
+\draw[penColor, very thick] (-1.7,.95) -- (0,-2);
+\draw[very thick,penColor2] (-2,0) arc (180:360:2 and .7);% bottom half of ellipse
+
+
+\draw [penColor2, very thick] (0,0) circle [radius=2];
+
+\draw[penColor2, dashed, very thick] (0,0) -- (2,0);
+\draw[penColor, dashed, very thick] (0,1) -- (1.7,1);
+\draw[penColor, dashed, very thick] (0,1) -- (0,-2);
+
+\node [below,penColor2] at (1.5,0) {$R$};
+\node [above,penColor] at (.85,1) {$r$};
+\node [left,penColor] at (0,-.33) {$h$};
+
+\node [penColor,left] at (-1.5,1.42) {$V_{\text{c}} = \frac{\pi r^2h}{3}$};
+\node [penColor2, right] at (1.5,-1.42) {$V_{s} = \frac{4\pi R^3}{3}$};
+\end{tikzpicture}
+\end{image}
+\begin{explanation}
+Let $R$ be the radius of the sphere, and let $r$ and $h$ be the base
+radius and height of the cone inside the sphere.  Our goal is to
+maximize the volume of the cone: $V_c=\pi r^2h/3$.  The largest $r$
+could be is $R$ and the largest $h$ could be is $2R$.
+
+Notice that the function we want to maximize, $\pi r^2h/3$, depends on
+\textit{two} variables.  Our next step is to find the relationship and
+use it to solve for one of the variables in terms of the other, so as
+to have a function of only one variable to maximize.  In this problem,
+the condition is apparent in the figure, as the upper corner of the
+triangle, whose coordinates are $(r,h-R)$, must be on the circle of
+radius $R$. Write
+\[
+r^2 + (h-R)^2=R^2.
+\] 
+Solving for $r^2$, since $r^2$ is found in the formula for the volume
+of the cone, we find 
+\[
+r^2=R^2-(h-R)^2.
+\]  
+Substitute this into the formula for the volume of the cone to find
+\begin{align*}
+ V_{\text{c}}(h)&=\pi(R^2-(h-R)^2)h/3 \\
+&=-{\pi\over3}h^3+{2\over3}\pi h^2R
+\end{align*}
+
+We want to maximize $V_{\text{c}}(h)$ when $h$ is between $0$ and $2R$.  We
+solve 
+\[
+V_{\text{c}}'(h)=\answer[given]{-\pi h^2+(4/3)\pi h R}=0,
+\] 
+finding $h=0$ or $h=4R/3$.  We compute
+\[
+V_{\text{c}}(0)=V_{\text{c}}(2R)=0
+\]
+and
+\[
+V_{\text{c}}(4R/3)=(32/81)\pi R^3.
+\] 
+The maximum is the latter. Since the volume of the sphere is $(4/3)\pi
+R^3$, the fraction of the sphere occupied by the cone is
+\[
+\frac{(32/81)\pi R^3}{(4/3)\pi R^3}=\frac{8}{27}\approx 30\%.
+\]
+\end{explanation}
+\end{example}
+
+
+
+
+
+
+%% From APEX
+\begin{example}
+  A power line needs to be run from an power station located on the
+  beach to an offshore facility.
+  \begin{image}
+    \begin{tikzpicture}
+      \draw[fill1, fill=fill1!60!background] (0,-.2) rectangle (6.4,3.5);
+      \draw[brown!50!white, fill=brown!50!white] (0,-.4) rectangle (6.4,.75);
+      
+      %\node[penColor] at (.5,.75) {\scalebox{-2}[2] \Bicycle};
+      
+      \draw[penColor2, very thick] (1,.75) -- (2.5,.75);
+      \draw[penColor2, very thick] (2.5,.75) -- (5,3);
+      
+      \draw[penColor, very thick, dashed] (5,.75) -- (5,3);
+      \draw[penColor, very thick, dashed] (5,.75) -- (2.5,.75);
+      %\draw[penColor, very thick, dashed] (1,.4) -- (5,.4);
+      \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (1,.5)--(5,.5);
+
+      \node [right,penColor] at (5,3) {facility};
+      \node [below,penColor] at (1,.75) {station};
+      \node [right,penColor] at (5,2) {$1000$ ft};
+      %\node [above,penColor] at (4,.75) {$x$};
+      %\node [left,penColor2] at (3.8,2) {$\sqrt{x^2+1000^2}$};
+      %\node [above,penColor2] at (1.75,.75) {$5000-x$};
+      \node [below,penColor] at (3,.2) {$5000$ ft};
+
+      \draw [penColor, fill] (1,.75) circle [radius=.07];
+      \draw [penColor2, fill] (2.5,.75) circle [radius=.07];
+      \draw [penColor, fill] (5,.75) circle [radius=.07];
+      \draw [penColor, fill] (5,3) circle [radius=.07];
+    \end{tikzpicture}
+  \end{image}
+  It costs \$50/ft. to run a power line along the land, and \$130/ft. to
+  run a power line under water. How much of the power line should be run
+  along the land to minimize the overall cost? What is the minimal cost?
+  \begin{explanation}
+    There are two immediate solutions that we could consider, each of
+    which we will reject through ``common sense.'' First, we could
+    minimize the distance by directly connecting the two locations with a
+    straight line. However, this requires that all the wire be laid
+    underwater, the most costly option. Second, we could minimize the
+    underwater length by running a wire all 5000 ft. along the beach,
+    directly across from the offshore facility. This has the undesired
+    effect of having the longest distance of all, probably ensuring a
+    nonminimal cost.
+    
+    The optimal solution likely has the line being run along the
+    ground for a while, then underwater, as the figure implies. We
+    need to label our unknown distances: the distance run along the
+    ground and the distance run underwater. Recognizing that the
+    underwater distance can be measured as the hypotenuse of a right
+    triangle, we can label our figure as follows
+      \begin{image}
+    \begin{tikzpicture}
+      \draw[fill1, fill=fill1!60!background] (0,-.2) rectangle (6.4,3.5);
+      \draw[brown!50!white, fill=brown!50!white] (0,-.4) rectangle (6.4,.75);
+      
+      %\node[penColor] at (.5,.75) {\scalebox{-2}[2] \Bicycle};
+      
+      \draw[penColor2, very thick] (1,.75) -- (2.5,.75);
+      \draw[penColor2, very thick] (2.5,.75) -- (5,3);
+      
+      \draw[penColor, very thick, dashed] (5,.75) -- (5,3);
+      \draw[penColor, very thick, dashed] (5,.75) -- (2.5,.75);
+      %\draw[penColor, very thick, dashed] (1,.4) -- (5,.4);
+      \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (1,.5)--(5,.5);
+
+      \node [right,penColor] at (5,3) {facility};
+      \node [below,penColor] at (1,.75) {station};
+      \node [right,penColor] at (5,2) {$1000$ ft};
+      \node [above,penColor] at (4,.75) {$x$};
+       \node [left,penColor2] at (3.8,2) {$\sqrt{x^2+1000^2}$};
+       \node [above,penColor2] at (1.75,.75) {$5000-x$};
+      \node [below,penColor] at (3,.2) {$5000$ ft};
+
+      \draw [penColor, fill] (1,.75) circle [radius=.07];
+      \draw [penColor2, fill] (2.5,.75) circle [radius=.07];
+      \draw [penColor, fill] (5,.75) circle [radius=.07];
+      \draw [penColor, fill] (5,3) circle [radius=.07];
+    \end{tikzpicture}
+      \end{image}
+      By choosing $x$ as we did, we make the expression under the
+      square root simple. We now create the cost function:
+    \[
+    \begin{array}{ccc}
+      \text{Cost} = & & \\
+      \text{land cost} & + & \text{water cost} \\
+      \text{\$50}\times \text{land distance} &+& \text{\$130}\times \text{water distance} \\
+      50(5000-x) &+& 130\sqrt{x^2+1000^2}.\\
+    \end{array}
+    \]
+    So we have
+    \[
+    c(x) = \answer[given]{50(5000-x)+ 130\sqrt{x^2+1000^2}}.
+    \]
+    This function only makes sense on the interval $[0,5000]$. While
+    we are fairly certain the endpoints will not give a minimal cost,
+    we still evaluate $c(x)$ at each to verify.
+    \[
+    c(0) = 380000 \quad\quad c(5000) \approx 662873.
+    \]
+    We now find the critical points of $c(x)$. We compute $c'(x)$ as
+    \[
+    c'(x) = \answer[given]{-50+\frac{130x}{\sqrt{x^2+1000^2}}}.
+    \]
+    Recognize that this is never undefined. Setting $c'(x)=0$ and solving
+    for $x$, we have:
+    \begin{align*}
+      -50+\frac{130x}{\sqrt{x^2+1000^2}} &= 0 \\
+      \frac{130x}{\sqrt{x^2+1000^2}}  &= 50\\
+      \frac{130^2x^2}{x^2+1000^2} &= 50^2\\
+      130^2x^2 &= 50^2(x^2+1000^2) \\
+      130^2x^2-50^2x^2 &= 50^2\cdot1000^2\\
+      (130^2-50^2)x^2 &= 50000^2\\
+      x^2 &= \frac{50000^2}{130^2-50^2}\\
+      x &= \frac{50000}{\sqrt{130^2-50^2}}\\
+      x &= \frac{50000}{120},
+    \end{align*}
+    Evaluating $c(x)$ at $x=416.67$ gives a cost of about
+    $\$370000$. The distance the power line is laid along land is
+    $5000-416.67 = 4583.33\unit{ft}$ and the underwater distance is
+    $\sqrt{416.67^2+1000^2} \approx 1083\unit{ft}$.
+  \end{explanation}
+\end{example}
+
+
+
+
+We now work a similar problem without concrete numbers.
+
+
+
+
+
+
+\begin{example}\label{exam:sand and road}
+  Suppose you want to reach a point $A$ that is located across the
+  sand from a nearby road.
+\begin{image}
+\begin{tikzpicture}
+\draw[fill2, fill=fill1!60!background] (0,-.2) rectangle (6,3.5);
+\draw[fill1, fill=fill2] (0,.4) rectangle (6,1);
+
+%\node[penColor] at (.5,.75) {\scalebox{-2}[2] \Bicycle};
+
+\draw [penColor, fill] (1,.75) circle [radius=.07];
+\draw [penColor, fill] (2.5,.75) circle [radius=.07];
+\draw [penColor, fill] (5,.75) circle [radius=.07];
+\draw [penColor, fill] (5,3) circle [radius=.07];
+
+\draw[penColor2, very thick, ->] (1.2,.75) -- (2.3,.75);
+\draw[penColor2, very thick, ->] (2.6,.85) -- (4.9,2.9);
+
+\draw[penColor, very thick, dashed] (5,.75) -- (5,3);
+\draw[penColor, very thick, dashed] (5,.75) -- (2.5,.75);
+%\draw[penColor, very thick, dashed] (1,.4) -- (5,.4);
+\draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (1,.5)--(5,.5);
+
+\node [right,penColor] at (5,3) {$A$};
+\node [below,penColor] at (1,.75) {$D$};
+\node [below,penColor] at (2.5,.75) {$B$};
+\node [below,penColor] at (5,.75) {$C$};
+\node [right,penColor] at (5,2) {$b$};
+\node [above,penColor] at (4,.75) {$x$};
+\node [left,penColor2] at (3.8,2) {$w$};
+\node [above,penColor2] at (1.75,.75) {$v$};
+\node [below,penColor] at (3,.2) {$a$};
+\end{tikzpicture}
+\end{image}
+  Suppose that the road is straight, and $b$ is the distance from $A$
+  to the closest point $C$ on the road.  Let $v$ be your speed on the
+  road, and let $w$, which is less than $v$, be your speed on the
+  sand.  Right now you are at the point $D$, which is a distance $a$
+  from $C$.  At what point $B$ should you turn off the road and head
+  across the sand in order to minimize your travel time to $A$?
+  \begin{explanation}
+    Let $x$ be the distance short of $C$ where you turn off, the distance
+    from $B$ to $C$.  We want to minimize the total travel time.  Recall
+    that when traveling at constant velocity, time is distance divided by
+    velocity.
+
+    You travel the distance from $D$ to $B$ at speed $v$, and then the
+    distance from $B$ to $A$ at speed $w$.  The distance from $D$ to $B$
+    is $a-x$. By the Pythagorean theorem, the distance from $B$ to $A$
+    is
+    \[
+    \sqrt{x^2+b^2}.
+    \] 
+Hence the total time for the trip is
+\[
+T(x)=\frac{a-x}{v}+\frac{\sqrt{x^2+b^2}}{w}.
+\]
+We want to find the minimum value of $T$ when $x$ is between 0 and
+$a$.  As usual we set $T'(x)=0$ and solve for $x$. Write
+\[
+  T'(x)=\answer[given]{-1/v+\frac{x}{w\sqrt{x^2+b^2}}} =0.
+\]
+We find that 
+\[
+x=\frac{wb}{\sqrt{v^2-w^2}}
+\]
+Notice that $a$ does not appear in the last expression, but $a$ is not
+irrelevant, since we are interested only in critical values that are
+in $[0,a]$, and $wb/\sqrt{v^2-w^2}$ is either in this interval or not.
+If it is, we can use the second derivative to test it:
+\[
+T''(x) = \answer[given]{\frac{b^2}{(x^2+b^2)^{3/2}w}}.
+\]
+Since this is always positive there is a local minimum at the critical
+point, and so it is a global minimum as well.
+
+If the critical value is not in $[0,a]$ it is larger than $a$. In this
+case the minimum must occur at one of the endpoints. We can compute
+\begin{align*}
+T(0)&={a\over v}+{b\over w} \\
+T(a)&={\sqrt{a^2+b^2}\over w} 
+\end{align*}
+but it is difficult to determine which of these is smaller by direct
+comparison. If, as is likely in practice, we know the values of $v$,
+$w$, $a$, and $b$, then it is easy to determine this. With a little
+cleverness, however, we can determine the minimum in general. We have seen that
+$T''(x)$ is always positive, so the derivative $T'(x)$ is always increasing.
+We know that at $wb/\sqrt{v^2-w^2}$ the derivative is zero, so for
+values of $x$ less than that critical value, the derivative is
+negative. This means that $T(0)>T(a)$, so the minimum occurs when $x=a$.
+
+So the upshot is this: If you start farther away from $C$ than
+$wb/\sqrt{v^2-w^2}$ then you always want to cut across the sand 
+when you are a distance $wb/\sqrt{v^2-w^2}$ from point $C$. If you
+start closer than this to $C$, you should cut directly across the sand.
+\end{explanation}
+\end{example}
+
+
+%% Edited from APEX
+With optimization problems you will see a variety of situations that
+require you to combine problem solving skills with calculus. Focus on
+the \textit{process}.  One must learn how to form equations from
+situations that can be manipulated into what you need. Forget
+memorizing how to do ``this kind of problem'' as opposed to ``that
+kind of problem.''
+\begin{quote}
+  \textbf{Learning a process will benefit one far more than memorizing
+    a specific technique.}
+\end{quote}
+
+
+
+\end{document}

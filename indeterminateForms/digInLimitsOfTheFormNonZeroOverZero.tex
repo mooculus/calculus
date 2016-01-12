@@ -1,0 +1,200 @@
+\documentclass{ximera}
+
+\outcome{Calculate limits of the form number over zero.}
+\outcome{Identify determinate and indeterminate forms.}
+\outcome{Distinguish between determinate and indeterminate forms.}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Limits of the form nonzero over zero}
+
+\begin{document}
+\begin{abstract}
+  We want to solve limits that have the form nonzero over zero.
+\end{abstract}
+
+\maketitle
+
+Let's cut to the chase:
+
+\begin{definition}
+  A limit
+  \[
+  \lim_{x\to a} \frac{f(x)}{g(x)}
+  \]
+  is said to be of the form \numOverZero\ if
+  \[
+  \lim_{x\to a} f(x) = k\qquad\text{and}\qquad \lim_{x\to a} g(x) =0.
+  \]
+  where $k$ is some nonzero constant.
+\end{definition}
+
+\begin{question}
+  Which of the following limits are of the form \numOverZero?
+  \begin{selectAll}
+    \choice[correct]{$\lim_{x\to -1} \frac{1}{(x+1)^2}$}
+    \choice{$\lim_{x\to 2}\frac{x^2-3x+2}{x-2}$}
+    \choice{$\lim_{x\to 0}\frac{\sin(x)}{x}$}
+    \choice[correct]{$\lim_{x\to 2}\frac{x^2-3x-2}{x-2}$}
+    \choice[correct]{$\lim_{x\to 1}\frac{e^x}{\ln(x)}$}
+  \end{selectAll}
+\end{question}
+
+
+Let's see what is going on with limits of the form \numOverZero.
+Consider the function
+  \[
+  f(x) = \frac{1}{(x+1)^2}.
+  \]
+While the $\lim_{x\to -1} f(x)$ does not exist, something can still be
+said. First note that
+\[
+\lim_{x\to -1} \frac{1}{(x+1)^2}\qquad\text{is of the form }\numOverZero
+\]
+as
+\[
+\lim_{x\to -1} 1 = 1 \qquad\text{and}\qquad \lim_{x\to -1}(x+1)^2 = 0.
+\]
+Moreover, as $x$ approaches $-1$:
+\begin{itemize}
+\item The numerator is positive.
+\item The denominator approaches zero and is positive.
+\end{itemize}
+Hence
+\[
+\lim_{x\to -1} \frac{1}{(x+1)^2}
+\]
+will become arbitrary large, as we can see in the next graph.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-2:1,
+            ymax=100,
+            samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+	  \addplot [very thick, penColor, smooth, domain=(-2:-1.1)] {1/(x+1)^2};
+          \addplot [very thick, penColor, smooth, domain=(-.9:1)] {1/(x+1)^2};
+          \addplot [textColor, dashed] plot coordinates {(-1,0) (-1,100)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+We are now ready for our next definition.
+
+\begin{definition}
+If $f(x)$ grows arbitrarily large as $x$ approaches $a$, we write
+\[
+\lim_{x\to a} f(x) = \infty
+\]
+and say that the limit of $f(x)$ \dfn{approaches infinity} as $x$
+goes to $a$.
+
+If $|f(x)|$ grows arbitrarily large as $x$ approaches $a$ and $f(x)$ is
+negative, we write
+\[
+\lim_{x\to a} f(x) = -\infty
+\]
+and say that the limit of $f(x)$ \textbf{approaches negative infinity}
+as $x$ goes to $a$.
+\end{definition}
+
+Let's consider a few more examples.
+
+\begin{example}
+  Compute:
+  \[
+  \lim_{x\to -2} \frac{e^x}{(x+2)^4}
+  \]
+  \begin{explanation}
+    First let's look at the form of this limit, we do this by taking the limits of both the numerator and denominator:
+    \[
+    \lim_{x\to -2} e^x = \answer[given]{\frac{1}{e^2}}\qquad\text{and}\lim_{x\to-2}\left((x+2)^4\right) = 0
+    \]
+    so this limit is of the form \numOverZero.  As $x$ approaches $-2$:
+    \begin{itemize}
+    \item The numerator is a \wordChoice{\choice[correct]{positive}\choice{negative}} number. 
+    \item The denominator is \wordChoice{\choice[correct]{positive}\choice{negative}} and is approaching zero.
+    \end{itemize}
+    This means that
+    \[
+    \lim_{x\to -2} \frac{e^x}{(x+2)^4} = \infty.
+    \]
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+  Compute:
+  \[
+  \lim_{x\to 3^+} \frac{x^2-9x+14}{x^2-5x+6}
+  \]
+  \begin{explanation}
+    First let's look at the form of this limit, which we do by taking the limits of both the numerator and denominator.
+    \[
+    \lim_{x\to 3^+} \left(x^2-9x+14\right) = \answer[given]{-4}\qquad\text{and}\lim_{x\to3^+}\left(x^2-5x+6\right) = 0
+    \]
+    This limit is of the form \numOverZero. Next, we should factor the numerator and denominator to see if we can simplify the problem at all. 
+    \begin{align*}
+      \lim_{x\to 3^+}\frac{x^2-9x+14}{x^2-5x+6} &= \lim_{x\to 3^+}\frac{(x-2)(x-7)}{(x-2)(x-3)}\\
+      &= \lim_{x\to 3^+}\frac{x-7}{x-3}\\
+    \end{align*}
+    Canceling a factor of $x-2$ from the numerator and denominator
+    means we can more easily check the behavior of this limit.  As $x$
+    approaches $3$ from the right:
+    \begin{itemize}
+    \item The numerator is a \wordChoice{\choice{positive}\choice[correct]{negative}} number. 
+    \item The denominator is \wordChoice{\choice[correct]{positive}\choice{negative}} and approaching zero.
+    \end{itemize}
+    This means that
+    \[
+    \lim_{x\to 3^+} \frac{x^2-9x+14}{x^2-5x+6} = -\infty.
+    \]
+   \end{explanation}
+\end{example}
+
+Here is our final example.
+
+\begin{example}
+  Compute:
+  \[
+  \lim_{x\to 3} \frac{x^2-9x+14}{x^2-5x+6}
+  \]
+  \begin{explanation}
+    We've already considered part of this example, but now we consider the two-sided limit. We already know that
+    \[
+    \lim_{x\to 3} \frac{x^2-9x+14}{x^2-5x+6} = \lim_{x\to
+      3}\frac{x-7}{x-3},
+    \]
+    and that this limit is of the form \numOverZero.
+    We also know that as $x$ approaches $3$ from the right,
+    \begin{itemize}
+    \item The numerator is a negative number. 
+    \item The denominator is positive and approaching zero.
+    \end{itemize}
+    Hence our function is approaching $-\infty$ from the right.
+    
+    As $x$ approaches $3$ from the left,
+    \begin{itemize}
+    \item The numerator is negative.
+    \item The denominator is negative and approaching zero.
+    \end{itemize}
+    Hence our function is approaching $\infty$ from the left.
+    This means
+    \[
+    \lim_{x\to 3} \frac{x^2-9x+14}{x^2-5x+6} = \answer[given]{DNE}.
+    \]
+  \end{explanation}
+\end{example}
+
+Some people worry that the mathematicians are passing into mysticism
+when we talk about infinity and negative infinity. However, when we write
+\[
+\lim_{x\to a} f(x) = \infty \qquad\text{and}\qquad \lim_{x\to a} g(x) = -\infty
+\]
+all we mean is that as $x$ approaches $a$, $f(x)$ becomes arbitrarily
+large and $|g(x)|$ becomes arbitrarily large, with $g(x)$ taking
+negative values.
+\end{document}

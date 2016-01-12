@@ -1,0 +1,332 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Concepts of graphing functions}
+
+\begin{document}
+\begin{abstract}
+  We use the language of calculus to describe graphs of functions.
+\end{abstract}
+\maketitle
+
+In this section, we review the graphical implications of limits, and
+the sign of the first and second derivative.  You already know all
+this stuff: it is just important enough to hit it more than once, and
+put it all together.
+
+\begin{example}
+  Sketch the graph of a function $f$ which has the following properties:
+  \begin{itemize}
+  \item $f(0)=0$
+  \item $\lim_{x \to 10^+} f(x) = +\infty$
+  \item $\lim_{x \to 10^-} f(x) = -\infty$
+  \item $f'(x)<0$ on $(-\infty,0) \cup (6,10) \cup (10,14)$
+  \item $f'(x)>0$ on $(0,6) \cup (6,10) \cup (14,\infty)$
+  \item $f''(x)<0$ on $(4,10)$
+  \item $f''(x)>0$ on $(-\infty,4) \cup (10,\infty)$
+  \end{itemize}
+  \begin{explanation}
+    Try this on your own first, then either check with a friend or
+    check the online version.
+    
+    \begin{hint}
+      The first thing we will do is to plot the point $(0,0)$ and
+      indicate the appropriate vertical asympote due to the limit
+      conditions.  We also mark all of the places where $f'$ or $f''$
+      change sign.
+      
+      \begin{image}
+        \begin{tikzpicture}
+	\begin{axis}[
+            domain=-5:20,
+            ymax=12,
+            ymin=-12,
+	    ticks = none,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+	  \addplot[black, smooth]{0};
+	  \addplot [dashed, textColor, smooth] plot coordinates {(10,-12) (10,12)};
+	  \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(6.3,-12) (6.3,12)};  
+	  \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(14,-12) (14,12)};  
+	  \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(4.15,-12) (4.15,12)};  
+          \addplot [very thick, penColor2, smooth, domain = 8.5:9.9, samples=100] {x^2*(x-8)/(x-10)/4};
+          \addplot [very thick, penColor2, smooth, domain = 10.1:12] {(x/2+1)^2*(x-6)/(x-10)/10-10};
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+	 \node at (axis cs:10,-0.7) [anchor=west] {\color{textColor}$10$}; 
+	 \node at (axis cs:4.15,-0.7) [anchor=west] {\color{textColor}$4$}; 
+	 \node at (axis cs:6.3,-0.7) [anchor=west] {\color{textColor}$6$};  
+	 \node at (axis cs:14,-0.7) [anchor=west] {\color{textColor}$14$};      
+        \end{axis}
+\end{tikzpicture}
+      \end{image}
+      
+    \end{hint}
+
+    \begin{hint}
+      Now we classify the behaviour on each of the intervals:
+      
+	\begin{itemize}
+	\item On $(-\infty, 0)$, $f$ is \wordChoice{\choice{increasing} \choice[correct]{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}} 
+	\item On $(0, 4)$, $f$ is \wordChoice{\choice[correct]{increasing} \choice{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}}
+	\item On $(4, 6)$, $f$ is \wordChoice{\choice[correct]{increasing} \choice{decreasing}} and concave \wordChoice{\choice{up}\choice[correct]{down}}
+	\item On $(6, 10)$, $f$ is \wordChoice{\choice{increasing} \choice[correct]{decreasing}} and concave \wordChoice{\choice{up}\choice[correct]{down}}
+	\item On $(10, 14)$, $f$ is \wordChoice{\choice{increasing} \choice[correct]{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}}
+	\item On $(14, \infty)$, $f$ is \wordChoice{\choice[correct]{increasing} \choice{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}}
+	\end{itemize}
+    \end{hint}
+
+    \begin{hint}
+      Utilizing all of this information, we are forced to sketch something like the following:
+      
+	\begin{image}
+          \begin{tikzpicture}
+	    \begin{axis}[
+                domain=-5:20,
+                ymax=12,
+            ymin=-12,
+	    ticks = none,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+              ]
+	      \addplot[black, smooth]{0};
+	      \addplot [dashed, textColor, smooth] plot coordinates {(10,-12) (10,12)};
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(6.3,-12) (6.3,12)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(14,-12) (14,12)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(4.15,-12) (4.15,12)};  
+              \addplot [very thick, penColor2, smooth, domain = -5:9.9, samples=100] {x^2*(x-8)/(x-10)/4};
+              \addplot [very thick, penColor2, smooth, domain = 10.1:20] {(x/2+1)^2*(x-6)/(x-10)/10-10};
+              \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+	      \node at (axis cs:10,-0.7) [anchor=west] {\color{textColor}$10$}; 
+	      \node at (axis cs:4.15,-0.7) [anchor=west] {\color{textColor}$4$}; 
+	      \node at (axis cs:6.3,-0.7) [anchor=west] {\color{textColor}$6$};  
+	      \node at (axis cs:14,-0.7) [anchor=west] {\color{textColor}$14$};      
+            \end{axis}
+          \end{tikzpicture}
+        \end{image}
+    \end{hint}    
+  \end{explanation}
+\end{example}
+
+\begin{example}
+  Sketch the graph of a function $f$ which has the following properties:
+  \begin{itemize}
+  \item $f(0)=1$
+  \item $f(6)=2$
+  \item $\lim_{x \to 6^+} f(x) = 3$
+  \item $\lim_{x \to 6^-} f(x) = 1$
+  \item $f'(x)<0$ on $(-\infty,1)$
+  \item $f'(x)>0$ on $(1,6)$
+  \item $f'(x) = -2$ on $(6, \infty)$
+  \item $f''(x)<0$ on $(2.5,5)$
+  \item $f''(x)>0$ on $(-\infty,2.5) \cup (5,6)$
+  \end{itemize}
+  
+  \begin{explanation}
+    Try this on your own first, then either check with a friend or
+    check the online version.
+    
+    \begin{hint}
+      The first thing we will do is to plot the points $(0,1)$ and $(6,2)$, and the ``holes" at $(6,3)$ and $(6,1)$ due to the limit conditions.  We can immediately draw in what $f$ looks like on $(6,\infty)$ since it is linear with slope $2$, and must connect to the hole at $(6,2)$.  We also mark all of the places where $f'$ or $f''$ change sign.
+      
+	\begin{image}
+          \begin{tikzpicture}
+	    \begin{axis}[
+                domain=-1:8,
+                ymax=4,
+                ymin=-3,
+	        ticks = none,
+                axis lines =middle, xlabel=$x$, ylabel=$y$,
+                every axis y label/.style={at=(current axis.above origin),anchor=south},
+                every axis x label/.style={at=(current axis.right of origin),anchor=west}
+              ]
+	      \addplot[black, smooth]{0};
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(7.5,1.2) (6,1.2)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(7.5,3) (6,3)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(7.5,2) (6,2)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(1.2,-3) (1.2,3)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(2.5,-3) (2.5,3)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(5,-3) (5,3)};  
+	      \addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(6,-3) (6,3)};  
+	      
+              % \addplot [very thick, penColor2, smooth, domain = -1:6, samples=100] {5*x*(x/5-1)^3+1};
+              \addplot [very thick, penColor2, smooth, domain = 6:8] {-2*(x-6)+3};
+              \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(6,2)};  
+              \addplot[color=penColor2,fill=background, only marks,mark=*] coordinates{(6,3)}; 
+              \addplot[color=penColor2,fill=background, only marks,mark=*] coordinates{(6,1.2)}; 
+	      \node at (axis cs:1.2,-0.7) [anchor=west] {\color{textColor}$1$}; 
+	      \node at (axis cs:2.5,-0.7) [anchor=west] {\color{textColor}$2.5$}; 
+	      \node at (axis cs:5,-0.7) [anchor=west] {\color{textColor}$5$};  
+	      \node at (axis cs:6,-0.7) [anchor=west] {\color{textColor}$6$};  
+              
+	      \node at (axis cs:7.5,3) [anchor=west] {\color{textColor}$3$}; 
+	      \node at (axis cs:7.5,2) [anchor=west] {\color{textColor}$2$}; 
+	      \node at (axis cs:7.5,1.2) [anchor=west] {\color{textColor}$1$};      
+            \end{axis}
+          \end{tikzpicture}
+        \end{image}
+        
+    \end{hint}
+
+\begin{hint}
+  Now we classify the behaviour on each of the intervals:
+	\begin{itemize}
+	\item On $(-\infty, 1)$, $f$ is \wordChoice{\choice{increasing} \choice[correct]{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}} 
+	\item On $(1, 2.5)$, $f$ is \wordChoice{\choice[correct]{increasing} \choice{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}}
+	\item On $(2.5, 5)$, $f$ is \wordChoice{\choice[correct]{increasing} \choice{decreasing}} and concave \wordChoice{\choice{up}\choice[correct]{down}}
+	\item On $(5, 6)$, $f$ is \wordChoice{\choice[correct]{increasing} \choice{decreasing}} and concave \wordChoice{\choice[correct]{up}\choice{down}}
+	\end{itemize}
+\end{hint}
+
+\begin{hint}
+  Utilizing all of this information, we are forced to draw something like the following:
+  
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          domain=-1:8,
+          ymax=4,
+          ymin=-3,
+	  ticks = none,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west}
+        ]
+	\addplot[black, smooth]{0};
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(7.5,1.2) (6,1.2)};  
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(7.5,3) (6,3)};  
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(7.5,2) (6,2)};  
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(1.2,-3) (1.2,3)};  
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(2.5,-3) (2.5,3)};  
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(5,-3) (5,3)};  
+	\addplot [textColor, smooth, draw opacity = 0.1] plot coordinates {(6,-3) (6,3)};  
+	
+        \addplot [very thick, penColor2, smooth, domain = -1:6, samples=100] {5*x*(x/5-1)^3+1};
+        \addplot [very thick, penColor2, smooth, domain = 6:8] {-2*(x-6)+3};
+        \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(6,2)};  
+        \addplot[color=penColor2,fill=background, only marks,mark=*] coordinates{(6,3)}; 
+        \addplot[color=penColor2,fill=background, only marks,mark=*] coordinates{(6,1.2)}; 
+	\node at (axis cs:1.2,-0.7) [anchor=west] {\color{textColor}$1$}; 
+	\node at (axis cs:2.5,-0.7) [anchor=west] {\color{textColor}$2.5$}; 
+	\node at (axis cs:5,-0.7) [anchor=west] {\color{textColor}$5$};  
+	\node at (axis cs:6,-0.7) [anchor=west] {\color{textColor}$6$};  
+        
+	\node at (axis cs:7.5,3) [anchor=west] {\color{textColor}$3$}; 
+	\node at (axis cs:7.5,2) [anchor=west] {\color{textColor}$2$}; 
+	\node at (axis cs:7.5,1.2) [anchor=west] {\color{textColor}$1$};      
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+\end{hint}
+\end{explanation}
+\end{example}
+
+\begin{example}
+  The graph of $f'$ (the derivative of $f$ ) is shown below. 
+  
+  Assume $f$ is continuous for all real numbers.
+  
+  \begin{image}
+    \begin{tikzpicture}
+	\begin{axis}[
+            domain=-5:5,
+            ymax=5,
+            ymin=-5,
+	    xtick = {-4,...,4},
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          
+	
+          \addplot [very thick, penColor2, smooth, domain = -5:3, samples=100] {(abs(x-1)-1)*(1+x^2)/(1+0.4*x^2)};
+          \addplot [very thick, penColor2, smooth, domain = 3:5] {-10/x};
+          \addplot[color=penColor2,fill=background, only marks,mark=*] coordinates{(3,2.173)}; 
+          \addplot[color=penColor2,fill=background, only marks,mark=*] coordinates{(3,-10/3)}; 
+        \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  
+  
+  \begin{question}
+    On which of the following intervals is $f$ increasing? 
+    \begin{selectAll}
+      \choice[correct]{$(-\infty,0)$}
+      \choice{$(0,1)$}
+      \choice{$(1,2)$}
+      \choice[correct]{$(2,3)$}
+      \choice{$(3,\infty)$}
+    \end{selectAll}
+    \begin{hint}
+      $f$ is increasing where $f'(x)>0$, i.e. on the intervals
+      $(-\infty, 0)$ and $(2,3)$.
+    \end{hint}
+  \end{question}
+  
+  \begin{question}
+    Which of the following are critical points of $f$?
+    \begin{selectAll}
+      \choice[correct]{$x=0$}
+      \choice{$x=1$}
+      \choice[correct]{$x=2$}
+      \choice[correct]{$x=3$}
+    \end{selectAll}
+    
+    \begin{hint}
+      $f$ has a critical point at the zeros of $f'$, and the places where $f'$ does not exist.  In this case, $x=0$, $x=2$, and $x=3$.
+    \end{hint}
+  \end{question}
+  
+  \begin{question}
+    Where do the local maxima occur?
+    \begin{selectAll}
+      \choice[correct]{$x=0$}
+      \choice{$x=1$}
+      \choice{$x=2$}
+      \choice[correct]{$x=3$}
+    \end{selectAll}
+    \begin{hint}
+      A local maximum occurs at a critical point where the function
+      transitions from increasing to decreasing, i.e. the derivative
+      passes from positive to negative.  In this case, we see that the
+      local maxima occur at $x=0$ and $x=3$.
+    \end{hint}
+  \end{question}
+  
+  \begin{question}
+    Where does a point of inflection occur?
+    \begin{selectAll}
+      \choice{$x=0$}
+      \choice[correct]{$x=1$}
+      \choice{$x=2$}
+      \choice{$x=3$}
+\end{selectAll}
+    
+    \begin{hint}
+      A point of inflection occurs when the concavity of $f$ changes.  This is reflected in the sign of $f''$ changing.  This only occurs at one point in this graph, namely $x=1$.
+    \end{hint}
+    
+  \end{question}
+
+  \begin{question}
+    On which of the following intervals is $f$ concave down?
+    \begin{selectAll}
+      \choice[correct]{$(-\infty,0)$}
+      \choice[correct]{$(0,1)$}
+      \choice{$(1,2)$}
+      \choice{$(2,3)$}
+      \choice{$(3,\infty)$}
+    \end{selectAll}
+    
+    \begin{hint}
+      $f$ is concave down when $f''(x)<0$.  This occurs for $x<1$ on this graph.  So the correct answer is to select both $(-\infty, 0)$ and $(0,1)$. 
+    \end{hint}
+  \end{question}
+  
+  
+\end{example}
+
+\end{document}

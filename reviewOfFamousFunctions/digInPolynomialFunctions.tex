@@ -1,0 +1,202 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Know the graphs and properties of ``famous'' functions.}
+
+\title[Dig-In:]{Polynomial functions}
+
+
+\begin{document}
+\begin{abstract}
+  Polynomials are some of our favorite functions. 
+\end{abstract}
+\maketitle
+
+
+The functions you are most familiar with are probably polynomial
+functions.
+
+\section{What are polynomial functions?}
+
+\begin{definition}
+  A \dfn{polynomial function} in the variable $x$ is a function
+  which can be written in the form
+  \[
+  f(x) = a_nx^n + a_{n-1}x^{n-1} + \dots + a_1 x + a_0
+  \]
+  where the $a_i$'s are all constants (called the \dfn{coefficients})
+  and $n$ is a whole number (called the \dfn{degree} when $n\ne
+  0$). The domain of a polynomial function is $(-\infty,\infty)$.
+\end{definition}
+
+\begin{question}
+  Which of the following are polynomial functions?
+  \begin{selectAll}
+    \choice[correct]{$f(x) = 0$}
+    \choice[correct]{$f(x) = -9$}
+    \choice[correct]{$f(x) = 3x+1$}
+    \choice{$f(x) = x^{1/2}-x +8$}
+    \choice[correct]{$f(x) = (x+1)(x-1)+e^x - e^x $}
+    \choice{$f(x) = \frac{x^2 - 3x + 2}{x-2}$}
+    \choice[correct]{$f(x) = x^7-32x^6-\pi x^3+45/84$}
+  \end{selectAll}
+\end{question}
+
+The phrase above ``in the variable $x$'' can actually change.
+\[
+y^2-4y +1
+\]
+is a polynomial in $y$, and
+\[
+\sin^2(x) + \sin(x) -3 
+\]
+is a polynomial in $\sin(x)$.
+
+
+\section{What can the graphs look like?}
+
+Fun fact:
+
+\begin{theorem}[The Fundamental Theorem of Algebra]\index{Fundamental Theorem of Algebra}
+  Every polynomial of the form
+  \[
+  a_n x^n + a_{n-1} x^{n-1} + \dots + a_1 x + a_0
+  \]
+  where the $a_i$'s are real (or even complex!) numbers and $a_n \ne 0$ has exactly
+  $n$ (possibly repeated) complex roots.
+\end{theorem}
+
+Remember, a \dfn{root} is where a polynomial is zero. The theorem
+above is a deep fact of mathematics. The great mathematician Gauss
+%(spelled Gau\ss\ for fancy people)
+proved the theorem in 1799 for his
+doctoral thesis. 
+
+The upshot as far as we are concerned is that when we plot a
+polynomial of degree $n$, its graph will cross the $x$-axis at most
+$n$ times.
+
+\begin{example}
+  Here we see the the graphs of four polynomial functions.
+  \begin{image}
+    \begin{tabular}{cc}
+      \begin{tikzpicture}
+        \begin{axis}[
+          domain=-2:2,
+          xmin=-2, xmax=2,
+          ymin=-2, ymax=2,
+          width=2.5in,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {5*x^5-5*x^4-5*x^3+5*x^2+.5*x -1};
+          \node at (axis cs:1.2, 1 ) [penColor,anchor=west] {$A$};
+        \end{axis}
+      \end{tikzpicture}
+      &
+      \begin{tikzpicture}
+        \begin{axis}[
+          domain=-2:2,
+          xmin=-2, xmax=2,
+          ymin=-2, ymax=2,
+          width=2.5in,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor2, smooth] {-5*x^5+5*x^4+5*x^3-4.25*x^2-.3*x +.5};
+          \node at (axis cs:1.2, 1 ) [penColor2,anchor=west] {$B$};
+        \end{axis}
+      \end{tikzpicture}\\
+      \begin{tikzpicture}
+        \begin{axis}[
+          domain=-2:2,
+          xmin=-2, xmax=2,
+          ymin=-2, ymax=2,
+          width=2.5in,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor3, smooth] {5*x^6-5*x^5-5*x^4+5*x^3+x^2 -.5};
+          \node at (axis cs:1.2, 1 ) [penColor3,anchor=west] {$C$};
+        \end{axis}
+      \end{tikzpicture}
+      &
+      \begin{tikzpicture}
+        \begin{axis}[
+          domain=-2:2,
+          xmin=-2, xmax=2,
+          ymin=-2, ymax=2,
+          width=2.5in,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor4, smooth,samples=100] {-5*x^6+5*x^5+5*x^4-5*x^3-x^2+1.5*x+1};
+          \node at (axis cs:1.2, 1 ) [penColor4,anchor=west] {$D$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{tabular}
+  \end{image}
+  For each of the curves, determine if the polynomial has
+  \textbf{even} or \textbf{odd} degree, and if the leading coefficient
+  (the one next to the highest power of $x$) of the polynomial is
+  \textbf{positive} or \textbf{negative}.
+  \begin{explanation}\hfil
+    \begin{itemize}
+    \item Curve $A$ is defined by an
+      \wordChoice{\choice{even}\choice[correct]{odd}} degree
+      polynomial with a \wordChoice{\choice[correct]{positive}\choice{negative}}
+      leading term.
+    \item Curve $B$ is defined by an
+      \wordChoice{\choice{even}\choice[correct]{odd}} degree
+      polynomial with a
+      \wordChoice{\choice{positive}\choice[correct]{negative}} leading
+      term.
+    \item Curve $C$ is defined by an
+      \wordChoice{\choice[correct]{even}\choice{odd}} degree
+      polynomial with a \wordChoice{\choice[correct]{positive}\choice{negative}}
+      leading term.
+    \item Curve $D$ is defined by an
+      \wordChoice{\choice[correct]{even}\choice{odd}} degree
+      polynomial with a \wordChoice{\choice{positive}\choice[correct]{negative}}
+      leading term.
+    \end{itemize}
+  \end{explanation}
+\end{example}
+
+
+%% \section{Connections to inverse functions}
+
+%% Polynomials only have inverse functions if they are
+%% one-to-one. Pratically this means that polynomials of \textit{even}
+%% degree are \textit{never} invertible since they are never
+%% one-to-one. Odd degree polynomials may or may not be invertible. This
+%% is worth repeating in the language of algebra, and we will write it as
+%% a warning.
+
+%% \begin{warning}
+%%   Consider $f(x) = x^2$. Suppose we tried to find the inverse of
+%%   $x^2$. In this case we plug $f^{-1}(x)$ into $f$ and write
+%%   \begin{align*}
+%%     f(f^{-1}(x)) &= \left(f^{-1}(x)\right)^2\\
+%%     x &= \left(f^{-1}(x)\right)^2
+%%   \end{align*}
+%% at this point you may be tempted to say ``$f^{-1}(x) = \sqrt{x}$'' but
+%% this is not correct. The correct next line is:
+%% \[
+%% f^{-1}(x) = \pm \sqrt{x},
+%% \]
+%% but this \textbf{is not a function} from the real numbers to the real
+%% numbers.
+%% \end{warning}
+
+
+%% $x^\text{even}$ vs $x^\text{odd}$ and simple nth roots
+
+
+
+\end{document}

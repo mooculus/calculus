@@ -1,0 +1,458 @@
+\documentclass{ximera}
+
+
+\input{../preamble.tex}
+
+\outcome{Define linear approximation as an application of the tangent to a curve.}
+\outcome{Find the linear approximation to a function at a point and use it to approximate the function value.}
+\outcome{Identify when a linear approximation can be used.}
+\outcome{Label a graph with the appropriate quantities used in linear approximation.}
+\outcome{Find the error of a linear approximation.}
+\outcome{Compute differentials.}
+%\outcome{Use the second derivative to discuss whether the linear approximation over or underestimates the actual function value.}
+\outcome{Contrast the notation and meaning of $\d y$ versus $\Delta y$.}
+%\outcome{Understand that the error shrinks faster than the displacement in the input.}
+\outcome{Justify the chain rule via the composition of linear approximations.}
+
+
+\title[Dig-In:]{Linear approximation}
+
+\begin{document}
+\begin{abstract}
+We use a method called ``linear approximation'' to estimate the value
+of a (complicated) function at a given point.
+%  We derive the constant rule, sum rule, power rule, and product rule. 
+\end{abstract}
+\maketitle
+
+%\section{Linear approximation}
+
+Given a function, a \textit{linear approximation} is a fancy phrase
+for something you already know:
+\begin{quote}
+  \textbf{The derivative is the slope of the tangent line.}
+\end{quote}
+Except in this section, the emphasis is on the \textbf{line}.
+
+\begin{definition}\index{linear approximation}
+If $f$ is a differentiable function at $x=a$, then a \textbf{linear
+  approximation} for $f$ at $x=a$ is given by
+\[
+\l(x) = f'(a)(x-a) +f(a).
+\]
+\end{definition}
+
+
+Note that $\l(x)$ is just the tangent line to $f(x)$ at $x=a$.
+
+A linear approximation of $f$ is a ``good'' approximation as long as
+$x$ is ``not too far'' from $a$.
+%As we see from Figure~\ref{figure:informal-tangent}, 
+If one ``zooms in'' on $f$ sufficiently, then $f$ and the linear
+approximation are nearly indistinguishable. As a first example, we
+will see how linear approximations allow us to make approximate
+``difficult'' computations.
+
+\begin{example}
+Use a linear approximation of $f(x) =\sqrt[3]{x}$ at $x=64$ to
+approximate $\sqrt[3]{50}$.
+\begin{explanation}
+To start, write
+\[
+\ddx f(x) = \ddx x^{1/3} = \frac{1}{\answer[given]{3x^{2/3}}}.
+\]
+So our linear approximation is
+\begin{align*}
+\l(x) &= \frac{1}{3\cdot 64^{2/3}} (x-64) + \answer[given]{4} \\
+&= \frac{1}{\answer[given]{48}} (x-64) + 4\\
+&= \frac{x}{48} +\frac{8}{3}.
+\end{align*}
+\begin{image}
+%\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=1,xmax=100,ymin=0,ymax=5,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=150,smooth,domain=(0:100)] {x^(1/3))};
+          \addplot [very thick, penColor2, domain=(0:100)] {x/48+8/3};
+          \addplot [textColor,dashed] plot coordinates {(64,0) (64,4)};
+          \addplot [textColor,dashed] plot coordinates {(0,4) (64,4)};
+          \node at (axis cs:20,2.3) [penColor] {$f$};
+          \node at (axis cs:20,3.3) [penColor2] {$\l$};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole            
+        \end{axis}
+\end{tikzpicture}
+%\caption{A linear approximation of $f(x) = \sqrt[3]{x}$ at $x=64$.}
+%\label{figure:la sqrt3x}
+%\end{marginfigure}
+\end{image}
+Now we evaluate $\l(50) \approx 3.71$ and compare it to
+$\sqrt[3]{50}\approx 3.68$.  From this we see that the linear
+approximation, while perhaps inexact, is computationally \textbf{easier}
+than computing the cube root.
+\end{explanation}
+\end{example}
+
+
+With modern calculators and computing software it may not appear
+necessary to use linear approximations. In fact they are quite
+useful. In cases requiring an explicit numerical approximation, they
+allow us to get a quick rough estimate which can be used as a
+``reality check'' on a more complex calculation. In some complex
+calculations involving functions, the linear approximation makes an
+otherwise intractable calculation possible, without serious loss of
+accuracy.
+
+\begin{example}%\label{exam:linear approximation of sine}
+Use a linear approximation of $f(x) =\sin(x)$ at $x=0$ to approximate
+$\sin(0.3)$.
+\begin{explanation}
+To start, write
+\[
+\ddx f(x) = \answer[given]{\cos(x)},
+\]
+so our linear approximation is
+\begin{align*}
+\l(x) &= \answer[given]{\cos(0)}\cdot(x-0) + 0\\
+&= x.
+\end{align*}
+\begin{image}
+%\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1.6,xmax=1.6,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-1.57, 0, 1.57},
+            xticklabels={$-\pi/2$, $0$, $\pi/2$},
+            ytick={-1,1},
+            %ticks=none,
+            %width=3in,
+            %height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-1.6:1.6)] {sin(deg(x))};
+          \addplot [very thick, penColor2, samples=100,smooth] {x};
+          \node at (axis cs:1,.6) [penColor] {$f$};
+          \node at (axis cs:-1,-1.2) [penColor2] {$\l$};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+%\caption{A linear approximation of $f(x) = \sin(x)$ at $x=0$.}
+%\label{figure:la sin}
+%\end{marginfigure}
+\end{image}
+Hence a linear approximation for $\sin(x)$ at $x=0$ is $\l(x) = x$,
+and so $\l(0.3) = 0.3$.  Comparing this to $\sin(.3) \approx 0.295$,
+we see that the approximation is quite good. For this reason, it is common
+to approximate $\sin(x)$ with its linear approximation $\l(x) = x$
+when $x$ is near zero.  
+%see Figure~\ref{figure:la sin}.
+\end{explanation}
+\end{example}
+
+
+
+\section{Differentials}
+
+The notion of a \textit{differential} goes back to the origins of
+calculus, though our modern conceptualization of a differential is
+somewhat different than how they were initially understood.
+
+\begin{definition}
+Let $f$ be a differentiable function. We define a new independent
+variable $\d x$, and a new dependent variable
+\[
+\d f=f'(x)\cdot \d x.
+\] 
+The variables $\d x$ and $\d f$ are called
+\dfn{differentials}. Geometrically, differentials can be interpreted
+via the diagram below
+\begin{image}
+%\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=1, xmax=2, range=0:6,ymax=6,ymin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            ticks=none,
+            axis on top,
+          ]         
+          \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(1.4,10/6) (1.7,10/6)};
+	  \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(1.7,10/6) (1.7,10/6 +.3/.36)};
+          \addplot [very thick,penColor, smooth,samples=100,domain=(0:1.833)] {-1/(x-2)};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1.4,10/6)};  %% closed hole            
+          \node at (axis cs:1.55,1.67) [below] {$\d x$};
+          \node at (axis cs:1.7,2.08) [right] {$\d f$};
+        \end{axis}
+\end{tikzpicture}
+%\caption{While $dy$ and $\d x$ are both variables, $dy$ depends on $\d x$,
+  %and approximates how much a function grows after a change of size
+  %$\d x$ from a given point.}
+%\label{figure:differentials}
+%\end{marginfigure}
+\end{image}
+Note, it is now the case (by definition!) that 
+\[
+\frac{\d f}{\d x} = f'(x).
+\]
+\end{definition}
+
+\begin{question}
+  The differential $\d x$ is:
+  \begin{multipleChoice}
+    \choice{$d$ times $x$.}
+    \choice[correct]{A single variable.}
+  \end{multipleChoice}
+  \begin{question}
+    The differential $\d f$ is:
+    \begin{multipleChoice}
+      \choice{$d$ times $f$.}
+      \choice[correct]{A single variable that is dependent on $\d x$.} 
+    \end{multipleChoice}
+  \end{question}
+\end{question}
+
+Essentially, differentials allow us to solve the problems presented in
+the previous examples from a slightly different point of view. Recall,
+when $h$ is near but not equal zero,
+\[
+f'(x) \approx \frac{f(x+h)-f(x)}{h}
+\]
+hence, 
+\[
+f'(x)h \approx f(x+h)-f(x).
+\]
+Since $h$ is simply a variable, and $\d x$ is simply a variable, we can replace $h$ with $\d x$ to write
+\begin{align*}
+f'(x)\cdot \d x &\approx f(x+\d x)-f(x)\\
+\d f &\approx f(x+\d x)-f(x).
+\end{align*}
+Adding $f(x)$ to both sides we see
+\[
+f(x+\d x)\approx f(x) + \d f.
+\]
+While this is something of a ``sleight of hand'' with variables, there
+are contexts where the language of differentials is common. Here is
+the basic strategy:
+\begin{image}
+  \begin{tikzpicture}
+    \node at (0,0) {
+      $\underbrace{f(x + \d x)} \approx  \overbrace{f(x)} + \underbrace{\d f}$
+    };
+    \node at (-1.4,-.7) {\small{what you want}};
+    \node at (.3,.7) {\small{what you know}};
+    \node at (1.7,-.7) {\small{what you compute}};
+  \end{tikzpicture}
+\end{image}
+
+We will repeat our previous examples using differentials.
+
+\begin{example}
+Use differentials to approximate $\sqrt[3]{50}$.
+\begin{explanation}
+  Set $f(x) = \sqrt[3]{x}$. We want to know $\sqrt[3]{50}$.  Since
+  $4^3 = 64$, we set $x=64$.  Setting $\d x=-14$, we have
+  \begin{align*}
+  \sqrt[3]{50} = f(x + \d x) &\approx  f(x) + \d f\\
+  &\approx \sqrt[3]{64} + \d f.
+  \end{align*}
+  Here we see a plot of $y=\sqrt[3]{x}$ with the differentials above
+  marked:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=40,xmax=70,ymin=3,ymax=4.5,
+          axis lines=center,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, samples=150,smooth,domain=(0:100)] {x^(1/3))};
+        %\addplot [very thick, penColor2, domain=(50:64)] {x/48+8/3};
+        %\addplot [textColor,dashed] plot coordinates {(64,0) (64,4)};
+        \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(50,4) (50,3.71)};
+        \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(64,4) (50, 4)};
+        \node [above] at (axis cs:57,4) {$\d x$};
+        \node [left] at (axis cs:50,3.86) {$\d f$};
+        \node [below,penColor3] at (axis cs:64,4) {$(64,4)$};
+        \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole            
+      \end{axis}
+    \end{tikzpicture}
+    %\caption{A plot of $f(x) = \sqrt[3]{x}$  along with the differentials $\d x$ and $dy$.}
+    \label{figure:diff sqrt3x}
+  \end{image}
+  Now we must compute $\d f$:
+  \begin{align*}
+    \d f &= f'(x) \cdot \d f\\
+    &= \answer[given]{\frac{1}{3x^{2/3}}} \cdot \d f\\
+    &= \frac{1}{3\cdot64^{2/3}} \cdot(\answer[given]{-14})\\
+    &= \frac{1}{3\cdot64^{2/3}} \cdot(-14)\\
+    &= \frac{-7}{24}
+  \end{align*}
+  Hence $f(50) \approx f(64) + \frac{-7}{24} \approx 3.71$.
+\end{explanation}
+\end{example}
+
+\begin{example}
+Use differentials to approximate $\sin(0.3)$.
+\begin{explanation}
+Set $y = \sin(x)$. We want to know $\sin(0.3)$. Since $\sin(0) = 0$,
+we will set $x = 0$ and $\d x=0.3$. Write with me
+\begin{align*}
+  \sin(0.3) = \sin(x + \d x) &\approx  \sin(x) + \d y\\
+  &\approx 0 + \d y.
+  \end{align*}
+  Here we see a plot of $y=\sin(x)$ with the differentials above
+  marked:
+  \begin{image}
+%\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1,xmax=1,ymin=-1,ymax=1,
+            axis lines=center,
+            xtick={-1.57, 0, 1.57},
+            xticklabels={$-\pi/2$, $0$, $\pi/2$},
+            ytick={-1,1},
+            %ticks=none,
+            %width=3in,
+            %height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-1.6:1.6)] {sin(deg(x))};
+          %\addplot [penColor2,very thick] plot coordinates {(0,0) (.3,0)};
+          %\addplot [penColor2,very thick] plot coordinates {(.3,0) (.3,.3)};
+          \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(0,0) (.3, 0)};
+          \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(.3,0) (.3, .3)};
+          \node at (axis cs:.6,.7) [penColor] {$f$};
+          \node [below] at (axis cs:.15,.0) {$\d x$};
+          \node [right] at (axis cs:.3,.15) {$\d y$};
+          \node [above left, color=penColor3] at (axis cs:0,0) {$(0,0)$};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+%\caption{A plot of $f(x) = \sin(x)$ along with the differentials $\d x$ and $dy$.}
+\label{figure:diff sin}
+%\end{marginfigure}
+\end{image}
+Now we must compute $\d y$:
+\begin{align*}
+  \d y &= \left(\ddx \sin(x)\right) \cdot \d x\\
+  &=\answer[given]{\cos(0)} \cdot \d x\\
+  &= 1 \cdot (\answer[given]{0.3})\\
+  &= 0.3
+\end{align*}
+Hence $\sin(0.3) \approx \sin(0) + 0.3 \approx 0.3$.
+\end{explanation}
+\end{example}
+
+The upshot is that linear approximations and differentials are simply
+two slightly different ways of doing the exact same thing.
+
+\section{Error approximation}
+
+Differentials also help us estimate error in real life settings.
+
+\begin{example}
+  The cross-section of a $250$ ml glass can be modeled by the function
+  $r(x) = \frac{x^4}{3}$:
+  \begin{image}
+    \begin{tikzpicture}[
+        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
+      \begin{axis}[
+          xmin =-4,xmax=4,ymax=23,ymin=-.2,
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+        ]
+        \addplot [draw=none,fill=fillp!50!white,domain=-2.65:2.65, smooth] {.8*sqrt(2.65^2-x^2)+16.8} \closedcycle;
+        \addplot [draw=none,fill=fillp,domain=-2.65:2.65, smooth] {-.8*sqrt(2.65^2-x^2)+16.8} \closedcycle; 
+        \addplot [draw=none,fill=white,domain=-2.7:2.7, smooth] {f(x)} \closedcycle;
+        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
+
+        \draw[penColor,very thick] (axis cs:0,16.8) ellipse (265 and 20);
+        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
+
+        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  At $16.8$ cm from the base of the glass, there is a mark indicating
+  when the glass is filled to $250$ ml. If the glass is filled within
+  $\pm 2$ millimeters of the mark, what are the bounds on the volume?
+  As a gesture of friendship, we will tell you that the volume in
+  milliliters, as a function of the height of water in centimeters, $y$,
+  is given by
+  \[
+  V(y) = \frac{2\pi y^{3/2}}{\sqrt{3}}.
+  \]
+  Note: If you persist in your quest to learn calculus, you will be
+  able to derive the formula above like it's no-big-deal.
+  \begin{explanation}
+    We want to know what a small change in the height, $y$ does to the
+    volume $V$.  These small changes can be modeled by the
+    differentials $\d V$ and $\d y$. Since
+    \[
+    \d V = V'(y) \d y
+    \]
+    and $V'(x) = \answer[given]{\pi \sqrt{3 y}}$ we use the fact that
+    $\d y = \pm 0.2$ with $y=\answer[given]{16.8}$ to see
+    \[
+    \d V = \answer[given]{\pi \sqrt{3 \cdot 16.8}} \cdot 0.2.
+    \]
+    Hence the volume will vary by at most $\pm\answer[given,tolerance=.01]{4.46062}$
+    milliliters.
+  \end{explanation}
+\end{example}
+
+\section{New and old friends}
+
+You might be wondering, given a plot $y=f(x)$,
+\begin{quote}
+  What's the difference between $\Delta x$ and $\d x$? What about
+  $\Delta y$ and $\d y$?
+\end{quote}
+Regardless, it is now a pressing question. Here's the deal: 
+\[
+\frac{\Delta y}{\Delta x}
+\]
+is the \dfn{average rate of change} of $y=f(x)$ with respect to $x$.
+On the other hand:
+\[
+\frac{\d y}{\d x}
+\]
+is the \dfn{instantaneous rate of change} of $y=f(x)$ with respect to
+$x$. Essentially, $\Delta x$ and $\d x$ are the same type of thing,
+they are (usually small) changes in $x$. However, $\Delta y$ and $\d
+y$ are very different things.
+\begin{itemize}
+\item $\Delta y$ is the change of $y$ associated to $\Delta x$.
+\item $\d y$ is the change in $y$ needed to make the following relation true:
+  \[
+  \d y = f'(x)\d x
+  \]
+\end{itemize}
+\begin{question}
+  Suppose $f(x) = x^2$. If $\Delta x =\d x = 0.1$, what is $\Delta y$? What
+  is $\d y$?
+  \begin{prompt}
+    \[
+    \Delta y = \answer{0.01}\qquad \d y = \answer{0.02}
+    \]
+  \end{prompt}
+\end{question}
+Differentials can be confusing at first. However, when you master
+them, you will have a powerful tool at your disposal.
+
+\end{document}

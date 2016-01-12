@@ -1,0 +1,212 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Compute limits of families of functions.} 
+\outcome{Compute average velocity.}
+\outcome{Approximate instantaneous velocity.}
+\outcome{Compare average and instantaneous velocity.}
+\outcome{Plot difference quotients for varying approximations of the instantaneous rate of change.}
+
+\title[Dig-In:]{Instantaneous velocity}
+
+\begin{document}
+\begin{abstract}
+We use limits to compute instantaneous velocity.
+\end{abstract}
+\maketitle
+
+When one computes average velocity, we look at 
+\[
+\frac{\text{change in displacement}}{\text{change in time}}.
+\]
+To obtain the (instantaneous) velocity, we want the change in time to
+``go to'' zero. By this point we should know that ``go to'' is a
+buzz-word for a \textit{limit}. The change in time is often given as
+an interval whose length goes to zero.  However, intervals must always
+be written
+\[
+[a,b] \qquad\text{where $a < b$.}
+\]
+Given
+\[
+I = [a, a+h],
+\]
+we see that $h$ cannot be negative, or else it violates the notation
+for intervals. Hence, if we want smaller, and smaller, intervals
+around a point $a$, and we want $h$ to be able to be negative, we
+write
+\[
+I_h = 
+\begin{cases}
+  [a+h,a]  & \text{if $h<0$}, \\ %% note this is MORE correct than std books
+  [a,a+h]  & \text{if $0<h$}.     %% in the content section, we can explain this in detail
+\end{cases}
+\]
+\begin{question}
+  Let $a = 3$ and $h = 0.1$
+  \[
+  I_h = \left[\answer{3},\answer{3.1} \right]
+  \]
+  \begin{question}
+    Let $a = 3$ and $h = -0.1$
+  \[
+  I_h = \left[\answer{2.9},\answer{3} \right]
+  \]
+  \end{question}
+\end{question}
+
+Regardless of the value of $h$, the average velocity on the interval
+$I_h$ is computed by
+\[
+\frac{\text{change in displacement}}{\text{change in time}} =
+\frac{s(t+h)-s(t)}{h}.
+\]
+We will be most interested in this ratio when $h$ approaches zero.
+Let's put all of this together by working an example.
+
+\begin{example}
+A group of young mathematicians recently took a road trip from
+Columbus Ohio to Urbana-Champaign Illinois. The position (west of
+Columbus, Ohio) of van they drove in is roughly modeled by
+\[
+s(t) = 36t^2 - 4.8t^3 \qquad\text{(miles West of Columbus)} %% note the model is wrong
+\]
+on the interval $[0,5]$, where $t$ is measured in hours. What is the
+average velocity on the interval $[0,5]$?
+
+Additionally, let
+\[
+I_h= \begin{cases}
+  [1+h,1]  & \text{if $h<0$}, \\ %% note this is MORE correct than std books
+  [1,1+h]  & \text{if $0<h$}.     %% in the content section, we can explain this in detail
+\end{cases}
+\]
+What is the average velocity on $I_h$ when $h= 0.1$?
+What is the average velocity on $I_h$ when $h= -0.1$?
+\begin{explanation}
+  The average velocity on the interval $[0,5]$ is
+  \begin{align*}
+  \frac{s(5)-s(0)}{5-0} &= \frac{36\cdot 5^2 - 4.8\cdot 5^3 - (36\cdot 0^2 - 4.8\cdot 0^3)}{5}\\
+  &=\frac{\answer[given]{300}}{5}\\
+  &=\answer[given]{60}\qquad\text{miles per hour.}
+  \end{align*}
+  On the other hand, consider the interval
+  \[
+  I_h = 
+  \begin{cases}
+    [1+h,1]  & \text{if $h<0$}, \\ %% note this is MORE correct than std books
+    [1,1+h]  & \text{if $0<h$}.     %% in the content section, we can explain this in detail
+  \end{cases}
+  \]
+  When $h = 0.1$, the average velocity is
+  \[
+  \frac{s(1+0.1)-s(1)}{0.1}
+  \]
+  \begin{align*}
+    &= \frac{36\cdot (1.1)^2 - 4.8\cdot (1.1)^3 - (36\cdot 1^2 - 4.8 \cdot 1^3)}{0.1}\\
+    &=\frac{\answer[given]{5.9712}}{0.1}\\
+    &=\answer[given]{59.712}\qquad\text{miles per hour.}
+  \end{align*}
+  
+  On the other hand, when $h=-0.1$, the average velocity is
+  \[
+  \frac{s(1-0.1)-s(1)}{-0.1}
+  \]
+  \begin{align*}
+    &= \frac{36\cdot (0.9)^2 - 4.8\cdot (0.9)^3 - (36\cdot 1^2 - 4.8 \cdot 1^3)}{-0.1}\\
+    &=\frac{\answer[given]{-5.5392}}{-0.1}\\
+    &=\answer[given]{55.392}\qquad\text{miles per hour.}
+  \end{align*}
+\end{explanation}
+\end{example}
+
+In our previous example, we computed \textit{average velocity} on
+three different intervals. If we let the size of the interval go to
+zero, we get \dfn{instantaneous velocity}. Limits will allow us to
+compute instantaneous velocity.  Let's use the same setting as before.
+
+\begin{example}
+  The position of van (west of Columbus, Ohio) our young
+  mathematicians drove to Urbana-Champaign, Illinois is roughly
+  modeled by
+  \[
+  s(t) = 36t^2 - 4.8t^3 \qquad \text{for $0\le t\le 5$,}
+  \] 
+  Find a formula for the (instantaneous) velocity of this van.
+\begin{explanation}
+  Again, we are working with the interval
+  \[
+  I_h= \begin{cases}
+    [t+h,t]  & \text{if $h<0$}, \\ %% note this is MORE correct than std books
+    [t,t+h]  & \text{if $0<h$}.     %% in the content section, we can explain this in detail
+  \end{cases}
+  \]
+  To compute the average velocity, we write
+  \[
+    \frac{s(t+h)-s(t)}{h}
+  \]
+  but this time, we will let $h$ go to zero.
+  Write with me
+  \begin{align*}
+  \lim_{h\to 0} &\frac{s(t+h)-s(t)}{h}\\
+  &= \lim_{h\to 0} \frac{\answer[given]{36(t+h)^2 - 4.8(t+h)^3} - \left(36t^2 - 4.8t^3\right)}{h}
+  \end{align*}
+  Now expand the numerator of the fraction and combine like-terms:
+  \[
+  = \lim_{h\to 0}\frac{72 t h + 36h^2 - 14.4 t^2 h - 14.4th^2 - \answer[given]{4.8h^3}}{h}
+  \]
+  Factor an $h$ from every term in the numerator:
+  \[
+  = \lim_{h\to 0}\frac{h\left(\answer[given]{72t + 36h - 14.4t^2 - 14.4th - 4.8h^2}\right)}{h}
+  \]
+  Cancel $h$ from the numerator and denominator:
+  \[
+  = \lim_{h\to 0}\left(\answer[given]{72t + 36h - 14.4t^2 - 14.4th - 4.8h^2}\right)
+  \]
+  Plug in $h=0$:
+  \[
+  = \answer[given]{72t-14.4t^2}
+  \]
+  This gives us a formula for our instantaneous velocity, $v(t) =
+  \answer[given]{72t-14.4t^2}$.  For your viewing enjoyment, check out graphs of both
+  $y=s(t)$ and $y=v(t)$:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[clip=false,
+          domain=0:5,
+          xmax=5,
+        xmin=0,
+        ymax=300,
+        ymin=0,
+        axis lines =middle, 
+        y label style={at={(axis description cs:-0.1,0.5)},rotate=90,anchor=south},
+        x label style={at={(axis description cs:0.5,-.2)}},
+        xlabel={hours into road-trip}, ylabel={distance traveled in miles},
+        ]
+        \addplot [very thick, penColor, smooth] {36*x^2 - 4.8*x^3};
+        \node at (axis cs:3,230) {\color{penColor}$s$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          clip=false,
+          domain=0:5,
+          xmax=5,
+          xmin=0,
+          ymax=100,
+          ymin=0,
+          axis lines =middle, 
+          y label style={at={(axis description cs:-0.1,0.5)},rotate=90,anchor=south},
+          x label style={at={(axis description cs:0.5,-.2)}},
+          xlabel=hours into road-trip, ylabel=velocity in miles per hour]
+        \addplot [very thick, penColor2, smooth] {72*x-14.4*x^2};
+        \node at (axis cs:3,95) {\color{penColor2}$v$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+\end{explanation}
+\end{example}
+\end{document}

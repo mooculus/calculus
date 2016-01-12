@@ -1,0 +1,459 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Use integral notation for both antiderivatives and definite integrals.}
+\outcome{Compute definite integrals using geometry.}
+\outcome{Compute definite integrals using the properties of integrals.}
+\outcome{Justify the properties of definite integrals using algebra or geometry.}
+\outcome{Understand how Riemann sums are used to find exact area.}
+\outcome{Define net area.}
+\outcome{Split the area under a curve into several pieces to aid with calculations.}
+\outcome{Use symmetry to calculate definite integrals.}
+\outcome{Explain geometrically why symmetry of a function simplifies calculation of some definite integrals.}
+
+
+\title[Dig-In:]{The definite integral}
+
+\begin{document}
+\begin{abstract}
+  Definite integrals compute signed area.
+\end{abstract}
+\maketitle
+
+
+Definite integrals, often simply called integrals, compute signed area. 
+
+\begin{definition}\index{integral}\index{definite integral}
+The \dfn{definite integral}
+\[
+\int_a^b f(x) \d x
+\]
+computes the signed area between $y=f(x)$ and the $x$-axis on the
+interval $[a,b]$.
+\begin{itemize}
+  \item If the region is above the $x$-axis, then the area has
+    positive sign.
+  \item If the region is below the $x$-axis, then the area has
+    negative sign.
+\end{itemize}
+Note, when working with signed area, ``positive'' and ``negative''
+area cancel each other out.
+\end{definition}
+
+\begin{question}
+Consider the following graph of $y=f(x)$:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        height=3in,
+        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=1.2,domain=0:6,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, %pattern=north west lines, pattern color=blue,
+        fill=fillp,
+        domain=0:1] {x} \closedcycle;
+      \addplot [draw=none, %pattern=north west lines, pattern color=blue,
+        fill=fillp,
+        domain=1:5] {1.5-x/2} \closedcycle;
+      
+      \addplot [penColor,very thick,domain=0:1] {x};
+      \addplot [penColor,very thick,domain=1:5] {1.5-x/2};
+  \end{axis}
+  \end{tikzpicture}
+\end{image}
+Compute:
+\begin{enumerate}
+\item $\int_0^3 f(x) \d x \begin{prompt}= \answer{1.5}\end{prompt}$
+\item $\int_3^5 f(x) \d x \begin{prompt}= \answer{-1}\end{prompt}$
+\item $\int_0^5 f(x) \d x \begin{prompt}= \answer{0.5}\end{prompt}$
+\item $\int_0^3 5\cdot f(x) \d x \begin{prompt}= \answer{7.5}\end{prompt}$
+\item $\int_1^1 5\cdot f(x) \d x \begin{prompt}= \answer{0}\end{prompt}$
+\end{enumerate}
+\begin{hint}
+  Use the formula for the area of a triangle.
+\end{hint}
+\begin{hint}
+  Remember, we are dealing with ``signed'' area here:
+  \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        height=3in,
+        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=1.2,domain=0:6,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, fill=fillp,domain=0:1] {x} \closedcycle;
+      \addplot [draw=none, fill=fillp,domain=1:3] {1.5-x/2} \closedcycle;
+      \addplot [draw=none, fill=filln,domain=3:5] {1.5-x/2} \closedcycle;
+      
+      \addplot [penColor,very thick,domain=0:1] {x};
+      \addplot [penColor,very thick,domain=1:5] {1.5-x/2};
+      \node at (axis cs:1.1,.4) [textColor] {\scalebox{2}{$\boldsymbol+$}};
+      \node at (axis cs:4.5,-.4) [textColor] {\scalebox{2}{$\boldsymbol-$}};
+  \end{axis}
+  \end{tikzpicture}
+\end{image}
+\end{hint}
+\end{question}
+
+
+Our previous question hopefully gives us enough insight that this next
+theorem is unsurprising.
+
+\begin{theorem}[Properties of the definite integral]
+Let $f$ and $g$ be defined on a closed interval $[a,b]$ that contains the
+value $c$, and let $k$ be a constant. The following
+hold:
+\begin{enumerate}
+\item $\int_a^a f(x)\d x = 0$
+\item $\int_a^c f(x)\d x + \int_c^b f(x)\d x = \int_a^b f(x)\d x$
+\item $\int_a^bf(x)\d x = -\int_b^a f(x)\d x$
+\item $\int_a^b f(x)\pm g(x)\d x = \int_a^bf(x)\d x \pm \int_a^bg(x)\d x$
+\item $\int_a^bk\cdot f(x)\d x = k\cdot\int_a^bf(x)\d x$
+\end{enumerate}
+\begin{explanation}
+  We will address each property in turn:
+\begin{enumerate}
+\item Here, there is no ``area under the curve'' when the region has
+  no width; hence this definite integral is $0$.
+\item This states that total area is the sum of the areas of
+  subregions. Here a picture is worth a thousand words:
+  \begin{image}
+    \begin{tikzpicture}[
+        declare function = {f(\x) = -sin(deg(\x)) + 3;} ]
+      \begin{axis}[
+          domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.2,
+          width=6in,
+          height=3in,
+          xtick={1,3.5,6}, 
+          xticklabels={$a$,$c$,$b$},
+          ytick style={draw=none},
+          yticklabels={},
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+          ]
+        \addplot [draw=none,fill=fill4,domain=1:3.5, smooth] {f(x)} \closedcycle;
+        
+        \addplot [draw=none,fill=fill5,domain=3.5:6, smooth] {f(x)} \closedcycle;
+        
+        \addplot [very thick,penColor, smooth] {f(x)};
+        \addplot [dashed] plot coordinates {(3.5,0) (3.5,{f(3.5)})};
+        
+        \node at (axis cs:2.25,1) {\large$\int_a^c f(x)\d x$};
+        \node at (axis cs:4.75,1) {\large$\int_c^b f(x)\d x$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}		
+  It is important to note that this still holds true even if
+  $a<b<c$. We discuss this in the next point.
+  
+\item For now, this property can be viewed a merely a convention to
+  make other properties work well. However, later we will see how this
+  property has a justification all its own.
+
+\item This states that when one scales a function by, for instance, $7$,
+  the area of the enclosed region also is scaled by a factor of
+  $7$.
+\item This states that the integral of the sum is the sum of the
+  integrals.
+\end{enumerate}
+\end{explanation}
+\end{theorem}
+
+Due to the geometric nature of integration, geometric properties of
+functions can help us compute integrals.
+
+\begin{example}
+  Compute:
+  \[
+  \int_0^6 |x-3| \d x
+  \]
+  \begin{explanation}
+    This may seem difficult at first. Perhaps the first thing to do is
+    look at a graph of $y=x-3$:
+  \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        height=3in,
+        xmin=-.5, xmax=6.5,ymin=-4,ymax=4,domain=0:6,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [penColor,very thick,domain=0:6] {x-3};
+    \end{axis}
+  \end{tikzpicture}
+    \end{image}
+    Now we can graph $y=|x-3|$:
+    \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        height=3in,
+        xmin=-.5, xmax=6.5,ymin=-4,ymax=4,domain=0:6,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, fill=fillp,domain=0:3] {3-x} \closedcycle;
+      \addplot [draw=none, fill=fillp,domain=3:6] {x-3} \closedcycle;
+      \addplot [penColor,very thick,domain=3:6] {x-3};
+      \addplot [penColor,very thick,domain=0:3] {3-x};
+    \end{axis}
+  \end{tikzpicture}
+    \end{image}
+    Now we see that we really have two triangles, each with base $3$
+    and height $3$.  Hence
+    \begin{align*}
+    \int_0^6 |x-3| \d x &= \int_0^3 \answer[given]{3-x} \d x + \int_3^6 \answer[given]{x-3} \d x\\
+    &= \frac{3\cdot 3}{2} + \frac{3\cdot 3}{2}\\
+    &=\answer[given]{9}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{definition}
+  A function $f$ is an \dfn{odd} function if
+  \[
+  f(-x) = -f(x),
+  \]
+  and a function $g$ is an \dfn{even} function if
+  \[
+  g(-x) = g(x).
+  \]
+\end{definition}
+
+The names \textit{odd} and \textit{even} come from the fact that these
+properties are shared by functions of the form $x^n$ where $n$ is
+either odd or even. For example, if $f(x) = x^3$, then
+\[
+f(-7) = -f(7),
+\]
+and if $g(x) = x^4$, then
+\[
+g(-7) = g(7).
+\]
+Geometrically, even functions have \textit{horizontal
+  symmetry}. Cosine is an even function:
+\begin{image}
+ \begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=6in,
+            height=3in,
+            unit vector ratio*=1 1 1,
+            xlabel=$\theta$, ylabel=$x$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor2, samples=100,smooth, domain=(-6.75:6.75)] {cos(deg(x))};
+          \node at (axis cs:-1.57,.75) [penColor2] {$\cos(\theta)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+On the other hand, odd functions have $180^\circ$ \textit{rotational symmetry}
+around the origin. Sine is an odd function:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=6in,
+            height=3in,
+            unit vector ratio*=1 1 1,
+            xlabel=$\theta$, ylabel=$x$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-6.75:6.75)] {sin(deg(x))};
+          
+          \node at (axis cs:3.14,.75) [penColor] {$\sin(\theta)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{question}
+  Let $f$ be an odd function defined for all real numbers. Compute:
+  \[
+  \int_{-2}^2 f(x) \d x \begin{prompt}=\answer{0}\end{prompt}
+  \]
+  \begin{hint}
+    Since our function is odd, it must look something like:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-2.5, xmax=2.5,ymin=-1,ymax=1,domain=-2.2:2.2,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ] 
+          \addplot [penColor,very thick,smooth] {sin(deg(x))*sin(deg(x^2/1.3))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+  \end{hint}
+  \begin{hint}
+    The integral above computes the following (signed) area:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-2.5, xmax=2.5,ymin=-1,ymax=1,domain=-2.2:2.2,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=0:2, smooth] {sin(deg(x))*sin(deg(x^2/1.3))} \closedcycle;
+          \addplot [draw=none,fill=filln,domain=-2:0, smooth] {sin(deg(x))*sin(deg(x^2/1.3))} \closedcycle;
+          \addplot [penColor,very thick,smooth] {sin(deg(x))*sin(deg(x^2/1.3))};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+  \end{hint}
+\end{question}
+
+
+\begin{question}
+  Let $f$ be an odd function defined for all real numbers. Which of
+  the following are equal to
+  \[
+  \int_2^4 f(x) \d x ?
+  \]
+  \begin{selectAll}
+    \choice{$\int_{4}^{2} f(x) \d x$}
+    \choice{$\int_{-4}^{-2} f(x) \d x$}
+    \choice[correct]{$\int_{-2}^{-4} f(x) \d x$}
+    \choice[correct]{$\int_{-2}^{4} f(x) \d x$}
+    \choice{$\int_{4}^{-2} f(x) \d x$}
+    \choice[correct]{$\int_{2}^{-4} f(x) \d x$}
+    \choice{$\int_{-4}^{2} f(x) \d x$}
+    \choice[correct]{$-\int_{-4}^{2} f(x) \d x$}
+    \choice[correct]{$-\int_{-4}^{-2} f(x) \d x$}
+  \end{selectAll}
+\end{question}
+
+
+
+
+\section{Signed verses geometric area}
+
+
+We know that the signed area between a curve $y=f(x)$ and the $x$-axis
+on $[a,b]$ is given by
+\[
+\int_a^b f(x) \d x.
+\]
+On the other hand, if we want to know the \textit{geometric area},
+meaning the ``actual'' area, we compute
+\[
+\int_a^b |f(x)| \d x.
+\]
+\begin{question}
+  True or false:
+  \[
+  \int_a^b |f(x)| \d x = \left|\int_a^b f(x) \d x\right|
+  \]
+  \begin{multipleChoice}
+    \choice{true}
+    \choice[correct]{false}
+  \end{multipleChoice}
+  \begin{feedback}
+    Consider $f(x) = x^3$ on the interval $[-1,1]$. Here
+    \[
+    \int_a^b |f(x)| \d x = 1/2 \qquad\text{but}\qquad \left|\int_a^b
+    f(x) \d x\right| = 0.
+    \]
+  \end{feedback}
+\end{question}
+
+
+
+\section{Integrals and Riemann sums}
+
+Exactly how does an integral compute area? It depends on who you
+ask. If you ask Riemann, then you set
+\[
+\Delta x = \frac{b-a}{n}
+\]
+and look at the following limit of Riemann sums:
+\[
+\lim_{n\to \infty} \sum_{k=1}^n f(x_k^*) \Delta x = \int_a^b f(x) \d x.
+\]
+This says, take a curve, slice it up into $n$ pieces on the interval
+$[a,b]$, add up all the areas of rectangles whose width is determined
+by the slices and the height is determined by a sample point in one of
+these pieces.
+
+\begin{example}
+  Compute this limit:
+  \[
+  \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-\left(-1+\frac{2k}{n}\right)^2}\right)
+  \left(\frac{2}{n}\right)
+  \]
+  \begin{explanation}
+    This is a limit of Riemann sums!  Specifically, it is a limit of
+    Riemann sums of $n$ rectangles, where
+    \[
+    \Delta x = \answer[given]{\frac{2}{n}}
+    \]
+    and
+    \[
+    x_k^* = -1+\frac{2k}{n}.
+    \]
+    Hence, we may rewrite this as
+    \[
+    \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-(x_k^*)^2}\right)
+    \Delta x.
+    \]
+    Now we see that this computes the area between the $x$-axis and
+    the curve $y = \sqrt{1-x^2}$. Let's see it:
+    \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        %height=3in,
+        unit vector ratio*=1 1 1,            
+        xmin=-1.1, xmax=1.1,ymin=-.1,ymax=1.1,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, fill=fillp,samples=200,domain=-1:1] {sqrt(1-x^2)} \closedcycle;
+      
+      \addplot [penColor,very thick,samples=200,domain=-1:1] {sqrt(1-x^2)};
+    \end{axis}
+  \end{tikzpicture}
+    \end{image}
+    By geometry, we know that this semicircle has area $\answer[given]{\pi/2}$. Hence
+    \[
+    \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-(x_k^*)^2}\right)\Delta x =\answer[given]{\pi/2}.
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

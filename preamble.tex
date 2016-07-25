@@ -9,16 +9,37 @@
 \usetikzlibrary{backgrounds} %% for boxes around graphs
 \usetikzlibrary{shapes,positioning}  %% Clouds and stars
 \usetikzlibrary{matrix} %% for matrix
+\usepgfplotslibrary{polar} %% for polar plots
 \usetkzobj{all}
 \usepackage[makeroom]{cancel} %% for strike outs
 %\usepackage{mathtools} %% for pretty underbrace % Breaks Ximera
 \usepackage{multicol}
 
 
+
+
+
+\usepackage{array}
+\setlength{\extrarowheight}{+.1cm}   
+\newdimen\digitwidth
+\settowidth\digitwidth{9}
+\def\divrule#1#2{
+\noalign{\moveright#1\digitwidth
+\vbox{\hrule width#2\digitwidth}}}
+
+
+
+
+
 \newcommand{\RR}{\mathbb R}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+
 %\renewcommand{\d}{\,d\!}
-\renewcommand{\d}{\mathop{}\!d\!}
+\renewcommand{\d}{\mathop{}\!d}
 \newcommand{\dd}[2][]{\frac{\d #1}{\d #2}}
+\newcommand{\pp}[2][]{\frac{\partial #1}{\partial #2}}
 \renewcommand{\l}{\ell}
 \newcommand{\ddx}{\frac{d}{\d x}}
 
@@ -32,11 +53,13 @@
 \newcommand{\inftyToZero}{\ensuremath{\boldsymbol{\infty^0}}}
 
 
+
 \newcommand{\numOverZero}{\ensuremath{\boldsymbol{\tfrac{\#}{0}}}}
 \newcommand{\dfn}{\textbf}
 %\newcommand{\unit}{\,\mathrm}
 \newcommand{\unit}{\mathop{}\!\mathrm}
 \newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+\newcommand{\seq}[1]{\left( #1 \right)}
 \renewcommand{\epsilon}{\varepsilon}
 \renewcommand{\iff}{\Leftrightarrow}
 
@@ -44,6 +67,26 @@
 \DeclareMathOperator{\arcsec}{arcsec}
 \DeclareMathOperator{\arccsc}{arccsc}
 \DeclareMathOperator{\si}{Si}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\scal}{scal}
+
+
+\newcommand{\tightoverset}[2]{% for arrow vec
+  \mathop{#2}\limits^{\vbox to -.5ex{\kern-0.75ex\hbox{$#1$}\vss}}}
+\newcommand{\arrowvec}[1]{\tightoverset{\scriptstyle\rightharpoonup}{#1}}
+\renewcommand{\vec}{\mathbf}
+\newcommand{\veci}{\vec{i}}
+\newcommand{\vecj}{\vec{j}}
+\newcommand{\veck}{\vec{k}}
+\newcommand{\vecl}{\boldsymbol{\l}}
+
+\newcommand{\dotp}{\bullet}
+\newcommand{\cross}{\boldsymbol\times}
+\newcommand{\grad}{\boldsymbol\nabla}
+\newcommand{\divergence}{\grad\dotp}
+\newcommand{\curl}{\grad\cross}
+%\DeclareMathOperator{\divergence}{divergence}
+%\DeclareMathOperator{\curl}[1]{\grad\cross #1}
 
 
 \colorlet{textColor}{black} 
@@ -62,14 +105,45 @@
 \colorlet{fill5}{penColor5!20} % Fill
 \colorlet{gridColor}{gray!50} % Color of grid in a plot
 
+\newcommand{\surfaceColor}{violet}
+\newcommand{\surfaceColorTwo}{redyellow}
+\newcommand{\sliceColor}{greenyellow}
+
+
+
+
 \pgfmathdeclarefunction{gauss}{2}{% gives gaussian
   \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
 
 
+%%%%%%%%%%%%%
+%% Vectors
+%%%%%%%%%%%%%
 
-\newcommand{\fullwidth}{}
-\newcommand{\normalwidth}{}
+%% Simple horiz vectors
+\renewcommand{\vector}[1]{\left\langle #1\right\rangle}
+
+
+%% %% Complex Horiz Vectors with angle brackets
+%% \makeatletter
+%% \renewcommand{\vector}[2][ , ]{\left\langle%
+%%   \def\nextitem{\def\nextitem{#1}}%
+%%   \@for \el:=#2\do{\nextitem\el}\right\rangle%
+%% }
+%% \makeatother
+
+%% %% Vertical Vectors
+%% \def\vector#1{\begin{bmatrix}\vecListA#1,,\end{bmatrix}}
+%% \def\vecListA#1,{\if,#1,\else #1\cr \expandafter \vecListA \fi}
+
+%%%%%%%%%%%%%
+%% End of vectors
+%%%%%%%%%%%%%
+
+%\newcommand{\fullwidth}{}
+%\newcommand{\normalwidth}{}
+
 
 
 %% makes a snazzy t-chart for evaluating functions
@@ -77,3 +151,13 @@
 
 %%This is to help with formatting on future title pages.
 \newenvironment{sectionOutcomes}{}{} 
+
+
+
+%% Flowchart stuff
+%\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black]
+%\tikzstyle{question} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+%\tikzstyle{decision} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+%\tikzstyle{question} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black]
+%\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+%\tikzstyle{decision} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black]

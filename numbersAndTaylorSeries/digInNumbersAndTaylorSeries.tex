@@ -1,0 +1,365 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Use Taylor series to approximate constants.}
+\outcome{Use Taylor series to compute limits.}
+\outcome{Use Taylor series to sum series.}
+
+\title[Dig-In:]{Numbers and Taylor series}
+
+\begin{document}
+\begin{abstract}
+  Taylor series are a computational tool.
+\end{abstract}
+\maketitle
+
+\section{Using series to approximate special constants}
+
+You probably know that $\pi \approx 3.14159$.  Have you ever wondered
+how this kind of approximation is obtained?  There are many ways to
+do it, but one way is to use Taylor series!  Here is a plan for
+approximating $\pi$ using a series:
+\begin{itemize}
+\item Find a function which takes a nice number (like $0$, or $1$,
+    or $\frac{1}{2}$) as an input and returns something involving
+    $\pi$ (like $\pi$, or $\frac{\pi}{2}$, or $1/\pi$) as an output.
+  \item Make sure that this function has a Taylor series which we can
+    compute easily.
+  \item Plug the nice number into the Taylor series: We now have an
+    algorithm for approximating $\pi$.
+\end{itemize} 
+The idea is to use the following fact:
+\[
+\arctan(1) = \frac{\pi}{4}
+\]
+If you recall, we found that Taylor series for arctangent already, by
+substituting $z=-x^2$ into the geometric series $\frac{1}{1-z}$ to
+find the series for $\frac{1}{1+x^2}$, and then integrating this
+series to find the series for $\arctan(x)$:
+\[
+\arctan(x) = x-\frac{x^3}{3}+\frac{x^5}{5}-\frac{x^7}{7}+\cdots
+\]
+And so 
+\[
+\frac{\pi}{4} = \arctan(1) = 1-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\cdots
+\]
+Thus
+\[
+\pi =  4-\frac{4}{3}+\frac{4}{5}-\frac{4}{7}+\cdots
+\]
+Really cool!
+
+\begin{example}
+  How many terms of
+  \[
+  4-\frac{4}{3}+\frac{4}{5}-\frac{4}{7}+\cdots
+  \]
+  are required to approximate $\pi$ within $\frac{1}{100}$?
+  \begin{explanation}
+    Since this is an alternating series, we can use the alternating
+    series approximation theorem. In this case the theorem says that
+    since
+    \[
+    \sum_{k=0}^\infty a_k = \sum_{k=0}^\infty \frac{(-1)^k4}{2k+1}
+    \]
+    We need to find $k$ such that
+    \begin{align*}
+      |a_{k+1}| &<\frac{1}{100}\\
+      \answer[given]{\frac{4}{2(k+1)+1}} &< \frac{1}{100}\\
+      \answer[given]{\frac{2k+3}{4}} &> 100\\
+      \answer[given]{2k+3} &> 400\\
+      \answer[given]{2k} &> 397\\
+      \answer[given]{k} &> 397/2
+    \end{align*}
+    Since $k$ is a whole number, we would need to sum
+    $\answer[given]{199}$ terms just to be assured that you've found
+    an approximation within $\frac{1}{100}$ of $\pi$! Even then, you
+    have to be careful not to accumulate too many rounding errors when
+    performing the computations.
+  \end{explanation}
+\end{example}
+
+
+Part of the reason the series above converges so slowly is that the
+series is not absolutely convergent.  Also $1$ is the right endpoint
+of the interval of convergence for $\arctan(x)$: It just barely makes
+the cut between convergent and not convergent! There are more advanced
+series for $\pi$ which converge much more quickly, for example
+Ramanujan's formula:
+\[
+\frac{1}{\pi} = \frac{2 \sqrt 2}{99^2} \sum_{k=0}^\infty \left(\frac{(4k)!}{(k!)^4} \cdot \frac{26390k+1103}{396^{4k}}\right)
+\]
+This series computes \textbf{eight} additional decimal places for
+$\pi$ with each term of the series. Amazing! What about other
+approximations?  You already know one way to compute the number $e$:
+As
+\[
+e = \lim_{n\to \infty} \left( 1+\frac{1}{n}\right)^n.
+\]
+Now we can also approximate $e$ using series!
+
+\begin{example}
+  Use the power series 
+  \[
+  e^x = 1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\cdots
+  \]
+  to approximate $e$ within $1/1000$.
+  \begin{explanation}
+    We know that
+	\[
+	e = 1+1+\frac{1}{2!}+\frac{1}{3!}+\frac{1}{4!}+\frac{1}{5!}+\cdots
+	\]
+        By Taylor's theorem, we know that
+        \[
+        e^1 = p_n(1) + R_n(1)
+        \]
+        and since the largest any derivative of $e^x$ is on the
+        interval $[0,1]$ is $\answer[given]{e^1}$,
+        \[
+        R_n(1) < \frac{e^1}{(n+1)!} 
+        \]
+        since $e^1<3$, we want
+        \[
+        \frac{3}{(n+1)!} \le \frac{1}{1000}
+        \]
+        which means (verified with a calculator) $n=\answer[given]{6}$. Hence
+        \[
+        \sum_{k=0}^{\answer[given]{6}}\frac{1}{k!}
+        \]
+        approximates $e$ within $1/1000$.
+  \end{explanation}
+\end{example}
+
+Finally, we'll show how to use Taylor series to obtain arbitrary
+precision when dealing with square-roots.
+
+\begin{example}
+  Use a Taylor series to approximate $\sqrt[3]{50}$ with four
+  terms. Without computing the actual value of $\sqrt[3]{50}$, what
+  accuracy can you guarantee?
+  \begin{explanation}
+    We start by finding a Taylor series for $f(x) = \sqrt[3]{x}$
+    centered around $x=64$. We choose $64$ because it is a perfect
+    cube that is near $50$. Now we make a table of derivatives going
+    up to the $4$th derivative of $f$, since we will need this to
+    compute the precision of our estimation.
+    \[
+    \begin{array}{lcl}
+      f(x) = x^{1/3} & \Rightarrow &f(64) = 4\\
+      f'(x) = \answer[given]{x^{-2/3}/3} & \Rightarrow & f'(64) = \answer[given]{1/48}\\
+      f''(x) = \answer[given]{-2x^{-5/3}/9} &\Rightarrow &f''(64) = \answer[given]{-1/4608}\\
+      f'''(x) = \answer[given]{10x^{-8/3}/27} &\Rightarrow &f'''(64) = \answer[given]{5/884736}\\
+      f^{(4)}(x) = \answer[given]{-80 x^{-11/3}/81} &\Rightarrow &f^{(4)}(64) = \answer[given]{-5/21233664}
+    \end{array}
+    \]
+    So our Taylor series is
+    \[
+    4 + \frac{\answer[given]{x-64}}{48} - \frac{(\answer[given]{x-64})^2}{2!\cdot 4608} + \frac{5(\answer[given]{x-64})^3}{3!\cdot 884736}
+    \]
+    and evaluating at $x=50$ we find:
+    \[
+    4 + \frac{\answer[given]{50-64}}{48} - \frac{(\answer[given]{50-64})^2}{2!\cdot 4608} + \frac{5(\answer[given]{50-64})^3}{3!\cdot 884736} \approx 3.68448
+    \]
+    Since this series is alternating, the remainder is bounded by the next term:
+    \[
+    \left|\frac{5(\answer[given]{50-64})^4}{4!\cdot 21233664}\right| < 0.0004 
+    \]
+    Hence our estimation is within $0.0004$ of the true value.
+  \end{explanation}
+\end{example}
+
+
+
+
+\section{Taylor series as a tool to evaluate limits}
+
+Taylor series can be used like L'H\^{o}pital's rule on steroids when
+evaluating limits.
+
+First lets see why Taylor's series subsumes L'H\^{o}pital's rule: Say
+$f(a) = g(a) = 0$, and we are interested in
+\[
+\lim_{x \to a}\frac{f(x)}{g(x)}.
+\]
+Then using Taylor series
+\begin{align*}
+	\lim_{x \to a} \frac{f(x)}{g(x)} &= \lim_{x \to a} \frac{f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\cdots}{g(a)+g'(a)(x-a)+\frac{g''(a)}{2!}(x-a)^2+\cdots}\\
+		&=  \lim_{x \to a} \frac{0+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^2+\cdots}{0+g'(a)(x-a)+\frac{g''(a)}{2!}(x-a)^2+\cdots}\\
+		&=  \lim_{x \to a} \frac{f'(a)+\frac{f''(a)}{2!}(x-a)+\frac{f^{(3)}(a)}{3!}(x-a)^2+\cdots}{g'(a)+\frac{g''(a)}{2!}(x-a)+\frac{g^{(3)}(a)}{3!}(x-a)^2+\cdots}\\
+		&=\frac{f'(a)}{g'(a)}
+\end{align*}
+As long as $g'(a) \neq 0$.  This is exactly L'H\^{o}pital's rule!
+Let's use this in a L'H\^{o}pital's rule situation, without invoking
+L'H\^{o}pital's rule directly:
+
+\begin{example}
+  Compute:
+  \[
+  \lim_{x \to 0} \frac{e^x - 1}{x}
+  \]
+  \begin{explanation}
+    Just replace $e^x$ with its Maclaurin series:
+    \begin{align*}
+      \lim_{x \to 0} \frac{e^x - 1}{x} &= \lim_{x \to 0} \frac{(1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\cdots) - 1}{x}\\
+      &= \lim_{x \to 0} \frac{x+\frac{x^2}{2!} +\answer[given]{\frac{x^3}{3!}}+\cdots}{x}\\
+      &=\lim_{x \to 0} 1+\frac{x}{2!}+\answer[given]{\frac{x^2}{3!}}+\cdots\\
+      &=\answer[given]{1}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+We can also use this approach to limit evaluation in cases where
+L'H\^{o}pital's rule would need to be applied multiple times.
+
+\begin{example}
+  Compute:
+  \[
+  \lim_{x \to 0} \frac{\sin(x)-x}{x^3\cos(x)} 
+  \]
+  \begin{explanation}
+    Just replace sine and cosine with their Maclaurin series:
+    \begin{align*}
+      \lim_{x \to 0} \frac{\sin(x)-x}{x^3\cos(x)} &= \lim_{x \to 0} \frac{(x-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots)-x}{x^3(1-\frac{x^2}{2!}+\frac{x^4}{4!}-\cdots)}\\
+      &= \lim_{x \to 0} \frac{-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots}{x^3 - \frac{x^5}{2!}+\frac{x^7}{4!}-\cdots}\\
+      &=\lim_{x \to 0} \frac{-\frac{1}{6}+\frac{x^2}{3!}-\cdots}{1-\frac{x^2}{2!}+\frac{x^4}{4!}-\cdots}\\
+      &=\answer[given]{\frac{-1}{6}}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+It might not seem like Taylor series would be much help evaluating
+limits at infinity, since Taylor series are all about approximating a
+function close to some given finite point.  It turns out that we can
+still use Taylor series to study function behavior at infinity by
+transforming the function:
+\begin{quote}
+  Composing with $\frac{1}{z}$ ``moves infinity to zero,''
+\end{quote}
+and we can then use Maclaurin series to study the behavior.  Let's see
+that in action:
+
+\begin{example}
+  Compute:	
+  \[
+  \lim_{x \to \infty} \left(2x^8\cos\left(\frac{1}{x^2}\right) - x^4-2x^8\right)
+  \]
+  \begin{explanation}
+    Letting $x=\frac{1}{t}$ we have
+	\[
+	\lim_{x \to \infty} \left(2x^8\cos\left(\frac{1}{x^2}\right) - x^4-2x^8\right)=\lim_{t \to 0} \frac{2\cos\left(t^2\right) - t^4-2}{t^8}
+	\]
+	You should be able to handle it from here using the Taylor
+        series method:
+	\begin{align*}
+	  \lim_{t \to 0} \frac{2\cos(t^2) - t^4-2}{t^8} &= \lim_{t \to 0} \frac{2(1-\frac{t^4}{2!}+\frac{t^8}{4!}-\frac{t^{12}}{6!}+\cdots) - t^4-2}{t^8}\\
+	  &=  \lim_{t \to 0} \frac{\frac{2t^8}{4!}-\frac{2t^{12}}{12!}+\cdots}{t^8}\\
+	  &=\lim_{t \to 0} \frac{2}{4!}-\frac{2t^4}{6!} +\cdots\\
+	  &=\answer[given]{\frac{1}{12}}
+        \end{align*}
+        So
+	\[
+	\lim_{t \to 0} \frac{2\cos(t^2) - t^4-2}{t^8} = \answer[given]{\frac{1}{12}}
+	\]
+  \end{explanation}	
+\end{example}
+
+\section{Evaluating series}
+
+Sometimes we get a series as an answer to some problem (For instance,
+in the next section we will find series solutions to differential
+equations), but we would really like a \textit{closed form expression}. A \dfn{closed form expression}
+is one that can be evaluated in a \textit{finite} number of steps. For example
+\[
+\underbrace{\sum_{n=0}^\infty x^n}_\text{an infinite sum}  = \underbrace{\frac{1}{1-x}}_{\text{closed form expression}}
+\]
+
+
+
+
+This is not always possible, but sometimes if we are insightful we can
+manipulate a given series into form where we can recognize it.
+
+
+\begin{example}
+  Compute the sum:
+  \[
+  \sum_{k=0}^\infty \frac{(-1)^k}{(2n)!\cdot 2^n}
+  \]
+  \begin{explanation}
+    First notice that this series
+    \[
+    \sum_{k=0}^\infty \frac{(-1)^k}{(2n)!\cdot 2^n} = 1 - \frac{1}{2!\cdot 2} + \frac{1}{(4)!\cdot 2^2}-\frac{1}{(6)!\cdot 2^3} + \cdots
+    \]
+    looks a bit like the power series for cosine centered at $x=0$:
+    \[
+    \cos(x) = 1-\frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!}+ \cdots
+    \]
+    And it looks like if we evaluate $\cos(x)$ at $x =
+    \answer[given]{\frac{1}{\sqrt{2}}}$, we'll hit our target series:
+    \begin{align*}
+      \cos\left(\frac{1}{\sqrt{2}}\right) &=1-\frac{\left(\frac{1}{\sqrt{2}}\right)^2}{2!} + \frac{\left(\frac{1}{\sqrt{2}}\right)^4}{4!} - \frac{\left(\frac{1}{\sqrt{2}}\right)^6}{6!}+ \cdots\\
+      &= 1 - \frac{1}{2!\cdot 2} + \frac{1}{(4)!\cdot 2^2}-\frac{1}{(6)!\cdot 2^3} + \cdots\\
+      &=\sum_{k=0}^\infty \frac{(-1)^k}{(2n)!\cdot 2^n}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+  Compute the sum:
+  \[
+  \sum_{n=0}^\infty \frac{(-1)^n \pi^{2n+1}}{2^{2n+1}(2n+1)!}
+  \]
+  \begin{explanation}
+    First notice that this series
+    \[
+    \sum_{n=0}^\infty \frac{(-1)^n \pi^{2n+1}}{2^{2n+1}(2n+1)!} = \frac{\pi}{2} - \frac{\pi^3}{2^3\cdot 3!}+ \frac{\pi^5}{2^5\cdot 5!} - \frac{\pi^7}{2^7\cdot 7!} + \cdots
+    \]
+    looks a bit like the power series for sine centered at $x=0$:
+    \[
+    \sin(x) = x-\frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!}+ \cdots
+    \]
+    And it looks like if we evaluate $\sin(x)$ at $x =
+    \answer[given]{\frac{\pi}{2}}$, we'll hit our target series:
+    \begin{align*}
+      \sin\left(\frac{\pi}{2}\right) &=\left(\frac{\pi}{2}\right)-\frac{\left(\frac{\pi}{2}\right)^3}{3!} + \frac{\left(\frac{\pi}{2}\right)^5}{5!} - \frac{\left(\frac{\pi}{2}\right)^7}{7!}+ \cdots\\
+      &= \frac{\pi}{2} - \frac{\pi^3}{2^3\cdot 3!}+ \frac{\pi^5}{2^5\cdot 5!} - \frac{\pi^7}{2^7\cdot 7!} + \cdots\\
+      &=\sum_{n=0}^\infty \frac{(-1)^n \pi^{2n+1}}{2^{2n+1}(2n+1)!}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+
+\begin{example}
+  Find a closed form expression for the series:
+  \[
+  \sum_{n=1}^\infty nx^{n-1}
+  \]
+  \begin{explanation}
+    First notice that this series
+    \[
+    \sum_{n=1}^\infty nx^{n-1} = 1 + 2x + 3x^2 + 4x^3 + \cdots
+    \]
+    looks a bit like the power series for $\frac{1}{1-x}$  centered at $x=0$:
+    \[
+    \frac{1}{1-x} = 1+ x+x^2 + x^3+x^4+\cdots\qquad |x|<1
+    \]
+    In fact, the series we are interested in is exactly the derivative of this series! Write
+    \begin{align*}
+    \ddx &1+ x+x^2 + x^3+x^4+\cdots && |x|<1\\
+    &=1 + 2x + 3x^2 + 4x^3 + \cdots && |x|<1\\
+    &=\sum_{n=1}^\infty nx^{n-1}.
+    \end{align*}
+    Hence
+    \begin{align*}
+    \sum_{n=1}^\infty nx^{n-1} &= \ddx \frac{1}{1-x}\\
+    &=\answer[given]{\frac{1}{(1-x)^2}}&& |x|<1
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

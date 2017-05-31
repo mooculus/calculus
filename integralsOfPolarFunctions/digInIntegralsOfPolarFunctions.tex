@@ -1,0 +1,451 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Find the area of a region bound by a polar curve.}
+\outcome{Find the intersection points of two polar curves.}
+\outcome{Find the area of a region bound by two polar curves.} 
+
+\title[Dig-In:]{Integrals of polar functions}
+
+\begin{document}
+\begin{abstract}
+  We integrate polar functions.
+\end{abstract}
+\maketitle
+
+
+When using rectangular coordinates, the equations $x=h$ and $y=k$
+defined vertical and horizontal lines, respectively, and combinations
+of these lines create rectangles (hence the name ``rectangular
+coordinates''). It is then somewhat natural to use rectangles to
+approximate area as we did when learning about the definite
+integral.
+
+When using polar coordinates, the equations $\theta=\alpha$ and $r=c$
+form lines through the origin and circles centered at the origin,
+respectively, and combinations of these curves form sectors of
+circles. It is then somewhat natural to calculate the area of regions
+defined by polar functions by first approximating with sectors of
+circles. Recall that the area of a sector of a circle with radius $r$
+subtended by an angle $\theta$
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            xmin=-.1,xmax=1.1,ymin=-.1,ymax=1.1,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [draw=none,fill=fill1] plot coordinates {(0,0) (.766,.643)}\closedcycle; %% sector
+          \addplot [draw=none, fill=fill1, samples=100, domain=(0:40)] ({cos(x)},{sin(x)})\closedcycle; %% sector 
+          \addplot [very thick, penColor2, smooth, domain=(-.2:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          \addplot [very thick,penColor] plot coordinates {(0,0) (.766,.643)}; %% sector
+          \addplot [very thick,penColor] plot coordinates {(0,0) (1,0)}; %% sector
+          \addplot [very thick, penColor, smooth, domain=(0:40)] ({cos(x)},{sin(x)}); %% sector
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node at (axis cs:.5,0) [anchor=north] {$r$};
+        \end{axis}
+\end{tikzpicture} 
+\end{image}
+is $A = \frac{1}{2}\theta r^2$. So given a polar plot, partition the
+interval $[\alpha,\beta]$ into $n$ equally spaced subintervals as
+$\alpha = \theta_1 < \theta_2 <\cdots <\theta_{n+1}=\beta$:
+\begin{image}
+  \begin{tikzpicture}
+\begin{axis}[
+axis y line=middle,axis x line=middle,name=myplot,%
+			%x=.37\marginparwidth,
+			%y=.37\marginparwidth,
+			%xtick={-1,1},
+			%minor x tick num=1,% 
+%			extra x ticks={.33},
+%			extra x tick labels={$1/3$},
+			%ytick={-1,1},
+			%minor y tick num=1,%extra y ticks={-5,-3,...,7},%
+			ymin=-.1,ymax=1.1,%
+			xmin=-.1,xmax=1.1%
+]
+
+\addplot [fill1,fill=fill1,area style, smooth,domain=18:72,samples=30] ({cos(x)*(1+.05*cos(9*x))},{sin(x)*(1+.05*cos(9*x))}) -- (axis cs:0,0) -- cycle;
+
+\addplot [penColor,thick, smooth,domain=0:90,samples=30] ({cos(x)*(1+.05*cos(9*x))},{sin(x)*(1+.05*cos(9*x))});
+
+%\addplot [{\colortwo},thick, smooth,domain=28.65:45.84,samples=30] ({1.045*cos(x)},{1.045*sin(x)}) ;-- (axis cs:0,0) -- cycle;
+
+\draw [thick,penColor,] (axis cs:0,0) -- (axis cs: 0.905831, 0.294322) node [pos=.7,below,rotate=18,black] { $\theta=\alpha$};
+
+\draw [thick,penColor,] (axis cs:0,0) -- (axis cs:0.313792, 0.965751) node [pos=.7,above,rotate=72,black] { $\theta=\beta$};
+
+\draw [thick,penColor,dashed] (axis cs:0,0) -- (axis cs: 0.862592, 0.528597)
+(axis cs:0,0) -- (axis cs: 0.732107, 0.732107)
+(axis cs:0,0) -- (axis cs: 0.497095, 0.811186);
+
+\draw (axis cs:.8,.85) node { $r(\theta)$};
+
+
+%\addplot [{\colortwo},thick, smooth,domain=-1:1,samples=2] ({x},{.577*x});
+%\addplot [{\colortwo},thick, smooth,domain=-1:1,samples=2] ({x},{-.577*x});
+
+
+%\draw (axis cs:.5,0) circle (25pt);
+\end{axis}
+
+\node [right] at (myplot.right of origin) { $0$};
+\node [above] at (myplot.above origin) { $\pi/2$};
+\end{tikzpicture}
+\end{image}
+The length of each subinterval is $\Delta\theta = (\beta-\alpha)/n$,
+representing a small change in angle. The area of the region defined
+by the $i$th subinterval $[\theta_i,\theta_{i+1}]$ can be approximated
+with a sector of a circle with radius $r(\theta^*_i)$, for some
+$\theta^*_i$ in $[\theta_i,\theta_{i+1}]$. The area of this sector is
+$\frac12r(\theta^*_i)^2\Delta\theta$. This is shown here
+\begin{image}
+  \begin{tikzpicture}
+\begin{axis}[
+axis y line=middle,axis x line=middle,name=myplot,%
+			%x=.37\marginparwidth,
+			%y=.37\marginparwidth,
+			%xtick={-1,1},
+			%minor x tick num=1,% 
+%			extra x ticks={.33},
+%			extra x tick labels={$1/3$},
+			%ytick={-1,1},
+			%minor y tick num=1,%extra y ticks={-5,-3,...,7},%
+			ymin=-.1,ymax=1.1,%
+			xmin=-.1,xmax=1.1%
+]
+
+\addplot [fill1,fill=fill1,area style, smooth,domain=18:72,samples=30] ({cos(x)*(1+.05*cos(9*x))},{sin(x)*(1+.05*cos(9*x))}) -- (axis cs:0,0) -- cycle;
+
+\draw [thick,penColor,] (axis cs:0,0) -- (axis cs:0.313792, 0.965751) node [pos=.7,above,rotate=72,black] { $\theta=\beta$};
+
+\addplot [penColor2,fill=fill2,thick, smooth,domain=18:31.5,samples=30] ({.96*cos(x)},{.96*sin(x)}) -- (axis cs:0,0) -- cycle;
+\addplot [penColor2,fill=fill2,thick, smooth,domain=31.5:45,samples=30] ({1.05*cos(x)},{1.05*sin(x)}) -- (axis cs:0,0) -- cycle;
+\addplot [penColor2,fill=fill2,thick, smooth,domain=45:58.5,samples=30] ({1.0*cos(x)},{1*sin(x)}) -- (axis cs:0,0) -- cycle;
+\addplot [penColor2,fill=fill2,thick, smooth,domain=58.5:72,samples=30] ({.96*cos(x)},{.96*sin(x)}) -- (axis cs:0,0) -- cycle;
+
+\draw (axis cs:.8,.85) node { $r(\theta)$};
+
+
+\draw [thick,penColor2,] (axis cs:0,0) -- (axis cs: 0.905831, 0.294322) node [pos=.7,below,rotate=18,black] { $\theta=\alpha$};
+
+
+
+\addplot [penColor,thick, smooth,domain=0:90,samples=30] ({cos(x)*(1+.05*cos(9*x))},{sin(x)*(1+.05*cos(9*x))});
+%\draw [thick,penColor2] (axis cs:0,0) -- (axis cs: 0.862592, 0.528597)
+%(axis cs:0,0) -- (axis cs: 0.732107, 0.732107)
+%(axis cs:0,0) -- (axis cs: 0.497095, 0.811186);
+
+\end{axis}
+
+\node [right] at (myplot.right of origin) {$0$};
+\node [above] at (myplot.above origin) {$\pi/2$};
+\end{tikzpicture}
+\end{image}
+where $[\alpha,\beta]$ has been divided into $4$ subintervals. We
+approximate the area of the whole region by summing the areas of all
+sectors:
+\[
+\text{Area} \approx \sum_{i=1}^n \frac12r(\theta^*_i)^2\Delta\theta.
+\]
+This is a Riemann sum! By taking the limit of the sum as $n\to\infty$,
+we find the exact area of the region in the form of a definite
+integral.  
+
+\begin{theorem}[Area of a Polar Region]
+Let $r$ be continuous and non-negative on $[\alpha,\beta]$, where
+$0\leq \beta-\alpha\leq 2\pi$. The area $A$ of the region bounded by
+the curve $r(\theta)$ and the lines $\theta=\alpha$ and
+$\theta=\beta$ is
+\[
+A  =  \frac12\int_\alpha^\beta r(\theta)^2 \d \theta  
+\]
+\end{theorem}
+
+The theorem states that $0\leq \beta-\alpha\leq 2\pi$. This ensures
+that region does not overlap itself, giving a result that does not
+correspond directly to the area.
+
+
+\begin{example}
+  Compute the area of one petal of the polar curve $r(\theta) =
+  \cos(3\theta)$:
+  \begin{image}
+    \begin{tikzpicture}
+          \begin{polaraxis}[
+              xtick={0,30,...,360},
+              xticklabels={$0$,$\frac{\pi}{6}$,$\frac{\pi}{3}$,$\frac{\pi}{2}$,$\frac{2\pi}{3}$,$\frac{5\pi}{6}$,$\pi$,$\frac{7\pi}{6}$,$\frac{4\pi}{3}$,$\frac{3\pi}{2}$,$\frac{5\pi}{3}$,$\frac{11\pi}{6}$,$2\pi$},
+              ytick={.5,1,...,2},
+              yticklabels={},axis on top
+            ]
+            \addplot+[very thick, mark=none,fill=fill1,domain=-30:30,samples=100,smooth] {cos(3*x)} \closedcycle;
+            \addplot+[very thick, mark=none,penColor,domain=0:180,samples=100,smooth] {cos(3*x)};
+          \end{polaraxis}
+    \end{tikzpicture}
+  \end{image}
+  \begin{explanation}
+    From the picture it looks like integrating from
+    $\theta=-\pi/6$ to $\pi/6$ will give us the area
+      of our desired region. We can convince ourselves that this is
+      correct by inspecting
+      \[
+      r(\theta) = \cos(3\theta)
+      \]
+      and noting that our curve starts at
+      $(\answer[given]{1},\answer[given]{0})$ in the $(x,y)$-plane
+      when $\theta=0$, and then moves to the origin. Since the first
+      positive value of $\theta$ that make $r(\theta)= 0$ is
+      $\answer[given]{\pi/6}$, we see that our eyes did not lie to
+      us. Write with me
+      \begin{align*}
+      \frac{1}{2}\int_{-\pi/6}^{\pi/6} r(\theta)^2 \d \theta &= \frac{1}{2}\int_{-\pi/6}^{\pi/6} \cos^2(3\theta) \d \theta\\
+      &= \frac{1}{2}\int_{-\pi/6}^{\pi/6} \frac{1-\cos(6\theta)}{2} \d \theta\\
+      &= \frac{1}{4}\int_{-\pi/6}^{\pi/6} 1-\cos(6\theta) \d \theta\\
+      &= \frac{1}{4}\eval{\theta-\frac{\sin(6\theta)}{6}}_{-\pi/6}^{\pi/6}\\
+      &= \answer[given]{\frac{\pi}{12}}.
+      \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{question}
+Now I present you with a mystery: You know that the area of one petal
+of $r(\theta) = \cos(3\theta)$ has area $\pi/12$. Hence, all three
+petals must have an area of $\pi/4$. Compare this to
+\begin{align*}
+\frac{1}{2}\int_0^{2\pi}  \cos^2(3\theta) \d \theta &= \frac{1}{2}\int_{0}^{2\pi} \frac{1-\cos(6\theta)}{2} \d \theta\\
+&= \frac{1}{4}\int_{0}^{2\pi} 1-\cos(6\theta) \d \theta\\
+&= \frac{1}{4}\int_{0}^{2\pi} \theta-\frac{\sin(6\theta)}{6} \d \theta\\
+&= \frac{1}{4}\eval{\theta-\frac{\sin(6\theta)}{6}}_{0}^{2\pi}\\
+&= \frac{\pi}{2}
+\end{align*}
+How is it possible that the total area of the three petals is $\pi/4$,
+but the integral above is $\pi/2$?
+\begin{prompt}
+  \begin{multipleChoice}
+    \choice{one (or more!) of our computations has a mistake}
+    \choice{$\pi/4 = \pi/2$}
+    \choice[correct]{a complete curve is drawn when $\theta$ runs from $0$ to $\pi$}
+  \end{multipleChoice}
+  \begin{feedback}
+    A good way to understand the polar graph is to graph $y=r(x)$
+    along side of $r(\theta)$:
+    \begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            domain=0:pi,
+            xmin=-.3,xmax=3.14,ymin=-1.3,ymax=1.3,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={0,.785,...,6.28},
+            xticklabels={$0$,$\frac{\pi}{6}$,$\frac{\pi}{3}$,$\frac{\pi}{2}$,$\frac{2\pi}{3}$,$\frac{5\pi}{6}$,$\pi$,$\frac{7\pi}{6}$,$\frac{4\pi}{3}$,$\frac{3\pi}{2}$,$\frac{5\pi}{3}$,$\frac{11\pi}{6}$,$2\pi$},
+            ytick={-1,.5,0,.5,1},
+          ]
+          \addplot [very thick, penColor, smooth,domain=0:3.14] {cos(3*deg(x)};
+        \end{axis}
+      \end{tikzpicture}
+      \qquad
+      \begin{tikzpicture}
+          \begin{polaraxis}[
+              xtick={0,30,...,360},
+              xticklabels={$0$,$\frac{\pi}{6}$,$\frac{\pi}{3}$,$\frac{\pi}{2}$,$\frac{2\pi}{3}$,$\frac{5\pi}{6}$,$\pi$,$\frac{7\pi}{6}$,$\frac{4\pi}{3}$,$\frac{3\pi}{2}$,$\frac{5\pi}{3}$,$\frac{11\pi}{6}$,$2\pi$},
+              ytick={.5,1,...,2},
+              yticklabels={},axis on top
+            ]
+            \addplot+[very thick, mark=none,penColor,domain=0:180,samples=100,smooth] {cos(3*x)};
+          \end{polaraxis}
+      \end{tikzpicture}
+    \end{image}
+  \end{feedback}
+\end{prompt}
+\end{question}
+
+\section{Areas between polar curves}
+
+Consider the shaded region:
+  \begin{image}
+    \begin{tikzpicture}
+          \begin{polaraxis}[
+              xtick={0,30,...,360},
+              xticklabels={$0$,$\frac{\pi}{6}$,$\frac{\pi}{3}$,$\frac{\pi}{2}$,$\frac{2\pi}{3}$,$\frac{5\pi}{6}$,$\pi$,$\frac{7\pi}{6}$,$\frac{4\pi}{3}$,$\frac{3\pi}{2}$,$\frac{5\pi}{3}$,$\frac{11\pi}{6}$,$2\pi$},
+              ytick={.5,1,...,2},
+              yticklabels={},axis on top
+            ]
+            \addplot+[draw=none,very thick, mark=none,fill=fill1,domain=0:180,smooth] {1} \closedcycle;
+            \addplot+[draw=none,very thick, mark=none,fill=white,domain=0:180,samples=100,smooth] {1-sin(x)}\closedcycle;
+
+            \addplot+[draw=penColor,very thick, mark=none,domain=0:360,smooth] {1};
+            \addplot+[draw=penColor2,very thick, mark=none,domain=0:360,samples=100,smooth] {1-sin(x)};
+          \end{polaraxis}
+    \end{tikzpicture}
+  \end{image}
+  If we let $r(\theta)$ represent the circle, and $s(\theta)$
+  represent the cardioid, we can find the area of this region by
+  computing the area bounded by $r(\theta)$ and subtracting the area
+  bounded by $s(\theta)$ on $[\alpha,\beta]$. Thus
+\begin{align*}
+  \text{Area} &= \frac12\int_\alpha^\beta r(\theta)^2\d \theta -\frac12\int_\alpha^\beta s(\theta)^2\d\theta \\
+  &= \frac12\int_\alpha^\beta
+\big(r(\theta)^2-s(\theta)^2\big)\d\theta.
+\end{align*}
+
+\begin{theorem}[Area Between Polar Curves]
+The area $A$ of the region bounded by $r(\theta)$ and $s(\theta)$,
+$\theta=\alpha$ and $\theta=\beta$, where
+\[
+r(\theta)\ge s(\theta)
+\]
+on $[\alpha,\beta]$, is
+\[
+A = \frac{1}{2}\int_\alpha^\beta \big(r(\theta)^2-s(\theta)^2\big)\d \theta.
+\]
+\end{theorem}
+
+
+\begin{example}
+  Find the area of the region that lies within
+  \[
+  r(\theta) = 1
+  \]
+  but not within
+  \[
+  s(\theta) = 1-\sin(\theta)
+  \]
+  \begin{explanation}
+    This corresponds to the following region:
+    \begin{image}
+    \begin{tikzpicture}
+          \begin{polaraxis}[
+              xtick={0,30,...,360},
+              xticklabels={$0$,$\frac{\pi}{6}$,$\frac{\pi}{3}$,$\frac{\pi}{2}$,$\frac{2\pi}{3}$,$\frac{5\pi}{6}$,$\pi$,$\frac{7\pi}{6}$,$\frac{4\pi}{3}$,$\frac{3\pi}{2}$,$\frac{5\pi}{3}$,$\frac{11\pi}{6}$,$2\pi$},
+              ytick={.5,1,...,2},
+              yticklabels={},axis on top
+            ]
+            \addplot+[draw=none,very thick, mark=none,fill=fill1,domain=0:180,smooth] {1} \closedcycle;
+            \addplot+[draw=none,very thick, mark=none,fill=white,domain=0:180,samples=100,smooth] {1-sin(x)}\closedcycle;
+
+            \addplot+[draw=penColor,very thick, mark=none,domain=0:360,smooth] {1};
+            \addplot+[draw=penColor2,very thick, mark=none,domain=0:360,samples=100,smooth] {1-sin(x)};
+          \end{polaraxis}
+    \end{tikzpicture}
+    \end{image}
+    Hence to find the are we compute
+    \begin{align*}
+      \frac{1}{2}\int_0^{\pi} r(\theta)^2 - s(\theta)^2 \d \theta &=  \frac{1}{2}\int_0^{\pi} 1 - \left(1-\sin(\theta)\right)^2 \d \theta \\
+      &=  \frac{1}{2}\int_0^{\pi} 1 - \left(1 - 2\sin(\theta) + \sin^2(\theta)\right) \d \theta \\
+      &=  \frac{1}{2}\int_0^{\pi} 1 -1 + 2\sin(\theta) - \sin^2(\theta) \d \theta \\
+      &=  \frac{1}{2}\int_0^{\pi} 2\sin(\theta) - \sin^2(\theta) \d \theta \\
+      &=  \frac{1}{2}\int_0^{\pi} 2\sin(\theta) - \frac{1-\cos(2\theta)}{2} \d \theta \\
+      &=  \frac{1}{4}\int_0^{\pi} 4\sin(\theta) - 1+\cos(2\theta) \d \theta \\
+      &=  \frac{1}{4}\eval{-4\cos(\theta) - \theta+\frac{\sin(2\theta)}{2}}_0^\pi \\
+      &=  \answer[given]{2-\frac{\pi}{4}}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+When computing regions between polar curves, one must be
+careful. Sometimes, one must compute the points of intersection of the
+two curves, and this can be difficult.
+\begin{example}
+  Find the points of intersection between the curves
+  \begin{align*}
+    r(\theta) &= 1+ \cos(\theta)\\
+    s(\theta) &= 1+ \sin(\theta).
+  \end{align*}
+  \begin{explanation}
+    To find the points of intersection of two polar curves, the best
+    thing to do is to look at a graph.
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{polaraxis}[
+            xtick={0,30,...,360},
+            xticklabels={$0$,$\frac{\pi}{6}$,$\frac{\pi}{3}$,$\frac{\pi}{2}$,$\frac{2\pi}{3}$,$\frac{5\pi}{6}$,$\pi$,$\frac{7\pi}{6}$,$\frac{4\pi}{3}$,$\frac{3\pi}{2}$,$\frac{5\pi}{3}$,$\frac{11\pi}{6}$,$2\pi$},
+            ytick={.5,1,...,2},
+            yticklabels={},axis on top
+          ]
+          \addplot+[draw=penColor,very thick, mark=none,domain=0:360,samples=100,smooth] {1+cos(x)};
+          \addplot+[draw=penColor2,very thick, mark=none,domain=0:360,samples=100,smooth] {1+sin(x)};
+        \end{polaraxis}
+      \end{tikzpicture}
+    \end{image}
+    From the graph above, we see that there are $3$ points of
+    intersection.  Let's try to use algebra to find them. Write with me
+    \begin{align*}
+      1+ \cos(\theta) &= 1+ \sin(\theta)\\
+      \cos(\theta) &=\sin(\theta)
+    \end{align*}
+    Ah, and this is true when:
+    \[
+    \theta = \answer[given]{\pi/4} \qquad\text{and}\qquad\theta= \answer[given]{5\pi/4}
+    \]
+    However, from the graph we see there is one more point of
+    intersection. Namely
+    \[
+    r(\pi) = s(\answer[given]{-\pi/2}) = 0.
+    \]
+    When you are unable to look at a graph, you can
+    still use algebra to try and find the points of intersection, but
+    some may be hidden.
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+  Find the area of the region that lies within both polar curves
+  \begin{align*}
+    r(\theta) &= 1+ \cos(\theta)\\
+    s(\theta) &= 1+ \sin(\theta).
+  \end{align*}
+  \begin{explanation}
+    To compute this area, we'll use the previous example and our
+    brains. First we'll compute the area of this region:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{polaraxis}[
+            xtick={0,45,...,360},
+            xticklabels={$0$,$\frac{\pi}{4}$,$\frac{\pi}{2}$,$\frac{3\pi}{4}$,$\pi$,$\frac{5\pi}{4}$,$\frac{3\pi}{2}$,$\frac{7\pi}{4}$,$2\pi$},
+            ytick={.5,1,...,2},
+            yticklabels={},axis on top
+          ]
+          %\addplot[fill=fill1,draw=none,very thick, mark=none,domain=45:135,samples=100,smooth] {1+cos(x)}\closedcycle;
+          
+          \addplot[draw=penColor,very thick, mark=none,domain=0:360,samples=100,smooth] {1+cos(x)};
+          
+          \addplot[draw=penColor2,very thick, mark=none,domain=0:360,samples=100,smooth] {1+sin(x)};
+        \end{polaraxis}
+      \end{tikzpicture}
+    \end{image}
+    So to compute the region we can either compute:
+    \[
+    \int_{\pi/4}^{5\pi/4} (1+\cos(\theta))^2 \d \theta \qquad\text{or}\qquad\int_{-3\pi/4}^{\pi/4} (1+\sin(\theta))^2 \d \theta
+    \]
+    Evaluating either integral tells us the area is
+    $\answer[given]{3\pi-4\sqrt{2}}$.
+  \end{explanation}
+\end{example}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

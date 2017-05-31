@@ -1,0 +1,199 @@
+\documentclass{ximera}
+
+\outcome{Find the derivative of a parametric curve.}
+\outcome{Integrate a parametric curve that does not cross itself.}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Calculus and parametric curves}
+
+\begin{document}
+\begin{abstract}
+  We discuss derivatives and integrals of parametric curves.  
+\end{abstract}
+\maketitle
+
+\section{Derivatives}
+
+Let's get right to it. Given a parametric function $(x(t),y(t))$ and
+recalling that
+\begin{align*}
+  \d x &= x'(t) \d t\\
+  \d y &= y'(t) \d t,
+\end{align*}
+we can see how to compute the derivative of $y$ with respect to $x$
+using differentials:
+\[
+\frac{\d y}{\d x} = \frac{y'(t) \d t}{x'(t) \d t} = \frac{y'(t)}{x'(t)}
+\]
+provided that $x'(t) \ne 0$.
+
+We use this to define the tangent line.
+
+\begin{definition}
+Let a curve $C$ be parametrized by $x(t)$ and $y(t)$, where $x$ and
+$y$ are differentiable functions on some interval $I$ containing
+$t=t_0$. The \dfn{tangent line} to $C$ at $t=t_0$ is the line through
+\[
+\big(x(t_0),y(t_0)\big)\text{ with slope }m=\frac{y'(t_0)}{x'(t_0)},
+\]
+provided $x'(t_0)\neq 0$.
+
+The \dfn{normal line} to $C$ at $t=t_0$ is the line through 
+\[
+\big(x(t_0),y(t_0)\big)\text{ with slope }m=\frac{-x'(t_0)}{y'(t_0)},
+\]
+provided $y'(t_0)\neq 0$.  The normal line is \textbf{perpendicular}
+to the tangent line.
+\end{definition}
+
+The definition leaves two special cases to consider. When the tangent
+line is horizontal, the normal line is undefined by the above
+definition as $y'(t_0)=0$. Likewise, when the normal line is
+horizontal, the tangent line is undefined. It seems reasonable that
+these lines be defined (one can draw a line tangent to the ``right
+side'' of a circle, for instance), so we add the following to the
+above definition.
+
+\begin{itemize}
+\item If the tangent line at $t=t_0$ has a slope of $0$, the normal
+  line to $C$ at $t=t_0$ is the vertical line $x=x(t_0)$.
+\item If the normal line at $t=t_0$ has a slope of $0$, the tangent
+  line to $C$ at $t=t_0$ is the line $x=x(t_0)$.
+\end{itemize}
+Time for some examples. 
+
+\begin{example}
+  Let $x=5t^2-6t+4$ and $y=t^2+6t-1$, and let $C$ be the curve defined
+  by these equations. Find the equations of the tangent and normal lines
+  to $C$ at $t=3$.
+  \begin{explanation}
+    We start by computing
+    \[
+    x'(t) = \answer[given]{10t-6}
+    \]
+    and
+    \[
+    y'(t) =\answer[given]{2t+6}.
+    \]
+    Thus
+    \[
+    \dd[y]{x} = \answer[given]{\frac{2t+6}{10t-6}}.
+    \]
+    Make note of something that might seem unusual: $\dd[y]{x}$ is a
+    function of $t$, not $x$. Just as points on the curve are found in
+    terms of $t$, so are the slopes of the tangent lines.
+		
+    The point on $C$ at $t=3$ is $(31,26)$. The slope of the tangent
+    line is $m=1/2$ and the slope of the normal line is $m=-2$. Thus,
+    \begin{itemize}
+    \item the equation of the tangent line is
+      $y=\answer[given]{\frac{(x-31)}{2}+26}$, and
+    \item the equation of the normal line is
+      $y=\answer[given]{-2(x-31)+26}$.
+    \end{itemize}
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+  Find where the circle, defined by $x=\cos t$ and $y=\sin t$ on
+  $[0,2\pi]$, has vertical and horizontal tangent lines.
+  \begin{explanation}
+    We compute the derivative 
+    \[
+    \dd[y]{x} = \frac{y'(t)}{x'(t)} = \answer[given]{-\frac{\cos t}{\sin t}}.
+    \]
+    The derivative is $0$ when $\cos t= \answer[given]{0}$. This
+    happens when $t=\pi/2$, and $t= 3\pi/2$. These are the points
+    $(0,1)$ and $(0,-1)$ on the circle.
+
+    The normal line is horizontal (and hence, the tangent line is
+    vertical) when $\sin t=\answer[given]{0}$. This happens when $t=
+    0$, $t=pi$, $t=2\pi$, corresponding to the points $(-1,0)$ and
+    $(0,1)$ on the circle. These results should make intuitive sense.
+  \end{explanation}
+\end{example}
+
+
+
+
+
+\section{Integrals}
+
+
+Assuming that the curve given by a parametric formula $(x(t),y(t))$
+represents $y$ as a function of $x$, that is traced out exactly once,
+we can integrate our parametric formula without too much additional
+trouble.  Again, recall that
+\[
+\d x = x'(t) \d t
+\]
+So we may write
+\[
+\int_a^b y \d x = \int_\alpha^\beta y(t) \cdot x'(t) \d t
+\]
+where $x(\alpha) = a$ and $x(\beta) = b$.
+
+We'll be talking about this in more detail soon, so a simple example
+should suffice.
+
+\begin{example}
+  Let $x(t) = \cos(t)$ and $y(t)= \sin(t)$ as $t$ runs from $0$ to
+  $\pi$:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-1.2,xmax=1.2,ymin=-.2,ymax=1.2,
+          axis lines=center,
+          xlabel=$x$, ylabel=$y$,
+          unit vector ratio*=1 1 1,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, smooth, domain=(0:180)] ({cos(x)},{sin(x)});
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Compute the area between this region and the $x$-axis on the
+  interval $[-1,1]$.
+  \begin{explanation}
+    We would like to compute:
+    \[
+    \int_{-1}^1 y \d x
+    \]
+    The parametric equations allow us to make a substitution: 
+    \begin{align*}
+      y(t) &=\answer[given]{\sin(t)}\\
+      \d x &=\answer[given]{-\sin(t)}\d t
+    \end{align*}
+    now then integral becomes
+    \[
+    \int_{-1}^{1} y \d x= \int_\alpha^\beta (\sin(t))(-\sin(t))\d t
+    \]
+    Now we need to find $\alpha$ and $\beta$. Note that using
+    \[
+    x(t)=\cos(t)
+    \]
+    When $x=-1$, $t=\answer[given]{\pi}$. Likewise, when $x=1$, $t=\answer[given]{0}$. Hence our
+    integral becomes
+    \begin{align*}
+      \int_{-1}^{1} y \d x&= \int_\pi^0 (\sin(t))(-\sin(t))\d t\\
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\sin^2(t)\d t\\
+      &= \int_0^\pi\frac{1-\cos(2t)}{2}\d t\\
+      &= \int_0^\pi\frac{1}{2}-\frac{\cos(2t)}{2}\d t\\
+      &= \eval{\frac{t}{2}-\frac{\sin(2t)}{4}}_0^\pi\\
+      &= \answer[given]{\frac{\pi}{2}}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}
+
+
+
+
+
+

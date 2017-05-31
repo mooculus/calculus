@@ -1,0 +1,450 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Write equations representing lines in space.}
+\outcome{Answer questions about lines and curves in space.}
+
+\title[Dig-In:]{Lines and curves in space}
+
+\begin{document}
+\begin{abstract}
+  Vector-valued functions are parametrized curves.
+\end{abstract}
+\maketitle
+
+\section{Vector-valued functions}
+
+A function $\vec{f}: \R \to \R^3$ can be thought of as associating to
+each time $t$ a vector $\vector{x(t),y(t),z(t)}$.  Placing the tail of
+the vector at the origin, its head will sweep out a curve
+parameterized by $t$:
+\begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [tick label style={font=\scriptsize},axis on top,
+	  axis lines=center,
+	  view={155}{10},no markers,
+	  ymin=-1.1,ymax=1.1,
+	  xmin=-7,xmax=7,
+	  zmin=-1.1, zmax=1.1,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-2pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$}
+	]
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-4},{sin(deg(-4))},{cos(deg(-4))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-3},{sin(deg(-3))},{cos(deg(-3))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-2},{sin(deg(-2))},{cos(deg(-2))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-1},{sin(deg(-1))},{cos(deg(-1))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {0},{sin(deg(0))},{cos(deg(0))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {1},{sin(deg(1))},{cos(deg(1))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {2},{sin(deg(2))},{cos(deg(2))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {3},{sin(deg(3))},{cos(deg(3))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {4},{sin(deg(4))},{cos(deg(4))});
+        \addplot3+[very thick, penColor, smooth,samples=200,samples y=0,domain=-12:12] ({x},{sin(deg(x))},{cos(deg(x)});
+      \end{axis}
+    \end{tikzpicture}
+    \end{image}
+\begin{example}
+  Consider the function $\vec{f}(t) = \vector{\cos(t),\sin(t),t}$.  The
+  projection of the point $\vec{f}(t)$ into the $(x,y)$-plane moves around the
+  unit circle in the positive direction.  The projection onto the $z$
+  axis moves at a constant rate in the positive direction.  So we
+  expect that $\vec{f}$ parameterizes
+  \begin{multipleChoice}
+    \choice{a straight line}
+    \choice{a circle}
+    \choice[correct]{a spiral}
+  \end{multipleChoice}
+  \begin{feedback}
+    Here is the graph of $\vec{f}$:
+    \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [tick label style={font=\scriptsize},axis on top,
+	  axis lines=center,
+	  view={155}{10},no markers,
+	  ymin=-1.1,ymax=1.1,
+	  xmin=-1.1,xmax=1.1,
+	  zmin=-10, zmax=10,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-2pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$}
+	]
+        \addplot3+[very thick, penColor, smooth,samples=200,samples y=0,domain=-12:12] ({cos(deg(x))},{sin(deg(x))},{x});
+      \end{axis}
+    \end{tikzpicture}
+    \end{image}
+  \end{feedback}
+\end{example}
+
+This is an example of a \textit{vector-valued function}.
+\begin{definition}\index{vector!valued function}
+  A \dfn{vector-valued function} maps real numbers to vectors in $\R^n$.
+\end{definition}
+Vector-valued functions simply map numbers to lists of numbers, that we interpret as vectors:
+\begin{image}[2in]
+  \begin{tikzpicture}
+    \node at (0,0) {$\vec{f}(t) = \underbrace{\vector{x(t),y(t),z(t)}}_{\text{vector}}$};
+    \draw[ultra thick,->,gray] (.5,1) -- (0,.5);
+    \draw[ultra thick,->,gray] (.5,1) -- (.5,.5);
+    \draw[ultra thick,->,gray] (.5,1) -- (1,.5);
+    \node at (.5,1.2) {\scriptsize numbers};
+\end{tikzpicture}
+\end{image}
+
+
+
+\subsection{How are vector-valued functions useful?}
+
+Here is a list of examples of what a
+function $f: \R \to \R^3$ could represent, to get your imagination
+going:
+
+\begin{itemize}
+\item The $3$-dimensional position of a rocket in space as a function of time. 
+\item The average size of $3$ different species of bacteria as a function of the amount of chlorine in the water.
+\item The performance of $3$ different stocks a function of time.
+\item The trunk width, height, and canopy radius of a tree as a function of time.
+\item The average temperature, humidity, and air pressure at a given latitude as a function of that latitude.
+\end{itemize}
+
+Basically any time you can see that three different quantities all
+depend on one other quantity, these sorts of vector-valued functions
+are going to be useful models.  Of course, if you have more relevant
+inputs, or outputs, you may need a function $\R^m \to \R^n$, but we
+will restrict our attention to $\R \to \R^3$ for the time being.
+
+
+
+\section{Lines in space}
+
+It is easy to create a vector-valued function that produces a line
+that passes through two points $\vec{p}$ and $\vec{q}$:
+\[
+\vecl(t) = \vec{p} + t(\vec{q}-\vec{p}).
+\]
+\begin{question}
+  What is the value of $\vecl(0)$?
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{$\vecl(0)$ is unknowable}
+    \choice[correct]{$\vecl(0)=\vec{p}$}
+    \choice{$\vecl(0)=\vec{q}$}
+    \choice{$\vecl(0)=\vec{q}-\vec{p}$}
+  \end{multipleChoice}
+  \end{prompt}
+  \begin{question}
+    What is the value of $\vecl(1)$?
+    \begin{prompt}
+    \begin{multipleChoice}
+      \choice{$\vecl(1)$ is unknowable}
+      \choice{$\vecl(1)=\vec{p}$}
+      \choice[correct]{$\vecl(1)=\vec{q}$}
+      \choice{$\vecl(1)=\vec{q}-\vec{p}$}
+    \end{multipleChoice}
+    \end{prompt}
+  \end{question}
+\end{question}
+
+
+\begin{question}
+   Compare and contrast the curves $\vec{f}(t) =
+   \vector{-3+t,5+2t,1+3t}$ and $\vec{g}(t)=\vector{-3+2t,5+4t,1+6t}$.
+   \begin{prompt}
+     \begin{multipleChoice}
+     \choice{They parameterize different lines}
+     \choice{They parameterize the same line, but $\vec{f}(t)$ moves ``twice as fast'' as $\vec{g}(t)$ }
+     \choice[correct]{They parameterize the same line, but $\vec{g}(t)$ moves ``twice as fast'' as $\vec{f}(t)$ }
+     \choice{These are the same function!}
+     \end{multipleChoice}
+   \end{prompt}
+   \begin{hint}
+     We can rewrite $\vec{f}$ and $\vec{g}$ as $\vec{f}(t) =
+     \vector{-3,5,1}+t\vector{1,2,3}$ and
+     $\vec{g}(t)=\vector{-3,5,1}+t\vector{2,4,6}$.
+   \end{hint}
+   \begin{question}
+   Compare and contrast the curves $\vec{f}(t) =
+   \vector{-3+t,5+2t,1+3t}$ and $\vec{g}(t)=\vector{-3-t,5-2t,1-3t}$.
+   \begin{prompt}
+     \begin{multipleChoice}
+       \choice{They parameterize different lines}
+       \choice[correct]{They parameterize the same line, but $\vec{f}(t)$ moves in the opposite direction compared with $\vec{g}(t)$}
+       \choice{They parameterize the same line, but $\vec{g}(t)$ moves ``twice as fast'' as $\vec{f}(t)$ }
+       \choice{These are the same function!}
+     \end{multipleChoice}
+   \end{prompt}
+   \end{question}
+\end{question}
+
+\begin{question}
+  Let $\vecl(t) = \vector{x(t),y(t),z(t)}$ be a line that
+  passes through the points $\vecl(0) = \vector{1,2,3}$ and
+  $\vecl(1) = \vector{2,2,2}$. What are the components of
+  $\vecl(t)$?
+  \begin{prompt}
+  \begin{align*}
+    x(t) &= \answer{1+t}\\
+    y(t) &= \answer{2}\\
+    z(t) &= \answer{3-t}
+  \end{align*}
+  \end{prompt}
+  \begin{hint}
+    Let $\vecl(t) = \vec{p}+t\vec{v}$.  Then $f(0) = \vec{p}$.
+  \end{hint}
+\end{question}
+
+We can use these ideas to parameterize any line in space, but as we
+have already seen, sometimes you can find more than one expression
+that parameterizes a given line: Some may ``move faster'' than
+others, or in the opposite direction, or even at uneven rates!
+
+Often, for a given line, we will already know that the line passes
+through the tip of $\vec{p}$, and points in a direction $\vec{v}$.
+Then we write
+\[
+\vecl(t) = \vec{p}+t\vec{v}.
+\]
+If we know that a line passes through two points (that we'll notate
+with vectors) $\vec{p}$ and $\vec{q}$, then we know that it points in
+the direction $\vec{v} = \vec{q} - \vec{p}$, and passes through the
+tip of $\vec{p}$.  So we can parameterize it as
+\[
+\vecl(t) = \vec{p}+t(\vec{q} - \vec{p}).
+\]
+
+\begin{question}
+  Using the ideas above, find an expression in terms of $t$
+  parameterizing the line passing through $\vec{p} = \vector{0,2,4}$
+  when $t=0$, and $\vec{q} = \vector{1,1,1}$ when $t=1$.
+  \begin{prompt}
+  \[
+  \vecl(t) = \vector{\answer{t},\answer{2-t},\answer{4-3t}}
+  \]
+  \end{prompt}
+  \begin{hint}
+    The line passes through $\vec{p}$ and points in the direction
+    \[
+    \vec{q} - \vec{p} = \vector{1,1,1} - \vector{0,2,4}
+    \]
+  \end{hint}
+\end{question}
+
+
+
+\subsection{Lines embedded in surfaces}
+
+Sometimes lines lie on surprising surfaces:
+
+\begin{question}
+  Consider the surface determined by all $x$, $y$ and $z$ such that:
+  \[
+  x^2+y^2=z^2+1
+  \]
+  This surface looks something like:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-4, xmax=4,
+          clip=false,
+          width=4in,
+          height=2in,
+          axis lines =none,
+        ]
+        \draw[penColor,very thick,fill=fillp] (axis cs:0,2.8) ellipse (290 and 50);
+        \draw[penColor,very thick,] (axis cs: -1,0) arc (180:360:100 and 30);
+        \draw[penColor!50!white,very thick,] (axis cs: -1,0) arc (180:0:100 and 30);
+        \draw[penColor!50!white,very thick,] (axis cs: -2.9,-2.7) arc (180:0:290 and 50);
+        \draw[penColor,very thick,] (axis cs: -2.9,-2.7) arc (180:360:290 and 50);
+       
+        \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {sqrt(x^2-1)};%(sqrt(1+u^2) cos(v), sqrt(1+u^2) sin(v), u)
+        \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {sqrt(x^2-1)};    % v in 0 2pi % u is whatevs
+        \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {-sqrt(x^2-1)};
+        \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {-sqrt(x^2-1)};
+
+          \draw[->] (axis cs: -3,0)--(axis cs: 3,0);
+          \draw[->] (axis cs: 0,-3.5)--(axis cs: 0,3.5);
+          \draw[->] (axis cs: 1.2,2.1)--(axis cs: -1.2,-2.1);
+          \node[right] at (axis cs: 3,0) {$y$};
+          \node[above] at (axis cs: 0,3.5) {$z$};
+          \node[below] at (axis cs: -1.2,-2.1) {$x$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Which of the following lines lie on the surface $x^2+y^2=z^2+1$?
+  \begin{selectAll}% l(t) = (cos v,sin v, 0) + t(sin v,-cos v,1)% m(t) = (cos v,sin v, 0) + t(-sin v,cos v,1)
+    \choice{$\vector{1,0,0} + t\vector{-5,0,5}$}
+    \choice[correct]{$\vector{1,0,0} + t\vector{0,-3,3}$}
+    \choice[correct]{$\vector{0,1,0} + t\vector{-7,0,-7}$}
+    \choice{$\vector{0,1,0} + t\vector{-4,4,0}$}
+    \choice[correct]{$\vector{1/2,\sqrt{3}/2,0} + t\vector{-\sqrt{3},1,2}$}
+    \choice{$\vector{1/2,\sqrt{3}/2,0} + t\vector{-1,\sqrt{3},2}$}
+  \end{selectAll}
+  \begin{hint}
+    Separate each line into its component functions: $x$, $y$, and
+    $z$, and see if the equation defining the surface is valid for all
+    $t$.
+  \end{hint}
+\end{question}
+
+
+\subsection{Distance between a point and a line}
+
+Given a point $\vec{p}$, notated as the tip of a vector with its tail
+at the origin, and a line
+\[
+\vecl(t) = \vec{q} + t\vec{v}
+\]
+we often want to know the distance between $\vec{p}$ and $\vecl$.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=0,xmax=6,ymin=0,ymax=3,
+        axis lines=none,
+        unit vector ratio*=1 1 1,
+      ]
+      \addplot[dashed] plot coordinates {(4,1) (3.59,2.65)};
+      \addplot[] plot coordinates {(3.39,2.6) (3.44,2.4) (3.64,2.45)};
+      \addplot[very thick,penColor!50!white] {x/4+7/4};
+      \addplot[very thick,penColor,->] plot coordinates {(1,2) (3,2.5)};
+      \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,2)};  %% closed hole
+      \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(4,1)};  %% closed hole
+
+      \node[above] at (axis cs:2,2.25) [penColor] {$\vec{v}$};
+      \node[above] at (axis cs:1,2) [penColor] {$\vec{q}$};
+      \node[below] at (axis cs:4,1) [penColor2] {$\vec{p}$};
+      \node[above] at (axis cs:.4,1.84) [penColor] {$\vecl$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+This distance is the length of the shortest path from $\vec{p}$ to the
+line $\vecl$. How do we find this distance? Well:
+\begin{enumerate}
+  \item Recalling that the magnitude of a vector $|\vec{w}|
+    =\sqrt{\vec{w}\dotp\vec{w}}$ we could attempt to minimize the
+    function
+    \[
+    \mathrm{distance}(t)^2= \vecl(t) \dotp \vec{p}
+    \]
+    using the derivative. The square-root of the minimum value will be
+    the distance.
+  \item We could compute the distance between
+    $\proj_{\vec{v}}(\vec{p}-\vec{q})$ and $\vec{p}-\vec{q}$. This is:
+    \[
+    |\proj_{\vec{v}}(\vec{p}-\vec{q})- (\vec{p}-\vec{q})|
+    \]
+\end{enumerate}
+However, perhaps the quickest method for determining the distance
+between a point and a line is by using the cross product. Since the
+cross product is only defined in dimension $3$ for this course, we
+need $3$-dimensional vectors. If we consider the vector
+$\vec{p}-\vec{q}$, we see by the definition of sine
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=0,xmax=6,ymin=0,ymax=3,
+        axis lines=none,
+        unit vector ratio*=1 1 1,
+      ]
+      \addplot[dashed] plot coordinates {(4,1) (3.59,2.65)};
+      \addplot[decoration={brace,mirror,raise=.1cm},decorate,thin] plot coordinates {(4,1) (3.59,2.65)};
+      \addplot[] plot coordinates {(3.39,2.6) (3.44,2.4) (3.64,2.45)};
+      \draw[] (axis cs: 1.3,1.9) arc (-18.5:14:.4cm);
+              
+      
+      \addplot[very thick,penColor!50!white] {x/4+7/4};
+      \addplot[very thick,penColor,->] plot coordinates {(1,2) (3,2.5)};
+      \addplot[very thick,penColor2,->] plot coordinates {(1,2) (4,1)};
+
+      \node[above] at (axis cs:2,2.25) [penColor] {$\vec{v}$};
+      \node[below left] at (axis cs:2.5,1.5) [penColor2] {$\vec{p}-\vec{q}$};
+      \node[right] at (axis cs:1.4,2) {$\theta$};
+      \node[right] at (axis cs:4,1.83) {$|\vec{p}-\vec{q}|\sin(\theta)$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+that the distance we are looking for is given by
+\[
+|\vec{p}-\vec{q}|\sin(\theta).
+\]
+However,
+\[
+|\vec{p}-\vec{q}||\vec{v}|\sin(\theta) = |(\vec{p}-\vec{q})\cross \vec{v}|
+\]
+so we see that
+\[
+\mathrm{distance} = |\vec{p}-\vec{q}|\sin(\theta) = \frac{|(\vec{p}-\vec{q})\cross \vec{v}|}{|\vec{v}|}.
+\]
+
+\begin{question}
+  What is the distance between the point $(3,1)$ and the line that
+  passes through the points $(1,1)$ and $(3,2)$?
+   \begin{hint}
+    If you wish to use the cross product, make these points
+    $3$-dimensional by adding a $z$-component of $0$ to each point.
+  \end{hint}
+  \begin{hint}
+    In this case $\vecl(t) = \vector{1,1,0} + t
+    (\vector{3,2,0}-\vector{1,1,0})$.
+  \end{hint}
+  \begin{prompt}
+    \[
+    \mathrm{distance} = \answer{2/\sqrt{5}}
+    \]
+  \end{prompt}
+\end{question}
+
+
+
+
+
+\section{Curves}
+
+Though their formulation may be more complex, a vector-valued function
+that produces a curve is no different from that which produces a line
+(a line is a special type of curve!). Though there are some cases we should discuss.
+
+\subsection{Circles and ellipses}
+
+Given two orthogonal unit vectors, $\uvec{u}$ and $\uvec{v}$, and any
+other vector $\vec{p}$, the vector-valued function
+\[
+\vec{f}(t) = \vec{p}+r\cdot \cos(t)\cdot \uvec{u} + r \cdot \sin(t)\cdot\uvec{v}
+\]
+gives a circle of radius $r$, centered at the tip of $\vec{p}$, lying
+in the plane containing $\uvec{u}$ and $\uvec{v}$. Moreover, to produce
+an ellipse, we write:
+\[
+\vec{g}(t) = \vec{p}+a\cdot \cos(t)\cdot \uvec{u} + b \cdot \sin(t)\cdot\uvec{v}
+\]
+
+\begin{question}
+  Consider the surface determined by all $x$, $y$ and $z$ such that:
+  \[
+  z^2=x^2+y^2
+  \]
+   Which of the following curves lie on the surface $z^2=x^2+y^2$?
+  \begin{selectAll}
+    \choice{$\vector{t\cos(t),\sin(t),t}$}
+    \choice{$\vector{6\cos(t),6\sin(t),1}$}
+    \choice[correct]{$\vector{t\cos(t),t\sin(t),t}$}
+    \choice{$\vector{\cos(t),-2\sin(t),-2}$}
+    \choice[correct]{$\vector{6\cos(t),6\sin(t),6}$}
+    \choice[correct]{$\vector{-2\cos(t),-2\sin(t),-2}$}
+  \end{selectAll}
+  \begin{hint}
+    Separate each curve into its component functions: $x$, $y$, and
+    $z$, and see if the equation defining the surface is valid for all
+    $t$.
+  \end{hint}
+\end{question}
+
+
+\end{document}

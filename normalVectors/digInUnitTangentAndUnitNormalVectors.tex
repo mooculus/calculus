@@ -1,0 +1,163 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Unit tangent and unit normal vectors}
+
+\outcome{Define normal vectors.}
+\outcome{Define unit tangent and unit normal vectors.} 
+\outcome{Define principal unit normal vectors.}
+
+\begin{document}
+\begin{abstract}
+  We introduce two important unit vectors. 
+\end{abstract}
+\maketitle
+
+
+Given a smooth vector-valued function $\vec{p}(t)$, \textit{any}
+vector parallel to $\vec{p}'(t_0)$ is \textit{tangent} to the graph of
+$\vec{p}(t)$ at $t=t_0$. It is often useful to consider just the
+\textit{direction} of $\vec{p}'(t)$ and not its magnitude. Therefore we are
+interested in the unit vector in the direction of $\vec{p}'(t)$. This
+leads to a definition.
+\begin{definition}
+Let $\vec{p}(t)$ be a smooth function on an open interval $I$. The
+\dfn{unit tangent vector} $\vec{t}(t)$ is \index{unit tangent
+  vector!definition} \index{unit vector!unit tangent vector}
+\[
+\utan(t) = \frac{\vec{p}'(t)}{|\vec{p}'(t)|}.
+\]
+\end{definition}
+
+\begin{question}
+  Let $\vec{p}(t) = \vector{3\cos(t), 3\sin(t), 4t}$. Find $\utan(t)$.
+  \begin{prompt}
+    \[
+    \utan(t) = \vector{\answer{\frac{-3}{5}\sin(t)},\answer{\frac{3}{5}\cos(t)},\answer{\frac{4}{5}}}
+    \]
+    \begin{feedback}
+      The unit tangent vector $\utan(t)$ \textbf{always} has a constant
+      magnitude of $1$.
+    \end{feedback}
+  \end{prompt}
+\end{question}
+
+Just as knowing the direction tangent to a path is important, knowing
+a direction orthogonal to a path is important. When dealing with
+real-valued functions, one defined the \dfn{normal line} at a point to
+the be the line through the point that was perpendicular to the
+tangent line at that point. We can do a similar thing with
+vector-valued functions. Given $\vec{p}(t)$ in $\R^2$, we have $2$
+directions perpendicular to the tangent vector
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [width=175pt,tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={115}{25},
+	name=myplot,
+	%xtick={-3,3},minor tick num=2,
+	%ytick={-3,3},
+	%ztick={-3,3},
+	ymin=-3.5,ymax=3.5,
+	xmin=-3.5,xmax=3.5,
+	zmin=-15.9, zmax=15.9,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=0pt,yshift=-5pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$}
+      ]
+      
+      \addplot3[domain=-3.14:3.14,,thick,smooth,samples y=0,penColor,samples=30,] ({3*cos(x*180/3.14)},{3*sin(x*180/3.14)},{4*x});
+
+      
+      \draw[thick,->,penColor2] (axis cs: 3,0,0) -- (axis cs: 3,.6,.8);
+      \draw[thick,->,penColor2] (axis cs: 1.6,2.5,4) -- (axis cs: 1.12,2.85,4.8);
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+The young mathematician wonders ``Is one of these two directions
+preferable over the other?''  This question only gets harder in higher
+dimensions.  Given $\vec{p}(t)$ in $\R^3$, there are infinite vectors
+orthogonal to the tangent vector at a given point. Again, we might
+wonder ``Is one of these infinite choices preferable over the others?
+Is one of these the `right' choice?''
+
+The answer in both $\R^2$ and $\R^3$ is ``Yes, there is one vector
+that is preferable, and it is the `right' one to choose!'' Recall
+\begin{quote}
+If $\vec{p}(t)$ has constant length, then $\vec{p}(t)$ is orthogonal
+to $\vec{p}'(t)$ for all $t$.
+\end{quote}
+Since $\utan(t)$, the unit tangent vector, it necessarily has
+constant length. Therefore
+\[
+\utan(t)\text{ is orthogonal to }\utan'(t).
+\]
+
+The vector-valued function $\utan'(t)$ is more than just a
+convenient choice of vector that is orthogonal to $\vec{p}'(t)$;
+rather, it is the ``right'' choice. We will use this to construct our
+\textit{unit normal vector}:
+
+\begin{definition}
+Let $\vec{p}(t)$ be a vector-valued function where the unit tangent
+vector, $\utan(t)$, is smooth on an open interval $I$. The
+\dfn{unit normal vector} $\unormal(t)$ is \index{unit normal
+  vector!definition}\index{unit vector!unit normal vector}
+\[
+\unormal(t) = \frac{\utan'(t)}{|\utan'(t)|}.
+\]
+Some folks call this the \dfn{principal unit normal vector}.
+\end{definition}
+\begin{warning}
+  Even though $\utan(t)$ is a unit vector, this \textbf{does not}
+  imply that $\utan'(t)$ is also a unit vector.
+\end{warning}
+
+\begin{question}
+  Let $\vec{p}(t) = \vector{3\cos t, 3\sin t, 4t}$ as before. Find
+  $\unormal(t)$.
+  \begin{prompt}
+    \[
+    \unormal(t) =\vector{\answer{-\cos(t)},\answer{-\sin(t)},\answer{0}}.
+    \]
+    \begin{feedback}
+      As a gesture of friendship, we present you with the following
+      graph of the situation.
+      \begin{image}
+        \begin{tikzpicture}
+          \begin{axis}%
+            [width=175pt,tick label style={font=\scriptsize},axis on top,
+	      axis lines=center,
+	      view={135}{25},
+	      name=myplot,
+	      %xtick={-3,3},minor tick num=2,
+	      %ytick={-3,3},
+	      %ztick={-3,3},
+	      ymin=-3.5,ymax=3.5,
+	      xmin=-3.5,xmax=3.5,
+	      zmin=-15.9, zmax=15.9,
+	      every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	      xlabel={\scriptsize $x$},
+	      every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=0pt,yshift=-5pt},
+	      ylabel={\scriptsize $y$},
+	      every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	      zlabel={\scriptsize $z$}
+	    ]
+            \addplot3[domain=-3.14:3.14,,thick,smooth,samples y=0,penColor,samples=30,] ({3*cos(x*180/3.14)},{3*sin(x*180/3.14)},{4*x});
+
+            
+            \draw[thick,->,penColor2] (axis cs: 0,3,6.28) -- (axis cs: -.6,3,7.08);
+            \draw[thick,->,penColor2] (axis cs: 0,3,6.28) -- (axis cs: 0,2,6.28);
+          \end{axis}
+        \end{tikzpicture}
+      \end{image}
+    \end{feedback}
+  \end{prompt}
+\end{question}
+
+\end{document}

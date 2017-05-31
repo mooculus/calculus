@@ -1,0 +1,126 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Mirrored surfaces}
+
+\begin{document}
+\begin{abstract}
+  We think about how to reflect light of off surfaces. 
+\end{abstract}
+\maketitle
+
+Suppose you have a function $F:\R^2\to\R$ via
+\[
+F(x,y) = x^2 + y^2
+\]
+In this case, the surface is called a \dfn{paraboloid}.  and we would
+like to understand how light would reflect off such an object, if we
+were to build it as a physical object.  Suppose $\vec{\ell}(t)$ is an
+arbitrary (parametrized!) straight line, given by
+\[
+\vec{\ell}(t) = \vec{\ell}_0 + t \vec{v}
+\]
+and suppose the image of $\vec{\ell}(t)$ intersects the image of
+$\vec{F}$ at a point $(a,b,c)$.
+
+\begin{sageCell}
+# The purple surface
+f(x,y) = x^2 + y^2
+
+# The red light beam
+t = var('t')
+ell0 = vector([0.85,0.5,1.5])
+v = vector([-0.2,-0.1,-1])
+
+plot3d( f, (x,-1,1), (y,-1,1) ) + parametric_plot3d( ell0 + t * v, (t,-0.5,2), color="red", thickness=0.1)
+\end{sageCell}
+
+
+When we zoom in close enough to the point $(a,b,c)$ where the light
+ray hits the surface, we imagine that the mirrored surface is a plane.
+
+\begin{question}
+  What is the tangent plane to $F$ at the point $(a,b,c)$?
+  \begin{prompt}
+    \[
+    z = \answer{2a(x-a)+2b(y-b)}
+    \]
+  \end{prompt}
+\end{question}
+When the light ray hits the surface, it is heading in the direction
+\begin{multipleChoice}
+  \choice{$\pp[x]{\vec{F}}$}
+  \choice{$\pp[y]{\vec{F}}$}
+  \choice[correct]{$\vec{v}$}
+\end{multipleChoice}
+This means that the reflected light will be heading in the direction
+%% \begin{multipleChoice}
+%%   \choice{$\vec{v} + 2 \proj_{\vec{v}}(\vec{n})}
+%%   \choice{$\vec{v} - 2 \proj_{\vec{v}}(\vec{n})}
+%%   \choice{$\vec{v} + 2 \proj_{\pp{\vec{F}}{x} \cross \pp{\vec{F}}{y}}(\vec{v})$}
+%%   \choice[correct]{$\vec{v} - 2 \proj_{\pp{x}{\vec{F}} \cross \pp{y}{\vec{F}}}( \vec{v})$}
+%% \end{multipleChoice}
+Such formulas justify the time we spent thinking deeply about $\proj$.  And now we can plot all this together.
+\begin{sageCell}
+# The purple surface
+a = var('a'); b = var('b')
+f = vector([a,b,a^2 + b^2])
+
+# The red light beam
+t = var('t') ; ell0 = vector([0.85,0.5,1.5]) ; v = vector([0.1,-0.2,-1])
+
+# The intersection of the surface and the light beam
+solutions = solve( [f[i] == (ell0 + t*v)[i] for i in range(3)], [a,b,t], solution_dict=True)
+solution = [s for s in solutions if t.subs(s) > 0][0]
+xyz = f.subs(solution)
+
+# The reflected vector
+proj = lambda v, w: (v.dot_product(w))/(w.dot_product(w)) * w
+n = derivative(f,a).cross_product( derivative(f,b) )
+n = n.subs(solution)
+rv = v - 2 * proj(v,n)
+
+# Plot the surface, the incoming beam, and the outgoing beam
+parametric_plot3d( f, (a,-1,1), (b,-1,1) ) + parametric_plot3d( ell0 + t * v, (t,-0.5,t.subs(solution)), color="red", thickness=0.1) + parametric_plot3d( xyz + t * rv, (t,0,2), color="red", thickness=0.1)
+\end{sageCell}
+
+
+
+\begin{example}[Vertical light]
+  By playing around with the vector $\vec{v}$, i.e., the direction of
+  the incoming light, we can discover some significant, qualitative
+  features of reflections in paraboloids.
+
+  Let $\vec{F}(x,y) = (x,y,x^2 + y^2)$, so that
+  \begin{align*}
+    \pp{\vec{F}}{x} &= \vector{ 1, 0, \answer{2x}} \\
+    \pp{\vec{F}}{y} &= \vector{0, 1, \answer{2y}} \\
+    \vec{n} &= \pp{\vec{F}}{x} \cross \pp{\vec{F}}{y} &= \vector{-2x, -2y, \answer{1}}. \\
+  \end{align*}
+
+  We want to focus in on the case of ``vertical light'' which arrives directly from above.  One way to 
+  restrict to this situation would be to assume that both $\vec{v} \dotp \langle 1, 0, 0 \rangle = 0$ and
+  $\vec{v} \dotp \vector{ 0, 1, 0 } = 0$, but to simplify the situation further, simply suppose
+  that $\vec{v} = \vector{ 0, 0, -1 }$.  Then
+  \begin{align*}
+    \vec{v} - 2 \proj_{\vec{n}} (\vec{v}) 
+    &= \vec{v} - 2 \frac{\vec{v} \dotp \vec{n}}{\vec{n} \dotp \vec{n}} \vec{n} \\
+    &= \vec{v} - 2 \frac{\answer{-1}}{\vec{n} \dotp \vec{n}} \vec{n} \\
+  \end{align*}
+  This reflected vector simplies further to
+  \[
+    \frac{-4}{1 + 4x^2 + 4y^2} \vector{\answer{x}, \answer{y}, \answer{x^2 + y^2 - 1/4}}.
+  \]
+  The significance of this is that, starting at the point
+  $(x,y,x^2 + y^2)$ and moving in the direction of this vector, we pass through the point 
+  \[
+    \left( 0, 0, \answer[given]{1/4} \right),
+  \]
+  meaning that \textit{every} vertical beam of light reflects off the
+  paraboloid and is focused on common point!  This fact is what makes
+  solar ovens and satellite dishes possible.
+  
+\end{example}
+
+\end{document}

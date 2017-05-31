@@ -1,0 +1,298 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{View the chain rule in terms of the gradient.}
+
+\outcome{Compute the derivative of the compostion of a function of
+  several variables with a vector-valued function.}
+
+\outcome{Use the chain rule of several variables to implicitly differentiate a curve.}
+
+
+\title[Dig-In:]{The chain rule}
+
+\begin{document}
+\begin{abstract}
+  We investigate the chain rule for functions of several variables.
+\end{abstract}
+\maketitle
+
+The chain rule states that
+\[
+\ddx\Big(f\big(g(x)\big)\Big) = f'\big(g(x)\big)g'(x).
+\]
+If $t=g(x)$, we can express the chain rule as
+\[
+\dd[f]{x} = \dd[f]{t}\dd[t]{x}.
+\]
+In this section we extend the chain rule to functions of more than one
+variable.
+
+\begin{theorem}
+  Let $F:\R^n\to\R$ be a differentiable function and let
+  \[
+  \vec{x}(t) = \vector{x_1(t),x_2(t),\dots,x_n(t)}
+  \]
+  be a differentiable vector-valued function from $\R\to\R^n$. Then
+  \[
+  \dd[F]{t} = \grad F(\vec{x}(t)) \dotp \vec{x}'(t) 
+  \]
+\end{theorem}
+
+It is good to understand what the situation of $F(x,y)$, $\vec{x}(t) =
+\vector{x(t),y(t)}$ describes. We know that $F(x,y)$ describes a
+surface; we also recognize that $\vec{x}(t)$ describes a curve in the
+$(x,y)$-plane. Combining these together, we are describing a curve
+that lies on the surface described by $F$. The parametric equations
+for this curve are $x=x(t)$, $y=y(t)$ and $F\big(x(t),y(t)\big)$.
+Consider
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [
+        tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={145}{35},
+	name=myplot,
+	%xtick={1,2,3,4},
+	%ytick={1,2,3,4,5,6},
+	%ztick=\empty,
+	%extra x ticks={1},
+	minor x tick num=1,
+	minor y tick num=1,
+	minor z tick num=1,
+	%extra x tick labels={$a$},
+	%extra y ticks={1},
+	%extra y tick labels={$a$},
+	%extra z ticks={1},
+	%extra z tick labels={$h$},
+	ymin=-.5,ymax=4.9,
+	xmin=-.5,xmax=4.9,
+	zmin=-.5, zmax=2.9,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool
+      ]
+      \addplot3[domain=0:360,,y domain=0:4,
+        samples=30,smooth,,samples y=0,dashed,very thick,penColor] ({cos(x)+2},{sin(x)+2},{0});
+      
+      \addplot3[domain=0:4,,y domain=0:4,mesh,samples=15,samples y=15,very thin,z buffer=sort] {-.2*(x-1)^2-.05*y^2+2};
+      
+      \addplot3[domain=0:360,,y domain=0:4,
+        samples=30,smooth,,samples y=0,very thick,penColor] ({cos(x)+2},{sin(x)+2},{-.2*(cos(x)+2-1)^2-.05*(sin(x)+2)^2+2});
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+Here a surface is drawn, along with a dashed curve in the
+$(x,y)$-plane. Restricting $F$ to just the points on this circle gives
+the curve shown on the surface. The derivative $\dd[F]{t}$ gives the
+instantaneous rate of change of $F$ with respect to $t$.
+
+Now try your hand at the chain rule. 
+\begin{question}
+  Let $F(x,y)=x^2y+x$, where $x(t)=\sin(t)$ and $y(t)=e^{5t}$. Compute $\dd[F]{t}$.
+  \begin{prompt}
+  \[
+  \dd[F]{t} = \answer{(2\sin(t)e^{5t}+1)\cos(t)+5e^{5t}\sin^2(t)}.
+  \]
+  \end{prompt}
+\end{question}
+
+The previous example can make us wonder: if we substituted for $x$ and
+$y$ at the end to show that $\dd[F]{t}$ is really just a function of
+$t$, why not substitute \textit{before} differentiating, showing
+clearly that $F$ is a function of $t$?
+
+That is, $z = x^2y+x = (\sin t)^2e^{5t}+\sin t.$ Applying the chain
+and product rules, we have
+\[
+\dd[F]{t} = 2\sin(t)\cos(t) e^{5t}+ 5\sin^2(t) e^{5t}+\cos(t),
+\]
+which matches the result from the example.
+
+This may now make one wonder ``What's the point? If we could already
+find the derivative, why learn another way of finding it?'' In some
+cases, applying this rule makes differentiation simpler, but this is
+hardly the power of the chain rule. Rather, the chain rule is
+extremely powerful when \textit{we do not know what $F$, $x$ and/or
+  $y$ are}. It may be hard to believe, but often in ``the real world''
+we know rate-of-change information (information about derivatives)
+without explicitly knowing the underlying functions. The chain rule
+allows us to combine several rates of change to find another rate of
+change. The chain rule also as theoretic use, giving us insight into
+the behavior of certain constructions. In particular, the chain rule
+gives us a new explanation as to why the gradient is perpendicular to
+level curves and surfaces.
+
+\begin{example}
+  Suppose that a vector-valued function
+  $\vec{c}(t)=\vector{x(t),y(t)}$ runs along a level surface for the
+  surface $F(x,y)$. Explain how the chain rule shows that the gradient
+  points perpendicular to level curves and surfaces.
+  \begin{explanation}
+    We should ask ourselves: ``What is the change in $F$ as $t$
+    varies?''  Since $\vec{c}(t)$ traces out a level curve, the change
+    must be $\answer[given]{0}$. Comparing this to the chain rule we see:
+    \begin{align*}
+    \dd[F]{t} &= \grad F(\vec{c}(t)) \dotp \vec{c}'(t) \\
+    &= \answer[given]{0}
+    \end{align*}
+    this tells us that the gradient is orthogonal to the tangent
+    vectors of our level curve. This means that the gradient is
+    orthogonal to level curves.
+  \end{explanation}
+\end{example}
+
+Note that the last explanation works in any dimension. The up-shot?
+\begin{quote}
+  \textbf{Gradient vectors are orthogonal to level sets.}
+\end{quote}
+And while we've be saying this all along, it is the chain rule that
+finally gives us a clean and precise explanation.
+
+
+\section{New solutions for old problems}
+
+We can also use our new chain rule to revisit problems from our
+previous studies of calculus. Our new tools allow for simpler
+solutions to these problems.
+
+\subsection{Differentiating integrals}
+
+Recall the following form of the Fundamental Theorem of Calculus:
+\[
+\ddx \int_a^x f(t) \d t = f(x) 
+\]
+\begin{question}
+  Compute
+  \[
+  \dd x \int_0^x \frac{\sin(t)}{t} \d t
+  \begin{prompt}
+    = \answer{\frac{\sin(x)}{x}}
+  \end{prompt}
+  \]
+\end{question}
+It is easy to use the Fundamental Theorem of Calculus to differentiate
+integrals, when the limits of integration are a constant and a
+variable. However, when the limits are functions, things get more
+complicated. The multivariable chain rule helps out in these
+situations.
+\begin{example}
+  Compute:
+  \[
+  \dd{t} \int_{\sin(t)}^{\cos(t)} e^{(s^2)} \d s
+  \]
+  \begin{explanation}
+    Let
+    \begin{align*}
+      F(x,y) &= \int_y^x e^{(s^2)} \d s\\
+      x(t) &= \cos(t)\\
+      y(t) &= \sin(t).
+    \end{align*}
+    Now,
+    \[
+    \dd{t} F(t) = \grad F(x(t),y(t)) \dotp \vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}.
+    \]
+    To compute the partials, we use the Fundamental Theorem of Calculus:
+    \begin{align*}
+    \pp[F]{x} &= \pp{x} \int_y^x e^{(s^2)} \d s\\
+    &= \answer[given]{e^{(x^2)}}
+    \end{align*}
+    And
+    \begin{align*}
+      \pp[F]{y} &= \pp{y} \int_y^x e^{(s^2)} \d s\\
+      \pp[F]{y} &= \pp{y} \left(-\int_x^y e^{(s^2)} \d s\right)\\
+      &= \answer[given]{-e^{(y^2)}}
+    \end{align*}
+    So
+    \begin{align*}
+      \dd{t} F(t) &= \vector{e^{\cos^2(t)},-e^{\sin^2(t)}}\dotp \vector{-\sin(t),\cos(t)}\\
+      &= \answer[given]{-e^{\cos^2(t)}\sin(t)-e^{\sin^2(t)}\cos(t)}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+\begin{question}
+  Compute:
+  \[
+  \dd{t} \int_{t^2}^{t^3} \frac{\sin(s)}{s} \d s
+  \begin{prompt}
+    = \answer{\frac{-2 t \sin(t^2)}{t^2}+\frac{3t^2\sin(t^3)}{t^3}}
+  \end{prompt}
+  \]
+\end{question}
+
+
+
+
+\subsection{Implicit differentiation}
+
+We've used implicit differentiation to compute $\dd[y]{x}$ when $y$ is
+given as an implicit function of $x$. Now we'll revisit this with the
+chain rule and give a new, simpler, method of finding $\dd[y]{x}$.
+
+For instance, consider the implicit function $x^2y-xy^3=3$. We learned
+to use the following steps to find $\dd[y]{x}$:
+\begin{align*}
+\ddx\Big(x^2y-xy^3\big) &= \ddx\Big(3\Big) \\
+2xy + x^2\dd[y]{x}-y^3-3xy^2\dd[y]{x} &= 0\\
+\dd[y]{x} = -\frac{2xy-y^3}{x^2-3xy^2}.
+\end{align*}
+     
+Instead of using this method, consider $z=x^2y-xy^3$. The implicit
+function above describes the level curve $z=3$. Considering $x$ and
+$y$ as functions of $x$, the chain rule states that
+\[
+\dd[z]{x} = \pp[z]{x}\dd[x]{x}+\pp[z]{y}\dd[y]{x}.
+\]
+Since $z$ is constant (in our example, $z=3$), $\dd[z]{x} = 0$. We
+also know $\dd[x]{x} = 1$. Write with me,
+\begin{align*}
+  0 &= \pp[z]{x}(1) + \pp[z]{y}\dd[y]{x} \\
+  \dd[y]{x} &= -\pp[z]{x}\Big/\pp[z]{y}\\
+  &= -\frac{F^{(1,0)}(x,y)}{F^{(0,1)}(x,y)}.
+\end{align*}
+
+Note how our solution for $\dd[y]{x}$ above is just the partial
+derivative of $z$, with respect to $x$, divided by the partial
+derivative of $z$ with respect to $y$.  We state the above as a
+theorem.
+
+\begin{theorem}
+  Let $F:\R^2\to\R$ be a differentiable function of $x$ and $y$, where
+  $F(x,y)=c$ defines $y$ as an implicit function of $x$, for some
+  constant $c$. Then \index{derivative!implicit}\index{implicit
+    differentiation}
+  \[
+  \dd[y]{x} = -\frac{F^{(1,0)}(x,y)}{F^{(0,1)}(x,y)}.
+  \]
+\end{theorem}
+
+Try your hand at this.
+
+\begin{question}
+  Given the implicitly defined function $\sin(x^2y^2)+y^3=x+y$, find
+  $y'$.
+  \begin{hint}
+    Consider $F(x,y) = \sin(x^2y^2)+y^3-x-y$, and find
+    $F^{(1,0)}(x,y)$, and $F^{(0,1)}(x,y)$.
+  \end{hint}
+  \begin{prompt}
+  \[
+  \dd[y]{x} = \answer{\frac{-2xy^2\cos(x^2y^2)+1}{2x^2y\cos(x^2y^2)+3y^2-1}}
+  \]
+  \end{prompt}
+\end{question}
+
+%\example{ex_implicit5}{Using Implicit Differentiation}{
+%Given the implicitly defined function $\sin(x^2y^2)+y^3=x+y$, find $y'$.}
+%$$y' = \frac{1 - 2xy^2\cos(x^2y^2)}{2x^2y\cos(x^2y^2)+3y^2-1}.$$
+
+
+\end{document}

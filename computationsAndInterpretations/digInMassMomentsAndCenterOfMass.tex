@@ -1,0 +1,232 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Find the mass, moments, and the center of mass of an object.}
+
+\title[Dig-In:]{Mass, moments, and center of mass}
+
+\begin{document}
+\begin{abstract}
+  We use integrals to model mass.
+\end{abstract}
+\maketitle
+
+\section{Mass}
+
+We learned some time ago that if the density of an object is uniform,
+\[
+\text{mass} = \text{density}\times\text{volume}.
+\]
+When the density of an object is not uniform, we define a density
+function $\rho(x,y,z)$ and mass $m$, to write:
+\[
+\d m = \rho(x,y,z) \d V
+\]
+Summing these together with an integral, we find the mass
+is equal to
+\[
+\iiint_R \rho(x,y,z) \d V.
+\]
+
+\begin{example}
+  Find the mass of the solid defined by the region
+  \[
+  R = \{(x,y,z):0\le x\le 3, 0\le y\le 6-2x, 0\le z<2-y/3-2x/3\}
+  \]
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [width=175pt,height=200pt,
+          tick label style={font=\scriptsize},axis on top,
+	  axis lines=center,
+	  view={145}{35},
+	  name=myplot,
+	  %xtick={1,2,3,4},
+	  %ytick={1,2,3,4,5,6},
+	  %ztick=\empty,
+	  %extra x ticks={1},
+	  minor x tick num=1,
+	  minor y tick num=4,
+	  minor z tick num=1,
+	  %extra x tick labels={$a$},
+	  %extra y ticks={1},
+	  %extra y tick labels={$a$},
+	  %extra z ticks={1},
+	  %extra z tick labels={$h$},
+	  ymin=-.5,ymax=6.9,
+	  xmin=-.5,xmax=4.9,
+	  zmin=-.5, zmax=2.9,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$}
+	]
+        \draw [penColor, very thick] (axis cs:0,0,0) -- (axis cs:0,0,2)
+	(axis cs:0,0,0) -- (axis cs:3,0,0)
+	(axis cs:0,0,0) -- (axis cs:0,6,0);
+	\draw [fill1,thin,fill=fill1,opacity=.6] (axis cs: 3,0,0) -- (axis cs: 0,6,0) -- (axis cs: 0,0,2)--cycle;
+        \draw [penColor,thick] (axis cs: 3,0,0) -- (axis cs: 0,6,0) -- (axis cs: 0,0,2)--cycle;
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  with density function $\rho(x,y,z)=3x$.
+  \begin{explanation}
+    Write with me
+    \begin{align*}
+      M &= \iiint_R \rho(x,y,z)\d V \\
+      &= \int_0^3\int_0^{\answer[given]{6-2x}}\int_0^{\answer[given]{2-y/3-2x/3}} \big(\answer[given]{3x}\big)\d z\d y\d x\\
+      &= \int_0^3\int_0^{\answer[given]{6-2x}} (\answer[given]{6x-xy-2x^2})\d y\d x\\
+      &= \int_0^3\eval{\answer[given]{6xy-xy^2/2-2x^2y}}_0^{\answer[given]{6-2x}}\d x\\
+      &= \int_0^3 (\answer[given]{18x-12x^2+2x^3}) \d x\\
+      &= \answer[given]{27/2}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+\section{Moments and center of mass}
+
+A \textit{moment} is a scalar quantity describing how mass is distributed
+in relation to a point, line, or plane.
+
+\begin{definition}
+  Let a region $R\subset\R^3$ define a solid with density function $\rho(x,y,z)$.
+  \begin{itemize}
+  \item The \dfn{moment} about the $(x,y)$-plane is given by
+    \[
+    M_{xy} = \iiint_R z \rho(x,y,z) \d V
+    \]
+  \item The \dfn{moment} about the $(x,z)$-plane is given by
+    \[
+    M_{xz} = \iiint_R y \rho(x,y,z) \d V
+    \]
+  \item The \dfn{moment} about the $(y,z)$-plane is given by
+    \[
+    M_{yz} = \iiint_R x \rho(x,y,z) \d V
+    \]
+  \end{itemize}
+\end{definition}
+
+The moments are directly related to the center of mass of an object.
+
+\begin{definition}
+  Let a region $R\subset\R^3$ define a solid with density function $\rho(x,y,z)$.
+  The \dfn{center of mass} is defined to be the point
+  \[
+  (\bar{x},\bar{y},\bar{z}) = \left(\frac{M_{yz}}{M},\frac{M_{xz}}{M},\frac{M_{xy}}{M}\right).
+  \]
+\end{definition}
+
+
+
+\begin{example}
+  Consider the solid defined by the region
+  \[
+  R= \{ (x,y,z) : -1\le x \le 1, -\sqrt{1-x^2}<y<0, 0\le z\le -y\}
+  \]
+  \begin{image}
+    \begin{tikzpicture}[>=stealth]
+      \begin{axis}%
+        [width=175pt,height=200pt,
+          tick label style={font=\scriptsize},axis on top,
+          axis lines=center,
+	  view={115}{35},
+	  name=myplot,
+	  %xtick={1,2,3,4},
+	  %ytick={1,2,3,4,5,6},
+	  %ztick=\empty,
+	  %extra x ticks={1},
+	  %minor x tick num=1,
+	  %minor y tick num=4,
+	  %minor z tick num=1,
+	  %extra x tick labels={$a$},
+	  %extra y ticks={1},
+	  %extra y tick labels={$a$},
+	  %extra z ticks={1},
+	  %extra z tick labels={$h$},
+	  ymin=-1.1,ymax=.2,
+	  xmin=-1.1,xmax=1.3,
+	  zmin=-.1, zmax=1.5,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$},colormap/cool
+	]
+        \addplot3[domain=180:360,,y domain=0:1,mesh,samples=16,samples y=3,very thin,z buffer=sort] ({cos(x)},{sin(x)},{-y*sin(x)});
+        
+        \addplot3[domain=180:360,,smooth,%fill=white,
+          penColor,samples=16,samples y=0,very thick] ({cos(x)},{sin(x)},{0});
+        
+        \addplot3[domain=180:360,,y domain=0:1,mesh,samples=16,samples y=5,very thin,z buffer=sort] ({y*cos(x)},{y*sin(x)},{-y*sin(x)});
+        
+        \addplot3[domain=180:360,,smooth,%fill=white,
+          penColor,samples=16,samples y=0,very thick] ({cos(x)},{sin(x)},{-sin(x)});
+        
+        \draw [->] (axis cs:1,-.6,0) node[below,rotate=-15] {\scriptsize $x^2+y^2=1$} -- (axis cs: .7,-.6,.2);
+        
+        \draw [->] (axis cs:0,-.4,1.2) node[above,] {\scriptsize $z=-y$} -- (axis cs: 0,-.4,.6);
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  with density function
+  \[
+  \rho(x,y,z) = 10 + x^2 + 5y -5z.
+  \]
+  Find the center of mass of this solid.
+  \begin{explanation}
+    At this point we need to compute \textit{four} triple
+    integrals. Each computation will require a number of careful
+    steps. Get out several sheets of paper and take a deep breath.
+    First we'll compute the mass. Write with me:
+    \begin{align*}
+      M &= \iiint_R \big(10+x^2+5y-5z\big)\d V \\
+      &= \int_{-1}^1\int_{-\sqrt{1-x^2}}^0\int_0^{-y} \big(10+x^2+5y-5z\big)\d z\d y \d x\\
+      &= \answer[given]{\frac{34}{5}-\frac{15\pi}{16}}
+    \end{align*}
+    Now we'll compute $M_{yz}$. Write with me:
+    \begin{align*}
+      M_{yz}	&= \iiint_R \answer[given]{x(10+x^2+5y-5z)}\d V \\%& M_{xy}	&= \iiint_R z\big(10+x^2+5y-5z\big)\ dV & M_{xz}\\
+      &=\answer[given]{0}
+    \end{align*}
+    Now we'll compute $M_{xz}$. Write with me:
+    \begin{align*}
+      M_{xz} &= \iiint_R \answer[given]{y(10+x^2+5y-5z)}\d V\\
+      &= \answer[given]{2-\frac{61\pi}{48}}
+    \end{align*}
+    Now we'll compute $M_{xy}$. Write with me:
+  \begin{align*}
+    M_{xy} &= \iiint_R \answer[given]{z(10+x^2+5y-5z)}\d V \\
+    &= \answer[given]{\frac{61\pi}{96}-\frac{10}{9}}
+  \end{align*}
+  The center of mass is
+  \[
+  \big(\overline{x},\overline{y},\overline{z}\big) = \left(\answer[given]{0},\answer[given]{\left(2-\frac{61\pi}{48}\right)/\left(\frac{34}{5}-\frac{15\pi}{16}\right)},\answer[given]{\left(\frac{61\pi}{96}-\frac{10}{9}\right)/\left(\frac{34}{5}-\frac{15\pi}{16}\right)}\right).
+  \]
+  \end{explanation}
+\end{example}
+
+As stated before, there are many uses for triple integration beyond
+finding volume. When $h(x,y,z)$ describes a rate of change function
+over some space region $R$, then
+\[
+\iiint_R h(x,y,z)\d V
+\]
+gives the total change over $R$. Our example of this was computing
+mass via a density function. Here a density function is simply a
+``rate of mass change per volume'' function. Thus, integrating density
+gives total mass.
+
+While knowing \textit{how to integrate} is important, it is arguably
+much more important to know \textit{how to set up} integrals. It takes
+skill to create a formula that describes a desired quantity; modern
+technology is very useful in evaluating these formulas quickly and
+accurately.
+
+
+
+\end{document}

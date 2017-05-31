@@ -1,0 +1,266 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Spherical coordinates}
+
+\outcome{Work in spherical coordinates.}
+\outcome{Compute triple integrals in spherical coordinates.}
+
+\begin{document}
+\begin{abstract}
+  We integrate over regions in spherical coordinates.
+\end{abstract}
+\maketitle
+
+Another way to generalize polar coordinates to three dimensions is
+with \textit{spherical} coordinates.
+
+\begin{definition}
+  An ordered triple consisting of a radius, an angle, and a height
+  $(\rho,\varphi,\theta)$ can be graphed as
+  \begin{align*}
+    x &= \rho\cdot \cos(\theta)\sin(\varphi)\\
+    y &= \rho\cdot \sin(\theta)\sin(\varphi)\\
+    z &= \rho\cdot \cos(\varphi)
+  \end{align*}
+  meaning:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={110}{25},
+	name=myplot,
+	xtick=\empty,
+        ytick=\empty,
+        ztick=\empty,
+	ymin=-.1,ymax=1.2,
+	xmin=-.1,xmax=1.2,
+	zmin=-.2, zmax=2.1,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool,
+        ]
+        \addplot3[gray,->,domain=0:45,samples y=0] ({.3*cos(x)},{.3*sin(x)},0); %% angle for theta
+        \addplot3[gray,->,domain=0:27,samples y=0] ({.3*cos(45)*sin(x)},{.3*sin(45)*sin(x)},{.3*cos(x)}); %% angle for phi
+        \addplot3[gray,domain=0:2.24,samples y=0] ({x*cos(45)*sin(27)},{x*sin(45)*sin(27)},{x*cos(27)}); %% line for rho
+
+        
+        \addplot3[gray,domain=0:1,samples y=0,dashed] ({x*cos(45)},{x*sin(45)},0); %% line for theta
+        \addplot3[gray,domain=0:2,samples y=0,dashed] ({1*cos(45)},{1*sin(45)},x); %% line for z
+        \node at (axis cs:{.5*cos(22.5)},{.5*sin(22.5)},0) {$\theta$};
+        \node[above] at (axis cs:{.3*cos(45)*sin(17)},{.3*sin(45)*sin(17)},{.3*cos(17)}) {$\varphi$};
+
+        \node[above] at (axis cs:{1*cos(45)*sin(27)},{1*sin(45)*sin(27)},{1*cos(27)}) {$\rho$};
+        
+        \filldraw [black] (axis cs:{1*cos(45)},{1*sin(45)},2) circle (3pt);        
+        \node[right] at (axis cs:{1*cos(45)},{1*sin(45)},2) {$(\rho,\varphi,\theta)$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Coordinates of this type are called \dfn{spherical coordinates}.
+\end{definition}
+
+\begin{question}
+  Conside the point $(2, \pi/4,-\pi/4)$ in spherical coordinates. What is
+  this point when expressed in $(x,y,z)$-coordinates?
+  \begin{prompt}
+    \[
+    (x,y,z) = (\answer{2\cos(-\pi/4)\sin(\pi/4)}, \answer{2 \sin(-\pi/4)\sin(\pi/4)},\answer{2\cos(\pi/4)})
+    \]
+  \end{prompt}
+  %% \begin{question}
+  %%   Consider the point $(1, -1,5)$ in $(x,y,z)$-coordinates. What is this
+  %%   point when expressed in spherical coordinates?
+  %%   \begin{prompt}
+  %%     \[
+  %%     (\rho,\varphi,\theta) = BADBAD
+  %%     \]
+  %%   \end{prompt}
+  %% \end{question}
+\end{question}
+
+\section{Triple integrals in spherical coordinates}
+
+If you want to evaluate this integral
+\[
+\iiint_R F \d V,
+\]
+you have to change $R$ to a region defined in $(x,y,z)$-coordinates,
+and change $\d V$ to some combination of $\d x\d y\d z$ leaving you
+with some iterated integral:
+\[
+\int_a^b\int_c^d\int_p^q F(x,y,z) \d y \d x\d z
+\]
+Now consider representing a region $R$ in spherical coordinates
+and let's express $\d V$ in terms of $\d r$, $\d\theta$, and $\d z$. To do this, consider the diagram below:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={120}{25},
+	name=myplot,
+        clip=false,
+	xtick=\empty,
+        ytick=\empty,
+        ztick=\empty,
+	ymin=-.1,ymax=1,
+	xmin=-.1,xmax=.7,
+	zmin=-.2, zmax=2.1,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool,
+        ]
+        \filldraw [fill=fill1]
+        (axis cs:{1.8*cos(60)*sin(30)},{1.8*sin(60)*sin(30)},{1.8*cos(30)})--
+        (axis cs:{1.8*cos(70)*sin(30)},{1.8*sin(70)*sin(30)},{1.8*cos(30)})--
+        (axis cs:{2.24*cos(70)*sin(30)},{2.24*sin(70)*sin(30)},{2.24*cos(30)})--
+        (axis cs:{2.24*cos(70)*sin(22)},{2.24*sin(70)*sin(22)},{2.24*cos(22)})--
+        (axis cs:{2.24*cos(60)*sin(22)},{2.24*sin(60)*sin(22)},{2.24*cos(22)})--
+        (axis cs:{1.8*cos(60)*sin(22)},{1.8*sin(60)*sin(22)},{1.8*cos(22)});
+
+        \addplot3[->,domain=60:70,samples y=0] ({.3*cos(x)},{.3*sin(x)},0); %% dtheta
+        \addplot3[domain=60:70,samples y=0,dashed] ({.8*cos(x)},{.8*sin(x)},0); %% dtheta
+        \addplot3[domain=60:70,samples y=0] ({1*cos(x)},{1*sin(x)},0); %% dtheta
+        %% \addplot3[domain=60:70,samples y=0,dashed] ({.8*cos(x)},{.8*sin(x)},1.7); %% dtheta
+        %% \addplot3[domain=60:70,samples y=0] ({1*cos(x)},{1*sin(x)},1.7); %% dtheta
+        %% \addplot3[domain=60:70,samples y=0] ({.8*cos(x)},{.8*sin(x)},2); %% dtheta
+        %% \addplot3[domain=60:70,samples y=0] ({1*cos(x)},{1*sin(x)},2); %% dtheta
+
+        \addplot3[->,domain=22:30,samples y=0] ({.3*cos(60)*sin(x)},{.3*sin(60)*sin(x)},{.3*cos(x)}); %% angle for phi
+        \addplot3[domain=0:2.24,samples y=0] ({x*cos(60)*sin(22)},{x*sin(60)*sin(22)},{x*cos(22)}); %% line for rho
+        \addplot3[domain=0:2.24,samples y=0,dashed] ({x*cos(70)*sin(22)},{x*sin(70)*sin(22)},{x*cos(22)}); %% line for rho
+        \addplot3[domain=0:2.24,samples y=0] ({x*cos(60)*sin(30)},{x*sin(60)*sin(30)},{x*cos(30)}); %% line for rho
+        \addplot3[domain=0:2.24,samples y=0] ({x*cos(70)*sin(30)},{x*sin(70)*sin(30)},{x*cos(30)}); %% line for rho
+
+        \addplot3[domain=22:30,samples y=0] ({1.8*cos(60)*sin(x)},{1.8*sin(60)*sin(x)},{1.8*cos(x)}); %% angle for phi
+        \addplot3[domain=22:30,samples y=0,dashed] ({1.8*cos(70)*sin(x)},{1.8*sin(70)*sin(x)},{1.8*cos(x)}); %% angle for phi
+        \addplot3[domain=22:30,samples y=0] ({2.24*cos(60)*sin(x)},{2.24*sin(60)*sin(x)},{2.24*cos(x)}); %% angle for phi
+        \addplot3[domain=22:30,samples y=0] ({2.24*cos(70)*sin(x)},{2.24*sin(70)*sin(x)},{2.24*cos(x)}); %% angle for phi
+
+        \addplot3[domain=60:70,samples y=0] ({2.24*cos(x)*sin(22)},{2.24*sin(x)*sin(22)},{2.24*cos(22)}); %% angle for theta/box/top
+        \addplot3[domain=60:70,samples y=0] ({2.24*cos(x)*sin(30)},{2.24*sin(x)*sin(30)},{2.24*cos(30)}); %% angle for theta/box/top
+        \addplot3[domain=60:70,samples y=0] ({1.8*cos(x)*sin(30)},{1.8*sin(x)*sin(30)},{1.8*cos(30)}); %% angle for theta/box/top
+        \addplot3[domain=60:70,samples y=0,dashed] ({1.8*cos(x)*sin(22)},{1.8*sin(x)*sin(22)},{1.8*cos(22)}); %% angle for theta/box/top
+
+        
+        \addplot3[domain=0:1,samples y=0] ({x*cos(60)},{x*sin(60)},0); %% r
+        \addplot3[domain=0:1,samples y=0] ({x*cos(70)},{x*sin(70)},0); %% r
+        
+
+        \node[left] at (axis cs:{.3*cos(60)},{.3*sin(60)},0) {$\d\theta$};
+        \node[below] at (axis cs:{1.8*cos(65)*sin(35)},{1.8*sin(65)*sin(35)},{1.8*cos(35)}) {$\rho\sin(\varphi)\d\theta$};
+        \node[below right] at (axis cs:{2*cos(70)*sin(30)},{2*sin(70)*sin(30)},{2*cos(30)}) {$\d \rho$};
+        \node[right] at (axis cs:{2.24*cos(75)*sin(24)},{2.24*sin(75)*sin(24)},{2.24*cos(24}) {$\rho \d \varphi$};
+        \node[above,penColor] at (axis cs:{2.24*cos(65)*sin(22)},{2.24*sin(65)*sin(22)},{2.24*cos(22)}) {$\d V$};
+
+        \draw [->] (axis cs:{1.8*cos(60)*sin(35)},{1.8*sin(60)*sin(35)},{1.8*cos(35)})--(axis cs:{1.8*cos(65)*sin(30)},{1.8*sin(65)*sin(30)},{1.8*cos(30)});
+        \draw [->] (axis cs:{2*cos(70)*sin(32)},{2*sin(70)*sin(32)},{2*cos(32)})--(axis cs:{2*cos(70)*sin(30)},{2*sin(70)*sin(30)},{2*cos(30)});
+        \draw [->] (axis cs:{2.24*cos(73)*sin(26)},{2.24*sin(73)*sin(26)},{2.24*cos(26})--(axis cs:{2.24*cos(70)*sin(26)},{2.24*sin(70)*sin(26)},{2.24*cos(26});
+        
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+Here we see 
+\begin{align*}
+\d V &= (\rho\sin(\varphi)\d\theta)\cdot(\rho \d \varphi)\cdot (\d \rho)\\
+&= \rho^2 \sin(\varphi)\d\rho\d\varphi\d\theta.
+\end{align*}
+We may now state at theorem:
+\begin{theorem}
+  Let $F:\R^3\to\R$ be continuous on the region
+  \[
+  R=\{(\rho,\varphi,\theta):\text{$\alpha\leq\theta\leq\beta$, $a\leq \varphi\leq b$, $G_1(\varphi,\theta)\le \rho\le G_2(\varphi,\theta)$}\}
+  \]
+  Then: 
+  \begin{align*}
+  \iiint_R &F(\rho,\varphi,\theta)\d V\\
+  &= \int_\alpha^\beta\int_{a}^{b} \int_{G_1(\varphi,\theta)}^{G_2(\varphi,\theta)}F(\rho,\varphi,\theta) \rho^2 \sin(\varphi)\d\rho\d\varphi\d\theta.
+  \end{align*}
+\end{theorem}
+
+\begin{question}
+  Write down a triple integral in spherical coordinates that will
+  compute the volume of a sphere of radius $a$.
+  \begin{prompt}
+  \[
+  \iiint_R \d V = \int_{\answer{0}}^{\answer{2\pi}}
+  \int_{\answer{0}}^{\answer{\pi}}
+  \int_{\answer{0}}^{\answer{a}}
+  \rho^2 \sin(\varphi)\d\rho\d\varphi\d\theta
+  \]
+  \end{prompt}
+\end{question}
+
+
+%% \begin{question}
+%%   Consider the following region:
+%%   \begin{image}
+%%     \begin{tikzpicture}
+%%       \begin{axis}%
+%%         [
+%%           tick label style={font=\scriptsize},%axis on top,
+%% 	  axis lines=center,
+%% 	  view={135}{25},
+%% 	  name=myplot,
+%% 	  %% xtick=\empty,
+%% 	  %% ytick=\empty,
+%% 	  %% ztick=\empty,
+%% 	  %% extra x ticks={1},
+%% 	  %% extra x tick labels={$a$},
+%% 	  %% extra y ticks={1},
+%% 	  %% extra y tick labels={$a$},
+%% 	  %% extra z ticks={1},
+%% 	  %% extra z tick labels={$h$},
+%% 	  ymin=-1.3,ymax=1.3,
+%% 	  xmin=-1.3,xmax=1.3,
+%% 	  zmin=-.1, zmax=1.1,
+%% 	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+%% 	  xlabel={\scriptsize $x$},
+%% 	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+%% 	  ylabel={\scriptsize $y$},
+%% 	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+%% 	  zlabel={\scriptsize $z$},colormap/cool
+%% 	]
+        
+%%         \addplot3[domain=0:1,,y domain=0:360,mesh,samples=10,samples y=36,very thin,z buffer=sort] ({x*cos(y)}, {x*sin(y)},{1-x});
+%%         \addplot3[domain=0:1,,y domain=0:360,mesh,samples=10,samples y=36,very thin,z buffer=sort] ({x*cos(y)}, {x*sin(y)},{1-x});
+%%       \end{axis}
+%%     \end{tikzpicture}
+%%   \end{image}
+%%   Above we see a cone with its base in the $(x,y)$-plane within the
+%%   unit circle. Write three integrals that compute its volume.
+%%   \begin{prompt}
+%%     \[
+%%     \int_{\answer{-1}}^{\answer{1}}
+%%     \int_{\answer{-\sqrt{1-x^2}}}^{\answer{\sqrt{1-x^2}}}
+%%     \int_{\answer{0}}^{\answer{1}}
+%%     \d z \d y \d x
+%%     \]
+%%     \[
+%%     \int_{\answer{0}}^{\answer{2\pi}}
+%%     \int_{\answer{0}}^{\answer{1}}
+%%     \int_{\answer{0}}^{\answer{1-r}}
+%%     r\d z \d r \d \theta
+%%     \]
+%%     \[
+%%     \int_{\answer{0}}^{\answer{2\pi}}
+%%     \int_{\answer{0}}^{\answer{1}}
+%%     \int_{\answer{0}}^{\answer{1-r}}
+%%     \rho^2\sin(\varphi) \d\rho\d\varphi\d\theta
+%%     \]
+%%   \end{prompt}
+%%   \end{prompt}
+%% \end{question}
+
+
+
+\end{document}

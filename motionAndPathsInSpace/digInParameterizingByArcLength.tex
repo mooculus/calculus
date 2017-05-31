@@ -1,0 +1,254 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Parameterizing by arc length}
+
+\outcome{Find an arc length parameterization.}
+
+\begin{document}
+\begin{abstract}
+  We find a new description of curves that trivializes arc length
+  computations.
+\end{abstract}
+\maketitle
+
+Recall that if $\vec{f}$ is a vector-valued function where
+\begin{itemize}
+\item $\vec{f}'$ is continuous.
+\item The curve defined by $\vec{f}(t)$ is traversed once for $a\le
+  t\le b$.
+\end{itemize}
+  The arc length of the curve from
+  \[
+  \vec{f}(a)\quad\text{to}\quad\vec{f}(b)
+  \]
+  is given by
+  \[
+  \text{arc length} = \int_a^b |\vec{f}'(t)|\d t.
+  \]
+  This is all good and well; however, the integral
+  \[
+  \int_a^b |\vec{f}'(t)|\d t
+  \]
+  could be quite difficult to compute. In this section, we see a new
+  description of the curve drawn by $\vec{f}(t)$, we'll call it
+  $\vec{g}(s)$ where the \textbf{same} curve is drawn by both $\vec{f}$ and
+  $\vec{g}$ and we have that
+  \[
+  s =  \int_a^s |\vec{g}'(t)|\d t.
+  \]
+  This is called an \dfn{arc length parameterization}. This is a nice
+  situation to be in, because computing the arc length of $g(s)$ when
+  $a\le s\le b$, is simply $b-a$. No integral computations need to be
+  done.  Consider the following example:
+
+  \begin{example}
+    Let $\vec{f}(t) = \vector{\cos(t), \sin(t)}$ for $0\le t<
+    2\pi$. Show that $\vec{f}$ is parameterized by arc length.
+    \begin{explanation}
+      Here we need to show that
+      \[
+      s = \int_0^s |\vec{f}'(t)| \d t.
+      \]
+      We'll just compute the right-hand side of the equation above and
+      see what happens. Write with me,
+      \[
+      \vec{f}'(t) = \vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}
+      \]
+      and so
+      \begin{align*}
+      |\vec{f}'(t)| &= \sqrt{\vec{f}'(t)\dotp \vec{f}'(t)}\\
+      &= \sqrt{\vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}\dotp\vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}}\\
+      &= \answer[given]{1}.
+      \end{align*}
+      Now our integral becomes:
+      \begin{align*}
+        \int_0^s  |\vec{f}'(t)| \d t &= \int_0^s \d t\\
+        &= \answer[given]{s}.
+      \end{align*}
+      Hence $\vec{f}$ is parameterized by arc length.
+    \end{explanation}
+  \end{example}
+
+  From your own experience and the work above, we think the next
+  theorem should be quite sensible.
+
+  \begin{theorem}
+    A vector-valued function $\vec{f}:\R\to \R^2$ is parameterized by
+    arc length if and only if $|\vec{f}'| = 1$.
+  \end{theorem}
+
+  \begin{question}
+    Which of the following vector-valued functions are parameterized
+    by arc length?
+    \begin{selectAll}
+      \choice[correct]{$t\vector{11/61,60/61}$}
+      \choice[correct]{$t\vector{3\sin(t/3),3\cos(t/3)}$}
+      \choice{$t\vector{16/113,112/113}$}
+      \choice[correct]{$\vector{7,t17/145,t144/145}$}
+      \choice{$\vector{3\cos(t),3\sin(t)}$}
+    \end{selectAll}
+  \end{question}
+
+  We proceed by discussing several special cases, and then by giving a
+  general method.
+
+  \section{Disguised lines}
+
+  Sometimes you have a vector-valued function that is merely a line
+  disguise.
+
+  \begin{example}
+    Consider $\vec{f}(t) = \vector{3t^2,4t^2}$ for $0\le t\le
+    1$. Parameterize this curve by arc length.
+    \begin{explanation}
+      If we think about $\vec{f}$ we see that the variable $t$ only
+      appears in the expression as $t^2$. This means as $t$ grows, it
+      will grow \textit{identically} in each component of $\vec{f}$.
+      \begin{onlineOnly}
+        Indeed a quick check with a graph will show that:
+        \[
+        \graph{(3t, 4t)}
+        \]
+        \[
+        \graph{(3t^2,4t^2)}
+        \]
+        produce the same graph.
+      \end{onlineOnly}
+      Now, by our theorem above, $\vec{g}$ is parameterized by arc
+      length if and only if
+      \[
+      |\vec{g}'(t)| = \answer[given]{1}
+      \]
+      Hence we need to find a unit vector in the the same direction as
+      the line drawn by $\vec{f}$. Write with me,
+      \begin{align*}
+        \frac{\vec{f}'(t)}{|\vec{f}'(t)|} &= \frac{\vector{\answer[given]{6t},\answer[given]{8t}}}{\answer[given]{10t}}\\
+        &=\vector{\answer[given]{3/5},\answer[given]{4/5}}.
+      \end{align*}
+      Hence $\vec{g}(s) =
+      s\vector{\answer[given]{3/5},\answer[given]{4/5}}$ draws the
+      same curve as $\vec{f}$ and is parameterized by arc length.
+    \end{explanation}
+  \end{example}
+
+  \begin{question}
+    Give an arc length parameterization of $\vec{f}(t) =
+    \vector{3-4t^3,2+t^3,5-t^3}$ for $0\le t\le 1$.
+    \begin{prompt}
+      \[
+      \vec{g}(s) =
+      \vector{\answer{3-4s/\sqrt{18}},\answer{2+s/\sqrt{18}},\answer{5-s/\sqrt{18}}}
+      \]
+    \end{prompt}
+  \end{question}
+
+  Try your hand at this one now:
+
+    \begin{question}
+    Give an arc length parameterization of $\vec{f}(t) =
+    \vector{1-e^t,3+e^t,5}$ for $0\le t$.
+    \begin{hint}
+      Check the values of $\vec{f}(0)$ and $\vec{f}(1)$.
+    \end{hint}
+    \begin{prompt}
+      \[
+      \vec{g}(s) =
+      \vector{\answer{-s/\sqrt{2}},\answer{4+s/\sqrt{2}},\answer{5}}
+      \]
+    \end{prompt}
+  \end{question}
+
+  
+  \section{Disguised circles}
+
+  Sometimes the curve we are given is a circle in disguise.
+
+  \begin{example}
+    Consider $\vec{f}(t) = \vector{\sin(2\pi t^2),\cos(2\pi t^2)}$ for
+    $0\le t\le 1$. Parameterize this curve by arc length.
+    \begin{explanation}
+      Here, we should recognize this curve a unit circle, being drawn
+      in a counterclockwise fashion, starting (when $t=0$) at the
+      point $\left(\answer[given]{0},\answer[given]{1}\right)$. Ah! So
+      an arc length parameterization is given by
+      \[
+      \vec{g}(s) = \vector{\answer[given]{\sin(s)},\answer[given]{\cos(s)}}.
+      \]
+    \end{explanation}
+  \end{example}
+
+
+  \begin{question}
+    Consider $\vec{f}(t) = \vector{3\sin(a t),t/2,3\cos(a t)}$ for
+    $0\le t$. Find $a$ that makes this parameterized by arc length.
+    \begin{hint}
+      Set $|\vec{f}(t)| = 1$ and solve for $a$.
+    \end{hint}
+    \begin{prompt}
+      \[
+      a = \pm \answer{\frac{1}{2\sqrt{3}}}
+      \]
+    \end{prompt}
+  \end{question}
+  
+
+  
+  \section{A general method}
+
+  While we are about to present a general method for finding
+  representations of functions parameterized by arc length, one must
+  not overestimate its strength.
+
+  Regardless, here is the idea:
+  \begin{enumerate}
+  \item Given $\vec{f}(t)$ compute
+    \[
+    L(t)  = \int_a^t |\vec{f}'(u)| \d u
+    \]
+  \item Now write
+    \[
+    s = L(t)
+    \]
+    and solve for $t$. In this case you will have
+    \[
+    t = L^{-1}(s)
+    \]
+  \item The function
+  \[
+  \vec{g}(s) = \vec{f}(L^{-1}(s))
+  \]
+  will be parameterized by arc length.
+  \end{enumerate}
+
+  Try your hand at it.
+
+  \begin{example}
+    Parameterize $\vec{f}(t) = \vector{6t^3,8t^3,3}$ for $t\ge 0$ by
+    arc length.
+    \begin{explanation}
+      Write with me,
+      \begin{align*}
+      |\vec{f}'(t)| &= \sqrt{\answer[given]{18^2t^4+24^2t^4}}\\
+      &=\answer[given]{30t^2}
+      \end{align*}
+      \begin{align*}
+      L(t) &= \int_0^t 30 u^2 \d u\\
+      &= \eval{\answer[given]{10 u^3}}_0^t\\
+      &= \answer[given]{10t^3}.
+      \end{align*}
+      So now set $s = \answer[given]{10t^3}$ and solve for $t$.
+      \[
+      t = \sqrt[3]{\answer[given]{s/10}}
+      \]
+      Our function parameterized by arc length is
+      \[
+      \vec{g}(s) = \vector{\answer[given]{6s/10},\answer[given]{8s/10},\answer[given]{3}}.
+      \]
+    \end{explanation}
+  \end{example}
+
+
+  
+\end{document}

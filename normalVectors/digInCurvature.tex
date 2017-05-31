@@ -1,0 +1,318 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Curvature}
+
+\begin{document}
+\begin{abstract}
+We compare curves to circles to obtain a notion of curvature. 
+\end{abstract}
+\maketitle
+
+\section{The arc length parameter}
+
+In normal conversation we describe position in terms of both
+\emph{time} and \emph{distance}. For instance, imagine driving to
+visit a friend. If she calls and asks where you are, you might answer
+``I am 20 minutes from your house,'' or you might say ``I am 10 miles
+from your house.'' Both answers provide your friend with a general
+idea of where you are.
+
+Currently, our vector-valued functions have defined points with a
+parameter $t$, which we often take to represent time. Now consider the
+standard parameterization of a unit circle:
+\[
+\vec{f}(\theta)=
+\begin{cases}
+  x(\theta) = \cos(\theta)\\
+  y(\theta) = \sin(\theta)
+\end{cases}
+\]
+where $0\le \theta< 2\pi$. In this case, the parameter $\theta$ has a very nice
+property: The value of $\theta$ is \textbf{equal} to the arc length
+\[
+\theta = \int_0^\theta|\vec{f}'(\tau)| \d \tau.
+\]
+When the variable that ``drives'' the parametric function is equal to
+the arc length (from some starting point) the variable is called an
+\textit{arc length parameter}.
+
+\begin{definition}
+  A function $s$ on $[a,b]$ is called an \dfn{arc length parameter}
+  for a smooth vector-valued function $\vec{f}$ if
+  \[
+  s(t) = \int_{a}^t |\vec{f}'(\tau)| \d \tau.
+  \]
+\end{definition}
+
+\begin{question}
+  Which of the following vector-valued functions are parameterized by
+  an arc length parameter?
+  \begin{selectAll}
+    \choice[correct]{$\veci \sin(t) + \vecj\cos(t)$}
+    \choice{$\vector{3\cos(t), \vecj3\sin(t)}$}
+    \choice{$\veci(3+4t) + \vecj(-2+4t)$}
+    \choice[correct]{$\vector{3,4}+t\vector{1,0}$}
+  \end{selectAll}
+\end{question}
+
+\subsection{Finding an arc length parameter}
+
+Start with any parametrization of $\vec{f}$. We can compute the arc
+length of the graph of $\vec{f}$ on the interval $[0,t]$
+with
+\[
+\text{arc length} = \int_0^t|\vec f'(\tau)|\d \tau.
+\]
+We can
+turn this into a function: as $t$ varies, we find the arc length $s$
+from $0$ to $t$. This function is
+\[
+s(t) = \int_0^t |\vec{f}'(\tau)| \d\tau.
+\]
+
+This establishes a relationship between $s$ and $t$. Knowing this
+relationship explicitly, we can rewrite $\vec{f}(t)$ as a function of
+$s$. Let us show you how this is done.
+
+%% \example{ex_vvfarc1}{Finding the arc length parameter}{ Let $\vec r(t)
+%%   = \la 3t-1,4t+2\ra$. Parametrize $\vec r$ with the arc length
+%%   parameter $s$.}  {Using Equation \eqref{eq:vvfarc}, we write
+%% $$s(t) = \int_0^t \norm{\vec r\,'(u)}\ du.$$
+%% We can integrate this, explicitly finding a relationship between $s$ and $t$:
+%% \begin{align*}
+%% s(t) &= \int_0^t \norm{\vec r\,'(u)}\ du \\
+%% 			&= \int_0^t \sqrt{3^2+4^2}\ du\\
+%% 			&= \int_0^t 5\ du\\
+%% 			&= 5t.
+%% \end{align*}
+%% Since $s=5t$, we can write $t=s/5$ and replace $t$ in $\vec r(t)$ with $s/5$:
+%% $$\vec r(s) = \la 3(s/5)-1, 4(s/5)+2\ra = \la \frac35s-1,\frac45s+2\ra.$$
+%% Clearly, as shown in Figure \ref{fig:vvfarc1}, the graph of $\vec r$ is a line, where $t=0$ corresponds to the point $(-1,2)$. What point on the line is 2 units away from this initial point? We find it with $s(2) = \la 1/5, 18/5\ra$. 
+%% \mfigure{.7}{Graphing $\vec r$ in Example \ref{ex_vvfarc1} with parameters $t$ and $s$.}{fig:vvfarc1}{figures/figvvfarc1}
+
+%% Is the point $(1/5,18/5)$ really 2 units away from $(-1,2)$? We use the Distance Formula to check:
+%% $$d = \sqrt{\left(\frac15-(-1)\right)^2+ \left(\frac{18}5-2\right)^2} = \sqrt{\frac{36}{25}+\frac{64}{25}} = \sqrt{4}=2.$$
+%% Yes, $s(2)$ is indeed 2 units away, in the direction of travel, from the initial point.
+%% }\\
+
+%% Things worked out very nicely in Example \ref{ex_vvfarc1}; we were able to establish directly that $s=5t$. Usually, the arc length parameter is much more difficult to describe in terms of $t$, a result of integrating a square--root. There are a number of things that we can learn about the arc length parameter from Equation \eqref{eq:vvfarc}, though, that are incredibly useful.
+
+%% First, %consider Equation \eqref{eq:vvfarc} and 
+%% take the derivative of $s$ with respect to $t$. The Fundamental Theorem of Calculus (see Theorem \ref{thm:FTC1}) states that
+%% \begin{equation}
+%% \frac{ds}{dt}=s\,'(t) = \norm{\vrp(t)}.\label{eq:vvfarc3}
+%% \end{equation}
+%% Letting $t$ represent time and $\vec r(t)$ represent position, we see that the rate of change of $s$ with respect to $t$ is speed; that is, the rate of change of ``distance traveled'' is speed, which should match our intuition.
+
+%% The Chain Rule states that 
+%% \begin{align*}
+%% \frac{d\vec r}{dt} &= \frac{d\vec r}{ds}\cdot\frac{ds}{dt}\\
+%% \vrp(t) &= \vrp(s)\cdot \norm{\vrp(t)}.
+%% \end{align*}
+%% Solving for $\vrp(s)$, we have 
+%% \begin{equation}
+%% \vrp(s) = \frac{\vrp(t)}{\norm{\vrp(t)}} = \vec T(t),\label{eq:vvfarc2}
+%% \end{equation}
+%% where $\vec T(t)$ is the unit tangent vector. Equation \ref{eq:vvfarc2} is often misinterpreted, as one is tempted to think it states $\vrp(t) = \vec T(t)$, but there is a big difference between $\vrp(s)$ and $\vrp(t)$. The key to take from it is that $\vrp(s)$ is a unit vector. In fact, the following theorem states that this characterizes the arc length parameter.
+
+%% \theorem{thm:arclengthparam}{Arc Length Parameter}
+%% {Let $\vec r(s)$ be a vector-valued function. The parameter $s$ is the arc length parameter if, and only if, $\norm{\vrp(s)} = 1.$\index{arc length parameter}
+%% }
+
+%% \noindent\textbf{\large Curvature}\\
+
+%% Consider points $A$ and $B$ on the curve graphed in Figure \ref{fig:curvatureintro} (a). One can readily argue that the curve curves more sharply at $A$ than at $B$. It is useful to use a number to describe how sharply the curve bends; that number is the \textbf{curvature} of the curve.
+%% \mtable{.5}{Establishing the concept of curvature.}{fig:curvatureintro}{%
+%% \begin{tabular}{c}
+%% \myincludegraphics{figures/figcurvature_intro}\\
+%% (a)\\[10pt]
+%% \myincludegraphics{figures/figcurvature_introb}\\
+%% (b)
+%% \end{tabular}
+%% }
+
+%% We derive this number in the following way. Consider Figure \ref{fig:curvatureintro} (b), where  unit tangent vectors are graphed around points $A$ and $B$. Notice how the direction of the unit tangent vector changes quite a bit near $A$, whereas it does not change as much around $B$. This leads to an important concept: measuring the rate of change of the unit tangent vector with respect to arc length gives us a measurement of curvature.
+
+%% \definition{def:curvature}{Curvature}
+%% {Let $\vec r(s)$ be a vector-valued function where $s$ is the arc length parameter. The curvature $\kappa$ of the graph of $\vec r(s)$ is
+%% \index{curvature}\index{unit tangent vector!and curvature}
+%% $$\kappa = \snorm{\frac{d\vec T}{ds}} = \snorm{\vec T\,'(s)}.$$
+%% }\\
+
+%% If $\vec r(s)$ is parametrized by the arc length parameter, then 
+%% $$\vec T(s) = \frac{\vrp(s)}{\norm{\vrp(s)}} \quad \text{and}\quad \vec N(s) = \frac{\vec T\,'(s)}{\norm{\vec T\,'(s)}}.$$
+%% Having defined $\norm{\vec T\,'(s)} =\kappa$, we can rewrite the second equation as
+%% \begin{equation}\vec T\,'(s) = \kappa\vec N(s).\label{eq:curvature}
+%% \end{equation}
+%% We already knew that $\vec T\,'(s)$ is in the same direction as $\vec N(s)$; that is, we can think of $\vec T(s)$ as being ``pulled'' in the direction of $\vec N(s)$. How ``hard'' is it being pulled? By a factor of $\kappa$. When the curvature is large, $\vec T(s)$ is being ``pulled hard'' and the direction of $\vec T(s)$ changes rapidly. When $\kappa$ is small, $T(s)$ is not being pulled hard and hence its direction is not changing rapidly. 
+
+%% We use  Definition \ref{def:curvature}  to find the curvature of the line in Example \ref{ex_vvfarc1}.\\
+
+%% \example{ex_curvature1}{Finding the curvature of a line}
+%% {Use Definition \ref{def:curvature} to find the curvature of $\vrt = \la 3t-1,4t+2\ra$.}
+%% {In Example \ref{ex_vvfarc1}, we found that the arc length parameter was defined by $s=5t$, so $\vec r(s) =\la 3t/5-1, 4t/5+2\ra$ parametrized $\vec r$ with the arc length parameter. To find $\kappa$, we need to find $\vec T\,'(s)$. 
+%% \begin{align*}
+%% \vec T(s) &= \vrp(s)\quad \text{(recall this is a unit vector)}\\
+%% 				&= \la 3/5, 4/5\ra.
+%% \intertext{Therefore}
+%% \vec T\,'(s) &= \la 0,0\ra
+%% \intertext{and}
+%% \kappa&=\snorm{\vec T\,'(s)} = 0.
+%% \end{align*}
+%% It probably comes as no surprise that the curvature of a line is 0. (How ``curvy'' is a line? It is not curvy at all.)
+%% }\\
+
+
+
+%% While the definition of curvature is a beautiful mathematical concept, it is nearly impossible to use most of the time; writing $\vec r$ in terms of the arc length parameter is generally very hard. Fortunately, there are other methods of calculating this value that are much easier. There is a tradeoff: the definition is ``easy'' to understand though hard to compute, whereas these other formulas are easy to compute though hard to understand why they work.
+%% \clearpage
+
+%% \theorem{thm:curvature_formulas}{Formulas for Curvature}
+%% {Let $C$ be a smooth curve on an open interval $I$ in the plane or in space.
+%% \index{curvature!equations for}
+%% \begin{enumerate}
+%% 	\item If $C$ is defined by $y=f(x)$, then 
+%% 	$$\kappa = \frac{|\fp'(x)|}{\Big(1+\big(\fp(x)\big)^2\Big)^{3/2}}.$$
+%% 	\item	If $C$ is defined as a vector-valued function in the plane, $\vec r(t) = \la x(t), y(t)\ra$, then
+%% 	$$\kappa = \frac{|x'y''-x''y'|}{\big((x')^2+(y')^2\big)^{3/2}}.$$
+%% 	\item If $C$ is defined in space by a vector-valued function $\vec r(t)$, then
+%% $$\kappa = \frac{\norm{\vec T\,'(t)}}{\norm{\vrp(t)}} = \frac{\norm{\vrp(t)\times\vrp'(t)}}{\norm{\vrp(t)}^3} = \frac{\vec a(t)\cdot \vec N(t)}{\norm{\vec v(t)}^2}.$$
+%% \end{enumerate}
+%% }
+
+%% We practice using these formulas.\\
+
+%% \example{ex_curvature2}{Finding the curvature of a circle}{
+%% Find the curvature of a circle with radius $r$, defined by $\vec r(t) = \la r\cos t,r\sin t\ra$.
+%% \index{curvature!of circle}}
+%% {Before we start, we should expect the curvature of a circle to be constant, and not dependent on $t$. (Why?)
+
+%% We compute $\kappa$ using the second part of Theorem \ref{thm:curvature_formulas}.
+%% \begin{align*}
+%% \kappa &= \frac{|(-r\sin t)(-r\sin t) - (-r\cos t)(r\cos t)|}{\big( (-r\sin t)^2+(r\cos t)^2\big)^{3/2}} \\
+%% 			&= \rule{0pt}{20pt}\frac{r^2(\sin^2t+\cos^2t)}{\big(r^2(\sin^2t+\cos^2t)\big)^{3/2}}\\
+%% 			&= \rule{0pt}{20pt}\frac{r^2}{r^3} = \frac1r.
+%% \end{align*}
+%% We have found that a circle with radius $r$ has curvature $\kappa = 1/r$.
+%% }\\
+
+%% Example \ref{ex_curvature2} gives a great result. Before this example,
+%% if we were told ``The curve has a curvature of 5 at point $A$,'' we
+%% would have no idea what this really meant. Is 5 ``big,'' does is
+%% correspond to a really sharp turn, or a not-so-sharp turn? Now we can
+%% think of 5 in terms of a circle with radius 1/5. Knowing the units
+%% (inches vs.\ miles, for instance) allows us to determine how sharply
+%% the curve is curving.  \\
+
+%% Let a point $P$ on a smooth curve $C$  be given, and let $\kappa$ be the curvature of the curve at $P$. A circle that:
+%% 	\begin{itemize}
+%% 		\item passes through $P$,
+%% 		\item	lies on the concave side of $C$,
+%% 		\item	has a common tangent line as $C$ at $P$ and
+%% 		\item	has radius $r=1/\kappa$ (hence has curvature $\kappa$)
+%% 	\end{itemize}
+%% is the \textbf{osculating circle}, or \textbf{circle of curvature}, to $C$ at $P$, and $r$ is the \textbf{radius of curvature}. \index{curvature!of circle}\index{osculating circle}\index{circle of curvature}\index{radius of curvature}\index{curvature!radius of}%
+%% Figure \ref{fig:curvature_osculate} shows the graph of the curve seen earlier in Figure \ref{fig:curvatureintro} and its osculating circles at $A$ and $B$. A sharp turn corresponds to a circle with a small radius; a gradual turn corresponds to a circle with a large radius. Being able to think of curvature in terms of the radius of a circle is very useful.
+%% \mfigure{.7}{Illustrating the osculating circles for the curve seen in Figure \ref{fig:curvatureintro}.}{fig:curvature_osculate}{figures/figcurvature_introc}
+%%  %\\
+%% %\mnote{.65}{\textbf{Note:} 
+%%  (The word ``osculating'' comes from a Latin word related to kissing; an osculating circle ``kisses'' the graph at a particular point. Many beautiful ideas in mathematics have come from studying the osculating circles to a curve.)\\
+
+%% \example{ex_curvature3}{Finding curvature}{
+%% Find the curvature of the parabola defined by $y=x^2$ at the vertex and at $x=1$.}
+%% {We use the first formula found in Theorem \ref{thm:curvature_formulas}. 
+%% \begin{align*}
+%% \kappa(x) &= \frac{|2|}{\big(1+(2x)^2\big)^{3/2}} \\
+%% 			&= \frac2{\big(1+4x^2\big)^{3/2}}.
+%% \end{align*}\
+%% \mfigure{.4}{Examining the curvature of $y=x^2$.}{fig:curvature3}{figures/figcurvature3}
+%% At the vertex ($x=0$), the curvature is $\kappa = 2$. At $x=1$, the curvature is $\kappa = 2/(5)^{3/2} \approx 0.179.$ So at $x=0$, the curvature of $y=x^2$ is that of a circle of radius $1/2$; at $x=1$, the curvature is that of a circle with radius $\approx 1/0.179 \approx 5.59$. This is illustrated in Figure \ref{fig:curvature3}. At $x=3$, the curvature is $0.009$; the graph is nearly straight as the curvature is very close to 0. 
+%% }\\
+
+%% \example{ex_curvature4}{Finding curvature}{
+%% Find where the curvature of $\vec r(t) = \la t, t^2, 2t^3\ra $ is maximized.}
+%% {We use the third formula in Theorem \ref{thm:curvature_formulas} as $\vrt$ is defined in space. We leave it to the reader to verify that 
+%% $$\vrp(t) =\la 1,2t,6t^2\ra,\quad \vrp'(t) = \la 0,2,12t\ra,\quad \text{and}\quad \vrp(t)\times \vrp'(t) = \la 12t^2,-12t,2\ra.$$
+%% \mtable{.7}{Understanding the curvature of a curve in space.}{fig:curvature4}{%
+%% \begin{tabular}{c}
+%% \myincludegraphics{figures/figcurvature4a}\\
+%% (a)\\[10pt]
+%% \myincludegraphics[scale=1.25,trim=5mm 5mm 5mm 5mm,clip]{figures/figcurvature4}\\
+%% (b)
+%% \end{tabular}
+%% }
+%% Thus 
+%% \begin{align*}
+%% \kappa(t) &= \frac{\norm{\vrp(t)\times\vrp'(t)}}{\norm{\vrp(t)}^3} \\
+%% 				&= \rule{0pt}{20pt}\frac{\norm{\la 12t^2,-12t,2\ra}}{\norm{\la 1,2t,6t^2\ra}^3} \\
+%% 				&= \rule{0pt}{20pt}\frac{\sqrt{\rule{0pt}{8.5pt}144t^4+144t^2+4}}{\left(\sqrt{\rule{0pt}{8.5pt}1+4t^2+36t^4\ }\right)^3}
+%% \end{align*}
+%% While this is not a particularly ``nice'' formula, it does explictly tell us what the curvature is at a given $t$ value. To maximize $\kappa(t)$, we should solve $\kappa'(t)=0$ for $t$. This is doable, but \emph{very} time consuming. Instead, consider the graph of $\kappa(t)$ as given in Figure \ref{fig:curvature4} (a). We see that $\kappa$ is maximized at two $t$ values; using a numerical solver, we find these values are $t\approx\pm 0.189$. In part (b) of the figure we graph $\vrt$ and indicate the points where curvature is maximized.
+%% }\\
+
+%% \noindent\textbf{\large Curvature and Motion}\\
+
+%% Let $\vec r(t)$ be a position function of an object, with velocity $\vvt = \vrp(t)$ and acceleration $\vec a(t)=\vrp'(t)$. In Section \ref{sec:tan_norm} we established that acceleration is in the plane formed by $\vec T(t)$ and $\vec N(t)$, and that we can find scalars $a_\text{T}$ and $a_\text{N}$ such that 
+%% \index{curvature!and motion}\index{unit tangent vector!and curvature}\index{unit normal vector!and curvature}\index{at@$a_\text{T}$}\index{an@$a_\text{N}$}
+%% $$\vat = a_\text{T}\vec T(t) + a_\text{N}\vec N(t).$$ Theorem \ref{thm:acc_plane} gives formulas for $a_\text{T}$ and $a_\text{N}$:
+%% $$a_\text{T} = \frac{d}{dt}\Big(\norm{\vvt}\Big) \quad \text{and} \quad a_\text{N} = \frac{\norm{\vvt\times \vat}}{\norm{\vvt}}.$$
+%% We understood that the amount of acceleration in the direction of $\vec T$ relates only to how the speed of the object is changing, and that the amount of acceleration in the direction of $\vec N$ relates to how the direction of travel of the object is changing. (That is, if the object travels at constant speed, $a_\text{T}=0$; if the object travels in a constant direction, $a_\text{N}=0$.)
+
+
+%% In Equation \eqref{eq:vvfarc3} at the beginning of this section, we found
+%% $s\,'(t) = \norm{\vvt}$. We can combine this fact with the above formula for $a_\text{T}$ to write
+%% $$a_\text{T} = \frac{d}{dt}\Big(\norm{\vvt}\Big) = \frac{d}{dt}\big( s\,'(t)\big) = s\,''(t).$$
+%% Since $s\,'(t)$ is speed, $s\,''(t)$ is the rate at which speed is changing with respect to time. We see once more that the component of acceleration in the direction of travel relates only to speed, not to a change in direction.
+
+%% Now compare the formula for $a_\text{N}$ above to the formula for curvature in Theorem \ref{thm:curvature_formulas}:
+%% $$a_\text{N} = \frac{\norm{\vvt\times \vat}}{\norm{\vvt}}\quad \text{and}\quad \kappa = \frac{\norm{\vrp(t)\times\vrp'(t)}}{\norm{\vrp(t)}^3}=\frac{\norm{\vvt\times \vat}}{\norm{\vvt}^3} .$$
+%% Thus 
+%% \begin{align}
+%% a_\text{N} &= \kappa \norm{\vvt}^2 \label{eq:curvature_an}\\
+%% 				&= \kappa\Big(s\,'(t)\Big)^2\notag
+%% \end{align}
+
+%% This last equation shows that the component of acceleration that changes the object's direction is dependent on two things: the curvature of the path and the speed of the object.
+
+%% Imagine driving a car in a clockwise circle. You will naturally feel a force pushing you towards the door (more accurately, the door is pushing you as the car is turning and you want to travel in a straight line). If you keep the radius of the circle constant but speed up, the door pushes harder against you ($a_\text{N}$ has increased). If you keep your speed constant but tighten the turn, once again the door will push harder against you.
+
+%% Putting our new formulas for $a_\text{T}$ and $a_\text{N}$ together, we have 
+%% $$\vat = s\,''(t)\vec T(t) + \kappa\norm{\vvt}^2\vec N(t).$$
+%% This is not a particularly practical way of finding $a_\text{T}$ and $a_\text{N}$, but it reveals some great concepts about how acceleration interacts with speed and the shape of a curve.\\
+
+%% \example{ex_curvature5}{Curvature and road design}{
+%% The minimum radius of the curve in a highway cloverleaf is determined by the operating speed, as given in the table in Figure \ref{fig:curvature5}. For each curve and speed, compute $a_\text{N}$.}
+%% {\mtable{.32}{Operating speed and minimum radius in highway cloverleaf design.}{fig:curvature5}{%
+%% \begin{tabular}{cc}
+%% \parbox{50pt}{\centering Operating\\Speed (mph)} & \parbox{50pt}{\centering Minimum\\Radius (ft)} \\ \hline
+%% 35 & 310\\
+%% 40 & 430\\
+%% 45 & 540
+%% \end{tabular}
+%% }
+%% Using Equation \eqref{eq:curvature_an}, we can compute the acceleration normal to the curve in each case. We start by converting each speed from ``miles per hour'' to ``feet per second'' by multiplying by $5280/3600$.
+
+%% \begin{align*}
+%% \text{35mph, 310ft } &\Rightarrow 51.33\text{ft/s},\quad \kappa = 1/310 \\
+%% 			a_\text{N}&= \kappa\ \norm{\vvt}^2\\ 
+%% 							&= \frac1{310}\big(51.33\big)^2 \\
+%% 							&= 8.50\text{ft/s}^2.
+%% \end{align*}
+%% \begin{align*}
+%% \text{40mph, 430ft } &\Rightarrow 58.67\text{ft/s},\quad \kappa = 1/430 \\
+%% 			a_\text{N}&= \frac1{430}\big(58.67\big)^2 \\
+%% 							&= 8.00\text{ft/s}^2.
+%% \end{align*}
+%% \begin{align*}
+%% \text{45mph,540ft } &\Rightarrow 66\text{ft/s},\quad \kappa = 1/540 \\
+%% 			a_\text{N}&= \frac1{540}\big(66\big)^2 \\
+%% 							&= 8.07\text{ft/s}^2.
+%% \end{align*}
+%% Note that each acceleration is similar; this is by design. Considering the classic ``Force $=$ mass $\times$ acceleration'' formula, this acceleration must be kept small in order for the tires of a vehicle to keep a ``grip'' on the road. If one travels on a turn of radius 310ft at a rate of 50mph, the acceleration is double, at 17.35ft/s$^2$. If the acceleration is too high, the frictional force created by the tires may not be enough to keep the car from sliding. Civil engineers routinely compute a ``safe'' design speed, then subtract 5-10mph to create the posted speed limit for additional safety.
+%% }\\
+
+%% We end this chapter with a reflection on what we've covered. We started with vector-valued functions, which may have seemed at the time to be just another way of writing parametric equations. However, we have seen that the vector perspective has given us great insight into the behavior of functions and the study of motion. Vector-valued position functions convey displacement, distance traveled, speed, velocity, acceleration and curvature information, each of which has great importance in science and engineering.
+
+\end{document}

@@ -1,0 +1,529 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+
+\outcome{Identify separable differential equation.}
+\outcome{Compute general solution of a separable differential equation.}
+\outcome{Find implicit solutions of a separable differential equation.}
+
+\title[Dig-In:]{Separable differential equations}
+
+\begin{document}
+\begin{abstract}
+  Separable differential equations are those in which the dependent and independent variables can be separated on opposite sides of the equation.
+\end{abstract}
+\maketitle
+
+In this section we will see that the phrase
+\begin{quote}
+  Divide and Conquer
+\end{quote}
+is literally true (with the mathematical definition of ``divide'') in
+the context of differential equations. Rather than talk about math,
+let's just show you what we're getting at.
+
+\begin{example}
+  Solve the differential equation
+  \[
+  y'(x) = x\cdot y(x)^2
+  \]
+  where $y(0)= 5$.
+  \begin{explanation}
+    We're going to divide an conquer, literally. Divide both sides of
+    \[
+    y'(x) = x\cdot y(x)^2
+    \]
+    by $y(x)^2$ to find
+    \[
+    \frac{y'(x)}{y(x)^2} = \answer[given]{x}.
+    \]
+    Now integrate both sides with respect to $x$
+    \begin{align*}
+      \int \frac{y'(x)}{y(x)^2} \d x &= \int x \d x,\\
+      \frac{-1}{y(x)} &= \answer[given]{\frac{x^2}{2}}+C
+    \end{align*}
+    and solve for $y(x)$ to find
+    \[
+    y(x) = \answer[given]{\frac{-1}{\frac{x^2}{2}+C}}.
+    \]
+    Since $y(0) =5$ we write
+    \begin{align*}
+    5&= y(0)\\
+    &=\frac{-1}{C}
+    \end{align*}
+    So $C= -1/5$. Our final answer is
+    \[
+    y(x) = \frac{-1}{\frac{x^2}{2} \answer[given]{-\frac{1}{5}}}.
+    \]
+  \end{explanation}
+\end{example}
+
+Now that we've seen an example, let's give discuss this in general.
+
+\begin{definition}
+  A \dfn{separable differential equation} is a differential equation
+  which can be written in the form
+  \[
+  G(y) y' = H(x)
+  \]
+  In other words, the independent variable $x$ and the function $y$
+  can be placed on \textbf{separate} sides of the equals sign.
+\end{definition}
+
+\begin{warning}
+  Calculus has lots of different notation. Each of these expressions
+  means exactly the same thing:
+  \begin{itemize}
+  \item $y' = r\cdot y(1-y)$
+  \item $y'(x) = r\cdot y(x)(1-y(x))$
+  \item $\dd[y]{x} = r \cdot y(1-y)$
+  \item $\dd{x} y(x) = r\cdot y(x) (1-y(x))$
+  \end{itemize}
+  We will work with all the notation above.
+\end{warning}
+
+\begin{question}
+  Which of the following are separable differential equations?  Select all that apply.
+  \begin{selectAll}
+    \choice[correct]{$y' = y/x$}
+    \choice{$y' = \sqrt{x^2+y^2}$}
+    \choice[correct]{$\cos(y(x))y'(x) = \frac{x}{1+y(x)}$}
+    \choice[correct]{$\dd[y]{x} = y+5$}
+    \choice{$y'(x) = \sin(x+y(x))$}
+    \choice{$\dd[y]{x} + x^2 y= x$}
+    \choice{$\dd{x} y(x) = \sin(x) y(x) - \cos(x)$}
+    \choice[correct]{$\dd{x} y(x) = -5 y(x)^{1/3}$}
+  \end{selectAll}
+  \begin{hint}
+    To be a separable differential equation, we must collect $y$ and
+    $y'$ on one side, and $x$ on the other. Typically, you will do
+    this with multiplication or division.
+  \end{hint}
+\end{question}
+
+The reason we care about separable differential equations is that:
+\begin{itemize}
+\item Separable differential equations help model many real-world contexts.
+\item Separable differential equations are solvable by humans.
+\end{itemize}
+The basic ideas is if
+\[
+G(y)y' = H(x)
+\]
+then we can integrate both sides, writing
+\begin{align*}
+  G(y)y'  &= H(x)\\
+  \int G(y) y' \d x &= \int H(x) \d x\\
+  \int G(y) \d y &= \int H(x) \d x
+\end{align*}
+If we can symbolically compute these integrals, then we can solve for
+$y$. It is now time to work some examples. 
+
+
+\subsection{Proportional reasoning}
+
+In this example, we will show the power of knowing that one quantity
+is proportional to another.
+
+\begin{example}
+  A snowball has a radius of $2$ inches. After $1.5$ hours, it has a
+  radius of $1$ inch. Assume
+  \begin{itemize}
+  \item the radius changes at rate proportional to the snowball's
+    surface area, and
+  \item the surface area is proportional to the square of the
+    snowball's radius.
+  \end{itemize}
+  When is the radius of the snowball $0.1$ inches?
+  \begin{explanation}
+    We'll do this by setting up a differential equation. Let $r$ be
+    the radius of the snowball. From the statement of the problem we
+    have
+    \[
+    \dd[r]{t} = k_1 \cdot \text{(surface area)}
+    \]
+    and
+    \[
+    \text{(surface area)} = k_2 \cdot r^2,
+    \]
+    hence
+    \[
+    \dd[r]{t} = k_1 \cdot k_2 \cdot r^2.
+    \]
+    Letting $K = k_1\cdot k_2$ we now can write
+    \[
+    \dd[r]{t} = \answer[given]{K}\cdot r^2.
+    \]
+    We now have a differential equation. Let's divide and
+    conquer. Write with me
+    \[
+    \answer[given]{\frac{1}{r^2}}\dd[r]{t} = K
+    \]
+    integrating both sides with respect to $t$ we find
+    \begin{align*}
+      \int \answer[given]{\frac{1}{r^2}}\dd[r]{t}\d t &= \int K \d t\\
+      \int \answer[given]{\frac{1}{r^2}}\d r &= \int K \d t\\
+      \answer[given]{\frac{-1}{r}} &= K\cdot t+C\\
+      \frac{1}{r} &= -K\cdot t- C\\
+      r &=\answer[given]{\frac{1}{-K\cdot t- C}}.
+    \end{align*}
+    We know that $r(0) = \answer[given]{2}$, so let's put that information to use
+    \begin{align*}
+      \answer[given]{2} &= r(0)\\
+      \answer[given]{2} &= \frac{1}{-K\cdot 0- C}\\
+      \answer[given]{2} &= \frac{1}{- C}\\
+      C &= \answer[given]{-1/2}.
+    \end{align*}
+    We also know that $r(1.5) = \answer[given]{1}$. Again write with me, noting that
+    $1.5 = 3/2$
+    \begin{align*}
+    \answer[given]{1} &= r(3/2)\\
+    \answer[given]{1} &= \frac{1}{-K\cdot 3/2 +1/2}\\
+    -K\cdot 3/2 +1/2 &=1\\
+    -K\cdot 3 +1 &=2\\
+    -K\cdot 3 &=1\\
+    K &=\answer[given]{-1/3}.
+    \end{align*}
+    Hence
+    \[
+    r(t) = \answer[given]{\frac{1}{t/3+1/2}}.
+    \]
+    To find when the radius is $0.1$ inches, solve
+    \[
+    0.1 = \frac{1}{t/3+1/2}
+    \]
+    and we find $t$ is $\answer[given]{28.5}$ hours.
+  \end{explanation}
+\end{example}
+Some things to note about our last example:
+\begin{itemize}
+\item It was solved \textit{without} using the formula for the surface area
+of a sphere. For us, it was sufficient to know that the surface area
+of a sphere is proportional to the square of the radius.
+\item Our solution, $r(t) = \frac{1}{t/3+1/2}$ can be plotted in the
+  slope field determined by $r'=(-1/3)r^2$:
+  \begin{image}
+    {\def\length{sqrt(1+((-1/3)*y^2)^2)}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=0, xmax=6,ymin=0,ymax=6,domain=0:6,view={0}{90},
+            axis lines =center, xlabel=$t$, ylabel=$r$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ] 
+          \addplot3 [penColor, quiver={u={1/\length}, v={((-1/3)*y^2)/(\length)},scale arrows=.2},samples=20] {0};
+          \addplot[penColor,very thick]{1/((x/3)+1/2)};
+        ]  \end{axis}
+        \end{tikzpicture}}
+  \end{image}
+\end{itemize}
+\begin{question}
+  Which of the following are equilibrium solutions to the differential equation $r'=(-1/3)r^2$?
+  \begin{multipleChoice}
+    \choice[correct]{$r = 0$}
+    \choice{$r = 1$}
+    \choice{$r = t$}
+    \choice{$t = 0$}
+    \choice{$t = 1$}
+  \end{multipleChoice}
+\end{question}
+
+
+
+
+
+\subsection{Exponential and logistic growth}
+
+In the science fiction television series \index{Star Trek}\textit{Star
+  Trek}, a \dfn{tribble} is an alien species that is furry, spherical
+(radius $\approx 5$ inches), that essentially does nothing but eat and
+reproduce. \youtube{p4wM5KvUGEc}
+
+\begin{example}
+  Mr.\ Spock claims that there are $1771561$ tribbles aboard the space
+  station K7, ``assuming one tribble, multiplying with an average
+  litter of ten, producing a new generation every twelve hours over a
+  period of three days.'' Explain Mr.\ Spock's computation.
+  \begin{explanation}
+    Perhaps Mr.\ Spock used an exponential differential equation to
+    model this.  Letting $P$ be the population of tribbles at time $t$
+    (in hours), it makes sense that the rate that the population is
+    growing is proportional to the size of the population; this is the
+    definition of an exponential model. Write with me
+    \[
+    P' = k P.
+    \]
+    Ah, this is a separable differential equation. Let's solve it:
+    \begin{align*}
+      P' &= k P\\
+      \frac{P'}{P} &= k\\
+      \int \frac{P'}{P} \d t &= \int k\d t\\
+      \answer[given]{\ln(P)} &= k\cdot t + C.
+    \end{align*}
+    However we also know that $P(0) = \answer[given]{1}$. Write with me
+    \begin{align*}
+      \ln(P(0)) &= k\cdot 0 + C\\
+      \ln(\answer[given]{1}) &= C\\
+      \answer[given]{0} &=C.
+    \end{align*}
+    After $12$ hours, we should have $\answer[given]{11}$ tribbles. So 
+    \[
+    P(12) = \answer[given]{11},
+    \]
+    and we may write
+    \begin{align*}
+      \ln(P(12)) &= k\cdot \answer[given]{12}\\
+    \ln(\answer[given]{11}) &= k\cdot \answer[given]{12}\\
+    \answer[given]{\frac{\ln(11)}{12}} &= k.
+    \end{align*}
+    Hence we can model the population growth with
+    \begin{align*}
+      \ln(P(t)) &= \frac{\ln(11)}{12}\cdot t\\
+      P(t) &= e^{\frac{\ln(11)}{12} \cdot t}\\
+      P(t) &= \answer[given]{11}^{t/12}.
+    \end{align*}
+    Checking this with Mr.\ Spock's computation, we see that
+    \begin{align*}
+      P(72) &= 11^{72/12}\\
+      &= 11^6\\
+      &=1771561.
+    \end{align*}
+    just as Mr.\ Spock stated.
+  \end{explanation}
+\end{example}
+
+If we graph the solution to the differential equation representing the
+population of tribbles that we found above
+\begin{image}
+  \begin{tikzpicture}
+      \begin{axis}[
+          xmin=0, xmax=100,domain=0:100,clip=false,width=4in,height=2in,
+          axis lines =center, xlabel=$t$, ylabel=$P$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+        ] 
+        \addplot[penColor,very thick,smooth]{e^(.2*x)};
+      ]  \end{axis}
+      \end{tikzpicture}
+\end{image}
+we see that some time after $72$ hours, the growth rate of the
+tribbles explodes. In reality this would be an \textbf{ecological
+  disaster}. Exponential growth can be scary.
+
+Now we will see a model of population growth with environmental
+limitations. Suppose that the birthrate of the tribbles is limited by
+how much food and space is available. This gets us to the idea of \textit{carrying capacity}.
+
+\begin{definition}
+  The \dfn{carrying capacity} of a biological system is the maximum
+  population that can be sustained indefinitely with the given
+  resources.
+\end{definition}
+
+Let's work an example involving this concept:
+
+\begin{example}
+Suppose that the carrying capacity of tribbles aboard a space station
+is $1000$ tribbles, we start with $1$ tribble, and that growth rate
+(per tribble) is $10$ tribbles every twelve hours. Model this
+population with a differential equation.
+\begin{explanation}
+  First, note that the population of tribbles is proportional to the
+  \textbf{product} $P$ and $1000-P$. This makes sense as when $P$ is
+  small, the growth rate should be small; and when $1000-P$ is small,
+  the growth rate should also be small. Write with me
+  \[
+  \dd[P]{t}  = k \cdot P (1000-P)
+  \]
+  Ah! This is a separable differential equation. Let's solve it:
+  \begin{align*}
+    \dd[P]{t}  &= k \cdot P (1000-P)\\
+    \frac{1}{P (1000-P)}\dd[P]{t}  &= k \\
+    \int \frac{1}{P (1000-P)}\dd[P]{t}\d t  &= \int k\d t \\
+    \int \answer[given]{\frac{1}{P (1000-P)}} \d P  &= \int k\d t.
+  \end{align*}
+  Use partial fraction decomposition to compute the antiderivative:
+  \[
+    \frac{1}{1000}\ln\left(\answer[given]{\frac{P}{1000-P}}\right)   = k\cdot t + C.
+  \]
+  However we also know that $P(0) = \answer[given]{1}$. Write with me
+  \begin{align*}
+      \frac{1}{1000}\ln\left(\frac{P(0)}{1000-P(0)}\right)  &= k\cdot 0 + C\\
+      \frac{1}{1000}\ln\left(\frac{1}{999}\right)  &= C\\
+      \answer[given]{\frac{-\ln(999)}{1000}}  &= C.
+  \end{align*}
+  After $12$ hours, we should have $\answer[given]{11}$ tribbles. So 
+  \[
+  P(12) = \answer[given]{11},
+  \]
+  and we may write
+  \begin{align*}
+    \frac{1}{1000}\ln\left(\frac{P(12)}{1000-P(12)}\right) &= k\cdot 12-\frac{\ln(999)}{1000}\\
+    \ln\left(\frac{11}{989}\right) &= k\cdot 12000-\ln(999) \\
+    \frac{\ln(10989)-\ln(989)}{12000} &= k.
+  \end{align*}
+  Hence we can model the population growth with
+  \[
+  \frac{1}{1000}\ln\left(\frac{P(t)}{1000-P(t)}\right) = \frac{\ln(10989)-\ln(989)}{12000}\cdot t - \frac{\ln(999)}{1000}
+  \]
+  \begin{align*}
+    \ln\left(\frac{P(t)}{1000-P(t)}\right)  &= \frac{\ln(10989)-\ln(989)}{12}\cdot t - \ln(999)\\
+    \frac{P(t)}{1000-P(t)}  &= \left(\frac{10989}{989}\right)^{t/12}\cdot \frac{1}{999}
+  \end{align*}
+  Solving for $P(t)$ we find
+  \[
+  P(t) = \frac{\left(\frac{10989}{989}\right)^{t/12}\cdot \frac{1000}{999}}{1+\left(\frac{10989}{989}\right)^{t/12}\cdot \frac{1}{999}}.
+  \]
+  If we graph this solution, we see a nice ``S-curve''
+  \begin{image}
+  \begin{tikzpicture}
+      \begin{axis}[
+          xmin=0, xmax=60,domain=0:60,clip=false,width=4in,height=2in,
+          axis lines =center, xlabel=$t$, ylabel=$P$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+        ] 
+        \addplot[penColor,very thick,smooth]{1000*(1-999/(999+(407/989)^(x/12)*3^(x/4)))};
+      ]  \end{axis}
+      \end{tikzpicture}
+\end{image}
+  \end{explanation}
+\end{example}
+
+In our last example we used the differential equation
+\[
+P' = k\cdot P(A-P)
+\]
+This is called the \dfn{logistic differential equation} where $k$ and
+$A$ are constants. Let's examine a slope field for this model with
+some reasonable values of $k$ and $A$:
+ \begin{image}
+    {\def\length{sqrt(1+((.6*y*(2-y))^2)}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+            axis lines =center, xlabel=$t$, ylabel=$r$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ] 
+          \addplot3 [penColor, quiver={u={1/\length}, v={(.6*y*(2-y))/(\length)},scale arrows=.2},samples=20] {0};
+        ]  \end{axis}
+        \end{tikzpicture}}
+  \end{image}
+\begin{question}
+  Which of the following are equilibrium solutions to the differential equation above?
+  \begin{selectAll}
+    \choice[correct]{$P = 0$}
+    \choice{$P = 1$}
+    \choice[correct]{$P = 2$}
+    \choice{$P = t$}
+  \end{selectAll}
+\end{question}
+
+
+
+\subsection{Predator-prey model}
+
+In nature there are animals that are predators and animals that are
+prey. In the early 20th Century, Lotka and Volterra suggested the
+following model to help us understand populations of predators and
+prey. Let
+\begin{align*}
+  x(t) &= \text{population of predators at time $t$}\\
+  y(t) &= \text{population of prey at time $t$}.
+\end{align*}
+Lotka and Volterra made the following assumptions:
+\begin{itemize}
+  \item If there are no prey, then the predators starve at some rate
+    proportional to the number of predators. If there are prey, then
+    the predator's population grows at a rate proportional to the product of the
+    population of the predators and the prey. In the language of calculus we write
+    \[
+    \dd[x]{t} = -p x + q x y.
+    \]
+  \item If there are no predators, then the prey's population grows
+    at some rate proportional to the number of prey. If there are
+    predators, then the prey's population is reduced at a rate
+    proportional to the product of the population of the predators and
+    the prey. In the language of calculus we write
+    \[
+    \dd[y]{t} = r y - s xy.
+    \]
+\end{itemize}
+Taking these two equations, and dividing them we find
+\begin{align*}
+\dd[y]{x} &= \frac{\dd[y]{t}}{\dd[x]{t}}\\
+&=\frac{r y - s xy}{-p x + q x y}\\
+&=\frac{y(r-sx)}{x(qy-p)}.
+\end{align*}
+In the previous examples, it worked out that we could solve for $y$ as
+a function of $x$.  As we will see with the predator-prey model, this
+is not always the case.
+
+\begin{example}
+  Find the solution to the differential equation
+  \[
+  y' = \frac{y(4-2x)}{x(y-3)}
+  \]
+  that passes through the point $(1,e)$.
+  \begin{explanation}
+    To start, note that this is a separable differential equation. Write with me:
+    \begin{align*}
+      y' &= \frac{y(4-2x)}{x(y-3)}\\
+      \frac{(y-3)y'}{3}&=\frac{(4-2x)}{x}\\
+      \int \frac{(y-3)y'}{y}\d x&=\int \frac{(4-2x)}{x}\d x\\
+      \int y'-\frac{3y'}{y}\d x&=\int \frac{4}{x}-2\d x\\
+      \answer[given]{y-3\ln(y)} &=4\ln(x)-2x+C.
+    \end{align*}
+    Remembering that the solution must pass through point $(1,e)$, we write
+    \begin{align*}
+      e-3\ln(e) &=4\ln(1)-2+C\\
+      \answer[given]{e-3} &=-2+C\\
+      \answer[given]{e-1} &=C.
+    \end{align*}
+    Hence we have the following implicit equation relating $x$ and $y$:
+    \[
+    y-3\ln(y) =4\ln(x)-2x+e-1.
+    \]
+    Let's look at this solution along with the slope field:
+    \begin{image}
+      {\def\length{sqrt((-3*x+1*x*y)^2+(4*y-2*x*y)^2)}
+        \begin{tikzpicture}
+          \begin{axis}[
+              xmin=0, xmax=6,ymin=0,ymax=6,domain=0:6,view={0}{90},
+              axis lines =center, xlabel=$x$, ylabel=$y$,
+              every axis y label/.style={at=(current axis.above origin),anchor=south},
+              every axis x label/.style={at=(current axis.right of origin),anchor=west},
+              axis on top,
+            ] 
+            \addplot3 [penColor, quiver={u={(-3*x+1*x*y)/\length}, v={(4*y-2*x*y)/(\length)},scale arrows=.2},samples=20] {0};
+            \addplot [penColor,ultra thick] coordinates {
+              (1.01786, 2.4898) (1.02071, 2.46429) (1.02639, 2.41924) (1.02904,2.39953) (1.03503, 2.35714) (1.03997, 2.32569) (1.04882, 2.27261) (1.05375, 2.25) (1.05574, 2.23431) (1.07143, 2.15663) (1.07392, 2.14535) (1.0745, 2.14286) (1.07554, 2.13874) (1.09611, 2.0604) (1.10466, 2.03571) (1.11647, 1.99067) (1.1205, 1.97764) (1.13999, 1.92857) (1.14926, 1.89926) (1.17857, 1.82845) (1.18074, 1.8236) (1.18195, 1.82143) (1.18508, 1.81492) (1.21723, 1.75294) (1.24181, 1.71429) (1.25769, 1.68626) (1.28571, 1.64637) (1.30252, 1.62394) (1.31592, 1.60714) (1.33929, 1.57989) (1.35223, 1.56651) (1.39286, 1.52748) (1.40722, 1.51436) (1.42626, 1.5) (1.46773, 1.46773) (1.5, 1.44741) (1.53383, 1.42668) (1.60186, 1.39286) (1.60538, 1.3911) (1.60714, 1.39041) (1.61121, 1.38879) (1.68435, 1.36292) (1.71429, 1.35506) (1.76648, 1.34066) (1.76872, 1.34015) (1.82143, 1.33233) (1.86132, 1.32561) (1.89178, 1.32251) (1.92857, 1.32077) (1.96311, 1.32026) (2.03571, 1.31917) (2.10467, 1.3239) (2.14286, 1.32652) (2.19051, 1.33337) (2.25, 1.34192) (2.29202, 1.35084) (2.35714, 1.36465) (2.45998, 1.39286) (2.46329, 1.39385) (2.46429, 1.39422) (2.46633, 1.3949) (2.5419, 1.42238) (2.57143, 1.4352) (2.61797, 1.45346) (2.625, 1.45659) (2.64432, 1.46575) (2.67857, 1.48263) (2.71342, 1.5) (2.76015, 1.52556) (2.78571, 1.54157) (2.8271, 1.56575) (2.8891, 1.60714) (2.89127, 1.60873) (2.89286, 1.6099) (2.90634, 1.62063) (3., 1.69516) (3.01031, 1.70398) (3.02237, 1.71429) (3.10714, 1.79814) (3.11849, 1.81008) (3.12927, 1.82143) (3.21429, 1.92541) (3.21566, 1.92719) (3.21667, 1.92857) (3.22153, 1.93582) (3.29984, 2.05731) (3.34467, 2.14286) (3.37207, 2.19936) (3.42857, 2.34242) (3.43284, 2.35288) (3.43424, 2.35714) (3.43669, 2.36526) (3.47812, 2.52188) (3.48927, 2.57143) (3.50153, 2.64439) (3.51022, 2.70407) (3.51784, 2.78571) (3.52614, 2.88328) (3.52696, 2.90161) (3.52908, 3.) (3.52706, 3.09849) (3.52632, 3.11653) (3.51868, 3.21429) (3.51243, 3.29814) (3.50636, 3.35079) (3.49621, 3.42857) (3.48675, 3.48675) (3.46519, 3.60624) (3.45813, 3.64286) (3.45278, 3.66706) (3.42857, 3.7688) (3.41137, 3.83994) (3.40638, 3.85714) (3.39824, 3.88747) (3.36328, 4.00614) (3.34089, 4.07143) (3.31031, 4.16745) (3.29738, 4.20262) (3.26493, 4.28571) (3.25143, 4.32286) (3.21429, 4.4128) (3.1882, 4.47392) (3.17548, 4.5) (3.144, 4.57029) (3.12043, 4.62043) (3.10714, 4.64782) (3.07282, 4.71429) (3.04736, 4.76165) (3., 4.8473) (2.97011, 4.89868) (2.95023, 4.92857) (2.8883, 5.03116) (2.86792, 5.06065) (2.80978, 5.14286) (2.80035, 5.1575) (2.78571, 5.17749) (2.70636, 5.27779) (2.63354, 5.35714) (2.60553, 5.39124) (2.57143, 5.42683) (2.49626, 5.49626) (2.39792, 5.57143) (2.37613, 5.59041) (2.35714, 5.60392) (2.28181, 5.64676) (2.25, 5.66471) (2.24034, 5.66891) (2.21376, 5.67857) (2.16293, 5.69864) (2.14286, 5.70512) (2.10814, 5.71328) (2.07643, 5.71928) (2.03571, 5.72424) (1.98894, 5.72534) (1.97476, 5.72476) (1.92857, 5.72008) (1.89432, 5.71282) (1.83898, 5.69612) (1.82143, 5.68998) (1.8137, 5.6863) (1.80078, 5.67857) (1.74399, 5.64887) (1.71429, 5.62976) (1.68167, 5.60404) (1.6478, 5.57143) (1.60714, 5.53495) (1.57441, 5.49702) (1.55114, 5.46429) (1.52756, 5.43673) (1.50875, 5.41071) (1.5, 5.39845) (1.48421, 5.37294) (1.47443, 5.35714) (1.44643, 5.31131) (1.44367, 5.30633) (1.44229, 5.30357) (1.43767, 5.29481) (1.41545, 5.25) (1.40678, 5.23607) (1.39286, 5.20902) (1.37211, 5.1636) (1.36456, 5.14286) (1.33902, 5.08955) (1.33869, 5.08869) (1.32005, 5.03571) (1.30913, 5.01229) (1.28571, 4.95041) (1.28019, 4.9341) (1.27876, 4.92857) (1.27472, 4.91757) (1.25371, 4.85343) (1.24575, 4.82143) (1.2281, 4.7719) (1.22495, 4.76066) (1.21393, 4.71429) (1.20486, 4.688) (1.18475, 4.61332) (1.18335, 4.60714) (1.18216, 4.60356) (1.17857, 4.58965) (1.15894, 4.5) (1.15184, 4.47327) (1.14211, 4.42932) (1.13658, 4.39286) (1.12333, 4.34095) (1.12257, 4.33685) (1.11309, 4.28571) (1.10674, 4.2504) (1.0989, 4.20605) (1.09534, 4.17857) (1.09083, 4.15917) (1.07728, 4.07728) (1.0766, 4.07143) (1.07566, 4.06719) (1.07143, 4.04026) (1.06827, 4.01786) (1.06224, 3.97347) (1.061, 3.96429) (1.05944, 3.95229) (1.05003, 3.87854) (1.04737, 3.85714) (1.04413, 3.82985) (1.03868, 3.78275) (1.035, 3.75) (1.03067, 3.70924) (1.02827, 3.68601) (1.02397, 3.64286) (1.0191, 3.59053) (1.01889, 3.58825) (1.01786, 3.57624) (1.01472, 3.53571) (1.01136, 3.48864) (1.01042, 3.47471) (1.00975, 3.42857) (1.00507, 3.38778) (1.0036, 3.36075) (1.0016, 3.32143) (1.00003, 3.28569) (0.99854, 3.24854) (0.99729, 3.21429) (0.996364, 3.18221) (0.99527, 3.13813) (0.99462, 3.10714) (0.994237, 3.07719) (0.993831, 3.02955) (0.995279, 3.) (0.993834, 2.97045) (0.99426, 2.92283) (0.994665, 2.89286) (0.995379, 2.86176) (0.996591, 2.81802) (0.997649, 2.78571) (0.999145, 2.75086) (1.00086, 2.71514) (1.00281, 2.67857) (1.00547, 2.63739) (1.00709, 2.61423) (1.0128, 2.57143) (1.01477, 2.52094) (1.0153, 2.5153) (1.01786, 2.4898)
+              };
+          ]  \end{axis}
+          \end{tikzpicture}}
+    \end{image}
+    From this graph, we can see the cyclic nature of the predator-prey
+    relationship, where the population of the predators is on the
+    $x$-axis, and the population of the prey is on the $y$-axis.
+  \end{explanation}
+\end{example}
+
+
+%% \subsection{A substitution}
+
+%% Sometimes equations might not look separable. While it is a bit beyond
+%% the scope of this course, a subsitution can sometimes help.
+
+%% \begin{example}
+%%   Solve the differential equation
+%%   \[
+%%   y' = x+ y
+%%   \]
+%% \end{example}
+\end{document}

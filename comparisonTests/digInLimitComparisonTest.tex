@@ -1,0 +1,120 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Use the limit comparison test to determine if a series diverges or converges.}
+
+\title[Dig-In:]{The limit comparison test}
+
+\begin{document}
+\begin{abstract}
+We compare infinite series to each other using limits.
+\end{abstract}
+\maketitle
+
+Using the comparison test can be hard, because finding the right
+sequence of inequalities is difficult.  The \textit{limit comparison test}
+eliminates this part of the method.
+
+\begin{theorem}[The Limit Comparison Test]\index{limit comparison test}
+  Let $\sum_{k=0}^\infty a_k$ and $\sum_{k=0}^\infty b_k$ be series with positive
+  terms and let
+  \[
+  \lim_{k \to \infty} \frac{a_k}{b_k} = L.
+  \]
+  \begin{itemize}
+  \item If $0<L<\infty$ then either both series converge, or they both diverge.
+  \item If $L=0$ and $\sum b_k$ converges, then $\sum a_k$ converges.
+  \item If $L=\infty$ and $\sum b_k$ diverges, then $\sum a_k$ diverges.
+  \end{itemize}
+\end{theorem}
+
+This theorem should make intuitive sense.
+\begin{itemize}
+\item If $0<L<\infty$ then we have $a_k \approx L \cdot b_k$ for large
+  $k$, so the behavior of the respective series should be the same.
+\item If $L=0$ then $a_k$ should be way less than $b_k$.  So if $b_k$
+  converges, $a_k$ should also converge by the comparison test.
+\item If $L=\infty$, then $a_k$ should be way greater than $b_k$. So
+  if $b_k$ diverges, $a_k$ should also diverge by the comparison test.
+\end{itemize}
+
+The way we actually use this in practice still involves some
+creativity: we have to decide on a ``similar'' series for which we know
+the convergence properties.  However, unlike the comparison test,
+we can just mechanically take a limit of the ratio of our guess with
+our original series, instead of having to ``get our hands dirty''
+with inequalities.
+
+\begin{example}
+  Is $\sum_{k=1}^\infty \frac{\ln(k)}{k^3}$ convergent or divergent?
+  Justify your answer using the limit comparison test.
+  \begin{explanation}
+    We should expect that this series will converge, because $\ln(k)$
+    goes to infinity slower than $k$, so the series is ``no worse''
+    than the $p$-series with $p=2$. In the notation of the theorem,
+    let
+    \[
+    a_k = \frac{\ln(k)}{k^3}.
+    \]
+    We will use the limit comparison test with the series
+    \[
+    \sum_{k=1}^\infty \frac{1}{k^2},
+    \]
+    so that
+    \[
+    b_k = \frac{1}{k^2}.
+    \]
+    To apply the limit comparison test, examine the limit
+    \begin{align*}
+    \lim_{k \to \infty} \frac{a_k}{b_k} &= \lim_{k \to \infty} \frac{\ln(k)}{k} \\
+    &= 0
+    \end{align*}
+    Since $\sum_{k=1}^\infty b_k$ is convergent by the
+    $p$-series test with $p=2$, then the limit comparison
+    test applies, and $\sum_{k=1}^\infty \frac{\ln(k)}{k^3}$
+    must also converge.
+  \end{explanation}
+\end{example}
+
+If the limit comparison test is easier to use than the comparison
+test, why do we even have the comparison test?  Sometimes, 
+the comparison test is actually more powerful.  The next example
+illustrates this idea.
+
+\begin{question}
+  Consider $\sum_{k=1}^\infty \frac{1+\sin(k)}{2^k}$.  What happens 
+  when you try to use each of the comparison tests with $\sum_{k=1}^\infty \frac{1}{2^k}$?
+  \begin{selectAll}
+    \choice{The limit comparison test shows that the original series is convergent.}
+    \choice{The limit comparison test shows that the original series is divergent.}
+    \choice[correct]{The limit comparison test does not apply because the limit in question does not exist.}
+    \choice[correct]{The comparison test can be used to show that the original series converges.}
+    \choice{The comparison test can be used to show that the original series diverges.}
+  \end{selectAll}
+  
+  \begin{hint}
+    $\frac{a_k}{b_k} = 1+\sin(k)$, which does not have a limit as $k
+    \to \infty$, so the limit comparison test does not apply.  On the
+    other hand, we can see that
+    \[
+    0<1+\sin(k)<2,
+    \]
+    so
+    \[
+    \frac{1+\sin(k)}{2^k} < \frac{2}{2^k},
+    \]
+    which is a convergent geometric series with $r = \frac{1}{2}<1$.
+    Thus the original series converges via the comparison test.
+  \end{hint}
+\end{question}
+
+Let's pause another moment to consider the task of choosing a test to use 
+when analyzing a series for convergence or divergence.  Take a few minutes 
+to make a list of all the tests we know so far, and the best situations in which 
+to use each of them.
+
+
+\end{document}
+
+

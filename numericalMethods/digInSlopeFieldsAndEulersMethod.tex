@@ -1,0 +1,739 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Understand what a slope field is.}
+\outcome{Understand what a slope field tells us about a differential equation.}
+\outcome{Define an autonomous differential equation.}
+\outcome{Understand and use Euler's method.}
+\outcome{Sketch slope fields.}
+\outcome{Find equilibrium solutions.}
+
+\title[Dig-In:]{Slope fields and Euler's method}
+
+\begin{document}
+\begin{abstract}
+We describe numerical and graphical methods for understanding
+differential equations.
+\end{abstract}
+\maketitle
+
+
+\section{Slope fields}
+
+We cannot (yet!) solve the differential equation
+\[
+y' = x+y
+\]
+However, from the equation alone, we can describe some facts about the
+solution.
+
+\begin{question}
+  Consider the solution $y$ to the differential equation $y'=x+y$
+  which passes through the point $(1,2)$.  Is $y$ increasing or
+  decreasing at $x=1$?
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice[correct]{increasing}
+    \choice{decreasing}
+  \end{multipleChoice}
+  \end{prompt}
+  \begin{hint}
+    By definition, a solution to this differential equation which
+    passes through $(1,2)$ must have $y(1)=2$, and
+    \begin{align*}
+      y'(1) &= 1+y(1)\\
+      &=1+2\\
+      &=3.
+    \end{align*}
+    This is positive, so the function is increasing at $x=1$.
+  \end{hint}
+\end{question}
+In fact, we can say more. The differential equation
+\[
+y' = x+y
+\]
+tells us the \textbf{slope} of any solution passing through a given
+point.
+\begin{question}
+  Consider the solution $y$ to the differential equation $y'=x+y$
+  which passes through the point $(1,-2)$. What is the slope of the
+  solution $y$ at $x=1?$
+    \begin{hint}
+    By definition, a solution to this differential equation which
+    passes through $(1,-2)$ must have $y(1)=-2$, and
+    \begin{align*}
+      y'(1) &= 1+y(-1)\\
+      &= 1-2=-1.
+    \end{align*}
+    Hence the slope is $-1$ at $x=1$.
+    \end{hint}
+    \begin{prompt}
+      The slope of $y$ at $x=1$ is $\answer{-1}$.
+    \end{prompt}
+\end{question}
+
+Given a differential equation, say $y'=x+y$, we can pick points in the
+plane and compute what the slope of a solution at those points will
+be. Repeating this process, we can generate a \textit{slope field}.
+The slope field for the differential equation $y' = x+y$ looks like
+this:
+\begin{image}
+{\def\length{sqrt(1+(x+y)^2)}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x+y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}
+\end{image}
+
+Let's be explicit:
+\begin{definition}
+  A \dfn{slope field}, also called a \dfn{direction field}, is a
+  graphical aid for understanding a differential equation, formed by:
+  \begin{itemize}
+	\item Choosing a grid of points.
+	\item At each point, computing the slope given by the
+          differential equation, using the $x$ and $y$-values of the
+          point.
+	\item At each point, drawing a short line segment with that
+          slope.
+\end{itemize}
+\end{definition}
+
+Here is the slope field for the differential equation $y'=x+y$, with a
+few solutions of the differential equation also graphed.
+
+\begin{image}
+{\def\length{sqrt(1+(x+y)^2)}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x+y)/(\length)},scale arrows=.2},samples=20] {0};
+    \addplot[penColor,very thick]{e^x-x-1};
+    \addplot[penColor,very thick]{.2*e^x-x-1};
+    \addplot[penColor,very thick]{-e^x-x-1};
+    \addplot[penColor,very thick]{-.2*e^x-x-1};
+    \addplot[penColor,very thick]{-3*e^x-x-1};
+    \addplot[penColor,very thick]{2*e^x-x-1};
+    \addplot[penColor2,very thick]{-x-1};
+]  \end{axis}
+\end{tikzpicture}}
+\end{image}
+Notice that the slope field suggests one solution to this differential
+equation, which is a straight line.
+
+\begin{question}
+  Of the solutions shown in the slope field above, what is the formula
+  for the linear solution?
+  \begin{prompt}
+    \[
+    y = \answer{-1-x}
+    \]
+  \end{prompt}
+\end{question}
+
+
+
+\section{Autonomous differential equations}
+
+
+Consider the following differential equations
+\[
+y' = x^3,\qquad y'=(y+1)(y-2), \qquad y'= x+y.
+\]
+
+The first differential equation, $y' = x^3$, is rather easy to solve,
+we simply integrate both sides. This type of differential equation is
+called a \dfn{pure-time differential equation}. Pure-time differential
+equations express the derivative of the solution explicitly as a
+function of an independent variable. We can symbolically describe a
+pure-time differential equation as
+\[
+\dd[y]{x} = F(x).
+\]
+
+On the other hand, the second differential equation, $y'=(y+1)(y-2)$
+does not involve the independent variable, $x$, at all!  Such
+differential equations are called \textit{autonomous} differential
+equations.
+
+\begin{definition}
+  A differential equation that does not involve the independent
+  variable is called an \dfn{autonomous differential equation}. We can
+  symbolically write
+  \[
+  \dd[y]{x} = F(y)
+  \]
+  to express an autonomous differential equation.
+\end{definition}
+
+Finally the third differential equation, $y'= x+y$, expresses $y'$ as
+a function of both $y$ and the independent variable $x$. Such a
+differential equation is called a \dfn{nonautonomous differential
+  equation}. We can symbolically describe  a nonautonomous differential equation as
+\[
+\dd[y]{x} = F(x,y).
+\]
+\begin{question}
+  Which of the following are autonomous differential equations?
+  \begin{selectAll}
+    \choice[correct]{$y' = y^2+y$}
+    \choice{$y'=x-y$}
+    \choice{$y'=x$}
+    \choice[correct]{$y'=y$}
+    \choice{$y'=-x/y$}
+  \end{selectAll}
+\end{question}
+
+Since autonomous differential equations \textbf{only} depend on the
+function's value their behavior does not depend on the independent
+variable,
+
+\begin{question}
+Which of the five slope fields shown are for autonomous differential
+equations?
+\begin{selectAll}
+\choice[correct]{
+{\def\length{sqrt(1+(y^2+y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(y^2+y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(x-y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x-y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(x)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice[correct]{{\def\length{sqrt(1+(y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(-x/y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(-x/y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+\end{selectAll}
+\begin{hint}
+  If a differential equation is autonomous, then all of the slopes
+  will be the same on each horizontal line.
+\end{hint}
+\begin{question}
+Which of the five slope fields shown are for pure-time
+differential equations?
+\begin{prompt}
+\begin{selectAll}
+\choice{
+{\def\length{sqrt(1+(y^2+y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(y^2+y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(x-y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x-y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice[correct]{{\def\length{sqrt(1+(x)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(-x/y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(-x/y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+\end{selectAll}
+\end{prompt}
+\begin{hint}
+  If a differential equation is pure-time, then all of the slopes
+  will be the same on each vertical line.
+\end{hint}
+\begin{question}
+Which of the five slope fields shown are for differential equations
+that are neither autonomous nor pure-time?
+\begin{prompt}
+  \begin{selectAll}
+\choice{
+{\def\length{sqrt(1+(y^2+y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(y^2+y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice[correct]{{\def\length{sqrt(1+(x-y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x-y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(x)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(x)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice{{\def\length{sqrt(1+(y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+
+\choice[correct]{{\def\length{sqrt(1+(-x/y)^2)}
+\begin{tikzpicture}[framed,scale=.5,baseline=9ex]
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={(-x/y)/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}}
+\end{selectAll}
+\end{prompt}
+  \begin{hint}
+  If a differential equation is neither autonomous nor pure-time, then the slope will change along horizontal lines and vertical lines.
+\end{hint}
+\end{question}
+\end{question}
+\end{question}
+
+
+\begin{question}
+Consider the differential equation $y' = (y+1)(2-y)$, whose slope
+field is given below.  Which of the following statements appear to be
+true?
+
+\begin{image}
+{\def\length{sqrt(1+((y+1)*(2-y))^2)}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={((y+1)*(2-y))/(\length)},scale arrows=.2},samples=20] {0};
+]  \end{axis}
+\end{tikzpicture}}
+\end{image}
+
+\begin{selectAll}
+	\choice[correct]{The solution passing through the origin has $\lim_{x \to \infty} f(x) = 2$.}
+	\choice{The solution passing through $(0,3)$ has $\lim_{x \to \infty} f(x) = \infty$.}
+	\choice[correct]{The solution passing through $(0,-3)$ is always decreasing.}
+	\choice[correct]{There are two solutions which are constant functions.}
+	\choice{Every solution has a vertical tangent line at $x=0$.}
+\end{selectAll}
+\end{question}
+
+Consider the autonomous differential equation:
+\[
+y'=(y+1)(2-y)
+\]
+The constant functions $f(x) = -1$ and $f(x) =2$ are solutions to this
+differential equation.  In fact, for any autonomous differential
+equation $y' = F(y)$, where $F$ is a function of $y$, if $F(c) = 0$
+for any constant $c$, then $y = c$ will be a constant solution to the
+differential equation.  These constant solutions are also known as
+\dfn{equilibrium} solutions. We can witness these solutions if we
+inspect the slope field:
+\begin{image}
+{\def\length{sqrt(1+((y+1)*(2-y))^2)}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot3 [penColor, quiver={u={1/\length}, v={((y+1)*(2-y))/(\length)},scale arrows=.2},samples=20] {0};
+    \addplot[penColor,very thick]{-1};
+    \addplot[penColor,very thick]{2};
+]  \end{axis}
+\end{tikzpicture}}
+\end{image}
+\begin{question}
+Consider the autonomous differential equation $y'=\cos(y)$.  Which of
+the following are equilibrium solutions?
+\begin{selectAll}
+\choice{$\pi$}
+\choice[correct]{$\frac{\pi}{2}$}
+\choice{$0$}
+\choice[correct]{$\frac{-\pi}{2}$}
+\choice{$-\pi$}
+\end{selectAll}
+\begin{hint}
+  Consider the slope field of $y'=\cos(y)$:
+  \begin{image}
+    {\def\length{sqrt(1+(cos(deg(y))^2)}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-3, xmax=3,ymin=-3,ymax=3,domain=-3:3,view={0}{90},
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ] 
+          \addplot3 [penColor, quiver={u={1/\length}, v={cos(deg(y)))/(\length)},scale arrows=.2},samples=20] {0};
+    ]
+        \end{axis}
+\end{tikzpicture}}
+\end{image}
+\end{hint}
+\end{question}
+
+Finally, let's work an example problem:
+
+\begin{example}
+  Consider the differential equation:
+  \[
+  y' = y^2 - 3y+2
+  \]
+  Find all equilibrium solutions.
+  \begin{explanation}
+    First note that this differential equation is
+    \wordChoice{\choice{pure-time}\choice[correct]{autonomous}\choice{nonautonomous}},
+    and hence any solution where $y'=\answer[given]{0}$, will be an
+    equilibrium solution. Hence we must solve the equation
+    \[
+    y^2 -3y + 2 = \answer[given]{0}.
+    \]
+    Write with me to factor
+    \[
+    y^2 -3y + 2 = (y-1)(\answer[given]{y-2}),
+    \]
+    hence $y= 1$ and $y=\answer[given]{2}$ are equilibrium solutions
+    to this differential equation.
+  \end{explanation}
+\end{example}
+
+
+%% In Figure~\ref{figure:slopeFieldExer}, we see a slope field for a
+%% differential equation. If $f(2)=4$, what is your best guess for
+%% $f(5)$?
+
+%% $\answer[given]{3}$
+
+%% In Figure~\ref{figure:slopeFieldExer}, we see a slope field for a
+%% differential equation. If $f(1)=1.1$, what is your best guess for
+%% $f(5)$?
+%% $\answer[given]{3}$
+
+
+%% {\def\length{sqrt(1+(-y^2+4*y-3)^2)}
+%% \begin{tikzpicture}
+%%   \begin{axis}[
+%%       xmin=0, xmax=5,ymin=0,ymax=5,domain=0:5,view={0}{90},
+%%       axis lines =center, xlabel=$x$, ylabel=$y$,
+%%       every axis y label/.style={at=(current axis.above origin),anchor=south},
+%%       every axis x label/.style={at=(current axis.right of origin),anchor=west},
+%%       axis on top,
+%%     ] 
+%%     \addplot3 [penColor, quiver={u={1/\length}, v={(-y^2 +4*y - 3)/(\length)},scale arrows=.2},samples=20] {0};
+%%   \end{axis}
+%% \end{tikzpicture}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Euler's Method}
+
+In science and mathematics, finding exact solutions to differential
+equations is not always possible.  We have already seen that slope
+fields give us a powerful way to understand the qualitative features
+of solutions.  Sometimes we need a more precise quantitative
+understanding, meaning we would like numerical approximations of the
+solutions.
+
+
+Again, suppose you have set up the following differential equation
+\[
+y' = x+y
+\]
+If we know that $y$ solves this differential equation, and $y(0) = 1$,
+how might we go about approximating $y(1)$?  One idea is to repeatedly
+use linear approximation.
+
+Let us approximate just using the two subintervals
+\[
+\left[0,\frac{1}{2}\right]\qquad\text{and}\qquad \left[\frac{1}{2},1\right].
+\]
+Since $y'(0) = 1$, we know that
+\[
+y\left(\frac{1}{2}\right)\approx 1 \cdot \frac{1}{2} + 1 = \frac{3}{2}
+\]
+by linear approximation.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        domain=0:1, xmin =0,xmax=1.1,ymax=3,ymin=-.2,
+        width=6in,
+        height=3in,
+        %xticklabels={$1$,$1.5$,$2$, $2.5$, $3$},
+        %% ytick style={draw=none},
+        %% yticklabels={},
+        axis lines=center, xlabel=$t$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+      \addplot [draw=penColor,ultra thick] plot coordinates {(0,1) (.5,1.5)};
+    \end{axis}
+\end{tikzpicture}
+\end{image}
+But now, we have
+\[
+y'\left(\frac{1}{2}\right) \approx \frac{1}{2}+\frac{3}{2} = 2
+\]
+so
+\[
+y(1) \approx  \frac{1}{2} \cdot 2 + y\left(\frac{1}{2}\right)\approx \frac{5}{2}
+\]
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        domain=0:1, xmin =0,xmax=1.1,ymax=3,ymin=-.2,
+        width=6in,
+        height=3in,
+        %xticklabels={$1$,$1.5$,$2$, $2.5$, $3$},
+        %% ytick style={draw=none},
+        %% yticklabels={},
+        axis lines=center, xlabel=$t$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+      \addplot [draw=penColor,ultra thick] plot coordinates {(0,1) (.5,1.5)};
+      \addplot [draw=penColor,ultra thick] plot coordinates {(.5,1.5) (1,2.5)};
+    \end{axis}
+\end{tikzpicture}
+\end{image}
+Plotting our approximation with the actual solution we find:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        domain=0:1, xmin =0,xmax=1.1,ymax=3,ymin=-.2,
+        width=6in,
+        height=3in,
+        %xticklabels={$1$,$1.5$,$2$, $2.5$, $3$},
+        %% ytick style={draw=none},
+        %% yticklabels={},
+        axis lines=center, xlabel=$t$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+      \addplot [draw=penColor,very thick] plot coordinates {(0,1) (.5,1.5)};
+      \addplot [draw=penColor,very thick] plot coordinates {(.5,1.5) (1,2.5)};
+      \addplot [draw=penColor2,ultra thick] {2*e^x-x-1};
+    \end{axis}
+\end{tikzpicture}
+\end{image}
+This approximation could be improved by using more subintervals.  We
+will now formalize the method of using repeated linear approximation
+to approximate solutions to differential equations, and call it
+\dfn{Euler's Method}.
+
+\begin{definition}[Euler's Method]
+  Consider a differential equation on the interval $[a,b]$
+  \[
+  y' = F(x,y)
+  \]
+  where $F$ is a function of two variables and it is given that $y(a)
+  = y_0$. To approximate $y$ on the interval:
+  \begin{itemize}
+  \item Set $x_0=a$ and $y_0 = y(a)$.
+  \item Decide either a step-size $\d x$ or how many subintervals $n$ you
+    want to divide the interval $[a,b]$ into. Either way:
+    \[
+    n\cdot \d x = b-a \qquad\text{or}\qquad \frac{b-a}{\d x} = n
+    \]
+    and $x_k = k\cdot \d x + a$.
+  \item Iteratively define
+    \[
+    y_{k+1} = y_k + F(x_k,y_k)\d x
+    \]
+    for $k=0,1,\dots,n-1$.
+  \end{itemize}
+  Then $y(x_k) \approx y_k$, and so $y(b) \approx y_{n}$.
+\end{definition}
+
+Let's try an example.
+
+\begin{example}
+Use Euler's method to approximate $y$ on $[0,2]$ where $\d x = .5$ for
+the differential equation
+\[
+y'=x+y
+\]
+where $y(0) = 1$.
+\begin{explanation}
+Using the notation from the definition, we have
+\[
+F(x,y) = \answer[given]{x+y}
+\]
+Fill out the following table for Euler's method using $4$
+subintervals.
+\[
+\begin{array}{l|l|l}
+  k & x_k & y_k \\ \hline
+  0 & 0   & 1 \\
+  1 & 0.5 & \answer[given]{1.5} \\
+  2 & \answer[given]{1} & \answer[given]{2.5}  \\
+  3 & 1.5 & 4.25 \\
+  4 & 2 & \answer[given]{7.125}
+\end{array}
+\]
+Thus $y(2) \approx y_4 =\answer[given]{7.125}$.
+\end{explanation}
+\end{example}
+
+\end{document}

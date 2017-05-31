@@ -2,6 +2,18 @@
 
 \newcommand{\todo}{}
 
+\usepackage{esint} % for \oiint
+\graphicspath{
+{./}
+{../functionsOfSeveralVariables/}
+{../normalVectors/}
+{../lagrangeMultipliers/}
+{../vectorFields/}
+{../greensTheorem/}
+{../shapeOfThingsToCome/}
+}
+
+
 \usepackage{tkz-euclide}
 \tikzset{>=stealth} %% cool arrow head
 \tikzset{shorten <>/.style={ shorten >=#1, shorten <=#1 } } %% allows shorter vectors
@@ -14,8 +26,12 @@
 \usepackage[makeroom]{cancel} %% for strike outs
 %\usepackage{mathtools} %% for pretty underbrace % Breaks Ximera
 \usepackage{multicol}
+\usepackage{pgffor} %% required for integral for loops
 
 
+%% http://tex.stackexchange.com/questions/66490/drawing-a-tikz-arc-specifying-the-center
+%% Draws beach ball
+\tikzset{pics/carc/.style args={#1:#2:#3}{code={\draw[pic actions] (#1:#3) arc(#1:#2:#3);}}}
 
 
 
@@ -35,6 +51,9 @@
 \newcommand{\R}{\mathbb R}
 \newcommand{\N}{\mathbb N}
 \newcommand{\Z}{\mathbb Z}
+
+\newcommand{\sage}{\textsf{SageMath}}
+
 
 %\renewcommand{\d}{\,d\!}
 \renewcommand{\d}{\mathop{}\!d}
@@ -61,24 +80,33 @@
 \newcommand{\eval}[1]{\bigg[ #1 \bigg]}
 \newcommand{\seq}[1]{\left( #1 \right)}
 \renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+
+
 \renewcommand{\iff}{\Leftrightarrow}
 
 \DeclareMathOperator{\arccot}{arccot}
 \DeclareMathOperator{\arcsec}{arcsec}
 \DeclareMathOperator{\arccsc}{arccsc}
 \DeclareMathOperator{\si}{Si}
-\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\proj}{\vec{proj}}
 \DeclareMathOperator{\scal}{scal}
+\DeclareMathOperator{\sign}{sign}
 
 
-\newcommand{\tightoverset}[2]{% for arrow vec
-  \mathop{#2}\limits^{\vbox to -.5ex{\kern-0.75ex\hbox{$#1$}\vss}}}
-\newcommand{\arrowvec}[1]{\tightoverset{\scriptstyle\rightharpoonup}{#1}}
+%% \newcommand{\tightoverset}[2]{% for arrow vec
+%%   \mathop{#2}\limits^{\vbox to -.5ex{\kern-0.75ex\hbox{$#1$}\vss}}}
+\newcommand{\arrowvec}{\overrightarrow}
+%\renewcommand{\vec}[1]{\arrowvec{\mathbf{#1}}}
 \renewcommand{\vec}{\mathbf}
-\newcommand{\veci}{\vec{i}}
-\newcommand{\vecj}{\vec{j}}
-\newcommand{\veck}{\vec{k}}
+\newcommand{\veci}{{\boldsymbol{\hat{\imath}}}}
+\newcommand{\vecj}{{\boldsymbol{\hat{\jmath}}}}
+\newcommand{\veck}{{\boldsymbol{\hat{k}}}}
 \newcommand{\vecl}{\boldsymbol{\l}}
+\newcommand{\uvec}[1]{\mathbf{\hat{#1}}}
+\newcommand{\utan}{\mathbf{\hat{t}}}
+\newcommand{\unormal}{\mathbf{\hat{n}}}
+\newcommand{\ubinormal}{\mathbf{\hat{b}}}
 
 \newcommand{\dotp}{\bullet}
 \newcommand{\cross}{\boldsymbol\times}
@@ -87,7 +115,9 @@
 \newcommand{\curl}{\grad\cross}
 %\DeclareMathOperator{\divergence}{divergence}
 %\DeclareMathOperator{\curl}[1]{\grad\cross #1}
+\newcommand{\lto}{\mathop{\longrightarrow\,}\limits}
 
+\renewcommand{\bar}{\overline}
 
 \colorlet{textColor}{black} 
 \colorlet{background}{white}
@@ -96,6 +126,7 @@
 \colorlet{penColor3}{red!50!blue} % Color of a curve in a plot
 \colorlet{penColor4}{green!50!black} % Color of a curve in a plot
 \colorlet{penColor5}{orange!80!black} % Color of a curve in a plot
+\colorlet{penColor6}{yellow!70!black} % Color of a curve in a plot
 \colorlet{fill1}{penColor!20} % Color of fill in a plot
 \colorlet{fill2}{penColor2!20} % Color of fill in a plot
 \colorlet{fillp}{fill1} % Color of positive area

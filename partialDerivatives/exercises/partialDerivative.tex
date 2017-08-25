@@ -1,0 +1,63 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler}
+
+\outcome{Compute the partial derivative of an expression.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+  vs = ['x','y','z','t','w']
+  shuffle(vs)
+  x = var(vs[0])
+  y = var(vs[1])
+  z = var(vs[2])
+  t = var(vs[3])  
+
+  def random_expression(depth):
+    if depth == 0:
+      return [x,x,x,y,z,t][randint(0,5)]
+    else:
+      possible = [
+        random_expression(depth-1) + random_expression(depth-1),
+        random_expression(depth-1) - random_expression(depth-1),
+        random_expression(depth-1) * random_expression(depth-1),
+        random_expression(depth-1) / random_expression(depth-1),
+        sin(random_expression(depth-1)),
+        cos(random_expression(depth-1)),
+        log(random_expression(depth-1)),
+        exp(random_expression(depth-1))
+      ]
+      result = possible[randint(0,len(possible)-1)]()
+      if result == 0:
+        result = x
+      return result
+
+  f = random_expression(3)
+  while (derivative(f,x).is_zero()) or (len(latex(derivative(f,x))) > 50) or (len(f.variables()) < 2):
+    f = random_expression(randint(1,4))
+  
+\end{sagesilent}
+
+\begin{exercise}
+
+  Compute $\frac{\partial}{\partial\sage{x}} \left( \sage{f} \right)$.
+
+  \begin{prompt}
+    \[
+      \frac{\partial}{\partial\sage{x}} \left( \sage{f} \right) = \answer{\sage{derivative(f,x)}}.
+    \]
+  \end{prompt}
+  
+\end{exercise}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

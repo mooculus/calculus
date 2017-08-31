@@ -1,0 +1,55 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler}
+
+\license{Creative Commons 3.0 By-SA}
+\outcome{Compute the distance between a given point and a line.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+  x = var('x')
+  y = var('y')
+  
+  p = vector([randint(-5,5),randint(-5,5)])
+  v = vector([randint(-5,5),randint(-5,5)])
+  normal = vector([-v[1], v[0]])
+  q = v.dot_product(v)*vector([1,2]) + p
+
+  nearest_point = ((q - p).dot_product(v) / v.dot_product(v)) * v + p
+\end{sagesilent}
+
+\begin{exercise}
+  The point \(\left(\answer{\sage{nearest_point[0]}},\answer{\sage{nearest_point[1]}}\right)\) is the point on the line \(\sage{normal[0]*x + normal[1]*y} = \sage{normal[0]*p[0] + normal[1]*p[1]}\) nearest to \(\left(\sage{q[0]},\sage{q[1]}\right)\).
+
+  \begin{hint}
+    We can rephrase this problem in terms of vectors.
+  \end{hint}
+  
+  \begin{hint}
+    Let's find a point on the line.  For instance, \(\left(\sage{p[0]},\sage{p[1]}\right)\) is a point on the line \(\sage{normal[0]*x + normal[1]*y} = \sage{normal[0]*p[0] + normal[1]*p[1]}\).
+  \end{hint}
+
+  \begin{hint}
+    Consider the vector $\vec{w} = \left( \sage{q[0]-p[0]}, \sage{q[1] - p[1]} \right)$ from the point \(\left(\sage{p[0]},\sage{p[1]}\right)\) to the point \(\left(\sage{q[0]},\sage{q[1]}\right)\).
+  \end{hint}
+
+  \begin{hint}
+    The line \(\sage{normal[0]*x + normal[1]*y} = \sage{normal[0]*p[0] + normal[1]*p[1]}\) is parallel to $\vec{v} = \left( \sage{v[0]}, \sage{v[1]} \right)$.
+  \end{hint}
+
+  \begin{hint}
+    Projecting $\vec{w}$ onto $\vec{v}$ yields the vector \( \frac{\vec{w} \dotp \vec{v}}{\vec{v} \dotp \vec{v}} \vec{v} = \sage{((q - p).dot_product(v) / v.dot_product(v)) * v}\).
+  \end{hint}
+
+  \begin{hint}
+    Consequently the nearest point is at \(\left(\sage{p[0]},\sage{p[1]}\right) + \frac{\vec{w} \dotp \vec{v}}{\vec{v} \dotp \vec{v}} \vec{v} = \sage{nearest_point}\).
+  \end{hint}
+  
+\end{exercise}
+
+\end{document}

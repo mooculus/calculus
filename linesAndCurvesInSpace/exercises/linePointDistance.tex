@@ -14,12 +14,15 @@
 \begin{sagesilent}
   x = var('x')
   y = var('y')
-  
-  p = vector([randint(-3,3),randint(-3,3),randint(-3,3)])
-  v = vector([randint(-3,3),randint(-3,3),randint(-3,3)])
-  q = v.dot_product(v)*vector([randint(-3,3),randint(-3,3),randint(-3,3)]) + p
-  w = q-p
-  nearest_point = ((q - p).dot_product(v) / v.dot_product(v)) * v + p
+
+  p = q = v = w = nearest_point = vector([0,0,0])
+
+  while nearest_point.norm() <= 1:
+    p = vector([randint(-1,1),randint(-2,2),randint(-1,1)])
+    v = vector([randint(-1,1),randint(-2,2),randint(-1,1)])
+    q = v.dot_product(v)*vector([randint(-1,1),randint(-1,1),randint(-1,1)]) + p
+    w = q-p
+    nearest_point = ((q - p).dot_product(v) / v.dot_product(v)) * v + p
 \end{sagesilent}
 
 \begin{exercise}
@@ -41,7 +44,7 @@
   \end{hint}
 
   \begin{hint}
-    The length of the cross product $\vec{w} \cross \vec{v}$ is the $|\vec{v}|$ times the distance from the point to the line.
+    The length of the cross product $\vec{w} \cross \vec{v}$ is $|\vec{v}|$ times the distance from the point to the line.
   \end{hint}
 
   \begin{hint}

@@ -1,0 +1,75 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler}
+
+\license{Creative Commons 3.0 By-SA}
+\outcome{Identify which line is the intersection of two planes.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+  x = var('x')
+  y = var('y')
+  z = var('z')
+  vs = vector([x,y,z])
+  
+  a = b = c = vector([0,0,0])
+
+  while matrix([a,b,c]).rank() < 3:
+    a = vector([randint(-3,3),randint(-3,3),randint(-3,3)])
+    b = vector([randint(-3,3),randint(-3,3),randint(-3,3)])
+    c = vector([randint(-3,3),randint(-3,3),randint(-3,3)])
+
+  plane1_lhs = (a.cross_product(b)).dot_product(vs)
+  plane2_lhs = (a.cross_product(c)).dot_product(vs)
+
+  p = vector([randint(-2,2),randint(-2,2),randint(-2,2)])
+
+  plane1_rhs = plane1_lhs(x=p[0],y=p[1],z=p[2])
+  plane2_rhs = plane2_lhs(x=p[0],y=p[1],z=p[2])
+\end{sagesilent}
+
+\begin{exercise}
+  Consider the plane determined by the equation
+  \[
+    \sage{plane1_lhs} = \sage{plane1_rhs}
+  \]
+  and the plane determined by the equation
+  \[
+    \sage{plane2_lhs} = \sage{plane2_rhs}.
+  \]
+
+  \begin{question}
+    Does the line through the point $\sage{p}$ and in the direction
+    $\sage{a}$ lie on both planes?
+    \begin{multipleChoice}
+      \choice[correct]{Yes}
+      \choice{No}    
+    \end{multipleChoice}
+  \end{question}
+
+  \begin{question}
+    Does the line through the point $\sage{p}$ and in the direction
+    $\sage{b}$ lie on both planes?
+    \begin{multipleChoice}
+      \choice{Yes}
+      \choice[correct]{No}    
+    \end{multipleChoice}
+  \end{question}
+  
+  \begin{question}
+    Does the line through the point $\sage{p}$ and in the direction
+    $\sage{c}$ lie on both planes?
+    \begin{multipleChoice}
+      \choice{Yes}
+      \choice[correct]{No}    
+    \end{multipleChoice}    
+  \end{question}
+  
+\end{exercise}
+
+\end{document}

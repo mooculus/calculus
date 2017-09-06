@@ -1,1 +1,65 @@
-vectorValuedLimitRational.tex
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler}
+
+\outcome{Compute the limit of vector-valued functions involving rational functions.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+  p = 1
+  t = var('t')
+  
+  xt = randint(0,2)*t*t + randint(0,2)*t + 6
+  xt = xt / (t - p + Set(divisors(ZZ(xt(t=p)))).random_element())
+
+  common_factor = (t - p)
+  yt = (t + randint(-2,2)) * common_factor
+
+  a = randint(1,3)
+  c = randint(a+1,4)
+  e = max(a,c) + randint(0,2)
+  zt = 2*(a*t + (e-a)) / (c*t + (e-c))
+\end{sagesilent}
+
+\begin{exercise}
+
+  Let $\vec{f}(t) = \langle \sage{xt}, \frac{\sage{yt}}{\sage{common_factor}}, \sage{zt} \rangle$.
+
+  Compute
+  \[
+    \mathop{lim}_{t \to \sage{p}} \vec{f}(t) = \langle \answer{\sage{limit(xt,t=p)}}, \answer{\sage{limit(yt/common_factor,t=p)}}, \answer{\sage{limit(zt,t=p)}} \rangle.
+  \]
+  
+  \begin{hint}
+    We compute the limit of a vector-valued function componentwise.
+  \end{hint}
+
+  \begin{hint}
+    \[\mathop{lim}_{t \to \sage{p}} \left( \sage{xt} \right) = \sage{limit(xt,t=p)}.\]
+  \end{hint}
+
+  \begin{hint}
+    \[\mathop{lim}_{t \to \sage{p}} \frac{\sage{yt}}{\sage{common_factor}} = \sage{limit(yt/common_factor,t=p)}.\]
+  \end{hint}
+
+  \begin{hint}
+    \[\mathop{lim}_{t \to \sage{p}} \left( \sage{zt} \right) = \sage{limit(zt,t=p)}.\]
+  \end{hint}
+  
+  \begin{hint}
+    \[\mathop{lim}_{t \to \sage{p}} \vec{f}(t) = \langle \sage{limit(xt,t=p)}, \sage{limit(yt/common_factor,t=p)}, \sage{limit(zt,t=p)} \rangle.\]
+  \end{hint}          
+  
+\end{exercise}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

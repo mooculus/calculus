@@ -6,11 +6,15 @@
 
 \begin{document}
 \begin{abstract}
-  You'll make plots in 3D.
+  You'll learn Buckeye VR.
 \end{abstract}
 \maketitle
 
-BuckeyeVR will allow us plot parametric curves and surfaces.
+Buckeye VR will allow us plot parametric curves and surfaces.
+
+\section{A curve}
+
+First, we'll look at an example of a curve:
 
 \begin{verbatim}
 //Example Curve.bvr
@@ -27,7 +31,18 @@ helix.color=red
 helix.spawn
 \end{verbatim}
 
-You can see this plotted in BuckeyeVR \link[here]{http://go.osu.edu/bvr1}.
+You can see this plotted in Buckeye VR
+\link[here]{http://go.osu.edu/bvr1}.
+If you have the app you can scan the following QR code:
+\begin{image}
+\includegraphics{bvrQR1.png}  
+\end{image}
+
+
+
+\section{A surface}
+
+Second, we'll look at a surface:
 
 \begin{verbatim}
 // Example Surface.bvr
@@ -43,7 +58,71 @@ cyl.setSegmentCount=20
 cyl.spawn
 \end{verbatim}
 
+You can see this plotted in Buckeye VR
+\link[here]{http://go.osu.edu/bvr2}.
+If you have the app you can scan the following QR code:
+\begin{image}
+\includegraphics{bvrQR2.png}  
+\end{image}
 
+\section{Combined}
 
+You can combine plots simply by listing them after each other.
 
+\begin{verbatim}
+// Example Combined.bvr
+
+// Parametric curve
+helix=parametricCurve
+helix.setMinMax=t,-10,10
+helix.setEquation=x,(cos(t))
+helix.setEquation=y,(sin(t))
+helix.setEquation=z,(.3*t)
+helix.setSegmentCount=70
+helix.setWidth=0.2,0.2
+helix.color=red
+helix.spawn
+
+// Parametric surface
+cyl=parametricSurface
+cyl.setMinMax=s,-10,10
+cyl.setMinMax=t,0,6.6
+cyl.setEquation=x,(cos(t))
+cyl.setEquation=y,(sin(t))
+cyl.setEquation=z,(.3*s)
+cyl.setSegmentCount=20
+cyl.spawn
+\end{verbatim}
+
+You can see this plotted in Buckeye VR
+\link[here]{http://go.osu.edu/bvr3}.
+If you have the app you can scan the following QR code:
+\begin{image}
+\includegraphics{bvrQR3.png}  
+\end{image}
+
+\section{Play around with it}
+You can play with Buckeye VR 
+\link[here]{https://buckeyevr.osu.edu/plot/}.
+
+Some things to note: 
+\begin{itemize}
+\item You must \textbf{start} your file with
+\begin{verbatim}
+\\ NAME.bvr
+\end{verbatim}
+  \item You must \textit{name} each object in your graph. For example,
+    the curve above is named \verb|helix| and the surface is named
+    \verb|cyl|. \textbf{Each object should have a distinct name.}
+  \item I suggest you only use the variable $t$ for parametric curves
+    and the variables $s$ and $t$ for parametric surfaces.
+  \item All expressions for the components of your curve or surface
+    must be contained in \verb|(| and \verb|)|.
+  \item To write $-s$ or $-t$ you must type: \verb|-1*s| or \verb|-1*t|
+  \item Often the domain will need to be enlarged to make a curve or
+    surface with no wholes. Note, in the parametric surface example
+    above, $t$ \textit{should} run from $0$ to $2\pi\approx
+    6.28$. However in the code, it runs from \verb|0| to
+    \verb|6.6|. You may have to resort to similar tricks.
+\end{itemize}
 \end{document}

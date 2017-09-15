@@ -1,0 +1,267 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Describe the relationship between the product rule and integration by parts.}
+\outcome{Identify the functions required to transform the integral via integration by parts.}
+\outcome{Evaluate integrals using integration by parts, including multiple iterations.}
+\outcome{Use integration by parts to derive reduction formulas.}
+
+\title[Dig-In:]{Integration by parts}
+
+\begin{document}
+\begin{abstract}
+  We learn a new technique, called integration by parts, to help us solve
+  problems involving integration.
+\end{abstract}
+\maketitle
+
+
+While integration by substitution allows us to identify and ``undo''
+the chain rule, \textit{integration by parts} allows us to recognize
+the product rule.\index{chain rule}\index{product rule}\index{integration by parts}
+
+\begin{theorem}[Integration by Parts Formula] 
+If $f(x)g(x)$ is differentiable on the interval $[a,b]$, then
+\[
+\int_a^b f(x) g'(x) \d x =\eval{f(x)g(x)}_a^b - \int_a^b f'(x) g(x) \d x.
+\]
+\begin{explanation} First note by the product rule we have
+\[
+\ddx f(x)g(x) = f(x)g'(x) + f'(x) g(x).
+\]
+Now integrate both sides of the equation above
+\[
+\int_a^b \ddx f(x) g(x) \d x = \int_a^b \left(f(x)g'(x) + f'(x) g(x)\right) \d x.
+\]
+By the Fundamental Theorem of Calculus, the left-hand side of the equation is:
+\[
+\eval{f(x)g(x)}_a^b
+\]
+However, by properties of integrals the right-hand side is equal to 
+\[
+\int_a^b f(x)g'(x)\d x + \int_a^b f'(x) g(x) \d x.
+\]
+Hence
+\[
+\eval{f(x)g(x)}_a^b = \int_a^b f(x)g'(x)\d x + \int_a^b f'(x) g(x) \d x.
+\]
+and so 
+\[
+ \int_a^b f(x)g'(x)\d x = \eval{f(x)g(x)}_a^b -  \int_a^b f'(x) g(x) \d x.
+\]
+\end{explanation}
+\end{theorem}
+
+
+Integration by parts is often written in a more compact form
+\[
+\int u\d v = uv-\int v\d u,
+\]
+where $u=f(x)$, $v=g(x)$, $\d u=f'(x)\d x$ and $\d v=g'(x)\d x$.  To use
+this technique we need to identify likely candidates for $u=f(x)$ and
+$\d v=g'(x)\d x$.
+
+\begin{question}
+  Which of the following are always true? (Assuming $f(x)g(x)$ is
+  differentiable on a relevant interval.)
+  \begin{selectAll}
+    \choice{$\int f(x) \cdot g(x) \d x = \left(\int f(x) \d x\right) \cdot \left(\int g(x) \d x\right)$}
+    \choice{$\int f(x) \cdot 4 \d x = \left(\int f(x) \d x\right) \cdot \left(\int 4 \d x\right)$}
+    \choice[correct]{$\int f(x) \cdot 4 \d x = 4\int f(x) \d x$}
+    \choice[correct]{$\int f(x) \cdot g'(x) \d x = f(x) g(x) - \int f'(x)\cdot g(x) \d x$}
+    \choice{$\int_a^b f(x) \cdot g'(x) \d x = f(x) g(x) - \int_a^b f'(x)\cdot g(x) \d x$}
+    \choice[correct]{$\int_a^b f(x) \cdot g'(x) \d x = \eval{f(x) g(x)}_a^b + \int_b^a f(x)'\cdot g(x) \d x$}
+  \end{selectAll}
+\end{question}
+
+
+
+\section{Basic examples}
+
+
+We'll now work some standard examples.
+
+
+\begin{example}
+Compute:
+\[
+\int \ln(x)\d x
+\]
+\begin{explanation}
+Let $u=\ln(x)$ so $\d u=\answer[given]{1/x}\d x$. Hence,  $\d v=1\d x$ so $v=\answer[given]{x}$
+and so 
+\begin{align*}
+ \int \ln(x)\d x&=\answer[given]{x \ln(x)}-\int \frac{x}{x}\d x\\
+&= x\ln (x)- \answer[given]{x}+C.\\
+\end{align*}
+\end{explanation}
+\end{example}
+
+
+\begin{example}
+Compute:
+\[
+\int x\sin(x) \d x
+\]
+\begin{explanation} Let $u=x$ so $\d u=\d x$. Hence, $\d v=\answer[given]{\sin(x)}\d x$ so $v=\answer[given]{-\cos(x)}$ and
+\begin{align*}
+\int x\sin(x)\d x &=\answer[given]{-x\cos(x)}-\int -\cos(x)\d x\\
+&= \answer[given]{-x\cos(x)}+\int \cos(x)\d x\\
+&=\answer[given]{-x\cos(x)}+\sin x+C.
+\end{align*}
+\end{explanation}
+\end{example}
+
+
+
+\section{Repeated integration by parts}
+
+
+\begin{example}
+Compute:
+\[
+\int x^2\sin(x)\d x
+\] 
+\begin{explanation}
+Let $u=x^2$, $\d v=\sin(x)\d x$; then $\d u=\answer[given]{2x}\d x$ and $v=\answer[given]{-\cos(x)}$. 
+Now 
+\[
+\int x^2\sin(x)\d x=\answer[given]{-x^2\cos(x)}+\int 2x\cos(x)\d x.
+\] 
+This is better than the original integral, but we need to do
+integration by parts again on the rightmost integral. Let $u=2x$, $\d v=\cos(x)\d x$; then $\d u=\answer[given]{2}$
+and $v=\answer[given]{\sin(x)}$, and
+\begin{align*}
+  \int x^2\sin(x)\d x &=\answer[given]{-x^2\cos(x)}+\int 2x\cos(x)\d x \\
+  &=-x^2\cos(x)+ 2x\sin(x) - \int 2\sin(x)\d x \\
+  &=-x^2\cos(x)+ 2x\sin(x) + 2\cos(x) + C. 
+\end{align*}
+\end{explanation}
+\end{example}
+
+
+Such repeated use of integration by parts is fairly common, but it can
+be a bit tedious to accomplish, and it is easy to make
+errors, especially sign errors involving the subtraction in the
+formula. There is a nice tabular method to accomplish the calculation
+that minimizes the chance for error and speeds up the whole
+process. We illustrate with the previous example. Here is the
+table:
+\[
+\begin{array}{|c|c|c|}\hline
+\text{sign} & u & dv \\ \hline \hline
+ & x^2 & \sin(x) \\ \hline
+- & 2x & -\cos(x) \\ \hline
+  & 2  & -\sin(x) \\ \hline
+- & 0  & \cos(x) \\ \hline
+\end{array}
+\qquad\text{or}\qquad
+\begin{array}{|c|c|}\hline
+u & dv \\ \hline\hline
+x^2 & \sin(x) \\ \hline 
+-2x & -\cos(x) \\\hline
+2 & -\sin(x)\\\hline
+0 & \cos(x)\\\hline
+\end{array}
+\]
+
+To form the first table, we start with $u$ at the top of the second
+column and repeatedly compute the derivative; starting with $dv$ at
+the top of the third column, we repeatedly compute the
+antiderivative. In the first column, we place a ``$-$'' in every
+second row. To form the second table we combine the first and second
+columns by ignoring the boundary; if you do this by hand, you may
+simply start with two columns and add a ``$-$'' to every second row.
+
+To compute with this second table we begin at the top. Multiply the
+first entry in column $u$ by the second entry in column $dv$ to get
+$-x^2\cos(x)$, and add this to the integral of the product of the
+second entry in column $u$ and second entry in column $dv$.  This
+gives:
+$$-x^2\cos(x)+\int 2x\cos(x)\d x,$$
+or exactly the result of the first application of integration by
+parts.  Since this integral is not yet easy, we return to the table.
+Now we multiply twice on the diagonal, $(x^2)(-\cos(x))$ and
+$(-2x)(-\sin(x))$ and then once straight across, $(2)(-\sin(x))$, and
+combine these as
+\[
+-x^2\cos(x)+2x\sin(x)-\int 2\sin(x)\d x,
+\]
+giving the same result as the second application of integration by
+parts. While this integral is easy, we may return yet once more to the
+table. Now multiply three times on the diagonal to get
+$(x^2)(-\cos(x))$, $(-2x)(-\sin(x))$, and $(2)(\cos(x))$, and once
+straight across, $(0)(\cos(x))$. We combine these as before to get
+\begin{align*}
+  -x^2\cos(x)&+2x\sin(x) +2\cos(x)+\int 0\d x\\
+  &=-x^2\cos(x)+2x\sin(x) +2\cos(x)+C.
+\end{align*}
+Typically we would fill in the table one line at a time, until the
+``straight across'' multiplication gives an easy integral. If we can
+see that the $u$ column will eventually become zero, we can instead
+fill in the whole table; computing the products as indicated will then
+give the entire integral, including the ``$+C$'', as above.
+
+
+
+Sometimes we can use integration by parts to give a \dfn{reduction formula}.
+This is a formula that will explain how to ``reduce''
+the integral to one we may know how to compute.
+
+\begin{example}
+  Show that:
+  \[
+  \int x^n e^x \d x = x^n e^x -n \int x^{n-1} e^x\d x
+  \]
+  \begin{explanation}
+    Here there is almost nothing to do. Set $u= x^n$ and $\d v =
+    e^x$. Hence $\d u = n x^{n-1}$ and $v = e^x$. Using the
+    integration by parts formula,
+    \[
+    \int u\d v = uv-\int v\d u,
+    \]
+    we see immediately that
+    \[
+    \int x^n e^x \d x = x^n e^x -n \int x^{n-1} e^x \d x.
+    \]
+  \end{explanation}
+\end{example}
+
+\begin{example}
+  Use the reduction formula
+  \[
+  \int x^n e^x \d x = x^n e^x -n \int x^{n-1} e^x\d x
+  \]
+  to compute the integral
+  \[
+  \int_0^1 x^3 e^x \d x.
+  \]
+  \begin{explanation}
+    Write with me, from the reduction formula we see:
+    \[
+    \int_0^1 x^3 e^x \d x = \eval{x^3e^x}_0^1 - \answer[given]{3}\int_0^1 \answer[given]{x^{2} e^x}\d x
+    \]
+    Applying the formula again to the right most integral we find:
+    \[
+    \int_0^1 x^{2} e^x\d x = \eval{x^2e^x}_0^1 - \answer[given]{2}\int_0^1 \answer[given]{x e^x}\d x
+    \]
+    Applying the reduction formula once more to the rightmost integral we find:
+    \[
+    \int_0^1 x e^x\d x = \eval{xe^x}_0^1 - \int_0^1 \answer[given]{e^x}\d x
+    \]
+    Hence our final answer is:
+    \[
+    \int_0^1 x^3 e^x \d x =
+    \]
+    \begin{align*}
+      \eval{x^3e^x}_0^1 &- 3\left(\eval{x^2e^x}_0^1 +  2\left(\eval{xe^x}_0^1 -\eval{e^x}_0^1\right)\right)\\
+      &= e - 3e + 3\cdot 2 e -3\cdot 2(\answer[given]{e-1})\\
+      &= e-3e+6e-6e+6\\
+      &=\answer[given]{6-2e}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+\end{document}

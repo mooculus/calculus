@@ -1,0 +1,478 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Define a vector field.}
+\outcome{Identify radial vector fields.}
+\outcome{Identify gradient vector fields.}
+\outcome{Find potential functions for gradient fields.}
+
+\title[Dig-In:]{Vector fields}
+
+\begin{document}
+\begin{abstract}
+  We introduce the idea of a vector at every point in space. 
+\end{abstract}
+\maketitle
+
+\section{A review of functions}
+
+When we started on our journey exploring calculus, we investigated
+functions:
+\[
+f:\R \to \R
+\]
+Typically, we interpert these functions as being curves in the
+$(x,y)$-plane:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-3.25,xmax=3.25,ymin=-1.5,ymax=1.5,
+            axis lines=center,
+            xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+            xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+            ytick={-1,1},
+            %ticks=none,
+            width=3in,
+            height=3in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=100,smooth, domain=(-3.25:3.25)] {sin(deg(x))};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{The function $\sin(\theta)$ takes on all values between $-1$
+%%   and $1$ exactly once on the interval $[-\pi/2,\pi/2]$. If we
+%%   restrict $\sin(\theta)$ to this interval, then this restricted
+%%   function has an inverse.}
+%% \label{figure:sin-restricted}
+%% \end{figure*}
+\end{image}
+We've also studied vector valued functions:
+\[
+\vec{f}:\R \to \R^n
+\]
+We can interpert these functions as parametric curves in space:
+\begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [tick label style={font=\scriptsize},axis on top,
+	  axis lines=center,
+	  view={155}{10},no markers,
+	  ymin=-1.1,ymax=1.1,
+	  xmin=-7,xmax=7,
+	  zmin=-1.1, zmax=1.1,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-2pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$}
+	]
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-4},{sin(deg(-4))},{cos(deg(-4))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-3},{sin(deg(-3))},{cos(deg(-3))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-2},{sin(deg(-2))},{cos(deg(-2))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {-1},{sin(deg(-1))},{cos(deg(-1))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {0},{sin(deg(0))},{cos(deg(0))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {1},{sin(deg(1))},{cos(deg(1))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {2},{sin(deg(2))},{cos(deg(2))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {3},{sin(deg(3))},{cos(deg(3))});
+        \draw[thick,->,penColor!50!white] (axis cs: 0,0,0)--(axis cs: {4},{sin(deg(4))},{cos(deg(4))});
+        \addplot3+[very thick, penColor, smooth,samples=200,samples y=0,domain=-12:12] ({x},{sin(deg(x))},{cos(deg(x)});
+      \end{axis}
+    \end{tikzpicture}
+    \end{image}
+We've studied functions of several variables
+\[
+F:\R^n \to \R
+\]
+We can interpert these functions as surfaces in $\R^{n+1}$,
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [width=175pt,tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={155}{30},
+	name=myplot,
+	xtick=\empty,
+	ytick=\empty,
+	ztick=\empty,
+	ymin=-1.2,ymax=1.2,
+	xmin=-1.2,xmax=1.2,
+	zmin=-1.2, zmax=1.2,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-2pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool
+      ]
+
+      \addplot3[domain=-1:1,smooth,y domain=-1:1,mesh,samples=20,samples y=25,very thin,z buffer=sort] ({x},{y},{x^2-y^2});
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
+Now we study vector-valued functions of several variables
+\[
+\vec{F}:\R^n\to R^n
+\]
+and we intererpert these as \textit{vector fields}, meaning for each
+point in the $(x,y)$-plane we have a vector.
+\begin{image}
+  \includegraphics{egField.png}
+\end{image}
+
+
+Let's be explicit
+\begin{definition}
+  A \dfn{vector field} in $\R^n$ is a function
+  \[
+  \vec{F}: \R^n\to\R^n
+  \]
+  where for every point in the domain, we assign a vector to the range. 
+\end{definition}
+
+\begin{question}
+  Consider the following table describing a vector field $\vec{F}$:
+  \begin{image}
+    \begin{tikzpicture}[x=.75cm,y=.5cm]
+      \draw (0,0) grid [step=1] (1,4);
+      \draw (3,4) -- (3,0);
+      \draw (5,4) -- (5,0);
+      \draw (7,4) -- (7,0);
+      \draw (9,4) -- (9,0);
+      
+      \draw (0,0) -- (9,0);
+      \draw (0,1) -- (9,1);
+      \draw (0,2) -- (9,2);
+      \draw (0,3) -- (9,3);
+      \draw (0,4) -- (9,4);
+      
+      \draw[ultra thick] (0,1)--(9,1);
+      \draw[ultra thick] (1,4)--(1,0);
+      
+      \draw (0,0) -- (1,1);
+      %\node at (.9,.9) [below left,inner sep=1pt] {\small$y$};
+      %\node at (0.1,.1) [above right,inner sep=1pt] {\small$x$};
+      \node at (.1,.9) [below right,inner sep=1pt] {\small$y$};
+      \node at (0.9,.1) [above left,inner sep=1pt] {\small$x$};
+
+
+      %% x-values
+      \node at (2,.5) {$1$};
+      \node at (4,.5) {$2$};
+      \node at (6,.5) {$3$};
+      \node at (8,.5) {$4$};
+
+      %% y-values
+      \node at (0.5,1.5) {$5$};
+      \node at (0.5,2.5) {$6$};
+      \node at (0.5,3.5) {$7$};
+      
+      
+      %% vectors
+      %% bottom row
+      \node at (2,1.5) {$\veci+2\vecj$};
+      \node at (4,1.5) {$-3\vecj$};
+      \node at (6,1.5) {$2\vecj$};
+      \node at (8,1.5) {$2\veci+4\vecj$};
+      
+      %% second row
+      \node at (2,2.5) {$3\vecj$};
+      \node at (4,2.5) {$\vec{0}$};
+      \node at (6,2.5) {$2\veci-3\vecj$};
+      \node at (8,2.5) {$\veci-2\vecj$};
+      
+      %% third row
+      \node at (2,3.5) {$\veci-\vecj$};
+      \node at (4,3.5) {$-2\vecj$};
+      \node at (6,3.5) {$-2\veci-2\vecj$};
+      \node at (8,3.5) {$\veci$};
+
+    \end{tikzpicture}
+  \end{image}
+  What is $\vec{F}(1,7)$?
+  \begin{prompt}
+    \[
+    \vec{F}(1,7) = \vector{\answer{1},\answer{-1}}
+    \]
+  \end{prompt}
+  \begin{question}
+    What is $\vec{F}(3,5)$?
+    \begin{prompt}
+      \[
+      \vec{F}(3,5) = \vector{\answer{0},\answer{2}}
+      \]
+    \end{prompt}
+    \begin{question}
+      What is $\vec{F}(2,6)$?
+      \begin{prompt}
+        \[
+        \vec{F}(2,6) = \vector{\answer{0},\answer{0}}
+        \]
+      \end{prompt}
+    \end{question}
+  \end{question}
+\end{question}
+
+\begin{question}
+  Consider the following vector field:
+  \begin{image}
+    \includegraphics{constField.png}
+  \end{image}
+  Which expression is best described by this vector field?
+  \begin{multipleChoice}
+    \choice{$\vec{F}(x,y)=\vector{x,y/2}$}
+    \choice{$\vec{F}(x,y)=1/2$}
+    \choice{$\vec{F}(x,y)=x+y/2$}
+    \choice[correct]{$\vec{F}(x,y)=\vector{1,1/2}$}
+  \end{multipleChoice}
+  \begin{feedback}[correct]
+    Note, $\grad(x+y/2) = \vector{1,1/2}$.
+  \end{feedback}
+\end{question}
+
+
+
+Now we give you a small sampling of some important vector fields.
+
+
+\section{Radial fields}
+
+Let's see some examples of radial vector fields:
+\begin{example}
+  Here we see
+  \[
+  \vec{F}(x,y) = \vector{\frac{x}{\sqrt{x^2+y^2}},\frac{y}{\sqrt{x^2+y^2}}}:
+  \]
+  \begin{image}
+    \includegraphics{radField1.png}
+  \end{image}
+\end{example}
+
+\begin{example}
+  Here we see
+  \[
+  \vec{G}(x,y) = \vector{\frac{-x}{x^2+y^2},\frac{-y}{x^2+y^2}}:
+  \]
+  \begin{image}
+    \includegraphics{radField2.png}
+  \end{image}
+\end{example}
+
+\begin{example}
+  Here we see
+  \[
+  \vec{H}(x,y,z) = \vector{\frac{x}{(x^2+y^2+z^2)^2},\frac{y}{(x^2+y^2+z^2)^2},\frac{z}{(x^2+y^2+z^2)^2}}:
+  \]
+  \begin{image}
+    \includegraphics{radField3.png}
+  \end{image}
+\end{example}
+
+Each of the vector fields above is a \textit{radial} vector field.
+
+\begin{definition}
+  A \dfn{radial vector field} is a field of the form
+  $\vec{F}:\R^n\to\R^n$ where
+  \[
+  \vec{F}(\vec{x}) = \frac{\pm\vec{x}}{|\vec{x}|^p}
+  \]
+  where $p$ is a real number. 
+\end{definition}
+
+\begin{question}
+  Is $\vec{F}(x,y,z) = \vector{x,y,z}$ a radial vector field?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{yes}
+      \choice{no}
+    \end{multipleChoice}
+    \begin{feedback}[correct]
+      Absolutely! This vector field can be rewritten as:
+      \[
+      \vector{\frac{x}{\sqrt{x^2+y^2+z^2}},\frac{y}{\sqrt{x^2+y^2+z^2}},\frac{z}{\sqrt{x^2+y^2+z^2}}}
+      \]
+    \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+
+\section{Rotational fields}
+
+Vector fields can easily exhibit what looks like ``rotation'' to the
+human eye.
+\begin{example}
+  Here we see
+  \[
+  \vec{F}(x,y) = \vector{-y,x}:
+  \]
+  \begin{image}
+    \includegraphics{rotField.png}
+  \end{image}
+\end{example}
+
+\begin{example}
+  Here we see
+  \[
+  \vec{F}(x,y) = \vector{\frac{-y}{x^2+y^2},\frac{x}{x^2+y^2}}:
+  \]
+  \begin{image}
+    \includegraphics{rotFieldNot.png}
+  \end{image}
+\end{example}
+
+At this point, we're going to give some ``spoilers.'' It turns out
+that from a local perspective, meaning all points very very close each
+other, only the first example exhibits ``rotation.'' While the second
+example does look like it is ``rotating,'' as we will see, it does not
+exhibit ``local rotation.''
+
+
+\section{Gradient fields}
+
+We're going to start with the definition.
+
+\begin{definition}
+  Consider any differentiable function $F:\R^n\to \R$.
+  A \dfn{gradient field} is a vector field $\vec{G}:\R^n\to \R^n$ where
+  \[
+  \vec{G} = \grad F.
+  \]
+\end{definition}
+
+Since we are assuming $F$ is differentiable, we are also assuming that
+$\vec{G}$ is defined for all points in $\R^n$. This is important to
+note, as we will see.
+
+\begin{example}
+  Consider $F(x,y) = \frac{\sin(3x)+\sin(2y)}{1+x^2+y^2}$. A plot of
+  this function looks like this:
+  \begin{image}
+    \includegraphics{surf1.png}
+  \end{image}
+  The gradient field of $F$ looks like this:
+  \begin{image}
+    \includegraphics{gradField1.png}
+  \end{image}
+  Note we can see the vector pointing in the initial direction of
+  greatest increase. Let's see a plot of both together:
+  \begin{image}
+    \includegraphics{gradSurf1.png}
+  \end{image}
+\end{example}
+
+\begin{question}
+  What is the connection between gradient vectors and level curves?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{Gradient vectors are orthogonal to level curves.}
+      \choice{Gradient vectors point in the direction of level curves.}
+      \choice{Gradient vectors are independent of level curves.}
+    \end{multipleChoice}
+  \end{prompt}
+\end{question}
+
+\begin{example}
+  Now consider $F(x,y) = \frac{1}{\sqrt{x^2+y^2}}$. A plot of this
+    function looks like this:
+  \[
+  \vec{F}(x,y) = \vector{\frac{-x}{(x^2+y^2)^{3/2}},\frac{-y}{(x^2+y^2)^{3/2}}}:
+  \]
+  \begin{image}
+    \includegraphics{surf2.png}
+  \end{image}
+  The gradient field of $F$ looks like this:
+  \begin{image}
+    \includegraphics{gradField2.png}
+  \end{image}
+  Note we can see the vector pointing in the initial direction of
+  greatest increase. Let's see a plot of both together:
+  \begin{image}
+    \includegraphics{gradSurf2.png}
+  \end{image}
+\end{example}
+
+
+
+
+\subsection{The Clairaut gradient test} 
+
+Now we give a method to determine if a field is a gradient field. 
+
+\begin{theorem}[Clairaut]
+  A vector field $\vec{F}(x,y) = \vector{M(x,y),N(x,y)}$, where $M$ and
+  $N$ have continuous partial derivatives, is a gradient field if and
+  only if
+  \[
+  \pp[N]{x} -\pp[M]{y} = \vec{0}  
+  \]
+  for all $x$ and $y$.
+\end{theorem}
+
+
+\begin{definition}
+  If $\vec{G} = \grad F$, then $F$ is called a \dfn{potential
+    function} for $\vec{G}$.
+\end{definition}
+
+\begin{question}
+  Is $\vec{G} = \vector{2x+y^2,2y+x^2}$ a gradient field?
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+\end{question}
+
+
+\begin{question}
+  Is $\vec{G} = \vector{x^3,-y^4}$ a gradient field?
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{question}
+    Find a potential function $F$ such that $F(\vec{0}) = 0$.
+    \begin{prompt}
+      \[
+      F(x,y) = \answer{x^4/4-y^5/5}.
+      \]
+    \end{prompt}
+  \end{question}
+\end{question}
+
+\begin{question}
+  Is $\vec{G} = \vector{y\cos(x),\sin(x)}$ a gradient field?
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{question}
+    Find a potential function $F$ such that $F(\vec{0}) = 0$.
+    \begin{prompt}
+      \[
+      F(x,y) = \answer{y\sin(x)}.
+      \]
+    \end{prompt}
+  \end{question}
+\end{question}
+
+\begin{question}
+  Is $\vec{G} = \vector{\frac{-y}{x^2+y^2},\frac{x}{x^2+y^2}}$ a
+  gradient field?
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    What happens at $\vec{0}$?
+  \end{feedback}
+\end{question}
+
+\end{document}

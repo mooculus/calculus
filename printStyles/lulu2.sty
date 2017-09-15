@@ -1,0 +1,373 @@
+\NeedsTeXFormat{LaTeX2e}% LaTeX 2.09 can't be used (nor non-LaTeX)
+[1994/12/01]% LaTeX date must be December 1994 or later
+\ProvidesPackage{lulu}[2015/12/17 v0.75]
+\ProcessOptions\relax
+
+%% For serif fonts
+\usepackage{stix}
+%\usepackage[T1]{fontenc} %% CLOBBERS \d !!!
+\usepackage{gillius}
+%%
+
+%% For sans serif fonts
+%% \usepackage{helvet}
+%% \renewcommand{\familydefault}{\sfdefault}
+%% \usepackage{sansmath} % Enables turning on sans-serif math mode, and using other environments
+%% \sansmath
+%%
+
+\usepackage{ccicons}
+
+%\gilliuscondensed 
+\usepackage{microtype}
+
+\usepackage{imakeidx}
+\makeindex[intoc]
+\renewcommand{\dfn}[1]{\textbf{#1}\index{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}} %% somehow clobbered
+
+\renewcommand{\d}{\mathop{}\!d\!} %% Looks better with stix
+
+\usepackage[framemethod=TikZ]{mdframed}
+
+%% Size of the page
+\usepackage[margin=.5in, includehead, includefoot, hmargin={.8in,.5in}, paperwidth=8.5in, paperheight=8.5in]{geometry}
+%\usepackage[margin=.5in, includehead, includefoot, hmargin={.8in,.5in}, paperwidth=9in, paperheight=7in]{geometry}
+
+
+% Store usual maketitle as othermaketitle
+\let\othermaketitle\maketitle
+
+
+\makeatletter
+% % Redefine maketitle to give course packet title page and toc.
+\renewcommand{\maketitle}{ %
+\pagestyle{empty}
+\onecolumn
+\begin{flushright}
+  \begin{tikzpicture}[opacity=1]
+  \node at (-.8,0) {\scalebox{4}{\Huge\textsf{\textbf{\textcolor{black}{calculus}}}}};
+  \node at (8,1.19) {\scalebox{10}{\Huge\textsf{\textbf{\textcolor{gray}{2}}}}};  %% Aligned with subtitle
+  %\node at (8,1.85) {\scalebox{10}{\Huge\textsf{\textbf{\textcolor{gray}{1}}}}}; %% Aligned with title
+  \node at (-.7,-1.6) {\resizebox{4.8in}{.2in}{\Huge\textsf{\textcolor{gray}
+          {with free online interactive materials}
+    }}};
+    %\draw[yellow] (-9,-1.2)--(9,-1.2); %guide line
+\end{tikzpicture}%\hspace*{11.1in}
+
+  \vspace{1cm}
+
+  \begin{tikzpicture}[scale=.9,opacity =1]
+    \begin{axis}[
+        xmin=-.2,
+        xmax=1.7,%1.2,
+        ymin=-.2,
+        ymax=2.4,
+        width=2.5in,
+        height=2.5in,
+        clip=false,
+        axis lines=middle, %xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={gray!65!black,at=(current axis.above origin),anchor=south},
+        every axis x label/.style={gray!65!black,at=(current axis.right of origin),anchor=west},
+        ticks=none,
+        axis line style={gray!65!black},
+      ]
+      \addplot [samples = 100,draw=none, domain=0:.93,smooth,pattern=north west lines, pattern color=gray!65!black] {x^3/sqrt(1-x^2)}\closedcycle;
+      \addplot [samples = 100,ultra thick, domain=0:.93,smooth,draw=gray!65!black] {x^3/sqrt(1-x^2)};
+      \node[black] at (axis cs: .85,-.5) {\scalebox{1}{$\displaystyle\int_0^1 \frac{x^3}{\sqrt{1-x^2}}\d x$}};
+    \end{axis}
+  \end{tikzpicture}
+  \hspace*{.6in}
+  \begin{tikzpicture}[opacity =1,scale=.9]
+  \begin{axis}[
+        xmin=-.2,
+        xmax=1.7,
+        ymin=-.2,
+        ymax=2.4,%1.2,
+        width=2.5in,
+        height=2.5in,
+        clip=false,
+        axis lines=middle, %xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={gray!65!black,at=(current axis.above origin),anchor=south},
+        every axis x label/.style={gray!65!black,at=(current axis.right of origin),anchor=west},
+        ticks=none,
+        axis line style={gray!65!black},
+      ]
+    \addplot [domain=0:pi/2,smooth,draw=none,pattern=north west lines, pattern color=gray!65!black] {sin(deg(x))^3}\closedcycle;
+    \addplot [domain=0:pi/2,smooth,ultra thick, draw=gray!65!black] {sin(deg(x))^3};
+    \node[black] at (axis cs: .85,-.5) {\scalebox{1}{$\displaystyle\int_0^{\pi/2} \sin^3(\theta)\d \theta$}};
+    \end{axis}
+  \end{tikzpicture}\hspace*{.6in}
+  \begin{tikzpicture}[opacity =1,scale=.9]
+  \begin{axis}[
+        xmin=-.2,
+        xmax=1.7,
+        ymin=-.2,
+        ymax=2.4,
+        width=2.5in,
+        height=2.5in,
+        clip=false,
+        axis lines=middle, %xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={gray!65!black,at=(current axis.above origin),anchor=south},
+        every axis x label/.style={gray!65!black,at=(current axis.right of origin),anchor=west},
+        ticks=none,
+        axis line style={gray!65!black},
+      ]
+    \addplot [domain=0:1,smooth,draw=none,pattern=north west lines, pattern color=gray!65!black] {1-x^2}\closedcycle;
+    \addplot [domain=0:1,ultra thick,smooth,draw=gray!65!black] {1-x^2};
+    \node[black] at (axis cs: .85,-.5) {\scalebox{1}{$\displaystyle\int_0^{1} \left(g^2-1\right)\d g$}};
+
+    \end{axis}
+  \end{tikzpicture}\hspace*{.3in}
+\end{flushright}
+%\vspace{-.4in}
+
+\vfill
+
+\begin{flushleft}\hspace*{-.12in}
+\begin{tikzpicture}
+  \node[anchor=west] at (0,0) {\scalebox{1}{\Huge\textsf{\ccbyncsa}}};
+  \node[anchor=west] at (4,-.25) {\large\textsf{developed in \textbf{XIMERA}}};
+  \node[anchor=east] at (7in,-.25) {\small\textsf{This document was typeset on \today.}};
+\end{tikzpicture}
+
+  
+\end{flushleft}
+\thispagestyle{empty}
+
+\newpage
+
+~\vfill
+
+\noindent
+Copyright \copyright\ \the\year\ Jim Fowler and Bart Snapp
+
+\noindent
+This work is licensed under the Creative Commons
+Attribution-NonCommercial-ShareAlike License. To view a copy of this
+license, visit \url{http://creativecommons.org/licenses/by-nc-sa/4.0/}
+
+If you distribute this work or a derivative, include the history of
+the document.  The source code is available at:
+
+\url{http://github.com/mooculus/calculus/}
+
+\noindent
+This text contains source material from several other open-source
+texts:
+\begin{itemize}
+\item \textsl{Single and Multivariable Calculus: Early
+  Transcendentals}. Guichard. Copyright \copyright\ 2015 Guichard,
+  Creative Commons Attribution-NonCommercial-ShareAlike License 3.0.
+  \url{http://communitycalculus.org}
+\item \textsl{APEX Calculus}. Hartman, Heinold, Siemers, Chalishajar,
+  Bowen (Ed.). Copyright \copyright\ 2014 Hartman, Creative Commons Attribution-Noncommercial 3.0. \url{http://www.apexcalculus.com/}
+\item \textsl{Elementary Calculus: An Infinitesimal
+  Approach}. Keisler. Copyright \copyright\ 2015 Keisler, Creative
+  Commons Attribution-NonCommercial-ShareAlike License 3.0.
+  \url{http://www.math.wisc.edu/~keisler/calc.html}
+\end{itemize}
+
+\noindent This book is typeset in the STIX and Gillius fonts.
+
+
+
+\noindent We will be glad to receive corrections and suggestions for
+improvement at: \texttt{ximera@math.osu.edu}
+
+\twocolumn
+\clearpage
+\ifnotoc\else % When notoc option is used, we do not include a table of contents.  Otherwise:
+	\tableofcontents\clearpage % we include a table of contents in every course packet.  
+	\clearpage
+        \fi
+\pagestyle{main} %switch to main pagestyle, just like ximera documents.
+\let\maketitle\othermaketitle % renew maketitle to usual definition.
+}
+\makeatother
+
+
+
+
+
+
+
+%% Two column sep
+\setlength{\columnsep}{1cm}
+%\setlength{\columnseprule}{.8cm}
+%\renewcommand{\columnseprulecolor}{white!20!black}
+
+
+%% image environment
+%%\renewenvironment{image}[1][]{\begin{center}}{\end{center}}
+\let\image\relax
+\let\endimage\relax
+\NewEnviron{image}[1][3in]{% 
+  \begin{center}\resizebox{#1}{!}{\BODY}\end{center}% resize and center
+}
+
+%% This is the code that will allow us to redefine the title with
+\makeatletter
+\renewcommand\chapterstyle{%
+  \def\maketitle{%
+    \addtocounter{titlenumber}{1}%
+    \addcontentsline{toc}{section}{\textbf{\thetitlenumber\quad\@title}}%
+                    {\flushleft\small\sffamily\bfseries\@pretitle\par\vspace{-1.5em}}%
+                    {\flushleft\LARGE\sffamily\bfseries\thetitlenumber\quad\@title \par }%
+                    {\setcounter{problem}{0}\setcounter{sectiontitlenumber}{0}}%
+                    \par}}
+
+\renewcommand\sectionstyle{%
+  \def\maketitle{%
+    \addtocounter{sectiontitlenumber}{1}
+    \addcontentsline{toc}{subsection}{\thetitlenumber.\thesectiontitlenumber\quad\@title}%
+    {\flushleft\small\sffamily\bfseries\@pretitle\par\vspace{-1.5em}}%
+    {\flushleft\Large\sffamily\bfseries\thetitlenumber.\thesectiontitlenumber\quad\@title \par}%
+    \par}}
+
+%% redefine Part
+\renewcommand\part{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \thispagestyle{plain}%
+  \if@twocolumn
+    \onecolumn
+    \@tempswatrue
+  \else
+    \@tempswafalse
+  \fi
+  \null\vfil
+  \secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    \markboth{}{}%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >-2\relax
+       \huge\sffamily\bfseries \partname\nobreakspace\thepart
+       \par
+       \vskip 20\p@
+     \fi
+     \Huge \bfseries #2\par}%
+    \@endpart}
+\def\@spart#1{%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \Huge \bfseries #1\par}%
+    \@endpart}
+\def\@endpart{\vfil\newpage
+              \if@twoside
+               \if@openright
+                \null
+                \thispagestyle{empty}%
+                \newpage
+               \fi
+              \fi
+              \if@tempswa
+                \twocolumn
+                \fi}
+
+
+\renewcommand\section{\@startsection{paragraph}{10}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\sffamily\bfseries}}
+\renewcommand\subsection{\@startsection{subparagraph}{10}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\sffamily\bfseries}}
+
+
+% remove italics def
+\let\definition\relax
+\let\enddefinition\relax
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+
+
+% remove italics def
+\let\exploration\relax
+\let\endexploration\relax
+\theoremstyle{definition}
+\newtheorem*{exploration}{Exploration}
+
+
+% remove italics def
+\let\remark\relax
+\let\endremark\relax
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
+
+\let\procedure\relax
+\let\endprocedure\relax
+\theoremstyle{definition}
+\newtheorem*{procedure}{Procedure}
+
+
+\let\theorem\relax
+\let\endtheorem\relax
+\let\c@theorem\relax 
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\let\question\relax
+\let\endquestion\relax
+\let\c@question\relax 
+\theoremstyle{theorem}
+\newtheorem{question}{Question}
+
+\let\problem\relax
+\let\endproblem\relax
+\let\c@problem\relax 
+\newtheorem{problem}{Problem}
+
+
+\let\warning\relax
+\let\endwarning\relax
+\newtheorem*{warning}{Warning}
+\makeatother
+
+%% Redefines "explanation"
+\renewmdenv[
+  font=\upshape,
+  outerlinewidth=3,
+  topline=false,
+  bottomline=false,
+  leftline=true,
+  rightline=false, 
+  leftmargin=0,
+  innertopmargin=0pt,
+  innerbottommargin=0pt,
+  skipbelow=\baselineskip,
+  linecolor=textColor!20!white,
+  fontcolor=textColor,
+  backgroundcolor=background
+]{explanation}%
+
+
+%% Compress dialogue
+\renewenvironment{dialogue}{%
+   \renewcommand\descriptionlabel[1]{\hspace{\labelsep}\textbf{##1:}}
+   \small\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]%
+}{%
+   \end{description}\normalsize%
+}
+
+
+%% Fix weird index issue.
+\makeatletter
+\gdef\ttl@savemark{\sectionmark{}}
+\makeatother
+
+\endinput

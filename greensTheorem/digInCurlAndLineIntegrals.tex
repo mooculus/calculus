@@ -1,0 +1,546 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{State the definition of the curl of a vector field in two dimensions.}
+\outcome{State the definition of the curl of a vector field in three dimensions.}
+\outcome{Understand how curl measures local rotation in two dimensions.}
+\outcome{Understand that curl need not measure gobal rotation.}
+\outcome{State Green's Theorem.}
+\outcome{View Green's Theorem as a fundamental theorem of calculus.}
+
+\title[Dig-In:]{Curl and line integrals}
+
+\begin{document}
+\begin{abstract}
+Green's Theorem is a fundamental theorem of calculus.
+\end{abstract}
+\maketitle
+
+In this section we will learn the \textit{fundamental derivative} for
+vector fields, as well as a new fundamental theorem of calculus.
+
+
+\section{The curl of a vector field}
+
+Calculus has taught us that knowing the derivative of a function
+$f:\R\to\R$ can tell us important information about the function.  In
+a similar way we have that seen that if we wish to understand a
+function of several variables $F:\R^n\to\R$, then the gradient, $\grad
+F$, contains similar useful information. But what if you have a vector
+field
+\[
+\vec{F}:\R^n\to\R^n,
+\]
+what is the natural analogue of a derivative in this setting? When the
+vector field is two or three dimensional, the \textit{curl} is the
+analogue of the derivative that we are looking for:
+
+
+\begin{definition}
+  In two-dimensions, given a vector field $\vec{F}:\R^2\to \R^2$, where
+  \[
+  \vec{F}(x,y) = \vector{M(x,y),N(x,y)}
+  \]
+  the \dfn{curl} is given by
+  \[
+  \curl \vec F = \pp[N]{x}-\pp[M]{y}.
+  \]
+  In three-dimensions, given a vector field $\vec{F}:\R^3\to\R^3$, where
+  \[
+  \vec{F}(x,y,z) = \vector{U(x,y,z)),V(x,y,z)),W(x,y,z)}
+  \]
+  the \dfn{curl} is given by
+  \begin{align*}
+  \curl \vec F &= \det
+  \begin{bmatrix}
+    \veci & \vecj & \veck \\
+    \pp{x} & \pp{y} & \pp{z}\\
+    U & V & W
+  \end{bmatrix}\\
+  &= \veci\left(\pp[W]{y}-\pp[V]{z}\right)-
+  \vecj\left(\pp[W]{x}-\pp[U]{z}\right)+
+  \veck\left(\pp[V]{x}-\pp[U]{y}\right).
+  \end{align*}
+\end{definition}
+
+
+\begin{question}
+  In two dimensions $\curl\vec{F}$ is a
+  \begin{multipleChoice}
+    \choice[correct]{number.}
+    \choice{vector.}
+  \end{multipleChoice}
+  \begin{question}
+    In three dimensions $\curl\vec{F}$ is a
+    \begin{multipleChoice}
+      \choice{number.}
+      \choice[correct]{vector.}
+    \end{multipleChoice}
+  \end{question}
+\end{question}
+
+
+\begin{question}
+  Consider the vector field $\vec{F}(x,y) = \vector{-y,x}$. Compute:
+  \[
+  \curl\vec{F}(x,y) \begin{prompt}= \answer{2}\end{prompt}
+  \]
+  \begin{question}
+    Consider the vector field $\vec{F}(x,y,z) = \vector{-z,x,y}$. Compute:
+    \[
+    \curl\vec{F}(x,y,z)   \begin{prompt}
+      = \vector{\answer{1},\answer{-1},\answer{1}}
+    \end{prompt}
+    \]
+  \end{question}
+\end{question}
+
+Now for something you've seen before, but in a different form.
+
+\begin{question}
+  Let $F:\R^2\to\R$. Compute:
+  \[
+  \curl\grad F(x,y) \begin{prompt}= \answer{0}\end{prompt}
+  \]
+  \begin{question}
+    Let $F:\R^3\to\R$. Compute:
+    \[
+    \curl\grad F(x,y,z) \begin{prompt}= \vector{\answer{0},\answer{0},\answer{0}}\end{prompt}
+    \] 
+  \end{question}
+\end{question}
+
+\begin{question}
+  When $\curl\vec{F} = \vec{0}$, then you know:
+  \begin{selectAll}
+    \choice[correct]{$\vec{F}$ is a gradient field.}
+    \choice[correct]{$\vec{F}$ is a conservative field.}
+    \choice[correct]{$\vec{F}:\R^3\to\R^3$.}
+  \end{selectAll}
+  \begin{feedback}
+    You can be assured that $\vec{F}:\R^3\to\R^3$, since $\vec{0}$ is
+    a vector. We only know a definition for curl in two and three
+    dimensions; however, the two dimensional definition is a scalar,
+    not a vector. So if $\curl\vec{F} = \vec{0}$, then $\vec{F}:\R^3\to\R^3$.
+  \end{feedback}
+\end{question}
+
+
+\subsection{What does the curl measure?}
+
+
+The curl of a vector field measures the rate that the direction of
+field vectors ``twist'' as $x$ and $y$ change. Imagine the vectors in
+a vector field as representing the current of a river. A positive curl
+at a point tells you that a ``beach-ball'' floating at the point would
+be rotating in a counterclockwise direction. A negative curl at a
+point tells you that a ``beach-ball'' floating at the point would be
+rotating in a clockwise direction. Zero curl means that the
+``beach-ball'' would not be rotating. Below we see our ``beach-ball''
+with two field vectors. If $\vec{F}(x,y) = \vector{M(x,y),N(x,y)}$
+\begin{image}
+  \begin{tikzpicture}%[framed]
+    \begin{axis}[
+        hide axis,
+        width=2in,
+        height=2in,
+	ymin=-.9,ymax=.7,
+	xmin=-.8,xmax=.8,
+      ]
+       \addplot[penColor2,thick,->] coordinates{
+                (-.6,0) (-.6,.3) 
+       };
+       \addplot[penColor2,thick,->] coordinates{
+                (.6,0) (.6,.7) 
+       };
+
+
+       \addplot[penColor, ultra thick, domain=0:360,smooth] ({.5*cos(x)},{.5*sin(x)});
+
+       \addplot[penColor, ultra thick, domain=0:360,smooth] ({.2*cos(x)},{.2*sin(x)});
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(45)},{.2*sin(45)}) ({.5*cos(45)},{.5*sin(45)})
+       };
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(135)},{.2*sin(135)}) ({.5*cos(135)},{.5*sin(135)})
+       };
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(225)},{.2*sin(225)}) ({.5*cos(225)},{.5*sin(225)})
+       };
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(315)},{.2*sin(315)}) ({.5*cos(315)},{.5*sin(315)})
+       };
+
+       \draw[penColor, ultra thick,->] (axis cs: .49,-.1) -- (axis cs: .5,.1);
+       
+       \node[inner sep=0pt,text width=6cm,scale=.5] at (axis cs: 0,-.7) {
+         \footnotesize Since the length of the field vector increases
+         as we increase $x$, we see that $\pp[N]{x} > 0$.};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+we see that the right field vector is larger than the left, thus
+giving the ``beach-ball'' a counterclockwise rotation.  In an entirely
+similar way, if we have
+\begin{image}
+  \begin{tikzpicture}%[framed]
+    \begin{axis}[
+        hide axis,
+        width=2in,
+        height=2in,
+	ymin=-.9,ymax=.7,
+	xmin=-.8,xmax=.8,
+      ]
+       \addplot[penColor2,thick,->] coordinates{
+                (0,.6) (.3,.6) 
+       };
+       \addplot[penColor2,thick,->] coordinates{
+                (0,-.6) (.7,-.6) 
+            };
+
+
+       \addplot[penColor, ultra thick, domain=0:360,smooth] ({.5*cos(x)},{.5*sin(x)});
+
+       \addplot[penColor, ultra thick, domain=0:360,smooth] ({.2*cos(x)},{.2*sin(x)});
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(45)},{.2*sin(45)}) ({.5*cos(45)},{.5*sin(45)})
+       };
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(135)},{.2*sin(135)}) ({.5*cos(135)},{.5*sin(135)})
+       };
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(225)},{.2*sin(225)}) ({.5*cos(225)},{.5*sin(225)})
+       };
+
+       \addplot[penColor, ultra thick] coordinates{
+       ({.2*cos(315)},{.2*sin(315)}) ({.5*cos(315)},{.5*sin(315)})
+       };
+       
+      \draw[penColor, ultra thick,->] (axis cs: .49,-.1) -- (axis cs: .5,.1) ;
+      \node[inner sep=0pt,text width=6cm,scale=.5] at (axis cs: 0,-.75) {
+
+        \footnotesize Since the length of the field vector decreases
+        as we increase $y$, we see that $-\pp[M]{y} > 0$.};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+we see that the bottom field vector is larger than the top, thus
+giving the ``beach-ball'' a counterclockwise rotation. Thus the curl
+combines $\pp[N]{x}$ and $-\pp[M]{y}$
+\[
+\curl\vec{F} = \pp[N]{x} - \pp[M]{y}
+\]
+to obtain the infinitesimal rotation of the field. The most obvious
+example of a vector field with nonzero curl is $\vec{F}(x,y) =
+\vector{-y,x}$.
+\begin{image}
+  \includegraphics{rotField.png}
+\end{image}
+Unfortunately, while we can sometimes identify nonzero curl from a
+graph, it can be difficult. In our next example, we see a field that
+does not have global rotation but does have local rotation.
+
+\begin{example}
+  Consider the following vector field $\vec{F}$:
+      \begin{image}
+        \begin{tikzpicture}
+          \begin{axis}%
+            [
+	      ymin=-2.2,ymax=2.2,
+	      xmin=-3.2,xmax=3.2,
+              axis lines =middle, xlabel=$x$, ylabel=$y$,
+              every axis y label/.style={at=(current axis.above origin),anchor=south},
+              every axis x label/.style={at=(current axis.right of origin),anchor=west},
+              grid=both,
+              grid style={dashed, gridColor},
+              xtick={-3,...,3},
+              ytick={-2,...,2},
+	    ]
+            \pgfplotsinvokeforeach{-2,...,2}{
+              \fill[penColor] (axis cs:0,#1) circle (2pt);
+              }
+            \pgfplotsinvokeforeach{-2,...,1}{
+              \addplot[penColor,thick,->] coordinates{
+                (1,#1+.05) (1,#1+.95) 
+              };
+            }
+            \pgfplotsinvokeforeach{-2,...,1}{
+              \addplot[penColor,thick,->] coordinates{
+                (-1,.95 + #1) (-1,#1+.05) 
+              };
+            }
+            \pgfplotsinvokeforeach{-2,0}{
+              \addplot[penColor,thick,->] coordinates{
+                (2,#1+.05) (2,#1+1.95) 
+              };
+            }
+            \pgfplotsinvokeforeach{-2,0}{
+              \addplot[penColor,thick,->] coordinates{
+                (-2,1.95 + #1) (-2,#1+.05) 
+              };
+            }
+            \addplot[penColor,thick,->] coordinates{
+                (3,-1.5) (3,1.5) 
+              };
+            \addplot[penColor,thick,->] coordinates{
+                (-3,1.5) (-3,-1.5) 
+            };
+
+            \fill[black,draw=black] (axis cs:2,1) circle (2.5pt);
+
+            \node[right] at (axis cs:2,1) {$\vec{a}$};
+              %% \node[inner sep=0pt,text width=8cm,right,scale=.85] at (axis cs:-6,-3.5)
+              %%      {\footnotesize One should imagine a vector at
+              %%        \textbf{every} point. We'll assume that the magnitudes
+              %%        of the vectors are constant along horizontal lines.};
+          \end{axis}
+        \end{tikzpicture}
+      \end{image}
+      Setting $\d x = 1$ and $\d y = 1$, estimate:
+      \[
+      \curl \vec{F}(\vec{a})
+      \]
+      \begin{explanation}
+        First note that one should imagine a vector at \textbf{every}
+        point. We'll assume that the magnitudes of the vectors are
+        constant along vertical lines. Set $\vec{F}(x,y) =
+        \vector{M(x,y),N(x,y)}$. To estimate $\pp[N]{x}$, we examine
+        the change in $N(x,1)$ between $x=1$ and $x=2$:
+        \[
+        \frac{N(2,1) - N(1,1)}{2-1} = \answer[given]{1}
+        \]
+        and we should also check the change of $N(x,1)$ between $x=2$
+        and $x=3$:
+        \[
+        \frac{N(3,1) - N(2,1)}{3-2} = \answer[given]{1}
+        \]
+        Averaging these values together we find
+        \[
+        \pp[N]{x} \approx \answer[given]{1}
+        \]
+        To estimate $\pp[M]{y}$, we examine the change in $M(2,y)$
+        between $y=0$ and $y=1$:
+        \[
+        \frac{M(2,1) - M(2,0)}{1-0} = \answer[given]{0}
+        \]
+        and we should also check the change of $M(2,y)$ between $y=1$
+        and $y=2$:
+        \[
+        \frac{M(2,2) - M(2,1)}{2-1} = \answer[given]{0}
+        \]
+        Averaging these values together we find
+        \[
+        \pp[M]{y} \approx \answer[given]{0}
+        \]
+        So we approximate
+        \[
+        \curl\vec{F}(\vec{a})\approx\answer[given]{1}.
+        \]
+        So field above example does not have global rotation, but it
+        does have local rotation.
+      \end{explanation}
+\end{example}
+
+Now we'll show you a field that has global rotation but no local rotation!
+
+\begin{example}
+  Consider the vector field
+  \[
+  \vec{F}(x,y) = \vector{\frac{-y}{x^2+y^2},\frac{x}{x^2+y^2}}
+  \]
+  \begin{image}
+    \includegraphics{rotFieldNot.png}
+  \end{image}
+  Compute:
+  \[
+  \curl\vec{F}(x,y)
+  \]
+  \begin{explanation}
+    In this case, $\curl\vec{F}(x,y) =\answer[given]{0}$ when
+    $\vector{x,y}\ne \vec{0}$. At $\vec{0}$, the curl of the vector
+    field is
+    \wordChoice{\choice{zero}\choice{infinity}\choice[correct]{undefined}}.
+    This field has global rotation, but it does not have local
+    rotation.
+  \end{explanation}
+\end{example}
+
+Finally, we'll show you a field that has global rotation with local
+rotation in the \textit{opposite} direction!
+\begin{example}
+  Consider the vector field
+  \[
+  \vec{F}(x,y) = \vector{\frac{-y}{(x^2+y^2)^{3/2}},\frac{x}{(x^2+y^2)^{3/2}}}
+  \]
+  \begin{image}
+    \includegraphics{oppoRotField.png}
+  \end{image}
+  Compute:
+  \[
+  \curl\vec{F}(x,y)
+  \]
+  \begin{explanation}
+    In this case,
+    \[
+    \curl\vec{F}(x,y) =\answer[given]{\frac{-1}{(x^2+y^2)^{3/2}}}
+    \]
+    when $\vector{x,y}\ne \vec{0}$. Note, this is
+    \wordChoice{\choice{positive}\choice[correct]{negative}} for all
+    values of $x$ and $y$. This corresponds to local rotation in the
+    \wordChoice{\choice[correct]{clockwise}\choice{counterclockwise}}
+    direction.  This field has global rotation in the
+    \wordChoice{\choice{clockwise}\choice[correct]{counterclockwise}}
+    direction, but has local rotation in the
+    \wordChoice{\choice[correct]{clockwise}\choice{counterclockwise}}
+    direction.
+  \end{explanation}
+\end{example}
+
+At this point we only know how to take the derivative (via the curl)
+of a vector field of two or three dimensions.  You can take another
+course to learn more about derivatives of $n$-dimensional vector
+fields.
+
+\section{A new fundamental theorem of calculus}
+
+Recall that a fundamental theorem of calculus says something like:
+\begin{quote}
+  To compute a certain sort of integral over a region, we may do a
+  computation on the boundary of the region that involves one fewer
+  integrations.
+\end{quote}
+In the single variable case we have:
+\begin{image}
+  \begin{tikzpicture}
+    \node[inner sep=0pt] at (0,0) {$\int_a^b f'(x) \d x \quad = \quad f(b) - f(a)$};
+
+    \node at (-1.5,-.7) {$\underbrace{\hspace{5.8em}}$};
+
+    \node at (1.5,-.7) {$\underbrace{\hspace{5.5em}}$};
+
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (-1.65,-1) {To compute the signed area between $f'$ and the $x$-axis on the interval $[a,b]$,};
+
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (1.65,-1) {we can compute the difference in the values of $f$ when evaluated on the boundary.};
+  \end{tikzpicture}
+\end{image}
+With line integrals we have:
+\begin{image}
+  \begin{tikzpicture}
+    \node[inner sep=0pt] at (0,0) {$\int_C \grad F \dotp  \d \vec{p}\quad= \quad F(\vec{b}) - F(\vec{a})$};
+
+    \node at (-1.5,-.7) {$\underbrace{\hspace{5.5em}}$};
+
+    \node at (1.4,-.7) {$\underbrace{\hspace{5.5em}}$};
+
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (-1.5,-1)
+         {To compute the accumulation of $\grad F$ along a curve $C$
+           starting at $\vec{a}$ and ending at $\vec{b}$,};
+
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (1.5,-1) {we can compute the difference in the values of $F$ when evaluated on the boundary.};
+  \end{tikzpicture}
+\end{image}
+We now introduce a new fundamental theorem of calculus involving the
+curl. It's called \textit{Green's Theorem}:
+
+\begin{theorem}[Green's Theorem]\index{Green's Theorem}
+  If the components of $\vec{F}:\R^2\to\R^2$ have continuous partial
+  derivatives and $C$ is a boundary of a closed region $R$ and
+  $\vec{p}(t)$ parameterizes $C$ in a counterclockwise direction with
+  the interior on the left, then
+  \[
+  \iint_R \curl\vec{F}\d A = \oint_C \vec{F}\dotp\d\vec{p} 
+  \]
+\end{theorem}
+
+\begin{question}
+  Suppose that the curl of a vector field $\vec{F}:\R^2\to\R^2$ is
+  constant, $\curl\vec{F} = 3$.
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	  ymin=-3,ymax=5,
+	  xmin=-8,xmax=4,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          grid=both,
+          grid style={dashed, gridColor},
+          xtick={-10,...,4},
+          ytick={-6,...,6},
+	]
+        \addplot[penColor2,ultra thick,smooth] coordinates{
+          (-6,3) (-1,3) (-1,1) (2,1) (2,-1)
+        };
+
+        \addplot[penColor4,ultra thick,smooth] coordinates{
+          (2,-1) (-4,-1) (-4,1) (-6,1) (-6,3)
+        };
+
+        \addplot[penColor2,ultra thick,->] coordinates{
+          (-1.05,1.5) (-1,1.7) 
+        };
+
+        \addplot[penColor4,ultra thick,->] coordinates{
+          (-4,.6) (-4.1,.4) 
+        };
+
+        \fill[black,draw=black] (axis cs:-6,3) circle (2.5pt);
+
+        \fill[black,draw=black] (axis cs:2,-1) circle (2.5pt);
+        \node[above,penColor2] at (axis cs:-3,3) {$C_1$};
+        \node[below,penColor4] at (axis cs:-2,-1.05) {$C_2$};
+        
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  If
+  \[
+  \int_{C_1} \vec{F} \dotp\d \vec{p} = 20
+  \]
+  estimate
+  \[
+  \int_{C_2} \vec{F}\dotp\d\vec{p}
+  \begin{prompt}
+    = \answer{46}
+  \end{prompt}
+  \]
+  \begin{hint}
+    Use Green's Theorem.
+  \end{hint}
+\end{question}
+
+
+How is Green's Theorem a fundamental theorem of calculus? Well
+consider this:
+\begin{image}
+  \begin{tikzpicture}
+    \node[inner sep=0pt] at (0,0) {$\iint_R \curl\vec{F}\d A\quad =\quad \oint_C \vec{F}\dotp\d\vec{p}$};
+
+    \node at (-1.3,-.7) {$\underbrace{\hspace{5.7em}}$};
+
+    \node at (1.7,-.7) {$\underbrace{\hspace{5em}}$};
+
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (-1.3,-1)
+         {To compute the double integral of $\curl \vec{F}$ over a
+           region $R\subseteq\R^2$ with boundary $C$, };
+
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (1.8,-1) {we can compute the accumulation of $\vec{F}$ along a boundary curve $C$.};
+  \end{tikzpicture}
+\end{image}
+
+
+Are there more fundamental theorems of calculus? Absolutely, read on young mathematician!
+
+
+
+\end{document}

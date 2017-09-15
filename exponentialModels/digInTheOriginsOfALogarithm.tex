@@ -1,0 +1,194 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Understand the integral definition of the natural logarithm.}
+
+\title[Dig-In:]{The origins of a logarithm}
+
+\begin{document}
+\begin{abstract}
+We look at the origins of a logarithm.
+\end{abstract}
+\maketitle
+
+
+\section{Why would someone care about logarithms?}
+
+Logarithms were originally developed as a computational tool. The key
+fact that made this possible is that:
+\[
+\log_b(xy) = \log_b(x)+\log_b(y).
+\]
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1,xmax=7,ymin=-4,ymax=3.5,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,...,7},
+          ]        
+          \addplot [very thick, penColor, samples=100, smooth, domain=(.01:7)] {ln(x)};
+          \addplot [very thick, penColor4] plot coordinates {(2,0) (2,.693)};
+          \addplot [very thick, penColor5] plot coordinates {(3,0) (3,1.099)};
+          \addplot [very thick, penColor4] plot coordinates {(6,0) (6,.693)};
+          \addplot [very thick, penColor5] plot coordinates {(6,.693) (6,1.792)};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $\ln(x)$. Here we see that \[\ln(2\cdot 3) = \ln(2) + \ln(3).\]}
+%% \label{plot:ln additive property}
+\end{image}
+
+Before the days of calculators and computers, this was critical
+knowledge for anyone in a computational discipline.
+
+\begin{example}
+  Compute $138\cdot 23.4$ using logarithms.
+  \begin{explanation}
+    Start by writing both numbers in scientific notation
+    \[
+    \left(1.38\cdot 10^{\answer[given]{2}}\right)\cdot \left(2.34 \cdot 10^{\answer[given]{1}}\right).
+    \]
+    Next we use a log-table, which gives $\log_{10}(N)$ for values of
+    $N$ ranging between $0$ and $9$. We've reproduced part of such a
+    table below.
+    \begin{image}
+       \begin{tikzpicture}
+         \matrix (m) [matrix of math nodes, row sep=-.3ex, column sep=-.3ex,ampersand replacement=\&]
+         {N \& 0 \& 1 \& 2 \& 3 \& 4 \& 5 \& 6 \& 7 \& 8 \& 9 \\ \hline
+         1.3 \& 0.1139 \& 0.1173 \& 0.1206 \& 0.1239 \& 0.1271 \& 0.1303 \& 0.1335 \& 0.1367 \& 0.1399 \& 0.1430 \\
+         %\hdotsfor{11} \\ 
+         2.3 \& 0.3617 \& 0.3636 \& 0.3655 \& 0.3674 \& 0.3692 \& 0.3711 \& 0.3729 \& 0.3747 \& 0.3766 \& 0.3784 \\
+         %\hdotsfor{11} \\
+         3.2 \& 0.5052 \& 0.5065 \& 0.5079 \& 0.5092 \& 0.5105 \& 0.5119 \& 0.5132 \& 0.5145 \& 0.5159 \& 0.5172\\};
+       \end{tikzpicture}
+    \end{image}
+    From the table, we see that 
+    \[
+    \log_{10}(1.38) \approx \answer[given]{0.1399}\qquad\text{and}\qquad \log_{10}(2.34)\approx \answer[given]{0.3692}
+    \]
+    Add these numbers together to get $\answer[given]{0.5091}$.
+    Essentially, we know the following at this point:
+    \begin{center}
+    \begin{tikzpicture}
+      \matrix (m) [matrix of math nodes, row sep=-.3ex, column sep=-.3ex,ampersand replacement=\&]
+      {\log_{10}(\mathrm{?}) \& = \& \log_{10}(1.38) \& + \& \log_{10}(2.34)\\
+      \rotatebox[origin=c]{90}{$\approx$}  \& \& \rotatebox[origin=c]{90}{$\approx$}   \& \& \rotatebox[origin=c]{90}{$\approx$}  \\
+      0.5091 \& = \& 0.1399 \& + \& 0.3692\\};
+    \end{tikzpicture}
+    \end{center}
+    Using the table again, we see that
+    $\log_{10}(\answer[given]{3.23})\approx 0.5091$. Since we were
+    working in scientific notation, we need to multiply this by
+    $10^3$. Our final answer is
+    \[
+    3230 \approx 138\cdot 23.4
+    \]
+    Since $138\cdot 23.4 = 3229.2$, this is a good approximation.
+  \end{explanation}
+\end{example}
+The moral is:
+\begin{quote}
+      \textbf{Logarithms allow us to use addition in place of multiplication.}
+\end{quote}
+
+
+\section{How does the logarithm work?}
+
+Still thinking about our work above, consider this: If we want a function
+\[
+\log(x)\qquad\text{(nevermind the base)}
+\]
+to have the property
+\[
+\log(a\cdot b) = \log(a) + \log(b),
+\]
+then how is a logarithm actually defined?
+%% then it is natural to want these two things too,
+%% \begin{enumerate}
+%% \item $\log(1) =0$,
+%% \item $\lim_{x\to 0^+}\log(x) = -\infty$,
+%% \end{enumerate}
+%% we'll let the young mathematician think about \textbf{why} this is the
+%% case. Regardless, the natural logarithm is typically defined as follows:
+
+\begin{definition}
+  The \dfn{natural logarithm} is the accumulation function defined by
+  \[
+  \ln(x) = \int_1^x \frac{1}{t} \d t
+  \]
+  The domain of the natural logarithm is $\RR^+$ (all positive real numbers),
+  and its range is $\RR$ (all real numbers). 
+\end{definition}
+
+%% At this point, let's check that the natural logarithm (as defined as
+%% an accumulation function) has the properties we want.
+
+%% \begin{example}
+%%   Show that:
+%%   \[
+%%   \ln(1) = 0
+%%   \]
+%%   \begin{explanation}
+%%     Well, 
+%%     \[
+%%     \ln(1) = \int_1^{\answer[given]{1}} \answer[given]{\frac{1}{t}} \d t
+%%     \]
+%%     Since no area is accumulated between $x=\answer[given]{1}$ and
+%%     $x=\answer[given]{1}$, the value of the integral, and hence the
+%%     natural logarithm, must be $0$.
+%%   \end{explanation}
+%% \end{example}
+
+%% \begin{example}
+%%   Show that:
+%%   \[
+%%   \lim_{x\to 0^+}\ln(x) = -\infty
+%%   \]
+%%   \begin{explanation}
+%%     This question is just slightly out-of-reach for us at the
+%%     moment. Once we learn a little more, we'll be able to say something.
+%%     Maybe you can think of an argument using only the tools you know!
+%%   \end{explanation}
+%% \end{example}
+
+Finally, we'll show that the natural logarithm has the property that
+transforms multiplication into addition.
+
+\begin{example}
+  Show that:
+  \[
+  \ln(a\cdot b) = \ln(a) + \ln(b)
+  \]
+  \begin{explanation}
+    Write with me:
+    \begin{align*}
+      \ln(a\cdot b) &= \int_1^{a\cdot b} \frac{1}{t}\d t\\
+      &= \int_1^{a} \frac{1}{t}\d t + \int_a^{a\cdot b} \frac{1}{t}\d t\\
+      &= \ln(a) + \int_a^{a\cdot b} \frac{1}{t}\d t
+    \end{align*}
+    Looking just at the last integral, set $g= t/a$, so
+    \[
+    \frac{1}{t} = \answer[given]{\frac{1}{a\cdot g}}
+    \]
+    now $\d g = \d t/a$, and so $\d t= a \d g$. Substituting in we find
+    \begin{align*}
+      \int_a^{a\cdot b} \frac{1}{t}\d t &= \int_{a/a}^{a\cdot b/a} \frac{1}{a \cdot g} \cdot a \d g\\
+      &= \int_{1}^{b} \frac{1}{g}\d g\\
+      &= \ln(b).
+    \end{align*}
+    Hence
+    \[
+    \ln(a\cdot b) = \ln(a) + \ln(b).
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+
+\end{document}
+
+

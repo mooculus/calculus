@@ -1,0 +1,558 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Sketch a parametric curve.}
+\outcome{Eliminate a parameters of a parametric equation.}
+\outcome{Represent a graph with parametric equations.}
+
+
+\title[Dig-In:]{Parametric equations}
+
+\begin{document}
+\begin{abstract}
+  We discuss the basics of parametric curves.
+\end{abstract}        
+\maketitle
+
+\section{The idea of parametric equations}
+
+Think back to when you first learned how to graph a function. I'm
+pretty sure you used a so-called ``T-chart,'' and if $y = x^2$, I bet it
+looked something like this:
+\[
+\begin{array}{c|c}
+  x & y = x^2\\\hline
+  0 & 0 \\
+  1 & 1\\
+  -1 & 1\\
+  2 & 4\\
+  -2 & 4
+\end{array}
+\]
+With a parametric plot, both $x$ and $y$ are now functions of a third
+parameter, we'll call it $t$, often thought of as time:
+\[
+\begin{array}{c|c|c}
+  t  & x = 2-3t & y = -1+4t\\\hline
+  0  & 2  & -1 \\
+  1  & -1 & 3 \\
+  2  & -4 & 7 \\
+  3  & -7 & 11\\
+  4  & -10& 15
+\end{array}
+\]
+If $x=t$, then there isn't much difference between a parametric plot
+and a regular plot.  On the other hand, with parametric functions, we
+can generate plots that fail the vertical line test! Check out this
+graph of
+\begin{align*}
+x(t) &= \cos(t)\\
+y(t) &= \sin(t)
+\end{align*}
+as $t$ runs from $0$ to $2\pi$:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1.2,xmax=1.2,ymin=-1.2,ymax=1.2,
+        axis lines=center,
+        xlabel=$x$, ylabel=$y$,
+        unit vector ratio*=1 1 1,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+      \addplot [very thick, penColor, smooth, domain=(0:360)] ({cos(x)},{sin(x)});
+    \end{axis}
+\end{tikzpicture}
+\end{image}
+
+\begin{question}
+  Do the parametric equations
+  \begin{align*}
+    x(t) &= \cos(t)\\
+    y(t) &= \sin(t)
+  \end{align*}
+  as $t$ runs from $0$ to $2\pi$ define a function of $t$?
+  \begin{multipleChoice}
+    \choice{No, because the graph does not pass the vertical line
+      test.}
+    \choice[correct]{Yes, it is a function of $t$, because for each input
+      $t$, there is exactly one output value, an ordered pair.}
+  \end{multipleChoice}
+  \begin{feedback}
+    For the graph of a circle, $y$ is \textbf{not} a function of
+    $x$. However, it can be a function of $t$ that maps
+    \begin{align*}
+    \R &\to \R\times \R\\
+    t &\mapsto (x,y)
+    \end{align*}
+    where the domain is $[0,2\pi)$ and the elements of the range
+      consist of ordered pairs.
+  \end{feedback}
+\end{question}
+
+
+\section{Famous parametric equations}
+
+We'll discuss some basic parametric equations.
+
+
+\subsection{Circles}
+
+The \dfn{standard form for a circle} centered at a point $(a,b)$ with
+radius $r$ is given by
+\[
+(x-a)^2 + (y-b)^2 = r^2.
+\]
+One problem with the standard form for a circle is that it is somewhat
+difficult to find points on the circle. A parametric equation
+representing a circle solves this problem.
+
+\begin{example}
+  Give a parametric equation representing the circle
+  \[
+  (x-1)^2 + (y-2)^2 = 3^2
+  \]
+  and explain why your answer is correct.
+  \begin{explanation}
+    This is the circle of radius $3$ centered at the point
+    $(1,2)$. Here we set
+    \begin{align*}
+      x(t) &= \answer[given]{1} + \answer[given]{3}\cos(t)\\
+      y(t) &= \answer[given]{2} + \answer[given]{3}\sin(t)
+    \end{align*}
+    as $t$ runs from $0$ to $2\pi$.  To see that our answer is
+    correct, we can ``plug'' it back into the implicit equation
+    for the circle. Write with me:
+    \begin{align*}
+      (x-1)^2 + (y-2)^2 &= (x(t)-1)^2 + (y(t)-2)^2\\
+      &= (1 + 3\cos(t)-1)^2 + (2 + 3\sin(t)-2)^2\\
+      &= (3\cos(t))^2 + (3\sin(t))^2\\
+      &= 3^2\cos^2(t) + 3^2\sin^2(t)\\
+      &= 3^2(\cos^2(t) + \sin^2(t))\\
+      &= 3^2
+    \end{align*}
+    by the Pythagorean identity.\index{Pythagorean identity} Since our
+    functions $(x(t),y(t))$ satisfy the form of the circle, our
+    solution is correct.
+  \end{explanation}
+\end{example}
+
+
+\begin{question}
+  One way to think about parametric formulas for circles is to
+  imagine
+  \begin{align*}
+    x(t) &= \cos(t)\\
+    y(t) &= \sin(t) 
+  \end{align*}
+  as ``drawing'' the unit circle as $t$ changes. Make a table showing
+  how the circle is being plotted as $t$ runs from $0$ to $2\pi$:
+  \begin{prompt}
+    \[
+    \begin{array}{c|c|c}
+      t      & x(t) = \cos(t) & y(t) = \sin(t)\\ \hline
+      0      & \answer{1}              & \answer{0}\\
+      \pi/4  & \answer{\sqrt{2}/2}     & \answer{\sqrt{2}/2}\\
+      \pi/2  & \answer{0}              & \answer{1}\\
+      3\pi/4 & \answer{-\sqrt{2}/2}    & \answer{\sqrt{2}/2}\\
+      \pi    & \answer{-1}             & \answer{0}\\
+      5\pi/4 & \answer{-\sqrt{2}/2}    & \answer{-\sqrt{2}/2}\\
+      3\pi/2 & \answer{0}              & \answer{-1}\\
+      7\pi/4 & \answer{\sqrt{2}/2}     & \answer{-\sqrt{2}/2}\\
+      2\pi   & \answer{1}              & \answer{0}
+    \end{array}
+    \]
+  \end{prompt}
+  \begin{question}
+    Is the circle ``drawn'' in a clockwise or counterclockwise fashion?
+    \begin{prompt}
+      \begin{multipleChoice}
+        \choice{clockwise}
+        \choice[correct]{counterclockwise}
+      \end{multipleChoice}
+    \end{prompt}
+    \begin{question}
+      One day while trying to graph a unit circle, you accidentally
+      write down
+      \begin{align*}
+        x(t) &= \sin(t)\\
+        y(t) &= \cos(t) 
+      \end{align*}
+      What happens now? Do you still get a circle? How is this different
+      from what we did in the previous question?
+      \begin{prompt}
+        \begin{multipleChoice}
+        \choice{you still plot a unit circle in a counterclockwise fashion, with the same starting and ending points}
+        \choice{you plot a unit circle but in a clockwise fashion, with the same starting and ending points}
+        \choice{you still plot a unit circle in a counterclockwise fashion, but the starting and ending points are different}
+        \choice[correct]{you plot a unit circle but in a clockwise fashion, but the starting and ending points are different}
+        \choice{this no longer plots a circle}
+        
+        \end{multipleChoice}
+      \end{prompt}
+  \end{question}
+\end{question}
+\end{question}
+
+In mathematics, when parameterizing closed curves (like circles), the
+convention is to draw them in a ``counterclockwise'' direction. This
+is called the \dfn{positive orientation}.
+
+\begin{warning}
+  If you parameterize your closed curves in a clockwise direction, you
+  may find your ``answers'' are off by a factor of $-1$.
+\end{warning}
+
+\begin{question}
+What should $x(t)$ and $y(t)$ be to parameterize the circle
+\[
+(x-a)^2 + (y-b)^2 = r^2.
+\]
+in a counterclockwise fashion, with $t=0$ corresponding to $(1,0)$?
+\begin{prompt}
+  \begin{align*}
+    x(t) &= \answer{a} + \answer{r}\cdot \cos(t)\\
+    y(t) &= \answer{b} + \answer{r}\cdot \sin(t)
+  \end{align*}
+\end{prompt}
+\end{question}
+
+
+
+\subsection{Lines}
+
+Suppose you want a parametric equation for a line that goes through
+the point $(2,1)$ with a certain direction:
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=(-1:2),
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            ytick={-2,-1,...,7},
+	    %yticklabels={$0.5$,$1$,$1.5$,$2$},
+	    xtick={-2,-1,...,10},
+	    %xticklabels={$0.5$,$1$,$1.5$,$2$},
+	    grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot[very thick,penColor2,->,>=stealth'] plot coordinates {(2,1) (6,4)};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,1)};  %% closed hole
+          \addplot[color=penColor,dashed] ({2+4*x},{1+3*x});
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+where the $\mathbf{direction}$ is imagined as starting at $(0,0)$ and going
+to the point $(u,v)$:
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            domain=(-1:2),
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            ytick={-2,-1,...,7},
+	    %yticklabels={$0.5$,$1$,$1.5$,$2$},
+	    xtick={-2,-1,...,10},
+	    %xticklabels={$0.5$,$1$,$1.5$,$2$},
+	    grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot[very thick,penColor2!50!white,->,>=stealth'] plot coordinates {(2,1) (6,4)};
+          \addplot[very thick,penColor2,->,>=stealth'] plot coordinates {(0,0) (4,3)};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,1)};  %% closed hole
+          \addplot[color=penColor,dashed] ({2+4*x},{1+3*x});
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+So to understand the direction of the arrow above, we need to move it
+back to the origin.
+
+\begin{question}
+  In the graph above, what is the direction of the arrow?
+  \begin{prompt}
+    The direction is given by $(u,v) = \left(\answer{4},\answer{3}\right)$.
+  \end{prompt}
+\end{question}
+
+At this point we can give a very useful representation for a line:
+\begin{align*}
+  \l(t) &= \mathbf{point} + t\cdot \mathbf{direction}\\
+  &= (a,b) + t \cdot(u,v)
+\end{align*}
+where the $\mathbf{direction}$ is imagined as starting at $(0,0)$ and going
+to the point $(u,v)$. Another way of writing this is
+\[
+\l(t) = \left\{\begin{aligned}
+  x(t) &= a + t\cdot u\\
+  y(t) &= b + t\cdot v
+\end{aligned}\right.
+\]
+\begin{question}
+  Suppose you have the parametric formula for a line
+  \[
+  \l(t) = (2,1) + t \cdot(4,3)
+  \]
+  What is $\l(0)$?
+  \begin{prompt}
+    \[
+    \l(0) = \left(\answer{2},\answer{1}\right)
+    \]
+  \end{prompt}
+  \begin{feedback}
+    We're at the starting point!
+  \end{feedback}
+  \begin{question}
+     What is $\l(1)$?
+  \begin{prompt}
+    \[
+    \l(1) = \left(\answer{6},\answer{4}\right)
+    \]
+  \end{prompt}
+  \begin{feedback}
+    We've moved exactly the ``direction'' from the  point!
+  \end{feedback}
+  \end{question}
+\end{question}
+
+
+\subsection{Other equations and other plots}
+
+One thing that can be confusing about parametric plots is that there
+can be multiple representations of the same plot:
+
+\begin{question}
+  Which of the following parametric equations draw the circle $(x-1)^2
+  + (y-2)^2 = 3^2$?
+  \begin{selectAll}
+    \choice[correct]{$x(t) = 1 + 3\cos(t)$ and $y(t) = 2 + 3\sin(t)$ for $0 \le t \le 2\pi$}
+    \choice[correct]{$x(t) = 1 + 3\cos(t)$ and $y(t) = 2 + 3\sin(t)$ for $2\pi \le t \le 4\pi$}
+    \choice[correct]{$x(t) = 1 + 3\sin(t)$ and $y(t) = 2 + 3\cos(t)$ for $0 \le t \le 2\pi$}
+    \choice{$x(t) = 2 + 3\sin(t)$ and $y(t) = 1 + 3\cos(t)$ for $0 \le t \le 2\pi$}
+    \choice{$x(t) = 1 + 3\cos(e^t)$ and $y(t) = 2 + 3\sin(e^t)$ for $0 \le t \le \ln(2\pi)$}
+    \choice[correct]{$x(t) = 1 + 3\cos(e^t)$ and $y(t) = 2 + 3\sin(e^t)$ for $\ln(2\pi) \le t \le \ln(4\pi)$}
+  \end{selectAll}
+\end{question}
+
+\begin{question}
+  Which of the following parametric equations draw the line $y=x$?
+  \begin{selectAll}
+    \choice[correct]{$x(t) = t$ and $y(t) = t$ for $-\infty < t < \infty$}
+    \choice[correct]{$x(t) = t-5$ and $y(t) = t-5$ for $-\infty < t < \infty$}
+    \choice{$x(t) = \sin(t)$ and $y(t) = \sin(t)$ for $-\infty < t < \infty$}
+    \choice[correct]{$x(t) = \tan(t)$ and $y(t) = \tan(t)$ for $-\pi/2 < t < \pi/2$}
+    \choice{$x(t) = t^2$ and $y(t) = t^2$ for $-\infty < t < \infty$}
+    \choice[correct]{$x(t) = t^3$ and $y(t) = t^3$ for $-\infty < t < \infty$}
+  \end{selectAll}
+\end{question}
+
+
+Parametric plots allow us to make some pretty crazy plots.
+
+
+
+\begin{question}
+Can you give a parametric formula for this cool spiral that starts at
+the origin and runs to $(8\pi,0)$?
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            %xmin=-25,xmax=25,ymin=-25,ymax=25,
+            width=3in,
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]      
+          \addplot [very thick, penColor, smooth,samples=100,domain=(0:8*pi)] ({x*cos(deg(x))},{x*sin(deg(x))});
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{prompt}
+  \begin{align*}
+    x(t) = \answer{t}\cdot \cos(t)\\
+    y(t) = \answer{t}\cdot \sin(t)
+  \end{align*}
+\end{prompt}
+\end{question}
+
+One important class of parametric curves are \dfn{Lissajous figures}. These are curves of the form
+\begin{align*}
+  x(t) &= A \sin(at + \delta)\\
+  y(t) &= B\sin(bt)
+\end{align*}
+Here is a plot of a Lissajous curve where $A=B=1$, $\delta = \pi/2$,
+$a=5$ and $b=4$
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            %xmin=-25,xmax=25,ymin=-25,ymax=25,
+            width=3in,
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]      
+          \addplot [very thick, penColor, smooth,samples=100,domain=(0:2*pi)] ({cos(deg(5*x))},{sin(deg(4*x))});
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+These figures come up a lot in electrical engineering. Do yourself a
+favor and play around with Lissajous figures for differing values of
+$\delta$, $a$ and $b$.
+
+
+
+
+
+\section{Converting to parametric equations}
+
+If you are given
+\[
+y = f(x)
+\]
+it is really easy to convert this to a parametric function, just write
+\begin{align*}
+  x(t) &= t\\
+  y(t) &= f(t).
+\end{align*}
+
+\begin{question}
+  Can you use the technique described immediately above to express $y
+  = e^x$ as a parametric function?
+  \begin{prompt}
+    \begin{align*}
+      x(t) &= \answer{t}\\
+      y(t) &= \answer{e^t}
+    \end{align*}
+  \end{prompt}
+\end{question}
+
+
+
+\section{Converting from parametric equations}
+
+On the other hand, if you are given a parametric function, to express
+$y$ as function of $x$ can be much more difficult. Here are the basic
+strategies to try:
+\begin{itemize}
+\item Solve for $t$.
+\item Solve for a function of $t$.
+\item Use a trigonometric identity.
+\end{itemize}
+In each case the process that we are using is called
+\dfn{elimination of a parameter}.
+
+We'll give several examples of how one actually \textit{eliminates a
+  parameter}.
+
+\subsection{Solving for the variable}
+
+In the first example, we'll solve for $t$.
+\begin{example}
+  Let
+  \begin{align*}
+    x(t) &= -4 t^2\\
+    y(t) &= 3t-1.
+  \end{align*}
+    Eliminate a parameter to express this curve purely in terms of $x$ and $y$.
+  \begin{explanation}
+    Here we will solve for $t$. Since it is easier, we will solve for
+    $t$ in this equation:
+    \begin{align*}
+      y &= 3t-1\\
+      y+1 &= \answer[given]{3t}\\
+      \frac{y+1}{3} & = \answer[given]{t}.
+    \end{align*}
+    Now plug this into $x(t) = -4 t^2$, and write
+    \[
+    x = \answer[given]{-4 \left(\frac{y+1}{3}\right)^2}.
+    \]
+  \end{explanation}
+\end{example}
+
+\subsection{Solving for a common function}
+
+In our next example we'll solve for a function of $t$ that is common
+to both $x(t)$ and $y(t)$.
+
+\begin{example}
+  Let
+  \begin{align*}
+    x(t) &= -5e^t\\
+    y(t) &= e^{3t}.
+  \end{align*}
+    Eliminate a parameter to express this curve purely in terms of $x$
+    and $y$.
+    \begin{explanation}
+      Here we will solve for a function of $t$. Write
+      \begin{align*}
+        x &= -5e^t\\
+        \frac{x}{-5} &= e^t
+      \end{align*}
+      Now we can rewrite $y(t)$ as
+      \begin{align*}
+        y(t) &= e^{3t}\\
+        y(t) &= \left(e^{t}\right)^{\answer[given]{3}}.
+      \end{align*}
+      Now we see that
+      \[
+      y = \answer[given]{\left(\frac{x}{-5}\right)^3}.
+      \]
+  \end{explanation}
+\end{example}
+
+
+\subsection{Solving for related functions}
+
+In our final example, we will use a trigonometric identity.
+
+\begin{example}
+  Let
+  \begin{align*}
+    x(t) &= 3\cos(t)\\
+    y(t) &= 1+4\sin(t).
+  \end{align*}
+  Eliminate a parameter to express this curve purely in terms of $x$ and $y$.
+  \begin{explanation}
+    The basic idea is to try an use the Pythagorean identity:
+    \[
+    \cos^2(t) + \sin^2(t) = 1
+    \]
+    So first isolate cosine and sine, and square the equations. With $x(t)$ we have
+    \begin{align*}
+      x &= 3 \cos(t) \\
+      \answer[given]{\frac{x}{3}} &= \cos(t)\\
+      \answer[given]{\left(\frac{x}{3}\right)^2} &= \cos^2(t)
+    \end{align*}
+    and with $y(t)$ we have
+    \begin{align*}
+      y &= 1 + 4\sin(t)\\
+      y-1 &= 4\sin(t)\\
+      \frac{y-1}{4} &= \sin(t)\\
+      \left(\frac{y-1}{4}\right)^2 &= \sin^2(t).
+    \end{align*}
+    Plugging this back into the Pythagorean identity, we see:
+    \begin{align*}
+      \cos^2(t) + \sin^2(t) &= 1\\
+      \left(\frac{x}{3}\right)^2 + \left(\frac{y-1}{4}\right)^2 &= 1.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+\end{document}

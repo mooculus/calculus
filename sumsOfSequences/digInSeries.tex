@@ -1,0 +1,583 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Define a series.}
+\outcome{Recognize a geometric series.}
+\outcome{Recognize a telescoping series.}
+\outcome{Compute the sum of a geometric series.}
+\outcome{Compute the sum of a telescoping series.}
+
+\title[Dig-In:]{Series}
+
+\begin{document}
+\begin{abstract}
+A series is summation of a sequence.
+\end{abstract}
+\maketitle
+
+
+Let's jump right in.
+
+
+\begin{definition}
+  A \dfn{series} is a sum of an infinite sequence.
+\end{definition}
+
+
+Let's start our investigation on this topic with a question (a little unfair, I know!).
+
+\begin{question}
+  Can the sum of an infinite number of terms be a finite value?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice{no}
+      \choice[correct]{sometimes}
+    \end{multipleChoice}
+  \end{prompt}
+\end{question}
+As we will see, the answer is ``sometimes.''  Believe it or not, you
+have been working with infinite sums of numbers (also called
+\textit{series}) for a long time. Consider the number
+\[
+\frac{1}{3} = 0.3333333333\dots .
+\]
+This is the infinite sum of the geometric sequence
+$(a_n)_{n=1}^\infty$ where $a_n = \frac{3}{10^{n}}$, as
+\begin{align*}
+  \sum_{n=1}^\infty 3\cdot \frac{1}{10^{n}} &= 0.3 + 0.03+0.003+ 0.0003+ 0.00003+ \cdots\\
+  &= \frac{3}{10} + \frac{3}{10^2} + \frac{3}{10^3} + \frac{3}{10^4} + \frac{3}{10^5} + \cdots\\
+  &=\frac{1}{3}.
+\end{align*}
+We can sum other geometric series to finite values as well. Consider
+\[
+\sum_{n=1}^\infty \left(\frac{1}{4}\right)^n =
+\frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \cdots 
+\]
+A very clever method of summing this sequence is as follows. Consider
+an equilateral triangle with area $1$:
+\begin{image}[1in]
+  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
+    \tkzDefPoint(0,1){A1} 
+    \tkzDefPoint(-.58,0){A2}
+    \tkzDefPoint(.58,0){A3}
+    \draw[penColor,very thick] (A1)--(A2)--(A3)--cycle;
+  \end{tikzpicture}
+\end{image}
+We can break this triangle into $4$ congruent triangles, each of area
+$1/4$:
+\begin{image}[1in]
+  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
+    \tkzDefPoint(0,1){A1} 
+    \tkzDefPoint(-.58,0){A2}
+    \tkzDefPoint(.58,0){A3}
+    \draw[penColor,very thick] (A1)--(A2)--(A3)--cycle;
+
+    \tkzDefPoint(0,0){B1} 
+    \tkzDefPoint(-.29,.5){B2}
+    \tkzDefPoint(.29,.5){B3}
+    \draw[penColor,fill=fill1,very thick] (B1)--(B2)--(B3)--cycle;
+  \end{tikzpicture}
+\end{image}
+We can break the upper triangle into $4$ more congruent triangles, each
+with area $(1/4)^2$:
+\begin{image}[1in]
+  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
+    \tkzDefPoint(0,1){A1} 
+    \tkzDefPoint(-.58,0){A2}
+    \tkzDefPoint(.58,0){A3}
+    \draw[penColor,very thick] (A1)--(A2)--(A3)--cycle;
+
+    \tkzDefPoint(0,0){B1} 
+    \tkzDefPoint(-.29,.5){B2}
+    \tkzDefPoint(.29,.5){B3}
+    \draw[penColor,fill=fill1,very thick] (B1)--(B2)--(B3)--cycle;
+
+    \tkzDefPoint(0,.5){C1} 
+    \tkzDefPoint(-.14,.75){C2}
+    \tkzDefPoint(.14,.75){C3}
+    \draw[penColor,fill=fill1,very thick] (C1)--(C2)--(C3)--cycle;
+  \end{tikzpicture}
+\end{image}
+Repeating this process, we find:
+\begin{image}[1in]
+  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
+    \tkzDefPoint(0,1){A1} 
+    \tkzDefPoint(-.58,0){A2}
+    \tkzDefPoint(.58,0){A3}
+    \draw[penColor,very thick] (A1)--(A2)--(A3)--cycle;
+
+    \tkzDefPoint(0,0){B1} 
+    \tkzDefPoint(-.29,.5){B2}
+    \tkzDefPoint(.29,.5){B3}
+    \draw[penColor,fill=fill1,very thick] (B1)--(B2)--(B3)--cycle;
+
+    \tkzDefPoint(0,.5){C1} 
+    \tkzDefPoint(-.14,.75){C2}
+    \tkzDefPoint(.14,.75){C3}
+    \draw[penColor,fill=fill1,very thick] (C1)--(C2)--(C3)--cycle;
+
+    \tkzDefPoint(0,.75){D1} 
+    \tkzDefPoint(-.07,.875){D2}
+    \tkzDefPoint(.07,.875){D3}
+    \draw[penColor,fill=fill1,very thick] (D1)--(D2)--(D3)--cycle;
+
+    \tkzDefPoint(0,.875){E1} 
+    \tkzDefPoint(-.04,.94){E2}
+    \tkzDefPoint(.04,.94){E3}
+    \draw[penColor,fill=fill1,very thick] (E1)--(E2)--(E3)--cycle;
+
+    \tkzDefPoint(0,.94 ){F1} 
+    \tkzDefPoint(-.02,.97){F2}
+    \tkzDefPoint(.02,.97){F3}
+    \draw[penColor,fill=fill1,very thick] (F1)--(F2)--(F3)--cycle;
+  \end{tikzpicture}
+\end{image}
+where the area of the shaded triangles is our geometric series:
+\[
+\frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \cdots 
+\]
+The area is clearly finite (it is between $0$ and $1$!). What is the
+shaded area? Well, if you look at any ``row'' of the triangle, we've
+shaded in exactly one third of the row. Hence we've shaded in one third of
+the entire area, so we see
+\[
+\frac{1}{3}=\frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \cdots 
+\]
+While this is a very cool argument, it doesn't generalize well. Let's consider
+ an argument that will apply to more settings.
+
+\begin{example}
+  Explain why
+  \[
+  \frac{1}{3}=\frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \cdots 
+  \]
+  \begin{explanation}
+    Here is the idea: first, ``name'' your sum $S$.
+    \[
+    S = \frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \cdots 
+    \]
+    Now, multiply $S$ by $\frac{1}{4}$ and write this suggestively under $S$.
+    \begin{align*}
+      S &= \frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \cdots\\
+     \left(\frac{1}{4}\right)S &=   \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \left(\frac{1}{4}\right)^4 + \left(\frac{1}{4}\right)^5+ \cdots
+    \end{align*}
+    subtracting the lower line from the upper line we find
+    \begin{align*}
+      S - \left(\frac{1}{4}\right)S &=  \frac{1}{4}\\
+      S(1-\frac{1}{4}) &= \frac{1}{4}\\
+      S &= \frac{\frac{1}{4}}{1-\frac{1}{4}}\\
+      S &= \frac{1}{3}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+This is a good method for understanding infinite sums of geometric
+sequences (assuming you know the sequence sums to a finite value).
+
+To make this precise, we need some definitions. 
+\begin{definition}
+Let $(a_k)$ be a sequence.
+\begin{enumerate}
+\item The sum $\sum_{k=1}^\infty a_k$ is an \dfn{infinite series} (or,
+  simply \dfn{series}).
+\item Let $S_n = \sum_{k=1}^n a_k$; the sequence $(S_n)$ is the
+  sequence of $n$th \dfn{partial sums} of $(a_k)$.
+\item If $\lim_{n\to\infty} S_n = L$, we say the series
+  $\sum_{k=1}^\infty a_k$ \dfn{converges} to $L$, and we write
+  $\sum_{k=1}^\infty a_k = L$.
+\item If $\lim_{n\to\infty} S_n$ diverges, the series
+  $\sum_{k=1}^\infty a_k$ \dfn{diverges}.
+\end{enumerate}
+\end{definition}
+
+Look back at the definition again. Previously, we've been using 
+notation like $(a_n)$ to define our sequences.  Suddenly, we've switched 
+the index to a $k$ instead of an $n$ in some places. This notation is to 
+help you keep in mind the differences between the two at work, here: $(a_k)$ and $(S_n)$.  The first 
+sequence gives us the terms of our series; we are not usually concerned 
+about its limit.  We do want to consider the limit of the sequence of 
+partial sums $(S_n)$, since this will give us the sum of the series.
+
+\begin{question}
+  Using our new terminology, what is the behavior of the series we 
+  considered above?
+  \begin{prompt}
+    The series $\sum_{n=1}^\infty \left(\frac{1}{4}\right)^n$
+    \wordChoice{\choice[correct]{converges}\choice{diverges}}, and
+      $\sum_{n=1}^\infty \left(\frac{1}{4}\right)^n = \answer{1/3}$.
+  \end{prompt}
+\end{question}
+
+
+\section{Geometric series}
+
+\begin{definition}
+  A \dfn{geometric series} is a series of the form $\sum_{k=0}^\infty ar^k$
+  for some real numbers $a \ne 0$ and $r$.
+\end{definition}
+
+We started this section with two different geometric series that sum
+to the same value. One reason geometric series are important is that
+they have nice convergence properties.
+
+\begin{example}
+  Consider the geometric series $\sum_{k=0}^\infty r^k$. Compute the
+  value of the $n$th partial sum.
+  \begin{explanation}
+    Let's try to get a feel for what is going on by writing out the first few partial sums.
+    \begin{align*}
+      S_1 &= r^0 \\
+      S_2 &= r^0 + r^1\\
+      S_3 &= r^0 + r^1 + r^2\\
+      &\vdots\\
+      S_n &= r^0 + r^1 + r^2 + \dots + r^{n-1}
+    \end{align*}
+    To compute $S_n$, use the same trick we used before, multiply $S_n$ by $r$
+    \begin{align*}
+      S_n   &= 1 + r^1 + r^2 + \dots + r^{n-1}\\
+      r S_n &= r^1 + r^2 + \dots + r^{n-1} + r^n
+    \end{align*}
+    and subtract to find
+    \begin{align*}
+      S_n - r S_n &= 1 - r^n\\
+      S_n(1-r)    &= 1 - r^n\\
+      S_n &= \frac{1 - r^n}{1-r}.
+    \end{align*}
+    Since $S_n$ is \textbf{always} a finite sum, there is no issue
+    with manipulating it the way we did.
+  \end{explanation}
+\end{example}
+
+From our work above, we see that the $n$th partial sum of the
+geometric series $a_n = r^n$ is
+\[
+S_n = \sum_{k=0}^{n-1} r^k= \frac{1 - r^n}{1-r}.
+\]
+Using this fact, we can prove a theorem.
+\begin{theorem}\index{series!geometric}\index{geometric series}\index{geometric series!convergence}\index{geometric series!divergence}
+  A geometric series
+  \[
+  \sum_{k= 0}^\infty r^k
+  \]
+  converges if and only if $|r| < 1$ and when $|r|<1$, 
+  \[
+  \sum_{k=0}^\infty r^k = \frac{1}{1-r}.
+  \]
+  \begin{explanation}
+    Remember, to say that a series
+    \[
+    \sum_{k= 0}^\infty r^k
+    \]
+    converges means that the limit of the partial sums converges. We
+    know already know how to compute the $n$th partial sum
+    \[
+    S_n = \frac{1 - r^n}{1-r},
+    \]
+    so write with me:
+    \begin{align*}
+      \sum_{k= 0}^\infty r^k &= \lim_{n\to\infty}S_n \\
+      &= \lim_{n\to\infty}\frac{1 - r^n}{1-r}.
+    \end{align*}
+    If $-1<r<1$, then we have
+    \[
+    \lim_{n\to\infty}\frac{1 - r^n}{1-r} = \frac{1}{1-r},
+    \]
+    and otherwise the sequence diverges.
+  \end{explanation}
+\end{theorem}
+
+According to the theorem above the series
+\[
+\sum_{k=0}^\infty \left(\frac{1}{4}\right)^k = 1 + \frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \cdots
+\]
+converges, and
+\[
+\sum_{k=0}^\infty  \left(\frac{1}{4}\right)^k = \frac{1}{1-1/4} = 4/3.
+\]
+This concurs with our introductory example; while there we got a sum
+of $1/3$, we skipped the first term of $1$.
+
+\begin{warning}
+  You must pay close attention to how the series is indexed, since
+  \[
+  \sum_{k=0}^n r^k \ne \sum_{k=1}^n r^k.
+  \]
+\end{warning}
+
+
+\begin{question}
+  Which of the following series converge?
+  \begin{selectAll}
+    \choice{$\sum_{k=0}^\infty \left(\frac{3}{2}\right)^k$}
+    \choice[correct]{$\sum_{k=0}^\infty \left(\frac{-2}{3}\right)^k$}
+    \choice[correct]{$\sum_{k=9}^\infty \left(\frac{1}{7}\right)^k$}
+    \choice{$\sum_{k=1}^\infty (-1)^k$}
+    \choice[correct]{$\sum_{k=-9}^\infty \left(\frac{1}{2}\right)^k$}    
+  \end{selectAll}
+  \begin{hint}
+    The initial index doesn't matter as far as convergence is
+    concerned, it is the ``tail'' of the sequence that determines
+    convergence.
+  \end{hint}
+\end{question}
+
+Let's use our new tools to find the sums of some geometric series.
+
+\begin{example}
+If the series 
+\[
+\sum_{n=-2}^\infty \left(\frac{3}{4}\right)^n
+\]
+converges, find its sum.
+\begin{explanation}
+Since the common ratio between the terms of this series is
+$\answer[given]{3/4}$, we see that this series
+\wordChoice{\choice[correct]{converges}\choice{diverges}}. Write with me.
+\begin{align*}
+  S &= \left(\frac{3}{4}\right)^{-2} + \left(\frac{3}{4}\right)^{-1} + \left(\frac{3}{4}\right)^{0} + \cdots\\
+  \left(\frac{3}{4}\right) S &= \left(\frac{3}{4}\right)^{-1} + \left(\frac{3}{4}\right)^{0} + \left(\frac{3}{4}\right)^{1} + \cdots
+\end{align*}
+Subtracting these two lines we find
+\begin{align*}
+  S -  \left(\frac{3}{4}\right) S  &= \left(\frac{3}{4}\right)^{-2}\\
+  S\left(1-\frac{3}{4}\right) &= \left(\frac{3}{4}\right)^{-2}\\
+  S &= \frac{(3/4)^{-2}}{1-3/4}.
+\end{align*}
+\end{explanation}
+\end{example}
+
+
+
+
+\begin{example}
+If the series 
+\[
+\sum_{n=8}^\infty \left(\frac{-1}{2}\right)^n
+\]
+converges, find its sum.
+\begin{explanation}
+  Since the common ratio between the terms of this series is
+$\answer[given]{-1/2}$, we see that this series
+\wordChoice{\choice[correct]{converges}\choice{diverges}}. Write with me.
+\begin{align*}
+  S &= \left(\frac{-1}{2}\right)^{8} + \left(\frac{-1}{2}\right)^{9} + \left(\frac{-1}{2}\right)^{10} + \cdots\\
+  \left(\frac{-1}{2}\right) S &= \left(\frac{-1}{2}\right)^{9} + \left(\frac{-1}{2}\right)^{10} + \left(\frac{-1}{2}\right)^{11} + \cdots
+\end{align*}
+Subtracting these two lines we find
+\begin{align*}
+  S -  \left(\frac{-1}{2}\right) S  &= \left(\frac{-1}{2}\right)^{8}\\
+  S\left(1-\frac{-1}{2}\right) &= \left(\frac{-1}{2}\right)^{8}\\
+  S &= \frac{(-1/2)^{8}}{1+1/2}.
+\end{align*}
+\end{explanation}
+\end{example}
+
+
+\subsection{Connections to decimals}
+
+Remember how we pointed out that 
+\[
+\frac{1}{3} = 0.3333333333\dots
+\]
+is a geometric series? We can use our techniques for summing geometric
+series to find fractions equal to given decimals.
+
+\begin{example}
+  Find a fraction equal to
+  \[
+  0.47474747474747\dots
+  \]
+  \begin{explanation}
+    Do this exactly the same way as the examples we've done
+    before. Write
+    \begin{align*}
+    N &=      0.47474747474747\dots\\
+    100 N &= 47.47474747474747\dots
+    \end{align*}
+    Now subtract the top line from the bottom line, to find
+    \begin{align*}
+      100N - N &= 47\\
+      N(100-1) &= 47\\
+      N &= \frac{47}{99}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+  Find a fraction equal to
+  \[
+  9.42764864864864864864\dots
+  \]
+  \begin{explanation}
+    Do this exactly the same way as the examples we've done
+    before. Write
+    \begin{align*}
+    N &=         9.42764864864864864864\dots\\
+    1000 N &= 9427.64864864864864864\dots
+    \end{align*}
+    Now subtract the top line from the bottom line, to find
+    \begin{align*}
+      1000N - N &= \\
+      N(1000-1) &= 9418.221\\
+      N &= \frac{9418.221}{999}.
+    \end{align*}
+    Multiplying the numerator and denominator of this fraction by $1000$, 
+     our fraction will be
+    \[
+    \frac{9418221}{999000}.
+    \]
+  \end{explanation}
+\end{example}
+    
+
+\section{Telescoping series}
+\index{series!telescoping}\index{telescoping series}
+
+Telescoping series are infinite sums that ``collapse'' to more
+manageable expressions.  Let's see an example.
+
+\begin{example}
+  Evaluate the sum
+  \[
+  \sum_{k=1}^\infty\left(\frac{1}{k}-\frac{1}{k+1}\right).
+  \]
+  \begin{explanation}
+It will help to write down the first few partial sums of this
+series.
+\begin{image}
+\begin{tikzpicture}
+    \node at (0,0) {
+      $\begin{aligned}
+        S_1 &=	\frac11-\frac12 & & = 1-\frac12\\
+        S_2 &=	\left(\frac11-\frac12\right) + \left(\frac12-\frac13\right) & & = 1-\frac13\\
+        S_3 &=	\left(\frac11-\frac12\right) + \left(\frac12-\frac13\right)+\left(\frac13-\frac14\right) & &= 1-\frac14\\
+        S_4 &=	\left(\frac11-\frac12\right) + \left(\frac12-\frac13\right)+\left(\frac13-\frac14\right) +\left(\frac14-\frac15\right)& &= 1-\frac15
+      \end{aligned}$};
+\end{tikzpicture}
+\end{image}
+Note how most of the terms in each partial sum are canceled out! In
+general, we see that $S_n = 1-\frac{1}{n+1}$. The sequence $(S_n)$
+converges, as $\lim_{n\to\infty}S_n =
+\lim_{n\to\infty}\left(1-\frac1{n+1}\right) = 1$, and so we conclude
+that $\sum_{n=1}^\infty \left(\frac1n-\frac1{n+1}\right) = 1$.
+  \end{explanation}
+\end{example}
+We've just seen an example of a \dfn{telescoping series}. Informally,
+a telescoping series is one in which the partial sums reduce to just a
+finite number of terms. The partial sum $S_n$ did not contain $n$
+terms, but rather just two:
+\[
+S_n = 1 - 1/(n+1).
+\]
+The example above gives us a moral: when possible, seek a way to write
+an explicit formula for the $n$th partial sum $S_n$. This makes
+evaluating the limit $\lim_{n\to\infty} S_n$ much more
+approachable. We do so in the next example.
+
+
+\begin{example}
+Evaluate the sum:
+\[
+\sum_{n=1}^\infty \frac{2}{n^2+2n}
+\]
+\begin{explanation}
+We can use partial fractions to write
+  \[
+  \frac2{n^2+2n} = \frac1n-\frac1{n+2}.
+  \]  
+  Expressing the terms of $(S_n)$ is now more instructive.
+  \begin{image}
+    \begin{tikzpicture}
+      \node at (0,0) {
+        $\begin{aligned}
+          S_1 &= 1-\frac13 &&= 1-\frac13\\
+          S_2 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right) &&= 1+\frac12-\frac13-\frac14\\
+          S_3 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right) &&= 1+\frac12-\frac14-\frac15\\
+          S_4 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right)+\left(\frac14-\frac16\right) &&= 1+\frac12-\frac15-\frac16\\
+          S_5 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right)+\left(\frac14-\frac16\right)+\left(\frac15-\frac17\right) &&= 1+\frac12-\frac16-\frac17\\
+        \end{aligned}$};
+    \end{tikzpicture}
+  \end{image}
+  We again have a telescoping series. In each partial sum, most of the
+  terms cancel and we obtain the formula
+  \[
+  S_n =1+\frac12-\frac1{n+1}-\frac1{n+2}.
+  \]
+  Taking limits allows us to determine the convergence of the series:
+  \[
+  \lim_{n\to\infty}S_n = \lim_{n\to\infty} \left(1+\frac12-\frac1{n+1}-\frac1{n+2}\right) = \frac32,
+  \]
+  so
+  \[
+  \sum_{n=1}^\infty \frac1{n^2+2n} = \frac32.
+  \]
+\end{explanation}
+\end{example}
+
+
+
+\begin{example}
+Evaluate the sum:
+\[
+\sum_{n=1}^\infty \ln\left(\frac{n+1}{n}\right)
+\]
+\begin{explanation}
+We begin by writing the first few partial sums of the series:
+\begin{align*}
+S_1 &= \ln\left(2\right) \\
+S_2 &= \ln\left(2\right)+\ln\left(\frac32\right) \\
+S_3 &= \ln\left(2\right)+\ln\left(\frac32\right)+\ln\left(\frac43\right) \\
+S_4 &= \ln\left(2\right)+\ln\left(\frac32\right)+\ln\left(\frac43\right)+\ln\left(\frac54\right) 
+\end{align*}
+At first, this does not seem helpful, but recall the logarithmic rule
+$\ln(x)+\ln(y) = \ln (x\cdot y)$. Applying this rule to $S_4$ gives:
+\begin{align*}
+S_4 &= \ln\left(2\right)+\ln\left(\frac32\right)+\ln\left(\frac43\right)+\ln\left(\frac54\right) \\
+&= \ln\left(\frac21\cdot\frac32\cdot\frac43\cdot\frac54\right)\\
+&= \ln\left(5\right).
+\end{align*}
+We can conclude that
+\[
+(S_n) =\ln (n+1).
+\]
+This sequence does not converge, as
+$\lim_{n\to\infty}S_n=\infty$. Therefore $\sum_{n=1}^\infty
+\ln\left(\frac{n+1}{n}\right)=\infty$; the series diverges.
+\end{explanation}
+\end{example}
+
+
+\section{Properties of sums}
+
+We are learning about a new mathematical object, the series. As done
+before, we apply ``old'' mathematics to this new topic.
+
+\begin{theorem}[Properties of Infinite Series]
+  Let
+  \[
+  \sum_{n=1}^\infty a_n = L,\quad \sum_{n=1}^\infty b_n =K, 
+  \]
+  and let $c$ be a constant.
+\begin{enumerate}
+\item Constant Multiple Rule: $\sum_{n=1}^\infty c\cdot a_n =
+  c\cdot\sum_{n=1}^\infty a_n = c\cdot L.$\index{series!Constant Multiple
+    Rule}
+\item Sum/Difference Rule: $\sum_{n=1}^\infty \big(a_n\pm b_n\big) =
+  \sum_{n=1}^\infty a_n \pm \sum_{n=1}^\infty b_n = L \pm K.$
+  \index{series!properties}\index{series!Sum/Difference Rule}
+\end{enumerate} 
+\end{theorem}
+
+Notice, of course, that we're working with convergent series in this 
+theorem.  The results don't necessarily hold if $\sum_{n=1}^\infty a_n$ 
+or $\sum_{n=1}^\infty b_n$ are divergent!
+
+
+
+
+
+
+
+\end{document}

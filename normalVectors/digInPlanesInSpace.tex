@@ -1,0 +1,230 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Planes in space}
+
+\begin{document}
+\begin{abstract}
+  We discuss how to find implicit and explicit formulas for planes.
+\end{abstract}
+\maketitle
+
+Planes are the three-dimensional analogue of lines in two-dimensions.
+
+\section{Implicit planes}
+
+Remember an implicit function in $\R^3$ is one of the form:
+\[
+F(x,y,z) = 0
+\]
+We would like to know the implicit formula for a plane. Here the dot
+product saves the day. Recall that if $\vec{n} = \vector{a,b,c}$ is
+any vector, and $\vec{x}= \vector{x,y,z}$, then the equation
+\[
+\vec{n}\dotp\vec{x} = 0
+\]
+is solved by all vectors $\vec{x}$ that are orthogonal to
+$\vec{n}$. We plotted several such vectors below:
+\begin{image}%%BADBAD we should move the vectors to the origin, or change the explanation
+  \begin{tikzpicture}
+    \begin{axis}%
+      [%tick label style={font=\scriptsize},axis on top,
+	%axis lines=center,
+	view={135}{25},
+        %axis=false,
+	name=myplot,
+	%xtick={-3,3},minor tick num=2,
+	%ytick={-3,3},
+	%ztick={-3,3},
+	ymin=-4,ymax=4,
+	xmin=-4,xmax=4,
+	zmin=-4, zmax=4,
+	%% every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	%% xlabel={\scriptsize $x$},
+	%% every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=0pt,yshift=-5pt},
+	%% ylabel={\scriptsize $y$},
+	%% every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	%% zlabel={\scriptsize $z$}
+      ]
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 2/3,2/3,2/3);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 1.057,.057,1.47);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 2,0,2);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 2.943,.529,1.943);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 10/3,4/3,4/3);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 2.943,1.943,0.529);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 2,2,0);
+      \draw[thick,->,penColor2] (axis cs: 2,1,1) -- (axis cs: 1.057,1.471,0.057);
+      
+            
+      \draw[thick,->,penColor] (axis cs: 2,1,1) -- (axis cs: 1,3,3);
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+From this we see that
+\begin{align*}
+  \vec{n}\dotp\vec{x} &=0\\
+  ax+by+cz &= 0
+\end{align*}
+gives the formula for a plane. Since $\vec{0} = \vec{x}$ is a
+solution, this plane must pass through the origin. If we want our
+plane to be located anywhere in space, we must know a point on the
+plane, call it $\vec{p}=\vector{x_0,y_0,z_0}$. Putting this together, we can
+now see:
+\begin{quote}
+  If you know
+\begin{itemize}
+  \item a vector $\vec{n} = \vector{a,b,c}$ and
+  \item a point (given by a vector) $\vec{p} = \vector{x_0,y_0,z_0}$
+\end{itemize}
+then,
+\begin{align*}
+  \vec{n}\dotp(\vec{x}-\vec{p}) &= 0\\
+  a(x-x_0) + b(y-y_0) + c(z-z_0) &= 0
+\end{align*}
+is an implicit equation for a plane passing through the point
+$(x_0,y_0,z_0)$ with normal vector $\vec{n}$.
+\end{quote}
+
+\begin{question}
+  Find the implicit equation of a plane that passes through the point
+  $(5,-5,-1)$ and with normal vector $\vector{-5,5,5}$.
+\begin{onlineOnly}
+    Check your answer by modifying the definition of $F(x,y,z)$ in
+    the \sagemath\ code below:
+\begin{sageCell}
+vector=arrow3d((3,-5,-1),(-2,0,4),5,color='blue');
+
+F(x,y,z) = 1*(x+2)+1*(y+2)+1*(z+2)
+
+plane=implicit_plot3d(F(x,y,z)==1,(x,-10,10),(y,-10,10),(z,-10,10),color='red');
+plane+vector
+\end{sageCell}
+\end{onlineOnly}
+\end{question}
+
+Normal vectors not only allow us to define equations for planes but also 
+they help us describe properties of planes.
+
+\begin{definition}
+  Two planes are said to be \dfn{parallel} if their normal vectors are
+  parallel. Two planes are said to be \dfn{orthogonal} if their normal
+  vectors are orthogonal.
+\end{definition}
+
+\begin{question}
+  What is the (most obvious) normal vector for the plane
+  \[
+  -6x+10y-2z = 4?
+  \]
+  \begin{prompt}
+    \[
+    \vec{n} = \vector{\answer{-6},\answer{10},\answer{-2}}
+    \]
+  \end{prompt}
+  \begin{question}
+    Which of the following planes are parallel to the plane $-6x+10y-2z = 4$?
+    \begin{selectAll}
+      \choice{$-2.46x+3.9y-0.82z=3$}
+      \choice[correct]{$-2.07x+3.45y-0.69z = 8$}
+      \choice[correct]{$10.38x-17.3y+3.46z=0$}
+      \choice{$15.03x-25.1y+5.02z=0$}
+    \end{selectAll}
+      \begin{question}
+    Which of the following planes are orthogonal to the plane $-6x+10y-2z = 4$?
+    \begin{selectAll}
+      \choice[correct]{$34x+16y-22z=0$}
+      \choice{$-54x-32y+8z=-3$}
+      \choice[correct]{$-36x-42y-102z=-17$}
+      \choice{$54x+31y-2z=4$}
+    \end{selectAll}
+  \end{question}
+  \end{question}
+\end{question}
+
+
+\section{Parametric planes}
+
+
+Given \textbf{any} two nonzero vectors, $\vec{v}$ and $\vec{w}$ such that
+\[
+\vec{v}\cross \vec{w} \ne \vec{0}
+\]
+we can produce a parametric formula for a plane by writing
+\[
+\vec{L}(s,t) = \vec{p} + s\cdot \vec{v} + t\cdot\vec{w},
+\]
+where $\vec{p}$ is a vector whose ``tip'' is on the plane, and
+$\vec{v}$ and $\vec{w}$ are in the plane.
+\begin{question}
+  Given two nonzero vectors, $\vec{v}$ and $\vec{w}$, what does it
+  mean for $\vec{v}\cross \vec{w} \ne \vec{0}$?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice{It means these vectors are parallel.}
+      \choice[correct]{It means these vectors are not parallel.}
+      \choice{It means these vectors are orthogonal.}
+      \choice{It means these vectors are not orthogonal.}
+    \end{multipleChoice}
+  \end{prompt}
+\end{question}
+
+The vector-valued formula for a plane
+\[
+\vec{L}(s,t) = \vec{p} + s\cdot \vec{v} + t\cdot\vec{w},
+\]
+is very similar to our formula for a line,
+\[
+\vecl(t) = \vec{p} + t\vec{v}
+\]
+where $\vec{v}$ is a vector that points in the direction of the line,
+both represent linear relationships, and hence we use similar notation
+for both.
+
+Now that we have \textbf{two} methods of graphing planes, let's use
+both of the representations at once!
+
+\begin{question}
+  Let $\vec{v} = \vector{1,-2,1}$ and $\vec{w} =
+  \vector{-1,-2,1}$. Compute $\vec{v}\cross\vec{w}$.
+  \begin{prompt}
+    \[
+    \vec{v}\cross\vec{w} = \vector{\answer{0},\answer{-2},\answer{-4}}
+    \]
+  \end{prompt}
+  \begin{question}
+    Use your answer above to give an \textbf{implicit} equation for
+    the plane that passes through the point $(1,2,3)$ that is normal
+    to $\vec{v}\cross\vec{w}$.
+    \begin{onlineOnly}
+      Check your answer by modifying the \sage\ code below to show
+      appropriate normal vector and modifying the definition of
+      $F(x,y,z)$:
+      \begin{sageCell}
+vector=arrow3d((1,2,3),(1,-2,-4),5,color='blue');
+        
+F(x,y,z) = 1*(x+2)+1*(y+2)+1*(z+2)
+
+plane=implicit_plot3d(F(x,y,z)==1,(x,-10,10),(y,-10,10),(z,-10,10),color='red');
+plane+vector
+      \end{sageCell}
+      \begin{question}
+        Now give a parametric formula for the same plane using the vectors given above.
+   \begin{sageCell}
+var('t s')
+normal=arrow3d((1,2,3),(1,0,-1),5,color='blue')
+          
+point = vector([1,2,3])
+          
+dir1 = vector([t,t,t])
+          
+dir2 = vector([0,s,s])
+
+paraPlane = parametric_plot(point+dir1+dir2,(s,-2,3),(t,-2,3))
+paraPlane+normal
+      \end{sageCell}
+      \end{question}
+    \end{onlineOnly}
+  \end{question}
+\end{question}
+\end{document}

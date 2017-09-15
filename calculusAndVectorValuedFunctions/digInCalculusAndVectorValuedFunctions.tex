@@ -1,0 +1,325 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Compute limits of vector-valued functions.}
+\outcome{Determine continuity of vector-valued functions.}
+\outcome{Compute the derivative of a vector-valued function.}
+\outcome{Compute the tangent vector of a vector-valued function.}
+\outcome{Find the unit tangent vector of a vector-valued function.}
+\outcome{Compute integrals of vector-valued functions.}
+
+
+\title[Dig-In:]{Calculus and vector-valued functions}
+
+\begin{document}
+\begin{abstract}
+  With one input, and vector outputs, we work component-wise.
+\end{abstract}
+\maketitle
+
+
+Since we are currently thinking about vector-valued functions that
+only have a single input, we can work \dfn{component-wise}. This means
+that to build a theory of calculus for vector-valued functions, we
+simply treat each component of a vector-valued function as a regular,
+single-variable function. Let's see this in action.
+
+\section{Limits of vector-valued functions}
+
+\begin{definition}
+  Let $\vec{f}:\R \to \R^3$ be a vector-valued function
+  \[
+  \vec{f}(t) = \vector{x(t),y(t),z(t)}
+  \]
+  then the vector-valued \dfn{limit} as $t$ goes to $a$ is given by 
+  \[
+  \lim_{t \to a} \vec{f}(t) = \vector{\lim_{t \to a}x(t),\lim_{t \to a}y(t),\lim_{t \to a}z(t)}.
+  \]
+  This limit exists if and only if each of the limits of the
+  components exist.
+\end{definition}
+
+We evaluate limits by just taking the limit of each component
+separately.
+
+\begin{question}
+  Let $\vec{f}(t) = \vector{\sin(t),\cos(t),\frac{\sin(t)}{t}}$.
+  Compute:
+  \[
+  \lim_{t \to 0} \vec{f}(t)
+  \begin{prompt}
+    =\vector{\answer{0},\answer{1},\answer{1}}
+  \end{prompt}
+  \]
+  \begin{hint}
+    Take the limit of each component separately.
+  \end{hint}
+\end{question}
+
+Now that we have the notion of limits, we may also define the concept
+of continuity of vector-valued functions:
+
+\begin{definition}
+  A vector-valued function $\vec{f}$ is \dfn{continuous} at $t= a$ if
+  and only if
+  \[
+  \lim_{t \to a} \vec{f}(t)  = \vec{f}(a)
+  \]
+\end{definition}
+Because of the component-wise nature of limits, we can see that a
+function $\vec{f}$ is continuous if and only if each component
+function $x(t)$, $y(t)$, $z(t)$ is also continuous at $t=a$.
+
+\begin{question}
+Which of the following vector-valued functions are continuous for all
+real values of $t$?
+\begin{selectAll}
+  \choice{$\vector{t,t^2,\tan(t)}$}
+  \choice{$\vector{\frac{2}{t-5},\sin(t),0}$}
+  \choice[correct]{$\vector{\cos(5 t), t^2-3t+1, e^t}$}
+  \choice{$\vector{e^{\sqrt{t}}, 4\sin(t), t^7}$}
+  \choice{$\vector{\ln(t^2), \ln(t), t^{3/2}}$}
+  \choice[correct]{$\vector{0, 0, 0}$}
+\end{selectAll}
+\end{question}
+
+
+\section{Derivatives}
+
+We also compute derivatives component-wise:
+
+\begin{definition}
+  Let $\vec{f}:\R \to \R^3$ be a vector-valued function
+  \[
+  \vec{f}(t) = \vector{x(t),y(t),z(t)},
+  \]
+  then the vector-valued \dfn{derivative} is given by
+  \[
+  \vec{f}'(t) = \vector{x'(t),y'(t),z'(t)}.
+  \]
+\end{definition}
+
+\begin{question}
+  Let $\vec{f}(t) = \vector{\arctan(t),7^t, \sec(t^2)}$.
+  Compute:
+  \[
+  \dd{t} \vec{f}(t)
+  \begin{prompt}
+    =\vector{\answer{\frac{1}{1+t^2}},\answer{7^t \ln(7)},\answer{ \sec(t^2)\tan(t^2)2t}}
+  \end{prompt}
+  \]
+\end{question}
+
+We also have some (additional) derivative rules:
+\begin{theorem}
+  Let $\vec{f}$ and $\vec{g}$ be differentiable vector-valued
+  functions, $s(t)$ be a differentiable scalar function, and $c$ be a
+  constant. Then:
+  \begin{itemize}
+  \item $\dd{t} \left(\vec{f}(t) + \vec{g}(t) \right) = \vec{f}'(t) + \vec{g}'(t)$
+  \item $\dd{t} c\vec{f}(t) = c\vec{f}'(t)$
+  \item $\dd{t} s(t)\vec{f}(t) = s'(t)\vec{f}(t) + s(t)\vec{f}'(t)$
+  \item $\dd{t} \left(\vec{f}(t)\dotp \vec{g}(t)\right) = \vec{f}'(t)\dotp \vec{g}(t) + \vec{f}(t)\dotp\vec{g}'(t)$
+  \item $\dd{t} \left(\vec{f}(t)\cross \vec{g}(t)\right) = \vec{f}'(t)\cross \vec{g}(t) + \vec{f}(t)\cross\vec{g}'(t)$
+  \item $\dd{t} \vec{f}(s(t)) = \vec{f}'(s(t))\cdot s'(t)$
+  \end{itemize}
+\end{theorem}
+
+The derivative of a vector-valued function gives a \textit{tangent
+  vector} that points in the direction that the curve is drawn.
+
+\begin{definition}
+Let $\vec{f}(t)$ be a differentiable vector-valued function on an open
+interval $I$ containing $c$, where $\vec{f}'(c)\neq \vec{0}$.
+\begin{itemize}
+\item A vector $\vec v$ is a \dfn{tangent vector} to the graph of
+  $\vec{f}(t)$ at $t=c$, if $\vec v$ is parallel to $\vec{f}'(c)$.
+\item The \dfn{tangent line} to the graph of $\vec f(t)$ at $t=c$
+  is the line through $\vec f(c)$ in a direction parallel to
+  $\vec{f}'(c)$. An equation of the tangent line is
+  \[
+  \boldsymbol{\l}(t) = \vec f(c) + t\vec{f}'(c).
+  \]
+\item The \dfn{unit tangent vector} of $\vec{f}$ is given by
+  \[
+  \utan(t)=\frac{\vec{f}'(t)}{|\vec{f}'(t)|} = \frac{\vec{f}'(t)}{\sqrt{\vec{f}'(t)\dotp \vec{f}'(t)}}.
+  \]
+\end{itemize}
+\end{definition}
+
+\begin{question}
+  Let $\vec{f}(t) = \vector{t,t^2,t^3}$ on $[-1.5,1.5]$.  Find the
+  vector equation of the line tangent to the graph of $\vec f$ at
+  $t=-1$.
+  \begin{prompt}
+    \[
+    \boldsymbol{\l}(t) = \vector{\answer{-1},\answer{1},-1} + t\vector{\answer{1},-2,\answer{3}}
+    \]
+  \end{prompt}
+\end{question}
+
+If the tangent vector is ever the zero vector, then there is a
+problem, since there is no ``tangent line'' at that point. Because of
+this, we have a special name for functions where the tangent vector is never zero:
+
+\begin{definition}
+Let $\vec{f}(t)$ be a differentiable vector-valued function on an open
+interval $I$. $\vec f(t)$ is \dfn{smooth} on $I$ if
+\[
+\vec{f}'(t)\neq\vec{0}
+\]
+for $t$ in $I$.
+\end{definition}
+
+\begin{question}
+  Is the vector-valued function $\vec{f}(t) = \vector{t^2,t^2}$ smooth on
+  $\R$?
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    This function looks like a ``ray.'' Conceptually it isn't smooth
+    because it goes to the origin and turns around ``abruptly.'' Check it out:
+    \[
+    \graph{(t^2,t^2)}
+    \]
+  \end{feedback}
+\end{question}
+
+
+Finally, we should point out that if a vector-valued function has
+constant length, then it traces out part of a circle.
+\begin{theorem}
+  Let $\vec f(t)$ be a differentiable vector-valued function on an
+  open interval $I$. $\vec{f}(t)$ is of constant length if and only if
+  the function and its tangent vector are orthogonal.
+  \begin{explanation}
+    Suppose that $|\vec f(t)| = c$ for all $t$ in $I$. In particular,
+    we see
+    \[
+    \vec{f}(t) \dotp \vec{f}(t) = c^2.
+    \]
+    Now take the derivative of both sides. Write with me
+    \begin{align*}
+      \vec{f}'(t) \dotp \vec{f}(t) + \vec{f}(t)\dotp \vec{f}'(t) &= 0\\
+      2\vec{f}'(t) \dotp \vec{f}(t) &= 0\\
+      \vec{f}'(t) \dotp \vec{f}(t) &= 0
+    \end{align*}
+    and this means that the vectors $\vec{f}'(t)$ and $\vec{f}(t)$ are
+    \wordChoice{\choice{parallel}\choice[correct]{perpendicular}}.
+
+    Now suppose that for all $t$ in $I$, $\vec{f}'(t)$ and
+    $\vec{f}(t)$ are orthogonal. This means
+    \begin{align*}
+      \vec{f}'(t) \dotp \vec{f}(t) &= 0\\
+      2\vec{f}'(t) \dotp \vec{f}(t) &= 0\\
+      \vec{f}'(t) \dotp \vec{f}(t) + \vec{f}(t)\dotp \vec{f}'(t) &= 0,
+    \end{align*}
+    but we know where the derivative on the left came from! So we may
+    write
+    \[
+    \vec{f}(t) \dotp \vec{f}(t) = c^2
+    \]
+    for some constant $c$. Now we see that $\vec{f}$ is a
+    vector-valued function of constant length on an open interval
+    $I$.
+  \end{explanation}
+\end{theorem}
+The theorem above says a lot in a very little. To start, it says that
+if the magnitude of a vector-valued function is constant, then the
+vector-value of the function and its tangent vector are
+orthogonal. Moreover, this means that the curve looks locally like a
+circle.
+
+
+
+\section{Integrals}
+
+Indefinite and definite integrals of vector-valued functions are also evaluated component-wise.
+
+\begin{theorem}
+  Let $\vec{f}:\R \to \R^3$ be a continuous vector-valued function
+  \[
+  \vec{f}(t) = \vector{x(t),y(t),z(t)},
+  \]
+  then the vector-valued \dfn{integral} is given by
+  \[
+  \int \vec{f}(t) \d t= \vector{\int x(t) \d t,\int y(t)\d t,\int z(t)\d t}.
+  \]
+\end{theorem}
+
+\begin{question}
+  Let $\vec f(t) = \vector{e^{2t},\sin t}$. Compute:
+  \[
+  \int_0^1 \vec f(t) \d t
+  \begin{prompt}
+    = \vector{\answer{\frac{1}{2}(e^2-1)},\answer{-\cos(1)+1}}
+  \end{prompt}
+  \]
+\end{question}
+
+We can also solve initial value problems, check out our next example:
+
+\begin{example}
+  Let $\vec{f}''(t) = \vector{2, \cos(t), 12t}$. Find $\vec f(t)$ where:
+  \begin{itemize}
+  \item $\vec f(0) = \vector{-7,-1,2}$ and
+  \item $\vec{f}'(0) = \vector{5,3,0}.$
+  \end{itemize}
+  \begin{explanation}
+    Knowing $\vec{f}''(t) = \vector{2,\cos(t), 12t}$, we find
+    $\vec{f}'(t)$ by evaluating the indefinite integral.
+    \begin{align*}
+      \int \vec{f}''(t)\d t &= \vector{\int \answer[given]{2}\d t, \int \answer[given]{\cos(t)}\d t , \int \answer[given]{12t}\d t} \\
+      &= \vector{\answer[given]{2t}+C_1, \answer[given]{\sin(t)}+ C_2, \answer[given]{6t^2} + C_3} \\
+      &= \vector{2t,\sin(t),6t^2} + \vector{C_1,C_2,C_3} \\
+      &= \vector{2t,\sin(t),6t^2} + \vec{C}.
+    \end{align*}
+    Note how each indefinite integral creates its own constant which
+    we collect as one constant vector $\vec C$. Knowing
+    \[
+    \vec{f}'(0) = \vector{5,3,0}
+    \]
+    allows us to solve for $\vec C$:
+    \begin{align*}
+      \vec{f}'(t) & = \vector{2t,\sin(t),6t^2} + \vec C\\
+      \vec{f}'(0) &= \vector{\answer[given]{0},\answer[given]{0},\answer[given]{0}} + \vec C\\
+      \vector{5,3,0} &= \vec C.
+    \end{align*}
+    So
+    \begin{align*}
+      \vec{f}'(t) &= \vector{2t,\sin(t),6t^2} + \vector{\answer[given]{5},\answer[given]{3},\answer[given]{0}}\\
+      &=\vector{2t+5, \sin(t) + 3, 6t^2}.
+    \end{align*}
+    To find $\vec f(t)$, we integrate once more.
+    \begin{align*}
+      \int \vec{f}'(t)\d t &= \vector{\int\answer[given]{2t+5}\d t, \int \answer[given]{\sin(t) + 3}\d t, \int \answer[given]{6t^2}\d t }\\
+      &= \vector{\answer[given]{t^2+5t}, \answer[given]{-\cos(t) + 3t}, \answer[given]{2t^3}} + \vec C
+    \end{align*}
+    With $\vec f(0) = \vector{-7,-1,2}$, we solve for $\vec C$:
+    \begin{align*}
+      \vec f(t) &= \vector{\answer[given]{t^2+5t}, \answer[given]{-\cos(t) + 3t}, \answer[given]{2t^3}} + \vec C\\
+      \vec f(0) &= \vector{\answer[given]{0},\answer[given]{-1},\answer[given]{0}} + \vec C\\
+      \vector{-7,-1,2} &= \vector{0,-1,0} + \vec C.
+    \end{align*}
+    Hence:
+    \[
+    \vec{C}=\vector{\answer[given]{-7},\answer[given]{0},\answer[given]{2}}
+    \]
+    So
+    \begin{align*}
+      \vec f(t) &= \vector{t^2+5t, -\cos(t) + 3t, 2t^3} + \vector{-7,0,2}\\
+      &= \vector{\answer[given]{t^2+5t-7},\answer[given]{-\cos(t)+3t},\answer[given]{2t^3+2}}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+We now leave you with a question: What does the integration of a
+vector-valued function \textit{mean}?  There are many applications,
+but none as direct as ``the area under the curve'' that we used in
+understanding the integral of a real-valued function. We will explore
+this later in our study of calculus.
+
+\end{document}

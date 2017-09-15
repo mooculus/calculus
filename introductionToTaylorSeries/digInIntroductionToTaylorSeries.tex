@@ -1,0 +1,363 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Give the definition of a Maclaurin series.}
+\outcome{Give the definition of a Taylor series.}
+\outcome{Find the Maclaurin/Taylor series of a function.}
+\outcome{Use given Maclaurin/Taylor series to find new power series.}
+%\outcome{Use the binomial series to find Maclaurin series.}
+\outcome{Find the interval and radius of convergence of a Maclaurin/Taylor series.}
+
+\title[Dig-In:]{Introduction to Taylor series}
+
+\begin{document}
+\begin{abstract}
+  We study Taylor and Maclaurin series.
+\end{abstract}
+\maketitle
+
+We've seen that we can approximate functions with polynomials, given
+that enough derivative information is available.  We have also seen
+that certain functions can be represented by a power series.  In this
+section we combine these concepts: If a function $f(x)$ is infinitely
+differentiable, we show how to represent it with a power series
+function.
+
+\begin{definition}
+  Let $f(x)$ have derivatives of all orders at $x=c$.  
+  \begin{itemize}
+  \item The \dfn{Taylor series} of $f(x)$, centered at $c$ is
+    \[
+    \sum_{n=0}^\infty \frac{f^{(n)}(c)}{n!}(x-c)^n.
+    \]
+  \item Setting $c=0$ gives the \dfn{Maclaurin series} of $f(x)$:
+    \[
+    \sum_{n=0}^\infty \frac{f^{(n)}(0)}{n!}x^n.
+    \]
+  \end{itemize}
+\end{definition}
+
+\begin{question}
+  Quick: Write down the Taylor series for $f(x) = x^3-6x^2+1$ centered
+  at $x=0$.
+  \begin{prompt}
+    \[
+    \answer{x^3-6x^2+1}
+    \]
+  \end{prompt}
+  \begin{question}
+    Write down the Taylor series for $f(x) = x^3-6x^2+1$ centered at
+    $x=1$.
+    \begin{prompt}-
+      \[
+      \answer{-4} + \answer{-9}(x-1) + \answer{-3}(x-1)^2 + \answer{1}(x-1)^3
+      \]
+    \end{prompt}
+  \end{question}
+\end{question}
+
+The difference between a Taylor polynomial and a Taylor series is the
+former is a polynomial, containing only a \textbf{finite} number of
+terms, whereas the latter is a series, a summation of an infinite set
+of terms, any number of which (including an infinite number) may be
+zero. When creating the Taylor polynomial of degree $n$ for a function
+$f(x)$ at $x=c$, we needed to evaluate $f$, and the first $n$
+derivatives of $f$, at $x=c$. When creating the Taylor series of $f$,
+it helps to find a pattern that describes the $n$th derivative of $f$
+at $x=c$.  Time for examples!
+
+\begin{example}
+  Compute the Taylor series for $f(x) = \sin(x)$ centered at $x=0$.
+  \begin{explanation}
+    We'll start by making a table of derivatives:
+    \[
+    \begin{array}{lcl}
+      f(x) = \sin(x) & \Rightarrow &f(0) = 0\\
+      f'(x) = \answer[given]{\cos(x)} & \Rightarrow & f'(0) = \answer[given]{1}\\
+      f''(x) = \answer[given]{-\sin(x)} &\Rightarrow &f''(0) = \answer[given]{0}\\
+      f'''(x) = \answer[given]{-\cos(x)} &\Rightarrow &f'''(0) = \answer[given]{-1}\\
+      f^{(4)}(x) = \answer[given]{\sin(x)} &\Rightarrow &f^{(4)}(0) = \answer[given]{0}\\
+      f^{(5)}(x) = \answer[given]{\cos(x)} &\Rightarrow &f^{(5)}(0) = \answer[given]{1}\\
+      f^{(6)}(x) = \answer[given]{-\sin(x)} &\Rightarrow &f^{(6)}(0) =\answer[given]{0}\\
+      f^{(7)}(x) = \answer[given]{-\cos(x)} &\Rightarrow &f^{(7)}(0) = \answer[given]{-1}\\
+      f^{(8)}(x) = \answer[given]{\sin(x)} &\Rightarrow &f^{(8)}(0) = \answer[given]{0}\\
+      f^{(9)}(x) = \answer[given]{\cos(x)} &\Rightarrow &f^{(9)}(0) = \answer[given]{1}\\
+    \end{array}
+    \]
+    Since a repeating pattern has emerged, we see that the Maclaurin
+    series for $\sin(x)$ is:
+    \[
+    x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots = \sum_{n=0}^\infty \frac{(-1)^{n+1}}{(2n+1)!} x^{2n+1}
+    \]
+  \end{explanation}
+\end{example}
+
+
+Let's see an example that is not centered at $x=0$:
+
+\begin{example}
+  Compute the Taylor series for $f(x) = \ln(x)$ centered at $x=1$.
+  \begin{explanation}
+    We'll start by making a table of derivatives:
+    \[
+    \begin{array}{lcl}
+      f(x) = \ln(x) &\Rightarrow &f(1) = 0\\
+      f'(x) = \answer[given]{1/x}&\Rightarrow &f'(1) = \answer[given]{1}\\
+      f''(x) = \answer[given]{-1/x^2}&\Rightarrow &f''(1) = \answer[given]{-1}\\
+      f'''(x) = \answer[given]{2/x^3}&\Rightarrow &f'''(1) = \answer[given]{2}\\
+      f^{(4)}(x) = \answer[given]{-6/x^4}&\Rightarrow &f^{(4)}(1) = \answer[given]{-6}\\
+      f^{(5)}(x) = \answer[given]{24/x^5}&\Rightarrow &f^{(5)}(1) = \answer[given]{24}\\
+      \ \vdots & &\ \vdots\\
+      f^{(n)}(x) = \answer[given]{\frac{(-1)^{n+1}(n-1)!}{x^n}} &\Rightarrow & f^{(n)}(1) = \answer[given]{(-1)^{n+1}(n-1)!}
+    \end{array}
+    \]
+    \begin{hint}
+      \[
+      0! = 1,\ 1! = 1,\ 2!=2,\ 3! = 6,\ 4! = 24, \ 5!=120, \ 6! = 720.
+      \]
+    \end{hint}
+    Since a pattern has emerged, we see that the Taylor series for
+    $\ln(x)$ is:
+    \begin{align*}
+    (x-1) &- \frac{(x-1)^2}{\answer[given]{2}} + \frac{(x-1)^3}{\answer[given]{3}} - \frac{(x-1)^4}{\answer[given]{4}} + \cdots \\
+    &= \sum_{n=1}^\infty (-1)^{n+1}\frac{(x-1)^n}{\answer[given]{n}}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+Finally, sometimes Taylor's formula may not be the best way to compute the
+Taylor series.
+
+\begin{example}
+  Compute the Taylor series for $f(x) = \arctan(x)$ centered at $x=0$.
+  \begin{explanation}
+    If we try to use Taylor's formula, we must start by making a table
+    of derivatives:
+    \begin{align*}
+      f(x) &= \arctan(x)\\
+      f'(x) &= \answer[given]{\frac{1}{1+x^2}}\\
+      f''(x) &= \answer[given]{\frac{-2x}{(1+x^2)^2}}
+    \end{align*}
+    Hmm. This is getting messy. Let's try to find the Taylor series
+    via known power series. We know that
+    \[
+    \frac{1}{1-z} = 1+ z+ z^2 + z^3 + \cdots \qquad |z|< 1
+    \]
+    setting $z = -x^2$ we now have
+    \[
+    \frac{1}{1-(-x^2)} = 1 + (-x^2)+ (-x^2)^2 + (-x^2)^3 + \cdots
+    \]
+    when $|(-x^2)|< 1$ and
+    \[
+    \frac{1}{1+x^2} = 1 - x^2 + x^4 - x^6 + \cdots 
+    \]
+    when $|x|< 1$. Since
+    \[
+    \int\frac{1}{1+x^2} \d x = \arctan(x) + C
+    \]
+    we can find the desired power series by integrating. Write with me
+    \begin{align*}
+      \int &\left(1 - x^2 + x^4 - x^6 + \cdots\right)\d x \\
+      &= \answer[given]{x - \frac{x^3}{3} + \frac{x^5}{5}} - \frac{x^7}{7} + \cdots +C
+    \end{align*}
+    since $\arctan(0) = 0$, $C=0$, and we have our desired power
+    series, which converges with radius of convergence $R=1$. However,
+    note the interval of convergence may be different, and it is in
+    this case. First note that our power series can be written in summation notation as
+    \[
+    \sum_{n=0}^\infty \frac{(-1)^n x^{2n+1}}{2n+1}
+    \]
+    If $x=1$ or $x=-1$ we can see that this sequence is
+    \[
+    \sum_{n=0}^\infty \frac{(-1)^n}{2n+1}\qquad\text{or}\qquad\sum_{n=0}^\infty \frac{(-1)^{n+1}}{2n+1}
+    \]
+    In both cases, the series converges by the alternating series
+    test. Hence the interval of convergence is $[\answer[given]{-1},\answer[given]{1}]$.
+  \end{explanation}
+\end{example}
+
+Above we implicitly used the following theorem:
+
+
+\begin{theorem}
+  The Taylor series centered at $x=c$ of a polynomial in $(x-c)$ is
+  exactly that polynomial and the Taylor series of power series
+  centered at $(x-c)$ is exactly that power series.
+\end{theorem}
+
+This is just saying that if you know a power series for a function,
+then using Taylor's formula will do nothing but give you the power
+series.
+
+\begin{warning}
+  Since we designed Taylor polynomials to approximate functions, you
+  might guess that the Taylor series of a function is equal to the
+  function (at least on the interval of convergence for the Taylor
+  series).  This is \textbf{false}.
+\end{warning}
+
+Here is an somewhat unsatisfying example:
+
+\begin{example}
+  Consider:
+  \[
+  f(x) = \begin{cases}
+    1 &\text{if $|x|<1$},\\
+    0 &\text{if $|x|\ge 1$}.
+  \end{cases}
+  \]
+  \begin{enumerate}
+  \item Compute the Maclaurin series of $f$.
+  \item Find the radius of convergence.
+  \item Is the Maclaurin series for $f$ equal to $f$ on the interval of convergence?
+  \end{enumerate}
+  \begin{explanation}
+   We'll start by making a table of derivatives:
+   \begin{align*}
+     f(0)   &= \answer[given]{1}\\
+     f'(0)  &= \answer[given]{0}\\
+     f''(0) &=\answer[given]{0}\\
+     &\vdots
+   \end{align*}
+   So our Maclaurin series for $f$ is:
+    \[
+    1+0+0+\cdots
+    \]
+    This converges for all values of $x$, and hence the radius of
+    convergence is $R=\infty$, with interval of convergence
+    $(-\infty,\infty)$. However, $1\ne f$ as functions.
+\end{explanation}
+\end{example}
+
+
+A more satisfying example is the following:
+
+\begin{example}  %% Give a plot?
+	Let 
+	\[
+	f(x) = \begin{cases}
+		e^{-1/x^2} &\text{if $x \neq 0$,}\\
+		0 &\text{if $x = 0$.}
+	\end{cases}
+	\]
+	It turns out that $f$ is infinitely differentiable everywhere,
+        but all of its derivatives vanish at $x=0$. Thus the Maclaurin series for $f$ is just
+        \[
+        1 + 0 + 0+ \cdots
+        \]
+        The derivatives of $f$ ``go to $0$'' as $x$ goes to zero
+        faster than any polynomial, and so no polynomial term
+        ``detects'' that this function is not the horizontal line
+        $y=1$.
+
+        It is within your power to show that $f$ is infinitely
+        differentiable everywhere, and to prove that $f^{(k)}(0) = 0$.
+        This is quite involved, and we will not do it here.  If you
+        have the gumption, and the willpower, it would make a
+        fantastic exercise.
+\end{example}
+
+We will find that ``most of the time'' they are equal, but we need to
+consider the conditions that allow us to conclude this.  Taylor's
+theorem states that the error between a function $f(x)$ and its $n$th
+degree Taylor polynomial is $R_n(x)$:
+\[
+f(x) = p_n(x) + R_n(x)
+\]
+and that 
+\[
+\left|R_n(x)\right| \leq \frac{M}{(n+1)!}|x-c|^{(n+1)}
+\]
+where $M$ is the maximum value of $|f^{(n+1)}|$ on $[c,x]$.  If
+$R_n(x)$ goes to $0$ for each $x$ in an interval $I$ as $n$ approaches
+infinity, we conclude that the function is equal to its Taylor series
+expansion. This leads us to our next theorem:
+
+\begin{theorem}[Function and Taylor Series Equality]
+Let $f(x)$ have derivatives of all orders at $x=c$, let $R_n(x)$, and
+let $I$ be an interval on which the Taylor series of $f$ converges.
+If
+\[
+\lim_{n\to\infty} R_n(x) = 0
+\]
+for all $x$ in $I$ containing $c$, then
+\[
+f(x) = \sum_{n=0}^\infty \frac{f\,^{(n)}(c)}{n!}(x-c)^n
+\]
+on $I$.
+\end{theorem}
+
+We'll work a representative example of this theorem to see what is
+going on, the general case is much the same.
+
+\begin{example}
+	The Maclaurin series for $e^x$ is 
+	\[
+	1+x+\frac{x^2}{2!} +\frac{x^3}{3!}+\dots
+	\]
+        show that:
+        \[
+        e^x = 1+x+\frac{x^2}{2!} +\frac{x^3}{3!}+\dots
+        \]
+	\begin{explanation}
+	  To start, note that using the ratio test this power series
+          has an infinite radius of convergence.  We want to know
+          whether
+          \[
+          e^x = 1+x+\frac{x^2}{2!} +\frac{x^3}{3!}+\dots
+          \]
+          for every real number $x$.  Another way of phrasing this is
+          that we want the remainder $R_n(x)$ to go to zero as $n$
+          goes to infinity. We know that
+          \[
+          \left|R_n(x)\right| \le \frac{M}{(n+1)!}|x-c|^{(n+1)}
+          \]
+          where $M$ is the maximum value of $|f^{(n+1)}|$ on $[0,x]$.
+          We know $f^{(n+1)}(b) = \answer[given]{e^b}$, since all the
+          derivatives of $e^x$ are just $e^x$ Thus
+	  \[
+	  R_n(x) = \frac{\answer[given]{e^b}}{(n+1)!}x^{n+1}
+	  \]
+	  So how large can $R_n(x)$ be?  If $b$ is between $0$ and
+          $x$, then $e^b$ is between $0$ and $e^{|b|}$, so
+	  \[
+	  0\le \left| R_n(x)\right| \leq \frac{e^{|b|}}{(n+1)!}|x|^{n+1}
+	  \]
+	  Thus by the Squeeze Theorem,
+	  \[
+	  \lim_{n \to \infty}\left| R_n(x)\right| = 0
+          \]
+          as
+          \[
+          \lim_{n \to \infty} \frac{e^{|b|}}{(n+1)!}|x|^{n+1} = 0,
+	  \]
+	  proving that the Maclaurin series for $e^x$ converges to
+          $e^x$ everywhere!
+        \end{explanation}
+\end{example}
+
+There is good news. A function $f$ that is equal to its Taylor series,
+centered at any point the domain of $f(x)$, is said to be an
+\dfn{analytic function}, and most, if not all, functions that we
+encounter within this course are analytic functions. Generally
+speaking, any function that one creates with elementary functions
+(polynomials, exponentials, trigonometric functions, etc.) that is not
+piecewise defined is probably analytic. For most functions, we assume
+the function is equal to its Taylor series on the series' interval of
+convergence and only check the remainder (as above) when we suspect
+something may not work as expected.
+
+%%%% In the future it might be good to add a section talking about
+%%%% computing taylor series, versus manipulating power series to
+%%%% compute taylor series. It would be cool to use the trig identity
+%%%% sin(a+b) = sin(a)cos(b) + cos(a)sin(b) to help us change the
+%%%% center of the expansion for the taylor series.
+
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,559 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Give the definition of a power series.}
+\outcome{Find the interval and radius of convergence of a power series.}
+\outcome{Express functions as power series.}
+\outcome{Express power series as closed-form functions.}
+\outcome{Differentiate and integrate power series.}
+
+\title[Dig-In:]{Power series}
+
+\begin{document}
+\begin{abstract}
+  Infinite series can represent functions.
+\end{abstract}
+\maketitle
+
+If we refuse to truncate a Taylor polynomial, and instead allow it to
+be a series (an infinite sum) we call it a \textit{power series}. 
+
+\begin{definition}
+  A \dfn{power series} is a series of the form
+  \[
+  \sum_{k=0}^\infty a_k(x-c)^k
+  \]
+  where the $a_k$'s are the \dfn{coefficients} and $c$ is the
+  \dfn{center}.
+\end{definition}
+
+\begin{question}
+  Which of the following are power series functions?
+  \begin{selectAll}
+    \choice[correct]{$f(x) = 0$}
+    \choice[correct]{$f(x) = -9$}
+    \choice[correct]{$f(x) = 3x+1$}
+    \choice{$f(x) = x^{1/2}-x +8$}
+    \choice{$f(x) = -4x^{-3}+5x^{-1}+7-18x^2$}
+    \choice{$f(x) = x^{-3}+x^{-2}+x^{-1}+1+x+x^2+x^3 +\cdots$}
+    \choice{$f(x) = \frac{x^2 - 3x + 2}{x-2}$}
+    \choice[correct]{$f(x) = x^7-32x^6-\pi x^3+45/84$}
+    \choice[correct]{$f(x) = x^{10} + x^{20} + x^{30} + \cdots$}    
+  \end{selectAll}
+  \begin{hint}
+    Every polynomial is a power series.
+  \end{hint}
+\end{question}
+
+Here are four basic power series (centered at zero) that every
+mathematician knows.  
+\begin{align*}
+           e^x &= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots &|x|< \infty\\
+       \sin(x) &= x - \frac{x^3}{3!} + \frac{x^5}{5!} -\frac{x^7}{7!} + \cdots &|x|< \infty\\
+       \cos(x) &= 1-\frac{x^2}{2!} + \frac{x^4}{4!} -\frac{x^6}{6!} + \cdots &|x|< \infty\\
+ \frac{1}{1-x} &= 1+ x+ x^2 + x^3 + \cdots &|x|< 1
+\end{align*}
+Next to each of the series, we list an interval which will correspond
+to the domain of the series.  Using power series we can ``read-off''
+properties of functions. Here are some examples.
+\begin{itemize}
+\item We can easily see that $e^0 =1$, $\sin(0)=0$, and $\cos(0) =1$.
+\item Since every power of $x$ in the power series for sine is odd, we
+  can see that sine is an odd function. Likewise, since every power of
+  $x$ in the power series for cosine is even, we can see cosine is an
+  even function.
+\item Limits like
+  \[
+  \lim_{x\to 0}\frac{\sin(x)}{x} = 1\qquad\text{and}\qquad \lim_{x\to 0} \frac{\cos(x)-1}{x} = 0
+  \]
+  are ``easy'' to compute, since they can be rewritten as follows.
+  \begin{align*}
+    \lim_{x\to 0}\frac{\sin(x)}{x} &=\lim_{x\to 0} \frac{x - \frac{x^3}{3!} + \frac{x^5}{5!} -\frac{x^7}{7!} + \cdots}{x}\\
+    &=\lim_{x\to 0} \left(1 - \frac{x^2}{3!} + \frac{x^4}{5!} -\frac{x^6}{7!} + \cdots\right)\\
+    &=1,
+  \end{align*}
+  and
+  \begin{align*}
+    \lim_{x\to 0} \frac{\cos(x)-1}{x}&=\lim_{x\to 0} \frac{1-\frac{x^2}{2!} + \frac{x^4}{4!} -\frac{x^6}{6!} + \cdots-1}{x}\\
+    &=\lim_{x\to 0} \left(-\frac{x}{2!} + \frac{x^3}{4!} -\frac{x^5}{6!} + \cdots\right)\\
+    &=0.
+  \end{align*}
+\item Power series give us methods to \textit{actually compute} values
+  for these functions.
+\end{itemize}
+
+\section{Convergence of power series}
+
+You may have noticed a small caveat above.
+\[
+\frac{1}{1-x} = 1+ x+ x^2 + x^3 + \cdots \qquad |x|< 1
+\]
+The caveat is the ``$|x|<1$,''  which we referred to as something like the 
+domain of the function. This restriction is required because if
+our formula is true, then for any number $r$, provided that $|r|<1$, we have
+\[
+\frac{1}{1-r} = 1+ r+ r^2 + r^3 + \cdots,
+\]
+and the expression on the right-hand side of the equation above is a
+\index{geometric series}geometric series! As we've learned, geometric
+series only converge when the common ratio (in this case $r$) is
+between $-1$ and $1$ noninclusive. If we look at a graph of $y = \frac{1}{1-x}$ along with a graph of $y = 1+ x+ x^2 + x^3 + \cdots$ we see
+\begin{image}
+    \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-3,xmax=3,ymin=-3,ymax=3,
+        axis lines=center,
+        width=6in,
+        height=3in,
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]        
+      \addplot [very thick, penColor, samples=100,smooth, domain=(-3:.8)] {1/(1-x)};
+      \addplot [very thick, penColor, samples=100,smooth, domain=(1.2:3)] {1/(1-x)};
+      \addplot [very thick, penColor2, samples=100,smooth, domain=(-1:.8)] {1/(1-x)};
+      \addplot[color=penColor2,fill=white,only marks,mark=*] coordinates{(-1,1/2)};  %% open hole
+      \node at (axis cs:1.5,2) {$1+ x+ x^2 + x^3 + \cdots$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+\begin{question}
+  True or False:
+  \[
+  \frac{4}{3} = \frac{1}{1-(1/4)} = 1 + \left(\frac{1}{4}\right)+ \left(\frac{1}{4}\right)^2+ \left(\frac{1}{4}\right)^3 + \cdots
+  \]
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice[correct]{true}
+    \choice{false}
+  \end{multipleChoice}
+  \end{prompt}
+  \begin{question}
+    True or False:
+    \[
+    \frac{1}{-3} = \frac{1}{1-4} = 1 + 4+ 4^2+ 4^3 + \cdots
+    \]
+    \begin{prompt}
+      \begin{multipleChoice}
+        \choice{true}
+        \choice[correct]{false}
+      \end{multipleChoice}
+    \end{prompt}
+\end{question}
+\end{question}
+
+Our next theorem tells us what possible scenarios we could encounter
+when investigating convergence of power series.
+
+\begin{theorem}[Convergence of Power Series]\index{convergence of power series}\index{power series!convergence}
+  Consider the power series
+  \[
+  \sum_{n=0}^\infty a_n(x-c)^n.
+  \]
+  Exactly one of the following is true:
+\begin{enumerate}
+\item The series converges only at $x=c$.
+\item There is an $R>0$ such that the series converges for all $x$ in	
+  $(c-R,c+R)$ and diverges for all $x<c-R$ and $x>c+R$.
+\item The series converges for all $x$.
+\end{enumerate}
+\end{theorem}
+
+\begin{question}
+  True or False: A power series
+  \[
+  \sum_{k=0}^\infty a_k(x-c)^k
+  \]
+  \textbf{always} converges when $x=c$.
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{true}
+      \choice{false}
+    \end{multipleChoice}
+  \end{prompt}
+  \begin{feedback}
+    If $x=c$, then
+    \begin{align*}
+      \sum_{k=0}^\infty a_k(x-c)^k &= \sum_{k=0}^\infty a_k(c-c)^k \\
+      &= \sum_{k=0}^\infty a_k(0)^k.
+    \end{align*}
+  \end{feedback}
+  \begin{question}
+    True or False: If 
+    \[
+    f(x) = \sum_{k=0}^\infty a_k(x-c)^k,
+    \]
+    then $f(c) = 0$. 
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice{true}
+      \choice[correct]{false}
+    \end{multipleChoice}
+  \end{prompt}
+  \begin{feedback}
+    \begin{align*}
+      f(c) &= \sum_{k=0}^\infty a_k(c-c)^k \\
+      &= \sum_{k=0}^\infty a_k(0)^k\\
+      &= a_0
+    \end{align*}
+    since $0^k = 0$ when $k\ne 0$ and $0^0 = 1$.
+  \end{feedback} 
+\end{question}
+\end{question}
+
+Power series are both similar to and different from the series we've 
+previously studied. When we fix some value for $x$, we are working 
+with the sort of series we've already 
+studied - a series of numbers.  In this way, we can use all of our previous 
+tools for working with series.  We can also let $x$ be a variable, and consider 
+our power series as a function.
+ Because power series can define functions, we no longer exclusively
+talk about convergence at a point, instead we talk about the
+\textit{radius} and \textit{interval} of convergence.
+
+\begin{definition}
+  \hfil
+  \begin{itemize}
+    \item If a power series converges absolutely for all $x$, then its
+      \dfn{radius of convergence} is said to be $\infty$ and the
+      \dfn{interval of convergence} is $(-\infty,\infty)$.
+    \item If a power series converges absolutely for all $x$ in
+      $(c-R,c+R)$ and diverges for all $x<c-R$ and $x>c+R$, then its
+      \dfn{radius of convergence} is said to be $R$ and the
+      \dfn{interval of convergence} is one of the following:
+      \[
+      (c-R,c+R),\quad [c-R,c+R),\quad (c-R,c+R],\quad [c-R,c+R].
+      \]
+      \item If a power series converges only at one value $x=a$, then 
+      its \dfn{radius of convergence} is said to be $0$ and the series does not have an 
+      \dfn{interval of convergence}.
+  \end{itemize}
+\end{definition}
+
+In the previous definition, the interval of convergence depends on the series.  We must 
+separately consider the behavior of a power series at the endpoints of its interval 
+of convergence.  In other words, we plug in values for $x$, and consider the series 
+as a series of numbers!
+
+\begin{question}
+  Suppose you know that
+  \[
+  \sum_{n=0}^\infty a_n (x-3)^n
+  \]
+  converges when $x =7$ and diverges when $x = -1$. Must the series
+  converge at $x=4$?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{yes}
+      \choice{no}
+      \choice{there is not enough information}
+    \end{multipleChoice}
+  \end{prompt}
+  \begin{feedback}
+    Since we know that every power series converges either exactly at
+    a single point or on an interval, we see that this power series
+    \textbf{must} converge with radius of convergence $R=4$.
+  \end{feedback}
+\end{question}
+
+How do we check for radius of convergence? Two old friends can come to
+the rescue: the ratio and root tests.
+
+\begin{example}
+  Consider the power series:
+  \[
+  \sum_{n=0}^\infty \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots\\
+  \]
+  Determine the radius and interval of convergence.
+  \begin{explanation}
+    For this power series we will use the ratio test. Since the ratio test 
+    requires positive terms, we must look at the absolute values of the terms in the
+    series.
+    \begin{align*}
+      \lim_{n\to\infty} \frac{\frac{|x|^{n+1}}{(n+1)!}}{\frac{|x|^n}{n!}}
+      &= \lim_{n\to\infty} \frac{|x|^{n+1}n!}{(n+1)!|x|^n}\\
+      &= \lim_{n\to\infty} \frac{|x|}{n}.
+    \end{align*}
+    Now, for any \textbf{fixed} value of $x$, we have that
+    \[
+    \lim_{n\to\infty} \frac{|x|}{n} = \answer[given]{0},
+    \]
+    since we recall that $|x|$ is a constant in this limit and its value 
+    does not affect the value of the limit.  Hence, the radius of convergence for $\sum_{n=0}^\infty
+    \frac{x^n}{n!}$ is $R=\infty$, and the interval of convergence is $(-\infty, \infty)$.
+  \end{explanation}
+\end{example}
+
+While the ratio and root test are good for determining the radius of
+convergence of a power series, they are useless for determining
+convergence at the end-points of the interval. Let's see an example:
+
+\begin{example}
+  Consider the power series:
+  \[
+  \sum_{n=1}^\infty \frac{(x-1)^n}{n \cdot 9^n} = \frac{(x-1)}{9} + \frac{(x-1)^2}{2\cdot 9^2} + \frac{(x-1)^3}{3\cdot 9^3} + \cdots\\
+  \]
+  Determine the radius and interval of convergence.
+  \begin{explanation}
+    Here, let's start with the root test. Again, we must first use the absolute value of the terms in the series:
+    \begin{align*}
+      \lim_{n\to\infty}\sqrt[n]{\frac{|x-1|^n}{n \cdot 9^n}} &= \lim_{n\to\infty}\sqrt[n]{\frac{|x-1|^n}{n \cdot 9^n}}\\
+      &= \lim_{n\to\infty} \frac{|x-1|}{\sqrt[n]{n} \cdot 9}\\
+      &= \frac{|x-1|}{\sqrt[n]{n} \cdot 9} \lim_{n\to\infty} n^{-1/n}.
+    \end{align*}
+    Using logarithms and L'H\^opital's rule, we can show that
+    \[
+    \lim_{n\to\infty} n^{-1/n} = \answer[given]{1}.
+    \]
+    Hence
+    \[
+    \lim_{n\to\infty}\sqrt[n]{\frac{|x-1|^n}{n \cdot 9^n}} = \frac{|x-1|}{9}.
+    \]
+    The root test gives us convergence when this limit is between $-1$ and $1$. 
+    In other words, the series converges absolutely when
+    \begin{align*}
+    \frac{|x-1|}{9} &<\answer[given]{1}\\
+    |x-1| &< \answer[given]{9}.
+    \end{align*}
+    However,
+    \[
+    |x-1| < 9 \qquad\text{means that}\qquad \answer[given]{-9} < x-1 < \answer[given]{9}
+    \]
+    and so adding $1$ to all sides of the inequality, we need $x$ such that
+    \[
+    \answer[given]{-8} < x < \answer[given]{10}.
+    \]
+    Since our power series is centered at $x=1$, the radius of
+    convergence is $R=9$. However, the root test (and ratio test) is inconclusive 
+    at the end points $x=-8$ and $x=10$. For this, we need to investigate separately
+    the following \textit{two} series, found by plugging in $x = -8$ and $x=10$.
+    \[
+    \sum_{n=1}^\infty \frac{(-8-1)^n}{n \cdot 9^n}\qquad\text{and}\qquad \sum_{n=1}^\infty \frac{(10-1)^n}{n \cdot 9^n}
+    \]
+    For the first, where $x=-8$, note that
+    \begin{align*}
+      \sum_{n=1}^\infty \frac{(-8-1)^n}{n \cdot 9^n} &= \sum_{n=1}^\infty \frac{(-9)^n}{n \cdot 9^n}\\
+      &= \sum_{n=1}^\infty \frac{(-1)^n}{n}.
+    \end{align*}
+    This is the alternating harmonic series, which we know converges. So our power series converges at $x= -8$.
+    For the second, where $x=10$, note that
+    \begin{align*}
+      \sum_{n=1}^\infty \frac{(10-1)^n}{n \cdot 9^n} &= \sum_{n=1}^\infty \frac{(9)^n}{n \cdot 9^n}\\
+      &= \sum_{n=1}^\infty \frac{1}{n}.
+    \end{align*}
+    This is the harmonic series, which we know diverges. So our
+    power series diverges at $x= 10$. Hence the interval of
+    convergence for $\sum_{n=1}^\infty \frac{(x-1)^n}{n \cdot 9^n}$ must include everything 
+    between $-8$ and $10$, as well as $-8$, but does not include $10$.  In other words, the 
+    interval of convergence is $[-8,10)$.
+  \end{explanation}
+\end{example}
+
+Let's work through an example of a power series that only converges at a single
+point.
+
+\begin{example}
+  Consider the power series:
+  \[
+  \sum_{n=0}^\infty n!(x+7)^n = 1 + (x+7) + 2(x+7)^2 + 6(x+7)^3 + \cdots.
+  \]
+  Determine the radius and interval of convergence.
+  \begin{explanation}
+    Here we'll use the ratio test, looking at the absolute value of
+    the terms in the series.
+    \[
+    \lim_{n\to\infty} \frac{(n+1)!|x+7|^{n+1}}{n!|x+7|^n}= \lim_{n\to\infty} \answer[given]{(n+1)}|x+7|
+    \]
+    This limit diverges unless $x=-7$, the center of the power
+    series. The the radius of convergence is $R=0$, and there is no
+    interval of convergence, since the series only converges at a
+    single point.
+  \end{explanation}
+\end{example}
+
+
+
+\section{New power series from old}
+
+With the basic power series above, we can produce new power series via
+algebraic manipulation.
+
+\begin{theorem}[Algebra of Power Series]\index{power series!algebra of}
+  Let
+  \begin{align*}
+    f(x) &= \sum_{n=0}^\infty a_nx^n\\
+    g(x) &= \sum_{n=0}^\infty b_nx^n
+  \end{align*}
+  converge absolutely for $|x|<R$, and let $h(x)$ be a continuous function.
+  \begin{itemize}
+	\item $f(x)\pm g(x) = \sum_{n=0}^\infty (a_n\pm b_n)x^n$ \quad for $|x|<R$.
+	%\item $f(x)g(x) = \left(\sum_{n=0}^\infty a_nx^n\right)\left(\sum_{n=0}^\infty b_nx^n\right) = \sum_{n=0}^\infty\big(a_0b_n+a_1b_{n-1}+\ldots a_nb_0\big)x^n$ for $|x|<R$.
+	\item $\begin{aligned}[t]
+	f(x)g(x) &= \left(\sum_{n=0}^\infty a_nx^n\right)\left(\sum_{n=0}^\infty b_nx^n\right)\\
+	      &= \sum_{n=0}^\infty\big(a_0b_n+a_1b_{n-1}+\dots + a_nb_0\big)x^n
+		\end{aligned}$ for $|x|<R$.%\hfill
+	\item $f\big(h(x)\big) = \sum_{n=0}^\infty a_n\big(h(x)\big)^n$ \quad for $|h(x)|<R$.
+  \end{itemize}
+\end{theorem}
+
+In our first example we will derive Euler's famous formula
+\[
+e^{ix} = \cos(x) + i \sin(x),
+\]
+where $i$ is the number $i^2=-1$.
+
+\begin{example}
+  Use power series to show
+  \[
+  \cos(x) + i \sin(x) = e^{ix} 
+  \]
+  \begin{explanation}
+    We start by writing the relevant power series for cosine
+    \[
+    \cos(x) = 1-\frac{x^2}{2!} + \frac{x^4}{4!} -\frac{x^6}{6!} + \cdots
+    \]
+    and now we consider
+    \[
+    i \sin(x) = ix - \frac{ix^3}{3!} + \frac{ix^5}{5!} -\frac{i x^7}{7!} + \cdots.
+    \]
+    Adding these power series (and ordering the terms by degree) we find
+    \[
+    1+ ix -\frac{x^2}{2!} - \frac{ix^3}{3!} + \frac{x^4}{4!} + \frac{ix^5}{5!} -\frac{x^6}{6!} -\frac{i x^7}{7!} + \cdots.
+    \]
+    Since $i^0=\answer[given]{1}$,
+    $i^1= \answer[given]{i}$,
+    $i^2 = \answer[given]{-1}$,
+    $i^3 = \answer[given]{-i}$,
+    $i^4 = \answer[given]{1}$, and so on with a repeating pattern we may now write
+    \begin{align*}
+      1+ ix &+\frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \frac{(ix)^4}{4!} + \frac{(ix)^5}{5!} +\frac{(ix)^6}{6!} +\frac{(i x)^7}{7!} + \cdots\\
+      &= e^{ix}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+Euler's formula $e^{ix} = \cos(x) + i \sin(x)$ allows us to produce
+(by setting $x=\pi$) the amazing identity:
+\[
+e^{i \pi } + 1 = 0.
+\]
+This identity combines the fundamental constants, $0$, $1$, $i$,
+$\pi$ and $e$, along with the fundamental operations of addition,
+multiplication, and exponentiation!
+
+\begin{example}
+  Use power series to give evidence (by looking at the first $4$ terms
+  of a power series) for the double angle formula:
+  \[
+  2\sin(x) \cos(x) = \sin(2x)
+  \]
+  \begin{explanation}
+    Write with me.
+    \begin{align*}
+      \sin(x) &= x - \frac{x^3}{3!} + \frac{x^5}{5!} -\frac{x^7}{7!} + \cdots &|x|< \infty\\
+      \cos(x) &= 1-\frac{x^2}{2!} + \frac{x^4}{4!} -\frac{x^6}{6!} + \cdots &|x|< \infty
+    \end{align*}
+    Multiplying we find
+    \begin{image}
+      \begin{tikzpicture}
+        \node at (0,0) {$
+          \begin{aligned}
+            \sin(x) &\cos(x) \\
+            &= x + \left(\frac{-1}{3!} + \frac{-1}{2!}\right)x^3 + \left(\frac{1}{5!} +\frac{1}{3!\cdot 2!}+ \frac{1}{4!}\right)x^5
+            +\left(\frac{-1}{7!} +\frac{-1}{5!\cdot 2!}+\frac{-1}{3!\cdot 4!}+ \frac{-1}{6!}\right)x^7 +\cdots\\
+            &=x + \left(\frac{-1}{3!} + \frac{-3}{3!}\right)x^3 + \left(\frac{2!}{5!\cdot 2!} +\frac{5\cdot4}{5!\cdot 2!}+ \frac{5\cdot 2!}{5!\cdot 2!}\right)x^5
+            +\left(\frac{-3!}{7!\cdot3!} +\frac{-7\cdot 6\cdot 3}{7!\cdot 3!}+\frac{-7\cdot6\cdot5}{7!\cdot 3!}+ \frac{-7\cdot 3!}{7!\cdot 3!}\right)x^7 +\cdots\\
+            &= x + \left(\frac{-2^2}{3!}\right)x^3 + \left(\frac{2^4}{5!}\right)x^5+\left(\frac{-2^6}{7!}\right)x^7 +\cdots
+          \end{aligned}
+          $};
+      \end{tikzpicture}
+    \end{image}
+    So $2\sin(x)\cos(x)$
+    \begin{align*}
+      &= 2x + \left(\answer[given]{\frac{-2^3}{3!}}\right)x^3 + \left(\answer[given]{\frac{2^5}{5!}}\right)x^5+\left(\frac{-2^7}{7!}\right)x^7 +\cdots\\
+      &= (2x) -\frac{(2x)^3}{3!} + \frac{(2x)^5}{5!}-\frac{(2x)^7}{7!} +\cdots\\
+      &= \sin(2x).
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+
+\begin{example}
+  Use the power series for $\frac{1}{1-x}$ to give a power series for $\frac{1}{1+x^2}$
+  \begin{explanation}
+    We know that
+    \[
+    \frac{1}{1-x}= 1+ x+ x^2 + x^3 + \cdots\qquad|x|< 1.
+    \]
+    Since $-x^2$ is continuous when $|x|<1$, we can compose this with $\frac{1}{1-x}$ to see
+    \begin{align*}
+    \frac{1}{1-(-x^2)} &=\frac{1}{1+x^2}\\
+    &= \answer[given]{1 - x^2 + x^4} - x^6 + \cdots &|x|< 1\\
+    &= \sum_{n=0}^\infty (-1)^n x^{2n} &|x|< 1
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{theorem}[Derivatives and Indefinite Integrals of Power Series]\index{power series!derivatives and integrals}
+  Let
+  \[
+  f(x) = \sum_{n=0}^\infty a_n(x-c)^n
+  \]
+  be a function defined by a power series, with radius of convergence $R$.
+  \begin{itemize}
+  \item $f(x)$ is continuous and differentiable on $(c-R,c+R)$.
+  \item	$f'(x) = \sum_{n=1}^\infty a_n\cdot n\cdot (x-c)^{n-1}$, with radius of convergence $R$.
+  \item	$\int f(x) \d x = C+\sum_{n=0}^\infty a_n\frac{(x-c)^{n+1}}{n+1}$, with radius of convergence $R$.
+  \end{itemize}
+\end{theorem}
+%% https://gowers.wordpress.com/2014/02/22/differentiating-power-series/
+A few notes about the theorem above:
+\begin{itemize}
+\item The theorem states that differentiation and integration do not
+  change the radius of convergence. It does not state anything about
+  the \textit{interval} of convergence. They are not always the same.  Check the endpoints!
+\item Notice how the summation for $f'(x)$ starts with $n=1$. This is
+  because the derivative of the constant term $a_0$ of $f(x)$ is $0$.
+\item Differentiation and integration are simply calculated
+  term-by-term using the power rule.
+\end{itemize}
+
+Let's see an example.
+
+\begin{example}
+  Use the power series for
+  \[
+  \frac{1}{1+x^2} = 1 - x^2 + x^4 - x^6 + \cdots \qquad|x|< 1 
+  \]
+  to find a power series for $\arctan(x)$. Given the radius and interval of convergence.
+  \begin{explanation}
+    Since
+    \[
+    \int\frac{1}{1+x^2} \d x = \arctan(x)+C
+    \]
+    we can find the desired power series by integrating. Write with me.
+    \[
+    \int \left(1 - x^2 + x^4 - x^6 + \cdots\right)\d x = \answer[given]{x - \frac{x^3}{3} + \frac{x^5}{5}} - \frac{x^7}{7} + \cdots +C
+    \]
+    Since $\arctan(0) = 0$, $C=0$, and we have our desired power
+    series. Its radius of convergence is $R=1$. However,
+    we recall that the interval of convergence may be different from the original series, so we 
+    set out to check the endpoints. First note that our power series can be written in summation notation as
+    \[
+    \sum_{n=0}^\infty \frac{(-1)^n x^{2n+1}}{2n+1}.
+    \]
+    If $x=1$ or $x=-1$ we can see that this sequence is
+    \[
+    \sum_{n=0}^\infty \frac{(-1)^n}{2n+1}\qquad\text{or}\qquad\sum_{n=0}^\infty \frac{(-1)^{n+1}}{2n+1}
+    \]
+    In both cases, the series converges by the alternating series
+    test. Hence the interval of convergence is $[\answer[given]{-1},\answer[given]{1}]$.
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

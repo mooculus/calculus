@@ -1,0 +1,210 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Work with double integrals in rectangular coordinates.}
+\outcome{Work with double integrals in polar coordinates.}
+\outcome{Work with triple integrals in spherical cooridnates.}
+
+\title[Dig-In:]{Computations and interpretations}
+
+\begin{document}
+\begin{abstract}
+  We practice more computations and think about what integrals mean.
+\end{abstract}
+\maketitle
+
+In this section we will continue to set-up (and sometimes compute)
+double and triple integrals and think about what these mean.
+
+\section{Triangles}
+
+\begin{example}
+  Let $T$ be the triangle with vertices $(0,0)$ and $(\pi,0)$ and
+  $(\pi,\pi)$.  Then we can write $T$ as
+  \[
+  T = \{ (x,y)  : 0 \leq y \leq \pi \text{ and } \answer[given]{y} \leq x \leq \answer[given]{\pi} \},
+  \]
+  but we could also write
+  \[
+    T = \{ (x,y)  : 0 \leq x \leq \pi \text{ and } \answer[given]{0} \leq y \leq \answer[given]{x} \}.
+  \]
+  Which of these might be a better choice to compute
+  \[
+  \iint_T 2 \sin(x^2) \d A?
+  \]
+  \begin{explanation}
+    Based on these two different descriptions of $T$, we can evaluate
+    the double integral $\iint_T 2 \sin (x^2) \d A$ through two rather
+    different looking iterated integrals.  Write with me,
+    \[
+    \iint_T 2 \sin (x^2) \d A =\begin{cases}
+    &= \int_{\answer{0}}^{\answer{\pi}} \int_{y}^\pi 2 \sin (x^2) \d x \d y \\
+    &= \int_{0}^\pi \int_{\answer{0}}^{\answer{x}} 2 \sin (x^2) \d y \d x.
+    \end{cases}
+    \]
+    If we were to use the first description of $T$, we might have
+    trouble finding an $x$-antiderivative of $\sin (x^2)$, so let's
+    try the second description.  In that case,
+    \begin{align*}
+    \iint_T 2 \sin (x^2) \d A &= \int_{0}^\pi 2 x \sin (x^2) \d x\\
+    &= \answer[given]{1 - \cos (\pi^2)}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  It's important to do a self-check to see if our purported value for
+  an integral is at all plausible.
+
+  The region $T$ is a triangle with base $\answer{\pi}$ and height
+  $\answer{\pi}$, so the area of the region $T$ is $\answer{\pi^2/2}$
+  which is about $5$ square units.  In other words,
+  \[
+  \iint_T 1 \d A = \answer{\pi^2/2}
+  \]
+  which also means that
+  \[
+  \iint_T 2 \d A = \answer{\pi^2}.
+  \]
+  We are claiming that $\iint_T 2 \sin (x^2) \d A$ equals
+  $1 - \cos (\pi^2)$, which is about $1.9$.
+
+  When $0 \leq x \leq \pi$, the value of $\sin (x^2)$ is sometimes
+  positive, sometimes negative, but at least we know that
+  \[
+  \answer{-2} \leq 2 \sin (x^2) \leq \answer{2},
+  \]
+  and this inequality then implies that
+  \[
+  \left| \iint_T 2 \sin (x^2) \d A \right| \leq \left| \iint_T 2 \d A \right| = \answer{\pi^2}.
+  \]
+  So $1.9$ is certainly in the ballpark of plausibility.
+\end{question}
+
+\section{Polar coordinates}
+
+\begin{example}
+  Evaluate the integral $\iint_Q \left(x + y\right) \d A$ where $Q$ is the quarter circle,
+  \[
+  Q = \{ (x,y)  : \text{$x \geq 0$, $y \geq 0$, $x^2 + y^2 \leq 1$} \}.
+  \]
+  
+  \begin{explanation}
+    We use \wordChoice{\choice{rectangular}\choice[correct]{polar}} coordinates.
+    \begin{align*}
+      \iint_Q \left(x + y\right) \d A
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}} \int_{0}^{1} (r \cos \theta + r \sin \theta) r \d r \d \theta \\
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}} \eval{\answer[given]{
+          (r^3/3) \cos \theta + (r^3/3) \sin \theta
+      }}_0^1\d \theta \\  
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}}\answer[given]{\frac{(\sin \theta + \cos \theta)}{3}}\d\theta\\
+      &= \eval{\answer[given]{\frac{\sin \theta - \cos \theta}{3}}}_{0}^{\pi/2} \\
+      &= \answer[given]{2/3}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  Again consider the region
+  \[
+    Q = \{ (x,y)  : x \geq 0,\hspace{1ex} y \geq 0,\hspace{1ex} x^2 + y^2 \leq 1 \}.
+  \]
+  How does
+  \[
+    A = \iint_Q x \d A  
+  \]
+  compare to 
+  \[
+    B = \iint_Q y \d A?
+  \]
+
+  \begin{multipleChoice}
+    \choice{$A < B$}
+    \choice[correct]{$A = B$}
+    \choice{$A > B$}
+  \end{multipleChoice}
+  
+  \begin{feedback}[correct]
+    The region $Q$ is symmetric across the line $x = y$.  As a
+    consequence of this, we might have computed that
+    \[
+    A = \iint_Q x \d A = 1/3,
+    \]
+    and likewise $B = 1/3$.  Because of this, and the fact that the
+    integral of a sum is the sum of integrals, we could have deduced
+    \begin{align*}
+      A + B &= (1/3) + (1/3) \\
+      &= \iint_Q x \d A + \iint_Q y \d A \\
+      &= \iint_Q (x+y) \d A = 2/3.
+    \end{align*}
+  \end{feedback}
+\end{question}
+
+\section{Spheres and hemispheres}
+
+\begin{example}
+  Let $B$ be the region $B = \{ (x,y,z)  : x^2 + y^2 + z^2 \leq 1\}$.
+  
+  Explain why $\iiint_B z^3 \d V = \answer[given]{0}$.
+  
+  \begin{explanation}
+    This integral vanishes because integral over the northern
+    hemisphere of $B$ will cancel the contribution from the southern
+    hemisphere of $B$.
+  \end{explanation}
+\end{example}
+
+\begin{example}
+  Let $H$ be the region
+  \[
+  H = \{ (x,y,z) : x^2 + y^2 + z^2 \leq 1 \text{ and } z \geq 0 \}.
+  \]
+
+  Show that $\iiint_H z^3 \d V = \pi/12$.
+
+  \begin{explanation}
+    Unlike the previous example, this does not vanish.
+    
+    We use \wordChoice{\choice{cylindrical}\choice[correct]{spherical}} coordinates.
+    \begin{align*}
+      \iiint_H z^3 \d V
+      &= \int_{0}^{2\pi} \int_{0}^{\pi/2} \int_{0}^1 (\rho \cos \varphi)^3 \rho^2 \sin \varphi \d \rho \d \varphi \d \theta \\
+      &= \int_{0}^{2\pi} \int_{0}^{\pi/2} \int_{0}^1 \rho^5 \cos^3 \varphi \sin \varphi \d \rho \d \varphi \d \theta \\
+      &= \int_{0}^{2\pi} \int_{0}^{\pi/2} \eval{\answer[given]{\frac{\rho^6 \cos^3 \varphi \sin \varphi}{6}}}_0^1 \d \varphi \d \theta \\
+      &= \int_{0}^{2\pi} \int_{0}^{\pi/2} \answer[given]{\frac{\cos^3 \varphi \sin \varphi}{6}} \d \varphi \d \theta \\
+      &= \int_{0}^{2\pi} \eval{\answer[given]{\frac{-\cos^4 \varphi}{24}}}_{0}^{\pi/2} \d \theta \\
+      &= \int_{0}^{2\pi} \answer[given]{\frac{1}{24}} \d \theta \\
+      &= \answer[given]{\frac{\pi}{12}}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  Again let $H$ be the region
+  \[
+  H = \{ (x,y,z): \text{$x^2 + y^2 +
+    z^2 \leq 1$ and $z \geq 0 $}\}.
+  \]
+  Set $A = \iiint_H z^3 \d V$ and $B = \iiint_H z^{10} \d V$.  How does $A$ relate to $B$?
+
+  \begin{multipleChoice}
+    \choice{$A < B$}
+    \choice{$A = B$}
+    \choice[correct]{$A > B$}
+  \end{multipleChoice}
+
+  \begin{feedback}[correct]
+    Indeed, $A > B$ because, for points $(x,y,z) \in H$, we have
+    $-1 \leq z \leq 1$ and $z^3 \geq z^{10}$.  Moreover, except when
+    $z = \pm 1$, it is the case that $z^3 > z^{10}$.  By comparing the
+    integrands, we can gain insight into the relative sizes of the
+    integrals.
+
+    This same kind of thinking can lend insight into the question of
+    what happens when $\iiint_H z^N \d V$ when $N$ is very
+    large.
+  \end{feedback}
+\end{question}
+
+\end{document}

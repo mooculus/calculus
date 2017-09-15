@@ -1,0 +1,357 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Use Green's Theorem as a planimeter.}
+
+\title[Dig-In:]{Green's theorem as a planimeter}
+
+\begin{document}
+\begin{abstract}
+  A planimeter computes the area of a region by tracing the boundary.
+\end{abstract}
+\maketitle
+
+Green's theorem may seem rather abstract, but as we will see, it is a
+fantastic tool for computing the areas of arbitrary bounded
+regions. In particular, Green's Theorem is a theoretical
+\link[planimeter]{http://en.wikipedia.org/wiki/Planimeter}.
+
+A \dfn{planimeter} is a ``device'' used for measuring the area of a
+region. Ideally, one would ``trace'' the border of a region, and the
+planimeter would tell you the area of the region. 
+
+
+\section{How is Green's theorem a planimeter?}
+
+Recall Green's Theorem:
+\begin{theorem}[Green's Theorem]\index{Green's Theorem}
+  If the components of $\vec{F}:\R^2\to\R^2$ have continuous partial
+  derivatives and $C$ is a boundary of a closed region $R$ and
+  $\vec{p}(t)$ parameterizes $C$ in a counterclockwise direction with
+  the interior on the left, then
+  \[
+  \iint_R \curl\vec{F}\d A = \oint_C \vec{F}\dotp\d\vec{p} 
+  \]
+\end{theorem}
+
+Given a vector field $\vec{F}:\R^2\to\R^2$, if $\curl\vec{F} = 1$,
+then the left-hand side of the conclusion of Green's Theorem gives the
+area of the region $R$:
+\[
+\iint_R \curl\vec{F}\d A = \iint_R \d A
+\]
+
+So now the question becomes, which vector fields have $\curl\vec{F} =
+1$?
+
+Here are three basic candidates:
+\begin{itemize}
+\item $\vec{F}(x,y) = \vector{0,x}$
+\item $\vec{F}(x,y) = \vector{-y,0}$
+\item $\vec{F}(x,y) = \vector{-y/2,x/2}$
+\end{itemize}
+\begin{question}
+  The key idea that connects the three vector fields above is:
+  \begin{selectAll}
+    \choice[correct]{Their curl is $1$.}
+    \choice{They are conservative fields.}
+    \choice{They are gradient fields.}
+    \choice[correct]{When used in combination with Green's Theorem, they help compute area.}
+  \end{selectAll}
+\end{question}
+
+Once we have a vector field whose curl is $1$, we may then apply
+Green's Theorem to use a line integral to compute the area.
+
+\begin{warning}
+  You must parameterize $C$ with $\vec{p}(t)$ for $a\le t\le b$ such that:
+  \begin{itemize}
+    \item $C$ is drawn in a counterclockwise direction.
+    \item $C$ is drawn exactly once.
+    \item The interior of $R$ is to the right of the direction of
+      $\vec{p}'(t)$.
+  \end{itemize}
+\end{warning}
+
+
+
+
+\section{Computing areas with Green's Theorem}
+
+Now let's do some examples.
+
+\begin{example}
+  Compute the area of the trapezoid below using Green's Theorem.
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	  ymin=-.5,ymax=2.5,
+	  xmin=-.5,xmax=4.5,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          grid=both,
+          grid style={dashed, gridColor},
+          % xtick={-2,...,4},
+          % ytick={-3,...,3},
+	]
+        \addplot[penColor,ultra thick] coordinates{
+            (0,0) (1,2) (3,2) (4,0) (0,0) (1,2)
+        };
+        
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  \begin{explanation}
+    In this case, set $\vec{F}(x,y) = \vector{0,x}$. Since $\curl\vec{F} =
+    1$, Green's Theorem says:
+    \[
+    \iint_R \d A  = \oint_C \vector{0,x}\dotp\d\vec{p}
+    \]
+    We need to parameterize our paths in a counterclockwise
+    direction. We'll break it into four line segments each parameterized
+    as $t$ runs from $0$ to $1$:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [
+	  ymin=-.5,ymax=2.5,
+	  xmin=-.5,xmax=4.5,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          grid=both,
+          grid style={dashed, gridColor},
+         % xtick={-2,...,4},
+         % ytick={-3,...,3},
+	]
+        \addplot[penColor,ultra thick] coordinates{
+            (0,0) (1,2) 
+        };
+        \addplot[penColor,->,ultra thick] coordinates{
+            (1,2) (.5,1) 
+        };
+        
+        \addplot[penColor2,ultra thick] coordinates{
+            (1,2) (3,2) 
+        };
+        \addplot[penColor2,ultra thick,->] coordinates{
+            (3,2) (2,2) 
+        };
+        
+        \addplot[penColor4,ultra thick] coordinates{
+            (3,2) (4,0) 
+        };
+        \addplot[penColor4,ultra thick,->] coordinates{
+            (4,0) (3.5,1) 
+        };
+        
+        \addplot[penColor5,ultra thick] coordinates{
+            (4,0) (0,0) 
+        };
+        \addplot[penColor5,ultra thick,->] coordinates{
+            (0,0) (2,0) 
+        };
+        
+        \node[above,penColor5] at (axis cs: 2,0) {$\vecl_1$};
+        \node[penColor4] at (axis cs: 3.2,1) {$\vecl_2$};
+        \node[below,penColor2] at (axis cs: 2,2) {$\vecl_3$};
+        \node[penColor] at (axis cs: .8,1) {$\vecl_4$};
+
+        \end{axis}
+      \end{tikzpicture}    
+    \end{image}
+    where:
+    \begin{align*}
+      \vecl_1(t) &= \vector{4t,\answer[given]{0}}\\
+      \vecl_2(t) &= \vector{\answer[given]{4-t},2t}\\
+      \vecl_3(t) &= \vector{3-2t,\answer[given]{2}}\\
+      \vecl_4(t) &= \vector{\answer[given]{1-t},2-2t}
+    \end{align*}
+    and each draws the line as $t$ runs from $0$ to $1$.  Write:
+    \begin{align*}
+      \oint_C \vec{F}\dotp\d\vec{p} = \int_0^1 &\vec{F}(\vecl_1(t))\dotp \vecl_1'(t) \d t
+    + \int_0^1 \vec{F}(\vecl_2(t))\dotp \vecl_2'(t) \d t\\
+    &+ \int_0^1 \vec{F}(\vecl_3(t))\dotp \vecl_3'(t) \d t
+    + \int_0^1 \vec{F}(\vecl_4(t))\dotp \vecl_4'(t) \d t
+    \end{align*}
+    For each of the integrands above, say $\vecl(t) =
+    \vector{x(t),y(t)}$, we will write
+    \[
+    \vec{F}(\vecl(t))\dotp \vecl'(t) = \vector{0,x(t)} \dotp \vector{x'(t),y'(t)}
+    \]
+    and combine them into a single integral. Write with me
+    \begin{align*}
+      \oint_C \vec{F}\dotp\d\vec{p} &= \int_0^1 \left(\answer[given]{2(4-t) -2(1-t)} \right)\d t\\
+      &= \eval{\answer[given]{6t}}_0^1\\
+      &=\answer[given]{6}. 
+    \end{align*}
+    So the this is the area of the trapezoid.
+  \end{explanation}
+\end{example}
+
+\begin{example}
+  Compute the area of the ellipse
+  \[
+  \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1
+  \]
+  using Green's Theorem.
+  \begin{explanation}
+    To start, we'll set $\vec{F}(x,y) = \vector{-y/2,x/2}$. Since
+    $\curl\vec{F} = 1$, Green's Theorem says:
+    \[
+    \iint_R \d A  = \oint_C \vector{-y/2,x/2}\dotp\d\vec{p}
+    \]
+    We can parameterize the boundary of the ellipse with
+    \begin{align*}
+      x(t) &= a \cos(t)\\
+      y(t) &= b \sin(t)
+    \end{align*}
+    for $0\le t<2\pi$. Write with me
+    \begin{align*}
+      \iint_R \d A &= \oint_C \vector{-y/2,x/2}\dotp\vector{x'(t),y'(t)}\d t\\
+      &= \int_0^{2\pi} \vector{\answer[given]{-b\sin(t)/2},\answer[given]{a\cos(t)/2}}\dotp\vector{\answer[given]{-a\sin(t)},\answer[given]{b\cos(t)}}\d t\\
+      &= \int_0^{2\pi} (1/2)\left(ab\sin^2(t) + ab\cos^2(t)\right) \d t\\
+      &= \int_0^{2\pi} (1/2)ab \d t\\
+      &= \answer[given]{\pi ab}. 
+    \end{align*}
+    Done. Green's Theorem for the win!
+  \end{explanation}
+\end{example}
+
+Finally, what do you do if you have a very strangely shaped curve? You approximate it with a polygonal curve. Check out next example.
+
+\begin{example}
+  Compute the area of the polygonal region below using Green's Theorem.
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	  ymin=-3.2,ymax=3.2,
+	  xmin=-3.2,xmax=4.2,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          grid=both,
+          grid style={dashed, gridColor},
+          xtick={-3,...,4},
+          ytick={-3,...,3},
+	]
+        \addplot[penColor,ultra thick] coordinates{
+          (1,-1) (3,1) (0,1) (-1,3) (-2,-1) (1,-3)
+          (1,-1) (3,1)
+        };
+        
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  \begin{explanation}
+    In this case, set $\vec{F}(x,y) = \vector{0,x}$. Now we'll break this curve
+    into six line segments that draw this curve in a counterclockwise
+    fashion as a parameter $t$ runs from $0$ to $1$.
+    \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	  ymin=-3.2,ymax=3.2,
+	  xmin=-3.2,xmax=4.2,
+          axis lines =middle, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          grid=both,
+          grid style={dashed, gridColor},
+          xtick={-3,...,4},
+          ytick={-3,...,3},
+	]
+        \addplot[penColor,ultra thick] coordinates{
+          (1,-1) (3,1) 
+        };
+        \addplot[penColor,ultra thick,->] coordinates{
+          (1,-1) (2,0) 
+        };
+        
+        \addplot[penColor2,ultra thick] coordinates{
+          (3,1) (0,1) 
+        };
+        \addplot[penColor2,ultra thick,->] coordinates{
+          (3,1) (1.5,1) 
+        };
+        
+        \addplot[penColor3,ultra thick] coordinates{
+          (0,1) (-1,3) 
+        };
+        \addplot[penColor3,ultra thick,->] coordinates{
+          (0,1) (-.5,2) 
+        };
+        
+        \addplot[penColor4,ultra thick] coordinates{
+          (-1,3) (-2,-1) 
+        };
+        \addplot[penColor4,ultra thick,->] coordinates{
+          (-1,3) (-1.5,1) 
+        };
+        
+        \addplot[penColor5,ultra thick] coordinates{
+          (-2,-1) (1,-3)
+        };
+        \addplot[penColor5,ultra thick,->] coordinates{
+          (-2,-1) (-.5,-2)
+        };
+        
+        \addplot[yellow!70!black,ultra thick] coordinates{
+          (1,-3) (1,-1)
+        };
+        \addplot[yellow!70!black,ultra thick,->] coordinates{
+          (1,-3) (1,-2)
+        };
+        \node[above left,penColor] at (axis cs: 2,0) {$\vecl_1$};
+        \node[penColor2,above] at (axis cs: 1.5,1) {$\vecl_2$};
+        \node[below left,penColor3] at (axis cs: -.5,2) {$\vecl_3$};
+        \node[left,penColor4] at (axis cs: -1.5,1) {$\vecl_4$};
+        \node[below,penColor5] at (axis cs: -.5,-2) {$\vecl_5$};
+        \node[right,penColor6] at (axis cs: 1,-2) {$\vecl_6$};       
+        
+      \end{axis}
+    \end{tikzpicture}
+    \end{image}
+    where:
+    \begin{align*}
+      \vecl_1(t) &= \vector{1+2t,\answer[given]{-1+2t}}\\
+      \vecl_2(t) &= \vector{\answer[given]{3-3t},1}\\
+      \vecl_3(t) &= \vector{-t,\answer[given]{1+2t}}\\
+      \vecl_4(t) &= \vector{-1-t,\answer[given]{3-4t}}\\
+      \vecl_5(t) &= \vector{\answer[given]{-2+3t},-1-2t}\\
+      \vecl_6(t) &= \vector{1,\answer[given]{-3+2t}}
+    \end{align*}
+    and each draws the line as $t$ runs from $0$ to $1$.  Write:
+    \begin{align*}
+      \oint_C \vec{F}\dotp\d\vec{p} =
+      &\int_0^1 \vec{F}(\vecl_1(t))\dotp \vecl_1'(t) \d t\\
+      &+ \int_0^1 \vec{F}(\vecl_2(t))\dotp \vecl_2'(t) \d t\\
+      &+ \int_0^1 \vec{F}(\vecl_3(t))\dotp \vecl_3'(t) \d t\\
+      &+ \int_0^1 \vec{F}(\vecl_4(t))\dotp \vecl_4'(t) \d t\\
+      &+ \int_0^1 \vec{F}(\vecl_5(t))\dotp \vecl_5'(t) \d t\\
+      &+ \int_0^1 \vec{F}(\vecl_6(t))\dotp \vecl_6'(t) \d t
+    \end{align*}
+    For each of the integrands above, say $\vecl(t) =
+    \vector{x(t),y(t)}$, we will write
+    \[
+    \vec{F}(\vecl(t))\dotp \vecl'(t) = \vector{0,x(t)} \dotp \vector{x'(t),y'(t)}
+    \]
+    and combine them into a single integral. Write with me
+    \begin{align*}
+      \oint_C \vec{F}\dotp\d\vec{p} &= \int_0^1 \left(\answer[given]{12} \right)\d t\\
+      &= \eval{\answer[given]{12t}}_0^1\\
+      &=\answer[given]{12}. 
+    \end{align*}
+    So the this is the area of the region.
+  \end{explanation}
+\end{example}
+
+Green's Theorem gives a fairly easy method for computing any the area
+of any polygonal region. Any region with a ``smooth'' border can be approximated by a polygonal region. The upshot? Green's Theorem is a powerful tool for computing area.
+
+
+\end{document}

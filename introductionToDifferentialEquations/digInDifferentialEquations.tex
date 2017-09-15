@@ -1,0 +1,256 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Define a differential equation.}
+\outcome{Verify solutions to differential equations.}
+
+\title[Dig-In:]{Differential equations}
+
+\begin{document}
+\begin{abstract}
+  We study equations with that relate functions with their rates.
+\end{abstract}
+\maketitle
+
+A \textit{differential equation}\index{differential equation} is
+simply an equation with a derivative in it. Here is an example:
+\[
+a\cdot f''(x) + b\cdot f'(x) + c\cdot f(x) = g(x). 
+\]
+\begin{question}
+  What is a differential equation?
+  \begin{multipleChoice}
+    \choice{An equation that you take the derivative of.}
+    \choice[correct]{An equation that relates the rate of a function to other values.}
+    \choice{It is a formula for the slope of a tangent line at a given point.}  
+  \end{multipleChoice}
+\end{question}
+
+When a mathematician solves a differential equation, they are finding
+\textit{functions} satisfying the equation.
+\begin{question}
+  Which of the following functions solve the differential equation
+  \[
+  f''(x) = -f(x)?
+  \]
+  \begin{selectAll}
+    \choice{$e^x$}
+    \choice[correct]{$\sin(x)$}
+    \choice[correct]{$\cos(x)$}
+  \end{selectAll}
+\end{question}
+
+
+
+
+
+
+\section{Exponential growth and decay}
+
+A function $f$ exhibits \dfn{exponential growth} if its growth rate is
+proportional to its value. As a differential equation, this means
+\[
+f'(x) = k f(x)\qquad\text{for some constant of proportionality $k$.}
+\]
+We claim that this differential equation is solved by
+\[
+f(x) = Ae^{kx},
+\]
+where $A$ and $k$ are constants.  Check it out, if $f(x) = Ae^{kx}$,
+then
+\begin{align*}
+f'(x) &= Ak e^{kx}\\
+&= k\left(Ae^{kx} \right)\\
+&= k f(x).
+\end{align*}
+
+
+\begin{example}
+A culture of yeast starts with $100$ cells. After $160$ minutes, there
+are $350$ cells. Assuming that the growth rate of the yeast is
+proportional to the number of yeast cells present, estimate when the
+culture will have $1000$ cells.
+
+\begin{explanation}
+Since the growth rate of the yeast is proportional to the number of
+yeast cells present, we have the following differential equation
+\[
+p'(t) = k p(t)
+\]
+where $p(t)$ is the population of the yeast culture at time $t$ with
+$t$ measured in minutes. We know that this differential equation is
+solved by the function
+\[
+p(t) = A e^{kt}
+\]
+where $A$ and $k$ are yet to be determined constants. Since
+\[
+100 = p(0) = Ae^{k\cdot 0}
+\]
+we see that $A = 100$. So 
+\[
+p(t) = 100 e^{kt}.
+\]
+Now we must find $k$. Since we know that 
+\[
+\answer[given]{350} = p(160) = 100e^{k\cdot 160}
+\]
+we need to solve for $k$. Write
+\begin{align*}
+350 &= 100 e^{k\cdot 160}\\
+3.5 &= e^{k\cdot 160}\\
+\ln(3.5) &= k\cdot 160\\
+\ln(3.5)/160 &= k. 
+\end{align*}
+Hence
+\[
+p(t) = 100 e^{t\ln(3.5)/160} = 100 \cdot 3.5^{t/160}.
+\]
+To find out when the culture has 1000 cells, write
+\begin{align*}
+1000 &= 100 \cdot 3.5^{t/160}\\
+10 &= 3.5^{t/160}\\
+\ln(10) &= \frac{t\ln(3.5)}{160}\\
+\frac{160\ln(10)}{\ln(3.5)} &= t.
+\end{align*}
+From this we find that after approximately $294$ minutes, there are
+around $1000$ yeast cells present.
+\end{explanation}
+\end{example}
+
+It is worth seeing an example of exponential decay as well. Consider
+this: Living tissue contains two types of carbon, a stable isotope
+carbon-12 and a radioactive (unstable) isotope carbon-14. While an
+organism is alive, the ratio of one isotope of carbon to the other is
+always constant. When the organism dies, the ratio changes as the
+radioactive isotope decays.  This is the basis of radiocarbon dating.
+
+
+\begin{example}
+The half-life of carbon-14 (the time it takes for half of an amount of
+carbon-14 to decay) is about 5730 years. Moreover, the rate of decay
+of carbon-14 is proportional to the amount of carbon-14.
+
+If we find a bone with $1/70$th of the amount of carbon-14 we would
+expect to find in a living organism, approximately how old is the
+bone?
+
+\begin{explanation}
+Since the rate of decay of carbon-14 is proportional to the amount of
+carbon-14 present, we can model this situation with the differential
+equation
+\[
+f'(t) = k f(t).
+\]
+We know that this differential equation is solved by the function
+defined by
+\[
+f(t) = A e^{kt}
+\]
+where $A$ and $k$ are yet to be determined constants. Since the
+half-life of carbon-14 is about $5730$ years we write
+\[
+\frac{1}{2} = e^{k 5730}.
+\]
+Solving this equation for $k$, gives
+\[
+k = \frac{-\ln(2)}{5730}.
+\]
+Since we currently have $1/70$th of the original amount of carbon-14
+we write
+\[
+\answer[given]{\frac{1}{70}} = 1\cdot e^{\frac{-\ln(2)t}{5730}}.
+\]
+Solving this equation for $t$, we find $t \approx -35121$. This means
+that the bone is approximately $35121$ years old.
+\end{explanation}
+\end{example}
+
+
+
+
+\section{Infectious diseases}
+
+There are many models for the spread of infectious diseases. Perhaps
+the most basic is the following:
+\[
+\mathrm{infect}'(t) = k\cdot \mathrm{infect}(t)\cdot(P-\mathrm{infect}(t))
+\]
+where $k$ is a constant, $\mathrm{infect}(t)$ is the number of people
+infected by the disease on day $t$, and $P$ is the size of the
+population vulnerable to the disease.
+
+What this is saying is that the rate that the infectious disease
+spreads is proportional to the product of the infected by the
+uninfected:
+  \begin{image}
+    \begin{tikzpicture}
+    \node at (0,0) {
+      $\underbrace{\mathrm{infect}'(t)} = \overbrace{k} \cdot \underbrace{\mathrm{infect}(t)\cdot(P-\mathrm{infect}(t))}$
+    };
+    \node at (-2.6,-.7) {\small{rate the disease spreads}};
+    \node at (-.9,.7) {\small{is proportional to}};
+    \node at (1.3,-.7) {\small{this product}};
+    \end{tikzpicture}
+  \end{image}
+
+Why might this make a good model? We expect the rate that
+disease is spreading to be largest when
+\[
+\mathrm{infect}(t) \approx P/2.
+\]
+The product
+\[
+\mathrm{infect}(t)\cdot (P-\mathrm{infect}(t))
+\]
+is largest when $\mathrm{infect}(t) = P/2$. Finally we add the constant
+of proportionality as a scale factor.
+
+
+
+
+\begin{example}
+  Suppose your calculus class has had a freak outbreak of the
+  \textit{math-philia}. Some facts: We have around $200$ students in
+  our class, we are now on the $23$rd day of the outbreak, and
+  currently $100$ students are infected. Using the differential
+  equation
+  \[
+  \mathrm{infect}'(t) = k\cdot \mathrm{infect}(t)\cdot (P-\mathrm{infect}(t))
+  \]
+  we can model the spread of \textit{math-philia} by setting $k=0.001$.
+  What is $\mathrm{infect}'(23)$?
+
+  \begin{explanation}
+    Here all we need to do is substitute all of the necessary
+    information into the differential equation. We know
+    \begin{align*}
+    t &= \answer[given]{23},\\
+    P &= \answer[given]{200},\\
+    \mathrm{infect}(23) &= \answer[given]{100},\\
+    k&= 0.001.
+    \end{align*}
+    So
+    \begin{align*}
+      \mathrm{infect}'(t) &= k\cdot \mathrm{infect}(t)\cdot (P-\mathrm{infect}(t))\\
+      &= 0.001\cdot 100\cdot(200-100)\\
+      &=\answer[given]{10}.
+    \end{align*}
+    Hence on day $23$, we expect the disease to be spreading at a rate
+    of $\answer[given]{10}$ newly infected people per day.
+  \end{explanation}
+\end{example}
+
+
+%% To actually solve this differential equation, you need more
+%% information. In particular, you need to know $\mathrm{infect}(0)$.
+%% Setting $\mathrm{infect}(0) = a$,
+%% \[
+%% \mathrm{infect}'(t) = k\cdot \mathrm{infect}(t)(P-\mathrm{infect}(t))
+%% \]
+%% is solved by
+%% \[
+%% \mathrm{infect}(t) = \frac{P\cdot a \cdot e^{P\cdot k\cdot t}}{P + a \cdot \left(e^{P\cdot k\cdot t}-1\right)}.
+%% \]
+\end{document}

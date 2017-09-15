@@ -1,0 +1,792 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Compute partial derivatives.}
+\outcome{Estimate partial derivatives from tables and graphs.}
+
+\title[Dig-In:]{Partial derivatives}
+
+\begin{document}
+\begin{abstract}
+  We introduce partial derivatives. 
+\end{abstract}
+\maketitle
+
+Given a function $F:\R^n \to \R$, it is often useful to differentiate
+with respect to a single variable and hold the other variables as
+constants. As a concrete example, let
+\[
+F(x,y) = x^2+2y^2
+\]
+Fixing $y=2$, allows us to focus our attention to all points on the
+surface where the $y$-value is $2$,
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}%
+[tick label style={font=\scriptsize},axis on top,
+  axis lines=center,
+  view={140}{30},
+  name=myplot,
+  %xtick=\empty,
+  %ytick={5},
+  %ztick={.7,-.7},
+  ymin=-4.5,ymax=4.5,
+  xmin=-4.5,xmax=4.5,
+  zmin=-1.1, zmax=26,
+  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-5pt,yshift=-1pt},
+  xlabel={\scriptsize $x$},
+  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=-4pt},
+  ylabel={\scriptsize $y$},
+  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+  zlabel={\scriptsize $z$},colormap/cool
+]
+\addplot3[domain=-3:3,y domain=-3:3,mesh,samples y=20,very thin,z buffer=sort,  samples=25,] (x,y,{x^2+2*(y^2)});
+
+\addplot3 [very thick,penColor, smooth,domain=-3:3,samples=20,samples y=0] ({x},{2},{x^2+8});
+\end{axis}
+\end{tikzpicture}
+\end{image}
+We can now focus our attention on the curve 
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}%
+[tick label style={font=\scriptsize},axis on top,
+  axis lines=center,
+  view={140}{30},
+  name=myplot,
+  %xtick=\empty,
+  %ytick={5},
+  %ztick={.7,-.7},
+  ymin=-4.5,ymax=4.5,
+  xmin=-4.5,xmax=4.5,
+  zmin=-1.1, zmax=26,
+  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-5pt,yshift=-1pt},
+  xlabel={\scriptsize $x$},
+  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=-4pt},
+  ylabel={\scriptsize $y$},
+  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+  zlabel={\scriptsize $z$},colormap/cool
+]
+\addplot3 [very thick,penColor, smooth,domain=-3:3,samples=20,samples y=0] ({x},{2},{x^2+8});
+\end{axis}
+\end{tikzpicture}
+\end{image}
+and differentiate this curve purely with respect to $x$.
+
+\begin{definition}
+  Given a function $F:\R^n\to\R$, the \dfn{partial derivative} of $F$
+  with respect to the $i$th variable is denoted:
+  \[
+  \pp{x_i} F(\vec{x})
+  \]
+  This means that one should take the derivative with respect to $x_i$
+  while treating all other variables as constants. 
+\end{definition}
+
+\begin{question}
+  Let $F(x,y) = x^2+2y^2$. Compute:
+  \[
+  \pp{x} F(x,y)
+  \begin{prompt}
+    = \answer{2x+0}
+  \end{prompt}
+  \]
+  \begin{question}
+    Compute
+  \[
+  \pp{y} F(x,y)
+  \begin{prompt}
+    = \answer{0+4y}
+  \end{prompt}
+  \]
+  \end{question}
+\end{question}
+
+
+\begin{definition}\index{partial derivative!notation}
+  There are several different notations for the partial derivative.
+  The two we'll mainly be using are
+  \begin{align*}
+    \pp{x} F(x,y,z) &= F^{(1,0,0)}(x,y,z),\\
+    \pp{y} F(x,y,z) &= F^{(0,1,0)}(x,y,z),\\
+    \pp{z} F(x,y,z) &= F^{(0,0,1)}(x,y,z).
+  \end{align*}
+  Other texts sometimes use $F_x$ to mean $\pp[F]{x}$, but we won't
+  use that notation.
+\end{definition}
+
+\begin{question}
+  Let $F(x,y) = x^2y + 2x+y^3$. Compute:
+  \[
+  F^{(1,0)}(x,y)
+  \begin{prompt}
+    = \answer{2xy+2}
+  \end{prompt}
+  \]
+  \begin{question}
+    Compute:
+  \[
+  F^{(0,1)}(x,y)
+  \begin{prompt}
+    = \answer{x^2+3y^2}
+  \end{prompt}
+  \]
+  \end{question}
+\end{question}
+
+We have shown \textit{how} to compute a partial derivative, but it may
+still not be clear what a partial derivative \textit{means}. Given
+$z=F(x,y)$, $F^{(1,0)}(x,y)$ measures the rate at which $z$ changes as
+only $x$ varies: $y$ is held constant. 
+
+Imagine standing in a rolling meadow, then beginning to walk due
+east. Depending on your location, you might walk up, sharply down, or
+perhaps not change elevation at all. This is similar to measuring
+$\pp[z]{x}$: you are moving only east (in the ``$x$''-direction) and
+not north/south at all. Going back to your original location, imagine
+now walking due north (in the ``$y$''-direction). Perhaps walking due
+north does not change your elevation at all. This is analogous to
+$\pp[z]{y}=0$: $z$ does not change with respect to $y$. We can see
+that $\pp[z]{x}$ and $\pp[z]{y}$ do not have to be the same, or even
+similar, as it is easy to imagine circumstances where walking east
+means you walk downhill, though walking north makes you walk uphill.
+The next example helps us visualize this.
+
+
+\begin{example}
+  Let $z=F(x,y)=-x^2-\frac{y^2}{2}+xy+10$. Find $F^{(1,0)}(2,1)$ and
+  $F^{(0,2)}(2,1)$.
+  \begin{explanation}
+    Write with me
+    \[
+    \pp{x}F(x,y) = \answer[given]{-2x+y}
+    \]
+    and
+    \[
+    \pp{y}F(x,y) = \answer[given]{-y+x}
+    \]
+    Thus $F^{(1,0)}(2,1) = \answer[given]{-3}$ and $F^{(0,1)}(2,1) =
+    \answer[given]{1}$.
+  \end{explanation}
+\end{example}
+
+Whenever we do a computation in mathematics, we should ask ourselves,
+``What does this mean?''
+\begin{question}
+  What is the meaning of
+  \begin{align*}
+    F^{(1,0)}(2,1) &= -3\\
+    F^{(0,1)}(2,1)&=1?
+  \end{align*}
+  \begin{prompt}
+    First note that $F(2,1) = \answer{7.5}$.  If $F^{(1,0)}=-3$, this
+    means if one ``stands'' on the surface at the point
+    $(\answer{2},\answer{1},\answer{7.5})$ and moves
+    \wordChoice{\choice[correct]{parallel}\choice{orthogonal}} to the
+    $x$-axis (so only the $x$-value changes, not the $y$-value), then
+    the instantaneous rate of change in $z$ is
+    $\answer{-3}$. Increasing the $x$-value will
+    \wordChoice{\choice{increase}\choice[correct]{decrease}} the
+    $z$-value; decreasing the $x$-value will
+    \wordChoice{\choice[correct]{increase}\choice{decrease}} the
+    $z$-value.
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    view={135}{30},
+	    name=myplot,
+	    %xtick=\empty,
+	    %ytick={5},
+	    %ztick={.7,-.7},
+	    minor xtick=1,
+	    minor ytick=1,
+	    ymin=-.5,ymax=3.5,
+	    xmin=-.5,xmax=3.5,
+	    zmin=-1.1, zmax=12,
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-5pt,yshift=-1pt},
+	    xlabel={\scriptsize $x$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=-4pt},
+	    ylabel={\scriptsize $y$},
+	    every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	    zlabel={\scriptsize $z$},colormap/cool
+	  ]
+          \addplot3[domain=0:3,y domain=0:3,mesh,samples y=10,very thin,z buffer=sort,
+samples=10,] (x,y,{-x^2-.5*(y^2)+x*y+10});
+
+\addplot3 [very thick,penColor, smooth,domain=0:3,samples=20,samples y=0] ({x},{1},{-x^2+x+9.5});
+
+\addplot3 [ultra thick,penColor2, smooth,domain=0:3.5,samples=20,samples y=0] ({x},{1},{-3*(x-2)+7.5});
+
+\filldraw [black] (axis cs:2,1,7.5) circle (1.5pt);
+\end{axis}
+\end{tikzpicture}
+    \end{image}
+    
+    If $F^{(1,0)}=1$, this means if one ``stands'' on the surface at
+    the point $(\answer{2},\answer{1},\answer{7.5})$ and moves
+    \wordChoice{\choice[correct]{parallel}\choice{orthogonal}} to the
+    $y$-axis (so only the $y$-value changes, not the $x$-value), then
+    the instantaneous rate of change in $z$ is
+    $\answer{1}$. Increasing the $y$-value will
+    \wordChoice{\choice[correct]{increase}\choice{decrease}} the
+    $z$-value; decreasing the $y$-value will
+    \wordChoice{\choice{increase}\choice[correct]{decrease}} the
+    $z$-value.
+    \begin{image}
+      \begin{tikzpicture}
+\begin{axis}%
+[tick label style={font=\scriptsize},axis on top,
+			axis lines=center,
+			view={135}{30},
+			name=myplot,
+			%xtick=\empty,
+			%ytick={5},
+			%ztick={.7,-.7},
+			minor xtick=1,
+			minor ytick=1,
+			ymin=-.5,ymax=3.5,
+			xmin=-.5,xmax=3.5,
+			zmin=-1.1, zmax=12,
+			every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-5pt,yshift=-1pt},
+				xlabel={\scriptsize $x$},
+			every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=-4pt},
+				ylabel={\scriptsize $y$},
+				every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+				zlabel={\scriptsize $z$},colormap/cool
+			]
+\addplot3[domain=0:3,y domain=0:3,mesh,samples y=10,very thin,z buffer=sort,
+samples=10,] (x,y,{-x^2-.5*(y^2)+x*y+10});
+
+\addplot3 [very thick,penColor, smooth,domain=0:3,samples=20,samples y=0] ({2},{x},{-.5*x^2+2*x+6});
+\addplot3 [ultra thick,penColor2, smooth,domain=0:3.5,samples=20,samples y=0] ({2},{x},{1*(x-1)+7.5});
+\filldraw [black] (axis cs:2,1,7.5) circle (1.5pt);
+\end{axis}
+\end{tikzpicture}
+    \end{image}    
+    Finally, since the magnitude of $\pp[F]{x}$ is greater than the
+    magnitude of $\pp[F]{y}$ at $(2,1)$, the surface is ``steeper'' in
+    the $x$-direction than in the $y$-direction.
+  \end{prompt}
+\end{question}
+
+\section{Estimating partial derivatives}
+
+Functions of several variables, especially ones that map $\R^2\to \R$
+can be described by a table of values or level curves. In either case
+we can estimate partial derivatives by looking at
+\[
+\frac{\text{change in the output}}{\text{change in the variable}}
+\]
+Let's do an example to make this more clear.
+\begin{example}
+  Let $F:\R^2\to\R$ be a differentiable function described by the
+  following table of values:
+  \begin{image}
+    \begin{tikzpicture}[x=1cm,y=.75cm]
+    \draw (0,0) grid [step=1] (6,5);
+    
+    \draw[ultra thick] (0,1)--(6,1);
+    \draw[ultra thick] (1,0)--(1,5);
+    
+    \draw (0,0) -- (1,1);
+    \node at (.4,.9) [below left,inner sep=1pt] {\small$y$};
+    \node at (0.6,.1) [above right,inner sep=1pt] {\small$x$};
+    
+    %% y-values
+    \node at (0.5,4.5) {$7$};
+    \node at (0.5,3.5) {$6$};
+    \node at (0.5,2.5) {$5$};
+    \node at (0.5,1.5) {$4$};
+
+    
+    %% z-values
+    %% top
+    \node at (1.5,4.5) {$18$};
+    \node at (2.5,4.5) {$10$};
+    \node at (3.5,4.5) {$-1$};
+    \node at (4.5,4.5) {$-3$};
+    \node at (5.5,4.5) {$-7$};
+    
+    %% 
+    \node at (1.5,3.5) {$24$};
+    \node at (2.5,3.5) {$16$};
+    \node at (3.5,3.5) {$5$};
+    \node at (4.5,3.5) {$1$};
+    \node at (5.5,3.5) {$-2$};
+    
+    %% 
+    \node at (1.5,2.5) {$18$};
+    \node at (2.5,2.5) {$9$};
+    \node at (3.5,2.5) {$0$};
+    \node at (4.5,2.5) {$-1$};
+    \node at (5.5,2.5) {$-4$};
+    
+    %% 
+    \node at (1.5,1.5) {$12$};
+    \node at (2.5,1.5) {$6$};
+    \node at (3.5,1.5) {$-3$};
+    \node at (4.5,1.5) {$-4$};
+    \node at (5.5,1.5) {$-6$};
+    
+    %% bottom row
+    \node at (1.5,.5) {$1$};
+    \node at (2.5,.5) {$2$};
+    \node at (3.5,.5) {$3$};
+    \node at (4.5,.5) {$4$};
+    \node at (5.5,.5) {$5$};
+    \end{tikzpicture}
+  \end{image}
+  Estimate
+  \[
+  F^{(1,0)}(2,6)
+  \]
+  \begin{explanation}
+    To estimate $F^{(1,0)}(2,6)$, we examine the change in $F(x,6)$
+    between $x=1$ and $x=2$:
+    \begin{align*}
+      \frac{F(2,6)-F(1,6)}{2-1}&= \frac{\answer[given]{16}-\answer[given]{24}}{2-1}\\
+      &=\answer[given]{-8}
+    \end{align*}
+    We should also examine the change in $F(x,6)$ between $x=2$ and
+    $x=3$:
+    \begin{align*}
+      \frac{F(3,6)-F(2,6)}{3-2}&= \frac{\answer[given]{5}-\answer[given]{16}}{3-2}\\
+      &=\answer[given]{-11}
+    \end{align*}
+    Now if we average these values together, we see
+    \[
+    \eval{\pp{x} F(x,y)}_{(x,y)=(2,6)} \approx \answer[given]{-9.5}
+    \]
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  Let $F:\R^2\to\R$ be a differentiable function described by the
+  following table of values:
+  \begin{image}
+    \begin{tikzpicture}[x=1cm,y=.75cm]
+    \draw (0,0) grid [step=1] (6,5);
+    
+    \draw[ultra thick] (0,1)--(6,1);
+    \draw[ultra thick] (1,0)--(1,5);
+    
+    \draw (0,0) -- (1,1);
+    \node at (.4,.9) [below left,inner sep=1pt] {\small$y$};
+    \node at (0.6,.1) [above right,inner sep=1pt] {\small$x$};
+    
+    %% y-values
+    \node at (0.5,4.5) {$7$};
+    \node at (0.5,3.5) {$6$};
+    \node at (0.5,2.5) {$5$};
+    \node at (0.5,1.5) {$4$};
+
+    
+    %% z-values
+    %% top
+    \node at (1.5,4.5) {$18$};
+    \node at (2.5,4.5) {$10$};
+    \node at (3.5,4.5) {$-1$};
+    \node at (4.5,4.5) {$-3$};
+    \node at (5.5,4.5) {$-7$};
+    
+    %% 
+    \node at (1.5,3.5) {$24$};
+    \node at (2.5,3.5) {$16$};
+    \node at (3.5,3.5) {$5$};
+    \node at (4.5,3.5) {$1$};
+    \node at (5.5,3.5) {$-2$};
+    
+    %% 
+    \node at (1.5,2.5) {$18$};
+    \node at (2.5,2.5) {$9$};
+    \node at (3.5,2.5) {$0$};
+    \node at (4.5,2.5) {$-1$};
+    \node at (5.5,2.5) {$-4$};
+    
+    %% 
+    \node at (1.5,1.5) {$12$};
+    \node at (2.5,1.5) {$6$};
+    \node at (3.5,1.5) {$-3$};
+    \node at (4.5,1.5) {$-4$};
+    \node at (5.5,1.5) {$-6$};
+    
+    %% bottom row
+    \node at (1.5,.5) {$1$};
+    \node at (2.5,.5) {$2$};
+    \node at (3.5,.5) {$3$};
+    \node at (4.5,.5) {$4$};
+    \node at (5.5,.5) {$5$};
+    \end{tikzpicture}
+  \end{image}
+  Estimate
+  \[
+  F^{(0,1)}(2,6)
+  \begin{prompt}
+    \approx \answer{.5}
+  \end{prompt}
+  \]
+  \begin{hint}
+    Work as we did in the example above, finding two estimates and taking their averages. 
+  \end{hint}
+\end{question}
+
+We can also estimate partial derivatives by looking at level curves.
+
+\begin{example}
+  Let $F:\R^2\to\R$ be described by the level curves below:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    %view={30}{30},
+	    %name=myplot,
+            %width=5in,
+	    xtick={0,1,...,6},
+            ytick={0,1,...,5},
+	    %ytick={5},
+	    %ztick={.7,-.7},
+	    ymin=-.2,ymax=5,
+	    xmin=-.2,xmax=6,
+            grid=major,%width=3in,height=3in,
+            grid style={dashed, gridColor},
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
+	    xlabel={\scriptsize $x$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=2pt},
+	    ylabel={\scriptsize $y$},
+	  ]
+          \addplot[very thick, penColor,smooth] coordinates{
+            (0,0) (4,1) (5,2) (6,2.5)
+          };
+
+          \addplot[very thick, penColor,smooth] coordinates{
+            (0,1) (4,2) (6,3)
+          };
+
+          \addplot[very thick, penColor,smooth] coordinates{
+            (0,1.5) (1,2) (4,4) (6,5)
+            };
+
+          \node[penColor,fill=white] at (axis cs:2,.5) {$17$};
+          \node[penColor,fill=white] at (axis cs:2,1.5) {$13$};
+          \node[penColor,fill=white] at (axis cs:2,2.66) {$7$};
+
+          \addplot[color=black,fill=black,only marks,mark=*] coordinates{(4,2)};  %% closed hole          
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    The height of the level curve is marked on the curve, and we are
+    given a point $(4,2)$.  Estimate
+    \[
+    F^{(1,0)}(4,2)
+    \]
+  \begin{explanation}
+    To estimate $F^{(1,0)}(4,2)$ we examine the change between the
+    level curve that $\vec{p}$ is on, and the nearest level curve
+    found by traveling on a line parallel to the $x$-axis. Starting at
+    $\vec{p}$ and moving to the left, we see
+    \begin{align*}
+      \frac{F(4,2)-F(1,2)}{4-1}&= \frac{\answer[given]{13}-\answer[given]{7}}{4-1}\\
+      &=\answer[given]{2}
+    \end{align*}
+    We also should examine the change between the closest level curve on the right, 
+    \begin{align*}
+      \frac{F(5,2)-F(4,2)}{5-4}&= \frac{\answer[given]{17}-\answer[given]{13}}{5-4}\\
+      &=\answer[given]{4}
+    \end{align*}
+    Now if we average these values together, we see
+    \[
+    \eval{\pp{x} F(x,y)}_{(x,y)=(2,6)} \approx \answer[given]{3}
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+\begin{question}
+  Let $F:\R^2\to\R$ be described by the level curves below:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    %view={30}{30},
+	    %name=myplot,
+            %width=5in,
+	    xtick={0,1,...,6},
+            ytick={0,1,...,5},
+	    %ytick={5},
+	    %ztick={.7,-.7},
+	    ymin=-.2,ymax=5,
+	    xmin=-.2,xmax=6,
+            grid=major,%width=3in,height=3in,
+            grid style={dashed, gridColor},
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
+	    xlabel={\scriptsize $x$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=2pt},
+	    ylabel={\scriptsize $y$},
+	  ]
+          \addplot[very thick, penColor,smooth] coordinates{
+            (0,0) (4,1) (5,2) (6,2.5)
+          };
+
+          \addplot[very thick, penColor,smooth] coordinates{
+            (0,1) (4,2) (6,3)
+          };
+
+          \addplot[very thick, penColor,smooth] coordinates{
+            (0,1.5) (1,2) (4,4) (6,5)
+            };
+
+          \node[penColor,fill=white] at (axis cs:2,.5) {$17$};
+          \node[penColor,fill=white] at (axis cs:2,1.5) {$13$};
+          \node[penColor,fill=white] at (axis cs:2,2.66) {$7$};
+
+          \addplot[color=black,fill=black,only marks,mark=*] coordinates{(4,2)};  %% closed hole          
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    The height of the level curve is marked on the curve, and we are
+    given a point $(4,2)$.
+  Estimate
+  \[
+  F^{(0,1)}(4,2)
+  \begin{prompt}
+    \approx \answer{-3.5}
+  \end{prompt}
+  \]
+  \begin{hint}
+    Work as we did in the example above, finding two estimates and taking their averages. 
+  \end{hint}
+\end{question}
+
+
+\section{Combining partial derivatives}
+
+While a function $f:\R\to\R$ only has one second derivative. However,
+functions $F:\R^2\to R$ have $4$ \textit{second partial derivatives}
+and functions $F:\R^3\to\R$ have $9$ \textit{second partial
+  derivatives}! Don't run off yet, things get better.
+
+\begin{definition}
+  Let $F(x,y)$ be continuous on an open set $S$.
+  \begin{itemize}
+  \item The \dfn{second partial derivative of $F$ with respect to $x$ then $x$} is
+    \[
+    \pp{x}\left(\pp[F]{x}\right) = \frac{\partial^2 F}{\partial x^2} = \left(F^{(1,0)}\right)^{(1,0)}= F^{(2,0)}
+    \]
+  \item The \dfn{second partial derivative of $F$ with respect to
+    $x$ then $y$} is
+    \[
+    \pp{y}\left(\pp[F]{x}\right) = \frac{\partial^2F}{\partial y\partial x} = \left(F^{(1,0)}\right)^{(0,1)}
+    \]
+
+%\item The \textbf{second partial derivative of $f$ with respect to $y$ then $y$} is $$\frac{\partial}{\partial y}\left(\frac{\partial f}{\py}\right) = \frac{\partial^2 f}{\py^2} = \big(\,f_y\,\big)_y= f_{yy}$$
+%
+%\item The \textbf{second partial derivative of $f$ with respect to $y$ then $x$} is $$\frac{\partial}{\partial x}\left(\frac{\partial f}{\py}\right) = \frac{\partial^2f}{\px\py} = \big(\,f_y\,\big)_x = f_{yx}$$
+\end{itemize}
+Similar definitions hold for $\frac{\partial^2F}{\partial y^2} =
+F^{(0,2)}$ and $\frac{\partial^2F}{\partial x\partial y} =
+\left(F^{(0,1)}\right)^{(1,0)}$. The second partial derivatives
+\[
+\frac{\partial^2F}{\partial y\partial x} \quad{and}\quad \frac{\partial^2F}{\partial x\partial y}
+\]
+are \dfn{mixed partial derivatives}.
+\index{partial derivative!mixed}\index{partial derivative!second derivative}\index{derivative!mixed partial}
+\end{definition}
+
+The notation of second partial derivatives gives some insight into the
+notation of the second derivative of a function of a single
+variable. If $y=f(x)$, then $f''(x) = \frac{\d^2 y}{\d x^2}$. The
+``$\d^2y$'' portion means ``take the derivative of $y$ twice,'' while
+``$\d x^2$'' means ``with respect to $x$ both times.'' When we only know
+of functions of a single variable, this latter phrase seems silly:
+there is only one variable to take the derivative with respect to. Now
+that we understand functions of multiple variables, we see the
+importance of specifying which variables we are referring to.
+
+\begin{question}
+  Consider:
+  \[
+  F(x,y) = x^3y^2 + 2xy^3+\cos(x)
+  \]
+  Find six first and second partial derivatives.
+  \begin{prompt}
+    \begin{align*}
+      \pp[F]{x} &= \answer{3x^2y^2+2y^3-\sin(x)}\\
+      \pp[F]{y} &= \answer{2x^3y+6xy^2}\\
+      \frac{\partial^2F}{\partial x^2} &= \answer{6xy^2-\cos(x)}\\
+      \frac{\partial^2F}{\partial y^2} &= \answer{2x^3+12xy}\\
+      \frac{\partial^2F}{\partial y\partial x} &= \answer{6x^2y+6y^2}\\
+      \frac{\partial^2F}{\partial x\partial y} &= \answer{6x^2y+6y^2}
+    \end{align*}
+  \end{prompt}
+\end{question}
+Notice how above $\frac{\partial^2F}{\partial y\partial
+  x}=\frac{\partial^2F}{\partial x\partial y}$. The next theorem states
+that it is not a coincidence.
+
+\begin{theorem}[Mixed Partial Derivatives]
+  Let $F:\R^2\to \R$ be a function where
+  \[
+  \frac{\partial^2F}{\partial y\partial x}\quad\text{and}\quad\frac{\partial^2F}{\partial x\partial y}
+  \]
+  are continuous on an open set $S$. Then for each point $(x,y)$ in
+  $S$, $\frac{\partial^2F}{\partial y\partial
+    x}=\frac{\partial^2F}{\partial x\partial y}$.
+  A similar result is true for functions $F:\R^n\to \R$.
+\end{theorem}
+
+Finding $\frac{\partial^2F}{\partial y\partial x}$ and
+$\frac{\partial^2F}{\partial x\partial y}$ independently and comparing
+the results provides a convenient way of checking our work.
+
+\section{Differentiability}
+
+In the past you may have learned
+\begin{quote}\index{tangent line}
+Given a function $f$ and a number $a$ in the domain of $f$, if one can
+``zoom in'' on the graph at $(a, f(a))$ sufficiently so that it
+appears to be a straight line, then the function is
+\dfn{differentiable}, and that line is the \dfn{tangent line} to
+$f(x)$ at the point $(a,f(a))$.
+\end{quote}
+We illustrate this informal definition with the following diagram:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+            domain=0:6, range=0:7,
+            ymin=-.2,ymax=7,
+            width=6in,
+            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+            axis lines=none,
+          ]   
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+          
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+          
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+
+          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+          
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+          
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+
+          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+
+          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+%% sufficiently so that the graph seems to be a straight line,
+%% then that line is the \textbf{tangent line} to $f$ at the point
+%% determined by $(a, f(a))$.}
+%% \label{figure:informal-tangent}
+\end{image}
+%% \todo{This image should be interactive.}
+
+When working with functions of several variables, intuitively, a
+function $F:\R^2\to R$ is differentiable when one can ``zoom-in'' and
+the surface determined by $F$ looks like a plane. %%BADBAD would like an image
+\begin{quote}\index{tangent plane}%%BADBAD would like an image
+  Given a function $F:\R^\to\R$ and a vector $\vec{a}$ in the domain
+  of $F$, if one can ``zoom in'' on the graph at $(\vec{a}, F(\vec{a}))$
+  sufficiently so that it appears to be a plane, then the
+  function is \dfn{differentiable}, and that plane is the \dfn{tangent plane}
+  to $F$ at the point $(\vec{a},F(\vec{a}))$.
+\end{quote}
+The following theorem states that differentiable functions are
+continuous, followed by another theorem that provides a more tangible
+way of determining whether a great number of function are
+differentiable or not.
+
+\begin{theorem}[Differentiability Implies Continuity]
+Let $F:\R^n\to\R$ be defined on an open set $S$ containing
+$\vec{a}$.  If $F$ is differentiable at $\vec{a}$, then $F$ is
+continuous at $\vec{a}$.
+\end{theorem}
+
+\begin{theorem}[A Criterion for Differentiability]
+  Let $F:\R^n\to\R$ be defined on an open set $S$ containing
+  $\vec{a}$.  If
+  \[
+  \pp[F]{x_1},\pp[F]{x_2},\dots,\pp[F]{x_n}
+  \]
+  are all continuous on $S$, then $f$ is differentiable on $S$.
+\end{theorem}
+
+The theorems assure us that essentially all functions that we see in
+the course of our studies here are differentiable (and hence
+continuous) on their natural domains. There is a small caveat to the
+Theorem above: it is possible for a function $F$ to be differentiable
+yet some partials may not be continuous. Such strange behavior of
+functions is a source of delight for many mathematicians.
+
+\subsection{Finding tangent planes}
+
+In your earlier calculus courses, you often found tangent lines to
+curves. To do this, you were given a function $f$, a point $x=a$, and
+then you produced
+\[
+y = f'(a)\cdot (x-a) + f(a)
+\]
+as your tangent line. For functions $F:\R^2\to\R$, and a point $(a,b)$
+we find \dfn{tangent planes}. These are planes of the form:
+\[
+z= F^{(1,0)}(a,b)\cdot(x-a) + F^{(0,1)}(a,b)\cdot(y-b)+F(a,b) 
+\]
+\begin{question}
+  Find a tangent plane to $F(x,y) = 3\cos(x)\sin(y)$ at $(x,y) =
+  (\pi/3,\pi/6)$.
+  \begin{prompt}
+    \[
+    z = \answer{(-3\sqrt{3}/4)\cdot (x-\pi/3) + (3\sqrt{3}/4)\cdot (y-\pi/6) + 3/4}
+    \]
+  \end{prompt}
+\end{question}
+
+\end{document}

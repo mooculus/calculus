@@ -1,0 +1,237 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Cylindrical coordinates}
+
+\outcome{Work in cylindrical coordinates.}
+\outcome{Compute double integrals in cylindrical coordinates.}
+
+\begin{document}
+\begin{abstract}
+  We integrate over regions in cylindrical coordinates.
+\end{abstract}
+\maketitle
+
+The first way we will generalize polar coordinates to three dimensions is with \textit{cylindrical} coordinates.
+
+\begin{definition}
+  An ordered triple consisting of a radius, an angle, and a height
+  $(r,\theta,z)$ can be graphed as
+  \begin{align*}
+    x &= r\cdot \cos(\theta)\\
+    y &= r\cdot \sin(\theta)\\
+    z &= z
+  \end{align*}
+  meaning:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={110}{25},
+	name=myplot,
+	xtick=\empty,
+        ytick=\empty,
+        ztick=\empty,
+	ymin=-.1,ymax=1.2,
+	xmin=-.1,xmax=1.2,
+	zmin=-.2, zmax=2.1,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool,
+        ]
+        \addplot3[->,domain=0:45,samples y=0,gray] ({.3*cos(x)},{.3*sin(x)},0);
+        \addplot3[domain=0:1,samples y=0,gray] ({x*cos(45)},{x*sin(45)},0);
+        \addplot3[domain=0:1,samples y=0,gray] ({cos(45)},{sin(45)},2*x);
+        \node at (axis cs:{.5*cos(22.5)},{.5*sin(22.5)},0) {$\theta$};
+
+        \node[above] at (axis cs:{.7*cos(45)},{.7*sin(45)},0) {$r$};
+
+        \node[right] at (axis cs:{1*cos(45)},{1*sin(45)},1) {$z$};
+        \filldraw [black] (axis cs:{1*cos(45)},{1*sin(45)},2) circle (3pt);        
+        \node[right] at (axis cs:{1*cos(45)},{1*sin(45)},2) {$(r,\theta,z)$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Coordinates of this type are called \dfn{cylindrical coordinates}.
+\end{definition}
+
+\begin{question}
+  Consider the point $(2, \pi/3,5)$ in cylindrical coordinates. What is
+  this point when expressed in $(x,y,z)$-coordinates?
+  \begin{prompt}
+    \[
+    (x,y,z) = (\answer{2\cos(\pi/3)}, \answer{2 \sin(\pi/3)},\answer{5})
+    \]
+  \end{prompt}
+  \begin{question}
+    Consider the point $(1, -1,5)$ in $(x,y,z)$-coordinates. What is
+    this point when expressed in cylindrical coordinates where
+    $0\le\theta<2\pi$?
+    \begin{prompt}
+      \[
+      (r,\theta,z) = (\answer{\sqrt{2}}, \answer{7\pi/4},\answer{5})
+      \]
+    \end{prompt}
+  \end{question}
+\end{question}
+
+\section{Triple integrals in cylindrical coordinates}
+
+If you want to evaluate this integral
+\[
+\int_R F \d V,
+\]
+you have to change $R$ to a region defined in $(x,y,z)$-coordinates,
+and change $\d V$ to some combination of $\d x\d y\d z$ leaving you
+with some iterated integral:
+\[
+\int_a^b\int_c^d\int_p^q F(x,y,z) \d y \d x\d z
+\]
+Now consider representing a region $R$ in cylindrical coordinates
+and let's express $\d V$ in terms of $\d r$, $\d\theta$, and $\d z$. To do this, consider the diagram below:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={120}{25},
+	name=myplot,
+        clip=false,
+	xtick=\empty,
+        ytick=\empty,
+        ztick=\empty,
+	ymin=-.1,ymax=1,
+	xmin=-.1,xmax=.7,
+	zmin=-.2, zmax=2.1,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool,
+        ]
+        \filldraw [fill=fill1]
+        (axis cs:{1*cos(60)},{1*sin(60)},1.7)--
+        (axis cs:{1*cos(70)},{1*sin(70)},1.7)--
+        (axis cs:{1*cos(70)},{1*sin(70)},2)--
+        (axis cs:{.8*cos(70)},{.8*sin(70)},2)--
+        (axis cs:{.8*cos(60)},{.8*sin(60)},2)--
+        (axis cs:{.8*cos(60)},{.8*sin(60)},1.7);
+
+        \addplot3[->,domain=60:70,samples y=0] ({.3*cos(x)},{.3*sin(x)},0); %% dtheta
+        \addplot3[domain=60:70,samples y=0,dashed] ({.8*cos(x)},{.8*sin(x)},0); %% dtheta
+        \addplot3[domain=60:70,samples y=0] ({1*cos(x)},{1*sin(x)},0); %% dtheta
+        \addplot3[domain=60:70,samples y=0,dashed] ({.8*cos(x)},{.8*sin(x)},1.7); %% dtheta
+        \addplot3[domain=60:70,samples y=0] ({1*cos(x)},{1*sin(x)},1.7); %% dtheta
+        \addplot3[domain=60:70,samples y=0] ({.8*cos(x)},{.8*sin(x)},2); %% dtheta
+        \addplot3[domain=60:70,samples y=0] ({1*cos(x)},{1*sin(x)},2); %% dtheta
+        \addplot3[domain=0:1,samples y=0] ({x*cos(60)},{x*sin(60)},0); %% r
+        \addplot3[domain=0:1,samples y=0] ({x*cos(70)},{x*sin(70)},0); %% r
+        \addplot3[domain=.8:1,samples y=0,dashed] ({x*cos(70)},{x*sin(70)},1.7); %% dr
+        \addplot3[domain=.8:1,samples y=0] ({x*cos(60)},{x*sin(60)},1.7); %% dr
+        \addplot3[domain=.8:1,samples y=0] ({x*cos(60)},{x*sin(60)},2); %% dr
+        \addplot3[domain=.8:1,samples y=0] ({x*cos(70)},{x*sin(70)},2); %% dr
+        \addplot3[domain=0:2,samples y=0] ({.8*cos(60)},{.8*sin(60)},x); %% z and dz
+        \addplot3[domain=0:2,samples y=0,dashed] ({.8*cos(70)},{.8*sin(70)},x); %% z and dz
+        \addplot3[domain=0:2,samples y=0] ({1*cos(60)},{1*sin(60)},x); %% z and dz
+        \addplot3[domain=0:2,samples y=0] ({1*cos(70)},{1*sin(70)},x); %% z and dz
+        
+
+        \node[left] at (axis cs:{.3*cos(60)},{.3*sin(60)},0) {$\d\theta$};
+        \node[below left] at (axis cs:{.9*cos(62)},{.9*sin(62)},0) {$\d r$};
+        \node[below] at (axis cs:{1*cos(65)},{1*sin(65)},0) {$r\d\theta$};
+        \node[right] at (axis cs:{1*cos(70)},{1*sin(70)},1.85) {$\d z$};
+        \node[above,penColor] at (axis cs:{.9*cos(65)},{.9*sin(65)},2.2) {$\d V$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+Here we see 
+\begin{align*}
+\d V &= \d r \cdot (r \d \theta)\cdot \d z \\
+&= \d z\ r \d r \d \theta.
+\end{align*}
+\begin{theorem}
+  Let $F:\R^3\to\R$ be continuous on the region
+  \[
+  R=\{(r,\theta,z):\text{$\alpha\leq\theta\leq\beta$, $g_1(\theta)\leq r\leq g_2(\theta)$, $G_1(x,y)\le z\le G_2(x,y)$}\}
+  \]
+  Then: 
+  \[
+  \int_R F(r,\theta,z)\d V = \int_\alpha^\beta\int_{g_1(\theta)}^{g_2(\theta)} \int_{G_1(r\cos(\theta),r\sin(\theta))}^{G_2(r\cos(\theta),r\sin(\theta))}F(r,\theta,z) \d z \ r\d r\d \theta.
+  \]
+\end{theorem}
+
+\begin{question}
+  Write down a triple integral in cylindrical coordinates that will
+  compute the volume of a cylinder of radius $a$ and height $h$.
+  \begin{prompt}
+  \[
+  \int_R \d V = \int_{\answer{0}}^{\answer{2\pi}}
+  \int_{\answer{0}}^{\answer{a}}
+  \int_{\answer{0}}^{\answer{h}}
+  \d z \ r \d r \d \theta 
+  \]
+  \end{prompt}
+\end{question}
+
+
+\begin{example}
+  Find the volume under $z= \sqrt{4-r^2}$ above the quarter circle
+  inside $x^2 + y^2 = 4$ in the first quadrant.
+  \begin{explanation}
+    In this case
+    \[
+    R=\{(r,\theta,z):\text{$\answer[given]{0}\leq\theta\leq\answer[given]{\pi/2}$, $\answer[given]{0}\leq r\leq \answer[given]{2}$, $\answer[given]{0}\le z\le \sqrt{4-r^2}$}\}
+    \]
+    So our integral is
+    \begin{align*}
+      \int_{\answer[given]{0}}^{\answer[given]{\pi/2}}
+      \int_{\answer[given]{0}}^{\answer[given]{2}}
+      \int_{\answer[given]{0}}^{\answer[given]{\sqrt{4-r^2}}} r \d z \d r \d \theta
+      &=
+      \int_{\answer[given]{0}}^{\answer[given]{\pi/2}}
+      \int_{\answer[given]{0}}^{\answer[given]{2}}
+      \answer[given]{\sqrt{4-r^2}} r \d r \d \theta\\
+      &=\int_{\answer[given]{0}}^{\answer[given]{\pi/2}}
+      \eval{\answer[given]{\frac{-(4-r^2)^{3/2}}{3}}}_{\answer[given]{0}}^{\answer[given]{2}}  \d \theta\\
+      &=\int_{\answer[given]{0}}^{\answer[given]{\pi/2}}
+      \answer[given]{\frac{8}{3}}  \d \theta\\
+      &=\answer[given]{4\pi/3}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+\begin{example}
+  Find the volume of the object defined as the intersection of the
+  cylinder $x^2+y^2=1$ and the sphere $x^2+y^2+z^2=4$.
+  \begin{explanation}
+    First note that we can express our region as
+    \[
+    R=\{(r,\theta,z):\text{$\answer[given]{0}\leq\theta\leq\answer[given]{2\pi}$, $\answer[given]{0}\leq r\leq \answer[given]{1}$, $-\sqrt{4-r^2}\le z\le \answer[given]{\sqrt{4-r^2}}$}\}
+    \]
+    Now write with me,
+    \begin{align*}
+      \int_{\answer[given]{0}}^{\answer[given]{2\pi}}
+      \int_{\answer[given]{0}}^{\answer[given]{1}}
+      \int_{\answer[given]{-\sqrt{4-r^2}}}^{\answer[given]{\sqrt{4-r^2}}} r \d z \d r \d \theta
+      &=
+      \int_{\answer[given]{0}}^{\answer[given]{2\pi}}
+      \int_{\answer[given]{0}}^{\answer[given]{1}}
+      \answer[given]{2\sqrt{4-r^2}} r \d r \d \theta\\
+      &=\int_{\answer[given]{0}}^{\answer[given]{2\pi}}
+      \eval{\answer[given]{\frac{-2(4-r^2)^{3/2}}{3}}}_{\answer[given]{0}}^{\answer[given]{1}}  \d \theta\\
+      &=\int_{\answer[given]{0}}^{\answer[given]{2\pi}}
+      \answer[given]{\frac{16}{3}-2\sqrt{3}}  \d \theta\\
+      &=\answer[given]{2\pi\left(\frac{16}{3}-2\sqrt{3}\right)}.
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

@@ -1,0 +1,208 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Parametric plots}
+
+\begin{document}
+\begin{abstract}
+  Tangent and normal vectors can help us plot make interesting
+  parametric functions.
+\end{abstract}
+\maketitle
+
+\section{A sine curve on a circle}
+
+Suppose you wish to make a sine curve on a circle like this:
+\begin{image}
+  \includegraphics{sinOnCircle.jpg}
+\end{image}
+
+How do you do this? You will use unit tangent and unit normal vectors!
+\begin{example}
+  Plot the curve $y= \sin(5x)$ ``wrapped'' around a circle of radius $3$.
+  \begin{explanation}
+    To do this, start by setting
+    \[
+    \vec{c}(t) = \vector{3\cos(t),\answer[given]{3\sin(t)}}
+    \]
+    This will produce our circle of radius $3$.
+\begin{onlineOnly}
+\begin{sageCell}
+var('s t')
+x(t) = 3*cos(t)
+y(t) = 3*sin(t)
+c(t) = (x(t),y(t))
+circle=parametric_plot(c(t),(t,0,2*pi),color="black")
+circle
+\end{sageCell}
+\end{onlineOnly}
+Now we need to add our sine curve. To do this, we compute the unit tangent vector
+\begin{align*}
+  \utan(t) &= \frac{\vec{c}'(t)}{|\vec{c}'(t)|}\\
+  &=\vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}
+\end{align*}
+and the unit normal vector:
+\begin{align*}
+  \unormal(t) &= \frac{\utan'(t)}{|\utan'(t)|}\\
+  &=\vector{\answer[given]{-\cos(t)},\answer[given]{-\sin(t)}}
+\end{align*}
+We've plotted our circle of radius $3$ with some unit tangent and unit
+normal vectors for your viewing pleasure:
+\begin{image}
+  \includegraphics{circleArrows.jpg}
+\end{image}
+To add the sine curve, quite litterally, add it in:
+\[
+\vec{f}(t) = \vec{c}(t) + \unormal(t)\cdot \sin(t)
+\]
+\begin{onlineOnly}
+We can confirm our construction with \sage: 
+\begin{sageCell}
+var('s t')
+x(t) = 3*cos(t)
+y(t) = 3*sin(t)
+c(t) = (x(t),y(t))
+dc=derivative(c,t)
+ut= dc / dc.norm()
+ddc = derivative(ut,t)
+n = ddc / ddc.norm()
+circle=parametric_plot(c(t),(t,0,2*pi),color="black")
+curve=parametric_plot(c(t) + n*sin(5*t), (t,0,2*pi))
+circle+curve
+\end{sageCell}
+\end{onlineOnly}
+  \end{explanation}
+\end{example}
+
+\section{Thickening a curve}
+
+Suppose you have a vector-valued function $\vec{f}:\R\to\R^2$ that
+defines a curve in space, and you want to build a parameterized
+surface that looks like a ``thickened'' version of the curve.  In
+other words, we want to convert a curve like
+\begin{image}
+  \includegraphics{curve.jpg}
+\end{image}
+%% \begin{sageOutput}
+%% x(t) = sin(t)
+%% y(t) = sin(2*t + pi/5)
+%% z(t) = sin(3*t + pi/7)
+%% f(t) = (x(t),y(t),z(t))
+%% parametric_plot3d(f(t), (t,0,2*pi))
+%%   \end{sageOutput}
+into a thickened ``tube'' like
+\begin{image}
+  \includegraphics{tube.jpg}
+\end{image}
+%% \begin{sageOutput}
+%% var('s')
+%% x(t) = sin(t)
+%% y(t) = sin(2*t + pi/5)
+%% z(t) = sin(3*t + pi/7)
+%% f(t) = (x(t),y(t),z(t))
+%% df=derivative(f,t)
+%% ut = df / df.norm()
+%% ddf = derivative(ut,t)
+%% n = ddf / ddf.norm()
+%% bn = n.cross_product(ut)
+%% thickness = 0.10
+%% parametric_plot3d(f(t) + (n * cos(s) + bn * sin(s)) * thickness, (t,0,2*pi), (s,0,2*pi), plot_points=[100,100])
+%%   \end{sageOutput}
+%% \begin{image}
+%%   \begin{tikzpicture}
+%%     \begin{axis}[tick label style={font=\scriptsize},axis on top,view={-30}{30},no markers,zmax=1,axis lines=center,
+%%         ymax=1.5,ymin=-1.5,clip=false,
+%%         xmax=1.5,xmin=-1.5,
+%%         every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+%% 	xlabel={\scriptsize $x$},
+%% 	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=0pt,yshift=-5pt},
+%% 	ylabel={\scriptsize $y$},
+%% 	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+%% 	zlabel={\scriptsize $z$}]
+%%       \addplot3+[domain=-0:360,samples=200,samples y=0,ultra thick](sin(x),{sin(2*x+36},{sin(3*x+25)});
+%%     \end{axis}
+%%   \end{tikzpicture}
+%% \end{image}
+
+To plot a ``tube'' around a vector-valued function $\vec{f}$, we need
+three handy vectors:
+\begin{itemize}
+\item The \dfn{unit tangent vector}:
+  \[
+  \utan(t) = \frac{\vec{f}'(t)}{|\vec{f}'(t)|}
+  \]
+\item The \dfn{unit normal vector}:
+  \[
+  \unormal(t) = \frac{\vec{t}'(t)}{|\vec{t}'(t)|}
+  \]
+\item The \dfn{unit binormal vector}:
+  \[
+  \ubinormal(t) = \utan(t) \cross \unormal(t)
+  \]
+\end{itemize}
+
+Let's see these vectors in action with our next example.
+
+\begin{example}
+  You have been given a curve in space, say
+  \[
+  \vec{f}(t) = \langle t^2-2, t^2-2, 1-t\rangle.
+  \]
+  We want to make a tube around it of radius $0.5$.
+  \begin{explanation}
+    Here is the idea, we want to take our curve and attach two
+    orthogonal vectors to every point
+    \begin{image}
+      \includegraphics{paraArrows.jpg}
+    \end{image}
+    We'll start by computing the
+    \wordChoice{\choice[correct]{unit tangent}\choice{unit normal}\choice{unit binormal}}
+    vectors. Write with me
+    \[
+    \utan(t) = \frac{\vec{f}'(t)}{|\vec{f}'(t)|}
+    \]
+    From these vectors we can obtain the \wordChoice{\choice{unit
+        tangent}\choice[correct]{unit normal}\choice{unit binormal}}
+    vectors by differentiating:
+    \[
+    \unormal(t) = \frac{\utan'(t)}{|\utan'(t)|}
+    \]
+    Finally we can obtain the \wordChoice{\choice{unit
+        tangent}\choice{unit normal}\choice[correct]{unit binormal}}
+    vectors via the cross product:
+    \[
+    \ubinormal(t) = \utan(t) \cross \unormal(t)
+    \]
+    Looking again at
+    \begin{image}
+      \includegraphics{paraArrows.jpg}
+    \end{image}
+    we see the unit normal vectors in red, and the unit binormal
+    vectors in blue. So we now can plot our tube where $s$ runs from
+    $0$ to $2\pi$:
+    \begin{align*}
+      \vec{F}(s,t) = \vec{f}(t) &+ 0.5 \unormal(\answer[given]{t})\cos(\answer[given]{s})\\
+      &+ 0.5 \ubinormal(\answer[given]{t})\sin(\answer[given]{s})
+    \end{align*}
+    \begin{onlineOnly}
+      We can check our work with \sage.
+  \begin{sageCell}
+var('s t')
+x(t) = t^2-2
+y(t) = t^2-2
+z(t) = 1-t
+f(t) = (x(t),y(t),z(t))
+df=derivative(f,t)
+ut = df / df.norm()
+ddf = derivative(ut,t)
+n = ddf / ddf.norm()
+bn = ut.cross_product(n)
+parametric_plot3d(f(t) + 0.5*n*cos(s) + 0.5*bn*sin(s), (t,-3,3), (s,0,2*pi))
+  \end{sageCell}
+    \end{onlineOnly}
+  \end{explanation}
+\end{example}
+
+
+\end{document}

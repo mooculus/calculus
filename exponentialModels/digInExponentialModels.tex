@@ -1,0 +1,277 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Understand exponential growth and decay models.}
+\outcome{Model a process using an exponential growth or exponential decay equations.}
+\outcome{Find doubling-time or half-life.}
+
+\title[Dig-In:]{Exponential models}
+
+\begin{document}
+\begin{abstract}
+We investigate how the exponential functions model phenomena in the
+real world.
+\end{abstract}
+\maketitle
+
+A \textit{differential equation}\index{differential equation} is
+simply an equation with a derivative in it. Here is an example:
+\[
+a\cdot f''(x) + b\cdot f'(x) + c\cdot f(x) = g(x). 
+\]
+\begin{question}
+  What is a differential equation?
+  \begin{multipleChoice}
+    \choice{An equation that you take the derivative of.}
+    \choice[correct]{An equation that relates the rate of a function to other values.}
+    \choice{It is a formula for the slope of a tangent line at a given point.}  
+  \end{multipleChoice}
+\end{question}
+
+When a mathematician solves a differential equation, they are finding
+\textit{functions} satisfying the equation.
+\begin{question}
+  Which of the following functions solve the differential equation
+  \[
+  f''(x) = -f(x)?
+  \]
+  \begin{selectAll}
+    \choice{$e^x$}
+    \choice[correct]{$\sin(x)$}
+    \choice[correct]{$\cos(x)$}
+  \end{selectAll}
+\end{question}
+
+
+
+
+
+
+\section{Exponential growth and decay}
+
+A function $f$ exhibits \textit{exponential growth}\index{exponential
+  growth} if its growth rate is proportional to its value. As a
+differential equation, this means
+\[
+f'(x) = k f(x)\qquad\text{for some constant of proportionality $k$.}
+\]
+We claim that this differential equation is solved by
+\[
+f(x) = Ae^{kx},
+\]
+where $A$ and $k$ are constants.  Check it out, if $f(x) = Ae^{kx}$,
+then
+\begin{align*}
+f'(x) &= Ak e^{kx}\\
+&= k\left(Ae^{kx} \right)\\
+&= k f(x).
+\end{align*}
+
+
+\begin{example}
+A culture of yeast starts with $100$ cells. After $160$ minutes, there
+are $350$ cells. Assuming that the growth rate of the yeast is
+proportional to the number of yeast cells present, estimate when the
+culture will have $1000$ cells.
+
+\begin{explanation}
+Since the growth rate of the yeast is proportional to the number of
+yeast cells present, we have the following differential equation
+\[
+p'(t) = k p(t)
+\]
+where $p(t)$ is the population of the yeast culture at time $t$ with
+$t$ measured in minutes. We know that this differential equation is
+solved by the function
+\[
+p(t) = A e^{k\cdot t}
+\]
+where $A$ and $k$ are yet to be determined constants. Since
+\[
+100 = p(0) = Ae^{k\cdot 0}
+\]
+we see that $A = 100$. So 
+\[
+p(t) = 100 e^{k\cdot t}.
+\]
+Now we must find $k$. Since we know that 
+\[
+\answer[given]{350} = p(160) = 100e^{k\cdot 160}
+\]
+we need to solve for $k$. Write
+\begin{align*}
+350 &= 100 e^{k\cdot 160}\\
+3.5 &= e^{k\cdot 160}\\
+\ln(3.5) &= k\cdot 160\\
+\ln(3.5)/160 &= k. 
+\end{align*}
+Hence
+\[
+p(t) = 100 e^{t\ln(3.5)/160} = 100 \cdot 3.5^{t/160}.
+\]
+To find out when the culture has 1000 cells, write
+\begin{align*}
+1000 &= 100 \cdot 3.5^{t/160}\\
+10 &= 3.5^{t/160}\\
+\ln(10) &= \frac{t\ln(3.5)}{160}\\
+\frac{160\ln(10)}{\ln(3.5)} &= t.
+\end{align*}
+From this we find that after approximately $294$ minutes, there are
+around $1000$ yeast cells present.
+\end{explanation}
+\end{example}
+
+One concept related to this sort of exponential models is that of \textit{doubling-time}.
+
+\begin{definition}
+  The \dfn{doubling-time} of an exponetial function
+  \[
+  f(t) = c\cdot e^{k\cdot t}
+  \]
+  where $c\ne 0$, $b>0$, and $k>0$ is the value $T_2 =t$ such that
+  \[
+  f(T_2+t) = 2 f(t)
+  \]
+  for all values of $t$.
+\end{definition}
+
+\begin{example}
+  Find the doubling-time of the function $f(t) = c\cdot e^{k\cdot t}$.
+  \begin{explanation}
+    We want to find $T_2$ such that
+    \[
+    f(T_2+t) = 2 f(t).
+    \]
+    Write with me:
+    \begin{align*}
+    c\cdot e^{k\cdot (T_2+t)} &= 2 c\cdot e^{k\cdot t}\\
+    e^{k\cdot T_2+k\cdot t} &= 2 e^{k\cdot t}\\
+    k\cdot T_2+k\cdot t &= \ln (2) + k\cdot t\\
+    T_2 &= \frac{\ln (2)}{k}
+    \end{align*}
+  \end{explanation}
+\end{example}
+
+What is somewhat remarkable is that for the exponential function
+  \[
+  f(t) = c\cdot e^{k\cdot t}
+  \]
+  where $c\ne 0$, $b>0$, and $k>0$ this doubling time only depends on
+  $k$!
+
+
+
+
+It is worth seeing an example of exponential decay as well. Consider
+this: Living tissue contains two types of carbon, a stable isotope
+carbon-12 and a radioactive (unstable) isotope carbon-14. While an
+organism is alive, the ratio of one isotope of carbon to the other is
+always constant. When the organism dies, the ratio changes as the
+radioactive isotope decays.  This is the basis of radiocarbon dating.
+
+
+\begin{example}
+The half-life of carbon-14 (the time it takes for half of an amount of
+carbon-14 to decay) is about 5730 years. Moreover, the rate of decay
+of carbon-14 is proportional to the amount of carbon-14.
+
+If we find a bone with $1/70$th of the amount of carbon-14 we would
+expect to find in a living organism, approximately how old is the
+bone?
+
+\begin{explanation}
+Since the rate of decay of carbon-14 is proportional to the amount of
+carbon-14 present, we can model this situation with the differential
+equation
+\[
+f'(t) = k f(t).
+\]
+We know that this differential equation is solved by the function
+defined by
+\[
+f(t) = A e^{k\cdot t}
+\]
+where $A$ and $k$ are yet to be determined constants. Since the
+half-life of carbon-14 is about $5730$ years we write
+\[
+\frac{1}{2} = e^{k 5730}.
+\]
+Solving this equation for $k$, gives
+\[
+k = \frac{-\ln(2)}{5730}.
+\]
+Since we currently have $1/70$th of the original amount of carbon-14
+we write
+\[
+\answer[given]{\frac{1}{70}} = 1\cdot e^{\frac{-\ln(2)t}{5730}}.
+\]
+Solving this equation for $t$, we find $t \approx -35121$. This means
+that the bone is approximately $35121$ years old.
+\end{explanation}
+\end{example}
+
+In our example above we briefly defined \textit{half-life}. Let's do
+this justice.
+
+\begin{definition}
+  The \dfn{half-life} of an exponetial function
+  \[
+  f(t) = c\cdot e^{-k\cdot t}
+  \]
+  where $c\ne 0$, $b>0$, and $k>0$ is the value $T_{\frac{1}{2}} =t$ such that
+  \[
+  f(T_{\frac{1}{2}}+t) =  \frac{f(t)}{2}
+  \]
+  for all values of $t$.
+\end{definition}
+
+\begin{example}
+  Find the half-life of the function $f(t) = c\cdot e^{-k\cdot t}$.
+  \begin{explanation}
+    We want to find $T_{\frac{1}{2}}$ such that
+    \[
+    f(T_{\frac{1}{2}}+t) = \frac{f(t)}{2}.
+    \]
+    Write with me:
+    \begin{align*}
+    c\cdot e^{-k\cdot (T_{\frac{1}{2}}+t)} &= \frac{1}{2} c\cdot e^{-k\cdot t}\\
+    e^{-k\cdot T_{\frac{1}{2}}-k\cdot t} &= \frac{1}{2} e^{-k\cdot t}\\
+    -k\cdot T_{\frac{1}{2}}-k\cdot t &= \ln \left(\frac{1}{2}\right) - k\cdot t\\
+    T_{\frac{1}{2}} &= \frac{\ln \left(\frac{1}{2}\right)}{-k}.
+    \end{align*}
+    Noting that $\ln(1/2) = -\ln(2)$ we see that
+    \[
+    T_{\frac{1}{2}} = \frac{\ln(2)}{k}.
+    \]
+  \end{explanation}
+\end{example}
+
+Here again it is somewhat remarkable is that for the exponential
+function
+  \[
+  f(t) = c\cdot e^{-k\cdot t}
+  \]
+  where $c\ne 0$, $b>0$, and $k>0$ the half-life only depends on $k$!
+
+
+  While exponetial models are somewhat limited, they apply in many
+  cases. Here are some examples of real-world phenomena that can be
+  modeled by exponential growth:
+\begin{itemize}
+  \item The rate that a population grows is proportional to the size
+    of the population.
+  \item The rate that a radioactive substance decays is proportional
+    to the amount of the substance.
+  \item The rate that an investment grows is proportional to the
+    amount of the investment.
+  \item The rate that a pathogen spreads is proportional to the number
+    of people with the pathogen.
+  \item The rate that glucose is processed in one's blood is
+    proportional to the concentration of glucose in the blood.
+\end{itemize}
+
+
+  
+  
+\end{document}

@@ -1,0 +1,235 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\outcome{Use Taylor series to read-off derivatives of a function.}
+\outcome{Use Taylor series to solve differential equations.}
+\outcome{Use Taylor series to compute integrals.}
+
+\title[Dig-In:]{Calculus and Taylor series}
+
+\begin{document}
+\begin{abstract}
+  Power series interact nicely with other calculus concepts.
+\end{abstract}
+\maketitle
+
+\section{Reading derivatives from Taylor series}
+
+Recall that if $f(x)$ has derivatives of all orders at $x=c$, then the
+Taylor series centered at $c$ for $f$ is
+\[
+\sum_{n=0}^\infty \frac{f^{(n)}(c)}{n!}(x-c)^n.
+\]
+On the other hand, suppose we give you a series, that we claim is the
+Taylor series for a function $f$. Given just the series, you can
+quickly evaluate $f(c)$, $f'(c)$, $f''(c)$, \dots, and so on. Let's
+see an example.
+
+\begin{example}
+  The Taylor series for $f(x) = \arctan(x)$ is
+  \[
+  \sum_{n=0}^\infty \frac{(-1)^n x^{2n+1}}{2n+1} = x - \frac{x^3}{3} + \frac{x^5}{5} - \frac{x^7}{7} +\cdots.
+  \]
+  Compute $f'(0)$, $f'''(0)$, $f^{(5)}(0)$, $f^{(7)}(0)$, and give a
+  general description $f^{(n)}(0)$.
+  \begin{explanation}
+    With the Taylor series in hand, we can simply look at the
+    coefficients and ``read-off'' the derivatives we need. Comparing this series
+    \[
+    x - \frac{x^3}{3} + \frac{x^5}{5} - \frac{x^7}{7} +\cdots
+    \]
+    to the general form of a Taylor (Maclaurin) series, we see
+    \begin{align*}
+    f'(0) &= \answer[given]{1}\\
+    f'''(0) &= \answer[given]{-2}\\
+    f^{(5)}(0) &= \answer[given]{4!}\\
+    f^{(7)}(0) &= \answer[given]{-6!}
+    \end{align*}
+    In general, if $n$ is even,
+    \[
+    f^{(n)} = 0
+    \]
+    and if $n$ is odd,
+    \[
+    f^{(n)} = \pm(n-1)! 
+    \]
+    where the sign alternates, starting with $+$.
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  Let
+  \[
+  -1 + x - 2x^2 + 3x^3 - 5x^4 + 8x^5-13x^6+21x^7 -34x^8 + \cdots  
+  \]
+  be the Taylor series for some function. What are the values of the
+  function and the first eight derivatives when evaluated at zero?
+  \begin{hint}
+    You shouldn't be using any derivative rules, instead, you should
+    just ``read-off'' the derivatives from the series.
+  \end{hint}
+  \begin{prompt}
+    \begin{align*}
+      f(0) &= \answer{-1}\\
+      f'(0) &= \answer{1}\\
+      f''(0) &= \answer{-4}\\
+      f'''(0) &= \answer{18}\\
+      f^{(4)}(0) &= \answer{-120}\\
+      f^{(5)}(0) &= \answer{960}\\
+      f^{(6)}(0) &= \answer{-9360}\\
+      f^{(7)}(0) &= \answer{105840}\\
+      f^{(8)}(0) &= \answer{-1370880}
+    \end{align*}
+  \end{prompt}
+\end{question}
+
+
+
+
+\section{Solving differential equations using power series}
+
+If we have a differential equation we can frequently use Taylor series
+to obtain an approximate solution, which will be (hopefully) converge
+on some interval.
+
+In his study of optics, George Biddell Airy developed the so-called
+\textit{Airy function}, a function that solves the differential
+equation
+\[
+y'' = xy
+\]
+for initial conditions $y(0) = a_0$, and $y'(0) = a_1$.  As innocent as
+this differential equation seems, it is impossible to find a closed
+form solution! Nevertheless, Taylor series will rescue us.
+
+\begin{example}
+  Approximate a solution to the differential equation
+  \[
+  y'' = x\cdot y
+  \]
+  where $y(0) = 1$ and $y'(0) = -1$, using the first $6$ nonzero terms
+  of a Maclaurin series.
+  \begin{explanation}
+    Differential equations give us a recipe for computing
+    derivatives. We'll use this to produce a Maclaurin series
+    representing the solution of this differential equation.  Start by
+    writing down:
+    \begin{align*}
+    y(0) &= \answer[given]{1}\\
+    y'(0) &= \answer[given]{-1}
+    \end{align*}
+    To compute higher derivatives, simply differentiate the
+    differential equation:
+    \[
+    \begin{array}{lcl}
+      y'' = x\cdot y & \Rightarrow & y''(0) = \answer[given]{0}\\
+      y''' = y + x\cdot y' & \Rightarrow & y'''(0) = \answer[given]{1}\\
+      y^{(4)} = 2y' + x\cdot y'' & \Rightarrow & y^{(4)}(0) = \answer[given]{-2}\\
+      y^{(5)} = 3y'' + x\cdot y''' & \Rightarrow & y^{(5)}(0) =\answer[given]{0}\\
+      y^{(6)} = 4y''' + x\cdot y^{(4)} & \Rightarrow & y^{(6)}(0) =\answer[given]{4}\\
+      y^{(7)} = 5y^{(4)} + x\cdot y^{(5)} & \Rightarrow & y^{(7)}(0) =\answer[given]{-10}
+    \end{array}
+    \]
+    We can immediately write down the first $5$ terms of the Maclaurin series
+    \[
+    1 -x + \frac{x^3}{3!} -\frac{2x^4}{4!} + \frac{4x^6}{6!} -\frac{10x^7}{7!} +\cdots
+    \]
+  \end{explanation}
+\end{example}
+
+\section{Integration}
+
+Just as we can differentiate term by term, we can also integrate term
+by term. This allows us to approximate many functions where we cannot
+find a ``closed-form'' formula. Recall the following theorem:
+
+\begin{theorem}[Derivatives and Indefinite Integrals of Power Series]\index{power series!derivatives and integrals}
+  Let
+  \[
+  f(x) = \sum_{n=0}^\infty a_n(x-c)^n
+  \]
+  be a function defined by a power series, with radius of convergence $R$.
+  \begin{itemize}
+  \item $f(x)$ is continuous and differentiable on $(c-R,c+R)$.
+  \item	$f'(x) = \sum_{n=1}^\infty a_n\cdot n\cdot (x-c)^{n-1}$, with radius of convergence $R$.
+  \item	$\int f(x) \d x = C+\sum_{n=0}^\infty a_n\frac{(x-c)^{n+1}}{n+1}$, with radius of convergence $R$.
+  \end{itemize}
+\end{theorem}
+%% https://gowers.wordpress.com/2014/02/22/differentiating-power-series/
+A few notes about the theorem above:
+\begin{itemize}
+\item The theorem states that differentiation and integration do not
+  change the radius of convergence. It does not state anything about
+  the \textit{interval} of convergence. They are not always the same.
+\item Notice how the summation for $f'(x)$ starts with $n=1$. This is
+  because the constant term $a_0$ of $f(x)$ goes to $0$.
+\item Differentiation and integration are simply calculated
+  term-by-term using the power rule.
+\end{itemize}
+
+We'll use this idea to investigate the function 
+\[
+\si(x) = \int_0^x \frac{\sin(t)}{t} \d t
+\]
+an important function in signal analysis.
+
+\begin{example}
+  Find a power series for $\si(x)$ centered at zero and give the
+  radius and interval of convergence.
+\begin{explanation}
+  We can find a series expression for $\sin(x)/x$ using division, write with me
+  \[
+  \sin(x) = x-\frac{x^3}{3!}+\frac{x^5}{5!}-\dots = \sum_{n=0}^\infty \frac{\answer[given]{(-1)^n x^{2n+1}}}{(2n+1)!} 
+  \]
+  So 
+  \[
+  \frac{\sin(x)}{x} =1-\frac{x^2}{3!}+\frac{x^4}{5!}-\dots = \sum_{n=0}^\infty \frac{\answer[given]{(-1)^n x^{2n}}}{(2n+1)!} 
+  \]
+  Now we integrate term-by-term to find $\si(x)$:
+  \begin{align*}
+  \int &\frac{\sin(x)}{x} \d x = C+x-\frac{x^3}{3 \cdot 3!}+\frac{x^5}{5 \cdot 5!}-\cdots \\
+  &= \sum_{n=0}^\infty \frac{\answer[given]{(-1)^nx^{2n+1}}}{\answer[given]{(2n+1)} \cdot (2n+1)!} 
+  \end{align*}
+  $\si(x)$ is the antiderivative of $f(x)$ with $\si(0) = 0$, so  $C=0$, and 
+  \[
+  \si(x) = \sum_{n=0}^\infty \frac{(-1)^nx^{2n+1}}{(2n+1) \cdot (2n+1)!}.
+  \]
+  To find the radius of convergence, use the ratio test. Write with me
+  \begin{align*}
+    \lim_{n\to\infty} &\frac{x^{2(n+1)+1}}{(2(n+1)+1) \cdot (2(n+1)+1)!} \cdot \frac{(2n+1) \cdot (2n+1)!}{x^{2n+1}}\\
+    &=\lim_{n\to\infty}\frac{x^{2n+3}}{(2n+3) \cdot (2n+3)!} \cdot \frac{(2n+1) \cdot (2n+1)!}{x^{2n+1}}\\
+    &=\lim_{n\to\infty}\frac{x^{2}\cdot (2n+1)}{(2n+3) \cdot (2n+3)\cdot(2n+2)}
+  \end{align*}
+  and for any fixed $x$ this limit is zero. Hence our series converges
+  on $(-\infty,\infty)$, with radius of convergence $R=\infty$.
+ \end{explanation}
+\end{example}
+
+
+\begin{example}
+  If
+  \[
+  \si(x) = \sum_{n=0}^\infty \frac{(-1)^n x^{2n+1}}{(2n+1) \cdot (2n+1)!} 
+  \]
+  which $n$ is needed to approximate $\si(2)$ with an accuracy
+  of $\frac{1}{10}$?
+  \begin{explanation}
+    By the alternating series estimation test, we would need
+    \begin{align*}
+    \frac{2^{2(n+1)+1}}{(2(n+1)+1) \cdot (2(n+1)+1)!}  <  \frac{1}{10}\\
+    \frac{ 2^{2n+3}}{(2n+3) \cdot (2n+3)!} &< \frac{1}{10}
+    \end{align*}
+    We can experiment a bit to find that the least integer which makes this true is 
+    \[
+    n= \answer[given]{1}
+    \]
+    Thus $\si(2) \approx 2-\frac{8}{3 \cdot 3!} = 1.\bar{5}$ should be
+    accurate to within $\frac{1}{10}$.  Wolfram alpha reports that $Si(2)
+    \approx 1.60541 $, we this appears to be accurate!
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

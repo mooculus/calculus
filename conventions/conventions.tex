@@ -1,0 +1,271 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title{Conventions}
+
+\begin{document}
+\begin{abstract}
+  We discuss conventions made in the course.
+\end{abstract}
+\maketitle
+
+\section{Arbitration policy}
+
+There is a tremendous danger of, for instance, otherwise productive
+weekly Code Reviews being overtaken by
+\href{http://en.wikipedia.org/wiki/Parkinson's_law_of_triviality}{bikeshedding}---or more substantive disagreements.
+
+If, in the process of producing the MOOCulus textbook, it happens that
+there is a disagreement which cannot be abstracted away by
+incorporating appropriate \LaTeX\ macros, then it is time for one of
+those present to propose a rule addressing the disagreement.  Those
+involved in the disagreement at the Code Review then vote: if 85\% of
+those present agree, the proposed rule is incorporated into this
+document.  If near consensus is not achieved, then three textbooks
+(e.g., Spivak, Stewart, Briggs/Cochran) are consulted to formulate the
+rule.
+
+
+\section{Stylistic conventions}
+
+
+The first letter of the first word of a title is capitalized, then all
+other words are lowercase, except for proper nouns. For example:
+\begin{quote}
+Introduction to Newton's method
+\end{quote}
+No punctuation is used at the end, except for perhaps a question mark.
+
+The abstract is a one-sentence description of the activity. It is
+intended to give the instructor an idea of what the activity is about.
+
+
+\textbf{Do not hack} the \LaTeX\ document to make it appear in a
+customized way. Do not add vertical space, boxes around formulas,
+etc. This is \textbf{counter to the philosophy of separating content
+  from deployment}. Any stylistic changes shoudl be done by the Ximera
+conversion. Hence, if some special formatting is needed, it should be
+done at the level of the preamble or a separate style file, like
+\texttt{lulu1.sty}.
+
+
+
+\section{Structure guidelines}
+
+Each lecture corresponds in \mooculus to three distinct sections:
+\begin{description}
+\item[Break-Ground] An introduction to the topic.
+\item[Dig-In] A detailed discussion of the topic.
+\item[Reinforce] Practice problems.
+\end{description}
+
+\paragraph{Break-Ground}
+
+The Break-Ground should somehow present a ``mystery'' for the students
+to solve.  This gives an ``intellectual need'' for the material being
+covered. Moreover, it should lead them to the right path. Ideally if
+we had a bright student working on the Break-Ground, they might even develop
+the techniques from the lesson to solve the problem.  By the end of
+the dig-in phase, the mystery is solved!
+
+Typically the Break-Ground will be between $2$ and $10$ \textbf{problems}.
+
+%Each Break-Ground needs to end with a \textbf{Xarma Boost} asking the
+%students to generate their own questions.
+
+
+\paragraph{Dig-In}
+
+
+The dig-in section is most like a traditional textbook. However, some
+key differences:
+
+
+Every definition and every theorem should have a \textbf{question}
+following it to check for student comprehension.
+
+
+The ``mystery'' presented in the Break-Ground must be solved here. 
+
+
+
+\paragraph{Reinforce}
+
+This section is a list of \textbf{exercises}. 
+
+
+
+
+\subsection*{Problem-types}
+
+Ximera supports a variety of problem-types. It is least confusing for
+students if the author sticks to $1$--$2$ problem-types per activity.
+
+
+
+For the Break-Ground, ``Problem'' should be used along with a final ``Xarma
+Boost.''
+
+
+
+For the Dig-In, ``Question'' and ``Examples'' should be used, though
+the author must ensure that the ``questions'' they write are actually
+questions. Moreover in ``Examples'' one actually writes statements,
+where the students fill-in the blanks. In the handout version of the
+textbook, these ``Examples'' become complete prose. As an example:
+
+\begin{verbatim}
+\begin{example}
+Let's compute a basic derivative. Suppose you want to compute the
+derivative of $x^3+3x-1$
+\[
+\dd{x} x^3+3x-1 = \dd{x} \answer[given]{3x^2} +3}.
+\]
+\end{example}
+\end{verbatim}
+
+In all cases, ``Hint'' can also be used as an additional problem-type.
+
+\subsection*{Nested and delayed questions}
+
+
+We can have delayed questions.
+
+\begin{verbatim}
+\begin{problem}
+Compute:
+\[
+\ddx \sin(x)
+\]
+\begin{prompt}
+\[
+\ddx \sin(x) = \answer{\cos(x)}
+\]
+\end{prompt}
+\end{problem}
+\end{verbatim}
+
+Here \texttt{prompt} is the ``prompt'' for the students to answer online. Code inside of \texttt{prompt} \textbf{is not displayed} in the printout version of the text. 
+
+
+To write follow up questions, nest problem enviroments.
+\begin{verbatim}
+\begin{problem}
+Compute:
+\[
+\ddx \sin(x)
+\]
+\begin{prompt}
+\[
+\ddx \sin(x) = \answer{\cos(x)}
+\]
+\end{prompt}
+\begin{problem}
+Compute:
+\[
+\ddx \sin(3x)
+\]
+\begin{prompt}
+\[
+\ddx \sin(3x) = \answer{3\cos(3x)}
+\]
+\end{prompt}
+\end{problem}
+\end{problem}
+\end{verbatim}
+Note, \verb|hint| will not block future questions.
+
+
+
+
+
+\subsection*{Images}
+
+All images should be set within \verb|image| tags.
+\begin{verbatim}
+\begin{image}
+\includegraphics{myFunkyImage.pdf}
+\end{image}
+\end{verbatim}
+This will allow Ximera to ``know'' that an image is inserted, and
+handle the image appropriately. All supporting files should be within
+the same directory as the \LaTeX\ file that generates the Ximera
+activity. This will allow for maximum usability of the Ximera
+documents.
+
+\subsection*{\LaTeX\ Macros}
+
+\renewcommand{\arraystretch}{2}
+\begin{tabular*}{1.0\textwidth}{lll}
+\hline
+Command & Example & Typeset \\
+\hline
+%\verb|\fxn| & \verb|\fxn{f}(x)| & $\fxn{f}(x)$\\
+\verb|\R| & \verb|$f:\R\to\R$| & $f:\RR\to\RR$\\ 
+\verb|\ddx| & \verb|$\ddx f(x)$| & $\ddx f(x)$\\
+\verb|\dd[_]{_}| & \verb|$\dd[y]{x}$| & $\dd[y]{x}$ \\
+\verb|\pp[_]{_}| & \verb|$\pp[y]{x}$| & $\pp[y]{x}$ \\
+\verb|\d | & \verb|$\int f(x) \d x$| & $\int f(x) \d x$\\
+\verb|\l| & \verb|$\l(x) = mx+b$| & $\l(x) = mx +b$\\
+\verb|\dfn| & \verb|we define \dfn{this}| & we define \dfn{this}\\
+\verb|\eval| & \verb|$\eval{f(x)}_a^b$| & $\eval{f(x)}_a^b$\\
+\verb|\zeroOverZero| & \verb|$\zeroOverZero$| & $\zeroOverZero$\\
+\verb|\inftyOverInfty| & \verb|$\inftyOverInfty$| & $\inftyOverInfty$\\
+\verb|\zeroOverInfty| & \verb|$\zeroOverInfty$| & $\zeroOverInfty$\\
+\verb|\zeroTimesInfty| & \verb|$\zeroTimesInfty$| & $\zeroTimesInfty$\\
+\verb|\inftyMinusInfty| & \verb|$\inftyMinusInfty$| & $\inftyMinusInfty$\\
+\verb|\oneToInfty| & \verb|$\oneToInfty$| & $\oneToInfty$\\
+\verb|\zeroToZero| & \verb|$\zeroToZero$| & $\zeroToZero$\\
+\verb|\inftyToZero| & \verb|$\inftyToZero$| & $\inftyToZero$\\
+\verb|\numOverZero| & \verb|$\numOverZero$| & $\numOverZero$\\
+\verb|\seq| & \verb|$\seq{1,2,3}$| & $\seq{1,2,3}$\\
+\verb|\unit| & \verb|$3\unit{ft}$| & $3\unit{ft}$\\
+\verb|\vector| & \verb|$\vector{1,2,3}$| & $\vector{1,2,3}$\\
+\verb|\vec| & \verb|$\vec{v}$| & $\vec{v}$\\
+\verb|\veci| & \verb|$\veci$| & $\veci$\\
+\verb|\vecj| & \verb|$\vecj$| & $\vecj$\\
+\verb|\veck| & \verb|$\veck$| & $\veck$\\
+\verb|\utan| & \verb|$\utan$| & $\utan$\\
+\verb|\unormal| & \verb|$\unormal$| & $\unormal$\\
+\verb|\ubinormal| & \verb|$\ubinormal$| & $\ubinormal$\\
+\verb|\vecl| & \verb|$\vecl$| & $\vecl$\\
+\verb|\dotp| & \verb|$\vec{v}\dotp\vec{w}$| & $\vec{v}\dotp\vec{w}$\\
+\verb|\cross| & \verb|$\vec{v}\cross\vec{w}$| & $\vec{v}\cross\vec{w}$\\
+\verb|\grad| & \verb|$\grad F$| & $\grad F$\\
+\verb|\curl| & \verb|$\curl\vec{F}$| & $\curl\vec{F}$\\
+\verb|\divergence| & \verb|$\divergence\vec{F}$| & $\divergence\vec{F}$\\
+\end{tabular*}
+
+\section{Answer types}
+
+There are several currently supported answer types:
+
+\begin{verbatim}
+\begin{example}
+  $2+2 =\answer{4}$
+\end{example}
+\end{verbatim}
+
+\begin{verbatim}
+\begin{example}
+Hey notice that
+  $2+2 =\answer[given]{4}$.
+\end{example}
+\end{verbatim}
+
+\begin{verbatim}
+\begin{question}
+What is your favorite color?
+\begin{multipleChoice}
+\choice[correct]{Rainbow}
+\choice{Blue}
+\choice{Green}
+\choice{Red}
+\end{multipleChoice}
+\begin{feedback}
+Hello
+\end{feedback}
+\end{question}
+\end{verbatim}
+\end{document}

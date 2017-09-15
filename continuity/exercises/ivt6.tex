@@ -1,0 +1,50 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Bart Snapp}
+\outcome{State the Intermediate Value Theorem including hypotheses.}
+\tag{continuity}
+\tag{intermediate value theorem}
+\license{Creative Commons 3.0 By-NC}
+\begin{document}
+\begin{exercise}
+The Intermediate Value Theorem states:
+If $f$ is a continuous function for all $x$ in the closed interval
+$[v,n]$ and $d$ is between
+\wordChoice{\choice{$v$}\choice[correct]{$f(v)$}} and
+\wordChoice{\choice{$n$}\choice[correct]{$f(n)$}}, then there is a
+number \wordChoice{\choice[correct]{$m$}\choice{$f(m)$}} in
+  \wordChoice{\choice{$[f(v),f(n)]$}\choice[correct]{$[v, n]$}} such that
+  \wordChoice{\choice[correct]{$f(m) = d$}\choice{$f(d) = m$}}.
+\begin{hint}
+Consider the following graph:
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=0:6, ymin=0, ymax=2.2,xmax=6,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,3.597,5}, ytick={.203,1,1.679},
+            xticklabels={$v$,$m$,$n$}, yticklabels={$f(v)$,$d$,$f(n)$},
+            axis on top,
+          ]
+          \addplot [draw=none, fill=fill2, domain=(0:7)] {1.679} \closedcycle;
+          \addplot [draw=none, fill=background, domain=(0:7)] {.203} \closedcycle;
+          \addplot [textColor,dashed] plot coordinates {(0,1.679) (6,1.679)};
+          \addplot [textColor,dashed] plot coordinates {(0,.203) (6,.203)};
+          \addplot [textColor,dashed] plot coordinates {(5,0) (5,1.679)};
+          \addplot [textColor,dashed] plot coordinates {(1,0) (1,.203)};
+          \addplot [textColor,dashed] plot coordinates {(3.587,0) (3.597,1)};
+          \addplot [penColor2,domain=(0:6)] {1};
+          \addplot [very thick,penColor, smooth,domain=(0:2.5)] {sin(deg((x - 4)/2)) + 1.2};
+          \addplot [very thick,penColor, smooth,domain=(4:6)] {sin(deg((x - 4)/2)) + 1.2};
+          \addplot [very thick,dashed,penColor!50!background, smooth,domain=(2.5:4)] {sin(deg((x - 4)/2)) + 1.2}; 
+          \addplot [color=penColor!50!background,fill=penColor!50!background,only marks,mark=*] coordinates{(3.587,1)};  %% closed hole          
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,.203)};  %% closed hole          
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,1.679)};  %% closed hole          
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+\end{hint}
+\end{exercise}
+\end{document}

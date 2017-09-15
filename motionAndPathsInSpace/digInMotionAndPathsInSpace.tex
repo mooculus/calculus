@@ -1,0 +1,437 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\title[Dig-In:]{Motion and paths in space}
+
+
+\outcome{View a vector valued function as a position function.}
+\outcome{Compute the length of a parametric curve.}
+\outcome{For a position vector function of time, interpret
+  the derivative as velocity.}
+\outcome{For a position vector function of time, interpret the second
+  derivative as acceleration.}
+\outcome{Compute the length of a parametric curve.}
+    
+\begin{document}
+\begin{abstract}
+  We interpret vector-valued functions as paths of objects in space.
+\end{abstract}
+\maketitle
+
+\section{Position, velocity, and acceleration}
+
+We know that if $v$ is a function that represents the \dfn{velocity}
+(signed speed) of an object at time $t$, then
+\begin{itemize}
+\item $v'(t)$ tells us the \dfn{acceleration} (instantaneous change in
+  velocity) of the object, and
+\item $\int_a^b v(t) \d t$ tells us the \dfn{displacement} (position
+  with respect to an origin) of the object.
+\end{itemize}
+
+There is a similar story to be told with vector-valued functions.
+
+\begin{definition}
+Let $\vec{p}(t)$ be the position of some object in $\R^2$ or $\R^3$:
+\begin{itemize}
+\item \dfn{velocity}, denoted $\vec{v}(t)$, is the instantaneous rate
+  of change in position , and so $\vec{v}(t) = \vec{p}'(t)$;
+\item \dfn{speed} is the magnitude of velocity, $|\vec v(t)|$;
+\item \dfn{acceleration}, denoted $\vec{a}(t)$, is the instantaneous
+  rate of change in velocity, and so $\vec a(t) = \vec{v}'(t) =
+  \vec{p}''(t)$;
+\end{itemize}
+\end{definition}
+
+\begin{question}
+  An object is moving according to the function $\vec{p}(t) = \vector{
+    t^2-t,t^2+t}$, where $-3\leq t\leq 3$. Let distances be measured in
+  feet and time measured in seconds. What is the velocity of our object at time $t$?
+  \begin{prompt}
+    The velocity is $\vector{\answer{2t-1},\answer{2t+1}}$ feet per
+    second.
+  \end{prompt}
+  \begin{question}
+    What is the acceleration of our object at time $t$?
+    \begin{prompt}
+      The acceleration is $\vector{\answer{2},\answer{2}}$ feet per second-squared.
+    \end{prompt}
+    \begin{question}
+      What is speed of our object at time $t$?
+      \begin{prompt}
+        The speed of our object is $\answer{\sqrt{8t^2+2}}$ feet per second. 
+      \end{prompt}
+    \begin{question}
+      When is the object's speed minimized?
+      \begin{prompt}
+        The speed is minimized when $t=\answer{0}$.
+      \end{prompt}
+    \end{question}
+    \end{question}
+  \end{question}
+\end{question}
+
+Now let's see an example.
+\begin{example}
+You whirl a ball, attached to a string, above your head in a
+counter-clockwise circle. The ball follows a circular path and makes
+$2$ revolutions per second. The string has length $2$ft.
+\begin{itemize}
+\item Find the position function $\vec{p}(t)$ that describes this
+  situation.
+\item Find the acceleration of the ball and give a physical
+  interpretation.
+\end{itemize}
+\begin{explanation}
+  The ball whirls in a circle. Since the string is $2$ft long, the
+  radius of the circle is $2$. We start by writing down a position
+  function that describes
+  \begin{enumerate}
+  \item a circle with radius $2$,
+  \item centered at the origin of the $(x,y)$-plane,
+  \item that makes a full revolution every $2\pi$ seconds.
+  \end{enumerate}
+  \[
+  \vector{\answer[given]{2\cos(t)}, \answer[given]{2\sin t}}
+  \]
+  However, we want two revolutions per second, not one revolution
+  every $2\pi$ seconds. We modify the period by multiplying $t$ by
+  $\answer[given]{4\pi}$. The final position function is
+  \[
+  \vec{p}(t) =\vector{\answer[given]{2\cos (4\pi t)},
+    \answer[given]{2\sin (4\pi t)}}.
+  \] 
+  To find $\vec{a}(t)$, we differentiate $\vec{p}(t)$ twice.
+  \begin{align*}
+    \vec{v}(t) = \vec{p}'(t) &= \vector{\answer[given]{-8\pi \sin (4\pi t)}, \answer[given]{8\pi \cos (4\pi t)}}\\
+    \vec{a}(t) =\vec{p}''(t) &= \vector{\answer[given]{-32\pi^2 \cos (4\pi t)}, \answer[given]{-32\pi^2 \sin (4\pi t) }}
+    %&= -32\pi^2\vector{\cos (4\pi t), \sin (4\pi t)}.
+  \end{align*}
+  Note that $\vec{a}(t)$ is parallel to $\vec{p}(t)$, but has a
+  different magnitude and points in the opposite direction. Why is
+  this?
+  
+  Recall the classic physics equation, ``Force $=$ mass $\times$
+  acceleration.'' A force acting on a mass induces acceleration (i.e.,
+  the mass moves); acceleration acting on a mass induces a force
+  (gravity gives our mass a \emph{weight}). Thus force and
+  acceleration are closely related. A moving ball ``wants'' to travel
+  in a straight line. Why does the ball in our example move in a
+  circle? It is attached to the boy's hand by a string. The string
+  applies a force to the ball, affecting it's motion: the string
+  \emph{accelerates} the ball. This is not acceleration in the sense
+  of ``it travels faster;'' rather, this acceleration is
+  \textbf{changing the velocity} of the ball. In what direction is
+  this force/acceleration being applied? In the direction of the
+  string, towards your hand.
+  
+  The magnitude of the acceleration is related to the speed at which
+  the ball is traveling. A ball whirling quickly is rapidly changing
+  direction/velocity. When velocity is changing rapidly, the
+  acceleration must be ``large.''
+\end{explanation}
+\end{example}
+
+\begin{question}
+  An object moves in spiral with position function
+  \[
+  \vec{p}(t) = \vector{\cos t, \sin t, t},
+  \]
+  where distances are measured in meters and time is in
+  minutes. Describe the object's speed and acceleration at time $t$.
+  \begin{prompt}
+    \begin{align*}
+      \vec{v}(t) &= \vector{\answer{-\sin t}, \answer{\cos t},\answer{1}}  \\
+      \vec{a}(t) &= \vector{\answer{-\cos t}, \answer{-\sin t},\answer{0}}.
+    \end{align*}
+  \end{prompt}
+  \begin{question}
+    What is the speed of this object?
+    \begin{prompt}
+    \[
+    |\vec{v}(t)| = \answer{\sqrt{2}}\unit{m/min}
+    \]
+    \end{prompt}
+  \end{question}
+\end{question}
+              
+\section{Projectile motion}
+
+An important application of vector-valued position functions is
+\textit{projectile motion}: the motion of objects under the influence
+of gravity. We will measure time in seconds, and distances will either
+be in meters or feet. We will show that we can completely describe the
+path of such an object knowing its initial position and initial
+velocity (i.e., where it \textbf{is} and where it \textbf{is going.})
+\index{vector-valued function!projectile motion}\index{projectile
+  motion}
+
+Suppose an object has initial position
+\[
+\vec{p}(0) = \vector{x(0),y(0)}
+\]
+and initial velocity of
+\[
+\vec{v}(0) = v_0\vector{\cos(\theta),\sin(\theta)}.
+\]
+Here, $\theta$ is often called the \dfn{angle of elevation}.  Since
+the acceleration of the object is known, namely
+\[
+\vec{a}(t) =\vector{0,-g},
+\]
+where $g$ is the gravitational constant, we can find $\vec{p}(t)$ knowing
+our two initial conditions. We first find $\vec{v}(t)$:
+\begin{align*}
+  \vec{v}(t) &= \int \vec{a}(t) \d t\\
+  \vec{v}(t) &= \int \vector{0,-g} \d t\\
+  \vec{v}(t) &= \vector{0,-gt} + \vec{v}(0).
+\end{align*}
+We integrate once more to find $\vec{p}(t)$:
+\begin{align*}
+\vec{p}(t) &= \int \vec{v}(t)\d t \\
+\vec{p}(t) &= \int \vector{0,-gt} + \vec C_1 \d t\\
+\vec{p}(t) &= \vector{0, \frac{-gt^2}{2}} +t\cdot \vec{v}(0)+ \vec{p}(0).
+\end{align*}
+
+We demonstrate how to use this position function in the next
+example.
+
+\begin{example}
+Sydney shoots her \textit{Red Ryder} bb gun across level ground from
+an elevation of $4\unit{ft}$, where the barrel of the gun makes a
+$0.1$ radian angle with the horizontal. Find how far the bb travels
+before landing, assuming the bb is fired at the advertised rate of
+$350\unit{ft/s}$ and ignoring air resistance. Assume that acceleration
+due to gravity is $32\unit{ft/sec^2}$
+\begin{explanation}
+  Write with me
+  \begin{align*}
+    \vec{v}(t) &= \int \vec{a}(t) \d t\\
+    \vec{v}(t) &= \int \vector{\answer[given]{0},\answer[given]{-32}} \d t\\
+    \vec{v}(t) &= \vector{\answer[given]{0},\answer[given]{-32t}} + \vec{v}(0).
+  \end{align*}
+  But from the statement of the problem, we see that $\vec{v}(0) =
+  350\vector{\cos(0.1),\sin(0.1)}$. So
+  \[
+  \vec{v}(t) = \vector{0,\answer[given]{-32t}}+ 350\vector{\cos(0.1),\sin(0.1)}.
+  \]
+  Please continuing writing with me
+  \begin{align*}
+    \vec{p}(t) &= \int \vec{v}(t)\d t \\
+    \vec{p}(t) &= \int \vector{0,-32t} + 350\vector{\cos(0.1),\sin(0.1)}\d t\\
+    \vec{p}(t) &= \vector{\answer[given]{0},\answer[given]{-16t^2}} +t\cdot 350\vector{\cos(0.1),\sin(0.1)}+ \vec{p}(0).
+  \end{align*}
+  and $\vec{p}(0) = \vector{\answer[given]{0},\answer[given]{4}}$, so
+  \[
+  \vec{p}(t) = \vector{0,-16t^2} +t\cdot 350\vector{\cos(0.1),\sin(0.1)}+ \vector{0,4}.
+  \]
+  Now we need to find \textbf{when} the bb lands, then we can find
+  \textbf{where} it lands. We accomplish this by setting the
+  $y$-component equal to $0$ 
+  \[
+  -16t^2+350\sin(0.1)t+4 = 0
+  \]
+  and solving for $t$:
+  \[
+  t = \frac{-\answer[given]{350\sin(0.1)} \pm \sqrt{\left(\answer[given]{350\sin(0.1)}\right)^2-4\answer[given]{(-16)(4)}}}{\answer[given]{-32}}
+  \]
+Discarding the negative solution that resulted from our quadratic
+equation, we have found that the bb lands approximately
+$2.3\unit{s}$ after firing; with $t\approx 2.3$, we find the
+$x$-component of our position function is $2.3\cdot 350\cos(0.1) =
+  800.98\unit{ft}$. 
+\end{explanation}
+\end{example}
+
+
+\section{From distance traveled to arc length}
+
+Consider a driver who sets her cruise-control to $60\unit{mph}$, and
+travels at this speed for an hour. We can ask:
+\begin{itemize}
+\item How far did the driver travel?
+\item How far is the driver from her starting position?
+\end{itemize} 
+The first is easy to answer: she traveled $60$ miles. The second is
+impossible to answer with the given information. We do not know if she
+traveled in a straight line, on an oval racetrack, or along a
+slowly-winding highway.
+
+This highlights an important fact: \textbf{to compute distance traveled, we
+need only to know the speed}, given by $|\vec{v}(t)|$.
+
+\begin{theorem}
+Let $\vec{v}(t)$ be a velocity function for a moving object. The
+distance traveled by the object for $a\le t\le b$ is:
+\index{distance!traveled}\index{vector-valued function!distance
+  traveled}\index{integration!distance traveled}
+\[
+\text{distance traveled} = \int_a^b |\vec{v}(t)|\d t.
+\]
+\end{theorem}
+
+This theorem is a specific instance of the more general theorem for
+arc length:
+\begin{theorem}
+  Let $\vec{f}(t) = \vector{x(t),y(t),z(t)}$ be a vector-valued function where
+  \begin{itemize}
+  \item $x'(t)$, $y'(t)$, and $z'(t)$ are continuous.
+  \item The curve defined by $\vec{f}(t)$ is traversed once for $a\le
+    t\le b$.
+  \end{itemize}
+  The arc length of the curve from
+  \[
+  \vector{x(a),y(a),z(a)}\quad\text{to}\quad\vector{x(b),y(b),z(b)}
+  \]
+  is given by
+  \[
+  \text{arc length} = \int_a^b |\vec{f}'(t)|\d t.
+  \]
+\end{theorem}
+
+
+\begin{question}
+  Knowing that
+  \[
+  \vector{R\cdot \cos(\theta), R \cdot \sin(\theta)}
+  \]
+  is a vector valued function that plots a circle of radius $R$ for
+  $0\le \theta < 2\pi$, can you use an arc length integral to confirm
+  its circumference is $2\pi R$?
+  \begin{prompt}
+    First note that
+    \[
+    |\vector{R\cdot \cos(\theta), R \cdot \sin(\theta)}| = \answer{R},
+    \]
+    and now compute
+    \[
+    \int_0^{2\pi} R \d \theta = \answer{2\pi R}.
+    \]
+  \end{prompt}
+\end{question}
+
+One more example, again interpreting our vector-valued function as
+giving the position of an object in space.
+
+\begin{example}
+  A particle moves in space with position function
+  \[
+  \vec{p}(t) =\vector{t,t^2,\sin (\pi t)}
+  \]
+  on $[-2,2]$, where $t$ is measured in seconds and distances are in
+  meters.
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [width=175pt,tick label style={font=\scriptsize},axis on top,
+	  axis lines=center,
+	  view={115}{25},
+	  name=myplot,
+	  %xtick={-3,3},minor tick num=2,
+	  %ytick={-3,3},
+	  %ztick={-3,3},
+	  ymin=-.5,ymax=4.5,
+	  xmin=-3.5,xmax=3.5,
+	  zmin=-1.5, zmax=1.5,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=0pt,yshift=-5pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$}
+	]
+        
+        \addplot3[domain=-2:2,,thick,smooth,samples y=0,penColor,samples=30,] ({x},{x^2},{sin(180*x)});
+        
+        \draw[thick,->] (axis cs: 1,1,0) -- (axis cs: 1.01,1.02,-.0314);
+        %\draw[thick,->,{\colortwo}] (axis cs: 0,0,0) -- (axis cs: -1,0,1) node (B) {};
+      \end{axis}
+    \end{tikzpicture}
+\end{image}
+
+  Find:
+\begin{enumerate}
+\item An integral that computes the distance traveled by the particle
+  on $[-2,2]$.
+\item The displacement of the particle on $[-2,2]$.
+\item An integral that computes the particle's average speed.
+\end{enumerate}
+\begin{explanation}
+  First we'll compute the distance traveled.
+  \begin{align*}
+    \text{distance traveled} &= \int_{-2}^2 |\vec{v}(t)|\d t \\
+    &= \int_{-2}^2 \sqrt{\vec{v}(t)\dotp \vec{v}(t)}\d t.\\
+    &= \int_{-2}^2 \answer[given]{\sqrt{1+(2t)^2+ \pi^2\cos^2(t\pi)}}\d t.
+  \end{align*}
+  This cannot be solved in terms of elementary functions so we turn
+  to numerical integration, finding the distance to be
+  $12.88\unit{m}$.
+  
+  The displacement is the vector
+  \begin{align*}
+    \vec{p}(2)-\vec{p}(-2) &= \vector{\answer[given]{2},\answer[given]{4},\answer[given]{0}} - \vector{\answer[given]{-2},\answer[given]{4},\answer[given]{0}}\\
+      &= \vector{\answer[given]{4},\answer[given]{0},\answer[given]{0}}.
+  \end{align*}
+  That is, the particle ends with an $x$-value increased by $4$ and
+  with unchanged $(y,z)$-values the same.
+  
+  We found above that the particle traveled $12.88\unit{m}$ over $4$
+  seconds. We can compute average speed by dividing: $12.88/4 =
+  \answer[given]{3.22}\unit{m/s}$.
+\end{explanation}
+\end{example}
+    
+\section{Looking back}
+    
+Finally, let's think about what we learned in our previous calculus
+courses, in terms of what we know now.
+
+\subsection{Arc length}
+
+When you first learned how to compute arc length in calculus, you
+probably use a formula like
+\[
+\text{arc length} = \int_a^b \sqrt{1+ f'(x)^2} \d x
+\]
+next you learned that for parametric functions, the arc length was
+\[
+\text{arc length} = \int_a^b \sqrt{x'(t)^2+ y'(x)^2} \d x
+\]
+Note, the first formula, is really just the second one, where $x(t) =
+t$, and $y(t) = f(t)$. Finally in this class, we view arc length as
+\[
+\text{arc length} = \int_a^b |\vec{f}'(t)|\d t.
+\]
+Since the magnitude of a vector can be given via the dot product, this
+is a very general formula.
+
+
+
+
+\subsection{Average value}
+
+
+In your first calculus course, you defined the \dfn{average value of a
+  function} to be
+\[
+\frac{1}{b-a}\int_a^bf(x)\d x.
+\]
+Above we computed the \dfn{average speed} as
+\[
+\frac{\text{distance traveled}}{\text{travel time}} =
+\frac1{2-(-2)}\int_{-2}^2|\vec{v}(t)|\d t;
+\]
+that is, we just found the average value of $|\vec{v}(t)|$ on
+$[-2,2]$.
+
+Likewise, given position function $\vec{p}(t)$, the \dfn{average velocity} on $[a,b]$ is
+\begin{align*}
+  \frac{\text{displacement}}{\text{travel time}} &= \frac1{b-a}\int_a^b \vec{p}'(t)\d t\\
+  &= \frac{\vec{p}(b)-\vec{p}(a)}{b-a};
+\end{align*}
+that is, it is the average value of $\vec{p}'(t)$, or $\vec{v}(t)$, on
+$[a,b]$. As we learn new material, we must constantly reconcile, and
+reintegrate what have learned before.
+
+\end{document}

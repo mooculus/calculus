@@ -4,10 +4,12 @@
 
 \begin{document}
 
-\section{The }
+\section{The shoelace algorithm}
 
 Green's theorem can also be used to derive a simple (yet powerful!)
-algorithm for computing areas. Here's the idea: Suppose you have a two-dimensional polygon, where the verticies are identified by their $(x,y)$-coordinates:
+algorithm (often called the ``shoelace'' algorithm) for computing
+areas. Here's the idea: Suppose you have a two-dimensional polygon,
+where the vertices are identified by their $(x,y)$-coordinates:
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}%
@@ -137,7 +139,7 @@ to obtain:
 \[
 x_1y_2 + x_2y_3 + x_3y_4 + \dots + x_ny_1
 \]
-Now, ultiply entries of the columns diagonally down from the left to
+Now, multiply entries of the columns diagonally down from the left to
 the right and subtract them from our previous sum
 \begin{image}[.5in]
   \begin{tikzpicture}
@@ -195,4 +197,43 @@ The area of the polygon in question will be:
 \[
 A = \frac{|S|}{2}
 \]
+The algorithm is called the ``shoelace'' algorithm because of the
+crisscrossing pattern you see above.
+
+\begin{question}
+  Compute the area of the following polygon:
+  %% Give some poly
+  \begin{prompt}
+    The area is $\answer{47}$ square units.
+  \end{prompt}
+\end{question}
+
+\subsection{Why does the shoelace algorithm work?}
+
+Now we are going explain why the shoelace algorithm works via Green's
+Theorem. The restrained young mathematician may protest that we are
+using a ``crane to crush a fly,'' but whatever. We like Green's
+Theorem. To start, recall that if $\vec{F} = \vector{0,x}$, then $\curl\vec{F}(x,y) = 1$. Hence Green's Theorem states:
+\[
+\iint_R \d A = \oint_P x\d y
+\]
+This means we can compute the area of the region $R$, by evaluating
+the line integral on the right along the polygonal boundary $P$. So again
+consider a polygon whose vertices are:
+\[
+(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)
+\]
+In this case, $P$ can be broken into $n$ edges, (if a polygon has $n$ vertices, it has $n$ edges) that we can easily parameterize as
+\begin{align*}
+  E_1 &: \vector{x_1,y_1} + t \vector{x_2-x_1,y_2-y_1}\\
+  E_2 &: \vector{x_2,y_2} + t \vector{x_3-x_2,y_3-y_2}\\
+  E_3 &: \vector{x_3,y_3} + t \vector{x_4-x_3,y_4-y_3}\\
+  &\vdots\\
+  E_n &: \vector{x_n,y_n} + t \vector{x_n-x_1,y_n-y_1}
+\end{align*}
+with $0\le t<1$ in each case. Moreover
+\[
+\oint_P x\d y = \sum_{i=1}^n \int_{E_i} x\d y,
+\]
+this is just saying that the line integral along the perimeter of the polygon is the sum of the line integrals along the edges. 
 \end{document}

@@ -202,7 +202,27 @@ crisscrossing pattern you see above.
 
 \begin{question}
   Compute the area of the following polygon:
-  %% Give some poly
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	  xmin=-8,xmax=8,
+          ymin=-8,ymax=8,
+          xlabel=$x$,ylabel=$y$,
+          axis lines=center,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          clip=false,
+	  grid =major,
+          xtick={-8,-7,...,8},
+          ytick={-8,-7,...,8},
+	]
+        \addplot[line join =bevel,penColor,ultra thick] coordinates{
+          (5,5)   (1,2)   (0,7)  (-1,2) (-5,5) (-2,1) (-7,-1)
+          (-2,-1) (-4,-6) (0,-2) (4,-6) (2,-1) (7,-1) (2,1) (5,5) (1,2)};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
   \begin{prompt}
     The area is $\answer{47}$ square units.
   \end{prompt}
@@ -212,28 +232,73 @@ crisscrossing pattern you see above.
 
 Now we are going explain why the shoelace algorithm works via Green's
 Theorem. The restrained young mathematician may protest that we are
-using a ``crane to crush a fly,'' but whatever. We like Green's
-Theorem. To start, recall that if $\vec{F} = \vector{0,x}$, then $\curl\vec{F}(x,y) = 1$. Hence Green's Theorem states:
-\[
-\iint_R \d A = \oint_P x\d y
-\]
-This means we can compute the area of the region $R$, by evaluating
-the line integral on the right along the polygonal boundary $P$. So again
-consider a polygon whose vertices are:
-\[
-(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)
-\]
-In this case, $P$ can be broken into $n$ edges, (if a polygon has $n$ vertices, it has $n$ edges) that we can easily parameterize as
-\begin{align*}
-  E_1 &: \vector{x_1,y_1} + t \vector{x_2-x_1,y_2-y_1}\\
-  E_2 &: \vector{x_2,y_2} + t \vector{x_3-x_2,y_3-y_2}\\
-  E_3 &: \vector{x_3,y_3} + t \vector{x_4-x_3,y_4-y_3}\\
-  &\vdots\\
-  E_n &: \vector{x_n,y_n} + t \vector{x_n-x_1,y_n-y_1}
-\end{align*}
-with $0\le t<1$ in each case. Moreover
-\[
-\oint_P x\d y = \sum_{i=1}^n \int_{E_i} x\d y,
-\]
-this is just saying that the line integral along the perimeter of the polygon is the sum of the line integrals along the edges. 
+using a ``crane to crush a fly,'' but whatever. We \textit{like}
+Green's Theorem.
+
+\begin{algorithm}[Shoelace]\index{shoelace algorithm}
+  Given a polygon $P$ with vertices at
+  \[
+  (x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)
+  \]
+  we may compute the area of the polygonal region $R$ by setting
+  $(x_{n+1},y_{n+1} = (x_1,y_1)$ and computing:
+  \[
+  \text{area} = \frac{1}{2}\left|\sum_{i=1}^n \left(x_iy_{i+1} - x_{i+1}y_i\right)\right|
+  \]
+  \begin{explanation}
+    To start, recall that if $\vec{F} = \vector{0,x}$, then
+    $\curl\vec{F}(x,y) = 1$. Hence Green's Theorem states:
+    \[
+    \iint_R \d A = \oint_P x\d y
+    \]
+    This means we can compute the area of the region $R$, by
+    evaluating the line integral on the right along the polygonal
+    boundary $P$. Since we're supposing that the vertices of the
+    polygon are
+    \[
+    (x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)
+    \]
+    $P$ can be broken into $n$ edges, (if a polygon has $n$ vertices,
+    it has $n$ edges). We can parameterize each edge as
+    \begin{align*}
+      E_1 &: \vector{x_1,y_1} + t \vector{x_2-x_1,y_2-y_1}\\
+      E_2 &: \vector{x_2,y_2} + t \vector{x_3-x_2,y_3-y_2}\\
+      E_3 &: \vector{x_3,y_3} + t \vector{x_4-x_3,y_4-y_3}\\
+      &\vdots\\
+      E_n &: \vector{x_n,y_n} + t \vector{x_n-x_1,y_n-y_1}
+    \end{align*}
+    with $0\le t<1$. Moreover
+    \begin{align*}
+      \iint_R \d A &= \oint_P x\d y\\
+      &= \sum_{i=1}^n \int_{E_i} x\d y,
+    \end{align*}
+    this is just saying that the line integral along the perimeter of
+    the polygon is the sum of the line integrals along the edges. Now
+    write with me
+    \begin{align*}
+      \int_{E_i} x \d y &= \int_0^1 (x_i + t x_{i+1}-t x_i) (y_{i+1}-y_i) \d t\\
+      &= \int_0^1 (x_i y_{i+1}+ t x_{i+1} y_{i+1}-t x_iy_{i+1} - x_iy_i - tx_{i+1}y_i+tx_iy_i) \d t\\
+      &= x_i y_{i+1}+ \frac{x_{i+1} y_{i+1}}{2}- \frac{x_iy_{i+1}}{2} - x_iy_i - \frac{x_{i+1}y_i}{2}+\frac{x_iy_i}{2} \\
+      &=\frac{1}{2}(x_i y_{i+1}+ x_{i+1} y_{i+1} - x_iy_i - x_{i+1}y_i)
+    \end{align*}
+    So now we may write 
+    \begin{align*}
+      \iint_R \d A &= \oint_P x\d y\\
+      &= \sum_{i=1}^n \int_{E_i} x\d y\\
+      &= \frac{1}{2}\sum_{i=1}^n (x_i y_{i+1}+ x_{i+1} y_{i+1} - x_iy_i - x_{i+1}y_i)
+    \end{align*}
+    Noting that the terms $x_{i+1} y_{i+1}$ and
+    $x_iy_i$ will cancel with each other as we cycle through
+    the sum, we find that
+    \begin{align*}
+      \iint_R \d A &= \oint_P x\d y\\
+      &= \frac{1}{2} \sum_{i=1}^n \left(x_iy_{i+1} - x_{i+1}y_i\right)
+    \end{align*}
+    Since this value relies on $P$ being parameterized in a
+    counterclockwise fashion, we take the absolute value to ensure a
+    correct answer. Thus we have completed the explanation of the shoelace algorithm.
+  \end{explanation}
+\end{algorithm}
+
+
 \end{document}

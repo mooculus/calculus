@@ -12,52 +12,27 @@
 \makerandom
 
 \begin{sagesilent}
-  vs = ['x','y']
-  
-  x = var(vs[0])
-  y = var(vs[1])
-
-  def random_expression(depth):
-    if depth == 0:
-      return [x,x,x,y,y,y,1,-1][randint(0,7)]
-    else:
-      possible = [
-        lambda: random_expression(depth-1) + random_expression(depth-1),
-        lambda: random_expression(depth-1) - random_expression(depth-1),
-        lambda: random_expression(depth-1) * random_expression(depth-1),
-        lambda: random_expression(depth-1) / random_expression(depth-1),
-        lambda: sin(random_expression(depth-1)),
-        lambda: cos(random_expression(depth-1)),
-        lambda: exp(random_expression(depth-1))
-      ]
-      result = possible[randint(0,len(possible)-1)]()
-      if result.is_zero():
-        result = 1
-      return result
-
-  m = random_expression(3)
-  while (derivative(m,x).is_zero()) or (len(latex(derivative(m,x))) > 40) or (len(m.variables()) < 2):
-    m = random_expression(randint(1,3))
-
-  n = random_expression(3)
-  while (derivative(n,y).is_zero()) or (len(latex(derivative(n,y))) > 40) or (len(n.variables()) < 2):
-    n = random_expression(randint(1,3))
-  
+  variables = [var('x'), var('y')]
+  var('t')
+  m = sum([randint(-1,1) * prod([v**randint(0,2) for v in variables]) for _ in range(2)])
+  n = sum([randint(-1,1) * prod([v**randint(0,2) for v in variables]) for _ in range(2)])
+  f=[m,n]
 \end{sagesilent}
 
 \begin{exercise}
 
   Let $\vec{F}(x,y) = \vector{\sage{m},\sage{n}}$ and $C$ be the unit
   circle centered at the origin drawn in a counterclockwise fashion as
-  $t$ runs from $0$ to $2\pi$. Set-up an integral that will compute
+  $t$ runs from $0$ to $2\pi$. Set up an integral that will compute
   the flow along a curve $C$ (circulation) and an integral that will
   compute the flow across a curve $C$ (flux).
   \begin{prompt}
     \[
-    \oint_C \vec{F}\dotp\d\vec{p} = \int_{\answer{0}}^{\answer{2\pi}} \sage{derivative(m,xx)} 
+    \oint_C \vec{F}\dotp\d\vec{p}
+    = \int_{\answer{0}}^{\answer{2\pi}}\left( \sage{f[0](x=cos(t),y=sin(t))*(-sin(t)) + f[1](x=cos(t),y=sin(t))*cos(t)} \right)\d t 
     \]
     \[
-    \oint_C \vec{F}\dotp\d\vec{n} = 
+    \oint_C \vec{F}\dotp\d\vec{n} = \int_{\answer{0}}^{\answer{2\pi}} \left(\sage{f[0](x=cos(t),y=sin(t))*(cos(t)) + f[1](x=cos(t),y=sin(t))*sin(t)} \right)\d t 
     \]
   \end{prompt}
 \end{exercise}

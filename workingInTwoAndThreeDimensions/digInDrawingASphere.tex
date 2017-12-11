@@ -169,7 +169,56 @@ the following:
       &= r^2.
     \end{align*}
     So we see that every point drawn by our parametric description of
-    the sphere is in the set $S$. 
+    the sphere is in the set $S$.
+
+    Now we need to explain why every point in $S$ is actually drawn by
+    our parametric description. Given a point $(x,y,z)$ on the sphere,
+    we need to assure our most stubborn readers that there will be a
+    $\phi$ and a $\theta$ that when plugged into our formula, will
+    produce the given point $(x,y,z)$. We could do this simply by
+    solving for $\phi$ and $\theta$ in terms of $x$, $y$, and $z$
+    though we will not do that here. Instead, we will show you
+    \textit{how} the sphere is drawn by $\phi$ and $\theta$.
+      \begin{image}
+        \begin{tikzpicture}
+          \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	      axis lines=center,
+	      view={110}{25},
+	      name=myplot,
+	      xtick=\empty,
+              ytick=\empty,
+              ztick=\empty,
+	      ymin=-.1,ymax=1.2,
+	      xmin=-.1,xmax=1.2,
+	      zmin=-.2, zmax=2.1,
+	      every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	      xlabel={\scriptsize $x$},
+	      every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	      ylabel={\scriptsize $y$},
+	      every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	      zlabel={\scriptsize $z$},
+              colormap/cool,
+            ]
+            \addplot3[gray,->,domain=0:45,samples y=0] ({.3*cos(x)},{.3*sin(x)},0); %% angle for theta
+            \addplot3[gray,->,domain=0:27,samples y=0] ({.3*cos(45)*sin(x)},{.3*sin(45)*sin(x)},{.3*cos(x)}); %% angle for phi
+            \addplot3[gray,domain=0:2.1,samples y=0,->] ({x*cos(45)*sin(27)},{x*sin(45)*sin(27)},{x*cos(27)}); %% line for rho
+              
+            \addplot3[gray,domain=0:1,samples y=0,dashed] ({x*cos(45)},{x*sin(45)},0); %% line for theta
+            \addplot3[gray,domain=0:2,samples y=0,dashed] ({1*cos(45)},{1*sin(45)},x); %% line for z
+            \node at (axis cs:{.5*cos(22.5)},{.5*sin(22.5)},0) {$\theta$};
+            \node[above] at (axis cs:{.3*cos(45)*sin(17)},{.3*sin(45)*sin(17)},{.3*cos(17)}) {$\varphi$};
+            
+            \node[above] at (axis cs:{1*cos(45)*sin(27)},{1*sin(45)*sin(27)},{1*cos(27)}) {$r$};
+            
+            \filldraw [black] (axis cs:{1*cos(45)},{1*sin(45)},1.95) circle (2.5pt);        
+            \node[right] at (axis cs:{1*cos(45)},{1*sin(45)},2) {$(x,y,z)$};
+          \end{axis}
+        \end{tikzpicture}
+      \end{image}
+      Since every point on the sphere can be obtained by letting
+      $\theta$ run from $0$ to $2\pi$, and $\phi$ run from $0$ to
+      $\pi$, we have shown that the parametric formula draws the
+      entire sphere.
   \end{explanation}
 \end{example}
 

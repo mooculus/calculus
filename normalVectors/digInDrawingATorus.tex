@@ -1,0 +1,123 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\author{Bart Snapp}
+
+\outcome{Give the equation for a torus.}
+
+\title[Dig-In:]{Drawing a torus}
+
+\begin{document}
+\begin{abstract}
+  Learn how to draw a torus.
+\end{abstract}
+\maketitle
+
+A common shape studied in mathematics is a \dfn{torus} or
+\textit{donut}. To draw a torus by-hand like a pro is easy. Start by
+drawing an ellipse:
+\begin{image}
+  \begin{tikzpicture}  
+    \draw [ultra thick, penColor] (0,0) ellipse (3cm and 2cm);
+  \end{tikzpicture}  
+\end{image}
+
+Now make that ellipse \textit{smile}!
+
+\begin{image}
+  \begin{tikzpicture}  
+    \draw [ultra thick, penColor] (0,0) ellipse (3cm and 2cm);
+    \draw [ultra thick, penColor] (-1.5,.5) arc (198:341:1.58);
+  \end{tikzpicture}  
+\end{image}
+
+Finally, add in an upside down arc:
+
+\begin{image}
+  \begin{tikzpicture}  
+    \draw [ultra thick, penColor] (0,0) ellipse (3cm and 2cm);
+    \draw [ultra thick, penColor] (-1.5,.5) arc (198:341:1.58);
+    \draw [ultra thick, penColor] (1.22,0) arc (39:141:1.57);
+  \end{tikzpicture}  
+\end{image}
+
+And like magic, we have drawn a torus! On the other hand, if you want
+to use a computer to draw a torus, perhaps you should use the
+parametric formula:
+\begin{align*}
+  x(\theta,\phi) &= (R + r\cdot \cos(\phi))\cos(\theta)\\
+  y(\theta,\phi) &= (R + r\cdot \cos(\phi))\sin(\theta)\\
+  z(\theta,\phi) &= r\cdot \sin(\phi)
+\end{align*}
+where $R$ is the radius from the center of the torus to the center of
+the ``tube,'' $r$ is the radius of the ``tube,'' $0\le \theta<2\pi$,
+and $0\le \phi<2\pi$. However, listen, \textit{you} could have derived
+a parametric formula using the techniques you've learned. Let's do it.
+
+\begin{example}
+  Use unit tangent vectors and unit normal vectors to derive a
+  parametric formula for a torus.
+  \begin{explanation}
+    Imagine a circular curve in $\R^3$ that runs through the donut,
+    shown in the diagram from the previous problem by the two ``dots.''
+    \begin{image}
+      \includegraphics{transdonut.jpg}
+    \end{image}
+    Give a formula for a vector-valued function $\vec{p}(\theta)$ that will
+    draw a circle in the $(x,y)$-plane, centered at the origin, of radius
+    $R$, as $\theta$ runs from $0$ to $2\pi$.
+    \[
+    \vec{p}(\theta) = \vector{\answer[given]{R\cos(\theta)},\answer[given]{R\sin(\theta)},\answer{0}}
+    \]
+    Compute $\utan(\theta)$, the function that will give the unit tangent
+    vector for any value of $\theta$. \textbf{Simplify your answer.}
+    \[
+    \utan(\theta) = \vector{\answer[given]{-\sin(\theta)},\answer[given]{\cos(\theta)},\answer[given]{0}}
+    \]
+    Compute $\unormal(\theta)$, the function that will give the principal
+    unit normal vector for any value of $\theta$. \textbf{Simplify your answer.}
+    \[
+    \unormal(\theta) =\vector{\answer[given]{-\cos(\theta)},\answer[given]{-\sin(\theta)},\answer[given]{0}}
+    \]
+    Compute $\ubinormal(\theta)$, the function that will give the 
+    unit binormal vector for any value of $\theta$. \textbf{Simplify your answer.}
+    \begin{align*}
+      \ubinormal(\theta) &= \utan(\theta)\cross\unormal(\theta)\\
+      &=\vector{\answer[given]{0},\answer[given]{0},\answer[given]{1}}
+    \end{align*}
+    Now if we put these together we can write our torus as $\vec{T}(\theta,\phi)$
+    \[
+    \vec{T}(\theta,\phi) = \vec{p}(\theta) + \answer[given]{r}\cdot \unormal(\theta)\cos(\answer[given]{\phi}) + \answer[given]{r}\cdot \ubinormal(\theta)\sin(\answer[given]{\phi})
+    \]
+    Simplifying and writing the components of this formula out we see:
+    \begin{align*}
+      x(\theta,\phi) &= \answer[given]{(R - r\cdot \cos(\phi))\cos(\theta)}\\
+      y(\theta,\phi) &= \answer[given]{(R - r\cdot \cos(\phi))\sin(\theta)}\\
+      z(\theta,\phi) &= \answer[given]{r\cdot \sin(\phi)}
+    \end{align*}
+    And done. We've given a parametric formula for a torus.
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  If you're paying attention, you may notice that we now have a very
+  similar formula to the one given above, except that we have some
+  minus signs where before we had plus signs. What happened here?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice{We made a mistake in our work in the example above.}
+      \choice{We lied to you when we give the initial parametric formula for the torus.}
+      \choice{We just broke math.}
+      \choice[correct]{Everybody wins. Both formulas draw a torus.}
+    \end{multipleChoice}
+    \begin{feedback}[correct]
+      Both formulas are correct, the first one we gave was derived
+      using ``outward'' pointing normal vectors. The second one we
+      gave was derived using ``inward'' pointing normal vectors.
+    \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+\end{document}

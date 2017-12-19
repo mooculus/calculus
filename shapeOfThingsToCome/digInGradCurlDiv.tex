@@ -1,0 +1,102 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\author{Bart Snapp}
+
+\title[Dig-In:]{Grad, Curl, Div}
+
+\begin{document}
+\begin{abstract}
+  We explore the relationship between the gradient, the curl, and the
+  divergence of a vector field.
+\end{abstract}
+\maketitle
+
+At far-point in our study, we have many fundamental theorems. Let's
+try to use them together, and see what we can find. 
+
+\section{A two-dimensional dream}
+
+So far we have two fundamental theorems of calculus for functions of
+two variables.
+\begin{itemize}
+\item The fundamental theorem of line integrals:
+  \[
+  \int_C \grad F \dotp\d\vec{p} = F(\vec{b}) -F(\vec{a})
+  \]
+\item Green's theorem:
+  \[
+  \iint_R \curl \vec{F} \d A = \oint_{\partial R} \vec{F} \dotp \d \vec{p}
+  \]
+\end{itemize}
+Wouldn't it be cool if we could \textit{combine} these theorems to
+make something like:
+\[
+\iint_R \curl \grad F \d A = \oint_{\partial R} \grad F \dotp \d \vec{p} = F(\vec{b}) - F(\vec{a})
+\]
+A double integral, equaling a single integral, equaling a difference!
+It's an amazing idea, and while it is true, we shouldn't get too
+excited. In fact each expression above is equal to zero.
+
+Upshot: $\curl\grad F = 0$ for all functions $\vec{F}:\R^2\to\R^2$
+with continuous second derivatives.
+
+
+\section{A three-dimensional dream}
+
+Working in a similar way to how we worked above, let us recall the fundamental theorems of calculus for functions of three variables.
+
+\begin{itemize}
+\item The fundamental theorem of line integrals:
+  \[
+  \int_C \grad F \dotp\d\vec{p} = F(\vec{b}) - F(\vec{a}) 
+  \]
+\item Stokes' theorem:
+  \[
+  \iint_R \curl\vec{F} \d S = \oint_{\partial R} \vec{F} \dotp \d \vec{p}
+  \]
+\item The divergence theorem:
+  \[
+  \iiint_R \divergence\vec{F} \d V = \oiint_{\partial R} \vec{F}\dotp\uvec{n} \d S
+  \]
+\end{itemize}
+Putting Stokes' theorem and the divergence theorem together, we find the beautiful expression:
+\[
+\iiint_R \divergence\left(\curl\vec{F}\right)\d V = \oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d S = \oint_{\partial\partial R} \vec{F}\dotp \d \vec{p}
+\]
+Again, what a fantastic idea, a triple integral, equaling a double
+integral, equaling a single integral!
+
+
+\[
+\oint_{\partial\partial R} \vec{F}\dotp \d \vec{p} = 0
+\]
+
+
+\[
+\iiint_R \divergence\left(\curl\vec{F}\right)\d V = \oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d S = \oint_{\partial\partial R} \vec{F}\dotp \d \vec{p}
+\]
+This tells us that the circulation along \textbf{any} closed surface is zero!
+
+\[
+\divergence\left(\curl\vec{F}\right) =  0
+\]
+
+\begin{image}
+  \begin{tikzcd}[ampersand replacement=\&, row sep=.1em]
+    C^{\infty}(\R^2,\R) \arrow[r,"\grad"] \& C^{\infty}(\R^2,\R^2) \arrow[r,"\curl"] \& C^{\infty}(\R^2,\R)\\
+    F \arrow[r,mapsto] \& \grad F  \arrow[r,mapsto] \& 0
+  \end{tikzcd}
+\end{image}
+
+\begin{image}
+  \begin{tikzcd}[ampersand replacement=\&, row sep=.1em]
+    C^{\infty}(\R^3,\R) \arrow[r,"\grad"] \& C^{\infty}(\R^3,\R^3) \arrow[r,"\curl"] \& C^{\infty}(\R^3,\R^3) \arrow[r,"\divergence"] \& C^{\infty}(\R^3,\R)\\
+    F \arrow[r,mapsto] \& \grad F  \arrow[r,mapsto] \& \vec{0}   \&\\
+                       \& \vec{F}  \arrow[r,mapsto] \& \curl\vec{F} \arrow[r,mapsto]   \& 0
+  \end{tikzcd}
+\end{image}
+  
+
+\end{document}

@@ -1,15 +1,13 @@
 \documentclass{ximera}
 \input{../preamble}
-\author{Jim Talamo and Bart Snapp}
 
-\outcome{Introduce the method of "Slice, Approximate, Integrate" to set up Riemann integrals}
 \outcome{Find the bounded area between two curves.}
-\outcome{Express the area between curves as an integral or sum of integrals with respect to $x$ or $y$.}
-\outcome{Decide whether to integrate with respect to $x$ or $y$.}
+\outcome{Integrate with respect to $y$.}
+\outcome{Decided whether to integrate with respect to $x$ or $y$.}
 
 
 \title[Dig-In:]{Area between curves}
- 
+
 \begin{document}
 \begin{abstract}
   We compute the area of a region between two curves using the
@@ -18,205 +16,36 @@
 \maketitle
 
 
-\vspace{3mm}
-
-In this section, we deal only with continuous functions defined on closed, bounded integrals.  When working with this type of function, there is a natural notion of ``area" between
-
-We introduce
-
-%%%%FINISH THIS
-
-\section{The Fundamental Theorem of Calculus and Areas}
-
-We begin the section with a motivating reminder:
-
-\textbf{Motivating Reminder:} The area between a continuous function $y=f(x)$ and the $x$-axis between $x=a$ and $x=b$ for the function shown below:
-
-\begin{figure}[h!]
-  \centering 
-  \includegraphics[width=.30 \textwidth]{B.eps}
-\end{figure}
-
-\vspace{3mm}
-When this question arises at this stage in calculus, we may use the Fundamental Theorem of Calculus to write this area as a definite integral: $$\displaystyle A = \int_{x=a}^{x=b} f(x) \, dx .$$
-
-However, recalling how this result was obtained in the first place is instructive and understanding the logic behind it is essential in order to apply a similar method to set up integrals to model other types of situations.  We thus give a detailed conceptual outline of the argument here:
-
-\vspace{3mm}
-\textbf{Step 1: Slice}
-
-Since we have expressed $y$ as an function of $x$, we slice with respect to the independent variable (input), that is we divide the area up into $n$ pieces of uniform width $\Delta x$\footnote{The uniformity is not required in general, but this is a topic beyond the scope of our course.  This assumption is chosen here to make the example more conceptually tractable.}.
-
-\begin{figure}[h!]
-  \centering 
-  \includegraphics[width=.30 \textwidth]{BSlice.eps}
-  \caption{We slice the area into $n$ piece, each of width $\Delta x$.}
-\end{figure}
-
-
-\textbf{Step 2: Approximate}
-
-We cannot determine the exact area of the slice, but we can approximate that each slice is a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle. 
-\begin{figure}[h!]
-  \centering 
-  \includegraphics[width=.30 \textwidth]{BApprox.eps}
-   \caption{We approximate each slice as a rectangle.}
-\end{figure}
-
-\vspace{3mm}
-The area $\Delta A_k$ of one the $k$th rectangles is given by: 
-\begin{align}
-\Delta A_k & = (height) \times (width) \nonumber \\
-\Delta A_k &= f\left(x_k^*\right)\Delta x \label{area}
-\end{align}
-where $x_k^*$ is the $x$-value in the chosen rectangle that determines its height $f(x_k^*)$. 
-
-\vspace{3mm}
-Let $S_n$ denote the total area obtained by adding the areas of the $n$ rectangles together.   Then, we can compute $S_n$ easily by adding up the areas of all of the rectangles: $$S_n = \Delta A_1 + \Delta A_2 + \ldots \Delta A_n$$
-or if you prefer using sigma notation: 
-\begin{equation}
-S_n =\sum_{k=1}^{n} \Delta A_k =  \sum_{k=1}^n f(x_k^*) \Delta x  \label{areasum}
-\end{equation}
-Note that as we use more rectangles, the following occur \emph{simultaneously}:
-
-\begin{itemize}
-\item[1.] The width $\Delta x$ of each rectangle decreases.
-\item[2.] The total number of rectangles increases.
-\item[3.] The sum of the areas of the rectangles becomes closer to the actual area.
-\end{itemize}
-
-The actual area $A$ is indeed what we expect it should be: $$A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right].$$ 
-
-\vspace{3mm}
-\textbf{Step 3: Integrate}
-
-While this can be quite cumbersome to work out in even the simplest cases, the Fundamental Theorem of Calculus comes to the rescue; it guarantees that since $y=f(x)$ is continuous on $[a,b]$, this area is also computed via: $$A = \int_{x=a}^{x=b} f(x) \, dx$$
-This can now be interpreted as follows:
-\begin{itemize}
-\item[1.] The integrand $f(x) \, dx$ is the area of an \emph{infinitesimal} rectangle of height $f(x)$ and thickness $dx$.\footnote{The notation ``$\Delta x$" represents the \emph{finite} but small width of a rectangle.  The notation ``$dx$" represents the \emph{infinitesimal} width of a rectangle and cannot be thought of strictly as 0!  This results from the area procedure the number of rectangles whose areas we must add increases \emph{simultaneously} without bound as the widths of each rectangle becomes arbitrarily close to 0!}
-\item[2.] The procedure of definite integration can be thought of conceptually as \emph{simultaneously} shrinking the widths of the rectangles while adding them all together!
-\end{itemize}
-A similar procedure can be taken in many other examples for the rest of the chapter! The major point here is that once we find the approximate area for a \emph{single} rectangle in Eqn (\ref{area}), we can immediately write down the integral that gives the \emph{exact} area of the region by converting the $\Delta x$ in Eqn (\ref{areasum}) and the sum into a definite integral whose lower limit is the leftmost $x$-value in the region and whose righthand limit is the rightmost $x$-value in the region!
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\section{The Area Between Two Curves}
-
-We have seen how integration can be used to find signed area between a curve and the $x$-axis. The above procedure can be used to find areas between curves.  Generally, we should interpret ``area'' as a positive quantity; all of the area bounded by the curves should be taken to be positive regardless of which the quadrant it appears!
-
-Suppose now that we have two functions, $y=4x^3+17$ and $y=3x^2$ and suppose we want to find the area between the two curves on $[-1,1]$.  The area is shown below:
-
-%%%%%%%ADD HANS PICTURE%%%%%%%%%%%%%
-
-
-
-
-
-So should we do this? Let's apply the procedure of ``Slice, Approximate, Integrate".
-
-\textbf{Step 1: Slice}
-
-We divide the area up into $n$ pieces of uniform width $\Delta x$.
-
-%%%%%%%HANS PICTURE%%%%%%%%%%%%%
-
-\textbf{Step 2: Approximate}
-
-We cannot determine the exact area of the slice, but just as before, we can approximate that each slice is a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle: 
-
-%%%%%%%HANS PICTURE%%%%%%%%%%%%%
-
-\vspace{3mm}
-The area $\Delta A_k$ of one the $k$th rectangles is given by: 
-\begin{align*}
-\Delta A_k & = (height) \times (width) \nonumber \\
-\end{align*}
-where $x_k^*$ is the $x$-value in the chosen rectangle that determines its height $f(x_k^*)$. 
-
-The height of the darkly shaded rectangle can be found by realizing that it is the change of $y$-values on the individual curves. In fact, if we consider a specific $x$-value in $[-1,1]$:
-
-\begin{question}
-The function used to determine the top $y$-value, $y_{top}$ is:
-\begin{multipleChoice}
-\choice[correct]{$y_{top}=4x^3+17$}
-\choice{$y_{bot}=3x^2$}
-\end{multipleChoice}
-\end{question}
-
-\begin{question}
-The function used to determine the bottom $y$-value, $y_{bot}$ is:
-\begin{multipleChoice}
-\choice{$y_{top}=4x^3+17$}
-\choice[correct]{$y_{bot}=3x^2$}
-\end{multipleChoice}
-\end{question}
-
-Thus, the height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{(4x^3+17)-(3x^2)}$.
-
-The approximate total area obtained by adding the areas of the $n$ rectangles between $x=-1$ and $x=1$ together.  Note that as we use more rectangles, the following occur \emph{simultaneously}:
-
-\begin{itemize}
-\item[1.] The width $\Delta x$ of each rectangle decreases.
-\item[2.] The total number of rectangles increases.
-\item[3.] The sum of the areas of the rectangles becomes closer to the actual area.
-\end{itemize}
-
-The actual area $A$ is indeed what we expect it should be: $$A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right].$$ 
-
-\vspace{3mm}
-\textbf{Step 3: Integrate}
-
-The same logic behind the Fundamental Theorem of Calculus allows us to write the above limit as a definite integral!  In fact:
-
-\[
-A = \int_{x=-1}^{x=1} (4x^3+17)-(3x^2) \d x
-\]
-By evaluating this, we can find the actual area:
-
-\begin{align*}
-A &= \int_{x=-1}^{x=1} 4x^3-3x^2+17 \d x \\
-&= \eval{ x^4-x^3+17x}_{x= -1}^{x=1} \\
-&= \left[(1)^4-(1)^3+17(1)\right] -  \left[(-1)^4-(-1)^3+17(-1)\right] \\
-&=32
-\end{align*}
-
-
-Note that $A = \int_{x=-1}^{x=1} (4x^3+17)-(3x^2) \d x$ can be interpreted as follows:
-\begin{itemize}
-\item[1.] The integrand is the area of an \emph{infinitesimal} rectangle, whose height is determined as the difference between the top and bottom $y$-values of the bounding curves, and whose thickness $dx$. 
-\item[2.] Since we integrate with respect to $x$, the limits of integration tell us the range of $x$-values the rectangles to be added are:
-\begin{itemize}
-\item The lower limit gives the $x$-value of the first slice.
-\item The upper limit gives the $x$-value of the last slice.
-\end{itemize}
-\end{itemize}
-We explicitly write $\int_{x=-1}^{x=1} (\ldots) \d x $ instead of $\int_{-1}^1(\ldots) \d x $ to make the fact that these limits correspond to $x$. 
-
-
-\textbf{Remark:} Since the thickness is $\d x$, we MUST express the curves as functions of $x$; that is, we MUST write $y_{top}$ and $y_{bot}$ in terms of $x$!
- 
-A common theme that runs throughout this chapter is that once we choose a variable of integration, EVERY quantity (limits of integration, functions in the integrand) MUST be written in terms of that variable!
-
-
-A similar procedure can be taken in many other examples for the rest of the chapter! The major point here is that once we find the approximate area for a \emph{single} rectangle, we can immediately write down the integral that gives the \emph{exact} area of the region!
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%COMMENT OUT%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{comment}
+We have seen how integration can be used to find signed area between a
+curve and the $x$-axis. With very little change we can find areas
+bounded between curves.  Generally we should interpret ``area'' in the
+usual sense, as a necessarily positive quantity. Suppose $f(x)>g(x)$
+for all $x$ on the interval $[a,b]$ and we wish to know the geometric
+area bounded between $f$ and $g$ on this interval:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=.5:2.5, ymax=10,xmax=2.5,ymin=0, xmin=.5,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            xtick={1,2},
+            ytick style={draw=none},
+            width=4in,
+            height=2in,
+            yticklabels={},
+            xticklabels={$a$, $b$},
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [draw=none,fill=fillp,domain=1:2] {-x^2+4*x+3} \closedcycle;
+          \addplot [draw=none,fill=background,domain=1:2] {-x^3 + 7*x^2-10*x+5} \closedcycle;
+          \addplot [draw=penColor,very thick] {-x^2+4*x+3};
+          \addplot [draw=penColor2,very thick] {-x^3 + 7*x^2-10*x+5};
+          \node at (axis cs:1,6.7) [penColor] {$f$};
+          \node at (axis cs:2,4) [penColor2] {$g$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
 From the graph above we see that the area we want is the area under
 $f$ minus the area under $g$, which is to say
 \begin{align*}
@@ -251,7 +80,7 @@ width $\d x$ and height $f(x)-g(x)$:
           \addplot [draw=penColor, fill = fillp] plot coordinates {(1.5,2.375) (1.6,2.375) (1.6, 6.84) (1.5,6.84) (1.5, 2.375)};
           
           \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (axis cs:1.5,2.7)--(axis cs:1.6,2.7);
-          \node at (axis cs:1.55,1.25) {$\Delta x$};
+          \node at (axis cs:1.55,1.25) {$\d x$};
 
           \draw[decoration={brace,raise=.2cm},decorate,thin] (axis cs:1.51,2.375)--(axis cs:1.51,6.84);
           \node[anchor=east] at (axis cs:1.45,4.6) {$f(x)-g(x)$};
@@ -277,31 +106,14 @@ could be interpreted as:
 This way of thinking about integrals will be very useful to us in
 later, more complex, applications.
 
-\end{comment}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Integrating with respect to \textit{x}}
 
-We can summarize the above procedure neatly with a simple formula that respects the geometrical reasoning used to generate the area of a region:
-
-\begin{theorem}
-The area of a region bounded by continuous functions is given by: 
-
-\[A=\int_{x=a}^{x=b} h \d x \]
-
-\end{theorem}
-
-Let's look at a few more examples:
-
-
-%%%%%%%%%MAke the below the exercise, make the exercise the actual example%%%%%%%%%%%%%%%%%%
+We'll start with basic examples and gradually build to more difficult
+ones.
 
 \begin{example}
-  Compute the area between $y=-x^2+4x+3$ and $=-x^3+7x^2-10x+5$ them on the interval $1 \le x \le 2$.
-  
-  We start by drawing the region in question, then indicate that we will build the area using vertical slices: 
-    
+  Let $f(x) = -x^2+4x+3$ and $g(x)=-x^3+7x^2-10x+5$. Compute the area
+  between them on the interval $1 \le x \le 2$.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -321,66 +133,31 @@ Let's look at a few more examples:
           \addplot [draw=none,fill=background,domain=1:2] {-x^3 + 7*x^2-10*x+5} \closedcycle;
           \addplot [draw=penColor,very thick] {-x^2+4*x+3};
           \addplot [draw=penColor2,very thick] {-x^3 + 7*x^2-10*x+5};
-          \node at (axis cs:1.4,7.7) [penColor] {$y= -x^2+4x+3$};
-          \node at (axis cs:1.7,1) [penColor2] {$y=-x^3+7x^2-10x+5$};
-          
-          \addplot [draw=penColor, fill = gray!50] plot coordinates {(1.5,2.375) (1.6,2.375) (1.6, 6.84) (1.5,6.84) (1.5, 2.375)};
-          
-        
-
-          \draw[decoration={brace,raise=.2cm},decorate,thin] (axis cs:1.51,2.375)--(axis cs:1.51,6.84);
-          \node[anchor=east] at (axis cs:1.45,4.6) {$h$};
-          
-          
+          \node at (axis cs:1,6.7) [penColor] {$f$};
+          \node at (axis cs:2,4) [penColor2] {$g$};
         \end{axis}
 \end{tikzpicture}
 \end{image}
 \begin{explanation}
- Consider the rectangle shown at an $x$-value in the interval of integration. We need to find the height of the rectangle in terms of $x$.  Once again, we find this by subtracting the top and bottom $y$-values on the curves:
- 
- \begin{question}
-The function used to determine the top $y$-value, $y_{top}$ is:
-\begin{multipleChoice}
-\choice[correct]{$y_{top}=-x^2+4x+3$}
-\choice{$y_{bot}=-x^3 + 7x^2-10x+5$}
-\end{multipleChoice}
-\end{question}
-
-\begin{question}
-The function used to determine the bottom $y$-value, $y_{bot}$ is:
-\begin{multipleChoice}
-\choice{$y_{top}=-x^2+4x+3$}
-\choice[correct]{$y_{bot}=-x^3 + 7x^2-10x+5$}
-\end{multipleChoice}
-\end{question}
-
-Thus, the height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{(-x^2+4x+3)-(-x^3 + 7x^2-10x+5)}$.
- 
-We can now find the area:
-
+  Write with me:
+\[ 
+\int_1^2 f(x)-g(x)\d x = \answer[given]{\frac{49}{12}}.
+\]
+\begin{hint}
+\[
+\int_1^2 -x^2+4x+3-(-x^3+7x^2-10x+5) \d x
+\]
 \begin{align*}
-A = \int_{x= a}^{x=b} h \d x &= \int_{x= \answer[given]{1}}^{x= \answer[given]{2}} (-x^2+4x+3)-(-x^3 + 7x^2-10x+5) \d x \\
-  &=\int_1^2 \answer[given]{x^3-8x^2+14x-2} \d x \\
+  &=\int_1^2 x^3-8x^2+14x-2 \d x \\
   &=\eval{\frac{x^4}{4}-\frac{8x^3}{3}+7x^2-2x}_1^2 \\
   &= \frac{16}{4} - \frac{64}{3}+28-4-(\frac{1}{4}- \frac{8}{3}+7-2) \\
   &=23-\frac{56}{3}-\frac{1}{4}\\
   &=\frac{49}{12}
-\end{align*} 
- 
-
+\end{align*}
+\end{hint}
 \end{explanation}
 \end{example}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-%%%%%%THIS EXAMPLE IS NOT COMPUTATIONALLY TRACTABLE  SAVE FOR EXERCISES%%%%%%%%%
-\begin{comment}
 
 In our first example, one curve was higher than the other over the
 entire interval. This does not always happen.
@@ -513,64 +290,7 @@ geometric area is
 \end{hint}
 \end{explanation}
 \end{example}
-\end{comment}
 
-%%%%%%%%%%END OF COMMENTED OUT STUFF%%%%%%%%%%%%%%%%%%
-
-\begin{example} Set up, bu do not evaluate, an integral or sum of integrals that expresses the area bounded by $y=\sqrt{x}$, $y=10-2x$ and $y=0$.
-
-As usual, we begin by drawing a picture and indicating the type of rectangle that will be used to build the area:
-
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:5.5, ymax=2.5,xmax=5.5, ymin=0, xmin=0,
-            axis lines =center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \addplot [ fill = fillp, smooth, samples=100, domain=(0:2)] ({x^2},{x}) \closedcycle;
-          \addplot [draw=none,fill=background,domain=0:5.2] {10-2*x} \closedcycle;   
-          \addplot [very thick, penColor2, smooth, samples=100, domain=(0:3)] ({x^2},{x});
-          \addplot [draw=penColor,very thick,smooth] {10-2*x};
-          
-          \node at (axis cs:3.4,1.7) [penColor2] {$g$};
-          \node at (axis cs:4,0.7) [penColor] {$f$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-
-As you can see, something interesting happens here!  The curve used to determine the height of the top rectangle changes!  In order to express this area by integrating with respect to $x$, we have to split it into two pieces:
-
-%%%%HANS PICTURE%%%%%%%%%%
-
-The top curve will change at the $x$-value where the two curves intersect.  Write with me:
-
-\begin{align*}
-\sqrt{x} &= 10-2x \\
-x &= (10-2x)^2 \\
-x&= 100-40x+4x^2 \\
-4x^2-41x+100 &=0 \\
-(4x-25)(x-4) &= 0
-\end{align*}
-Hence, $x=4$ or $x=\frac{25}{4}$.  Note that by squaring both sides to eliminate the square root, we may have introduced an extraneous root.  By substituting $x=4$ into the equation $\sqrt{x} = 10-2x$, we obtain $2=2$, which is a true statement.  However, doing the same for $x= \frac{25}{4}$ gives $\frac{5}{2} = -\frac{5}{2}$, which is not true!  Thus, we use $x=answer[given]{4}$.  
-
-For the second region, we find the rightmost $x$-value is $x=5$ (which is done by setting $10-2x=0$).
-
-\begin{tabular}{ll}
-For Region I: \hspace{30mm} &  For Region II:  \\
-$0 \le x \le 4$ & $4 \le x \le  5$\\
-$y_{top} = \sqrt{x}$ & $y_{top} = 10-2x$ \\
-$y_{bot} = 0$ & $y_{bot} = 0$ \\
-$A_I = \int_{x= \answer[given]{0}}^{x=\answer[given]{4}} \answer[given]{x^{\frac{1}{2}}} \,d x$ & $A_{II} = \int_{x= \answer[given]{4}}^{x=\answer[given]{5}}  \answer[given]{10-2x} \,d x$
-\end{tabular}
-
- Thus, $A= \int_{x= \answer[given]{0}}^{x=\answer[given]{4}} \answer[given]{x^{\frac{1}{2}}} \,d x + \int_{x= \answer[given]{4}}^{x=\answer[given]{5}}\answer[given]{10-2x} \,d x$
-\end{example}
-
-
-%%% ADD EXAMPLE BELOW AS INTEGRAL WRT x %%%%%%%%%%
 \section{Integrating with respect to \textit{y}}
 
 Consider the region bounded by the function $f(x) = x-3$, $g(x) =
@@ -698,10 +418,5 @@ Let's see an example.
   \end{hint}
 \end{explanation}
 \end{example}
-
-
-
-%%%%%%%% ADD A FEW SET UP EXAMPLES %%%%%%%%%%%
-
 
 \end{document}

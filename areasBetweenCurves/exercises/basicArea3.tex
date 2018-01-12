@@ -1,0 +1,47 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Find the bounded area between two curves}
+
+\begin{document}
+\begin{exercise}
+	The region $R$ shown below is bounded by $y=3x \sqrt{5-x^2}$, $y=7-x$, $x=-1$ and $x=1$.
+	
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-1.8:1.6, ymax=14.5,xmax=1.6, ymin=-8.5, xmin=-1.8,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {3*x*sqrt(5-x^2)};
+            	\addplot [draw=penColor2,very thick,smooth] {7-x};
+	        \addplot [draw=black!60!green,very thick,smooth] coordinates {(-1,-20)(-1,20)};
+                       
+            	\addplot [name path=A,domain=-1:1,draw=none] {3*x*sqrt(5-x^2)};   
+            	\addplot [name path=B,domain=-1:1,draw=none] {7-x};
+            	\addplot [fillp] fill between[of=A and B];
+                      
+                      
+            	\node at (axis cs:1,2) [penColor] {$y=3x \sqrt{5-x^2}$};
+            	\node at (axis cs:.4,8) [penColor2] {$y=7-x$};
+	        \node at (axis cs:-1.4,2.5) [black!60!green] {$x=-1$};
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+Set up an integral that calculates the area of $R$ then evaluate it.
+	\[
+	A= \int_{x=\answer{-1}}^{x=\answer{1}}
+	\answer{(7-x)-3x\sqrt{5-x^2}}\d x = \answer{14}
+	\]
+\end{exercise}
+\end{document}

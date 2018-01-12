@@ -1,0 +1,66 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral or sum of integrals with respect to both $x$ and $y$}
+
+\begin{document}
+\begin{exercise}
+	The region $R$ bounded by $x^2+y^2=1$ and $y=x$ is shown below: 
+
+   \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-1.2:1.2, ymax=1.2,xmax=1.2, ymin=-1.1, xmin=-1.2,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=-1:1/sqrt(2),very thick,smooth,samples=200] {sqrt(1-x^2)};
+	        \addplot [draw=penColor,domain=-1:-1/sqrt(2),very thick,smooth,samples=200] {-sqrt(1-x^2)};
+            	\addplot [draw=penColor2,very thick,smooth] {x};
+	                            
+            	\addplot [name path=A,domain=-1:1/sqrt(2),draw=none,samples=200] {sqrt(1-x^2)};   
+            	\addplot [name path=B,domain=-1:-1/sqrt(2),draw=none,samples=200] {-sqrt(1-x^2)};
+	        \addplot [name path=C,domain=-2:1,draw=none] {x};
+            	\addplot [fillp] fill between[of=A and B];
+                                   
+            	\node at (axis cs:-.8,1) [penColor] {$x^2+y^2=1$};
+            	\node at (axis cs:.7,.3) [penColor2] {$y=x+1$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+Set up, but DO NOT EVALUATE, an integral or sum of integrals with respect to $x$ that would compute the area of $R$. 
+
+\begin{multipleChoice}
+\choice{One integral is needed to compute the area.  
+
+In fact, $A=\int_{\answer{-2}}^{\answer{1}} \answer{(3-x^2)-(x+1)} \d x$}.
+
+\choice[correct]{Two integrals are needed to compute the area.  
+
+In fact, $A=\int_{-1}^{\answer{-1/\sqrt{2}}} \answer{\sqrt{1-x^2} - (-\sqrt{1-x^2})} \d x+\int_{\answer{-1/\sqrt{2} }}^{\answer{1/\sqrt{2}}} \answer{\sqrt{1-x^2} - x} \d x$}.
+\end{multipleChoice}
+
+Set up, but DO NOT EVALUATE, an integral or sum of integrals with respect to $y$ that would compute the area of $R$. 
+
+\begin{multipleChoice}
+\choice{One integral is needed to compute the area.  
+
+In fact, $A=\int_{\answer{-2}}^{\answer{1}} \answer{(3-y^2)-(y+1)} \d y$}.
+
+\choice[correct]{Two integrals are needed to compute the area.  
+
+In fact, $A=\int_{-1/\sqrt{2}}^{\answer{1/\sqrt{2}}} \answer{y - (-\sqrt{1-y^2})} \d y+\int_{\answer{1/\sqrt{2} }}^{\answer{1}} \answer{\sqrt{1-y^2} - (-\sqrt{1-y^2})} \d y$}.
+\end{multipleChoice}
+	
+\end{exercise}
+\end{document}

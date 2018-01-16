@@ -1,0 +1,57 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Jim Talamo and Alex Beckwith}
+\license{Creative Commons 3.0 By-NC}
+\outcome{Set up a volume integral using the Washer Method}
+\begin{document}
+\begin{exercise}
+
+	Let $R$ be the region in the $xy$-plane bounded between $y=22x-13$, $y=2x-3$, and $y=\frac{9}{x}$. Use the washer method to set up the integral or sum of integrals that would give the volume of the solid generated when $R$ is revolved about the line $y=-5$.
+	
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=0:4, ymax=12,xmax=4.5, ymin=-6, xmin=0,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot [draw=penColor,very thick,smooth] {2*x-3};
+\addplot [draw=penColor2,very thick,smooth] {9/x};
+\addplot [draw=penColor5,very thick,smooth] {(22)*x-13};
+\addplot [draw=penColor4,very thick,dotted] {-5};
+           
+\addplot [name path=A,domain=1:3,draw=none] {9/x};   
+\addplot [name path=B,domain=1:3,draw=none] {2*x-3};
+\addplot [fillp] fill between[of=A and B];
+\addplot [name path=C,domain=0.5:1.05,draw=none] {2*x-3};
+\addplot [name path=D,domain=0.5:1.05,draw=none] {22*x-13};
+\addplot [fillp] fill between[of=C and D];
+
+       
+          
+          \node at (axis cs:2,-2) [penColor] {$y=2x-3$};
+          \node at (axis cs:2,7) [penColor2] {$y=\frac{9}{x}$};
+          \node at (axis cs:1.8,10.5) [penColor5] {$y=22x-13$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+\begin{exercise}
+How many integrals are needed to express the volume of the solid of revolution using the Washer Method? 
+\begin{multipleChoice}
+\choice{One integral is needed.}
+\choice[correct]{Two integrals are needed.}
+\choice{More than two integrals are needed.}
+\end{multipleChoice}
+In fact: 
+\[
+V=\int_{x={\frac{1}{2}}}^{x=\answer{1}} \answer{\pi \left((22x-8)^2-(2x+2)^2\right)} \d x 
+	+\int_{x=\answer{1}}^{x=\answer{3}} \answer{\pi \left(\left(\frac{9}{x} +5 \right)^2-(2x+2)^2\right)} \d x 
+\]
+
+\end{exercise}
+\end{exercise}
+\end{document}

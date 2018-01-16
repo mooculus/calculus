@@ -1,0 +1,167 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Jim Talamo and Alex Beckwith}
+\license{Creative Commons 3.0 By-NC}
+\outcome{Set up a volume integral using the Washer Method}
+\begin{document}
+\begin{exercise}
+
+	Let $R$ be the region in the $xy$-plane bounded by $y=0$, $y=\ln x$, $y=2$, and $x=0$. This exercise will walk you through setting up an integral using the Washer Method that will give the volume of the solid generated when $R$ is revolved about the line $x=-1$.
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-2.5:8.5, ymax=2.5,xmax=8.4, ymin=-0.5, xmin=-2.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {2};
+            	\addplot [draw=penColor2,very thick,smooth] {ln(x)};
+		\addplot [draw=penColor3,very thick,smooth] {0};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(1,-4)(1,12)};
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(-1,-0.5)(-1,2.5)};
+                       
+            	\addplot [name path=A,domain=1:7.4,draw=none] {2};   
+            	\addplot [name path=B,domain=1:7.4,draw=none] {ln(x)};
+            	\addplot [fillp] fill between[of=A and B];
+	                
+            	\node at (axis cs:5,1.2) [penColor2] {$y=\ln(x)$};
+		\node at (axis cs:4.5,2.15) [penColor] {$y=2$};
+		\node at (axis cs:1.8,2.3) [penColor4] {$x=1$};
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+\begin{exercise}
+
+Since we are using the Washer Method, the slices must be:
+\begin{multipleChoice}
+\choice{parallel}
+\choice[correct]{perpendicular}
+\end{multipleChoice}
+to the axis of rotation.  
+
+Slices that are perpendicular to the axis of rotation $x=-1$ are:
+\begin{multipleChoice}
+\choice{vertical}
+\choice[correct]{horizontal}
+\end{multipleChoice}
+
+Since the slices are horizontal, we must: 
+\begin{multipleChoice}
+\choice{integrate with respect to $x$.}
+\choice[correct]{integrate with respect to $y$.}
+\end{multipleChoice}
+
+Since we must integrate with respect to $y$, we will use the result:
+
+\[V = \int_{y=c}^{y=d} \pi\left(R^2-r^2\right) \d y \]
+
+to set up the volume.  We must now find the limits of integration as express the outer radius $R$ and the inner radius $r$ in terms of the variable of integration $y$. 
+
+\begin{exercise}
+The limits of integration are: $c = \answer{0}$ and $d = \answer{2}$. 
+\end{exercise}
+
+\begin{exercise}
+For the curve given by $y=\ln(x)$, we can solve for $x$ to find $x= \answer{e^y}$.
+\end{exercise}
+
+\begin{exercise}
+
+We thus have a helpful version of the picture of the region $R$ below:
+
+  \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-2.5:8.5, ymax=2.5,xmax=8.4, ymin=-0.5, xmin=-2.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {2};
+            	\addplot [draw=penColor2,very thick,smooth] {ln(x)};
+		\addplot [draw=penColor3,very thick,smooth] {0};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(1,-4)(1,12)};
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(-1,-0.5)(-1,2.5)};
+                       
+            	\addplot [name path=A,domain=1:7.4,draw=none] {2};   
+            	\addplot [name path=B,domain=1:7.4,draw=none] {ln(x)};
+            	\addplot [fillp] fill between[of=A and B];
+	                
+            	\node at (axis cs:5,1.2) [penColor2] {$x=e^y$};
+		\node at (axis cs:4.5,2.15) [penColor] {$y=2$};
+		\node at (axis cs:1.8,2.3) [penColor4] {$x=1$};
+	
+		\addplot [draw=penColor, fill = gray!50] plot coordinates {(1,1.63) (1,1.71) (5,1.71) (5,1.63) (1,1.63)};
+          
+          %Draw R and r
+          \addplot [draw=black!30!red,very thick] coordinates {(-1,1.2)(exp(1.2),1.2)};
+          \node at (axis cs:1.8,1.32) [black!30!red] {$R$};
+          
+	 \addplot [draw=black!30!blue,very thick] coordinates {(-1,.9)(1,.9)};
+
+	 \node at (axis cs:.4,.75)  [black!30!blue]  {$r$};
+                      
+                  	\end{axis}
+            \end{tikzpicture}
+  \end{image}
+            
+ We see from the picture that both $R$ and $r$ are:
+ \begin{multipleChoice}
+ \choice{vertical distances}
+ \choice[correct]{horizontal distances}
+ \end{multipleChoice}           
+            
+\begin{exercise}
+Since $R$ is the distance from the axis of rotation to the outer curve, and this is a horizontal distance, we find $R = x_{right}-x_{left}$.
+\begin{multipleChoice}
+ \choice[correct]{$x_{right} = e^y$}
+ \choice{$x_{right} = 1$}
+  \choice{$x_{right} = -1$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice{$x_{left} = e^y$}
+ \choice{$x_{left} = 1$}
+  \choice[correct]{$x_{left} = -1$}
+\end{multipleChoice}   
+
+So, $R= \answer{e^y-(-1)}$.
+ \end{exercise}
+ 
+ \begin{exercise}
+
+Since $r$ is the distance from the axis of rotation to the inner curve, and this is a horizontal distance, we find $r = x_{right}-x_{left}$.
+\begin{multipleChoice}
+ \choice{$x_{right} = e^y$}
+ \choice[correct]{$x_{right} = 1$}
+  \choice{$x_{right} = -1$}
+\end{multipleChoice}  
+ 
+ \begin{multipleChoice}
+ \choice{$x_{left} = e^y$}
+ \choice{$x_{left} = 1$}
+  \choice[correct]{$x_{left} = -1$}
+\end{multipleChoice} 
+
+So, $r= \answer{1-(-1)}$.
+
+\end{exercise}            
+            
+\begin{exercise}
+
+Using \[V = \int_{y=c}^{y=d} \pi\left(R^2-r^2\right) \d y, \] we find that an integral that gives the volume of the solid of revolution is:            
+	\[
+	V= \int_{y=\answer{0}}^{y=\answer{2}}
+	\answer{\pi \left((e^y-(-1))^2-(2)^2\right)}\d y
+	\]
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

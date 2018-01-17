@@ -1,696 +1,656 @@
 \documentclass{ximera}
-
+\author{Jim Talamo and Bart Snapp}
 \input{../preamble.tex}
 
 \title[Dig-In:]{Accumulated cross-sections}
 
-\outcome{Identify cross sections.}
-\outcome{Use the disk method to compute volumes.}
-\outcome{Use the washer method to compute volumes.}
-\outcome{Compute volumes of revolution around the $x$-axis.}
-\outcome{Compute volumes of revolution around the $y$-axis.}
-\outcome{Compute volumes of revolution around arbitrary lines.}
+\outcome{Apply the procedure of ``Slice, Approximate, Integrate" to compute volumes of solids with given cross sections.}
 
 \begin{document}
 \begin{abstract}
-  We can also use integrals to compute volume.
+  We can also use the procedure of ``Slice, Approximate, Integrate" to set up integrals to compute volumes.
 \end{abstract}
 \maketitle
 
 \section{Accumulation of cross-sections}
 
-We have seen how to compute certain areas by using integration. Now we
-will see how to compute some volumes.  The volumes that we can compute
-will have cross-sections that are easy to describe. Sometimes we think
-of these cross-sections as being ``slabs'' that we are layering to
-create a volume.\index{slabs}\index{cross-sections}
+We have seen how to compute certain areas by using integration. The same technique used to find those areas can be applied to find volumes as well! In this section, we consider volumes whose cross sections taken through their bases are common shapes from geometry.  In fact, we can think of these cross-sections as being ``slabs'' that we are layering to the solid in question.\index{slabs}\index{cross-sections}  We begin with a motivating example.
 
 
-\begin{example}
-Find the volume of a pyramid with a square base that is $20$ meters tall
-and $20$ meters on a side at the base.
+%%%%%%%%
+
+\paragraph{Motivating Example:} The base of a solid is the region in the $xy$-plane bounded by $x=4-y^2$ and the $y$-axis.  Slices through the solid that are perpendicular to the $x$-axis are squares.  
+
 \begin{image}
-  \begin{tikzpicture}
-    \begin{axis}[
-          xmin =-4,xmax=7,ymax=4,ymin=-4,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          width=5in,
-          axis on top,
-          xtick={0,6}, xticklabels={$0$, $20$},
-          ytick={0,3},yticklabels={$0$,$20$},
-            clip=false,
-      ]
-      \addplot [draw=penColor, fill = fill1, very thick] plot coordinates {(-3,-3) (3,-3) (6,0) (1.5, 3) (-3,-3)};
-      \addplot [draw=penColor, very thick] plot coordinates {(-3,-3) (0,0)};
-      \addplot [draw=penColor, very thick] plot coordinates {(6,0) (0,0)};
-      \addplot [draw=penColor, very thick] plot coordinates {(1.5,3) (3,-3)};
-      \addplot [draw=penColor, very thick] plot coordinates {(1.5,3) (0,0)};
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.3, xmax=4.8,domain=-1:1,
+      ymin=-.4,ymax=1.7,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+     \addplot [penColor2,very thick,domain=.65:3.9,samples=150,dashed] {.05+.2*sqrt(4-x)};
+    
 
-      \addplot [->] plot coordinates {(0,0) (-4,-4)};
-      \node[anchor=north east] at (axis cs:-4,-4) {$z$};       
-    \end{axis}
-  \end{tikzpicture}
+  
+	
+    	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (.63,1.57)(-.63,.73)(-.63,-.42)};
+	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(-.63,-.42)  (.63,.42) (.63,1.57) };
+
+    \node at (axis cs:3,-0.4) [penColor2] {$x=4-y^2$};
+
+    \addplot [black,very thick,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+     \addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+
+    \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
+    \node[anchor=south west] at (axis cs:1.2,0.6) {$y$};
+    
+               
+\addplot [name path=A,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+\addplot [name path=B,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [fillp] fill between[of=A and B];
+               
+\addplot [name path=C,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [name path=D,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+\addplot [fillp!60] fill between[of=C and D];
+
+
+  \end{axis}
+\end{tikzpicture}
 \end{image}
 
-\begin{explanation}
-To solve this problem, we will ``sum up'' (integrate) infinitely many
-``infinitesimal'' slabs which are parallel to the base of the pyramid
-to obtain the volume.
+How do we find the volume of this solid?
+
+\begin{example}
+We can apply the procedure of 	``Slice, Approximate, Integrate" to set up an integral that computes the volume of the solid!
+
+\paragraph{Step 1: Slice} Since the cross sections are perpendicular to the $x$-axis, our slices should be parallel to the $x$-axis on the base of the region.  This means:
+
+\begin{multipleChoice}
+\choice{the slices are horizontal.}
+\choice[correct]{the slices are vertical.}
+\end{multipleChoice}  
+
+The slices on the base are one side of the square. These slices are shown below:
+
 \begin{image}
-  \begin{tikzpicture}
-    \begin{axis}[
-          xmin =-4,xmax=7,ymax=4,ymin=-4,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          width=5in,
-          xtick={0,6}, xticklabels={$0$, $20$},
-          ytick={0,3},yticklabels={$0$,$20$},
-            clip=false,
-      ]
-      \addplot [draw=penColor, thick] plot coordinates {(-3,-3) (3,-3) (6,0) (1.5, 3) (-3,-3)};
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:4, ymax=3.5,xmax=4.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth] (4-x^2,x);
+
+           
+\addplot [name path=A,domain=0:4,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=B,domain=0:4,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [fillp] fill between[of=A and B];
+
+%Dark Shade
+\addplot [name path=C,domain=1:2,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=D,domain=1:2,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [gray!50] fill between[of=C and D];
+
+
+\addplot [draw=penColor,very thick] coordinates {(1,-1.713)(1,1.713)};
+\addplot [draw=penColor,very thick] coordinates {(2,-1.4)(2,1.4)};
+\addplot [draw=penColor,very thick] coordinates {(3,-1)(3,1)};
+
+
+\node at (axis cs:3,-1.75) [penColor2] {$x=4-y^2$};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{image}
+
+Recall that these slices on the base are the side of a square cross section.  The other side extends above the $xy$-plane.  Thus, the actual slices on the solid look like:
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.3, xmax=4.8,domain=-1:1,
+      ymin=-.4,ymax=1.7,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+    \addplot [penColor2,very thick,domain=.65:4,samples=150,dashed] {.2*sqrt(4-x)};
+    
+
+  %Adds slices
+  	\addplot [draw=penColor, fill=none,very thick] plot coordinates {(3.25,.74)(2.65,.394)(2.65,-.233) };
+     	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (2.37,1.09) (1.5,.536)(1.5,-.32)};
+	\addplot [draw=penColor, fill=none,very thick] plot coordinates {(1.47,1.36) (.43,.64)(.43,-.38)};
+	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (.63,1.57)(-.63,.73)(-.63,-.42)};
+
+%adds dashed
+	
+	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(2.65,-.233) (3.25,.167) (3.25,.74) };
+     	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(1.5,-.32) (2.37,.246) (2.37,1.09) };
+     	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(.43,-.38) (1.47,.316) (1.47,1.36) };
+	\addplot [draw=penColor, fill=none,very thick,dashed] plot coordinates {(-.63,-.42)  (.63,.42) (.63,1.57) };
+
+	
+	%%%Adds label
+	
+    \node at (axis cs:3,-0.4) [penColor2] {$x=4-y^2$};
+
+    \addplot [black,very thick,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+     \addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+
+    \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
+    \node[anchor=south west] at (axis cs:1.2,0.6) {$y$};
+    
+    \addplot [name path=A,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
+\addplot [name path=B,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [fillp] fill between[of=A and B];
+               
+\addplot [name path=C,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+\addplot [name path=D,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+\addplot [fillp!60] fill between[of=C and D];
+
+%Dark Shade
+
+   \addplot [name path=E,domain=.43:1.47,samples=150] {-.2*sqrt(4-x)};
+\addplot [name path=F,domain=.43:1.47,samples=100] {sqrt((4-x)/8.688)};
+\addplot [gray!50] fill between[of=E and F];
+               
+\addplot [name path=G,domain=.43:1.47,samples=100] {sqrt((4-x)/8.688)};
+\addplot [name path=H,domain=1.5:2.37,samples=100] {sqrt((4-x)/1.3672)};
+\addplot [gray!50] fill between[of=G and H];
+
+
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+\paragraph{Step 2: Approximate}
+
+As usual, we approximate the slices on the base as rectangles.  For the sake of example, we have used righthand endpoints and rectangles of uniform width $\Delta x$ to draw the picture:
+
+%%%%BASE%%%%%%%%%%%%%
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:4, ymax=3.5,xmax=4.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth] (4-x^2,x);
+
+\addplot [draw=penColor,very thick,fill=fillp] coordinates {(0,-1.713)(1,-1.713)(1,1.713)(0,1.713)(0,-1.713)};
+\addplot [draw=penColor,very thick,fill=gray!50] coordinates {(1,-1.4)(2,-1.4)(2,1.4)(1,1.4)(1,-1.4)};
+\addplot [draw=penColor,very thick,fill=fillp] coordinates {(2,-1)(3,-1)(3,1)(2,1)(2,-1)};
+
+  %Adds Delta x
+    \draw[decoration={brace,mirror, raise=.35cm},decorate,thin] (axis cs:1,-1.4)--(axis cs:2,-1.4);  
+    \node[anchor=north] at (axis cs:1.5,-1.85) {$\Delta x$};
+%Adds s
+
+    \draw[decoration={brace, raise=.1cm},decorate,thin] (axis cs:1,-1.4)--(axis cs:1,1.4);  
+    \node[anchor=north] at (axis cs:.75,.5) {$s$};
+    
+    
+\node at (axis cs:3,-1.75) [penColor2] {$x=4-y^2$};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{image}
+
+The corresponding approximate slices on the solid are shown below:
+%%%%%%%%%%%%%SOLID%%%%%%%%%
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.3, xmax=4.8,domain=-1:1,
+      ymin=-.4,ymax=1.7,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+ 
+    
+	\addplot [penColor2,very thick,domain=-.65:4,samples=150,] {-.2*sqrt(4-x)};
+ 	\addplot [penColor2,very thick,domain=.65:4,samples=150,dashed] {.2*sqrt(4-x)};
+  
+	     	     	
+    	\addplot [draw=penColor, fill=none,very thick] plot coordinates { (.63,.78) (.63,1.57)(-.63,.73)(-.63,-.42)};
+
+%Draws the approximation 1
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(.43,-.38) (1.47,.316) (1.47,1.36) (.43,.64)(.43,-.38)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(.43,-.38) (1.43-2,-.38) (1.43-2,.64) (.43,.64)(.43,-.38)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(.43,.64) (1.43-2,.64) (2.47-2,1.36)  (1.47,1.36)(.43,.64)};
+
+%Draws the approximation 2
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(1.5,-.32) (2.37,.246) (2.37,1.09) (1.5,.536)(1.5,-.32)};
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(2.5-2,-.32) (3.37-2,.246) (3.37-2,1.09) (2.5-2,.536)(2.5-2,-.32)};
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(1.5,-.32) (2.5-2,-.32) (2.5-2,.536)(1.5,.536) (1.5,-.32)};
+\addplot [draw=penColor, fill=gray!50,very thick] plot coordinates {(1.5,.536) (2.5-2,.536) (3.37-2,1.09)  (2.37,1.09)(1.5,.536) };
+
+%Draws the approximation 3
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(2.65,-.233) (3.25,.167) (3.25,.74) (2.65,.394)(2.65,-.233)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(3.65-2,-.233) (4.25-2,.167) (4.25-2,.74) (3.65-2,.394)(3.65-2,-.233)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(2.65,-.233)(3.65-2,-.233) (3.65-2,.394) (2.65,.394)(2.65,-.233)};
+\addplot [draw=penColor, fill=fillp,very thick] plot coordinates {(3.25,.74) (4.25-2,.74) (3.65-2,.394) (2.65,.394)(3.25,.74)};
+
+    \node at (axis cs:3,-0.4) [penColor2] {$x=4-y^2$};
+
+    	\addplot [black,very thick,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
+    	\addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
+
+%Adds Delta x
+   \draw[decoration={brace,mirror, raise=.35cm},decorate,thin] (axis cs:.5,-.32)--(axis cs:1.47,-.32);  
+    \node[anchor=north] at (axis cs:1,-.52) {$\Delta x$};
+
+    \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
+    \node[anchor=south west] at (axis cs:1.2,0.6) {$y$};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+The dark slab is a rectangular prism, so its volume is:
+
+\begin{align*}
+\textrm{Volume} &= \textrm{Area} \times \textrm{thickness} \\
+\Delta V &= s^2 \Delta x
+\end{align*}
+
+Since we are slicing with respect to $x$, we must express the side length $s$ in terms of $x$.  We should thus express the curves in the image as functions of $x$.  
+
+Note that the parabola $x=4-y^2$ must be described using $\answer[given]{2}$ functions of $x$!  In fact, solving for $x$, we obtain: $y=+\answer[given]{\sqrt{4-x}}$ and $y=-\answer[given]{\sqrt{4-x}}$.
+
+We draw a more helpful image:
+
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:4, ymax=3.5,xmax=4.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth,domain=-1:4,samples=150] {sqrt(4-x)};
+\addplot[draw=penColor,very thick,smooth,domain=-1:4,samples=150] {-sqrt(4-x)};
+           
+\addplot [name path=A,domain=0:4,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=B,domain=0:4,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [fillp] fill between[of=A and B];
+
+
+
+
+
+\addplot [draw=black,very thick,fill=gray!50] coordinates {(1,-1.4)(2,-1.4)(2,1.4)(1,1.4)(1,-1.4)};
+
+
+  %Adds Delta x
+    \draw[decoration={brace,mirror, raise=.35cm},decorate,thin] (axis cs:1,-1.4)--(axis cs:2,-1.4);  
+    \node[anchor=north] at (axis cs:1.5,-1.85) {$\Delta x$};
+%Adds s
+
+    \draw[decoration={brace, mirror, raise=.1cm},decorate,thin] (axis cs:2,-1.4)--(axis cs:2,1.4);  
+    \node[anchor=north] at (axis cs:2.25,.5) {$s$};
+
+
+\node at (axis cs:3,1.75) [penColor2] {$y=\sqrt{4-x}$};
+\node at (axis cs:3,-1.75) [penColor] {$y=-\sqrt{4-x}$};
+
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+From the image, we see that $s$ is a:
+
+\begin{multipleChoice}
+\choice[correct]{vertical distance.}
+\choice{horizontal distance.}
+\end{multipleChoice}
+
+Thus, we may find $s$ using:
+
+\begin{multipleChoice}
+\choice{$x_{right}-x_{left}$}
+\choice[correct]{$y_{top}-y_{bot}$}
+\end{multipleChoice}
+
+From our picture, we find $y_{top} = \sqrt{\answer[given]{4-x}}$ and $y_{bot} =-\sqrt{ \answer[given]{4-x}}$.  Thus:
+
+\[
+s = \answer[given]{2\sqrt{4-x}}
+\]
+
+and using $\Delta V = s^2 \Delta x$, we have that the volume of a \emph{single} slice at a given $x$-value is:
+
+\[
+\Delta V = (\answer[given]{16-4x}) \Delta x
+\]
+
+\paragraph{Step 3: Integrate}
+As before, the approximate volume is obtained by adding all of the volumes of all of the approximate slices together.  The exact volume requires simultaneously that the width of the slices become arbitrarily thin and that the number of slices to be added becomes arbitrarily large!
+
+As before, the definite integral performs both of these operations simultaneously!  In fact, since $\Delta V = (16-4x) \Delta x$, we can write:
+
+\[
+V = \int_{x=0}^{x=4} 16-4x \d x
+\]
+
+Evaluating this, we find the volume is $\answer[given]{32}$ cubic units.
+
+\end{example}
+
+
+\textbf{Remark:} Since we slice with respect to $x$, we MUST express the curves in the image as functions of $x$; that is, we MUST write $y_{top}$ and $y_{bot}$ in terms of $x$!  Once we choose a variable of integration, EVERY quantity (limits of integration, functions in the integrand) MUST be written in terms of that variable!
+
+Does this sound familiar from the last section?  It should!  This is an important point that arises when we use a Riemann integral to compute any quantity of interest!
+
+
+%%Add some image that delineates how to think of integral; draw for Hans
+
+
+
+
+\section{Volumes of Solids with Known Cross Sections}
+
+We can summarize the above procedure neatly with a simple formula that respects the geometrical reasoning used to generate the volume of a solid with a known type of cross section:
+
+\begin{formula}
+The volume of a solid with a known type of cross section is given by either: 
+
+\[
+V=\int_{x=a}^{x=b} A \d x \qquad \textrm{or} \qquad  V =\int_{y=c}^{y=d} A \d y
+\]
+
+where $A$ is the cross sectional area of a slice.
+
+Note that both the area $A$ and the limits of integration must be expressed in terms of the variable of integration!
+
+\end{formula}
+
+So how do we determine which formula to use?  This is not difficult here as long as you READ the problem carefully!  The directions typically give you the orientation of the slice!  Draw the base of the solid in the $xy$-plane, and indicate a prototypical slice on your picture. The orientation of the slice will give you the variable of integration!
+
+\begin{exercise}
+Suppose that slices are taken \emph{parallel} to the $y$-axis.  Then, the slices are
+\begin{multipleChoice}
+\choice[correct]{the slices are vertical.  We should integrate with respect to $x$.}
+\choice{the slices are vertical.  We should integrate with respect to $y$.}
+\choice{the slices are horizontal.  We should integrate with respect to $x$.}
+\choice{the slices are horizontal.  We should integrate with respect to $y$.}
+\end{multipleChoice}
+
+Suppose that slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are
+\begin{multipleChoice}
+\choice{the slices are vertical.  We should integrate with respect to $x$.}
+\choice{the slices are vertical.  We should integrate with respect to $y$.}
+\choice{the slices are horizontal.  We should integrate with respect to $x$.}
+\choice[correct]{the slices are horizontal.  We should integrate with respect to $y$.}
+\end{multipleChoice}
+\end{exercise}
+
+\begin{remark}
+In order to work these problems, you need to remember some basic formulas from geometry!  Some important ones are:
+
+\[
+\begin{array}{ll}
+\textrm{Shape} & \textrm{Area Formula} \\ [2 ex]
+\textrm{Square:} & A=s^2, \textrm{where } s \textrm{ is the length of a side of the square} \\ [2 ex]
+\textrm{Equilateral Triangle:} & A=\frac{3}{4} s^2, \textrm{where } s \textrm{ is the length of a side of the triangle} \\ [2 ex]
+\textrm{Right Isosceles Triangle:} & A=\frac{1}{2} s^2, \textrm{where } s \textrm{ is the length of one of the two equal length sides} \\ [2 ex]
+\textrm{Semicircle:} & A=\frac{1}{2} \pi r^2, \textrm{where } r \textrm{ is the radius of the circle} \\
+\end{array}
+\]
+
+\end{remark}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Let's see some examples:
+
+\begin{example}
+The base of a solid is the region in the $xy$-plane bounded by $y=9-3x$, $y=-3$, $x=-2$, and $x=0$.  Cross sections through the solid taken parallel to the $x$-axis are semicircles.  Find the volume of the solid.
+
+\begin{explanation}
+Since the slices are taken \emph{parallel} to the $x$-axis.  Then, the slices are
+\begin{multipleChoice}
+\choice{the slices are vertical.  We should integrate with respect to $x$.}
+\choice{the slices are vertical.  We should integrate with respect to $y$.}
+\choice{the slices are horizontal.  We should integrate with respect to $x$.}
+\choice[correct]{the slices are horizontal.  We should integrate with respect to $y$.}
+\end{multipleChoice}
+
+
+Since we have to integrate with respect to $y$, we should describe the line $y=9-3x$ as a function of $y$.  Solving for $x$, we obtain: $x=\answer[given]{3- \frac{1}{3}y}$.
+
+We draw a picture of the base and indicate a typical slice: 
+
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-5:5, ymax=18.9,xmax=4.9, ymin=-5.9, xmin=-3.9,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor2,very thick,smooth] {-3};
+\addplot[draw=penColor,very thick,smooth] {9-3*x};
+
+           
+\addplot [name path=A,domain=-2:4,samples=50,draw=none] {9-3*x}; 
+\addplot [name path=B,domain=-2:4,samples=50,draw=none] {-3};  
+\addplot [fillp] fill between[of=A and B];
+\addplot [draw=black!50!green,very thick,] coordinates {(-2,-6)(-2,20)};
+\addplot [draw=penColor,very thick,fill=gray!50] coordinates {(-2,2.5)(2,2.5)(2,3)(-2,3)(-2,2.5)};
+
+
+\node at (axis cs:3,5) [penColor] {$x=3-\frac{1}{3}y$};
+\node at (axis cs:2,-4.5) [penColor2] {$y=-1$};
+\node at (axis cs:-3,6) [black!50!green] {$x=-2$};
+
+%Draws brace and d
+
+    \draw[decoration={brace, mirror, raise=.1cm},decorate,thin] (axis cs:-2,2.3)--(axis cs:2,2.3);  
+    \node[anchor=north] at (axis cs:0.3,2) {$d$};
+    
+    
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+Note that the cross sections are semicircles whose base is in the $xy$-plane.  Thus, the quantity labelled $d$ in the image is the:
+\begin{multipleChoice}
+\choice{radius of the semicircle.}
+\choice[correct]{diameter of the semicircle.}
+\end{multipleChoice}
+
+From the image, we see that $d$ is a:
+
+\begin{multipleChoice}
+\choice{vertical distance.}
+\choice[correct]{horizontal distance.}
+\end{multipleChoice}
+
+Thus, we may find $s$ using:
+
+\begin{multipleChoice}
+\choice[correct]{$x_{right}-x_{left}$}
+\choice{$y_{top}-y_{bot}$}
+\end{multipleChoice}
+
+The right curve is $x_{right} = \answer[given]{3-\frac{1}{3}y}$ and the left curve is $x_{left} = \answer[given]{-2}$.  Thus:
+
+\[
+d=x_{right}-x_{left} = \answer[given]{\left(3-\frac{1}{3} y \right)-(-2)}
+\]
+Notice that is is completely irrelevant of the quadrant in which the left and right curves appear; we can always find a horizontal quantity of interest (in this case $d$), by taking $x_{right}-x_{left}$ and using the expressions that describe the relevant curves in terms of $y$!
+ 
+The radius $r$ of the semicircle is (after a little algebra):
+\[
+r = \frac{1}{2}d = \answer[given]{ \left(\frac{5}{2}-\frac{1}{6} y\right)}
+\]
+and the area of the semicircle is found using:
+
+\[
+A = \frac{1}{2} \pi r^2 = \answer[given]{\frac{1}{2} \pi\left(\frac{5}{2} - \frac{1}{6}y\right)^2}
+\]
+
+Thus, an integral that gives the volume of the solid is:
+
+\[
+V = \int_{y=\answer[given]{-3}}^{y=\answer[given]{15}} \answer[given]{\frac{1}{2} \pi\left(\frac{5}{4} - \frac{1}{12}y\right)^2} \d y
+\]
+
+Evaluating this integral (which you should verify by working it out on your own!), we find that the volume of the solid is $\answer[given]{27} \pi$ cubic units.
+\end{explanation}
+
+\end{example}
+
+Sometimes, more than one integral is needed to set up a volume of a solid with known cross sections!  If you draw a picture, it should be clear when this will be necessary!
+
+\begin{example}
+The base of a solid is the region in the first quadrant of the $xy$-plane bounded by $y=e^x$ and $x=1$. Cross sections taken perpendicular to the $y$-axis are equilateral triangles.  Set up, but do not evaluate, an integral or sum of integrals that would give the volume of the solid.
+
+\begin{explanation}
+
+Since the slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are
+\begin{multipleChoice}
+\choice{the slices are vertical.  We should integrate with respect to $x$.}
+\choice{the slices are vertical.  We should integrate with respect to $y$.}
+\choice{the slices are horizontal.  We should integrate with respect to $x$.}
+\choice[correct]{the slices are horizontal.  We should integrate with respect to $y$.}
+\end{multipleChoice}
+
+Since we have to integrate with respect to $y$, we should describe the line $y=e^x$ as a function of $y$.  Solving for $x$, we obtain: $x=\answer[given]{\ln(y)}$.
+
+We draw a picture of the base and indicate a typical slice:
+ 
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-10:1.8, ymax=3.4,xmax=1.8, ymin=-.4, xmin=-.4,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+        %curves
+            	\addplot [draw=penColor,very thick,smooth] {e^x};
+	       	\addplot [draw=penColor2,very thick,] coordinates {(1,-6)(1,20)};
+		\addplot [draw=black!50!green,very thick,dashed] coordinates {(-6,1)(6,1)};
+	                            
+            	\addplot [name path=A,domain=0:1,draw=none] {e^x};   
+            	\addplot [name path=B,domain=0:1,draw=none] {1};
+	        \addplot [name path=C,domain=0:1,draw=none] {0};
+            	\addplot [penColor!30] fill between[of=A and C];
+	        \addplot [penColor2!30] fill between[of=B and C];
+                      
+                      
+            	\node at (axis cs:.43,2.3) [penColor] {$x=\ln(y)$};
+            	\node at (axis cs:1.2,2) [penColor2] {$x=1$};
+		\node at (axis cs:1.5,.7) [black!50!green] {$y=1$};
+	\node at (axis cs:.5,.7) [black!75] {I};
+	\node at (axis cs:.6,1.3) [black!75] {II};
+	
+	%%%Draws the rectangles
+	\addplot [draw=penColor, fill = gray!50] plot coordinates {(0,.4) (1,.4) (1, .5) (0,.5) (0,.4)};        
+          \addplot [draw=penColor, fill = gray!50] plot coordinates {(ln(1.7),1.6) (1,1.6) (1, 1.7) (ln(1.7),1.7) (ln(1.7),1.6)};    
+	
+	%%%Draws dashed line
+	\addplot [draw=black!75,thick,dashed] coordinates {(2,0)(2,7)};
+	    
+	    %%%% draws brace and d
+
+    \draw[decoration={brace, mirror, raise=.1cm},decorate,thin] (axis cs:0,.4)--(axis cs:1,.4);  
+    \node[anchor=north] at (axis cs:0.5,.3) {$s_1$};
+
+    \draw[decoration={brace, mirror, raise=.2cm},decorate,thin] (axis cs:.53,1.7)--(axis cs:1,1.7);  
+    \node[anchor=north] at (axis cs:.75,1.5) {$s_2$};
+    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
             
-      \addplot [draw=penColor, thick] plot coordinates {(-3,-3) (0,0)};
-      \addplot [draw=penColor, thick] plot coordinates {(6,0) (0,0)};
-      \addplot [draw=penColor, thick] plot coordinates {(1.5,3) (3,-3)};
-      \addplot [draw=penColor, thick] plot coordinates {(1.5,3) (0,0)};
+            
+As you can see, the curve used to determine the lefthand coordinate of rectangle changes depending on where the slice is drawn! We thus need $\answer[given]{2}$ integrals!
 
-      %% slab
-      \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(3,2) (1,2) (0,1) (2, 1) (3,2)};
-      \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(0,.8) (0,1) (2,1) (2, .8) (0,.8)};
-      \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(2,1) (2, .8) (3,1.8) (3,2) (2,1)};
+The left curve will change at the $y$-value where the curve $x=ln(y)$ intersects the $y$-axis, which occurs when $y=\answer[given]{1}$.  
 
-      %\addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(3,1.8) (1,1.8) (0,.8) (2, .8) (3,1.8)};
-      %\addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(3,2) (1,2) (0,1) (2, 1) (3,2)};
+For the second region, we find the upper $y$-value by requiring that the curves $x=1$ and $x=\ln(y)$ intersect. This occurs when $y=\answer[given]{e}$.
 
-      \addplot [draw=penColor, thick] plot coordinates {(1.5,3) (3,-3)};
-
-      \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:0,.8)--(axis cs:2,.8);
-      \draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:3.1,2.05)--(axis cs:3.1,1.75);
-      
-      \addplot [->] plot coordinates {(0,0) (-4,-4)};
-      \node[anchor=north east] at (axis cs:-4,-4) {$z$};
-
-      \node at (axis cs:3.6,1.9) {$\d y$};
-      \node at (axis cs:1,.4) {$L(y)$};       
-    \end{axis}
-  \end{tikzpicture}
-\end{image}
-The ``height'' of each slab will be $\d y$, and we'll let $L(y)$ be the width:
+Using the picture above, we may write down the important information about each region: 
 \[
-L(y) = \answer[given]{20-y}
+\begin{array}{ll}
+\text{In Region I:}  & \text{In Region II:}  \\
+\answer[given]{0} \le y \le \answer[given]{1}  \qquad \qquad \qquad & \answer[given]{1} \le y \le \answer[given]{e}\\
+x_{right} = \answer[given]{1}    &  x_{right} = \answer[given]{1} \\
+x_{left} = \answer[given]{0}  & x_{left} = \answer[given]{\ln(y)} \\
+s_1= \answer[given]{1} & s_2= \answer[given]{1-\ln(y)} \\
+A_1 = \frac{\sqrt{3}}{4} &  A_2  = \frac{\sqrt{3}}{4}(1-\ln(y))^2 \\
+\end{array}
 \]
-\begin{hint}
-  Since $L(y)$ is a linear function of $y$, and $L(0) = 20$, and
-  $L(20) = 0$ we see $L(y) = 20-y$ by the point-slope formula.
-\end{hint}
-For each slab, the infinitesimal volume at height $y$ is
-\begin{align*}
-  \d V &= \mathrm{length} \cdot \mathrm{width}\cdot \mathrm{height}\\
-  &= L(y)\cdot L(y)\cdot  \d y
-\end{align*}
-so the total volume is given by
-\begin{align*}
-  \mathrm{Volume} &= \int_0^{20} L(y)^2 \d y \\
-  &= \int_0^{20} (\answer[given]{20-y})^2 \d y
-\end{align*}
-Making the substitution $g = 20-y $, we have $\d g = - \d y$, $g$ going from $20$ to $0$, and 
-	\begin{align*}
-	\int_0^{20} (20-y)^2 \d y &= -\int_{\answer[given]{20}}^{\answer[given]{0}} g^2 \d g\\
-		&= \int_0^{20} g^2 \d g\\
-		&= \eval{\answer[given]{g^3/3}}_0^{20}\\
-		&= \frac{20^3}{3}.
-	\end{align*}
-As you may know, the volume of a pyramid is
-$(1/3)(\text{height})(\text{area of base})=(1/3)(20)(400)$, which
-agrees with our answer.
-\end{explanation}
+
+Note that since the cross sections are equilateral triangles, $A= \frac{\sqrt{3}}{4}s^2$.
+
+Putting this together, we can write down a sum of integrals that gives the volume:
+
+\[V= \int_{y= 0}^{y=1}\frac{\sqrt{3}}{4} \d y + \int_{y= 1}^{y=e} \frac{\sqrt{3}}{4}(1-\ln(y))^2 \d y \]
+
+            
+            
+\end{explanation}            
 \end{example}
 
+\section{Final thoughts}
+To summarize some recurring ideas we have seen we have seen (and will see again!), ALWAYS draw and label a picture.  Interpret the quantities in your picture and write down the relevant geometric quantities in terms of the variable of integration!
 
 
-\begin{example}
-The base of a solid is the region bounded by $f(x)=x^2-1$ and
-$g(x)=-x^2+1$:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=-1, xmax=1,domain=-1:1,
-      clip=false,
-      axis lines =center, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [penColor2,very thick] {x^2-1};
-    \addplot [penColor,very thick] {-x^2+1};
-    \node at (axis cs:1,0.8) [penColor] {$y = -x^2+1$};
-    \node at (axis cs:1,-0.8) [penColor2] {$y = x^2-1$};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-The cross-section of this solid consists of equilateral triangles
-that are perpendicular to the $x$-axis:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=-1.2, xmax=1.2,domain=-1:1,
-      ymin=-.4,ymax=1,
-      clip=false,
-      ytick={0,.8},yticklabels={$0$,$1$},
-      axis lines =center, xlabel=$x$, ylabel=$z$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [penColor2,very thick] {(0.3)*x^2-(0.3)};
-    \addplot [penColor,very thick] {(-0.3)*x^2+(0.3)};
+\begin{fact}
+To find vertical distances, we always take $y_{top} - y_{bot}$.
 
-    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.11,-.3) (.1,.3) (0,.8) (-.11,-.3)};
+To find horizontal distances, we always take $x_{right}-x_{left}$.
+\end{fact}
 
-    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.67,-.17) (-.53,.21) (-.6,.6) (-.67,-.17)};
+\begin{fact}
+When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$.
 
-    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(.53,-.22) (.67,.16) (.6,.6) (.53,-.22)};
+When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
+\end{fact}
 
+\begin{fact}
+Once we choose a variable of integration, everything in the integrand must be expressed in terms of that variable!  This includes both the limits of integration and any functions that arise in the integrand.
+\end{fact}
 
-    \addplot [black,very thick] {-.28 + .0086*sqrt(16031-14948*x^2)};
+Remember, it takes practice to learn math.  Don't just read through examples; work them out yourself as you read along. Calculus is a hard subject! Don't get discouraged!
 
-    \addplot [->] plot coordinates {(-.6,-.8) (.6,0.8)};
-    \node[anchor=south west] at (axis cs:.6,0.8) {$y$};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-Find the volume of this solid.
-\begin{explanation}
-We want to find the volume of the triangular slab at a given $x$
-value. We know the width of each slab is $\d x$:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=-1.2, xmax=1.2,domain=-1:1,
-      ymin=-.4,ymax=1,
-      clip=false,
-      ytick={0,.8},yticklabels={$0$,$1$},
-      axis lines =center, xlabel=$x$, ylabel=$z$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [penColor2,very thick] {(0.3)*x^2-(0.3)};
-    \addplot [penColor,very thick] {(-0.3)*x^2+(0.3)};
-
-    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.11,-.3) (.1,.3) (0,.8) (-.11,-.3)};
-
-    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.11,-.3) (-.19,-.3) (-.08,.8) (0,.8) (-.11,-.3)};
-
-    \draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:-.11,-.3)--(axis cs:-.19,-.3);  
-    \node[anchor=north] at (axis cs:.-.15,-.35) {$\d x$};
-    
-    \addplot [black,very thick] {-.28 + .0086*sqrt(16031-14948*x^2)};
-
-    \addplot [->] plot coordinates {(-.6,-.8) (.6,0.8)};
-    \node[anchor=south west] at (axis cs:.6,0.8) {$y$};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-The area of each triangular cross-section is given by.
-\[
-A(x) = \answer[given]{\sqrt{3}(1-x^2)^2}
-\]
-\begin{hint}
-  The base of the slab has length $\answer[given]{2(1-x^2)}$ since
-  \[
-  (1-x^2)- (x^2-1) = 2(1-x^2).
-  \]
-  By geometry, the height is $\answer[given]{\sqrt{3}(1-x^2)}$.  So
-  the area of this triangle is
-  \[
-  \frac{1}{2} \text{base} \cdot \text{height} =
-  \sqrt{3}(1-x^2)^2.
-  \]
-\end{hint}
-
-We want to ``sum'' (integrate) all of the infinitesimal volumes
-\[
-\d V = A(x) \d x
-\]
-from $x=-1$ to $x=1$.  Thus the total volume is
-\begin{align*}
-  \text{Volume} &= \int_{-1}^1 A(x) \d x  \\
-  &= \int_{-1}^1 \sqrt{3} (1-x^2)^2 \d x\\
-  &=\sqrt{3} \int_{-1}^1 1-2x^2+x^4 \d x \\
-  &=\sqrt{3} \eval{\answer[given]{x-\frac{2}{3}x^3+\frac{x^5}{5}}}_{-1}^1\\
-  &=2\sqrt{3}\left(1-\frac{2}{3}+\frac{1}{5}\right)\\
-  &=\frac{16\sqrt{3}}{15}.
-\end{align*}
-\end{explanation}
-\end{example}
-
-
-
-\section{Solids of revolution}\index{solid of revolution}
-
-\index{volume of a solid of revolution}
-
-One easy way to get ``nice'' cross-sections is by rotating a plane
-figure around a line. Here the essential skill for the young
-mathmatician is to turn
 \begin{quote}
-  \textbf{radial cross-sections into cylindical-cross sections.}
+``The only way to learn mathematics is to do mathematics." - Paul Halmos
 \end{quote}
-Below we see a function $f$ bounded by two vertical lines:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$y$, every axis y label/.style={at=(current
-        axis.above origin),anchor=south}, every axis x
-      label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top, ]
-    \addplot [penColor,very thick,smooth]{16-19*x+8*x^2-x^3};
-    \addplot [textColor,dashed] plot coordinates {(1,0) (1,4)};
-    \addplot [textColor,dashed] plot coordinates {(4,0) (4,4)};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-Rotating $f$ around the $x$-axis will generate a figure whose volume
-we can compute:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$z$, every axis y label/.style={at=(current
-        axis.above origin),anchor=south}, every axis x
-      label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top, ]
-    \addplot [penColor,very thick,smooth,domain=1:4,fill=fill1,draw=none] {16-19*x+8*x^2-x^3} \closedcycle;
-    \addplot [penColor,very thick,smooth,domain=1:4,fill=fill1,draw=none] {-16+19*x-8*x^2+x^3} \closedcycle;
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:1,0) ellipse (20 and 400);
-
-    \addplot [penColor,very thick,smooth,domain=1:4] {16-19*x+8*x^2-x^3};
-    \addplot [penColor,very thick,smooth,domain=1:4] {-16+19*x-8*x^2+x^3};
-    
-    \draw[penColor,very thick,fill=fill1!50!white] (axis cs:4,0) ellipse (20 and 400);
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-To compute the total volume, we should look at the cross-section
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$z$, every axis y label/.style={at=(current
-        axis.above origin),anchor=south}, every axis x
-      label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top, ]
-    \draw[penColor,very thick] (axis cs:1,0) ellipse (20 and 400);
-
-    \addplot [penColor,very thick,smooth,domain=1:4] {16-19*x+8*x^2-x^3};
-    \addplot [penColor,very thick,smooth,domain=1:4] {-16+19*x-8*x^2+x^3};
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:2.9,0) ellipse (20 and 400);
-    \draw[penColor,very thick,fill=fill1] (axis cs:3,0) ellipse (20 and 400);
-
-    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:2.8,-4.1)--(axis cs:3.1,-4.1);  
-    \node[anchor=north] at (axis cs:2.95,-4.3) {$\d x$};
-    
-    \draw[penColor,very thick] (axis cs:4,0) ellipse (20 and 400);
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-The volume of each disk will be:
-\[
-\d V = \pi \left( f(x)\right)^2 \d x
-\]
-To compute the total volume we must accumulate these infinitesimal
-volumes. Let's see an example.
-
-\begin{example}
-Find the volume of a right circular cone with base radius $10$ and
-height $20$.
-
-\begin{explanation}
-We can view this cone as produced by the line $y=x/2$ rotated about
-the $x$-axis:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=20,domain=0:20,
-      clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ]
-    \addplot [penColor,very thick,smooth,domain=0:20] {x/2};
-    \addplot [penColor,very thick,smooth,domain=0:20] {-x/2};
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:11.5,0) ellipse (20 and 600);
-    \draw[penColor,very thick,fill=fill1] (axis cs:12,0) ellipse (20 and 600);
-    
-    \draw[penColor,very thick] (axis cs:20,0) ellipse (20 and 1000);
-    
-    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:11,-6)--(axis cs:12.5,-6);  
-    \node[anchor=north] at (axis cs:11.75,-6.4) {$\d x$};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-
-At a particular point on the $x$-axis, the radius of the resulting
-cone is the $y$-coordinate of the corresponding point on the line
-$y=x/2$. The area of the cross-section is given by
-\[
-A(x) = \answer[given]{\pi \left(\frac{x}{2}\right)^2}
-\]
-The infinitesimal volume of each disc is then $A(x) \d x$, so the
-total volume is the integral of these infinitesimal volumes from $x =
-0$ to $x = 20$.
-\[
-\text{Volume} = 
-  \int_0^{20} A(x) \d x=\answer[given]{\frac{2000\pi}{3}}.
-\]
-\end{explanation}
-\end{example}
-
-Now let's try a more involved example.
-
-\begin{example}
-  The cross-section of a glass can be modeled by the function $r(x) =
-  \frac{x^4}{3}$, with units in centimeters:
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
-      \begin{axis}[
-          xmin =-4,xmax=4,ymax=23,ymin=-.2,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-        ]
-        \addplot [draw=none,fill=fill1!50!white,domain=-2.65:2.65, smooth] {.8*sqrt(2.65^2-x^2)+16.8} \closedcycle;
-        \addplot [draw=none,fill=fill1,domain=-2.65:2.65, smooth] {-.8*sqrt(2.65^2-x^2)+16.8} \closedcycle; 
-        \addplot [draw=none,fill=white,domain=-2.7:2.7, smooth] {f(x)} \closedcycle;
-        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
-
-        \draw[penColor,very thick] (axis cs:0,16.8) ellipse (265 and 20);
-        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
-
-        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  At what height would one need to place a mark indicating
-  $250\unit{ml}$ of fluid?
-  \begin{explanation}
-    To start, we should be looking at the following cross-section:
-    \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
-      \begin{axis}[
-          xmin =-4,xmax=4,ymax=23,ymin=-.2,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-        ]
-        
-        
-        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
-
-        \draw[penColor,very thick,fill=fill1] (axis cs:0,16.2) ellipse (265 and 20);
-        \draw[penColor,very thick,fill=fill1] (axis cs:0,16.8) ellipse (265 and 20);
-        
-        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
-        
-        \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:2.7,15.9)--(axis cs:2.7,16.9);  
-        \node[anchor=west] at (axis cs:2.9,16.5) {$\d y$};
-
-        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
-      \end{axis}
-    \end{tikzpicture}
-    \end{image}
-    The radius of the disk, given any value of $y$ is given by
-    $\answer[given]{(3y)^{1/4}}$. Hence the volume of the
-    infinitesimal disk is
-    \[
-    \d V = \pi (\answer[given]{(3y)^{1/4}})^2 \d y
-    \]
-    summing these all together, via integration we find
-    \begin{align*}
-      \int_0^h \pi (\answer[given]{(3y)^{1/4}})^2 \d y &= \int_0^h \pi\answer[given]{3^{1/2} y^{1/2}} \d y\\
-      &= \eval{\answer[given]{\frac{2\pi y^{3/2}}{\sqrt{3}}}}_0^h\\
-      &= \answer[given]{\frac{2\pi h^{3/2}}{\sqrt{3}}}.
-    \end{align*}
-    Now that we have a formula for volume, we need to see when it is
-    equal to $250$. Write with me
-    \begin{align*}
-      250 &= \frac{2\pi h^{3/2}}{\sqrt{3}},\\
-      \frac{\sqrt{3} \cdot 125}{\pi} &=  h^{3/2},\\
-      \left(\frac{\sqrt{3} \cdot 125}{\pi}\right)^{2/3} &=  h,
-    \end{align*}
-    So we see that we should put our mark at approximately $16.8$
-    centimeters.
-  \end{explanation}
-\end{example}
-
-\section{Washers as cross-sections}
-
-
-Sometimes the ``slabs'' look like disks with holes in them, or
-``washers.'' Let's see an example of this.\index{washers}
-
-\begin{example}
-Find the volume of the object generated when the area between $f(x) =
-x$ and $g(x)=x^2$ is rotated around the $x$-axis:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=1,domain=0:1,
-      clip=false,
-      axis lines =center, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [draw=none,fill=fill1,very thick] {x} \closedcycle;
-    \addplot [draw=none, fill=background,very thick] {x^2}\closedcycle;
-
-    \addplot [penColor,very thick] {x};
-    \addplot [penColor2,very thick] {x^2};
-
-    \node at (axis cs:.5,.58) [penColor] {$f$};
-    \node at (axis cs:.5,.2) [penColor2] {$g$};
-    \end{axis}
-\end{tikzpicture}
-\end{image}
-
-\begin{explanation}
-This solid has a ``hole'' in the middle. We can compute the volume by
-subtracting the volume of the hole from the volume enclosed by the
-outer surface of the solid. To do this, let's look at one of the
-``washer'' shaped cross-sections:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=1,domain=0:1,
-      clip=false,
-      axis lines =center, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [very thick, penColor] {x};
-    \addplot [very thick,penColor2] {x^2};
-
-    \addplot [very thick,penColor] {-x};
-    \addplot [very thick,penColor2] {-x^2};
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:.48,0) ellipse (5 and 500);
-    \draw[penColor2,very thick,fill=white] (axis cs:.48,0) ellipse (2.5 and 250);
-    
-    \draw[penColor,very thick,fill=fill1] (axis cs:.5,0) ellipse (5 and 500);
-    \draw[penColor2,very thick,fill=white] (axis cs:.5,0) ellipse (2.5 and 250);
-
-    \addplot [very thick,penColor2,domain=.5:1] {x^2};
-    \addplot [very thick,penColor2,domain=.5:1] {-x^2};
-    
-    \draw[penColor,very thick] (axis cs:1,0) ellipse (5 and 1000);
-    
-    
-    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:.47,-.5)--(axis cs:.51,-.5);  
-    \node[anchor=north] at (axis cs:.49,-.6) {$\d x$};
-   
-    \end{axis}
-\end{tikzpicture}
-\end{image}
-The outer radius is given by $f(x) = x$ and the inner radius is given
-by $g(x)= x^2$. Hence we see that
-\[
-\d V = \left(\answer[given]{\pi x^2 - \pi x^4} \right)\d x. 
-\]
-Thus, the total volume is
-\begin{align*}
-  \int_0^1 \pi x^2-\pi x^4\d x &= \eval{\answer[given]{\pi\left(\frac{x^3}{3}-\frac{x^5}{5}\right)}}_0^1\\
-  &=\pi\left(\frac{1}{3}-\frac{1}{5}\right)\\
-  &=\frac{2\pi}{15}.
-\end{align*}
-\end{explanation}
-\end{example}
-
-
-\section{Revolving around other lines}
-
-You might want to investigate solids of revolution that are produced
-by rotating curves around lines that are not the $x$-axis or
-$y$-axis. The basic concept is the same as what we have done before,
-and the intrepid young mathematician could discover the technique for
-themselves, if pressed. Let's see an example.
-
-\begin{example}
-  Find the volume of the object generated by rotating the area bounded
-  by $x^2$, the line $x= 1$, and the $x$-axis around the line $x=3$.
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-        \addplot [fill1,fill=fill1,domain=1:3, smooth] {f(x)}\closedcycle;
-        \addplot [fill1,fill=fill1,domain=3:5, smooth] {f(-x+6)}\closedcycle;
-
-        \addplot [penColor,very thick,domain=1:3, smooth] {f(x)};
-        \addplot [penColor,very thick,domain=3:5, smooth] {f(-x+6)};
-
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,0) ellipse (200 and 10);
-
-        \draw[penColor,very thick] (axis cs:3,1) ellipse (200 and 10);
-
-        \addplot [penColor,very thick] plot coordinates {(1,0) (1,1)};
-
-        \addplot [penColor,very thick] plot coordinates {(5,0) (5,1)};
-        
-        \draw[penColor,very thick] (axis cs:3,4) ellipse (100 and 5);
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  \begin{explanation}
-    To start, note that our solid consists of \textit{two} pieces, a
-    cylinder:
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-        \addplot [draw=none, fill=fill1,very thick] plot coordinates {(1,0) (1,1) (5,1) (5,0)}\closedcycle;
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,0) ellipse (200 and 10);
-
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,1) ellipse (200 and 10);
-
-        \addplot [penColor,very thick] plot coordinates {(1,0) (1,1)};
-
-        \addplot [penColor,very thick] plot coordinates {(5,0) (5,1)};
-        
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  and a pointy-shape:
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-        \addplot [fill1,fill=fill1,domain=1:3, smooth] {f(x)}\closedcycle;
-        \addplot [fill1,fill=fill1,domain=3:5, smooth] {f(-x+6)}\closedcycle;
-
-        
-
-        \addplot [penColor,very thick,domain=1:3, smooth] {f(x)};
-        \addplot [penColor,very thick,domain=3:5, smooth] {f(-x+6)};
-
-
-        \draw[draw=none,very thick,fill=fill1] (axis cs:3,1) ellipse (200 and 10);
-        
-        \draw[penColor,very thick] (axis cs:3,4) ellipse (100 and 5);
-
-        \addplot [draw=white,fill=white,domain=1:5, smooth] {(-sqrt(4-(x-3)^2)+2)/2}\closedcycle;
-
-        \draw[penColor,very thick] (axis cs:3,1) ellipse (200 and 10);
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  The volume of the cylinder is
-  \[
-  \text{Volume of cylinder}=\answer[given]{4\pi}
-  \]
-  since the radius is $2$ and the height is $1$.  On the other hand,
-  to compute the volume of the pointy-shape, let's consider the
-  following cross-sections:
-      \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-%        \addplot [fill1,fill=fill1,domain=1:3, smooth] {f(x)}\closedcycle;
-%        \addplot [fill1,fill=fill1,domain=3:5, smooth] {f(-x+6)}\closedcycle;
-
-        \addplot [penColor,very thick,domain=1:3, smooth] {f(x)};
-        \addplot [penColor,very thick,domain=3:5, smooth] {f(-x+6)};
-        
-        \draw[penColor,very thick] (axis cs:3,1) ellipse (200 and 10);
-         
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,3.6) ellipse (100 and 5);
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,4) ellipse (100 and 5);
-         
-        \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:4,3.4)--(axis cs:4,4.2);  
-        \node[anchor=west] at (axis cs:4.2,3.8) {$\d y$};
-      \end{axis}
-    \end{tikzpicture}
-      \end{image}
-      Where each radius of the cross-section is given (in terms of $y$) by
-      \[
-      \text{radius} = \answer[given]{3-\sqrt{y}}.
-      \]
-      Hence
-      \[
-      \d V = \pi (3-\sqrt{y})^2 \d y
-      \]
-      and so the volume of the pointy-shape is
-      \begin{align*}
-        \int_{\answer[given]{1}}^{\answer[given]{9}} \pi (3-\sqrt{y})^2 \d y
-        &= \pi \int_{\answer[given]{1}}^{\answer[given]{9}} 9-6\sqrt{y}+y \d y\\
-        &=\pi\cdot \eval{\answer[given]{9y-4y^{3/2} + y^2/2}}_{\answer[given]{1}}^{\answer[given]{9}}\\
-        &=\pi\cdot \answer[given]{8}.
-      \end{align*}
-      Thus the volume of the complete object is $\answer[given]{12\pi}$.
-  \end{explanation}
-\end{example}
 
 
 \end{document}

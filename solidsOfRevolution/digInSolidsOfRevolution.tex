@@ -10,14 +10,442 @@
 
 \begin{document}
 \begin{abstract}
-  We compute volumes of solids with radial symmetry.
+  We use the procedure of ``Slice, Approximate, Integrate" to compute volumes of solids with radial symmetry.
 \end{abstract}
 \maketitle
 
 
 \section{Solids of revolution}\index{solid of revolution}
-
 \index{volume of a solid of revolution}
+
+Given a region $R$ in the $xy$-plane, we built solids by stacking ``slabs" with given cross sections on top of $R$.  Another way to generate a solid from the region $R$ is to revolve it about a vertical or horizontal axis of rotation.  A solid generated this way is often called a \emph{solid of revolution}. In this section, we study two methods used to compute the volume of such a solid.
+
+Before we begin, we recall that in order to find the volume of a hollowed out cylinder with outer radius $R$, inner radius $r$, and height $h$:
+
+\begin{image}
+\begin{tikzpicture}
+
+ 	\draw (0,0) ellipse (1cm and .3cm);
+	\draw (-1,0) -- (-1,1);
+ 	\draw (1,0) -- (1,1);
+ 	\draw (0,1) ellipse (1cm and .3cm);
+ 	\draw (0,1) ellipse (.6cm and .1cm);
+   
+\draw[penColor] (0,1) -- (1,1) node[anchor=north] { \qquad $R$};
+\draw[penColor2] (0,1) -- (-.4,.92) node[anchor=south] {};
+\draw[penColor2] (-.5,1.04) -- (-.5,1.04) node[anchor=north] { $r$};
+\draw[penColor5] (-1.2,.7) -- (-1.2,.7) node[anchor=north] { $h$};
+\end{tikzpicture}
+\end{image}
+
+\[
+\textrm{Volume} = \pi R^2h-\pi r^2h=\pi(R^2-r^2)h 
+\]
+Note that the volume of a hollow cylinder requires only these geometric quantities of interest; it does not require that we work with a coordinate system!  However, in order to use calculus, we recognize that our solids of revolution will be formed by revolving regions in the $xy$-plane whose boundaries are functions of $x$ or $y$ about an axis of rotation.  Hence, one of the essential skills will be a familiar one; we must interpret the the inner and outer radii as well as the height in terms of our variable of integration!
+
+\section{The Washer Method}
+
+A solid of revolution is formed by revolving the region bounded $y=x^2-4$, $x=1$, and $y=5$ about the $y$-axis.  
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=6.8,xmax=3.4, ymin=-.8, xmin=-3.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=2:3,very thick,smooth] {x^2-4};
+		\addplot [draw=penColor,domain=-3:-2,very thick,smooth] {x^2-4};
+	         \addplot [draw=penColor2,very thick,dotted] coordinates {(1,0)(1,4.5)};
+	          \addplot [draw=penColor2,very thick,dotted] coordinates {(-1,0)(-1,4.5)};
+           	                            
+            	%shades top
+		\addplot [name path=A,domain=-3:3,draw=none,samples=200] {5+sqrt(.25- .25/9*x^2)};   
+		\addplot [name path=B,domain=-3:3,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
+		\addplot [fillp!75] fill between[of=A and B];
+		
+		%shades outer part	
+		\addplot [name path=C,domain=-3:3,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
+            	\addplot [name path=D,domain=-2:2,draw=none,samples=200] {-sqrt(.25- .25/4*x^2)};
+	 	\addplot [name path=E,domain=2:3,draw=none] {x^2-4};
+		\addplot [name path=F,domain=-3:-2,draw=none] {x^2-4};
+	       	\addplot [fillp] fill between[of=C and D];
+		\addplot [fillp] fill between[of=C and E];
+		\addplot [fillp] fill between[of=C and F];
+	     
+                 %shades negative part	
+                 \addplot [name path=G,domain=-3:3,draw=none,samples=200] {5+sqrt(.05- .05*x^2)};   
+		\addplot [name path=H,domain=-3:3,draw=none,samples=200] {5-sqrt(.05- .05*x^2)};   
+		\addplot [gray!20!fillp] fill between[of=G and H];
+		\addplot [name path=I,domain=-1:1,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
+		\addplot [name path=J,domain=-1:1,draw=none,samples=200] {-sqrt(.05- .05*x^2)};   
+		\addplot [gray!20!fillp] fill between[of=I and J];
+		
+                 %outer ellipses
+                  \addplot [draw=penColor,domain=-3:3,very thick,smooth,samples=200] {5+sqrt(.25- .25/9*x^2)};
+                  \addplot [draw=penColor,domain=-3:3,very thick,smooth,samples=200] {5-sqrt(.25- .25/9*x^2)};
+                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300,dashed] {sqrt(.25- .25/4*x^2)};
+                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300] {-sqrt(.25- .25/4*x^2)};
+                  
+                  %inner ellipses
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200] {5+sqrt(.05- .05*x^2)};
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200] {5-sqrt(.05- .05*x^2)};
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200,dashed] {sqrt(.05- .05*x^2)};
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200,dashed] {-sqrt(.05- .05*x^2)};
+                  %%%%%%%%%%%%%%%%%%%%                 
+            	\node at (axis cs:11,1.55) [penColor] {$x=4y^2$};
+            	\node at (axis cs:15,-.9) [penColor2] {$x+4y=8$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+
+How can we go about finding the volume of the resulting solid?  Let's try to apply the ``Slice, Approximate, Integrate" procedure.
+
+\paragraph{Step 1: Slice}
+The geometry of the base region suggests that it is advantageous to use horizontal slices.  This means we should:
+
+\begin{multipleChoice}
+\choice{integrate with respect to $x$.}
+\choice[correct]{integrate with respect to $y$.}
+\end{multipleChoice}
+
+We indicate a prototypical slice of thickness $\Delta y$ at an unspecified $y$-value on the base:
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=6.8,xmax=4.2, ymin=-.8, xmin=-.8,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=0:9,very thick,smooth] {x^2-4};
+	        \addplot [draw=penColor5,very thick,smooth] {5};
+	        \addplot [draw=penColor2,very thick,smooth] coordinates {(1,-10)(1,10)};
+            	\addplot [draw=penColor2,very thick,dashed] coordinates {(0,-10)(0,10)};
+	                            
+            	\addplot [name path=A,domain=1:3,draw=none,samples=200] {5};   
+            	\addplot [name path=B,domain=1:2,draw=none,samples=200] {0};
+	        \addplot [name path=C,domain=2:3,draw=none] {x^2-4};
+            	\addplot [fillp] fill between[of=A and B];
+	        \addplot [fillp] fill between[of=C and A];
+	        
+	         \addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.51,2.3)(1,2.3)(1,2)};
+	         
+                                   
+            	\node at (axis cs:3,1) [penColor] {$x=\sqrt{y+4}$};
+            	\node at (axis cs:3.5,4.6) [penColor5] {$y=5$};
+		\node at (axis cs:1.5,5.4) [penColor2] {$x=1$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+\paragraph{Step 2: Approximate}
+We approximate the slice on the base as a rectangle:
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=6.8,xmax=4.2, ymin=-.8, xmin=-.8,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=0:9,very thick,smooth] {x^2-4};
+	        \addplot [draw=penColor5,very thick,smooth] {5};
+	        \addplot [draw=penColor2,very thick,smooth] coordinates {(1,-10)(1,10)};
+            	\addplot [draw=penColor2,very thick,dashed] coordinates {(0,-10)(0,10)};
+	                            
+            	\addplot [name path=A,domain=1:3,draw=none,samples=200] {5};   
+            	\addplot [name path=B,domain=1:2,draw=none,samples=200] {0};
+	        \addplot [name path=C,domain=2:3,draw=none] {x^2-4};
+            	\addplot [fillp] fill between[of=A and B];
+	        \addplot [fillp] fill between[of=C and A];
+	        
+	         \addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.45,2.3)(1,2.3)(1,2)};
+	         
+                 %draws Delta y
+                 \node at (axis cs:2.8,2.1) [black] {$\Delta y$};
+                 
+                 %labels functions                  
+            	\node at (axis cs:3,1) [penColor] {$x=\sqrt{y+4}$};
+            	\node at (axis cs:3.5,4.6) [penColor5] {$y=5$};
+		\node at (axis cs:1.5,5.4) [penColor2] {$x=1$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+The result of rotating the slice appears on the solid:
+\begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=6.8,xmax=3.4, ymin=-.8, xmin=-3.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=2:3,very thick,smooth] {x^2-4};
+		\addplot [draw=penColor,domain=-3:-2,very thick,smooth] {x^2-4};
+	         \addplot [draw=penColor2,very thick,dotted] coordinates {(1,0)(1,4.5)};
+	          \addplot [draw=penColor2,very thick,dotted] coordinates {(-1,0)(-1,4.5)};
+           	                            
+            	%shades top
+		\addplot [name path=A,domain=-3:3,draw=none,samples=200] {5+sqrt(.25- .25/9*x^2)};   
+		\addplot [name path=B,domain=-3:3,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
+		\addplot [fillp!75] fill between[of=A and B];
+		
+		%shades outer part	
+		\addplot [name path=C,domain=-3:3,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
+            	\addplot [name path=D,domain=-2:2,draw=none,samples=200] {-sqrt(.25- .25/4*x^2)};
+	 	\addplot [name path=E,domain=2:3,draw=none] {x^2-4};
+		\addplot [name path=F,domain=-3:-2,draw=none] {x^2-4};
+	       	\addplot [fillp] fill between[of=C and D];
+		\addplot [fillp] fill between[of=C and E];
+		\addplot [fillp] fill between[of=C and F];
+	     
+                 %shades negative part	
+                 \addplot [name path=G,domain=-3:3,draw=none,samples=200] {5+sqrt(.05- .05*x^2)};   
+		\addplot [name path=H,domain=-3:3,draw=none,samples=200] {5-sqrt(.05- .05*x^2)};   
+		\addplot [gray!20!fillp] fill between[of=G and H];
+		\addplot [name path=I,domain=-1:1,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
+		\addplot [name path=J,domain=-1:1,draw=none,samples=200] {-sqrt(.05- .05*x^2)};   
+		\addplot [gray!20!fillp] fill between[of=I and J];
+		
+                 %outer ellipses
+                  \addplot [draw=penColor,domain=-3:3,very thick,smooth,samples=200] {5+sqrt(.25- .25/9*x^2)};
+                  \addplot [draw=penColor,domain=-3:3,very thick,smooth,samples=200] {5-sqrt(.25- .25/9*x^2)};
+                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300,dashed] {sqrt(.25- .25/4*x^2)};
+                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300] {-sqrt(.25- .25/4*x^2)};
+                  
+                  %inner ellipses
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200] {5+sqrt(.05- .05*x^2)};
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200] {5-sqrt(.05- .05*x^2)};
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200,dashed] {sqrt(.05- .05*x^2)};
+                  \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200,dashed] {-sqrt(.05- .05*x^2)};
+                  %%%%%%%%%%%%%%%%%%%%
+                  
+                  %slice
+                 %\addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.45,2.3)(1,2.3)(1,2)};
+                 \addplot [draw=black,fill=gray!50,thick] coordinates {(2.45,2)(2.45,2.3)};
+                 \addplot [draw=black,fill=gray!50,thick] coordinates {(-2.45,2)(-2.45,2.3)};
+                 \addplot [draw=black,domain=-2.45:2.45,thick,smooth,samples=100] {2.3+sqrt(.15- .15/6*x^2)};
+                  \addplot [draw=black,domain=-2.45:2.45,thick,smooth,samples=300] {2-sqrt(.15- .15/6*x^2)};
+                 \addplot [draw=black,domain=-2.45:2.45,thick,smooth,samples=100] {2.3-sqrt(.15- .15/6*x^2)};
+                 \addplot [draw=black,domain=-1:1, thick,smooth,samples=300] {2.3+sqrt(.03- .03*x^2)};
+                 \addplot [draw=black,domain=-1:1, thick,smooth,samples=300] {2.3-sqrt(.03- .03*x^2)}; 
+                 
+                 %shades edges of ellipses
+                 \addplot [draw=black,domain=2.3:2.45,thick,smooth,samples=300] {2.3-sqrt(.15- .15/6*x^2)};
+                 \addplot [draw=black,domain=2.3:2.45,thick,smooth,samples=300] {2.3+sqrt(.15- .15/6*x^2)};
+                 \addplot [draw=black,domain=-2.45:-2.3,thick,smooth,samples=100] {2.3-sqrt(.15- .15/6*x^2)};
+                 \addplot [draw=black,domain=-2.45:-2.3,thick,smooth,samples=100] {2.3+sqrt(.15- .15/6*x^2)};
+                 
+                   
+                 %shades slice
+                 %shades top
+		\addplot [name path=K,domain=-2.45:2.45,draw=none,samples=200] {2.3-sqrt(.15- .15/6*x^2)};   
+		\addplot [name path=L,domain=-2.45:2.45,draw=none,samples=200] {2-sqrt(.15- .15/6*x^2)};   
+		\addplot [name path=M,domain=-2.45:2.45,draw=none,samples=200] {2.3+sqrt(.15- .15/6*x^2)};  
+		\addplot [fill=gray!50] fill between[of=M and K];
+		\addplot [fill=gray!70] fill between[of=K and L];
+		
+		                    
+            	\node at (axis cs:11,1.55) [penColor] {$x=4y^2$};
+            	\node at (axis cs:15,-.9) [penColor2] {$x+4y=8$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+The slice is approximately ``small" hollow cylinder.  The outer radius and inner radius are finite, but the thickness $\Delta y$ is small.  We thus write:
+
+\[Delta V = \pi(R^2-r^2) \Delta y \]
+Our goal is now to express both $R$ and $r$ in terms of the unspecified $y$-value of the slice.  
+
+From our picture, we see that the outer radius $R$ is:
+
+\begin{multipleChoice}
+\choice[correct]{the distance from the axis of rotation to the outer curve.}
+\choice{the distance from the axis of rotation to the inner curve.}
+\end{multipleChoice}
+
+From our picture, we see that the outer radius $r$ is:
+
+\begin{multipleChoice}
+\choice{the distance from the axis of rotation to the outer curve.}
+\choice[correct]{the distance from the axis of rotation to the inner curve.}
+\end{multipleChoice}
+
+Both of these distances are;
+
+\begin{multipleChoice}
+\choice[correct]{horizontal distances}
+\choice{vertical distances}
+\end{multipleChoice}
+
+We now label these on the image of the base:
+
+%%%%%%%%%%%%%%%%%%%%%
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=6.8,xmax=4.2, ymin=-.8, xmin=-.8,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=0:9,very thick,smooth] {x^2-4};
+	        \addplot [draw=penColor5,very thick,smooth] {5};
+	        \addplot [draw=penColor2,very thick,smooth] coordinates {(1,-10)(1,10)};
+            	\addplot [draw=penColor2,very thick,dashed] coordinates {(0,-10)(0,10)};
+	                            
+            	\addplot [name path=A,domain=1:3,draw=none,samples=200] {5};   
+            	\addplot [name path=B,domain=1:2,draw=none,samples=200] {0};
+	        \addplot [name path=C,domain=2:3,draw=none] {x^2-4};
+            	\addplot [fillp] fill between[of=A and B];
+	        \addplot [fillp] fill between[of=C and A];
+	        
+	         \addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.45,2.3)(1,2.3)(1,2)};
+	         
+                 %draws Delta y
+                 \node at (axis cs:2.8,2.1) [black] {$\Delta y$};
+                 
+                 %Draws R and r
+                  \addplot [draw=penColor,thick] coordinates {(0,3)(2.64,3)};
+                  \node at (axis cs:1.8,3.3) [penColor] {$R$};
+                  \addplot [draw=penColor,thick] coordinates {(0,2.5)(2.55,2.5)};
+                   \node at (axis cs:1.5,2.7) [penColor] {$r$};
+                   
+                 %labels functions                  
+            	\node at (axis cs:3,1) [penColor] {$x=\sqrt{y+4}$};
+            	\node at (axis cs:3.5,4.6) [penColor5] {$y=5$};
+		\node at (axis cs:1.5,5.4) [penColor2] {$x=1$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+            
+We can find both $R$ and $r$ now the way we always find horizontal distance.
+
+For the outer radius $R$:
+
+The righthand curve is given by:
+\begin{multipleChoice}
+\choice[correct]{$x_{right} = \sqrt{y+4}$}
+\choice{$x_{right} = 1$}
+\choice{$x_{right} = 0$}
+\end{multipleChoice}
+
+The lefthand curve is given by:
+\begin{multipleChoice}
+\choice{$x_{left} = \sqrt{y+4}$}
+\choice{$x_{left} = 1$}
+\choice[correct]{$x_{left} = 0$}
+\end{multipleChoice}
+
+Thus $R = x_{right}-x_{left} = \answer[given]{\sqrt{y+4}-0}$.
+            
+For the inner radius $r$:
+
+The righthand curve is given by:
+\begin{multipleChoice}
+\choice{$x_{right} = \sqrt{y+4}$}
+\choice[correct]{$x_{right} = 1$}
+\choice{$x_{right} = 0$}
+\end{multipleChoice}
+
+The lefthand curve is given by:
+\begin{multipleChoice}
+\choice{$x_{left} = \sqrt{y+4}$}
+\choice{$x_{left} = 1$}
+\choice[correct]{$x_{left} = 0$}
+\end{multipleChoice}
+
+Thus $r = x_{right}-x_{left} = \answer[given]{1-0}$.   
+   
+The volume of our single approximate slice is thus:
+
+\[
+\Delta V = \pi((\sqrt{y+4})^2-(1)^2)\Delta y = \pi(y+3)\Delta y
+\]   
+   
+and the approximate total volume using $n$ slices is found by adding the volume of each slice:
+   
+\[
+V = \sum_{k=1}^n \pi(y_k+3)\Delta y_k
+\]      
+   
+\paragraph{Step 3: Integrate}
+In order to find the exact volume, we simultaneously must shrink the width of our slices while adding all of the volumes together.  As usual, the definite integral allows us to do this, and we may write:
+
+\[
+V= \int_{y=0}^{y=5} \pi(y+3) \d y 
+\]    
+Evaluating this integral gives that the total volume is $\answer[given]{\frac{55}{2}\pi}$.   
+
+\begin{remark}
+Recall that an infinitesimal washer is a hollow cylinder whose inner and outer radii are finite and whose height is infinitesimal.  In order to obtain this type of hollow cylinder, the slices must be \emph{perpendicular} to the axis of rotation.
+\end{remark}
+
+\section{The Washer Method Formula}
+We can summarize the results of the above argument nicely:
+
+\begin{formula}
+Suppose that a region in the $xy$-plane has a piecewise continuous boundary and that a solid of revolution is formed by revolving the region about a vertical or horizontal line in the $xy$-plane.  Then:
+
+\[
+V=\int_{x=a}^{x=b} \pi(R^2-r^2) \d x \qquad \textrm{ or } \qquad V=\int_{y=c}^{y=d} \pi(R^2-r^2) \d y
+\]
+where the outer radius $R$ is the distance from the axis of rotation to the outer curve and the inner radius $r$ is the distance from the axis of rotation to the inner curve.
+
+The variable of integration is chosen by requiring that the slices be perpendicular to the axis of rotation.
+\end{formula}   
+   
+   
+   
+            
+  Find the volume of the object generated when the area between $f(x) =
+x$ and $g(x)=x^2$ is rotated around the $x$-axis:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=1,domain=0:1,
+      clip=false,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [draw=none,fill=fill1,very thick] {x} \closedcycle;
+    \addplot [draw=none, fill=background,very thick] {x^2}\closedcycle;
+
+    \addplot [penColor,very thick] {x};
+    \addplot [penColor2,very thick] {x^2};
+
+    \node at (axis cs:.5,.58) [penColor] {$f$};
+    \node at (axis cs:.5,.2) [penColor2] {$g$};
+    \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 One easy way to get ``nice'' cross-sections is by rotating a plane
 figure around a line. Here the essential skill for the young
@@ -62,6 +490,8 @@ we can compute:
   \end{axis}
 \end{tikzpicture}
 \end{image}
+
+
 To compute the total volume, we should look at the cross-section
 \begin{image}
 \begin{tikzpicture}

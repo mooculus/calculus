@@ -1,7 +1,9 @@
 \documentclass{ximera}
 
 \input{../preamble.tex}
+\author{Jim Talamo}
 
+%%I like to capitalize Washer Method and Shell Method.  As a result, reference to these methods appears with that convention in those section titles
 \outcome{Compute volumes using the shell method.}
 \outcome{Know when to use the shell method.}
 \outcome{Set up integrals for the computing volume using the shell method.}
@@ -77,8 +79,8 @@ A solid of revolution is formed by revolving the region bounded $y=x^2-4$, $x=1$
 		\addplot [fillp] fill between[of=C and F];
 	     
                  %shades negative part	
-                 \addplot [name path=G,domain=-3:3,draw=none,samples=200] {5+sqrt(.05- .05*x^2)};   
-		\addplot [name path=H,domain=-3:3,draw=none,samples=200] {5-sqrt(.05- .05*x^2)};   
+                 \addplot [name path=G,domain=-1:1,draw=none,samples=200] {5+sqrt(.05- .05*x^2)};   
+		\addplot [name path=H,domain=-1:1,draw=none,samples=200] {5-sqrt(.05- .05*x^2)};   
 		\addplot [gray!20!fillp] fill between[of=G and H];
 		\addplot [name path=I,domain=-1:1,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
 		\addplot [name path=J,domain=-1:1,draw=none,samples=200] {-sqrt(.05- .05*x^2)};   
@@ -217,8 +219,8 @@ The result of rotating the slice appears on the solid:
 		\addplot [fillp] fill between[of=C and F];
 	     
                  %shades negative part	
-                 \addplot [name path=G,domain=-3:3,draw=none,samples=200] {5+sqrt(.05- .05*x^2)};   
-		\addplot [name path=H,domain=-3:3,draw=none,samples=200] {5-sqrt(.05- .05*x^2)};   
+                 \addplot [name path=G,domain=-1:1,draw=none,samples=200] {5+sqrt(.05- .05*x^2)};   
+		\addplot [name path=H,domain=-1:1,draw=none,samples=200] {5-sqrt(.05- .05*x^2)};   
 		\addplot [gray!20!fillp] fill between[of=G and H];
 		\addplot [name path=I,domain=-1:1,draw=none,samples=200] {5-sqrt(.25- .25/9*x^2)};   
 		\addplot [name path=J,domain=-1:1,draw=none,samples=200] {-sqrt(.05- .05*x^2)};   
@@ -237,7 +239,7 @@ The result of rotating the slice appears on the solid:
                   \addplot [draw=penColor2,domain=-1:1,very thick,smooth,samples=200,dashed] {-sqrt(.05- .05*x^2)};
                   %%%%%%%%%%%%%%%%%%%%
                   
-                  %slice
+                  %The revolved slice
                  %\addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.45,2.3)(1,2.3)(1,2)};
                  \addplot [draw=black,fill=gray!50,thick] coordinates {(2.45,2)(2.45,2.3)};
                  \addplot [draw=black,fill=gray!50,thick] coordinates {(-2.45,2)(-2.45,2.3)};
@@ -262,6 +264,12 @@ The result of rotating the slice appears on the solid:
 		\addplot [fill=gray!50] fill between[of=M and K];
 		\addplot [fill=gray!70] fill between[of=K and L];
 		
+		%restores color of hole
+		\addplot [name path=M,domain=-3:3,draw=none,samples=200] {2.3+sqrt(.05- .05*x^2)};   
+		\addplot [name path=N,domain=-3:3,draw=none,samples=200] {2.3-sqrt(.05- .05*x^2)};   
+		\addplot [gray!20!fillp] fill between[of=M and N];
+		
+		
 		                    
             	\node at (axis cs:11,1.55) [penColor] {$x=4y^2$};
             	\node at (axis cs:15,-.9) [penColor2] {$x+4y=8$};
@@ -270,12 +278,10 @@ The result of rotating the slice appears on the solid:
             \end{tikzpicture}
             \end{image}
 
-The slice is approximately ``small" hollow cylinder.  The outer radius and inner radius are finite, but the thickness $\Delta y$ is small.  We thus write:
+The slice is approximately a ``thin" hollow cylinder.  The outer radius and inner radius are finite, but the thickness $\Delta y$ is thought of as quite small.  We thus write:
 
-\[Delta V = \pi(R^2-r^2) \Delta y \]
-Our goal is now to express both $R$ and $r$ in terms of the unspecified $y$-value of the slice.  
-
-From our picture, we see that the outer radius $R$ is:
+\[\Delta V = \pi(R^2-r^2) \Delta y \]
+Our goal is now to express both $R$ and $r$ in terms of the unspecified $y$-value of the slice.  From our picture, we see that the outer radius $R$ is:
 
 \begin{multipleChoice}
 \choice[correct]{the distance from the axis of rotation to the outer curve.}
@@ -289,7 +295,7 @@ From our picture, we see that the outer radius $r$ is:
 \choice[correct]{the distance from the axis of rotation to the inner curve.}
 \end{multipleChoice}
 
-Both of these distances are;
+Both of these distances are:
 
 \begin{multipleChoice}
 \choice[correct]{horizontal distances}
@@ -360,23 +366,7 @@ The lefthand curve is given by:
 
 Thus $R = x_{right}-x_{left} = \answer[given]{\sqrt{y+4}-0}$.
             
-For the inner radius $r$:
-
-The righthand curve is given by:
-\begin{multipleChoice}
-\choice{$x_{right} = \sqrt{y+4}$}
-\choice[correct]{$x_{right} = 1$}
-\choice{$x_{right} = 0$}
-\end{multipleChoice}
-
-The lefthand curve is given by:
-\begin{multipleChoice}
-\choice{$x_{left} = \sqrt{y+4}$}
-\choice{$x_{left} = 1$}
-\choice[correct]{$x_{left} = 0$}
-\end{multipleChoice}
-
-Thus $r = x_{right}-x_{left} = \answer[given]{1-0}$.   
+Following similar logic for the inner radius $r$ gives: $r = x_{right}-x_{left} = \answer[given]{1-0}$.   
    
 The volume of our single approximate slice is thus:
 
@@ -402,11 +392,12 @@ Evaluating this integral gives that the total volume is $\answer[given]{\frac{55
 Recall that an infinitesimal washer is a hollow cylinder whose inner and outer radii are finite and whose height is infinitesimal.  In order to obtain this type of hollow cylinder, the slices must be \emph{perpendicular} to the axis of rotation.
 \end{remark}
 
-\section{The Washer Method Formula}
+%%%%NEW SECTION%%%%%%%%%%
+\section{The Washer method formula}
 We can summarize the results of the above argument nicely:
 
 \begin{formula}
-Suppose that a region in the $xy$-plane has a piecewise continuous boundary and that a solid of revolution is formed by revolving the region about a vertical or horizontal line in the $xy$-plane.  Then:
+Suppose that a region in the $xy$-plane has a piecewise continuous boundary and that a solid of revolution is formed by revolving the region about a vertical or horizontal line in the $xy$-plane that does not intersect the region.  Then:
 
 \[
 V=\int_{x=a}^{x=b} \pi(R^2-r^2) \d x \qquad \textrm{ or } \qquad V=\int_{y=c}^{y=d} \pi(R^2-r^2) \d y
@@ -416,482 +407,167 @@ where the outer radius $R$ is the distance from the axis of rotation to the oute
 The variable of integration is chosen by requiring that the slices be perpendicular to the axis of rotation.
 \end{formula}   
    
-   
-   
+To see how this formula works in action, let's consider an example where we take the same region and revolve it about different lines:
+
+\begin{example}
+
+Let $R$ be the region in the $xy$-plane bounded by $y=0$, $y=\sqrt{x}$, and $x=2$.  Use the Washer Method to set up an integral that gives the volume of the solid of revolution when $R$ is revolved about the following line $x=4$
+
+\begin{explanation}
+To use the Washer Method, the slices must be perpendicular to the axis of rotation.  This means that the slices are horizontal and we must integrate with respect to $y$.  We draw and label a picture, making sure to express all curves as functions of $y$:
+
+
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-.4:5.4, ymax=2.4,xmax=5.4, ymin=-0.4, xmin=-.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {0};
+            	\addplot [draw=penColor2,very thick,smooth,samples=200] {sqrt(x)};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(2,-4)(2,12)};
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(4,-4)(4,12)};
+                       
+            	\addplot [name path=A,domain=0:2,draw=none,samples=200] {sqrt(x)};   
+            	\addplot [name path=B,domain=0:2,draw=none] {0};
+            	\addplot [fillp] fill between[of=A and B];
+	         
+	         \node at (axis cs:1,1.4) [penColor2] {$x=y^2$};       
+            	\node at (axis cs:4.5,1.2) [penColor5] {$x=4$};
+		\node at (axis cs:3,.15) [penColor] {$y=0$};
+		\node at (axis cs:1.4,2.3) [penColor4] {$x=2$};
+		
+		%Daw R, r
+		\addplot [draw=penColor3,very thick,smooth] coordinates {(1,1)(4,1)};
+		\addplot [draw=penColor3,very thick,smooth] coordinates {(2,.6)(4,.6)};
+		\node at (axis cs:2.5,1.15) [penColor3] {$R$};
+		\node at (axis cs:3,.7) [penColor3] {$r$};
+		
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+
+
+Since we must integrate with respect to $y$, we will use the result:
+
+\[V = \int_{y=c}^{y=d} \pi\left(R^2-r^2\right) \d y \]
+
+to set up the volume.  We must now find the limits of integration as express the outer radius $R$ and the inner radius $r$ in terms of the variable of integration $y$. 
+
+The limits of integration are: $c = \answer[given]{0}$ and $d = \answer[given]{\sqrt{2}}$. 
             
-  Find the volume of the object generated when the area between $f(x) =
-x$ and $g(x)=x^2$ is rotated around the $x$-axis:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=1,domain=0:1,
-      clip=false,
-      axis lines =center, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [draw=none,fill=fill1,very thick] {x} \closedcycle;
-    \addplot [draw=none, fill=background,very thick] {x^2}\closedcycle;
+ We see from the picture that both $R$ and $r$ are:
+ \begin{multipleChoice}
+ \choice{vertical distances}
+ \choice[correct]{horizontal distances}
+ \end{multipleChoice}           
+            
 
-    \addplot [penColor,very thick] {x};
-    \addplot [penColor2,very thick] {x^2};
+So, we can compute both by taking $x_{right}-x_{left}$.  This gives that: $R= \answer[given]{4-y^2}$ and $r= \answer[given]{4-2}$.
 
-    \node at (axis cs:.5,.58) [penColor] {$f$};
-    \node at (axis cs:.5,.2) [penColor2] {$g$};
-    \end{axis}
-\end{tikzpicture}
-\end{image}
+Thus, the volume integral to be evaluated is:
+        
+	\[
+	V= \int_{y=\answer[given]{0}}^{y=\answer[given]{\sqrt{2}}}
+	\answer[given]{\pi \left((4-y^2)^2-(2)^2\right)}\d y
+	\]
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-One easy way to get ``nice'' cross-sections is by rotating a plane
-figure around a line. Here the essential skill for the young
-mathmatician is to turn
-\begin{quote}
-  \textbf{radial cross-sections into cylindical-cross sections.}
-\end{quote}
-Below we see a function $f$ bounded by two vertical lines:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$y$, every axis y label/.style={at=(current
-        axis.above origin),anchor=south}, every axis x
-      label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top, ]
-    \addplot [penColor,very thick,smooth]{16-19*x+8*x^2-x^3};
-    \addplot [textColor,dashed] plot coordinates {(1,0) (1,4)};
-    \addplot [textColor,dashed] plot coordinates {(4,0) (4,4)};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-Rotating $f$ around the $x$-axis will generate a figure whose volume
-we can compute:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$z$, every axis y label/.style={at=(current
-        axis.above origin),anchor=south}, every axis x
-      label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top, ]
-    \addplot [penColor,very thick,smooth,domain=1:4,fill=fill1,draw=none] {16-19*x+8*x^2-x^3} \closedcycle;
-    \addplot [penColor,very thick,smooth,domain=1:4,fill=fill1,draw=none] {-16+19*x-8*x^2+x^3} \closedcycle;
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:1,0) ellipse (20 and 400);
-
-    \addplot [penColor,very thick,smooth,domain=1:4] {16-19*x+8*x^2-x^3};
-    \addplot [penColor,very thick,smooth,domain=1:4] {-16+19*x-8*x^2+x^3};
-    
-    \draw[penColor,very thick,fill=fill1!50!white] (axis cs:4,0) ellipse (20 and 400);
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-
-
-To compute the total volume, we should look at the cross-section
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=5,domain=0:5, clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$z$, every axis y label/.style={at=(current
-        axis.above origin),anchor=south}, every axis x
-      label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top, ]
-    \draw[penColor,very thick] (axis cs:1,0) ellipse (20 and 400);
-
-    \addplot [penColor,very thick,smooth,domain=1:4] {16-19*x+8*x^2-x^3};
-    \addplot [penColor,very thick,smooth,domain=1:4] {-16+19*x-8*x^2+x^3};
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:2.9,0) ellipse (20 and 400);
-    \draw[penColor,very thick,fill=fill1] (axis cs:3,0) ellipse (20 and 400);
-
-    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:2.8,-4.1)--(axis cs:3.1,-4.1);  
-    \node[anchor=north] at (axis cs:2.95,-4.3) {$\d x$};
-    
-    \draw[penColor,very thick] (axis cs:4,0) ellipse (20 and 400);
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-The volume of each disk will be:
-\[
-\d V = \pi \left( f(x)\right)^2 \d x
-\]
-To compute the total volume we must accumulate these infinitesimal
-volumes. Let's see an example.
-
-\begin{example}
-Find the volume of a right circular cone with base radius $10$ and
-height $20$.
-
-\begin{explanation}
-We can view this cone as produced by the line $y=x/2$ rotated about
-the $x$-axis:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=20,domain=0:20,
-      clip=false, axis lines =center,
-      xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ]
-    \addplot [penColor,very thick,smooth,domain=0:20] {x/2};
-    \addplot [penColor,very thick,smooth,domain=0:20] {-x/2};
-
-    \draw[penColor,very thick,fill=fill1] (axis cs:11.5,0) ellipse (20 and 600);
-    \draw[penColor,very thick,fill=fill1] (axis cs:12,0) ellipse (20 and 600);
-    
-    \draw[penColor,very thick] (axis cs:20,0) ellipse (20 and 1000);
-    
-    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:11,-6)--(axis cs:12.5,-6);  
-    \node[anchor=north] at (axis cs:11.75,-6.4) {$\d x$};
-  \end{axis}
-\end{tikzpicture}
-\end{image}
-
-At a particular point on the $x$-axis, the radius of the resulting
-cone is the $y$-coordinate of the corresponding point on the line
-$y=x/2$. The area of the cross-section is given by
-\[
-A(x) = \answer[given]{\pi \left(\frac{x}{2}\right)^2}
-\]
-The infinitesimal volume of each disc is then $A(x) \d x$, so the
-total volume is the integral of these infinitesimal volumes from $x =
-0$ to $x = 20$.
-\[
-\text{Volume} = 
-  \int_0^{20} A(x) \d x=\answer[given]{\frac{2000\pi}{3}}.
-\]
 \end{explanation}
-\end{example}
 
-Now let's try a more involved example.
-
-\begin{example}
-  The cross-section of a glass can be modeled by the function $r(x) =
-  \frac{x^4}{3}$, with units in centimeters:
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
-      \begin{axis}[
-          xmin =-4,xmax=4,ymax=23,ymin=-.2,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-        ]
-        \addplot [draw=none,fill=fill1!50!white,domain=-2.65:2.65, smooth] {.8*sqrt(2.65^2-x^2)+16.8} \closedcycle;
-        \addplot [draw=none,fill=fill1,domain=-2.65:2.65, smooth] {-.8*sqrt(2.65^2-x^2)+16.8} \closedcycle; 
-        \addplot [draw=none,fill=white,domain=-2.7:2.7, smooth] {f(x)} \closedcycle;
-        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
-
-        \draw[penColor,very thick] (axis cs:0,16.8) ellipse (265 and 20);
-        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
-
-        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  At what height would one need to place a mark indicating
-  $250\unit{ml}$ of fluid?
-  \begin{explanation}
-    To start, we should be looking at the following cross-section:
-    \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
-      \begin{axis}[
-          xmin =-4,xmax=4,ymax=23,ymin=-.2,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-        ]
-        
-        
-        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
-
-        \draw[penColor,very thick,fill=fill1] (axis cs:0,16.2) ellipse (265 and 20);
-        \draw[penColor,very thick,fill=fill1] (axis cs:0,16.8) ellipse (265 and 20);
-        
-        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
-        
-        \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:2.7,15.9)--(axis cs:2.7,16.9);  
-        \node[anchor=west] at (axis cs:2.9,16.5) {$\d y$};
-
-        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
-      \end{axis}
-    \end{tikzpicture}
-    \end{image}
-    The radius of the disk, given any value of $y$ is given by
-    $\answer[given]{(3y)^{1/4}}$. Hence the volume of the
-    infinitesimal disk is
-    \[
-    \d V = \pi (\answer[given]{(3y)^{1/4}})^2 \d y
-    \]
-    summing these all together, via integration we find
-    \begin{align*}
-      \int_0^h \pi (\answer[given]{(3y)^{1/4}})^2 \d y &= \int_0^h \pi\answer[given]{3^{1/2} y^{1/2}} \d y\\
-      &= \eval{\answer[given]{\frac{2\pi y^{3/2}}{\sqrt{3}}}}_0^h\\
-      &= \answer[given]{\frac{2\pi h^{3/2}}{\sqrt{3}}}.
-    \end{align*}
-    Now that we have a formula for volume, we need to see when it is
-    equal to $250$. Write with me
-    \begin{align*}
-      250 &= \frac{2\pi h^{3/2}}{\sqrt{3}},\\
-      \frac{\sqrt{3} \cdot 125}{\pi} &=  h^{3/2},\\
-      \left(\frac{\sqrt{3} \cdot 125}{\pi}\right)^{2/3} &=  h,
-    \end{align*}
-    So we see that we should put our mark at approximately $16.8$
-    centimeters.
-  \end{explanation}
-\end{example}
-
-\section{Washers as cross-sections}
-
-
-Sometimes the ``slabs'' look like disks with holes in them, or
-``washers.'' Let's see an example of this.\index{washers}
-
-\begin{example}
-Find the volume of the object generated when the area between $f(x) =
-x$ and $g(x)=x^2$ is rotated around the $x$-axis:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=1,domain=0:1,
-      clip=false,
-      axis lines =center, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [draw=none,fill=fill1,very thick] {x} \closedcycle;
-    \addplot [draw=none, fill=background,very thick] {x^2}\closedcycle;
-
-    \addplot [penColor,very thick] {x};
-    \addplot [penColor2,very thick] {x^2};
-
-    \node at (axis cs:.5,.58) [penColor] {$f$};
-    \node at (axis cs:.5,.2) [penColor2] {$g$};
-    \end{axis}
-\end{tikzpicture}
-\end{image}
+Let's now set up an integral that gives the volume when the region is revolved about the line $y=-1$.
 
 \begin{explanation}
-This solid has a ``hole'' in the middle. We can compute the volume by
-subtracting the volume of the hole from the volume enclosed by the
-outer surface of the solid. To do this, let's look at one of the
-``washer'' shaped cross-sections:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-      xmin=0, xmax=1,domain=0:1,
-      clip=false,
-      axis lines =center, xlabel=$x$, ylabel=$y$,
-      every axis y label/.style={at=(current axis.above origin),anchor=south},
-      every axis x label/.style={at=(current axis.right of origin),anchor=west},
-      axis on top,
-    ] 
-    \addplot [very thick, penColor] {x};
-    \addplot [very thick,penColor2] {x^2};
+To use the Washer Method, the slices must be perpendicular to the axis of rotation. This means:
 
-    \addplot [very thick,penColor] {-x};
-    \addplot [very thick,penColor2] {-x^2};
+\begin{multipleChoice}
+\choice[correct]{the slices are vertical.  We should integrate with respect to $x$.}
+\choice{the slices are vertical.  We should integrate with respect to $y$.}
+\choice{the slices are horizontal.  We should integrate with respect to $x$.}
+\choice{the slices are horizontal.  We should integrate with respect to $y$.}
+\end{multipleChoice}
 
-    \draw[penColor,very thick,fill=fill1] (axis cs:.48,0) ellipse (5 and 500);
-    \draw[penColor2,very thick,fill=white] (axis cs:.48,0) ellipse (2.5 and 250);
-    
-    \draw[penColor,very thick,fill=fill1] (axis cs:.5,0) ellipse (5 and 500);
-    \draw[penColor2,very thick,fill=white] (axis cs:.5,0) ellipse (2.5 and 250);
+We draw and label a picture, making sure to express all curves as functions of $x$:
 
-    \addplot [very thick,penColor2,domain=.5:1] {x^2};
-    \addplot [very thick,penColor2,domain=.5:1] {-x^2};
-    
-    \draw[penColor,very thick] (axis cs:1,0) ellipse (5 and 1000);
-    
-    
-    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:.47,-.5)--(axis cs:.51,-.5);  
-    \node[anchor=north] at (axis cs:.49,-.6) {$\d x$};
+
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-.4:5.4, ymax=2.4,xmax=3.4, ymin=-1.4, xmin=-.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {0};
+            	\addplot [draw=penColor2,very thick,smooth,samples=200] {sqrt(x)};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(2,-4)(2,12)};
+	
+                       
+            	\addplot [name path=A,domain=0:2,draw=none,samples=200] {sqrt(x)};   
+            	\addplot [name path=B,domain=0:2,draw=none] {0};
+            	\addplot [fillp] fill between[of=A and B];
+	         
+	         \node at (axis cs:1,1.4) [penColor2] {$y=\sqrt{x}$};       
+            	\node at (axis cs:3,.2) [penColor] {$y=0$};
+		\node at (axis cs:1.6,2) [penColor4] {$x=2$};
+		
+		%axis of rotation and label
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(-10,-1)(10,-1)};
+		\node at (axis cs:2.5,-1.2) [penColor5] {$y=-1$};
+		
+		%Daw R, r
+		\addplot [draw=penColor3,very thick,smooth] coordinates {(1,-1)(1,1)};
+		\addplot [draw=penColor3,very thick,smooth] coordinates {(.6,-1)(.6,0)};
+		\node at (axis cs:1.2,.4) [penColor3] {$R$};
+		\node at (axis cs:.7,-.5) [penColor3] {$r$};
+		
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+
+
+Since we must integrate with respect to $x$, we will use the result:
+
+\[V = \int_{x=a}^{x=b} \pi\left(R^2-r^2\right) \d x \]
+
+to set up the volume.  We must now find the limits of integration as express the outer radius $R$ and the inner radius $r$ in terms of the variable of integration $x$. 
+
+The limits of integration are: $a = \answer[given]{0}$ and $b = \answer[given]{2}$. 
+            
+ We see from the picture that both $R$ and $r$ are:
+ \begin{multipleChoice}
+ \choice[correct]{vertical distances}
+ \choice{horizontal distances}
+ \end{multipleChoice}           
+            
+
+So, we can compute both by taking $y_{top}-y_{bot}$, and by noting that the bottom $y$-values lie on the axis $y=-1$.  This gives $R= \answer[given]{\sqrt{x}-(-1)}$ and $r= \answer[given]{0-(-1)}$.
+
+Thus, the volume integral to be evaluated is:
+            
+	\[
+	V= \int_{x=\answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\pi \left((2+\sqrt{x})^2-(1)^2\right)}\d x
+	\]
+
+
+\end{explanation}
+
+
+\end{example}   
    
-    \end{axis}
-\end{tikzpicture}
-\end{image}
-The outer radius is given by $f(x) = x$ and the inner radius is given
-by $g(x)= x^2$. Hence we see that
-\[
-\d V = \left(\answer[given]{\pi x^2 - \pi x^4} \right)\d x. 
-\]
-Thus, the total volume is
-\begin{align*}
-  \int_0^1 \pi x^2-\pi x^4\d x &= \eval{\answer[given]{\pi\left(\frac{x^3}{3}-\frac{x^5}{5}\right)}}_0^1\\
-  &=\pi\left(\frac{1}{3}-\frac{1}{5}\right)\\
-  &=\frac{2\pi}{15}.
-\end{align*}
-\end{explanation}
-\end{example}
-
-
-\section{Revolving around other lines}
-
-You might want to investigate solids of revolution that are produced
-by rotating curves around lines that are not the $x$-axis or
-$y$-axis. The basic concept is the same as what we have done before,
-and the intrepid young mathematician could discover the technique for
-themselves, if pressed. Let's see an example.
-
-\begin{example}
-  Find the volume of the object generated by rotating the area bounded
-  by $x^2$, the line $x= 1$, and the $x$-axis around the line $x=3$.
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-        \addplot [fill1,fill=fill1,domain=1:3, smooth] {f(x)}\closedcycle;
-        \addplot [fill1,fill=fill1,domain=3:5, smooth] {f(-x+6)}\closedcycle;
-
-        \addplot [penColor,very thick,domain=1:3, smooth] {f(x)};
-        \addplot [penColor,very thick,domain=3:5, smooth] {f(-x+6)};
-
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,0) ellipse (200 and 10);
-
-        \draw[penColor,very thick] (axis cs:3,1) ellipse (200 and 10);
-
-        \addplot [penColor,very thick] plot coordinates {(1,0) (1,1)};
-
-        \addplot [penColor,very thick] plot coordinates {(5,0) (5,1)};
-        
-        \draw[penColor,very thick] (axis cs:3,4) ellipse (100 and 5);
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  \begin{explanation}
-    To start, note that our solid consists of \textit{two} pieces, a
-    cylinder:
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-        \addplot [draw=none, fill=fill1,very thick] plot coordinates {(1,0) (1,1) (5,1) (5,0)}\closedcycle;
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,0) ellipse (200 and 10);
-
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,1) ellipse (200 and 10);
-
-        \addplot [penColor,very thick] plot coordinates {(1,0) (1,1)};
-
-        \addplot [penColor,very thick] plot coordinates {(5,0) (5,1)};
-        
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  and a pointy-shape:
-  \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-        \addplot [fill1,fill=fill1,domain=1:3, smooth] {f(x)}\closedcycle;
-        \addplot [fill1,fill=fill1,domain=3:5, smooth] {f(-x+6)}\closedcycle;
-
-        
-
-        \addplot [penColor,very thick,domain=1:3, smooth] {f(x)};
-        \addplot [penColor,very thick,domain=3:5, smooth] {f(-x+6)};
-
-
-        \draw[draw=none,very thick,fill=fill1] (axis cs:3,1) ellipse (200 and 10);
-        
-        \draw[penColor,very thick] (axis cs:3,4) ellipse (100 and 5);
-
-        \addplot [draw=white,fill=white,domain=1:5, smooth] {(-sqrt(4-(x-3)^2)+2)/2}\closedcycle;
-
-        \draw[penColor,very thick] (axis cs:3,1) ellipse (200 and 10);
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  The volume of the cylinder is
-  \[
-  \text{Volume of cylinder}=\answer[given]{4\pi}
-  \]
-  since the radius is $2$ and the height is $1$.  On the other hand,
-  to compute the volume of the pointy-shape, let's consider the
-  following cross-sections:
-      \begin{image}
-    \begin{tikzpicture}[
-        declare function = {f(\x) = pow(\x,2);} ]
-      \begin{axis}[
-          xmin =0,xmax=6,ymax=10,ymin=-1,
-          axis lines=center, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          axis on top,
-          clip=false,
-        ]
-%        \addplot [fill1,fill=fill1,domain=1:3, smooth] {f(x)}\closedcycle;
-%        \addplot [fill1,fill=fill1,domain=3:5, smooth] {f(-x+6)}\closedcycle;
-
-        \addplot [penColor,very thick,domain=1:3, smooth] {f(x)};
-        \addplot [penColor,very thick,domain=3:5, smooth] {f(-x+6)};
-        
-        \draw[penColor,very thick] (axis cs:3,1) ellipse (200 and 10);
-         
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,3.6) ellipse (100 and 5);
-        \draw[penColor,very thick,fill=fill1] (axis cs:3,4) ellipse (100 and 5);
-         
-        \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:4,3.4)--(axis cs:4,4.2);  
-        \node[anchor=west] at (axis cs:4.2,3.8) {$\d y$};
-      \end{axis}
-    \end{tikzpicture}
-      \end{image}
-      Where each radius of the cross-section is given (in terms of $y$) by
-      \[
-      \text{radius} = \answer[given]{3-\sqrt{y}}.
-      \]
-      Hence
-      \[
-      \d V = \pi (3-\sqrt{y})^2 \d y
-      \]
-      and so the volume of the pointy-shape is
-      \begin{align*}
-        \int_{\answer[given]{1}}^{\answer[given]{9}} \pi (3-\sqrt{y})^2 \d y
-        &= \pi \int_{\answer[given]{1}}^{\answer[given]{9}} 9-6\sqrt{y}+y \d y\\
-        &=\pi\cdot \eval{\answer[given]{9y-4y^{3/2} + y^2/2}}_{\answer[given]{1}}^{\answer[given]{9}}\\
-        &=\pi\cdot \answer[given]{8}.
-      \end{align*}
-      Thus the volume of the complete object is $\answer[given]{12\pi}$.
-  \end{explanation}
-\end{example}
-
 %%%%%%%SHELL%%%%%%%%%%%%%%%
 
-Some volumes of revolution are more easily computed with cylindrical shells.
+\section{The Shell Method}
+Some volumes of revolution are difficult to set up using the Washer Method.  For instance, consider the solid formed when the region $R$ bounded by the curves $y=0$ and $y=\sin(3x)$ from $x=0$ to $x=\frac{\pi}{3}$ is revolved about the $y$-axis:
 
-
-\section{More than one method}
 
 In this section, we will show you a new method for computing volumes
 of solids of revolution.  Consider the following region bounded by

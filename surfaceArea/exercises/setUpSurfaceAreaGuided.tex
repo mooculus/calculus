@@ -1,0 +1,173 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral that gives the area of a surface of revolution}
+\outcome{Find  the area of a surface of revolution}
+
+\begin{document}
+\begin{exercise}
+
+The portion of the curve $y=\frac{12}{x+4}$ from $x=0$ to $x=2$ is revolved around the $x$-axis.
+
+ \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-.3, xmax=2.2,
+            domain=-1:1,
+            ymin=-.3, ymax=3.5,
+            clip=false,
+            xtick = {-1,1,2},
+            ytick = {-1,1,2,3},
+            axis lines =center,
+            xlabel=$y$, ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+                              
+         \addplot [penColor,thick,smooth,domain=0:2.2]{12/(x+4)};
+          
+         % ds and points
+          	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1,2.4)};
+		\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.2,12/5.2)};
+		\addplot[ultra thick, penColor2] plot coordinates {(1,2.4) (1.2,12/5.2)};
+          	\node[anchor=north, penColor2] at (axis cs:1.15,2.75) {$\Delta s$};
+
+\addplot[ultra thick, penColor5, dotted] plot coordinates {(-.3,0) (2.2,0)};
+	
+          %r and point 
+           	\addplot[thick, penColor2] plot coordinates {(1.1,0) (1.1,2.35)};
+		\node[anchor=north, penColor2] at (axis cs:1,1.45) {$r$};
+          
+          
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,3)};
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};
+          
+          \node[penColor] at (axis cs:1.6,1.6) {$y=\frac{12}{x+4}$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+ 
+ %%%%%%%Add rotated image
+ 
+To set up an integral with respect to $x$ that gives the area of the surface of revolution, do the following:  
+
+Since we have chosen to integrate with respect to $x$, we use the result:
+
+\[ SA = \int_{x=a}^{x=b} 2 \pi r \d s\]
+
+and we must express $r$ in terms of $x$ and $\d s$ in terms of $x$ and $\d x$.  
+
+
+Let's start with $\d s$, we use $\d s = \sqrt{1+\left(\frac{\d y}{\d x}\right)^2} \d x$.
+
+Computing the expression under the square root gives $1+\left(\frac{\d y}{\d x}\right)^2 = 1+\answer{\frac{144}{(x+4)^4}}$.  So: 
+
+\[
+\d s = \sqrt{\answer{1+\frac{144}{(x+4)^4}}} \d x
+\]
+
+
+\begin{exercise}
+Note that is $r$ is the distance from the axis to the curve. This is a:
+
+\begin{multipleChoice}
+\choice[correct]{vertical distance}
+\choice{horizontal distance}
+\end{multipleChoice} 
+Thus $r=y_{top}-y_{bot}$.  
+
+We note that the slice is at a location $(x,y)$, which happens to be on the curve.  This allows us to use the curve to express $y$ in terms of $x$ or $x$ in terms of $y$ if necessary.  
+
+For the slice, the quantity $\frac{12}{x+4}$ expresses:
+\begin{multipleChoice}
+\choice[correct]{The $y$-value on the curve if the $x$-value of the slice is specified.}
+\choice{The $x$-value of the slice.}
+\end{multipleChoice} 
+
+Since we have to express $r$ in terms of $x$, and we note that $y_{top}$ is on the curve, $y_{top} = \answer{\frac{12}{x+4}}$.
+
+Since $y_{bot}$ lies on the $y$-axis, $y_{bot} = \answer{0}$, and $r= \answer{\frac{12}{x+4}}$.
+
+\end{exercise}
+
+\begin{exercise}
+Now we see that an integral that gives the surface area is: 
+\[
+SA= \int_{x=a}^{x=b} 2 \pi r \d s = \int_{x=\answer{0}}^{x=\answer{2}} \answer{\frac{24\pi}{x+4}} \sqrt{\answer{1+\frac{144}{(x+4)^4}}} \d x
+\]
+
+Using computational software of your choice, the integral to 6 decimal places shows that the surface area is $10.988899$ square units. 
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%
+
+To set up an integral with respect to $y$ that gives the area of the surface of revolution, do the following:  
+
+Since we have chosen to integrate with respect to $y$, we use the result:
+
+\[ SA = \int_{x=a}^{x=b} 2 \pi r \d s\]
+
+and we must express $r$ in terms of $y$ and $\d s$ in terms of $y$ and $\d y$.  
+
+
+Let's start by describing the curve as a function of $y$.  Since $y=\frac{12}{x+4}$, we find:
+
+\[
+x= \answer{\frac{12}{y}-4}
+\]
+
+Now, let's find $\d s$.  Since we integrate with respect to $y$, we use $\d s = \sqrt{1+\left(\frac{\d x}{\d y}\right)^2} \d y$.
+
+Computing the expression under the square root gives $1+\left(\frac{\d x}{\d y}\right)^2 = 1+\answer{\frac{144}{y^4}}$.  So: 
+
+\[
+\d s = \sqrt{\answer{1+\frac{144}{y^4}}} \d y
+\]
+
+
+\begin{exercise}
+Note that is $r$ is the distance from the axis to the curve. This is a:
+
+\begin{multipleChoice}
+\choice[correct]{vertical distance}
+\choice{horizontal distance}
+\end{multipleChoice} 
+Thus $r=y_{top}-y_{bot}$.  
+
+We note that the slice is at a location $(x,y)$, which happens to be on the curve.  This allows us to use the curve to express $y$ in terms of $y$ or $y$ in terms of $y$ if necessary.  
+
+For the slice, the quantity $\frac{12}{y}-4$ expresses:
+\begin{multipleChoice}
+\choice[correct]{The $x$-value on the curve if the $x$-value of the slice is specified.}
+\choice{The $y$-value of the slice.}
+\end{multipleChoice} 
+
+Since we have to express $r$ in terms of $y$, and we note that $y_{top}$ is the unspecified $y$-value of the slice, we may use it!  Hence, $y_{top} = \answer{y}$.
+
+\begin{feedback}
+We should not use the function $x=\frac{12}{y}-4$ because this gives the $x$-value of the slice, not its $y$-value.
+\end{feedback}
+
+Since $y_{bot}$ lies on the $y$-axis, $y_{bot} = \answer{0}$, and $r= \answer{y}$.
+
+\end{exercise}
+
+\begin{exercise}
+Now we see that an integral that gives the surface area is: 
+\[
+SA= \int_{y=c}^{y=d} 2 \pi r \d s = \int_{y=\answer{2}}^{y=\answer{3}} \answer{2 \pi y} \sqrt{\answer{1+\frac{144}{y^4}}} \d y
+\]
+
+Using computational software of your choice, the integral to 6 decimal places shows that the surface area is $10.988899$ square units.  This agrees with the previous result, which should not be surprising.  However, it does reinforce that the surface area here should not, and indeed does not, depend on the choice of the variable of integration.
+
+\end{exercise}
+
+
+
+\end{exercise}
+\end{document}

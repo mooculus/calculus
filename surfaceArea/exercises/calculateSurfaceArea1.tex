@@ -1,0 +1,178 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo and Nicholas Hemleben}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral that gives the area of a surface of revolution}
+\outcome{Find  the area of a surface of revolution}
+
+\begin{document}
+\begin{exercise}
+
+The portion of the curve $y=2x^3$ from $x=0$ to $x=1$ is shown below:
+
+ \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-.3, xmax=1.2,
+            domain=-1:1,
+            ymin=-.3, ymax=2.5,
+            clip=false,
+            xtick = {-1,1},
+            ytick = {-1,1,2},
+            axis lines =center,
+            xlabel=$x$, ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+                              
+         \addplot [penColor,thick,smooth,domain=0:1.1]{2*x^3};
+          
+         % ds and points
+          	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.4,.128)};
+		\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.6,.44)};
+		\addplot[ultra thick, penColor2] plot coordinates {(.4,.128) (.6,.44)};
+          	\node[anchor=north, penColor2] at (axis cs:.45,.6) {$\Delta s$};
+	
+          %r and point 
+           	\addplot[thick, penColor2] plot coordinates {(.5,0) (.5,.25)};
+		\node[anchor=north, penColor2] at (axis cs:.55,.25) {$r$};
+          
+          
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,2)};
+          
+          \node[penColor] at (axis cs:.6,1.4) {$y=2x^3$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+
+ The curve is then revolved about the $x$-axis to form a surface of revolution.  The resulting frustum resulting from revolving the slice is shown below:
+    
+      \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-.3, xmax=1.2,
+            domain=-1:1,
+            ymin=-2.1, ymax=2.1,
+            clip=false,
+            xtick = {-1,1},
+            ytick = {-1,1,2},
+            axis lines =center,
+            xlabel=$x$, ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+                              
+         \addplot [penColor,thick,smooth,domain=0:1]{2*x^3};
+          
+         % ds and points
+          	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.4,.128)};
+		\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(.6,.44)};
+		\addplot[thick, penColor2] plot coordinates {(.4,.128) (.6,.44)};
+		\addplot[thick, penColor2] plot coordinates {(.4,-.128) (.6,-.44)};
+          	\node[anchor=north, penColor2] at (axis cs:.45,.6) {$\d s$};
+          
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,2)};
+          
+          \node[penColor] at (axis cs:.6,1.4) {$y=2x^3$};
+          
+           %ellipses
+           \addplot [penColor2,thick,smooth,domain=.39:.4,samples=100]{sqrt(.016-.016/.0001*(x-.4)^2)};
+           \addplot [penColor2,thick,smooth,domain=.39:.4,samples=100]{-sqrt(.016-.016/.0001*(x-.4)^2)};
+            \addplot [penColor2,thick,smooth,domain=.59:.61,samples=100]{sqrt(.194-.194/.0001*(x-.6)^2)};
+           \addplot [penColor2,thick,smooth,domain=.59:.61,samples=100]{-sqrt(.194-.194/.0001*(x-.6)^2)};
+           
+           
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}    
+    
+The function and its limits are in terms of $x$.  Also, note that if we solve for $x$, we have $x= \sqrt[3]{\frac{y}{2}}$, which is not differentiable at $y=0$.  Thus, we should:
+
+\begin{multipleChoice}
+\choice[correct]{integrate with respect to $x$.}
+\choice{integrate with respect to $y$.}
+\end{multipleChoice}
+
+
+
+\begin{exercise}
+Since we have chosen this, we use the result:
+
+\[ SA = \int_{x=a}^{x=b} 2 \pi r \d s\]
+
+and we must express $r$ in terms of $x$ and $\d s$ in terms of $x$ and $\d x$.  
+
+\begin{exercise}
+For $\d s$, we use $\d s \sqrt{1+\left(\frac{\d y}{\d x}\right)^2} \d x$.
+
+Here, $\frac{\d y}{\d x}=\answer{6x^2}$ so $\d s= \answer{\sqrt{1+ 36 x^4}} \d x$. 
+\end{exercise}
+
+\begin{exercise}
+Note that is $r$ is the distance from the axis to the curve. This is a:
+
+\begin{multipleChoice}
+\choice[correct]{vertical distance}
+\choice{horizontal distance}
+\end{multipleChoice} 
+Thus $r=y_{top}-y_{bot}$.  
+
+We note that the slice is at a location $(x,y)$, which happens to be on the curve.  This allows us to use the curve to express $x$ in terms of $y$ or $y$ in terms of $x$ if necessary.  
+
+The quantity $2x^3$ expresses:
+\begin{multipleChoice}
+\choice[correct]{The $y$-value on the curve if the $x$-value of the slice is specified.}
+\choice{The $x$-value on the curve.}
+\end{multipleChoice} 
+
+The quantity $\sqrt[3]{\frac{y}{2}}$ expresses:
+\begin{multipleChoice}
+\choice[correct]{The $x$-value on the curve if the $y$-value of the slice is specified.}
+\choice{The $y$-value on the curve.}
+\end{multipleChoice} 
+
+Since we have to express $r$ in terms of $x$, and we note that $y_{top}$ is on the curve, we must express it in terms of $x$.  Hence, $y_{top} = \answer{2x^3}$.
+
+Since $y_{bot}$ lies on the $x$-axis, $y_{bot} = \answer{0}$, and $r= \answer{2x^3}$.
+
+\end{exercise}
+
+\begin{exercise}
+Now we see that an integral that gives the surface area is: 
+\[
+SA= \int_{x=\answer{0}}^{x=\answer{1}} 2 \pi r \d s = \int_0^1 \answer{4 \pi x^3} \answer{\sqrt{1+36x^4}} \d x 
+\]
+
+\begin{exercise}
+Evaluating this integral, we find that the surface area of the surface of revolution is $\answer{\frac \pi {54} ((37)^{3/2} -1)}$ square units. 
+
+\begin{hint} You can use a substitution to evaluate the integral with $u= \answer{1+36x^4}$.  Then, $du= \answer{144x^3} dx$. 
+
+For the limits of integration,  when $x=0$, $u= \answer{1}$ and when $x=1$, $u=\answer{37}$.
+
+Thus:
+
+\begin{align*}
+SA= \int_{x=0}^{x=1} 4 \pi x^3 \sqrt{1+36x^4} \d x &=  \int_{u=\answer{1}}^{u=\answer{37}} \answer{\frac{\pi}{36}} \answer{u^{1/2}} \d u \\
+&=  \eval{\answer{\frac{\pi}{54} u^{3/2 } }}_{u=1}^{u=37}
+&= \answer{\frac \pi {54} ((37)^{3/2} -1)}
+\end{align*}
+\end{hint}
+
+
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+
+
+
+
+
+\end{document}

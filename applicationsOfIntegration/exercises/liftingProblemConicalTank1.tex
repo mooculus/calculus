@@ -1,0 +1,152 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo and Alex Beckwith}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral that gives the length of a curve segment and evaluate it}
+
+\begin{document}
+\begin{exercise}
+
+An inverted conical tank has base with diameter 6m and height 9m. Suppose the tank is filled to a height of 6m with acetone ($\rho$=785 kg/m$^3$). Find the work required to pump the acetone out of the tank (use $g=9.8$m/s$^2$).
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+domain=-3:3,
+xmin=-3.5, xmax=4.5,
+xtick={-3,-2,-1,1,2,3},
+ymin=-1, ymax=11,
+axis lines =center,
+xlabel=$x$, ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south},
+every axis x label/.style={at=(current axis.right of origin),anchor=west},
+axis on top,
+]
+
+\draw[penColor,very thick,smooth,fill=fill4] (axis cs: 0,9) ellipse (300 and 10);
+\draw[penColor,very thick,smooth,fill=blue,opacity=0.25] (axis cs: 0,6) ellipse (200 and 6.67);
+\draw[penColor,very thick,smooth] (axis cs:2,6) arc (360:180:200 and 6.67);
+\draw[penColor,very thick,dashed] (axis cs:2,6) arc (0:180:200 and 6.67);
+\addplot [penColor,very thick,smooth,domain=0:3]	{3*x};
+\addplot [penColor,very thick,smooth,domain=-3:0]	{-3*x};
+
+\addplot [name path=A,domain=0:3,draw=none] {3*x};   
+\draw [name path=B,draw=none] (axis cs: 3,9) arc (0:180:300 and 10);
+\addplot [fill4,opacity=0.5] fill between[of=A and B];
+
+\addplot [name path=C,domain=-3:0.01,draw=none] {-3*x};   
+\draw [name path=D,draw=none] (axis cs: -3,9) arc (180:360:300 and 10);
+\addplot [fill4,opacity=0.5] fill between[of=C and D];
+
+\addplot [name path=E,domain=-3:0.01,draw=none] {-3*x};   
+\draw [name path=F,draw=none]  (axis cs:2,6) arc (0:180:200 and 6.67);
+\addplot [blue,opacity=0.25] fill between[of=E and F];
+
+\draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:2,6) -- (axis cs:2,0);
+\node[anchor=west] at (axis cs:2.2,3) {$6$m};
+\draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:3,9) -- (axis cs:3,0);
+\node[anchor=west] at (axis cs:3.2,4.5) {$9$m};
+\addplot[thick] plot coordinates {(0,6) (2,6)};
+         
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+\[
+W= \int_{y=\answer{0}}^{y=\answer{6}} \answer{7693\pi\left(\frac{y}{3}\right)^2 (9-y)}\d y = \answer[tolerance=10]{276948\pi} J
+\]
+
+\begin{hint}
+Set the height $y=0$ at the base of the tank.  We want to use the formula:
+
+\[ 
+W = \int_{y=0}^{y=b} \rho g A(y) d(y) \d y
+\]
+
+Since $b$ is the height to which the tank is filled, $b=\answer{6}$.
+
+Since $h$ is the height to which the water must be moved, $h=\answer{9}$.
+
+To move a slice to a height $y=10$, we find the distance $d(y)$ the slice at height $y$ must be moved is $d(y) = \answer{9-y}$
+
+The cross-sectional area of this tank is:
+
+\begin{multipleChoice}
+\choice{is constant.}
+\choice[correct]{varies depending on the height $y$ of the slice}.
+\end{multipleChoice}
+
+\begin{question}
+We can find the radius of the slice in terms of $y$ by using similar triangles:
+
+\begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+domain=-3:3,
+xmin=-3.5, xmax=4.5,
+xtick={-3,-2,-1,1,2,3},
+ymin=-1, ymax=11,
+axis lines =center,
+xlabel=$x$, ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south},
+every axis x label/.style={at=(current axis.right of origin),anchor=west},
+axis on top,
+]
+
+%top ellipse
+\draw[penColor,very thick,smooth,fill=fill4] (axis cs: 0,9) ellipse (300 and 10);
+\draw[penColor,very thick,smooth,fill=blue,opacity=0.25] (axis cs: 0,6) ellipse (200 and 6.67);
+
+%middle
+\draw[penColor,very thick,smooth] (axis cs:2,6) arc (360:180:200 and 6.67);
+\draw[penColor,very thick,dashed] (axis cs:2,6) arc (0:180:200 and 6.67);
+
+%slice
+\draw[penColor2,very thick,smooth] (axis cs:1,3) arc (360:180:98 and 4);
+\draw[penColor2,very thick,dashed] (axis cs:1,3) arc (0:180:98 and 4);
+
+\addplot [penColor,very thick,smooth,domain=0:3]	{3*x};
+\addplot [penColor,very thick,smooth,domain=-3:0]	{-3*x};
+
+\addplot [name path=A,domain=0:3,draw=none] {3*x};   
+\draw [name path=B,draw=none] (axis cs: 3,9) arc (0:180:300 and 10);
+\addplot [fill4,opacity=0.5] fill between[of=A and B];
+
+\addplot [name path=C,domain=-3:0.01,draw=none] {-3*x};   
+\draw [name path=D,draw=none] (axis cs: -3,9) arc (180:360:300 and 10);
+\addplot [fill4,opacity=0.5] fill between[of=C and D];
+
+\addplot [name path=E,domain=-3:0.01,draw=none] {-3*x};   
+\draw [name path=F,draw=none]  (axis cs:2,6) arc (0:180:200 and 6.67);
+\addplot [blue,opacity=0.25] fill between[of=E and F];
+
+\draw[decoration={brace,raise=.1cm},decorate,thin,penColor2] (axis cs:1,3) -- (axis cs:1,0);
+\node[anchor=west,penColor2] at (axis cs:1.2,1.5) {$y$};
+\node[anchor=west,penColor2] at (axis cs:.3,3.8) {$x$};
+\node[anchor=west] at (axis cs:1,9.5) {$3$m};
+\draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:3,9) -- (axis cs:3,0);
+\node[anchor=west] at (axis cs:3.2,4.5) {$9$m};
+
+%horizontal lines
+\addplot[thick,penColor2] plot coordinates {(0,3) (1,3)};
+\addplot[thick] plot coordinates {(0,9) (3,9)};
+
+         
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+From similar triangles, we find $\frac{x}{y} = \answer{\frac{3}{9}}$, so $x= \answer{\frac{1}{3}y}$.
+
+\begin{question}
+The area is $A = \pi r^2$.  We see that $r$ is a horizontal distance, which we must express in terms of $y$.  Hence, $r=  \answer{\frac{1}{3} y}$ and $A=\answer{\pi \left(\frac{y}{3}\right)^2}$.
+
+Now, substitute all of these relevant quantities into the integral.
+\end{question}
+\end{question}
+
+\end{hint}
+
+\end{exercise}
+\end{document}

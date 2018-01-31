@@ -95,7 +95,134 @@ involving changing values.
 \end{example}
 
 \begin{question}
-  Here we see the graph of $f'$. 
+Is it true that the domain of $f'$ is equal to the domain of $f$?
+  \begin{multipleChoice}
+    \choice{yes}
+    \choice[correct]{no}
+  \end{multipleChoice}
+  \begin{feedback}
+   Let's consider the function $f(x)=|x|$. The domain of $f$ is  $\RR$.
+   Remember, $f$ is in fact a piecewise defined function, since
+    \[
+f(x)=|x| = 
+\begin{cases}
+ -x &\text{if $x<0$ ,}\\
+  x &\text{if $x\geq 0$}.
+\end{cases}
+\]
+
+   We can easily see that all nonzero real numbers are in the domain of $f'$. Why?\\
+   Because, if $x>0$, then the graph of $f$ near $x$ is a line with the slope $1$. Therefore,  $f'(x)=1$, for $x>0$.  
+   Similarly, if $x<0$, then the graph of $f$ near $x$ is a line with the slope $-1$. So, $f'(x)=-1$,  for $x<0$.
+  Therefore, $f'(x)$ is defined for all \textbf{nonzero} numbers. 
+   \[
+f'(x) = 
+\begin{cases}
+ -1 &\text{if $x<0$ ,}\\
+  1 &\text{if $x> 0$}.
+\end{cases}
+\]
+But, what about $x=0$? Is 0 in the domain of $f'$?\\
+Let's try to compute $f'(0)$, and see what happens.
+\[
+		f'(0)=  \lim_{h\to 0} \dfrac{f(0+h) - f(0)}{h}= \lim_{h\to 0} \dfrac{|0+h|-|0| }{h}
+		= \lim_{h\to 0} \dfrac{|h| }{h}
+		\]
+		The last limit does not exist. Recall
+		\[
+				 \lim_{h\to 0^+} \dfrac{|h| }{h}= \lim_{h\to 0^+} \dfrac{h }{h}=\lim_{h\to 0^+} 1=1
+		\]
+		and 
+		\[
+				 \lim_{h\to 0^-} \dfrac{|h| }{h}= \lim_{h\to 0^-} \dfrac{-h }{h}=\lim_{h\to 0^+} -1=-1
+		\]
+	Since $f'(0)$ is not defined,  $0$ is not in the domain of $f'$.\\
+	This example demonstrates that a function $f$ and its derivative, $f'$, may have different domains.
+  \end{feedback}
+\end{question}
+
+\begin{question}
+ Can two different functions, say, $f$ and $g$, have the same derivative?
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{feedback}
+    Many different functions can share the same derivatives.
+    Consider two different functions, $f$ and $g$, defined by\\
+    $f(x)=x$ and $g(x)=x+5$.
+    Then, $f'(x)=1$, and $g'(x)=1$, for all real numbers $x$.\\
+    So,  the derivatives of these two different functions are equal.
+    
+      \end{feedback}
+\end{question}
+
+Let's compare the graphs of $f$ and $f'$ for the derivatives we've computed so far:
+
+$$f(x)=x^2, f'(x)=2x$$
+\begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-2,xmax=2,ymin=-4,ymax=4,
+          axis lines=center,
+          ticks=none,
+          width=6in,
+          height=3in,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        %\addplot [very thick,dashed, penColor,smooth, domain=(-2:2)] {x^3+.3*x^2-2*x)};
+        \addplot [very thick,penColor,smooth, domain=(-2:2)] {x^2} node [pos=0.9, below right] {$f$};
+        \addplot [very thick,red,smooth, domain=(-2:2)] {2*x} node [pos=0.9, above left] {$f'$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+
+$$f(x)=3x+2, f'(x)=3$$
+\begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-2,xmax=2,ymin=-4,ymax=8,
+          axis lines=center,
+          ticks=none,
+          width=6in,
+          height=3in,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        %\addplot [very thick,dashed, penColor,smooth, domain=(-2:2)] {x^3+.3*x^2-2*x)};
+        \addplot [very thick,penColor,smooth, domain=(-2:2)] {3*x+2} node [pos=0.9, below right] {$f$};
+        \addplot [very thick,red,smooth, domain=(-2:2)] {3} node [pos=0.9, below right] {$f'$};
+         
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  
+  $$f(x)=|x|, f'(x)=\begin{cases} 1 &  \text{for } x<0 \\ -1 & \text{for } x>0 \end{cases}$$
+  
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-2,xmax=2,ymin=-2,ymax=2,
+          axis lines=center,
+          ticks=none,
+          width=6in,
+          height=3in,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        %\addplot [very thick,dashed, penColor,smooth, domain=(-2:2)] {x^3+.3*x^2-2*x)};
+        \addplot [very thick,penColor,smooth, domain=(-2:2)] {abs(x)} node [pos=0.9, above left] {$f$};
+        \addplot [very thick,red,smooth, domain=(-2:0)] {-1};
+        \addplot [very thick,red,smooth, domain=(0:2)] {1} node [pos=0.8, below right] {$f'$};
+        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,-1)}; 
+        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(0,1)};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+
+\begin{question}
+  Here we see the graph of $f'$, the derivative of some function $f$. 
   \begin{image}
     \begin{tikzpicture}
       \begin{axis}[
@@ -163,67 +290,6 @@ involving changing values.
      \end{multipleChoice}
   \end{question}
 \end{question}
-\begin{question}
-Is it true that the domain of $f'$ is equal to the domain of $f$?
-  \begin{multipleChoice}
-    \choice{yes}
-    \choice[correct]{no}
-  \end{multipleChoice}
-  \begin{feedback}
-   Let's consider the function $f(x)=|x|$. The domain of $f$ is  $\RR$.
-   Remember, $f$ is in fact a piecewise defined function, since
-    \[
-f(x)=|x| = 
-\begin{cases}
- -x &\text{if $x<0$ ,}\\
-  x &\text{if $x\geq 0$}.
-\end{cases}
-\]
 
-   We can easily see that all nonzero real numbers are in the domain of $f'$. Why?\\
-   Because, if $x>0$, then the graph of $f$ near $x$ is a line with the slope $1$. Therefore,  $f'(x)=1$, for $x>0$.  
-   Similarly, if $x<0$, then the graph of $f$ near $x$ is a line with the slope $-1$. So, $f'(x)=-1$,  for $x<0$.
-  Therefore, $f'(x)$ is defined for all \textbf{nonzero} numbers. 
-   \[
-f'(x) = 
-\begin{cases}
- -1 &\text{if $x<0$ ,}\\
-  1 &\text{if $x> 0$}.
-\end{cases}
-\]
-But, what about $x=0$? Is 0 in the domain of $f'$?\\
-Let's try to compute $f'(0)$, and see what happens.
-\[
-		f'(0)=  \lim_{h\to 0} \dfrac{f(0+h) - f(0)}{h}= \lim_{h\to 0} \dfrac{|0+h|-|0| }{h}
-		= \lim_{h\to 0} \dfrac{|h| }{h}
-		\]
-		The last limit does not exist. Recall
-		\[
-				 \lim_{h\to 0^+} \dfrac{|h| }{h}= \lim_{h\to 0^+} \dfrac{h }{h}=\lim_{h\to 0^+} 1=1
-		\]
-		and 
-		\[
-				 \lim_{h\to 0^-} \dfrac{|h| }{h}= \lim_{h\to 0^-} \dfrac{-h }{h}=\lim_{h\to 0^+} -1=-1
-		\]
-	Since $f'(0)$ is not defined,  $0$ is not in the domain of $f'$.\\
-	This example demonstrates that a function $f$ and its derivative, $f'$, may have different domains.
-  \end{feedback}
-\end{question}
-
-\begin{question}
- Can two different functions, say, $f$ and $g$, have the same derivative?
-  \begin{multipleChoice}
-    \choice[correct]{yes}
-    \choice{no}
-  \end{multipleChoice}
-  \begin{feedback}
-    Many different functions can share the same derivatives.
-    Consider two different functions, $f$ and $g$, defined by\\
-    $f(x)=x$ and $g(x)=x+5$.
-    Then, $f'(x)=1$, and $g'(x)=1$, for all real numbers $x$.\\
-    So,  the derivatives of these two different functions are equal.
-    
-      \end{feedback}
-\end{question}
 \end{document}
 

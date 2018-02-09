@@ -11,22 +11,64 @@
 
 \begin{document}
 \begin{abstract}
-  We learn a new technique, called integration by parts, to help us solve
-  problems involving integration.
+  We learn a new technique, called integration by parts, to help find antiderivatives of certain types of products by reexamining the product rule for differentiation.
 \end{abstract}
 \maketitle
 
+We have seen applications of integration such as finding areas between curves, calculating volumes of certain solids, and some physical applications. In order to compute these definite integrals we have relied on the Fundamental Theorem of Calculus, which allows us to compute the definite integral easily provided that we can find an antiderivative of the integrand.  In some cases, these applications can lead us to antiderivatives that we cannot yet compute!
 
-While integration by substitution allows us to identify and ``undo''
-the chain rule, \textit{integration by parts} allows us to recognize
-the product rule.\index{chain rule}\index{product rule}\index{integration by parts}
+Consider the following example:
 
-\begin{theorem}[Integration by Parts Formula] 
-If $f(x)g(x)$ is differentiable on the interval $[a,b]$, then
+\begin{example}
+Let $R$ be the region between $\sin(8x)$ and the $x$-axis on the interval for $0 \leq x \leq  \frac{\pi}{8}$ and let $S$ be the solid obtained by revolving $R$ around the $y$-axis: 
+
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-4:4, ymax=1.4,xmax=.49, ymin=-0.49, xmin=-.09,
+            		axis lines =center, xlabel=$x$, xtick= {3} , ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south}, every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor2,very thick,smooth] {0};
+            	\addplot [draw=penColor,very thick,domain=0:pi/8,smooth] {sin(deg(8*x))};
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(0,-10)(0,10)};
+		\addplot [draw=penColor,very thick] coordinates {(.395,-.05)(.395,.05)};
+		                       
+            	\addplot [name path=A,domain=0:pi/8,draw=none] {0};   
+            	\addplot [name path=B,domain=0:pi/8,draw=none] {sin(deg(8*x))};
+            	\addplot [fillp] fill between[of=A and B];
+	                      
+            	%rho
+		\addplot [draw=penColor4,very thick] coordinates {(0,.42)(.125,.42)};
+		\node at (axis cs:.04,.5) [penColor4] {$\rho$};
+		
+		%h
+		 \draw[decoration={brace,mirror},decorate,thin] (axis cs:.15,0)--(axis cs:.15,.841);
+		 \node at (axis cs:.17,.42) [black] {$h$};
+		
+		\node at (axis cs:.4,-.2) [penColor] {$\frac{\pi}{8}$};
+       		\node at (axis cs:.4,.8) [penColor] {$y=\sin(8x)$};
+		
+		\addplot [draw=penColor, fill = gray!50] plot coordinates {(.125,0) (.14,0) (.14,.841) (.125,.841) (.125,0)};
+		
+		
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+
+If we use the shell method to setup an integral that gives the volume of $S$, we obtain:
 \[
-\int_a^b f(x) g'(x) \d x =\eval{f(x)g(x)}_a^b - \int_a^b f'(x) g(x) \d x.
+\int_{0}^{\frac{\pi}{8}} 2 \pi x\sin(8x) \d x
 \]
-\begin{explanation} First note by the product rule we have
+To determine the volume of $S$ we need to find an antiderivative of $x\sin(8x)$. However, none of our previous methods allow us to do this.
+\end{example}
+
+As a reminder, whenever we have a formula that allows us to differentiate a function $f(x)$, there is a corresponding integration result.  Indeed, the substitution method came about by reversing the chain rule for derivatives.  We notice that the above integrand involves a product, so let's try starting with the product rule for derivatives and try to reverse it.  
+
+
+First note that by the product rule we have
 \[
 \ddx f(x)g(x) = f(x)g'(x) + f'(x) g(x).
 \]
@@ -38,7 +80,7 @@ By the Fundamental Theorem of Calculus, the left-hand side of the equation is:
 \[
 \eval{f(x)g(x)}_a^b
 \]
-However, by properties of integrals the right-hand side is equal to 
+However, by the linearity of integrals the right-hand side is equal to 
 \[
 \int_a^b f(x)g'(x)\d x + \int_a^b f'(x) g(x) \d x.
 \]
@@ -50,73 +92,231 @@ and so
 \[
  \int_a^b f(x)g'(x)\d x = \eval{f(x)g(x)}_a^b -  \int_a^b f'(x) g(x) \d x.
 \]
-\end{explanation}
-\end{theorem}
 
+\begin{remark}
+The logic behind the above formula can be used to develop a similar result for indefinite integrals.  Both results are often written in a more compact form:
 
-Integration by parts is often written in a more compact form
-\[
-\int u\d v = uv-\int v\d u,
-\]
-where $u=f(x)$, $v=g(x)$, $\d u=f'(x)\d x$ and $\d v=g'(x)\d x$.  To use
-this technique we need to identify likely candidates for $u=f(x)$ and
-$\d v=g'(x)\d x$.
+\begin{align*}
+\int u \d v &= uv-\int v \d u  & \textrm{ for indefinite integrals} \\
+\int_a^b u \d v &= \eval{uv}_a^b-\int_a^b v \d u &  \textrm{ for definite integrals}
+\end{align*}
+where $u=f(x)$, $v=g(x)$, and the differentials $\d u$ and $\d v$ are given as usual by $\d u=f'(x)\d x$ and $\d v=g'(x)\d x$.  
 
-\begin{question}
-  Which of the following are always true? (Assuming $f(x)g(x)$ is
-  differentiable on a relevant interval.)
-  \begin{selectAll}
-    \choice{$\int f(x) \cdot g(x) \d x = \left(\int f(x) \d x\right) \cdot \left(\int g(x) \d x\right)$}
-    \choice{$\int f(x) \cdot 4 \d x = \left(\int f(x) \d x\right) \cdot \left(\int 4 \d x\right)$}
-    \choice[correct]{$\int f(x) \cdot 4 \d x = 4\int f(x) \d x$}
-    \choice[correct]{$\int f(x) \cdot g'(x) \d x = f(x) g(x) - \int f'(x)\cdot g(x) \d x$}
-    \choice{$\int_a^b f(x) \cdot g'(x) \d x = f(x) g(x) - \int_a^b f'(x)\cdot g(x) \d x$}
-    \choice[correct]{$\int_a^b f(x) \cdot g'(x) \d x = \eval{f(x) g(x)}_a^b + \int_b^a f(x)'\cdot g(x) \d x$}
-  \end{selectAll}
-\end{question}
-
-
-
-\section{Basic examples}
-
-
-We'll now work some standard examples.
-
+This result is called the \index{integration by parts formula}.
+\end{remark}
 
 \begin{example}
-Compute:
+Now, let's return to our example that opened the section:
+\[
+\int_{0}^{\frac{\pi}{8}} 2 \pi x\sin(8x) \d x
+\]
+
+\begin{explanation}
+We first need to find the antiderivative $\int x\sin(8x) \d x$.  Since $x\sin(8x)$ is a product and none of our previous techniques work, we can try integration by parts.  Note that if we must pick part of the product to differentiate and part of it to integrate.  Since $x$ becomes constant when we differentiate it, and the antiderivatives of $\sin(8x)$ are easy to find, let's try $u=x$ and $\d v=\sin(8x) \d x$.  
+We must determine $\d u$ and  $v$. We find:
+
+\begin{align*}
+u &= x & \d v & = \sin(8x) \d x \\
+ \d u &= \answer[given]{1} \d x & v&=-\frac{1}{8}\cos(8x)
+\end{align*}
+
+The integration by parts formula gives us:
+
+\begin{align*}
+\int x\sin(8x) \d x &=-\frac{1}{8}x\cos(8x) -\int \left(-\frac{1}{8}\cos(8x)\right) \d x \\
+&=-\frac{1}{8}x\cos(8x) + \answer[given]{\frac{1}{64}\sin(8x)} +C 
+\end{align*}
+
+To ensure that this result is indeed correct, we can check by differentiating the righthand side and comparing it to the original integral:
+
+\[
+\ddx\left[-\frac{1}{8}x\cos(8x) +\frac{1}{64}\sin(8x) +C \right] = -\frac{1}{8} \cos(8x) +x \sin(8x) +\frac{1}{8} \cos(8x) = x sin(8x)
+\]
+
+Thus, we have found the antiderivatives for $x\sin(8x)$, and we can use this to find the volume of $S$ :
+
+\begin{align*}
+\int_{0}^{\frac{\pi}{8}} 2 \pi x\sin(8x) \d x &= 2 \pi \int_{0}^{\frac{\pi}{8}} x\sin(8x) \d x \\
+&= 2 \pi \eval{ -\frac{1}{8}x\cos(8x) + \frac{1}{64}\sin(8x)}_0^{\pi/8}\\
+&=\frac{\pi^{2}}{32}
+\end{align*}
+
+\begin{remark}
+The astute young mathematician may ask why we did not include a constant of integration when antidifferentiating $\d v$ above.  Had we done so:
+
+\begin{align*}
+u &= x & \d v & = \sin(8x) \d x \\
+ \d u &= \answer[given]{1} \d x & v&=-\frac{1}{8}\cos(8x) +C_1
+\end{align*}
+
+Now, the integration by parts formula for the indefinite integral would yield:
+
+\begin{align*}
+\int u \d v &= uv -\int v \d u \\
+ &=x \left(-\frac{1}{8}\cos(8x)+C\right) -\int \left(-\frac{1}{8}\cos(8x)+C\right) \d x \\
+  &=-\frac{1}{8}x\cos(8x)+C_1x + \frac{1}{64}\sin(8x) -C_1x +C \\
+\end{align*}
+Note that the $C$ term is the constant associated with the last integral on the righthand side.  The $C_1$ constant that we included when integrating the $\d v$ term cancels!  This is not an accident, and it is not hard to generalize this argument to conclude:
+
+\begin{quote}
+We do not need to include a constant of integration when we antidifferentiate $\d v$!
+\end{quote}
+\end{remark}
+
+\end{explanation}
+\end{example}
+
+\section{The integration by parts formula}
+The technique we applied in the above example extends to many other \emph{products} of functions.  We summarize the result of the argument in the preceding example first, then study other types of integrals for which this is a useful technique:
+
+\begin{formula}
+Suppose that $u$ and $v$ are continuously differentiable functions of $x$.  Then:
+
+\begin{align*}
+\int u \d v &= uv - \int u \d v & \textrm{(integration by parts formula for indefinite integrals)} \\
+\int_a^b u \d v &= \eval{uv}_a^b - \int_a^b u \d v & \textrm{(integration by parts formula for definite integrals)}
+\end{align*}
+\end{formula}
+
+In general, we want to choose $u$ so the resulting integral on the righthand side is ``easier" to compute, but in doing so, we must be able to integrate our choice for $\d v$.
+
+We'll now work some standard examples to develop some intuition for the technique.
+
+%\begin{example}
+%Compute:
+%\[
+%\int x\sin(x) \d x
+%\]
+%\begin{explanation} Let $u=x$ so $\d u=\d x$. Hence, $\d v=\answer[given]{\sin(x)}\d x$ so $v=\answer[given]{-\cos(x)}$ and
+%\begin{align*}
+%\int x\sin(x)\d x &=\answer[given]{-x\cos(x)}-\int -\cos(x)\d x\\
+%&= \answer[given]{-x\cos(x)}+\int \cos(x)\d x\\
+%&=\answer[given]{-x\cos(x)}+\answer[given]{\sin x}+C.
+%\end{align*}
+%Let us verify the solution by taking the derivative:
+%\[
+%\ddx \left(-x \cos(x) + \sin(x) + C \right)=-1 \cos(x)+x\sin(x) +\cos(x)=x \sin(x)
+%\]
+%\end{explanation}
+%\end{example}
+
+\begin{example}
+Determine the integral:
+
+\[
+\int xe^{x} \d x
+\]
+
+\begin{explanation}
+This is not a function whose antiderivative we already know, and there is no way to simplify this expression algebraically nor does a $u$-substitution help.  However, the integrand is a product so let's try integration by parts.  Note that if we choose $u=x$, $\d u = \d x$ and the righthand side of the integration by parts formula will no longer include a polynomial.  This choice will work if we can integrate the other part of the product in the original integral.  Indeed, if we set $u=x$, we must choose $\d v=e^{x} \d x$, and since this is not difficult to antidifferentiate, let's give it a try:
+
+\begin{align*}
+u &= x & \d v & = e^x \d x \\
+ \d u &= \answer[given]{1} \d x & v&= \answer[given]{e^x}
+\end{align*}
+
+Then we have:
+\[
+\int xe^{x} \d x= xe^{x}-\int e^{x} \d x=xe^{x}-e^{x} + C
+\]
+
+\end{explanation}
+
+We once again can check the validity of the proposed antiderivative above by computing:
+
+\[
+\ddx \left[xe^{x}-e^{x} + C\right] = e^x+xe^x -e^x = xe^x
+\]
+
+\end{example}
+
+\begin{warning}
+Be careful when writing out the expressions for $u$, $v$, $\d u$, and $\d v$.  The expressions $\d u$ and $\d v$ are \emph{differentials} and since $u$ and $v$ are functions of $x$, the differentials $\d u$ and $\d v$ must include a $\d x$ term.
+\end{warning}
+
+Sometimes, we have ``disguised products" in the integrand, as in the following example:
+
+\begin{example}
+Compute the indefinite integral:
+
 \[
 \int \ln(x)\d x
 \]
 \begin{explanation}
-Let $u=\ln(x)$ so $\d u=\answer[given]{1/x}\d x$. Hence,  $\d v=1\d x$ so $v=\answer[given]{x}$
-and so 
+We cannot find the antiderivatives of $\ln(x)$, but we do know how to find its derivative.  We try using integration by parts on this problem by setting $u=\ln(x)$.  By recognizing recognizing that $\int \ln(x) \d x = \ln(x) \cdot (1 \d x)$, we choose $\d v = 1 \d x$.  Thus,
+
 \begin{align*}
- \int \ln(x)\d x&=\answer[given]{x \ln(x)}-\int \frac{x}{x}\d x\\
+u &= \ln(x) & \d v & =1 \d x \\
+ \d u &= \answer[given]{\frac{1}{x}} \d x & v&= \answer[given]{x}
+\end{align*}
+
+and so by using the integration by parts formula:
+\begin{align*}
+ \int \ln(x)\d x&=\answer[given]{x \ln(x)}-\int x \cdot \frac{1}{x}\d x\\
 &= x\ln (x)- \answer[given]{x}+C.\\
 \end{align*}
 \end{explanation}
 \end{example}
 
-
 \begin{example}
-Compute:
-\[
-\int x\sin(x) \d x
+Determine the integral:
+\[ 
+\int \arctan(x) \d x
 \]
-\begin{explanation} Let $u=x$ so $\d u=\d x$. Hence, $\d v=\answer[given]{\sin(x)}\d x$ so $v=\answer[given]{-\cos(x)}$ and
-\begin{align*}
-\int x\sin(x)\d x &=\answer[given]{-x\cos(x)}-\int -\cos(x)\d x\\
-&= \answer[given]{-x\cos(x)}+\int \cos(x)\d x\\
-&=\answer[given]{-x\cos(x)}+\sin x+C.
-\end{align*}
+\begin{explanation}
+Let's try using the same argument as the previous example.  Let $u=\answer[given]{\arctan (x)}$ so $\d u=\answer[given]{\frac{1}{1+x^{2}} } \d x$. Thus $\d v=\answer[given]{1} \d x$ and so $v=\answer[given]{x}$. 
+This means that:
+
+\[
+\int \arctan(x) \d x= \answer[given]{x\arctan(x)}- \int \answer[given]{\frac{x}{1+x^{2}}} \d x
+\]
+
+We still need to determine $\int \frac{x}{1+x^{2}} \d x$. This is a product of functions, but we don't want to use integration by parts here since the simpler technique of substitution can be used to determine this antiderivative. 
+
+Let $w=\answer[given]{1+x^{2}}$. Then $\d w=\answer[given]{2 x} \d x$. Hence, 
+\[
+\int \frac{x}{1+x^{2}} \d x= \int \answer[given]{\frac{1}{2 w}} \d w \\
+ = \int \frac{1}{2} \ln(w) + C=\frac{1}{2} \ln(1+x^{2})+C \\
+\]
+
+Thus we have:
+\[ 
+\int \arctan(x) \d x = x \arctan(x) -\frac{1}{2} \ln(1+x^{2}) +C
+\]
 \end{explanation}
 \end{example}
 
 
 
+
+
+
 \section{Repeated integration by parts}
 
+The  integration by parts formula
+ \[
+\int u \d v= uv - \int v \d u
+\]
+ is intended to replace the original integral with one that is easier to determine. However the integral $\int v \d u$ that results may also require integration by parts. This can lead to situations where we may need to apply integration by parts repeatedly until we obtain an integral which we know how to compute. 
+
+
+%\begin{example}
+%Determine the integral:
+%\[\int x^{2} e^{x} \d x
+%\]
+%\begin{explanation}
+%We choose $u=x^{2}$ and $\d v=e^{x}$. Then 
+%\[ 
+%\d u=\answer[given]{x}\d x \text{ and } v=\answer[given]{e^{x}}
+%\]
+%Using the integration by parts formula $\int u \d v = uv - \int v \d u$ gives :
+%\[ 
+%\int x^{2}e^{x} \d x= \answer[given]{ x^{2}e^{x}} - \int \answer[given]{e^{x}} x \d x
+%\]
+%
+%We have reduced the computation of our original integral to computing the integral $\int xe^{x} \d x$, which was our first example in this section. Thus the original integral $\int x^{2}e^{x} \d x$ requires two applications of integration by parts. 
+%\end{explanation}
+%\end{example}
 
 \begin{example}
 Compute:
@@ -125,6 +325,7 @@ Compute:
 \] 
 \begin{explanation}
 Let $u=x^2$, $\d v=\sin(x)\d x$; then $\d u=\answer[given]{2x}\d x$ and $v=\answer[given]{-\cos(x)}$. 
+
 Now 
 \[
 \int x^2\sin(x)\d x=\answer[given]{-x^2\cos(x)}+\int 2x\cos(x)\d x.
@@ -141,13 +342,13 @@ and $v=\answer[given]{\sin(x)}$, and
 \end{example}
 
 
+
+
+
 Such repeated use of integration by parts is fairly common, but it can
-be a bit tedious to accomplish, and it is easy to make
+be a bit tedious to accomplish.  It is easy to make
 errors, especially sign errors involving the subtraction in the
-formula. There is a nice tabular method to accomplish the calculation
-that minimizes the chance for error and speeds up the whole
-process. We illustrate with the previous example. Here is the
-table:
+formula. There is a nice method, called the \index{tabular method} that allows for more efficient computation.  We illustrate with the previous example. Here is the table:
 \[
 \begin{array}{|c|c|c|}\hline
 \text{sign} & u & dv \\ \hline \hline
@@ -204,6 +405,59 @@ fill in the whole table; computing the products as indicated will then
 give the entire integral, including the ``$+C$'', as above.
 
 
+\begin{example}
+Determine the integral $\int e^{x}\cos(x) \d x$
+\begin{explanation}
+
+Choose $u=e^{x}$ and $\d v=\cos(x) \d x$. 
+Then we have 
+\[
+\d u =e^{x} \text{ and }  v=\sin(x) 
+\]
+We obtain the integral
+\[
+\int e^{x} \cos(x) \d x= e^{x} \sin(x) - \int e^{x} \sin(x) \d x
+\]
+
+The integral on the right looks very similar to our original integral. But we persist and try integration by parts on the rightmost integral $\int e^{x} \sin(x) \d x$. 
+
+Choose $u=e^{x}$ and $\d v= \sin(x)$. 
+This gives us 
+
+\[
+\d u=e^{x} \text{ and } v=-\cos(x)
+\]
+
+and so 
+
+\[
+\int e^{x}\sin(x) \d x= -e^{x}\cos(x) + \int e^{x} \cos(x) \d x
+\]
+
+Plugging this into the formula we derived previously, we have
+
+\[ 
+\int e^{x} \cos(x) \d x=e^{x} \sin(x)+e^{x} \cos(x) - \int e^{x} \cos(x) \d x
+\]
+
+It may appear that we have not made any progress. We have applied integration by parts twice and all we have managed to do is obtain our original integral again! For the moment let us denote our original integral by $I$, so $I=\int e^{x} \cos(x) \d x$. The quantity $I$ is what we want to find. The above formula we derived can be written as 
+
+\[
+ I = e^{x} \sin(x) +e^{x} \cos(x) -I
+\] 
+
+Now this equation just looks like an algebraic equation where we can solve for the unknown quantity $I$. 
+Solving for $I$ we get 
+
+\[
+ I=\int e^{x}\cos(x) \d x= \frac{1}{2} ( e^{x} \sin(x) +e^{x} \cos(x) ) + C
+\]
+
+Note we need to include an arbitrary constant of integration since we are finding an antiderivative. The above "trick" is a useful one to keep in mind. If you do integration by parts multiple times and manage to reproduce the orignal integral, then you can solve for the integral in the same manner as we did in this example. 
+\end{explanation}
+\end{example}
+
+
 
 Sometimes we can use integration by parts to give a \dfn{reduction formula}.
 This is a formula that will explain how to ``reduce''
@@ -216,7 +470,7 @@ the integral to one we may know how to compute.
   \]
   \begin{explanation}
     Here there is almost nothing to do. Set $u= x^n$ and $\d v =
-    e^x$. Hence $\d u = n x^{n-1}$ and $v = e^x$. Using the
+    e^x \d x$. Hence $\d u = n x^{n-1}$ and $v = e^x$. Using the
     integration by parts formula,
     \[
     \int u\d v = uv-\int v\d u,
@@ -227,6 +481,8 @@ the integral to one we may know how to compute.
     \]
   \end{explanation}
 \end{example}
+
+This reduction formula shows how to "reduce" the power of $x$ so the resulting integral is slightly easier. We may use repeated applications of this rule to keep reducing the power of $x$ until we arrive at an integral we know how to compute directly. 
 
 \begin{example}
   Use the reduction formula
@@ -263,5 +519,39 @@ the integral to one we may know how to compute.
   \end{explanation}
 \end{example}
 
+%\begin{example}
+%We use integration by parts to obtain a reduction formula for:
+%\[
+%\int (\ln(x))^{n} \d x
+%\]
+%\begin{explanation}
+%We let $u=( \ln(x) )^{n} $ and $\d v= \d x$.
+%We obtain
+%\[ \d u=n ( \ln(x) )^{n-1}\frac{1}{x} \text{  and  } v=x
+%\]
+%The integration by parts formula gives us:
+%\[
+%\int ( \ln(x) )^{n} \d x=\answer[given]{x (ln(x))^{n}} - n \int \answer[given]{(ln(x))^{n-1}} \d x
+%\]
+%\end{explanation}
+%\end{example}
 
+\section{Final thoughts}
+When we covered the substitution method for antiderivatives, we saw that there was no fixed procedure for choosing $u$. There were only certain rules of thumb that might guide you to better or worse choices of which part of the integrand to substitute. The same idea applies in integration by parts. There is no procedure that tells you the best choice for $u$ and $\d v$. However here is a useful heuristic (``rule of thumb") that can guide your choice. 
+
+The heuristic is referred by the mnemonic \textit{ILATE}.  The individual letters stand for different types of functions: 
+\begin{align}
+&I \text{  stands for inverse trig} \\ 
+&L \text{  for logarithmic} \\
+&A \text{  for algebraic} \\
+&T \text{  for trigonometic} \\
+&E \text{  for exponetial}
+\end{align}
+The idea is that when choosing $u$ and $\d v$, one looks at the types of functions that show up in the integrand. Function types that occur earlier in \textit{ILATE} are better choices for $u$ while those that appear late are better choices for $\d v$. This is because functions near the top of  \textit{ILATE} generally become simpler when they are differentiated. 
+
+For example. in $\int x \ln(x) \d x$, the integrand is made up of a product of a algebraic function $x$ and a logarithmic function $\ln(x)$.  \text{ILATE}  would suggest choosing $u=\ln(x)$ since logarithmic comes above algebraic in \textit{ILATE}. Thus $\d v=x \d x$ since that is the remaining portion. However one should keep in mind that \textit{ILATE} is simply a rule of thumb that does not always apply and can actually make the problem more difficult to solve in some instances. 
+
+\begin{quote}
+``Mathematics is the science of skillful operations with concepts and rules invented for this purpose" - Eugene Wigner
+\end{quote}
 \end{document}

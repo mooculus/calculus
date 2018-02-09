@@ -1,0 +1,75 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral or sum of integrals that gives the volume of a solid with known cross sections}
+
+\begin{document}
+\begin{exercise}
+
+
+The base of a solid is the region bounded by $x=y^2$ and $x=8-y^2$. The cross-sections through the solid taken parallel to the $x$-axis are rectangles whose base lies in the $xy$-plane and whose height above the $xy$-plane is five times the length of the base. 
+
+       \begin{image}
+\begin{tikzpicture}
+\begin{axis}[
+            domain=-3:3, ymax=4.5,xmax=10.5, ymin=-3, xmin=-1,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+\addplot[draw=penColor,very thick,smooth] (8-x^2,x);
+\addplot[draw=penColor2,very thick,smooth] (x^2,x);
+           
+\addplot [name path=A,domain=4:8,samples=50,draw=none] {sqrt(8-x)}; 
+\addplot [name path=B,domain=4:8,samples=50,draw=none] {-sqrt(8-x)};  
+\addplot [name path=C,domain=0:4.01,samples=50,draw=none] {sqrt(x)}; 
+\addplot [name path=D,domain=0:4.01,samples=50,draw=none] {-sqrt(x)};  
+\addplot [fillp] fill between[of=A and B];
+\addplot [fillp] fill between[of=C and D];
+
+
+
+\node at (axis cs:3,-2.75) [penColor] {$x=8-y^2$};
+\node at (axis cs:7,2.25) [penColor2] {$x=y^2$};
+\end{axis}
+\end{tikzpicture}
+
+\end{image}
+
+	
+
+
+\begin{exercise}
+To express the volume as an integral, we must:
+\begin{multipleChoice}
+\choice{integrate with respect to $x$.}
+\choice[correct]{integrate with respect to $y$.}
+\end{multipleChoice}
+
+\begin{exercise}
+Now, set up an integral to compute the volume of this solid, then evaluate it to find the volume of the solid.
+
+An integral that gives the volume of the solid is:
+
+\[
+	V= \int_{y=\answer{-2}}^{y=\answer{2}}
+	\answer{5(8-2y^2)^2 }\d y
+	\]
+
+Evaluating this integral, the volume of the solid is $\answer{2048/3}$ cubic units.
+
+\begin{hint}
+The length $l$ of the side in the $xy$-plane is $l=\answer{8-2y^2}$.  The height $h$ satisfies $h=5l$.
+\end{hint}
+
+	\end{exercise}
+	\end{exercise}
+	\end{exercise}
+\end{document}

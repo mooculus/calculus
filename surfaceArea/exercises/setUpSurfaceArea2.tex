@@ -1,0 +1,164 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral that gives the area of a surface of revolution with respect to both $x$ and $y$.}
+\outcome{Find  the area of a surface of revolution}
+
+\begin{document}
+\begin{exercise}
+
+The portion of the curve $x=4e^{3y}$ from $y=\ln(2)$ to $y=1$ is revolved around the line $y=2$.
+
+ \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=-3, xmax=90,
+            domain=-1:1,
+            ymin=-.3, ymax=2.4,
+            clip=false,
+            xtick = {10,20,30,40,50,60,70,80},
+            ytick = {-1,1,2,3},
+            axis lines =center,
+            xlabel=$y$, ylabel=$y$, every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+                              
+         \addplot [penColor,thick,smooth,domain=32:80]{1/3*ln(x/4)};
+          
+         % ds and points
+          	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(40,.767)};
+		\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(45,.806)};
+		\addplot[ultra thick, penColor2] plot coordinates {(40,.767) (45,.806)};
+          	\node[anchor=north, penColor2] at (axis cs:45,.75) {$\Delta s$};
+	%axis
+	\addplot[ultra thick, penColor5, dotted] plot coordinates {(.3,2) (90,2)};
+	
+          %r and point 
+           	\addplot[thick, penColor2] plot coordinates {(42.5,2) (42.5,.79)};
+		\node[anchor=north, penColor2] at (axis cs:39,1.4) {$r$};
+          
+          %endpoints
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(32,.69)};
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(80,1)};
+          
+          \node[penColor] at (axis cs:65,1.15) {$x=4e^{3y}$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+ 
+To set up an integral with respect to $x$ that gives the area of the surface of revolution, do the following:  
+
+Since we have chosen to integrate with respect to $x$, we use the result:
+
+\[ SA = \int_{x=a}^{x=b} 2 \pi r \d s\]
+
+and we must express $r$ in terms of $x$ and $\d s$ in terms of $x$ and $\d x$.  
+
+
+Let's start by describing the curve as a function of $x$.  Since $x=4e^{3y}$, we find:
+
+\[
+y= \answer{\frac{1}{3}\ln\left(\frac{x}{4}\right)}
+\]
+
+Calculating $\d s$ gives: 
+
+\[
+\d s = \sqrt{1+ \answer{\frac{1}{9x^2}}} \d x
+\]
+
+
+\begin{exercise}
+Note that is $r$ is the distance from the axis to the curve. This is a:
+
+\begin{multipleChoice}
+\choice[correct]{vertical distance}
+\choice{horizontal distance}
+\end{multipleChoice} 
+Thus $r=y_{top}-y_{bot} = \answer{2-\frac{1}{3}\ln\left(\frac{x}{4}\right)}.$
+
+
+\begin{hint}
+Since we have to express $r$ in terms of $x$, and we note that $y_{top}$ is on the axis of rotation, we must express it in terms of $x$.  Hence, $y_{top} = \answer{2}$.
+
+Similarly, $y_{bot} =\answer{ \frac{1}{3}\ln\left(\frac{x}{4}\right)}$ since $y_{bot}$ is on the curve.
+\end{hint}
+
+
+
+\end{exercise}
+
+\begin{exercise}
+Now we see that an integral that gives the surface area is: 
+\[
+SA= \int_{x=a}^{x=b} 2 \pi r \d s = \int_{x=\answer{32}}^{x=\answer{4e^3}} \answer{2 \pi \left(2-\frac{1}{3}\ln\left(\frac{x}{4}\right)\right)} \sqrt{\answer{1+\frac{1}{9x^2}}} \d x
+\]
+
+\begin{hint}
+When $y=\ln(2)$, we have $x= 4e^{3 \ln(2)}$.  There are two ways to simplify this:
+
+Way 1: Use the properties of logarithms to write: $3 \ln(2) = \ln\left(2^3\right)$ so $4e^{3 \ln(2)} = 4e^{\ln(8)} =\answer{32}$.
+
+Way 2: Use the properties of exponents to write $4e^{3 \ln(2)} = 4\left(e^{\ln(2)}\right)^3 = 4(2)^3 = \answer{32}$.
+
+Now, make sure that your limits of integration are in increasing order.
+\end{hint}
+
+\begin{exercise}
+Using computational software of your choice, the integral to 4 decimal places shows that the surface area is $\answer{343.3015}$ square units.  
+\end{exercise}
+\end{exercise}
+
+
+%%%%%%%%%%%%%%%%%
+
+To set up an integral with respect to $y$ that gives the area of the surface of revolution, do the following:  
+
+Since we have chosen to integrate with respect to $y$, we use the result:
+
+\[ SA = \int_{x=a}^{x=b} 2 \pi r \d s\]
+
+and we must express $r$ in terms of $y$ and $\d s$ in terms of $y$ and $\d y$.  
+
+
+Let's start by finding $\d s$.  Since we integrate with respect to $y$, we use $\d s = \sqrt{1+\left(\frac{\d x}{\d y}\right)^2} \d y$. So: 
+
+\[
+\d s = \sqrt{\answer{1+144e^{6y}}} \d y
+\]
+
+
+\begin{exercise}
+For the radius $r$, we find: $r=\answer{2-y}$.  
+
+
+\begin{exercise}
+Now we see that an integral that gives the surface area is: 
+\[
+SA= \int_{y=c}^{y=d} 2 \pi r \d s = \int_{y=\answer{\ln(2)}}^{y=\answer{1}} \answer{ 2\pi (2-y)} \sqrt{\answer{1+144e^{6y}}} \d y
+\]
+
+\begin{exercise}
+Using computational software of your choice, the integral to 4 decimal places shows that the surface area is $\answer{343.3015}$ square units.  
+
+Does this agree with he previous result?
+
+\begin{multipleChoice}
+\choice[correct]{Yes}
+\choice{No}
+\end{multipleChoice}
+
+\end{exercise}
+
+
+
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

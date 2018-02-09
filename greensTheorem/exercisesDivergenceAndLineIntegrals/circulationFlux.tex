@@ -1,0 +1,39 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler \and Bart Snapp}
+
+\outcome{Compute circulation: the flow of a vector field along a curve.}
+\outcome{Compute flux: the flow of a vector field across a curve.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+  variables = [var('x'), var('y')]
+  var('t')
+  m = sum([randint(-1,1) * prod([v**randint(0,2) for v in variables]) for _ in range(2)])
+  n = sum([randint(-1,1) * prod([v**randint(0,2) for v in variables]) for _ in range(2)])
+  f=[m,n]
+\end{sagesilent}
+
+\begin{exercise}
+
+  Let $\vec{F}(x,y) = \vector{\sage{m},\sage{n}}$ and $C$ be the unit
+  circle centered at the origin drawn in a counterclockwise fashion as
+  $t$ runs from $0$ to $2\pi$. Set up an integral that will compute
+  the flow along a curve $C$ (circulation) and an integral that will
+  compute the flow across a curve $C$ (flux).
+  \begin{prompt}
+    \[
+    \oint_C \vec{F}\dotp\d\vec{p}
+    = \int_{\answer{0}}^{\answer{2\pi}}\left(\answer{\sage{f[0](x=cos(t),y=sin(t))*(-sin(t)) + f[1](x=cos(t),y=sin(t))*cos(t)}}\right)\d t 
+    \]
+    \[
+    \oint_C \vec{F}\dotp\d\vec{n} = \int_{\answer{0}}^{\answer{2\pi}} \left(\answer{\sage{f[0](x=cos(t),y=sin(t))*(cos(t)) + f[1](x=cos(t),y=sin(t))*sin(t)}}\right)\d t 
+    \]
+  \end{prompt}
+\end{exercise}
+\end{document}

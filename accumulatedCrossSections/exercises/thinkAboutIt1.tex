@@ -1,0 +1,141 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Bart Snapp}
+%Example from the original text
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral or sum of integrals that gives the volume of a solid with known cross sections}
+
+\begin{document}
+\begin{exercise}
+
+The following exercise applies the thought process behind building volumes from slabs with known cross section areas.
+
+Consider a pyramid with a square base that is $20$ meters long at side of its base and whose height is $20$ meters:
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+          xmin =-4,xmax=7,ymax=4,ymin=-4,
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          width=5in,
+          axis on top,
+          xtick={0,6}, xticklabels={$0$, $20$},
+          ytick={0,3},yticklabels={$0$,$20$},
+            clip=false,
+      ]
+      \addplot [draw=penColor, fill = fill1, very thick] plot coordinates {(-3,-3) (3,-3) (6,0) (1.5, 3) (-3,-3)};
+      \addplot [draw=penColor, very thick] plot coordinates {(-3,-3) (0,0)};
+      \addplot [draw=penColor, very thick] plot coordinates {(6,0) (0,0)};
+      \addplot [draw=penColor, very thick] plot coordinates {(1.5,3) (3,-3)};
+      \addplot [draw=penColor, very thick] plot coordinates {(1.5,3) (0,0)};
+
+      \addplot [->] plot coordinates {(0,0) (-4,-4)};
+      \node[anchor=north east] at (axis cs:-4,-4) {$z$};       
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+To solve this problem, we must ``sum up'' infinitely many
+``infinitesimal'' slabs which are parallel to the base of the pyramid
+to obtain the volume.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+          xmin =-4,xmax=7,ymax=4,ymin=-4,
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+          width=5in,
+          xtick={0,6}, xticklabels={$0$, $20$},
+          ytick={0,3},yticklabels={$0$,$20$},
+            clip=false,
+      ]
+      \addplot [draw=penColor, thick] plot coordinates {(-3,-3) (3,-3) (6,0) (1.5, 3) (-3,-3)};
+            
+      \addplot [draw=penColor, thick] plot coordinates {(-3,-3) (0,0)};
+      \addplot [draw=penColor, thick] plot coordinates {(6,0) (0,0)};
+      \addplot [draw=penColor, thick] plot coordinates {(1.5,3) (3,-3)};
+      \addplot [draw=penColor, thick] plot coordinates {(1.5,3) (0,0)};
+
+      %% slab
+      \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(3,2) (1,2) (0,1) (2, 1) (3,2)};
+      \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(0,.8) (0,1) (2,1) (2, .8) (0,.8)};
+      \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(2,1) (2, .8) (3,1.8) (3,2) (2,1)};
+
+      %\addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(3,1.8) (1,1.8) (0,.8) (2, .8) (3,1.8)};
+      %\addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(3,2) (1,2) (0,1) (2, 1) (3,2)};
+
+      \addplot [draw=penColor, thick] plot coordinates {(1.5,3) (3,-3)};
+
+      \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:0,.8)--(axis cs:2,.8);
+      \draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:3.1,2.05)--(axis cs:3.1,1.75);
+      
+      \addplot [->] plot coordinates {(0,0) (-4,-4)};
+      \node[anchor=north east] at (axis cs:-4,-4) {$z$};
+
+      \node at (axis cs:3.6,1.9) {$\Delta y$};
+      \node at (axis cs:1,.4) {$L(y)$};       
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+The ``height'' of each slab will be $\Delta y$, and we'll let $L(y)$ be the width:
+\[
+L(y) = \answer[given]{20-y}
+\]
+\begin{hint}
+  Since $L(y)$ is a linear function of $y$, and $L(0) = 20$, and
+  $L(20) = 0$ we see $L(y) = 20-y$ by the point-slope formula.
+\end{hint}
+For each slab, the volume at height $y$ is
+\begin{align*}
+  \d V &= \mathrm{length} \cdot \mathrm{width}\cdot \mathrm{height}\\
+  &= L(y)\cdot L(y)\cdot  \Delta y
+\end{align*}
+so the total approximate volume is given by:
+
+\begin{align*}
+ \mathrm{Volume} &= \sum L(y)^2 \Delta y \\
+  \mathrm{Volume} &= \int_0^{20} L(y)^2 \d y \\
+  &= \int_0^{20} (\answer[given]{20-y})^2 \d y
+\end{align*}
+
+To obtain the \emph{exact} volume, we simultaneously must shrink the heights and add up the contribution from each slab.  This simultaneous limiting process is done by the definite integral:
+
+\[
+V = \int_{0}^{20} L(y)^2 \d y
+\]
+
+Using the expression for $L(y)$ earlier gives:
+
+\[
+\int_0^{20} (\answer{20-y})^2 \d y
+\]
+
+Evaluating the integral shows that the volume is $\answer{8000/3}$ cubic meters.
+
+\begin{hint}
+
+Making the substitution $g = 20-y $, we have $\d g = - \d y$, $g$ going from $20$ to $0$, and 
+	\begin{align*}
+	\int_0^{20} (20-y)^2 \d y &= -\int_{\answer[given]{20}}^{\answer[given]{0}} g^2 \d g\\
+		&= \int_0^{20} g^2 \d g\\
+		&= \eval{\answer[given]{g^3/3}}_0^{20}\\
+		&= \frac{20^3}{3}.
+	\end{align*}
+
+\end{hint}
+
+As you may know from geometry, the volume of a pyramid is
+$(1/3)(\text{height})(\text{area of base})=(1/3)(20)(400)$, which
+agrees with our answer.
+
+
+\end{exercise}
+\end{document}

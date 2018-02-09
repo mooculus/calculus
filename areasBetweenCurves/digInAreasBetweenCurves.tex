@@ -1,422 +1,891 @@
 \documentclass{ximera}
 \input{../preamble}
+\pgfplotsset{compat=1.13}
+\author{Jim Talamo}
 
+\outcome{Introduce the method of "Slice, Approximate, Integrate" to set up Riemann integrals}
 \outcome{Find the bounded area between two curves.}
-\outcome{Integrate with respect to $y$.}
-\outcome{Decided whether to integrate with respect to $x$ or $y$.}
+\outcome{Express the area between curves as an integral or sum of integrals with respect to $x$ or $y$.}
+\outcome{Decide whether to integrate with respect to $x$ or $y$.}
 
 
 \title[Dig-In:]{Area between curves}
-
+ 
 \begin{document}
 \begin{abstract}
-  We compute the area of a region between two curves using the
-  definite integral.
+  We introduce the procedure of ``Slice, Approximate, Integrate" and use it study the area of a region between two curves using the definite integral.
 \end{abstract}
 \maketitle
 
+We have seen previously that for continuous functions defined on closed intervals, the Fundamental Theorem of Calculus relates the process of finding antiderivatives to calculating certain areas.  As it turns out the process used to transcribe Riemann sums that \emph{approximate} such areas to definite integrals that give an \emph{exact} answer is a fundamental procedure that applies to numerous examples in both mathematics and other STEM fields.  The rest of this chapter will be devoted to applying this process to many different cases of interest! 
 
-We have seen how integration can be used to find signed area between a
-curve and the $x$-axis. With very little change we can find areas
-bounded between curves.  Generally we should interpret ``area'' in the
-usual sense, as a necessarily positive quantity. Suppose $f(x)>g(x)$
-for all $x$ on the interval $[a,b]$ and we wish to know the geometric
-area bounded between $f$ and $g$ on this interval:
+As an opening remark, we deal only with piecewise continuously differentiable functions, for which the quantities we will describe have a natural conceptually visual meaning.
+
+%%%%FINISH THIS
+
+\section{The Fundamental Theorem of Calculus and Areas}
+
+We begin the section with a motivating reminder:
+
+\paragraph{Motivating Reminder:} The area between a continuous function $y=f(x)$ and the $x$-axis between $x=a$ and $x=b$ for the function shown below:
+
 \begin{image}
 \begin{tikzpicture}
-	\begin{axis}[
-            domain=.5:2.5, ymax=10,xmax=2.5,ymin=0, xmin=.5,
-            axis lines =left, xlabel=$x$, ylabel=$y$,
-            xtick={1,2},
-            ytick style={draw=none},
-            width=4in,
-            height=2in,
-            yticklabels={},
-            xticklabels={$a$, $b$},
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \addplot [draw=none,fill=fillp,domain=1:2] {-x^2+4*x+3} \closedcycle;
-          \addplot [draw=none,fill=background,domain=1:2] {-x^3 + 7*x^2-10*x+5} \closedcycle;
-          \addplot [draw=penColor,very thick] {-x^2+4*x+3};
-          \addplot [draw=penColor2,very thick] {-x^3 + 7*x^2-10*x+5};
-          \node at (axis cs:1,6.7) [penColor] {$f$};
-          \node at (axis cs:2,4) [penColor2] {$g$};
-        \end{axis}
+
+\begin{axis}
+	[
+	domain=0:6, ymax=1.75,xmax=6, ymin=0, xmin=0,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={1.5,4.5},
+	xticklabels={$a$,$b$},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {.4*sin(deg(x)) + 1};
+	
+	\addplot [name path=A,domain=1.5:4.5,draw=none] {.4*sin(deg(x)) + 1};   
+	\addplot [name path=B,domain=1.5:4.5,draw=none] {0};
+	\addplot [fillp] fill between[of=A and B];
+	
+	\draw[penColor,thick] (1.5,0) -- (1.5,{.4*sin(deg(1.5)) + 1});
+	\draw[penColor,thick] (4.5,0) -- (4.5,{.4*sin(deg(4.5)) + 1});
+	
+	\node at (axis cs:3,1.5) [penColor] {$y=f(x)$};
+\end{axis}
+
 \end{tikzpicture}
 \end{image}
-From the graph above we see that the area we want is the area under
-$f$ minus the area under $g$, which is to say
+
+When this question arises at this stage in calculus, we may use the Fundamental Theorem of Calculus to write this area as a definite integral: $$\displaystyle A = \int_{x=a}^{x=b} f(x) \, dx .$$
+
+However, recalling how this result was obtained in the first place is instructive and understanding the logic behind it is essential in order to apply a similar method to set up integrals to model other types of situations.  We thus give a detailed conceptual outline of the argument here:
+
+\paragraph{Step 1: Slice}
+
+Since we have expressed $y$ as an function of $x$, we slice with respect to the independent variable (input), that is we divide the area up into $n$ pieces of uniform width $\Delta x$.
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=0:6, ymax=1.75,xmax=6, ymin=-.25, xmin=0,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={1.5,4.5},
+	xticklabels={$a$,$b$},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {.4*sin(deg(x)) + 1};
+	
+	\node at (axis cs:3,1.5) [penColor] {$y=f(x)$};
+	
+	\addplot [name path=A,domain=1.5:4.5,draw=none] {.4*sin(deg(x)) + 1};   
+	\addplot [name path=B,domain=1.5:4.5,draw=penColor,thick] {0};
+	\addplot [fillp] fill between[of=A and B];
+
+	\pgfplotsinvokeforeach{1.5,2.25,3,3.75,4.5}	
+	{
+		\draw[black,thick] 
+		(axis cs:#1,0) -- (axis cs:#1,{.4*sin(deg(#1)) + 1});
+	}
+	
+	\node at (axis cs:2.625,-.15) [penColor] {$\Delta x$};
+	
+	\draw[penColor, |-|] (axis cs:2.25,-.07) -- (axis cs:3,-.07);
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+\begin{remark}
+The uniformity of the slices is not sufficient, but this is beyond the scope of this text.  However, this does allow for us to make our examples more conceptually tractable.  As such, we adopt this convention throughout this chapter. 
+\end{remark}
+
+\paragraph{Step 2: Approximate}
+
+We cannot determine the exact area of the slice, but we can approximate that each slice is a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle. 
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=0:6, ymax=1.75,xmax=6, ymin=-.25, xmin=0,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={1.5,4.5},
+	xticklabels={$a$,$b$},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {.4*sin(deg(x)) + 1};
+	
+	\node at (axis cs:3,1.5) [penColor] {$y=f(x)$};
+
+	\pgfplotsinvokeforeach{2.25,3,3.75,4.5}	
+	{
+		\draw[black,thick,fill=fillp] 
+		(axis cs:#1-.75,0)
+		-- (axis cs:#1-.75,{.4*sin(deg(#1)) + 1}) 
+		-- (axis cs:#1,{.4*sin(deg(#1)) + 1}) 
+		-- (axis cs:#1,0) 
+		-- (axis cs:#1-.75,0);
+	}
+	
+	\node at (axis cs:2.625,-.15) [penColor] {$\Delta x$};
+	
+	\draw[penColor, |-|] (axis cs:2.25,-.07) -- (axis cs:3,-.07);
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+The area $\Delta A_k$ of one the $k$th rectangles is given by: 
+\begin{align}
+\Delta A_k & = (height) \times (width) \nonumber \\
+\Delta A_k &= f\left(x_k^*\right)\Delta x 
+\end{align}
+where $x_k^*$ is the $x$-value in the chosen rectangle that determines its height $f(x_k^*)$. 
+
+Let $S_n$ denote the total area obtained by adding the areas of the $n$ rectangles together.   Then, we can compute $S_n$ easily by adding up the areas of all of the rectangles: $$S_n = \Delta A_1 + \Delta A_2 + \ldots \Delta A_n$$
+or if you prefer using sigma notation: 
+\begin{equation}
+S_n =\sum_{k=1}^{n} \Delta A_k =  \sum_{k=1}^n f(x_k^*) \Delta x 
+\end{equation}
+Note that as we use more rectangles, the following occur \emph{simultaneously}:
+
+\begin{itemize}
+\item[1.] The width $\Delta x$ of each rectangle decreases.
+\item[2.] The total number of rectangles increases.
+\item[3.] The sum of the areas of the rectangles becomes closer to the actual area.
+\end{itemize}
+
+The actual area is then $A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right]$.
+
+
+\paragraph{Step 3: Integrate}
+
+While this infinite limit can be quite cumbersome to work out in even the simplest cases, the Fundamental Theorem of Calculus comes to the rescue; it guarantees that since $y=f(x)$ is continuous on $[a,b]$, this area is also computed via: $$A = \int_{x=a}^{x=b} f(x) \, dx$$
+This can now be interpreted conceptually as follows:
+\begin{itemize}
+\item[1.] The integrand $f(x) \, dx$ is the area of an \emph{infinitesimal} rectangle of height $f(x)$ and thickness $dx$.\footnote{The notation ``$\Delta x$" represents the \emph{finite} but small width of a rectangle.  The notation ``$dx$" represents the \emph{infinitesimal} width of a rectangle and cannot be thought of strictly as 0!  This results from the area procedure the number of rectangles whose areas we must add increases \emph{simultaneously} without bound as the widths of each rectangle becomes arbitrarily close to 0!}
+\item[2.] The procedure of definite integration can be thought of conceptually as \emph{simultaneously} shrinking the widths of the rectangles while adding them all together!
+\end{itemize}
+
+This same procedure can be used to model many other situations, which will be the subject of the rest of this chapter!  It is highly advisable that you understand the logic behind it for every instance that we explore! 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{The Area Between Two Curves}
+
+We have seen how integration can be used to find signed area between a curve and the $x$-axis. The above procedure also can be used to find areas between curves as well.  Before we begin, note that we will interpret ``area'' as a positive quantity; all of the area bounded by the curves should be taken to be positive regardless of which the quadrant it appears! Let's see how the logic behind the above procedure works in a slightly different context.
+
+\paragraph{Motivating Example:} Suppose now that we have two functions, $y=4x^3+17$ and $y=3x^2$ and suppose we want to find the area between the two curves on $-1 \leq x \leq 1$.  The area is shown below:
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-1.5:1.5, ymax=25,xmax=1.75, ymin=0, xmin=-1.75,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={-1,1},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 17};	
+	\addplot [draw=penColor2,very thick, smooth] {3*x^2};
+	
+	\draw [penColor,thick] (-1,3) -- (-1,13);
+	\draw [penColor,thick] (1,3) -- (1,21);
+	
+	\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 17};	
+	\addplot [name path=B,domain=-1:1,draw=none] {3*x^2};
+	\addplot [fillp] fill between[of=A and B];
+	
+	\node at (axis cs:.6,24) [penColor] {$y=4x^3 + 17$};
+	\node at (axis cs:1.4,2.5) [penColor2] {$y = 3x^2$};
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+
+
+
+So should we do this? Let's apply the procedure of ``Slice, Approximate, Integrate".
+
+\paragraph{Step 1: Slice}
+
+We divide the area up into $n$ pieces of uniform width $\Delta x$.
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-1.5:1.5, ymax=25,xmax=1.75, ymin=-3, xmin=-1.75,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={-1,1},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 17};	
+	\addplot [draw=penColor2,very thick, smooth] {3*x^2};
+	
+	\pgfplotsinvokeforeach{-1,-.75,-.5,-.25,0,.25,.5,.75,1}
+	{
+		\draw[penColor,thick] (#1, {3*(#1)^2}) -- (#1, {4*(#1)^3 + 17});
+	}
+	
+	\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 17};	
+	\addplot [name path=B,domain=-1:1,draw=none] {3*x^2};
+	\addplot [fillp] fill between[of=A and B];
+	
+	\addplot [name path=darkerA,domain=.5:.75,draw=none] {4*x^3 + 17};
+	\addplot [name path=darkerB,domain=.5:.75,draw=none] {3*x^2};
+	\addplot [blue!50!black!50] fill between[of=darkerA and darkerB];
+	
+	\node at (axis cs:.6,24) [penColor] {$y=4x^3 + 17$};
+	\node at (axis cs:1.4,2.5) [penColor2] {$y = 3x^2$};
+	
+	\node at (axis cs:.625,-2) [penColor] {$\Delta x$};
+	
+	\draw[penColor, |-|] (axis cs:.5,-.75) -- (axis cs:.75,-.75);
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+
+\paragraph{Step 2: Approximate}
+
+We cannot determine the exact area of the slice, but just as before, we can approximate that each slice is a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle: 
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-1.5:1.5, ymax=25,xmax=1.75, ymin=-3, xmin=-1.75,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={-1,1},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	]
+
+	\pgfplotsinvokeforeach{-1,-.75,-.5,-.25,0,.25,.75}
+	{
+		\draw[penColor,thick,fill=fillp] (#1, {3*(#1)^2}) -- (#1, {4*(#1)^3 + 17}) -- ({#1 + .25}, {4*(#1)^3 + 17}) -- ({#1 + .25}, {3*(#1)^2}) -- (#1, {3*(#1)^2});
+	}
+	\pgfplotsinvokeforeach{.5}
+	{
+		\draw[penColor,thick,fill=blue!50!black!50] (#1, {3*(#1)^2}) -- (#1, {4*(#1)^3 + 17}) -- ({#1 + .25}, {4*(#1)^3 + 17}) -- ({#1 + .25}, {3*(#1)^2}) -- (#1, {3*(#1)^2});
+	}
+	
+	\draw[red, thick, |-|] (axis cs:.82,{3*(.5)^2}) -- (axis cs:.82,{4*(.5)^3 + 17});
+	\node at (axis cs:.91,9) [red] {$h$};
+
+	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 17};	
+	\addplot [draw=penColor2,very thick, smooth] {3*x^2};
+	
+	%\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 17};	
+	%\addplot [name path=B,domain=-1:1,draw=none] {3*x^2};
+	%\addplot [fillp] fill between[of=A and B];
+	
+	\node at (axis cs:.6,24) [penColor] {$y=4x^3 + 17$};
+	\node at (axis cs:1.4,2.5) [penColor2] {$y = 3x^2$};
+	
+	\node at (axis cs:.625,-2) [penColor] {$\Delta x$};
+	
+	\draw[penColor, |-|] (axis cs:.5,-.75) -- (axis cs:.75,-.75);
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+
+The area $\Delta A_k$ of one the $k$th rectangles is given by: 
 \begin{align*}
-\mathrm{Area} &= \int_a^b f(x)\d x-\int_a^b g(x)\d x \\
-&= \int_a^b f(x)-g(x) \d x.
+\Delta A_k & = (height) \times (width) \nonumber \\
 \end{align*}
-It will also be useful to adopt the following intuitive way of
-thinking about this problem: In a somewhat nonrigorous way, we can
-think of an integral as ``summing up" an infinite number of
-infinitesimal quantities. In this case we are summing rectangles of
-width $\d x$ and height $f(x)-g(x)$:
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=.5:2.5, ymax=10,xmax=2.5,ymin=0, xmin=.5,
-            axis lines =left, xlabel=$x$, ylabel=$y$,
-            xtick={1,2}, yticklabels={},
-            ytick style={draw=none},
-            xticklabels={$a$, $b$},
-            width=4in,
-            height=2in,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          %\addplot [draw=none,fill=fillp,domain=1:2] {-x^2+4*x+3} \closedcycle;
-          %\addplot [draw=none,fill=background,domain=1:2] {-x^3 + 7*x^2-10*x+5} \closedcycle;
-          \addplot [draw=penColor,very thick] {-x^2+4*x+3};
-          \addplot [draw=penColor2,very thick] {-x^3 + 7*x^2-10*x+5};
-          \node at (axis cs:1,6.7) [penColor] {$f$};
-          \node at (axis cs:2,4) [penColor2] {$g$};
-          \addplot [draw=penColor, fill = fillp] plot coordinates {(1.5,2.375) (1.6,2.375) (1.6, 6.84) (1.5,6.84) (1.5, 2.375)};
-          
-          \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (axis cs:1.5,2.7)--(axis cs:1.6,2.7);
-          \node at (axis cs:1.55,1.25) {$\d x$};
+where $x_k^*$ is the $x$-value in the chosen rectangle that determines its height $f(x_k^*)$. 
 
-          \draw[decoration={brace,raise=.2cm},decorate,thin] (axis cs:1.51,2.375)--(axis cs:1.51,6.84);
-          \node[anchor=east] at (axis cs:1.45,4.6) {$f(x)-g(x)$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-In this case, the integral
-\begin{image}
-  \begin{tikzpicture}[scale=2,every node/.style={transform shape}]
-    \node at (0,0) {
-      $\color{green!70!black!70!blue}\int_{a}^{b}\color{purple!50!blue!90!black}{f(x) - g(x)} \,\color{blue!70!green}{\d x}$
-    };
-  \end{tikzpicture}
-\end{image}
-could be interpreted as:
-\begin{quote}
-  \large\textbf{The \textcolor{green!70!black!70!blue}{sum} of the
-    area of rectangles whose
-    \textcolor{purple!50!blue!90!black}{heights are the difference
-      between the top curve and bottom curve}, and whose
-    \textcolor{blue!70!green}{widths are infinitesimal}.}
-\end{quote}
-This way of thinking about integrals will be very useful to us in
-later, more complex, applications.
+The height of the darkly shaded rectangle can be found by realizing that it is the change of $y$-values on the individual curves. In fact, if we consider a specific $x$-value in $[-1,1]$:
+
+\begin{question}
+The function used to determine the top $y$-value, $y_{top}$ is:
+\begin{multipleChoice}
+\choice[correct]{$y_{top}=4x^3+17$}
+\choice{$y_{bot}=3x^2$}
+\end{multipleChoice}
+\end{question}
+
+\begin{question}
+The function used to determine the bottom $y$-value, $y_{bot}$ is:
+\begin{multipleChoice}
+\choice{$y_{top}=4x^3+17$}
+\choice[correct]{$y_{bot}=3x^2$}
+\end{multipleChoice}
+\end{question}
+
+Thus, the height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{(4x^3+17)-(3x^2)}$.
+
+The approximate total area obtained by adding the areas of the $n$ rectangles between $x=-1$ and $x=1$ together.  Note that as we use more rectangles, the following occur \emph{simultaneously}:
+
+\begin{itemize}
+\item[1.] The width $\Delta x$ of each rectangle decreases.
+\item[2.] The total number of rectangles increases.
+\item[3.] The sum of the areas of the rectangles becomes closer to the actual area.
+\end{itemize}
+
+The actual area $A$ is indeed what we expect it should be: $$A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right].$$ 
+
+
+\paragraph{Step 3: Integrate}
+
+The same logic behind the Fundamental Theorem of Calculus allows us to write the above limit as a definite integral!  In fact:
+
+\[
+A = \int_{x=-1}^{x=1} (4x^3+17)-(3x^2) \d x
+\]
+By evaluating this, we can find the actual area.  Write with me:
+
+\begin{align*}
+A &= \int_{x=-1}^{x=1} 4x^3-3x^2+17 \d x \\
+&= \eval{ \answer[given]{x^4-x^3+17x}}_{x= -1}^{x=1} \\
+&= \left[(1)^4-(1)^3+17(1)\right] -  \left[(-1)^4-(-1)^3+17(-1)\right] \\
+&=\answer[given]{32}
+\end{align*}
+
+
+Note that $A = \int_{x=-1}^{x=1} (4x^3+17)-(3x^2) \d x$ can be interpreted as follows:
+\begin{itemize}
+\item[1.] The integrand is the area of an \emph{infinitesimal} rectangle, whose height is determined as the difference between the top and bottom $y$-values of the bounding curves, and whose thickness $dx$. 
+\item[2.] Since we integrate with respect to $x$, the limits of integration tell us the range of $x$-values the rectangles to be added are:
+\begin{itemize}
+\item The lower limit gives the $x$-value of the first slice.
+\item The upper limit gives the $x$-value of the last slice.
+\end{itemize}
+\end{itemize}
+
+
+A similar procedure can be taken in many other examples for the rest of the chapter! The major point here is that once we find the approximate area for a \emph{single} rectangle, we can immediately write down the integral that gives the \emph{exact} area of the region!
+
+\textbf{Remark:} Since the thickness is $\d x$, we must express the curves as functions of $x$; that is, we must write $y_{top}$ and $y_{bot}$ in terms of $x$!
+ 
+A common theme that runs throughout this chapter is that once we choose a variable of integration, \emph{every} quantity (limits of integration, functions in the integrand) \emph{must} be written in terms of that variable!
+
+To emphasize this, we explicitly write $\int_{x=-1}^{x=1} (\ldots) \d x $ instead of $\int_{-1}^1(\ldots) \d x $ to point out that these limits correspond to $x$. 
+
 
 \section{Integrating with respect to \textit{x}}
 
-We'll start with basic examples and gradually build to more difficult
-ones.
+We can summarize the above procedure neatly with a simple formula that respects the geometrical reasoning used to generate the area of a region:
+
+\begin{formula}
+The area of a region bounded by continuous functions on $a \le x \le b$ is given by: 
+
+\[A=\int_{x=a}^{x=b} h \d x \]
+where $h$ is the height of a slice, $x=a$ gives the $x$-value of the first slice, and $x=b$ gives the $x$-value of the last slice.
+
+\end{formula}
+
+Let's look at a few more examples:
+
 
 \begin{example}
-  Let $f(x) = -x^2+4x+3$ and $g(x)=-x^3+7x^2-10x+5$. Compute the area
-  between them on the interval $1 \le x \le 2$.
+Find the area bounded by the curves $y=\frac{9}{x}$, $y=2x-3$, and $x=1$.
+
+As usual, the best way to start is to draw a picture of the region, and draw a representative rectangle that will be used to build the area of the region:  
+
+%%%%%%%%PICTURE%%%%%%%%%%%
 \begin{image}
 \begin{tikzpicture}
-	\begin{axis}[
-            domain=.5:2.5, ymax=10,xmax=2.5,ymin=0, xmin=.5,
-            axis lines =left, xlabel=$x$, ylabel=$y$,
-            xtick={1,2},
-            ytick style={draw=none},
-            width=4in,
-            height=2in,
-            yticklabels={},
-            xticklabels={$1$, $2$},
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \addplot [draw=none,fill=fillp,domain=1:2] {-x^2+4*x+3} \closedcycle;
-          \addplot [draw=none,fill=background,domain=1:2] {-x^3 + 7*x^2-10*x+5} \closedcycle;
-          \addplot [draw=penColor,very thick] {-x^2+4*x+3};
-          \addplot [draw=penColor2,very thick] {-x^3 + 7*x^2-10*x+5};
-          \node at (axis cs:1,6.7) [penColor] {$f$};
-          \node at (axis cs:2,4) [penColor2] {$g$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-\begin{explanation}
-  Write with me:
-\[ 
-\int_1^2 f(x)-g(x)\d x = \answer[given]{\frac{49}{12}}.
-\]
-\begin{hint}
-\[
-\int_1^2 -x^2+4x+3-(-x^3+7x^2-10x+5) \d x
-\]
-\begin{align*}
-  &=\int_1^2 x^3-8x^2+14x-2 \d x \\
-  &=\eval{\frac{x^4}{4}-\frac{8x^3}{3}+7x^2-2x}_1^2 \\
-  &= \frac{16}{4} - \frac{64}{3}+28-4-(\frac{1}{4}- \frac{8}{3}+7-2) \\
-  &=23-\frac{56}{3}-\frac{1}{4}\\
-  &=\frac{49}{12}
-\end{align*}
-\end{hint}
-\end{explanation}
-\end{example}
-
-
-In our first example, one curve was higher than the other over the
-entire interval. This does not always happen.
-
-\begin{example} Find the area between $f(x)= -x^2+4x$ and
-$g(x)=x^2-6x+5$ over the interval $0 \le x \le 1$.
-
-
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=-1:2, ymax=6,xmax=1.5,ymin=-0.3, xmin=-.5,
+\begin{axis}[
+            domain=0:4, ymax=12,xmax=4.5, ymin=-4, xmin=0,
             axis lines =center, xlabel=$x$, ylabel=$y$,
-	   xtick={0.5635,1},
-            xticklabels={$a$,$1$}, 
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
             axis on top,
           ]
-          \addplot [draw=none,fill=fillp,domain=0:0.56] {x^2-6*x+5} \closedcycle;
-          \addplot [draw=none,fill=background,domain=0:0.56] {-x^2+4*x} \closedcycle;
-          \addplot [draw=none,fill=fillp,domain=0.56:1] {-x^2+4*x} \closedcycle;
-          \addplot [draw=none,fill=background,domain=0.56:1] {x^2-6*x+5} \closedcycle;
-          \addplot [draw=penColor,very thick] {-x^2+4*x};
-          \addplot [draw=penColor2,very thick] {x^2 - 6*x+5};
-          \node at (axis cs:1.25,3.1) [penColor] {$f$};
-          \node at (axis cs:.25,4.3) [penColor2] {$g$};
-          \addplot [textColor,dashed] plot coordinates {(0.5635,0) (0.5635,1.9364)};
+          
+\addplot [draw=penColor,very thick,smooth] {2*x-3};
+\addplot [draw=penColor2,very thick,smooth] {9/x};
+\addplot [draw=black!60!green,very thick,smooth] coordinates {(1,-4)(1,12)};
+           
+\addplot [name path=A,domain=1:3,draw=none] {9/x};   
+\addplot [name path=B,domain=1:3,draw=none] {2*x-3};
+\addplot [fillp] fill between[of=A and B];
 
+  \addplot [draw=penColor, fill = gray!50] plot coordinates {(1.5,.3) (1.6,.3) (1.6, 5.5) (1.5,5.5) (1.5, .3)};
+          
+        
+
+          \draw[decoration={brace,raise=.2cm},decorate,thin] (axis cs:1.51,.3)--(axis cs:1.51,5.5);
+          \node[anchor=east] at (axis cs:1.35,3) {$h$};
+                    
+          
+          \node at (axis cs:2,-2) [penColor] {$y=2x-3$};
+          \node at (axis cs:2,7) [penColor2] {$y=\frac{9}{x}$};
+          \node at (axis cs:0.5,4) [black!60!green] {$x=1$};
         \end{axis}
 \end{tikzpicture}
+
 \end{image}
 
+%%%%%%%%PICTURE%%%%%%%%%%%
 
-\begin{explanation}
-Since the two curves cross, we need to compute two areas and add
-them. First we find the intersection point of the curves.  Letting $a$
-be the $x$-coordinate of the point of intersection, we have $a =
-\answer[given]{\frac{5-\sqrt{15}}{2}}$
+Note that there is a ``natural" righthand boundary here; it's the $x$-value where the curves intersect!  Write with me:
 
-\begin{hint}
-\begin{align*}
-  -a^2+4a &= a^2-6a+5 \\
-  0 &= 2a^2-10a+5 \\
-  a &= \frac{10 \pm \sqrt{100-40}}{4}\\
- a &= \frac{5 \pm \sqrt{15}}{2}.
-\end{align*}
+   \begin{align*}
+    \frac{9}{x} &= 2x-3\\
+  9 &= 2x^2-3x\\
+   2x^2-3x-9 &= 0\\
+   (2x+\answer[given]{3})(x+\answer[given]{-3})  &= 0 \\
+   x   &= -\frac{3}{2} \text{ or }\answer[given]{3}.
+  \end{align*}
+  From the picture, note that $x=-\frac{3}{2}$ is not relevant for this problem!
 
-Of the two solutions, only $\frac{5-\sqrt{15}}{2}$ is within the region of interest.
-\end{hint}
-Then the total area is 
-\[
-\textrm{Area} = \int_0^a g(x) - f(x) \d x + \int_a^1 f(x) - g(x) \d x
-\]
-since $g$ is above $f$ on the interval $[0,a]$, and $f$ is above $g$
-on the interval $[a,1]$.  Computing this area we find
-\[
-\textrm{Area} = \answer[given]{5\sqrt{15} - \frac{52}{3}}.
-\]
-\begin{hint}
+We must now express $h$ in terms of the variable of integration!  Since $h$ is a vertical distance, $h=y_{top}-y_{bot}$
+
+The function used to determine the upper $y$-value, $y_{top}$ is:
+\begin{multipleChoice}
+\choice{$y_{top}=2x-3$}
+\choice[correct]{$y_{top}=\frac{9}{x}$}
+\choice{$y_{top}=1$}
+\end{multipleChoice}
+
+The function used to determine the lower $y$-value, $y_{bot}$ is:
+\begin{multipleChoice}
+\choice[correct]{$y_{bot}=2x-3$}
+\choice{$y_{bot}=\frac{9}{x}$}
+\choice{$y_{bot}=1$}
+\end{multipleChoice}
+
+The height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{\frac{9}{x}-(2x-3)}$.
+
+Thus, the area is given by:
   \[
-  \int_0^a g(x) - f(x) \d x + \int_a^1 f(x) - g(x) \d x
-  \]
-  \begin{align*}
-    = \int_0^a & \answer{x^2-6x+5}-(-x^2+4x)\d x \\
-    &+\int_a^1 \answer{-x^2+4x}-(x^2-6x+5)\d x
-  \end{align*}
-  Simplifying we find
-  \begin{align*}
-    &=\int_0^a 2x^2-10x+5\d x+\int_a^1 -2x^2+10x-5\d x \\
-    &= \eval{\frac{2x^3}{3}-5x^2+5x}_0^a + \eval{ \frac{-2x^3}{3}+5x^2-5x}_a^1 \\
-    &= 5\sqrt{15}-\frac{52}{3}.
-  \end{align*}
-\end{hint}
-\end{explanation}
-\end{example}
-
-In both of our examples above, we gave you the limits of integration
-by bounding the $x$-values between $0$ and $1$. However, in some problems
-you will have to do more work to determine these bounds.
-
-\begin{example}
-Find the area bounded between $f(x)= -x^2+4x$ and $g(x)=x^2-6x+5$.
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:5, ymax=5,xmax=5,ymin=-5, xmin=0,
-            axis lines =center, xlabel=$x$, ylabel=$y$,
- 	   xtick={0.5635},
-            xticklabels={$a$}, 
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \addplot [draw=none,fill=fillp,domain=.56:4] {-x^2+4*x} \closedcycle;
-          \addplot [draw=none,fill=fillp,domain=.56:4.44] {x^2-6*x+5} \closedcycle;
-          \addplot [draw=none,fill=background,domain=4:5] {-x^2+4*x} \closedcycle;
-          \addplot [draw=none,fill=background,domain=0:1] {x^2-6*x+5} \closedcycle;
-          %\addplot [draw=none,fill=fillp,domain=.56:4] {-x^2+4*x} \closedcycle;       
-          \addplot [draw=penColor,very thick,smooth] {-x^2+4*x};
-          \addplot [draw=penColor2,very thick,smooth] {x^2-6*x+5};
-          
-          \node at (axis cs:2,4.4) [penColor] {$f$};
-          \node at (axis cs:1,-1) [penColor2] {$g$};
-	 \node at (axis cs:4.43649,0.3) [textColor] {b};
-	 \addplot [textColor,dashed] plot coordinates {(0.5635,0) (0.5635,1.9364)};
-          \addplot [textColor,dashed] plot coordinates {(4.43649,0) (4.43649,-1.9364)};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-
-\begin{explanation}
-Here we are not given a specific interval, so it must be the case that
-there is a ``natural'' region involved. Since the curves are both
-parabolas, the only reasonable interpretation is the region between
-the two intersection points, which we found in the previous example to
-be $a=\answer[given]{(5-\sqrt{15})/2}$ and
-$b=\answer[given]{(5+\sqrt{15})/2}$.  Since $f \ge g$ on $[a,b]$, the
-geometric area is
-\[
-\int_a^b f(x) - g(x) \d x = \answer[given]{5\sqrt{15}}.
-\]
-\begin{hint}
-\begin{align*}
-  \int_a^b -x^2+4x-(x^2-6x+5)\d x
-  &=\int_a^b -2x^2+10x-5\d x \\
-  &=\eval{\answer{\frac{-2x^3}{3}+5x^2-5x}}_a^b \\
-  &=\answer{5\sqrt{15}}.
-\end{align*}
-\end{hint}
-\end{explanation}
-\end{example}
-
-\section{Integrating with respect to \textit{y}}
-
-Consider the region bounded by the function $f(x) = x-3$, $g(x) =
-\sqrt{x-1}$ and the horizontal axis:
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:5.5, ymax=2.5,xmax=5.5, ymin=0, xmin=0,
-            axis lines =center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \addplot [ fill = fillp, smooth, samples=100, domain=(0:2)] ({1+x^2},{x}) \closedcycle;
-          \addplot [draw=none,fill=background,domain=0:5.2] {x-3} \closedcycle;   
-          \addplot [very thick, penColor2, smooth, samples=100, domain=(0:3)] ({1+x^2},{x});
-          \addplot [draw=penColor,very thick,smooth] {x-3};
-          
-          \node at (axis cs:3.4,1.7) [penColor2] {$g$};
-          \node at (axis cs:4,0.7) [penColor] {$f$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-
-While we could find the area of this region by breaking the
-computation up into the two regions $[1,3]$ and $[3,5]$ (check that
-$5$ is the intersection point!), there is another approach.  We can
-think of splitting the region up into \textbf{horizontal} rectangles.
-
-We can rewrite $y = \sqrt{x-1}$ as $x = y^2+1$, and we can rewrite $y
-= x-3$ as $x = y+3$, so we have the following picture:
-
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:5.5, ymax=2.5,xmax=5.5, ymin=0, xmin=0,
-            axis lines =center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          %\addplot [ fill = fillp, smooth, samples=100, domain=(0:2)] ({1+x^2},{x}) \closedcycle;
-          %\addplot [draw=none,fill=background,domain=0:5.2] {x-3} \closedcycle;   
-          \addplot [very thick, penColor2, smooth, samples=100, domain=(0:3)] ({1+x^2},{x});
-          \addplot [draw=penColor,very thick,smooth] {x-3};
-          
-          \node at (axis cs:3.4,1.7) [penColor2] {$g$};
-          \node at (axis cs:4,0.7) [penColor] {$f$};
-
-	  \addplot [draw=penColor, fill = fillp] plot coordinates {(2,1) (2,1.1) (4, 1.1) (4,1) (2, 1)};
-
-          \draw[decoration={brace,raise=.2cm},decorate,thin] (axis cs:2,1)--(axis cs:2,1.1);
-          \node at (axis cs:1.6,1.05) {$\d y$};
-
-          \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (axis cs:2,1)--(axis cs:4,1);
-          \node at (axis cs:2.7,.7) {$f^{-1}(y)-g^{-1}(y)$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-In this case, the integral
-\begin{image}
-  \begin{tikzpicture}[scale=2,every node/.style={transform shape}]
-    \node at (0,0) {
-      $\color{green!70!black!70!blue}\int_{a}^{b}\color{purple!50!blue!90!black}{f^{-1}(y) - g^{-1}(y)} \,\color{blue!70!green}{\d y}$
-    };
-  \end{tikzpicture}
-\end{image}
-could be interpreted as:
-\begin{quote}
-  \large\textbf{The \textcolor{green!70!black!70!blue}{sum} of the
-    area of rectangles whose
-    \textcolor{purple!50!blue!90!black}{widths are the difference
-      between the right curve and left curve}, and whose
-    \textcolor{blue!70!green}{heights are infinitesimal}.}
-\end{quote}
-
-
-Let's see an example.
-
-\begin{example}
-  Compute the area of the region bounded by the function $f(x) = x-3$,
-  $g(x) = \sqrt{x-1}$ and the horizontal axis:
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:5.5, ymax=2.5,xmax=5.5, ymin=0, xmin=0,
-            axis lines =center, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            axis on top,
-          ]
-          \addplot [ fill = fillp, smooth, samples=100, domain=(0:2)] ({1+x^2},{x}) \closedcycle;
-          \addplot [draw=none,fill=background,domain=0:5.2] {x-3} \closedcycle;   
-          \addplot [very thick, penColor2, smooth, samples=100, domain=(0:3)] ({1+x^2},{x});
-          \addplot [draw=penColor,very thick,smooth] {x-3};
-          
-          \node at (axis cs:3.4,1.7) [penColor2] {$g$};
-          \node at (axis cs:4,0.7) [penColor] {$f$};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-\begin{explanation}
-  This area will be easier to compute if we look at $f^{-1}$ and $g^{-1}$. We have that
-  \begin{align*}
-    f^{-1}(y) &= \answer[given]{y+3}\\
-    g^{-1}(y) &= \answer[given]{y^2 +1}
-  \end{align*}
-  We also must find where $f^{-1}$ and $g^{-1}$ intersect. Write with me
-  \begin{align*}
-    y+3 &= y^2 +1,\\
-    \answer[given]{y^2-y-2} &= 0\\
-    y &= -1 \text{ or }\answer[given]{2}.
-  \end{align*}
-  Note that $-1$ is not relevant for this problem.  Thus the area is
-  given by
-  \[
-  \int_{0}^{2}(y+3) - (y^2+1)\d y = \answer[given]{\frac{10}{3}}.
+ \int_{x=a}^{x=b} h \d x =  \int_{x=\answer[given]{1}}^{x=\answer[given]{3}} \answer[given]{\frac{9}{x}-(2x-3)} \d x = \answer[given]{-2+9 \ln(3)}.
   \]
   \begin{hint}
     \begin{align*}
-      \int_0^2 (y+3) - (y^2+1) \d y &= \int_0^2 -y^2+y+2 \d y\\
-      &=\eval{\answer{\frac{-y^3}{3} + \frac{y^2}{2}+2y}}_0^2\\
-      &=\answer{\frac{10}{3}}.
+      \int_1^3 \frac{9}{x}-(2x-3) \d x &= \int_1^3 \frac{9}{x}-2x+3 \d x\\
+      &=\eval{\answer[given]{9\ln(x)-x^2+3x}}_1^3\\
     \end{align*}
   \end{hint}
-\end{explanation}
+
 \end{example}
+
+\begin{example} Set up, but do not evaluate, an integral or sum of integrals that expresses the area bounded by $y=\sqrt{2x}$, $x+2y=6$ and $y=0$.
+
+As usual, we begin by drawing a picture and indicating the type of rectangle that will be used to build the area:
+
+%%%%PICTURE%%%%%%%%%%
+
+
+   \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-.9:6.5, ymax=2.4,xmax=6.9, ymin=-.2, xmin=-.2,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100] {sqrt(2*x)};
+	        \addplot [draw=penColor,very thick,smooth,samples=100,domain=0:.5] {sqrt(2*x)};
+            	\addplot [draw=penColor2,very thick,smooth] {3-1/2*x};
+	                            
+            	\addplot [name path=A,domain=0:2,draw=none,samples=200] {sqrt(2*x)};   
+            	\addplot [name path=B,domain=2:6,draw=none] {3-1/2*x};
+	        \addplot [name path=C,domain=0:6,draw=none] {0};
+            	\addplot [fillp] fill between[of=A and C];
+	        \addplot [fillp] fill between[of=B and C];
+                      
+                      
+            	\node at (axis cs:3.5,2.2) [penColor] {$y=\sqrt{2x}$};
+            	\node at (axis cs:5.5,.82) [penColor2] {$x+2y=6$};
+	
+	%%%Draws the rectangles
+	  \addplot [draw=penColor, fill = gray!50] plot coordinates {(.4,0) (.6,0) (.6, .86) (.4,.86) (.4, 0)};     
+          \addplot [draw=penColor, fill = gray!50] plot coordinates {(4.6,0) (4.8,0) (4.8, .58) (4.6,.58) (4.6, 0)};    
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+            
+            
+As you can see, something interesting happens here!  The curve used to determine the height of the top rectangle changes!  In order to express this area by integrating with respect to $x$, we have to split it into two pieces:
+
+%%%%PICTURE%%%%%%%%%%
+
+The top curve will change at the $x$-value where the two curves intersect.  To find this $x$-value, we first must express each curve as a function of $x$.  The function $y=\sqrt{2x}$ is already a function of $x$.  For the line $x+2y=6$, we can solve $y=\answer[given]{3- \frac{1}{2}x}$.
+
+We can now find the $x$-value of the intersection point. Write with me:
+
+\begin{align*}
+\sqrt{2x} &= 3 -\frac{1}{2}x \\
+2x &= \left(3 -\frac{1}{2}x\right)^2 \\
+2x&= 9-3x+\frac{1}{4} x^2 \\
+0 &= \frac{1}{4} x^2 -5x+9  \\
+0 &= x^2 -20x+36  \\
+0 &= (x-2)(x-18) 
+\end{align*}
+Hence, $x=2$ or $x=18$.  
+
+Note that by squaring both sides to eliminate the square root, we may have introduced an extraneous root.  We can check this easily enough:
+
+By substituting $x=2$ into the equation $\sqrt{2x} = 3-\frac{1}{2}x$, we obtain $2=2$, which is a true statement.  However, doing the same for $x=18$ gives $6 = -6$, which is not true (though it should be clear why $x=18$ is a solution to the equation that results from squaring both sides!) 
+
+Thus, we use $x=\answer[given]{2}$.  
+
+For the second region, we find the rightmost $x$-value is $x=6$ (set $3-\frac{1}{2}x=0$).
+
+We thus think of the original region in two separate parts:
+
+   \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-.9:6.5, ymax=2.4,xmax=6.9, ymin=-.2, xmin=-.2,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100] {sqrt(2*x)};
+	        \addplot [draw=penColor,very thick,smooth,samples=100,domain=0:.5] {sqrt(2*x)};
+            	\addplot [draw=penColor2,very thick,smooth] {3-1/2*x};
+	                            
+            	\addplot [name path=A,domain=0:2,draw=none,samples=200] {sqrt(2*x)};   
+            	\addplot [name path=B,domain=2:6,draw=none] {3-1/2*x};
+	        \addplot [name path=C,domain=2:6,draw=none] {0};
+            	\addplot [penColor!30] fill between[of=A and C];
+	        \addplot [penColor2!30] fill between[of=B and C];
+                      
+                      
+            	\node at (axis cs:3.5,2.2) [penColor] {$y=\sqrt{2x}$};
+            	\node at (axis cs:5.5,.82) [penColor2] {$x+2y=6$};
+	\node at (axis cs:1.2,.7) [black!75] {I};
+	\node at (axis cs:3,.7) [black!75] {II};
+	
+	%%%Draws the rectangles
+	\addplot [draw=penColor, fill = gray!50] plot coordinates {(.4,0) (.6,0) (.6, .86) (.4,.86) (.4, 0)};        
+          \addplot [draw=penColor, fill = gray!50] plot coordinates {(4.6,0) (4.8,0) (4.8, .58) (4.6,.58) (4.6, 0)};    
+	
+	%%%Draws dashed line
+	\addplot [draw=black!75,thick,dashed] coordinates {(2,0)(2,7)};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+Using the picture above: 
+\[
+\begin{array}{ll}
+\text{In Region I:}  & \text{In Region II:}  \\
+0 \le x \le 2  & 2 \le x \le  6\\
+y_{top} = \sqrt{2x}    &  y_{top} = 3-\frac{1}{2}x \\
+y_{bot} = 0  & y_{bot} = 0 \\
+A_I = \int_{x= \answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\sqrt{2x}} \d x   & A_{II} = \int_{x= \answer[given]{2}}^{x=\answer[given]{6}}  \answer[given]{3-\frac{1}{2}x} \d x
+\end{array}
+\]
+
+Putting this together, we can write down a sum of integrals that gives the area:
+
+\[A= \int_{x= \answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\sqrt{2x}} \d x + \int_{x= \answer[given]{2}}^{x=\answer[given]{6}}\answer[given]{3-\frac{1}{2}x} \d x\]
+
+\end{example}
+
+
+\section{Integrating with respect to \textit{y}}
+
+Whew!  The last example involved a lot of work!  We needed to use two integrals to find the area because we used vertical slices to build up the area of the region and the top curve changed.  Instead of using vertical slices to build the area, we could instead use horizontal ones:
+
+  \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-.9:6.5, ymax=2.4,xmax=6.9, ymin=-.2, xmin=-.2,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100] {sqrt(2*x)};
+	        \addplot [draw=penColor,very thick,smooth,samples=100,domain=0:.5] {sqrt(2*x)};
+            	\addplot [draw=penColor2,very thick,smooth] {3-1/2*x};
+	                            
+            	\addplot [name path=A,domain=0:2,draw=none,samples=200] {sqrt(2*x)};   
+            	\addplot [name path=B,domain=2:6,draw=none] {3-1/2*x};
+	        \addplot [name path=C,domain=0:6,draw=none] {0};
+            	\addplot [fillp] fill between[of=A and C];
+	        \addplot [fillp] fill between[of=B and C];
+                      
+                      
+            	\node at (axis cs:3.5,2.2) [penColor] {$y=\sqrt{2x}$};
+            	\node at (axis cs:4.4,1.4) [penColor2] {$x+2y=6$};
+	
+	%%%Draws the rectangles
+	  \addplot [draw=penColor, fill = gray!50] plot coordinates {(.58,1.05) (4.15,1.05) (4.15, .85) (.58,.85) (.58, .85)};        
+	    \addplot [draw=penColor,thick] coordinates {(.58,.85)(.58,1.05)};
+	    
+	    %%%Draws Label
+	          \draw[decoration={brace,mirror, raise=.2cm},decorate,thin] (axis cs:.58,.85)--(axis cs:4.15,.85);
+          \node[anchor=east] at (axis cs:2.62,.6) {$h$};
+             \draw[decoration={brace, mirror, raise=.2cm},decorate,thin] (axis cs:4.15,.85)--(axis cs:4.15,1.05);
+          \node[anchor=east] at (axis cs:5.15,.92) {$\Delta y$};
+          
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+So what are we doing?  Instead of making slices with respect to $x$ as we did before, we are slicing with respect to $y$!  The area of one of these rectangles is $\Delta A = h \Delta y$.  To find the exact area, we simultaneous need to shrink the widths of the rectangles and add all of them together.  The same procedure as before produces:
+
+\begin{formula}
+The area of a region bounded by continuous functions on $c \le y \le d$ is given by: 
+
+\[A=\int_{y=c}^{y=d} h \d y \]
+where $h$ is the length of a slice, $y=c$ gives the $y$-value of the lowest slice, and $y=d$ gives the $y$-value of the highest slice.
+
+\end{formula}
+
+Now, let's revisit the last example.
+
+\begin{example} Set up, but do not evaluate, an integral or sum of integrals with respect to $y$ that expresses the area bounded by $y=\sqrt{2x}$, $x+2y=6$ and $y=0$.
+
+\begin{explanation}
+
+Since we are going to integrate with respect to $y$, we must describe the curves as functions of $y$:
+
+For $y=\sqrt{2x}$, we can solve for $x$ to obtain $x= \answer[given]{\frac{1}{2}y^2}$.
+
+For $x+2y=6$, we can solve for $x$ to obtain $x= \answer[given]{6-2y}$.
+
+We can note that the lowest slice occurs at $y=0$ and the upper slice occurs at the $y$-value where the curves intersect.  Setting these new expressions equal to each other gives $y= \answer[given]{2}$.  
+
+Now that we have our limits of integration, we must express $h$ in terms of the variable of integration!  Since $h$ is a horizontal distance, $h=x_{right}-x_{left}$
+
+  \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-.9:6.5, ymax=2.4,xmax=6.9, ymin=-.2, xmin=-.2,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100] {sqrt(2*x)};
+	        \addplot [draw=penColor,very thick,smooth,samples=100,domain=0:.5] {sqrt(2*x)};
+            	\addplot [draw=penColor2,very thick,smooth] {3-1/2*x};
+	                            
+            	\addplot [name path=A,domain=0:2,draw=none,samples=200] {sqrt(2*x)};   
+            	\addplot [name path=B,domain=2:6,draw=none] {3-1/2*x};
+	        \addplot [name path=C,domain=0:6,draw=none] {0};
+            	\addplot [fillp] fill between[of=A and C];
+	        \addplot [fillp] fill between[of=B and C];
+                      
+                      
+            	\node at (axis cs:3.5,2.2) [penColor] {$x=\frac{1}{2}y^2$};
+            	\node at (axis cs:4.4,1.4) [penColor2] {$x=6-2y$};
+	
+	%%%Draws the rectangles
+	  \addplot [draw=penColor, fill = gray!50] plot coordinates {(.58,1.05) (4.15,1.05) (4.15, .85) (.58,.85) (.58, .85)};        
+	    \addplot [draw=penColor,thick] coordinates {(.58,.85)(.58,1.05)};
+	    
+	    %%%Draws Label
+	          \draw[decoration={brace,mirror, raise=.2cm},decorate,thin] (axis cs:.58,.85)--(axis cs:4.15,.85);
+          \node[anchor=east] at (axis cs:2.62,.6) {$h$};
+             \draw[decoration={brace, mirror, raise=.2cm},decorate,thin] (axis cs:4.15,.85)--(axis cs:4.15,1.05);
+          \node[anchor=east] at (axis cs:5.15,.92) {$\Delta y$};
+          
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+            
+            
+The function used to determine the rightmost $x$-value, $x_{right}$ is:
+\begin{multipleChoice}
+\choice{$x_{right}=\frac{1}{2}y^2$}
+\choice[correct]{$x_{right}=6-2y$}
+\end{multipleChoice}
+
+The function used to determine the leftmost $x$-value, $x_{left}$ is:
+\begin{multipleChoice}
+\choice[correct]{$x_{left}=\frac{1}{2}y^2$}
+\choice{$x_{left}=6-2y$}
+\end{multipleChoice}
+
+The length $h$ of the rectangle is thus $h=x_{right}-x_{left} = \answer[given]{(6-2y)-\left(\frac{1}{2}y^2\right)}$.
+
+Thus, the area is given by the integral:
+  \[
+ \int_{y=c}^{y=d} h \d y =  \int_{y=\answer[given]{0}}^{y=\answer[given]{2}} \answer[given]{(6-2y)-\left(\frac{1}{2}y^2\right)} \d y .
+  \]
+  Evaluating this gives $A= \answer[given]{\frac{20}{3}}.$
+ \end{explanation}
+ 
+\end{example}
+
+\section{Choosing a variable of integration}
+As we have seen, choosing a particular type of slice may be more advantageous than another.  To make this more explicit, after you choose the type of slice (vertical or horizontal) you'll use to build the area:
+
+\begin{fact}
+If the top or bottom curve of the region depends on where you draw the slice, you'll need 
+
+\begin{multipleChoice}
+\choice{one}
+\choice[correct]{more than one} 
+\end{multipleChoice}
+integral with respect to $x$ to find the area.
+
+If the left or right curve of the region depends on where you draw the slice, you'll need 
+\begin{multipleChoice}
+\choice{one} 
+\choice[correct]{more than one} 
+\end{multipleChoice}
+integral with respect to $y$ to find the area.
+
+\end{fact}
+
+\begin{example} Consider the region bounded by $y=\sin(x)$, $y=x$, and the $y$-axis.
+
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-.9:1.5, ymax=1.4,xmax=.45, ymin=-.2, xmin=-.08,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100] {sin(deg(3*x))};
+	        \addplot [draw=penColor2,very thick,smooth,samples=100,domain=-1:2] {1-x};
+            	
+	                            
+            	\addplot [name path=A,domain=0:.28,draw=none,samples=200] {sin(deg(3*x))};   
+            	\addplot [name path=B,domain=0:.28,draw=none] {1-x};
+
+            	\addplot [fillp] fill between[of=A and B];
+
+                      
+                      
+            	\node at (axis cs:.22,.3) [penColor] {$y=\sin(3x)$};
+            	\node at (axis cs:.1,1.05) [penColor2] {$y=1-x$};
+          
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+How many integrals with respect to $x$ are needed to compute this area? $\answer[given]{1}$
+	
+How many integrals with respect to $y$ are needed to compute this area? $\answer[given]{2}$
+
+
+\end{example}
+
+
+Sometimes, you will need multiple integrals to find the area of a region no matter which type of slice you use.
+
+\begin{example} Consider the region bounded by $3x-y=0$, $x-y=3$, $x+y=4$, and $x+y=0$.
+
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            domain=-.9:4, ymax=3.8,xmax=4.4, ymin=-2.4, xmin=-.95,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100] {-x};
+	        \addplot [draw=penColor2,very thick,smooth,samples=100] {4-x};
+            	\addplot [draw=penColor3,very thick,smooth,samples=100] {x-3};
+	        \addplot [draw=penColor4,very thick,smooth,samples=100] {3*x};
+	                            
+            	\addplot [name path=A,domain=0:1.5,draw=none] {-x};   
+            	\addplot [name path=B,domain=0:1,draw=none] {3*x};
+	        \addplot [name path=C,domain=1:1.5,draw=none] {4-x};
+	      	\addplot [name path=D,domain=1:1.5,draw=none] {-x};
+        		\addplot [name path=E,domain=1.5:3.5,draw=none] {4-x};
+	        \addplot [name path=F,domain=1.5:3.5,draw=none] {x-3};
+	        
+            	\addplot [fillp] fill between[of=A and B];
+	 	\addplot [fillp] fill between[of=C and D];
+		\addplot [fillp] fill between[of=E and F];
+                      
+                 
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+How many integrals with respect to $x$ are needed to compute this area? $\answer[given]{3}$
+	
+How many integrals with respect to $y$ are needed to compute this area? $\answer[given]{3}$
+
+\end{example}
+
+\begin{remark}
+If given the choice, you should always choose to integrate with respect to the variable that makes the area easier to compute!  However, if you are told to set up the area as an integral with respect to a specific variable, you should know how to do it, even if it is the less efficient one  (you'll be asked to do this in the exercises!) 
+\end{remark}
+
+\section{Putting it all together}
+ To summarize some important ideas we have seen we have seen:
+
+
+\begin{fact}
+To find vertical distances, we always take $y_{top} - y_{bot}$.
+
+To find horizontal distances, we always take $x_{right}-x_{left}$.
+\end{fact}
+
+\begin{fact}
+When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$.
+
+When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
+\end{fact}
+
+\begin{fact}
+Once we choose a variable of integration, everything in the integrand must be expressed in terms of that variable!  This includes both the limits of integration and any functions that arise in the integrand.
+\end{fact}
+
+These facts will arise again in the coming sections!  Please make sure you understand them and keep them in mind as you are working through the exercises!
+
+\begin{quote}
+``Mathematics is not about numbers, equations, computations, or algorithms; it is about understanding." - William Paul Thurston
+
+\end{quote}
 
 \end{document}

@@ -1,0 +1,60 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler \and Bart Snapp}
+
+\outcome{State the definition of the curl of a vector field in two dimensions.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+  vs = ['x','y','z']
+  
+  x = var(vs[0])
+  y = var(vs[1])
+  z = var(vs[2])
+
+  def random_expression(depth):
+    if depth == 0:
+      return [x,x,y,y,z,z,1,-1][randint(0,7)]
+    else:
+      possible = [
+        lambda: random_expression(depth-1) + random_expression(depth-1),
+        lambda: random_expression(depth-1) - random_expression(depth-1),
+        lambda: random_expression(depth-1) * random_expression(depth-1),
+        lambda: random_expression(depth-1) / random_expression(depth-1),
+        lambda: sin(random_expression(depth-1)),
+        lambda: cos(random_expression(depth-1)),
+        lambda: exp(random_expression(depth-1))
+      ]
+      result = possible[randint(0,len(possible)-1)]()
+      if result.is_zero():
+        result = 1
+      return result
+
+  u = random_expression(3)
+  while (derivative(u,y).is_zero()) or (len(latex(derivative(u,y))) > 40) or (len(latex(derivative(u,z))) > 40) or (len(u.variables()) < 2):
+    u = random_expression(randint(1,3))
+
+  v = random_expression(3)
+  while (derivative(v,x).is_zero()) or (len(latex(derivative(v,x))) > 40) or (len(latex(derivative(v,z))) > 40) or (len(v.variables()) < 2):
+    v = random_expression(randint(1,3))
+
+  w = random_expression(3)
+  while (derivative(w,z).is_zero()) or (len(latex(derivative(w,x))) > 40) or (len(latex(derivative(w,y))) > 40) or (len(w.variables()) < 2):
+    w = random_expression(randint(1,3))
+\end{sagesilent}
+
+\begin{exercise}
+
+  Let $\vec{F}(x,y,z) = \vector{\sage{u},\sage{v},\sage{w}}$, compute $\curl \vec{F}$.
+  \begin{prompt}
+  \[
+  \curl \vec{F}(x,y,z) = \vector{\answer{\sage{derivative(w,y) - derivative(v,z)}},\answer{\sage{derivative(u,z)-derivative(w,x)}},\answer{\sage{derivative(v,x) - derivative(u,y)}}}
+  \]
+  \end{prompt}
+\end{exercise}
+\end{document}

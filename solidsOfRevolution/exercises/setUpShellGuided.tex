@@ -1,0 +1,170 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Jim Talamo and Alex Beckwith}
+\license{Creative Commons 3.0 By-NC}
+\outcome{Set up a volume integral using the Washer Method}
+\begin{document}
+\begin{exercise}
+
+	Let $R$ be the region in the $xy$-plane bounded by $y=0$, $y=\ln x$, $y=2$, and $x=1$. This exercise will walk you through setting up an integral using the Shell Method that will give the volume of the solid generated when $R$ is revolved about the line $x=-1$.
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-2.5:8.5, ymax=2.5,xmax=8.4, ymin=-0.5, xmin=-2.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {2};
+            	\addplot [draw=penColor2,very thick,smooth] {ln(x)};
+		\addplot [draw=penColor3,very thick,smooth] {0};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(1,-4)(1,12)};
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(-1,-0.5)(-1,2.5)};
+                       
+            	\addplot [name path=A,domain=1:7.4,draw=none] {2};   
+            	\addplot [name path=B,domain=1:7.4,draw=none] {ln(x)};
+            	\addplot [fillp] fill between[of=A and B];
+	                
+            	\node at (axis cs:5,1.2) [penColor2] {$y=\ln(x)$};
+		\node at (axis cs:4.5,2.15) [penColor] {$y=2$};
+		\node at (axis cs:1.8,2.3) [penColor4] {$x=1$};
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+\begin{exercise}
+
+Since we are using the Shell Method, the slices must be:
+\begin{multipleChoice}
+\choice[correct]{parallel}
+\choice{perpendicular}
+\end{multipleChoice}
+to the axis of rotation.  
+
+Slices that are parallel to the axis of rotation $x=-1$ are:
+\begin{multipleChoice}
+\choice[correct]{vertical}
+\choice{horizontal}
+\end{multipleChoice}
+
+Since the slices are vertical, we must: 
+\begin{multipleChoice}
+\choice[correct]{integrate with respect to $x$.}
+\choice{integrate with respect to $y$.}
+\end{multipleChoice}
+
+Since we must integrate with respect to $y$, we will use the result:
+
+\[V = \int_{x=a}^{x=b}2\pi \rho h \d y \]
+
+to set up the volume.  We must now find the limits of integration as express the radius $\rho$ and the height $h$ in terms of the variable of integration $x$. 
+
+\begin{exercise}
+The limits of integration are: $a= \answer{1}$ and $b = \answer{e^2}$. 
+\end{exercise}
+
+\begin{exercise}
+
+We thus have a helpful version of the picture of the region $R$ below:
+
+  \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-2.5:8.5, ymax=2.5,xmax=8.4, ymin=-0.5, xmin=-2.4,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {2};
+            	\addplot [draw=penColor2,very thick,smooth] {ln(x)};
+		\addplot [draw=penColor3,very thick,smooth] {0};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(1,-4)(1,12)};
+		\addplot [draw=penColor5,very thick,dotted] coordinates {(-1,-0.5)(-1,2.5)};
+                       
+            	\addplot [name path=A,domain=1:7.4,draw=none] {2};   
+            	\addplot [name path=B,domain=1:7.4,draw=none] {ln(x)};
+            	\addplot [fillp] fill between[of=A and B];
+	                
+            	\node at (axis cs:3,.5) [penColor2] {$y=\ln(x)$};
+		\node at (axis cs:4.5,2.15) [penColor] {$y=2$};
+		\node at (axis cs:1.8,2.3) [penColor4] {$x=1$};
+	
+		\addplot [draw=penColor, fill = gray!50] plot coordinates {(2.7, 1.1) (3,1.1) (3,2) (2.7,2) (2.7, 1.1)};
+          
+          %Draw R and r
+          \addplot [draw=black!30!red,very thick] coordinates {(-1,1.5)(2.7,1.5)};
+          \node at (axis cs:1.7,1.35) [black!30!red] {$\rho$};
+          
+
+	 \draw[decoration={brace,raise=.1cm,mirror},decorate,thin] (axis cs:3.05,1.1)--(axis cs:3.05,2);
+
+	 \node at (axis cs:3.6,1.55)  [black!30!blue]  {$h$};
+                      
+                  	\end{axis}
+            \end{tikzpicture}
+  \end{image}
+            
+ We see from the picture that $\rho$ is a:
+ \begin{multipleChoice}
+ \choice{vertical distance}
+ \choice[correct]{horizontal distance}
+ \end{multipleChoice}           
+            
+\begin{exercise}
+Since $\rho$ is the distance from the axis of rotation to the slice, and this is a horizontal distance, we find $\rho = x_{right}-x_{left}$.
+\begin{multipleChoice}
+ \choice[correct]{$x_{right} = x$}
+ \choice{$x_{right} = \ln(x)$}
+  \choice{$x_{right} = -1$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice{$x_{left} = \ln(x)$}
+ \choice{$x_{left} = 1$}
+  \choice[correct]{$x_{left} = -1$}
+\end{multipleChoice}   
+
+\begin{hint}
+Remember that the process of find the volume requires us too express the volume of each shell in terms of the $x$-value where the shell is located.  An arbitrary shell is located at $x$!
+\end{hint}
+
+So, $\rho= \answer{x-(-1)}$.
+ \end{exercise}
+ 
+  We see from the picture that $h$ is a:
+ \begin{multipleChoice}
+ \choice[correct]{vertical distance}
+ \choice{horizontal distance}
+ \end{multipleChoice}           
+ 
+ \begin{exercise}
+Since $h$ is the height of the slice, and this is a vertical distance, we find $h = y_{top}-y_{bot}$.
+\begin{multipleChoice}
+ \choice[correct]{$y_{top} = 2$}
+ \choice{$y_{top} = \ln(x)$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice{$y_{bot} =2$}
+ \choice[correct]{$y_{bot} =  \ln(x)$}
+\end{multipleChoice}   
+
+So, $h= \answer{2-\ln(x)}$.
+ \end{exercise}
+           
+\begin{exercise}
+
+Using \[V = \int_{x=a}^{x=b} 2\pi \rho h \d x, \] we find that an integral that gives the volume of the solid of revolution is:            
+	\[
+	V= \int_{x=\answer{1}}^{x=\answer{e^2}}
+	\answer{2\pi(x+1)(2-\ln(x))}\d x
+	\]
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

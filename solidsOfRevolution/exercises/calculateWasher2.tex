@@ -1,0 +1,75 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Bart Snapp}
+\license{Creative Commons 3.0 By-NC}
+\outcome{Set up and evaluate a volume integral using the Washer Method}
+\begin{document}
+
+\begin{exercise} 
+Use the Washer Method to write down an integral that gives the volume of a right circular cone with base radius $10$ and height $20$.
+
+\[
+\text{V} = 
+  \int_{x=\answer{0}}^{x=\answer{20}} \answer{\frac{\pi}{4} x^2} \d x.
+\]
+
+Evaluating this integral shows that the volume is $\answer[given]{\frac{2000\pi}{3}}$ cubic units.
+
+
+\begin{hint}
+We can view this cone as produced by the line $y=x/2$ rotated about
+the $x$-axis:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=20,domain=0:20,
+      clip=false, axis lines =center,
+      xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ]
+    \addplot [penColor,very thick,smooth,domain=0:20] {x/2};
+    \addplot [penColor,very thick,smooth,domain=0:20] {-x/2};
+
+    \draw[penColor,very thick,fill=fill1] (axis cs:11.5,0) ellipse (20 and 600);
+    \draw[penColor,very thick,fill=fill1] (axis cs:12,0) ellipse (20 and 600);
+    
+    \draw[penColor,very thick] (axis cs:20,0) ellipse (20 and 1000);
+    
+    \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:11,-6)--(axis cs:12.5,-6);  
+    \node[anchor=north] at (axis cs:11.75,-6.4) {$\Delta x$};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+At a particular point on the $x$-axis, the radius of the resulting cone is the $y$-coordinate of the corresponding point on the line
+$y=x/2$. The area of the cross-section is given by: 
+
+\[
+A(x) = \answer[given]{\pi \left(\frac{x}{2}\right)^2}
+\]
+The infinitesimal volume of each disc is then $A(x) \d x$, so the
+total volume is the integral of these infinitesimal volumes from $x =
+0$ to $x = 20$.
+\[
+\text{Volume} = 
+  \int_0^{20} A(x) \d x=\answer[given]{\frac{2000\pi}{3}}.
+\]
+\end{hint}
+
+\begin{exercise}
+Recall from geometry that the volume of a right circular cone with base radius $r$ and height $h$ is given by $V =\frac{\pi}{3}r^2h$.  
+
+Using this formula, we find that the volume of the cone is $\answer{\frac{2000 \pi}{3}}$ cubic units.
+
+Do the previous results agree?
+
+\begin{multipleChoice}
+\choice[correct]{Yes}
+\choice{No}
+\end{multipleChoice}
+\end{exercise}
+\end{exercise}
+
+\end{document}

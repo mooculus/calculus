@@ -1,0 +1,135 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Bart Snapp}
+%Example from the original text
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Set up an integral or sum of integrals that gives the volume of a solid with known cross sections}
+
+
+
+\begin{document}
+\begin{exercise}
+
+The base of a solid is the region bounded by $f(x)=x^2-1$ and
+$g(x)=-x^2+1$:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-1, xmax=1,domain=-1:1,
+      clip=false,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick] {x^2-1};
+    \addplot [penColor,very thick] {-x^2+1};
+    \node at (axis cs:1,0.8) [penColor] {$y = -x^2+1$};
+    \node at (axis cs:1,-0.8) [penColor2] {$y = x^2-1$};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+The cross-section of this solid consists of equilateral triangles
+that are perpendicular to the $x$-axis:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-1.2, xmax=1.2,domain=-1:1,
+      ymin=-.4,ymax=1,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick] {(0.3)*x^2-(0.3)};
+    \addplot [penColor,very thick] {(-0.3)*x^2+(0.3)};
+
+    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.11,-.3) (.1,.3) (0,.8) (-.11,-.3)};
+
+    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.67,-.17) (-.53,.21) (-.6,.6) (-.67,-.17)};
+
+    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(.53,-.22) (.67,.16) (.6,.6) (.53,-.22)};
+
+
+    \addplot [black,very thick] {-.28 + .0086*sqrt(16031-14948*x^2)};
+
+    \addplot [->] plot coordinates {(-.6,-.8) (.6,0.8)};
+    \node[anchor=south west] at (axis cs:.6,0.8) {$y$};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+To find the volume of this solid:
+
+\begin{exercise}
+We want to find the volume of the triangular slab at a given $x$
+value. We know the width of each slab is $\Delta x$:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+      xmin=-1.2, xmax=1.2,domain=-1:1,
+      ymin=-.4,ymax=1,
+      clip=false,
+      ytick={0,.8},yticklabels={$0$,$1$},
+      axis lines =center, xlabel=$x$, ylabel=$z$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [penColor2,very thick] {(0.3)*x^2-(0.3)};
+    \addplot [penColor,very thick] {(-0.3)*x^2+(0.3)};
+
+    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.11,-.3) (.1,.3) (0,.8) (-.11,-.3)};
+
+    \addplot [draw=penColor, fill=fill1,very thick] plot coordinates {(-.11,-.3) (-.19,-.3) (-.08,.8) (0,.8) (-.11,-.3)};
+
+    \draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:-.11,-.3)--(axis cs:-.19,-.3);  
+    \node[anchor=north] at (axis cs:.-.15,-.35) {$\Delta x$};
+    
+    \addplot [black,very thick] {-.28 + .0086*sqrt(16031-14948*x^2)};
+
+    \addplot [->] plot coordinates {(-.6,-.8) (.6,0.8)};
+    \node[anchor=south west] at (axis cs:.6,0.8) {$y$};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+The area of each triangular cross-section is given by.
+\[
+A(x) = \answer[given]{\sqrt{3}(1-x^2)^2}
+\]
+\begin{hint}
+  The base of the slab has length $\answer[given]{2(1-x^2)}$ since
+  \[
+  (1-x^2)- (x^2-1) = 2(1-x^2).
+  \]
+  By geometry, the height is $\answer[given]{\sqrt{3}(1-x^2)}$.  So
+  the area of this triangle is
+  \[
+  \frac{1}{2} \text{base} \cdot \text{height} =
+  \sqrt{3}(1-x^2)^2.
+  \]
+\end{hint}
+
+We want to ``sum'' (integrate) all of the infinitesimal volumes
+\[
+\d V = A(x) \d x
+\]
+from $x=-1$ to $x=1$.  Thus the total volume is
+\begin{align*}
+  \text{Volume} &= \int_{-1}^1 A(x) \d x  \\
+  &= \int_{-1}^1 \sqrt{3} (1-x^2)^2 \d x\\
+  &=\sqrt{3} \int_{-1}^1 1-2x^2+x^4 \d x \\
+  &=\sqrt{3} \eval{\answer[given]{x-\frac{2}{3}x^3+\frac{x^5}{5}}}_{-1}^1\\
+  &=2\sqrt{3}\left(1-\frac{2}{3}+\frac{1}{5}\right)\\
+  &=\frac{16\sqrt{3}}{15}.
+\end{align*}
+
+
+	\end{exercise}
+	\end{exercise}
+\end{document}

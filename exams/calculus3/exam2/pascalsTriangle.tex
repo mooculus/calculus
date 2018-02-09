@@ -1,0 +1,53 @@
+\documentclass{ximera}
+
+\input{../../../preamble.tex}
+
+\author{Jim Fowler}
+\license{Creative Commons 4.0 By-SA}
+
+\begin{document}
+
+\begin{exercise}
+  Let $D$ be the disk of radius $R$.  Compute
+  $$
+  \iint_D \left( x^8-28 x^6 y^2+70 x^4 y^4-28 x^2 y^6+y^8 \right) \, dA = \answer{0}.
+  $$
+  % this is integral of z^8  dz dzbar, which is d(z^9/9 dzbar)
+You might want to draw Pascal's triangle and reflect for a moment on
+these coefficients.  These are not coincidences.
+
+\begin{hint}
+  We can do this with polar coordinates.  Let $I$ be the value of the integral.
+  \begin{align*}
+    I &= \iint_D \left( x^8-28 x^6 y^2+70 x^4 y^4-28 x^2 y^6+y^8 \right) \, dA \\
+      &= 
+\int_{r =0}^R \int_{\theta = 0}^{2\pi} \left( x^8-28 x^6 y^2+70 x^4 y^4-28 x^2 y^6+y^8 \right) \, r \, d\theta \, dr \\
+      &= 
+        \int_{r =0}^R \int_{\theta = 0}^{2\pi} \left( r^{8} \cos^8\left(\theta\right) - 28 \, r^{8} \cos^6 \left(\theta\right) \sin^2 \left(\theta\right) + 70 \, r^{8} \cos^4 \left(\theta\right) \sin^4 \left(\theta\right) - 28 \, r^{8} \cos^2 \left(\theta\right) \sin^6 \left(\theta\right) + r^{8} \sin^8 \left(\theta\right) \right) \, r \, d\theta \, dr \\
+      &= 
+        \int_{r =0}^R \int_{\theta = 0}^{2\pi} r^9 \left( \cos^8\left(\theta\right) - 28 \, \cos^6 \left(\theta\right) \sin^2 \left(\theta\right) + 70 \, \cos^4 \left(\theta\right) \sin^4 \left(\theta\right) - 28 \, \cos^2 \left(\theta\right) \sin^6 \left(\theta\right) + \sin^8 \left(\theta\right) \right) \, d\theta \, dr \\
+      &= 
+        \frac{R^{10}}{10} \int_{\theta = 0}^{2\pi} \left( \cos^8\left(\theta\right) - 28 \, \cos^6 \left(\theta\right) \sin^2 \left(\theta\right) + 70 \, \cos^4 \left(\theta\right) \sin^4 \left(\theta\right) - 28 \, \cos^2 \left(\theta\right) \sin^6 \left(\theta\right) + \sin^8 \left(\theta\right) \right) \, d\theta.
+  \end{align*}
+\end{hint}
+
+\begin{hint}
+  This is equal to zero by making use of calculations like
+  \begin{align*}
+    \int_0^{2\pi} \cos^8 \theta \, d\theta &=   \int_0^{2\pi} \sin^8 \theta \, d\theta = \frac{35}{64} \, \pi, \\
+    \int_0^{2\pi} \cos^6 \theta \, \sin^2 \theta \, d\theta &=   \int_0^{2\pi} \cos^6 \theta \, \sin^2 \theta \, d\theta = \frac{5}{64} \, \pi, \\
+    \int_0^{2\pi} \cos^4 \theta \, \sin^4 \theta \, d\theta &= \frac{3}{64} \, \pi.
+  \end{align*}
+\end{hint}
+\begin{hint}
+  Then use the fact that
+  $$
+  \frac{35}{64} \, \pi - 28  \frac{5}{64} \, \pi + 70 \frac{3}{64} \, \pi - 28 \frac{5}{64} \, \pi + \frac{35}{64} \, \pi = 0.
+  $$
+\end{hint}
+\begin{hint}
+  A deeper question remains: \textit{how did I come up with this polynomial?}  Why are these numbers in Pascal's triangle?
+\end{hint}
+\end{exercise}
+
+\end{document}

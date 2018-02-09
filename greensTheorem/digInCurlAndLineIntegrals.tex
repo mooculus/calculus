@@ -27,26 +27,26 @@ Calculus has taught us that knowing the derivative of a function
 $f:\R\to\R$ can tell us important information about the function.  In
 a similar way we have that seen that if we wish to understand a
 function of several variables $F:\R^n\to\R$, then the gradient, $\grad
-F$, contains similar useful information. But what if you have a vector
-field
+F$, contains similar useful information. If you have a vector field
 \[
 \vec{F}:\R^n\to\R^n,
 \]
-what is the natural analogue of a derivative in this setting? When the
-vector field is two or three dimensional, the \textit{curl} is the
-analogue of the derivative that we are looking for:
+we now ask: ``what is the natural analogue of a derivative in this
+setting?'' When the vector field is two or three-dimensional, the
+\textit{curl} is the analogue of the derivative that we are looking
+for:
 
 
-\begin{definition}
-  In two-dimensions, given a vector field $\vec{F}:\R^2\to \R^2$, where
+\begin{definition}\index{scalar curl}
+  In two dimensions, given a vector field $\vec{F}:\R^2\to \R^2$, where
   \[
   \vec{F}(x,y) = \vector{M(x,y),N(x,y)}
   \]
-  the \dfn{curl} is given by
+  the (scalar) \dfn{curl} is given by
   \[
   \curl \vec F = \pp[N]{x}-\pp[M]{y}.
   \]
-  In three-dimensions, given a vector field $\vec{F}:\R^3\to\R^3$, where
+  In three dimensions, given a vector field $\vec{F}:\R^3\to\R^3$, where
   \[
   \vec{F}(x,y,z) = \vector{U(x,y,z)),V(x,y,z)),W(x,y,z)}
   \]
@@ -62,22 +62,30 @@ analogue of the derivative that we are looking for:
   \vecj\left(\pp[W]{x}-\pp[U]{z}\right)+
   \veck\left(\pp[V]{x}-\pp[U]{y}\right).
   \end{align*}
+  Other authors sometimes use the notation $\mathop{\mathrm{rot}}\vec{F}$ for
+  the scalar curl of a two-dimensional vector field $\vec{F}:\R^2\to
+  \R^2$, and $\mathop{\mathrm{curl}}\vec{F}$ for the curl of a
+  three-dimensional vector field $\vec{F}:\R^3\to\R^3$.
 \end{definition}
 
 
 \begin{question}
-  In two dimensions $\curl\vec{F}$ is a
+  In two dimensions, is $\curl\vec{F}$ a scalar or a number?
+  \begin{prompt}
   \begin{multipleChoice}
     \choice[correct]{number.}
     \choice{vector.}
   \end{multipleChoice}
+  \end{prompt}
   \begin{question}
-    In three dimensions $\curl\vec{F}$ is a
-    \begin{multipleChoice}
-      \choice{number.}
-      \choice[correct]{vector.}
-    \end{multipleChoice}
-  \end{question}
+    In three dimensions, is $\curl\vec{F}$ a scalar or a number?
+    \begin{prompt}
+      \begin{multipleChoice}
+        \choice{number.}
+        \choice[correct]{vector.}
+      \end{multipleChoice}
+    \end{prompt}
+    \end{question}
 \end{question}
 
 
@@ -121,8 +129,9 @@ Now for something you've seen before, but in a different form.
   \begin{feedback}
     You can be assured that $\vec{F}:\R^3\to\R^3$, since $\vec{0}$ is
     a vector. We only know a definition for curl in two and three
-    dimensions; however, the two dimensional definition is a scalar,
-    not a vector. So if $\curl\vec{F} = \vec{0}$, then $\vec{F}:\R^3\to\R^3$.
+    dimensions; however, the two-dimensional definition is a scalar,
+    not a vector. So if $\curl\vec{F} = \vec{0}$, then
+    $\vec{F}:\R^3\to\R^3$.
   \end{feedback}
 \end{question}
 
@@ -175,8 +184,8 @@ with two field vectors. If $\vec{F}(x,y) = \vector{M(x,y),N(x,y)}$
        \addplot[penColor, ultra thick] coordinates{
        ({.2*cos(315)},{.2*sin(315)}) ({.5*cos(315)},{.5*sin(315)})
        };
-
-       \draw[penColor, ultra thick,->] (axis cs: .49,-.1) -- (axis cs: .5,.1);
+       \addplot[penColor, ultra thick,domain=364:365,->] ({.5*cos(x)},{.5*sin(x)});
+       %\draw[penColor, ultra thick,->] (axis cs: .49,-.1) -- (axis cs: .5,.1);
        
        \node[inner sep=0pt,text width=6cm,scale=.5] at (axis cs: 0,-.7) {
          \footnotesize Since the length of the field vector increases
@@ -224,9 +233,10 @@ similar way, if we have
        \addplot[penColor, ultra thick] coordinates{
        ({.2*cos(315)},{.2*sin(315)}) ({.5*cos(315)},{.5*sin(315)})
        };
-       
-      \draw[penColor, ultra thick,->] (axis cs: .49,-.1) -- (axis cs: .5,.1) ;
-      \node[inner sep=0pt,text width=6cm,scale=.5] at (axis cs: 0,-.75) {
+
+       \addplot[penColor, ultra thick,domain=364:365,->] ({.5*cos(x)},{.5*sin(x)});
+       %\draw[penColor, ultra thick,->] (axis cs: .49,-.1) -- (axis cs: .5,.1) ;
+       \node[inner sep=0pt,text width=6cm,scale=.5] at (axis cs: 0,-.75) {
 
         \footnotesize Since the length of the field vector decreases
         as we increase $y$, we see that $-\pp[M]{y} > 0$.};
@@ -367,10 +377,9 @@ Now we'll show you a field that has global rotation but no local rotation!
   \begin{explanation}
     In this case, $\curl\vec{F}(x,y) =\answer[given]{0}$ when
     $\vector{x,y}\ne \vec{0}$. At $\vec{0}$, the curl of the vector
-    field is
-    \wordChoice{\choice{zero}\choice{infinity}\choice[correct]{undefined}}.
-    This field has global rotation, but it does not have local
-    rotation.
+    field is \wordChoice{\choice{zero}\choice{infinity}\choice[correct]{undefined}},
+    and hence this field is not a gradient field.  This field has
+    global rotation, but it does not have local rotation.
   \end{explanation}
 \end{example}
 
@@ -434,18 +443,24 @@ In the single variable case we have:
 \end{image}
 With line integrals we have:
 \begin{image}
-  \begin{tikzpicture}
-    \node[inner sep=0pt] at (0,0) {$\int_C \grad F \dotp  \d \vec{p}\quad= \quad F(\vec{b}) - F(\vec{a})$};
+ \begin{tikzpicture}
+    \draw [ultra thick, gray] plot [smooth] coordinates {(-2,2) (0,3) (-.5,2) (2,3)};
+    \draw [ultra thick, gray,->,opacity=1] plot [smooth] coordinates {(0,2.9) (-.35,2.4)};
+    \draw[black,fill=black] (-2,2) circle (.5ex);
+    \draw[black,fill=black] (2,3) circle (.5ex);
+    \node[black,left] at (-2,2) {$\vec{a}$};
+    \node[black,right] at (2,3) {$\vec{b}$};
+    \node[inner sep=0pt] at (0,1) {$\int_C \grad F \dotp  \d \vec{p}\quad= \quad F(\vec{b}) - F(\vec{a})$};
 
-    \node at (-1.5,-.7) {$\underbrace{\hspace{5.5em}}$};
+    \node at (-1.5,.3) {$\underbrace{\hspace{5.5em}}$};
 
-    \node at (1.4,-.7) {$\underbrace{\hspace{5.5em}}$};
+    \node at (1.4,.3) {$\underbrace{\hspace{5.5em}}$};
 
-    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (-1.5,-1)
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (-1.5,0)
          {To compute the accumulation of $\grad F$ along a curve $C$
            starting at $\vec{a}$ and ending at $\vec{b}$,};
 
-    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (1.5,-1) {we can compute the difference in the values of $F$ when evaluated on the boundary.};
+    \node[below,inner sep=0pt,text width=4cm,scale=.5] at (1.5,0) {we can compute the difference in the values of $F$ when evaluated on the boundary.};
   \end{tikzpicture}
 \end{image}
 We now introduce a new fundamental theorem of calculus involving the
@@ -453,13 +468,50 @@ curl. It's called \textit{Green's Theorem}:
 
 \begin{theorem}[Green's Theorem]\index{Green's Theorem}
   If the components of $\vec{F}:\R^2\to\R^2$ have continuous partial
-  derivatives and $C$ is a boundary of a closed region $R$ and
-  $\vec{p}(t)$ parameterizes $C$ in a counterclockwise direction with
-  the interior on the left, then
+  derivatives on a closed region $R$ where $C$ is a boundary of $R$
+  and $\vec{p}(t)$ parameterizes $C$ in a counterclockwise direction
+  with the interior on the left, then
   \[
   \iint_R \curl\vec{F}\d A = \oint_C \vec{F}\dotp\d\vec{p} 
   \]
 \end{theorem}
+
+\begin{example}
+  Let $C$ be the rectangle with corners $(2,-1)$, $(2,4)$, $(3,4)$, and $(3,-1)$. Compute:
+  \[
+  \oint_C \frac{\sin(x)}{x} \d x + x^2 \d y
+  \]
+  \begin{explanation}
+    We'll use Green's Theorem to squash this scary integral with
+    ease. First note that if we imagine
+    \[
+    \oint_C \frac{\sin(x)}{x} \d x + x^2 \d y = \oint_C\vec{F}\dotp\d\vec{p}
+    \]
+    we set:
+    \[
+    \vec{F}(x,y) = \vector{\answer[given]{\frac{\sin(x)}{x}},\answer[given]{x^2}}
+    \]
+    Further note that our field is continuous on the interior of the
+    rectangle. Thus we may apply Green's Theorem! Write with me now, 
+    \[
+    \curl \vec{F}(x,y) = \answer[given]{2x}
+    \]
+    So by Green's Theorem
+    \[
+    \oint_C \frac{\sin(x)}{x} \d x + x^2 \d y = \int_{\answer[given]{-1}}^{\answer[given]{4}}\int_{\answer[given]{2}}^{\answer[given]{3}} \answer[given]{2x}\d x\d y
+    \]
+    Now, keep writing with me,
+    \begin{align*}
+      \int_{\answer[given]{-1}}^{\answer[given]{4}}\int_{\answer[given]{2}}^{\answer[given]{3}} \answer[given]{2x}\d x\d y &= \int_{\answer[given]{-1}}^{\answer[given]{4}} \answer[given]{5} \d y\\
+      &= \answer[given]{25}.
+    \end{align*}
+    The upshot is that we were able to use Green's Theorem to
+    transform a tedious integral into a trivial one.
+  \end{explanation}
+\end{example}
+
+
+
 
 \begin{question}
   Suppose that the curl of a vector field $\vec{F}:\R^2\to\R^2$ is
@@ -522,6 +574,9 @@ curl. It's called \textit{Green's Theorem}:
 
 How is Green's Theorem a fundamental theorem of calculus? Well
 consider this:
+\begin{image}
+  \includegraphics{circulation.png}
+\end{image}
 \begin{image}
   \begin{tikzpicture}
     \node[inner sep=0pt] at (0,0) {$\iint_R \curl\vec{F}\d A\quad =\quad \oint_C \vec{F}\dotp\d\vec{p}$};

@@ -1,0 +1,71 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler \and Bart Snapp}
+
+\outcome{Find a tangent plane to the graph of a function.}
+
+\begin{document}
+\makerandom
+
+\begin{sagesilent}
+x = var('x')
+y = var('y')
+f = randint(1,4)*x*x + randint(1,4)*y*y + randint(0,1)*randint(-4,4)*x*y
+
+px = randint(-3,3)
+py = randint(-3,3)
+
+plane = f(x=px,y=py) + derivative(f,x)(x=px,y=py) * (x-px) +   derivative(f,y)(x=px,y=py) * (y-py)
+
+cx = plane.coefficient(x)
+cy = plane.coefficient(y)
+constant = plane - cx*x - cy*y
+  
+\end{sagesilent}
+
+\begin{exercise}
+
+  Let $F : \R^2 \to \R$ be the function defined by the rule
+  \[
+    F(x,y) = \sage{f}.
+  \]
+  Consider the graph $z = F(x,y)$, and find a tangent plane to the
+  graph of $F$ at the point $(a,b) = (\sage{px},\sage{py})$.
+
+  \begin{prompt}
+    \begin{align*}
+      z &= \grad F(\answer{\sage{px}},\answer{\sage{py}}) \dotp (\vec{x} - \vector{\answer{\sage{px}},\answer{\sage{py}}}) + F(\answer{\sage{px}},\answer{\sage{py}})\\
+      z &= \answer{\sage{cx}} x + \answer{\sage{cy}} y + \answer{\sage{constant}}
+    \end{align*}
+  \end{prompt}
+
+  \begin{hint}
+    We'll use the formula:
+    \[
+    z =\grad F(\vec{p}) \dotp (\vec{x}-\vec{p}) + F(\vec{p})
+    \]
+  \end{hint}
+  
+  \begin{hint}
+    Note that $F^{(1,0)}(x,y) = \sage{derivative(f,x)}$.
+  \end{hint}
+
+
+  \begin{hint}
+    Next, $F^{(0,1)}(x,y) = \sage{derivative(f,y)}$.
+  \end{hint}
+
+  \begin{hint}
+    So, $\grad F(x,y) = \vector{\sage{derivative(f,x)},\sage{derivative(f,y)}}$.
+  \end{hint}
+  
+  
+  \begin{hint}
+    Consequently $\grad F(\vec{p}) = \vector{\sage{derivative(f,x)(x=px,y=py)},\sage{derivative(f,y)(x=px,y=py)}}$.
+  \end{hint}  
+  
+\end{exercise}
+\end{document}

@@ -1,0 +1,227 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\author{Bart Snapp}
+
+\outcome{Give the equation for a sphere or ball.}
+
+\title[Dig-In:]{Drawing a sphere}
+
+\begin{document}
+\begin{abstract}
+  Learn how to draw a sphere.
+\end{abstract}
+\maketitle
+
+A key challenge in mathematics is converting formulas and equations
+into ideas. We want to get to the point that when you see something
+like
+\[
+S = \{(x,y,z):(x-1)^2+(y-2)^2+(z-3)^2=16\}
+\]
+you say to yourself, ``Hey, that's a sphere of radius $4$ centered at
+the point $(1,2,3)$. Let's state this generally.
+\begin{theorem}
+  The set of points on the surface of a sphere of radius $r$ centered
+  at $(a,b,c)$ are given by the set:
+  \[
+  S = \{(x,y,z):(x-a)^2+(y-b)^2+(z-c)^2=r^2\}
+  \]
+\end{theorem}
+Above we give an implicit formula for the surface of the
+sphere. Sometimes it is better to have parametric formulas.
+\begin{theorem}
+  The parametric formula for a sphere of radius $r$ centered at
+  $(a,b,c)$ is give by:
+  \begin{align*}
+    x(\theta,\phi) &=r\cdot\cos(\theta)\sin(\phi)+a\\
+    y(\theta,\phi) &=r\cdot\sin(\theta)\sin(\phi)+b\\
+    z(\theta,\phi) &=r\cdot\cos(\phi)+c
+  \end{align*}
+  for $0\le\theta< 2\pi$ and $0\le \phi\le \pi$.
+\end{theorem}
+
+
+One thing to note above is that in some sense, the parametric formula
+for the sphere ``draws'' the sphere (we'll get to that in a
+second). For now, let me show you how to draw a sphere yourself. Get
+out a sheet of paper, and play along---it will be fun! Start by
+drawing a set of axes:
+\begin{image}
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-1.2,  
+        xmax=1.2,  
+        ymin=-1.2,  
+        ymax=1.2,
+        unit vector ratio=1 1 1,
+        axis lines=center,
+        ticks=none,
+        xlabel=$y$,  
+        ylabel=$z$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+      \addplot [->] coordinates {(.7,.5) (-.7,-.5)};
+      %\addplot [ultra thick, penColor,domain=0:360,smooth] ({cos(x)},{sin(x)});
+      %\addplot [ultra thick, penColor,domain=180:360,smooth] ({cos(x)},{.4*sin(x)});
+      %\addplot [ultra thick, dashed, penColor,domain=0:180,smooth] ({cos(x)},{.4*sin(x)});
+      \node at (axis cs: -.75,-.52) {$x$};
+    \end{axis}  
+  \end{tikzpicture}  
+\end{image}
+Now draw a circle in the $(y,z)$-plane:
+\begin{image}
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-1.2,  
+        xmax=1.2,  
+        ymin=-1.2,  
+        ymax=1.2,
+        unit vector ratio=1 1 1,
+        axis lines=center,
+        ticks=none,
+        xlabel=$y$,  
+        ylabel=$z$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+      \addplot [->] coordinates {(.7,.5) (-.7,-.5)};
+      \addplot [ultra thick, penColor,domain=0:360,smooth] ({cos(x)},{sin(x)});
+      %\addplot [ultra thick, penColor,domain=180:360,smooth] ({cos(x)},{.4*sin(x)});
+      %\addplot [ultra thick, dashed, penColor,domain=0:180,smooth] ({cos(x)},{.4*sin(x)});
+      \node at (axis cs: -.75,-.52) {$x$};
+    \end{axis}  
+  \end{tikzpicture}  
+\end{image}
+Pro-tip: If you have trouble drawing a circle, and most people do, try
+drawing circles on graph paper. Practice makes perfect, and if you
+practice enough, soon you'll be able to impress your friends and
+enemies alike with your circle-drawing skills.  Now draw an ellipse,
+dashing the part at the ``back'' of the sphere:
+\begin{image}
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-1.2,  
+        xmax=1.2,  
+        ymin=-1.2,  
+        ymax=1.2,
+        unit vector ratio=1 1 1,
+        axis lines=center,
+        ticks=none,
+        xlabel=$y$,  
+        ylabel=$z$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+      \addplot [->] coordinates {(.7,.5) (-.7,-.5)};
+      \addplot [ultra thick, penColor,domain=0:360,smooth] ({cos(x)},{sin(x)});
+      \addplot [ultra thick, penColor,domain=180:360,smooth] ({cos(x)},{.4*sin(x)});
+      \addplot [ultra thick, dashed, penColor,domain=0:180,smooth] ({cos(x)},{.4*sin(x)});
+      \node at (axis cs: -.75,-.52) {$x$};
+    \end{axis}  
+  \end{tikzpicture}  
+\end{image}
+And voli\`a, we have a sphere! Now let me tell you something, people
+who like mathematics really like asking (and answering) questions like
+the following:
+
+\begin{example}
+  Verify that the two descriptions
+  \[
+  S = \{(x,y,z):(x-a)^2+(y-b)^2+(z-c)^2=r^2\}
+  \]
+  and
+  \begin{align*}
+    x(\theta,\phi) &=r\cdot\cos(\theta)\sin(\phi)+a\\
+    y(\theta,\phi) &=r\cdot\sin(\theta)\sin(\phi)+b\\
+    z(\theta,\phi) &=r\cdot\cos(\phi)+c
+  \end{align*}
+  where $0\le \theta<2\pi$ and $0\le \phi\le \pi$, describe the same
+  geometric set.
+  \begin{explanation}
+    What we are being asked to do here is verify that both
+    descriptions of the sphere in fact describe the same geometric
+    object.  Here is how you do it. First show one description
+    ``contains'' the other, and the other description ``contains'' the
+    one. First we'll show that every point of the parametric formula
+    \begin{align*}
+    x(\theta,\phi) &=r\cdot\cos(\theta)\sin(\phi)+a\\
+    y(\theta,\phi) &=r\cdot\sin(\theta)\sin(\phi)+b\\
+    z(\theta,\phi) &=r\cdot\cos(\phi)+c
+    \end{align*}
+    is also a point of $S$. We do this by plugging the point
+    \[
+    \big(x(\theta,\phi),y(\theta,\phi),z(\theta,\phi)\big)
+    \]
+    into 
+    \[
+    (x-a)^2+(y-b)^2+(z-c)^2
+    \]
+    and through a manipulation of symbols, conclude that it does equal
+    $r^2$. Write with me:
+    \begin{align*}
+      (x(\theta,\phi)&-a)^2+(y(\theta,\phi)-b)^2+(z(\theta,\phi)-c)^2 \\
+      &= (x(\theta,\phi)-a)^2+(y(\theta,\phi)-b)^2+(z(\theta,\phi)-c)^2\\
+      &= (\answer[given]{r\cdot\cos(\theta)\sin(\phi)+a}-a)^2+(\answer[given]{r\cdot\sin(\theta)\sin(\phi)+b}-b)^2+(\answer[given]{r\cdot\cos(\phi)+c}-c)^2\\
+      &= \answer[given]{r^2}\left(\cos^2(\theta)\sin^2(\phi) + \sin^2(\theta)\sin^2(\phi) + \cos^2(\phi)\right)\\
+      &= \answer[given]{r^2}\left(\sin^2(\phi) + \cos^2(\phi)\right)\\
+      &= r^2.
+    \end{align*}
+    So we see that every point drawn by our parametric description of
+    the sphere is in the set $S$.
+
+    Now we need to explain why every point in $S$ is actually drawn by
+    our parametric description. Given a point $(x,y,z)$ on the sphere,
+    we need to assure our most stubborn readers that there will be a
+    $\theta$ and a $\phi$ that when plugged into our formula, will
+    produce the given point $(x,y,z)$. We could do this simply by
+    solving for $\theta$ and $\phi$ in terms of $x$, $y$, and $z$
+    though we will not do that here. Instead, we will show you
+    \textit{how} the sphere is drawn by $\theta$ and $\phi$.
+      \begin{image}
+        \begin{tikzpicture}
+          \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	      axis lines=center,
+	      view={110}{25},
+	      name=myplot,
+	      xtick=\empty,
+              ytick=\empty,
+              ztick=\empty,
+	      ymin=-.1,ymax=1.2,
+	      xmin=-.1,xmax=1.2,
+	      zmin=-.2, zmax=2.1,
+	      every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	      xlabel={\scriptsize $x$},
+	      every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	      ylabel={\scriptsize $y$},
+	      every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	      zlabel={\scriptsize $z$},
+              colormap/cool,
+            ]
+            \addplot3[gray,->,domain=0:45,samples y=0] ({.3*cos(x)},{.3*sin(x)},0); %% angle for theta
+            \addplot3[gray,->,domain=0:27,samples y=0] ({.3*cos(45)*sin(x)},{.3*sin(45)*sin(x)},{.3*cos(x)}); %% angle for phi
+            \addplot3[gray,domain=0:2.1,samples y=0,->] ({x*cos(45)*sin(27)},{x*sin(45)*sin(27)},{x*cos(27)}); %% line for rho
+              
+            \addplot3[gray,domain=0:1,samples y=0,dashed] ({x*cos(45)},{x*sin(45)},0); %% line for theta
+            \addplot3[gray,domain=0:2,samples y=0,dashed] ({1*cos(45)},{1*sin(45)},x); %% line for z
+            \node at (axis cs:{.5*cos(22.5)},{.5*sin(22.5)},0) {$\theta$};
+            \node[above] at (axis cs:{.3*cos(45)*sin(17)},{.3*sin(45)*sin(17)},{.3*cos(17)}) {$\varphi$};
+            
+            \node[above] at (axis cs:{1*cos(45)*sin(27)},{1*sin(45)*sin(27)},{1*cos(27)}) {$r$};
+            
+            \filldraw [black] (axis cs:{1*cos(45)},{1*sin(45)},1.95) circle (2.5pt);        
+            \node[right] at (axis cs:{1*cos(45)},{1*sin(45)},2) {$(x,y,z)$};
+          \end{axis}
+        \end{tikzpicture}
+      \end{image}
+      Since every point on the sphere can be obtained by letting
+      $\theta$ run from $0$ to $2\pi$, and $\phi$ run from $0$ to
+      $\pi$, we have shown that the parametric formula draws the
+      entire sphere.
+  \end{explanation}
+\end{example}
+
+
+\end{document}

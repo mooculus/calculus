@@ -1,0 +1,263 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Jim Talamo }
+\license{Creative Commons 3.0 By-NC}
+\outcome{Set up a volume integral using the Shell Method}
+\begin{document}
+\begin{exercise}
+
+	Let $R$ be the region in the $xy$-plane bounded between $y=x^2-1$ and $y=1$.  This exercise gives practice using the Shell Method to set up an integral that gives the volume of the solid of revolution obtained when $R$ is rotated about several different axes.
+	
+
+
+When using the Shell Method, the slices must be:
+\begin{multipleChoice}
+\choice[correct]{parallel to the axis of rotation.}
+\choice{perpendicular to the axis of rotation.}
+\end{multipleChoice}
+
+\begin{exercise}
+Suppose that $R$ is revolved about the $x$-axis.  To use the Shell Method:
+
+\begin{multipleChoice}
+\choice{the slices must be vertical.  We should integrate with respect to $x$.}
+\choice{the slices must be vertical.  We should integrate with respect to $y$.}
+\choice{the slices must be horizontal.  We should integrate with respect to $x$.}
+\choice[correct]{the slices must be horizontal.  We should integrate with respect to $y$.}
+\end{multipleChoice}
+\begin{exercise}
+
+We thus have a helpful version of the picture of the region $R$ below:
+
+  \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=2.4,xmax=1.9, ymin=-1.4, xmin=-1.9,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100,domain=0:2] {x^2-1};
+		\addplot [draw=black!50!green,very thick,smooth,samples=100,domain=-2:0] {x^2-1};
+	        \addplot [draw=penColor2,very thick,smooth,domain=-2:2] {1};
+		\addplot [draw=penColor,very thick,smooth] coordinates {(2,-10)(2,10)};
+		\addplot [draw=penColor5,very thick,dashed] coordinates {(-10,2)(10,2)};
+		                       
+            	\addplot [name path=A,domain=-1.4:1.4,draw=none,samples=200] {x^2-1};   
+            	\addplot [name path=B,domain=-1.4:1.4,draw=none] {1};
+            	\addplot [fillp] fill between[of=A and B];
+	                
+		\node at (axis cs:1.1,1.2) [penColor2] {$y=1$};
+			\node at (axis cs:1.2,2.2) [penColor5] {$y=2$};
+		\node at (axis cs:1.2,-.8) [penColor] {$x = +\sqrt{y+1}$};  
+		\node at (axis cs:-.8,1.4) [black!50!green] {$x = -\sqrt{y+1}$};  
+		
+		\addplot [draw=penColor, fill = gray!50] plot coordinates {(-1.31,.72) (1.31,.72) (1.31,.82) (-1.31,.82) (-1.31,.72)};
+          
+          %Draw rho and h
+          \addplot [draw=black!50!blue,very thick] coordinates {(.3,2)(.3,.82)};
+          \node at (axis cs:.45,1.4) [black!50!blue] {$\rho$};
+          
+	  \draw[decoration={brace,raise=.1cm,mirror},decorate,thin] (axis cs:-1.31,.72)--(axis cs:1.31,.72);
+
+	 \node at (axis cs:.1,.4)  [black]  {$h$};
+                      
+                  	\end{axis}
+            \end{tikzpicture}
+  \end{image}
+            
+ We see from the picture that $\rho$ is a:
+ \begin{multipleChoice}
+ \choice[correct]{vertical distance}
+ \choice{horizontal distance}
+ \end{multipleChoice}           
+            
+\begin{exercise}
+Since $\rho$ is the distance from the axis of rotation to the slice, and this is a vertical distance, we find $\rho = y_{top}-y_{bot}$.
+\begin{multipleChoice}
+ \choice[correct]{$y_{top} = 2$}
+ \choice{$y_{top} = y$}
+ \choice{$y_{top} = 1$}
+  \choice{$y_{top} = x^2-1$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice{$y_{bot} = 2$}
+ \choice[correct]{$y_{bot} = y$}
+ \choice{$y_{bot} = 1$}
+  \choice{$y_{bot} = x^2-1$}
+\end{multipleChoice}   
+
+\begin{hint}
+Remember that the process of find the volume requires us too express the volume of each shell in terms of the $y$-value where the shell is located.  An arbitrary shell is located at $y$!
+\end{hint}
+
+So, $\rho= \answer{2-y}$.
+ \end{exercise}
+ 
+  We see from the picture that $h$ is a:
+ \begin{multipleChoice}
+ \choice{vertical distance}
+ \choice[correct]{horizontal distance}
+ \end{multipleChoice}           
+ 
+ \begin{exercise}
+Since $h$ is the height of the slice, and this is a vertical distance, we find $h = x_{right}-x_{left}$.
+\begin{multipleChoice}
+ \choice[correct]{$x_{right} = \sqrt{y+1}$}
+ \choice{$x_{right} = -\sqrt{y+1}$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice{$x_{right} = \sqrt{y+1}$}
+ \choice[correct]{$x_{right} = -\sqrt{y+1}$}
+\end{multipleChoice}   
+
+So, $h= \answer{2\sqrt{y+1}}$.
+ \end{exercise}
+
+
+\begin{exercise}
+Using the formula $V = \int_{y=c}^{y=d} 2\pi \rho h \d y$, an integral that gives the volume of this solid of revolution is:
+
+\[
+V = \int_{y=\answer{-1}}^{y=\answer{1}} \answer{4 \pi (2-y)\sqrt{y+1}} \d y
+\]
+
+Evaluating this, we find the volume is $\answer{ \frac{48 \sqrt{2}}{5} \pi }$ cubic units.
+
+\begin{hint}
+Make the substitution $u=y+1$ and do some algebra!
+\end{hint}
+
+\end{exercise}    
+
+\end{exercise}
+
+
+
+\end{exercise}
+\end{exercise}
+
+
+
+
+ 
+%%%%%
+\begin{exercise}
+Suppose that $R$ is revolved about the line $x=3$.
+
+
+\begin{exercise}
+
+\begin{multipleChoice}
+\choice[correct]{vertical}
+\choice{horizontal}
+\end{multipleChoice}
+
+\begin{exercise}
+
+We thus have a helpful version of the picture of the region $R$ below:
+
+   \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=2.4,xmax=3.9, ymin=-1.9, xmin=-1.9,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth,samples=100,domain=-2:2] {x^2-1};
+	        \addplot [draw=penColor2,very thick,smooth,domain=-2:10] {1};
+		\addplot [draw=penColor5,very thick,dashed] coordinates {(3,-10)(3,10)};
+		                       
+            	\addplot [name path=A,domain=-1.4:1.4,draw=none,samples=200] {x^2-1};   
+            	\addplot [name path=B,domain=-1.4:1.4,draw=none] {1};
+            	\addplot [fillp] fill between[of=A and B];
+	                
+		\node at (axis cs:.5,1.2) [penColor2] {$y=1$};
+			\node at (axis cs:2.5,1.8) [penColor5] {$x=3$};
+		\node at (axis cs:1.4,-.8) [penColor] {$y=x^2-1$};  
+	
+		
+		\addplot [draw=penColor, fill = gray!50] plot coordinates {(.25,-.84) (.4,-.84) (.4,1) (.25,1) (.25,-.84)};
+          
+          %Draw rho and h
+          \addplot [draw=black!50!blue,very thick] coordinates {(.4,.8)(3,.8)};
+          \node at (axis cs:1.9,.6) [black!50!blue] {$\rho$};
+          
+	  \draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:.25,-.84)--(axis cs:.25,1);
+
+	 \node at (axis cs:-.2,.3)  [black]  {$h$};
+                      
+                  	\end{axis}
+            \end{tikzpicture}
+  \end{image}
+            
+ We see from the picture that $h$ is a:
+ \begin{multipleChoice}
+ \choice[correct]{vertical distance}
+ \choice{horizontal distance}
+ \end{multipleChoice}           
+            
+\begin{exercise}
+Since $h$ is the distance from the axis of rotation to the outer curve, and this is a vertical distance, we find $h = y_{top}-y_{bot}$.
+\begin{multipleChoice}
+ \choice[correct]{$y_{top} = 1$}
+ \choice{$y_{top} = x^2-1$}
+ \choice{$y_{top} = y$}
+ \choice{$y_{top} = x$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice{$y_{bot} = 1$}
+ \choice[correct]{$y_{bot} = x^2-1$}
+ \choice{$y_{bot} = y$}
+ \choice{$y_{bot} = x$}
+\end{multipleChoice}    
+
+So, $h= \answer{2-x^2}$.
+ \end{exercise}
+ 
+  We see from the picture that $\rho$ is a:
+ \begin{multipleChoice}
+ \choice{vertical distance}
+ \choice[correct]{horizontal distance}
+ \end{multipleChoice}           
+            
+\begin{exercise}
+Since $\rho$ is the distance from the axis of rotation to the outer curve, and this is a horizontal distance, we find $\rho = x_{right}-x_{left}$.
+\begin{multipleChoice}
+ \choice{$x_{right} = x$}
+ \choice[correct]{$x_{right} = 3$}
+ \choice{$x_{right} = x^2-1$}
+\end{multipleChoice}       
+
+\begin{multipleChoice}
+ \choice[correct]{$x_{left} = x$}
+ \choice{$x_{left} = 3$}
+ \choice{$x_{left} = x^2-1$}
+\end{multipleChoice}    
+
+So, $\rho= \answer{3-x}$.
+
+
+
+
+\begin{exercise}
+Using the formula $V = \int_{x=a}^{x=b} 2 \pi \rho h \d x$, an integral that gives the volume of this solid of revolution is:
+
+\[
+V = \int_{x=\answer{-\sqrt{2}}}^{x=\answer{\sqrt{2}}} 2\pi \answer{(3-x)(2-x^2)} \d x
+\]
+
+\end{exercise}
+\end{exercise}    
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

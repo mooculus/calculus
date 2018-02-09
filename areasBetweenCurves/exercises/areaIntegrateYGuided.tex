@@ -1,0 +1,141 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Jim Talamo and Bart Snapp}
+\license{Creative Commons 3.0 By-NC}
+\outcome{Find area as an integral with respect to $y$.}
+\begin{document}
+
+\begin{exercise}
+The following is a guided exercise to find the area of the region bounded by the functions $y = x-3$, $y =
+\sqrt{x-1}$ and the $x$-axis:
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:5.5, ymax=2.8,xmax=5.5, ymin=0, xmin=0,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [ fill = fillp, smooth, samples=100, domain=(0:2)] ({1+x^2},{x}) \closedcycle;
+          \addplot [draw=none,fill=background,domain=0:5.2] {x-3} \closedcycle;   
+          \addplot [very thick, penColor2, smooth, samples=100, domain=(0:3)] ({1+x^2},{x});
+          \addplot [draw=penColor,very thick,smooth] {x-3};
+          
+          \node at (axis cs:2,1.5) [penColor2] {$y=\sqrt{x-1}$};
+          \node at (axis cs:4.5,0.7) [penColor] {$y=x-3$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+\begin{exercise}
+In order to express this area as a single integral, we should:
+
+\begin{multipleChoice}
+\choice{integrate with respect to $x$.}
+\choice[correct]{integrate with respect to $y$.}
+\end{multipleChoice}
+
+
+\begin{exercise}
+Since we are computing the area as an integral with respect to$x$ , we must use 
+\begin{multipleChoice}
+\choice{vertical slices.}
+\choice[correct]{horizontal slices.}
+\end{multipleChoice}
+
+
+\begin{exercise}
+Since we want to integrate with respect to $y$, we need to express the curves as functions of $y$, the limits of integration must be $y$ limits, and we must find $h$ in terms of $y$.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:5.5, ymax=2.5,xmax=5.5, ymin=0, xmin=0,
+            axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          \addplot [ fill = fillp, smooth, samples=100, domain=(0:2)] ({1+x^2},{x}) \closedcycle;
+          \addplot [draw=none,fill=background,domain=0:5.2] {x-3} \closedcycle;   
+          \addplot [very thick, penColor2, smooth, samples=100, domain=(0:3)] ({1+x^2},{x});
+          \addplot [draw=penColor,very thick,smooth] {x-3};
+          
+          \node at (axis cs:2,1.5) [penColor2] {$y=\sqrt{x-1}$};
+          \node at (axis cs:4.5,0.7) [penColor] {$y=x-3$};
+
+	  \addplot [draw=penColor, fill = gray!50] plot coordinates {(2,1) (2,1.1) (4, 1.1) (4,1) (2, 1)};
+
+          \draw[decoration={brace,raise=.2cm},decorate,thin] (axis cs:2,1)--(axis cs:2,1.1);
+          \node at (axis cs:1.5,1.05) {$\Delta y$};
+
+          \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (axis cs:2,1)--(axis cs:4,1);
+          \node at (axis cs:3,.7) {$h$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+For the curve described by $y=\sqrt{x-1}$, $x= \begin{prompt} \answer{y^2+1} \end{prompt}$.
+
+For the curve described by $y=x-3$, $x= \begin{prompt} \answer{y+3} \end{prompt}$.
+
+The lower limit of integration is $y= \begin{prompt} \answer{0} \end{prompt}$ and the upper limit of integration is $y= \begin{prompt} \answer{2} \end{prompt}$
+
+
+\begin{hint}
+ The upper limit is the $y$-value where the curves intersect: 
+ 
+   \begin{align*}
+    y+3 &= y^2 +1\\
+  y^2-y-2 &= 0\\
+    y &= -1 \text{ or }\answer[given]{2}.
+  \end{align*}
+  From the picture, note that $y=-1$ is not relevant for this problem!
+\end{hint}
+
+We must now express $h$ in terms of the variable of integration!  Since $h$ is a horizontal distance: 
+
+\begin{multipleChoice}
+\choice{$h=y_{top}-y_{bot}$} 
+\choice[correct]{$h=x_{right}-x_{left}$}.
+\end{multipleChoice}
+
+\begin{exercise}
+
+The function used to determine the rightmost $x$-value, $x_{right}$ is:
+\begin{multipleChoice}
+\choice[correct]{$x_{right}=y+3$}
+\choice{$x_{left}=y^2+1$}
+\end{multipleChoice}
+
+The function used to determine  the leftmost $x$-value, $x_{left}$ is:
+\begin{multipleChoice}
+\choice{$x_{right}=y+3$}
+\choice[correct]{$x_{left}=y^2+1$}
+\end{multipleChoice}
+
+The height $h$ of the rectangle is thus $h=x_{right}-x_{left} = \answer{(y+3)-(y^2+1)}$.
+
+
+\begin{exercise}
+
+Thus, the area is given by:
+  \[
+ \int_{y=c}^{y=d} h \d y =  \int_{y=\answer{0}}^{y=\answer{2}} \answer{(y+3) - (y^2+1)} \d y = \answer{\frac{10}{3}}.
+  \]
+  \begin{hint}
+    \begin{align*}
+      \int_0^2 (y+3) - (y^2+1) \d y &= \int_0^2 -y^2+y+2 \d y\\
+      &=\eval{\answer{\frac{-y^3}{3} + \frac{y^2}{2}+2y}}_0^2\\
+      &=\answer{\frac{10}{3}}.
+    \end{align*}
+  \end{hint}
+
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

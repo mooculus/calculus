@@ -98,6 +98,25 @@ We interpret definite integrals as giving us the net area underneath the graph o
 \]
 
 where $N \geq 1$ is some fixed number. 
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.5, xmax=6,ymin=-.5,ymax=2,domain=.001:1,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+      width=6in,
+      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp,domain=1:5.2 ] {1/x} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.5:10] {1/x};
+   \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
  This integral gives us the area underneath $1/x$ from $1$ to $N$. If we wanted to make sense of the integral to $\infty$, we could think of letting $N$ 
 get larger and larger and seeing how this affects the area. 
 
@@ -132,7 +151,26 @@ We calculate the definite integral
 \int_{1}^{N} \frac{1}{x^{2}} \d x= \eval{\frac{-1}{x}}_{1}^{N}=1-\frac{1}{N}
 \]
 
-This gives the area under $1/x^{2}$ on the interval $[1, N]$. Now we take the limit of this area as $N \to \infty$. 
+This gives the area under $1/x^{2}$ on the interval $[1, N]$. 
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.5, xmax=6,ymin=-.5,ymax=2,domain=.001:1,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+      width=6in,
+      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp,domain=1:3.2 ] {1/x^2} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.5:10] {1/x^2};
+   \end{axis}
+\end{tikzpicture}
+\end{image}
+
+Now we take the limit of this area as $N \to \infty$. 
 
 \[
 \int_{1}^{N} \frac{1}{x^{2}} \d x= \lim_{N \to \infty} 1-\frac{1}{N}=1
@@ -238,8 +276,8 @@ We now give a precise definition for integrals over unbounded regions.
 \end{itemize}
 An improper integral is said to \dfn{converge} if its corresponding
 limit exists and is equal to a real number. Otherwise, the improper
-integral is said to \dfn{diverge}. In this case, the integral either
-does not exist, or is equal to $-\infty$ or $\infty$.
+integral is said to \dfn{diverge}. 
+%In this case, the integral either does not exist, or is equal to $-\infty$ or $\infty$.
 \end{definition}
 
 \begin{warning}
@@ -292,12 +330,12 @@ Similarly we obtain
 \int_{M}^{0} \frac{1}{1+x^{2}} \d x= \answer{-\arctan(M)}
 \]
  
-\begin{hint}
-Recall that 
-  \[
-  \int \frac{1}{1+x^2} \d x = \arctan(x)+C,
-  \]
-  \end{hint}
+%\begin{hint}
+%Recall that 
+%  \[
+%  \int \frac{1}{1+x^2} \d x = \arctan(x)+C,
+%  \]
+%  \end{hint}
 
 Now we take the limits of each integral
 
@@ -354,15 +392,15 @@ In this example, both integrals converge and therefore the entire integral conve
   \begin{explanation}
     Write with me:
     \[
-    \int_{-\infty}^\infty \sin(\theta) \d \theta = \lim_{a\to -\infty} \int_a^c \sin(\theta) \d \theta + \lim_{b\to\infty}\int_c^b \sin(\theta) \d \theta.
+    \int_{-\infty}^\infty \sin(\theta) \d \theta = \lim_{a\to -\infty} \int_a^1 \sin(\theta) \d \theta + \lim_{b\to\infty}\int_1^b \sin(\theta) \d \theta.
     \]
     Let us evaluate these limits one at a time:
     \begin{align*}  
-      \lim_{a\to -\infty}\eval{-\cos(\theta)}_a^c &= \lim_{a\to -\infty}\left(-\cos(c)+\cos(a)\right)\\
-      &= \lim_{a\to -\infty} \cos(a) -\cos(c)\\
+      \lim_{a\to -\infty}\eval{-\cos(\theta)}_a^1 &= \lim_{a\to -\infty}\left(-\cos(1)+\cos(a)\right)\\
+      &= \lim_{a\to -\infty} \cos(a) -\cos(1)\\
       &= \answer[given]{DNE}.
     \end{align*}
-    We can stop here. Since one limit was infinite, the integral is
+    We can stop here. Since one limit did not exist, the integral is
     divergent, and hence does not exist (DNE). We do not need to evaluate the other integral.
   \end{explanation}
 \end{example}
@@ -396,7 +434,7 @@ integral.
 
 We have just considered definite integrals where the interval of
 integration was unbounded. We now consider another type of improper
-integration, where the interval is finite but the function is unbounded on the interval. 
+integral, where the interval is finite but the function is unbounded on the interval. 
 
 
 
@@ -409,32 +447,51 @@ Let's begin with some examples.
   \int_{0}^1 \frac{1}{\sqrt{x}} \d x
   \]
   \begin{explanation}
-Here the problem is that the function $\frac{1}{\sqrt{x}}$ is unbounded on $[0,1]$. That is, $\frac{1}{\sqrt{x}}$ gets arbitrarily large as $x$ 
-approaches $0$ from the right. Such an integral is improper. What exactly do we mean by such an expression. Suppose though that we keep our function from reaching $0$. Suppose $a$ lies strictly between $0$ and $1$. Then consider the definite integral
+It may not be obvious at first glance that this integral is improper, but it is.  Here the problem is that the function $\frac{1}{\sqrt{x}}$ is unbounded on $[0,1]$ because $\frac{1}{\sqrt{x}}$ gets arbitrarily large as $x$ approaches $0$ from the right That is, there is a vertical asymptote at $x=0$ because $\lim_{x \to 0^+} \frac{1}{\sqrt{x}} \d x = \infty$. From now on, we will need to be cautious when evaluating integrals to check whether the integrand is bounded on the region of integration. 
+
+How then do we work with integrals of unbounded functions?  Can we define this integral in terms of integrals we know how to compute?
+
+Suppose $b$ lies strictly between $0$ and $1$. Then consider the definite integral
 
 \[
-\int_{a}^{1} \frac{1}{\sqrt{x}} \d x
+\int_{b}^{1} \frac{1}{\sqrt{x}} \d x
 \]
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=-3, xmax=3,ymin=-1,ymax=3,domain=.01:1,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+      width=6in,
+      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp, domain=.25:1] {1/sqrt(x)} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.01:1] {1/sqrt(x)};
+    \addplot [penColor,very thick, smooth,domain=1:3] {1/sqrt(x)};
+  \end{axis}
+\end{tikzpicture}
+\end{image}
 
 The function is now bounded on this smaller interval. 
 
 \[
-\int_{a}^1 \frac{1}{\sqrt{x}} \d x=  \eval{\answer[given]{2\sqrt{x}}}_a^1=\answer{2-2\sqrt{a}}
+\int_{b}^1 \frac{1}{\sqrt{x}} \d x=  \eval{\answer[given]{2\sqrt{x}}}_b^1=\answer{2-2\sqrt{b}}
 \]
 
-Now we can examine what will happen if we let $a$ begin to move towards $0$ from the right. What will happen to the area
-under the curve? 
-Just as we did in the case of unbounded integrals, we can make sense of this integral by defining it as the limit
-of a definite integral 
+Now we can examine what will happen if we let $b$ begin to move towards $0$ from the right. What will happen to the area under the curve? 
+Just as we did in the case of unbounded integrals, we can make sense of this integral by defining it as the limit of a definite integral 
 
 \[
-\int_{0}^{1} \frac{1}{\sqrt{x}} \d x=\lim_{a \to 0^{+}} \frac{1}{\sqrt{x}} \d x
+\int_{0}^{1} \frac{1}{\sqrt{x}} \d x=\lim_{b \to 0^{+}} \frac{1}{\sqrt{x}} \d x
 \]
 We can then evaluate our original improper integral: 
     \begin{align*}
-      \int_{0}^1 \frac{1}{\sqrt{x}} \d x &= \lim_{\answer[given]{a} \to 0} \int_{a}^1 \frac{1}{\sqrt{x}} \d x \\
-      &=  \lim_{a \to 0}  \eval{\answer[given]{2\sqrt{x}}}_a^1 \\
-      &=  \lim_{a \to 0} \left(\answer[given]{2-2\sqrt{a}}\right)\\
+      \int_{0}^1 \frac{1}{\sqrt{x}} \d x &= \lim_{\answer[given]{b} \to 0} \int_{b}^1 \frac{1}{\sqrt{x}} \d x \\
+      &=  \lim_{b \to 0}  \eval{\answer[given]{2\sqrt{x}}}_b^1 \\
+      &=  \lim_{b \to 0} \left(\answer[given]{2-2\sqrt{b}}\right)\\
       &= \answer[given]{2}.
     \end{align*}
 
@@ -458,9 +515,7 @@ vertical asymptote can be finite? Consider the graph of $y=
   \end{axis}
 \end{tikzpicture}
 \end{image}
-Essentially, the function $\frac{1}{\sqrt{x}}$ goes to infinity ``fast
-enough,'' as $x\to 0^+$, so that only a finite amount of area is
-accumulated. 
+Essentially, the function $\frac{1}{\sqrt{x}}$ approaches the vertical asymptote at $x=0$ ``fast enough'' so that only a finite amount of area is accumulated. 
 
   \end{explanation}
 \end{example}
@@ -546,7 +601,7 @@ improper integrals of unbounded functions.
 Let $f(x)$ be a continuous function on $[a,b]$ except at $c$, $a\leq
 c\leq b$, where $x=c$ is a vertical asymptote of $f$. Define
 \[
-\int_a^b f(x)\d x = \lim_{t\to c^-}\int_a^t f(x)\d x + \lim_{t\to c^+}\int_t^b f(x)\d x
+\int_a^b f(x)\d x = \lim_{M\to c^-}\int_a^M f(x)\d x + \lim_{N\to c^+}\int_N^b f(x)\d x
 \]
 \end{definition}
 
@@ -582,19 +637,20 @@ determine the limit.
 \begin{example}
 Determine the integral
 \[
-\int_{1}^{4} \frac{5x}{x^{2}+x-6} \d x 
+\int_{1}^{\infty} \frac{5x}{x^{2}+x-6} \d x 
 \]
 
 
 \begin{explanation}
- The integrand is a rational function so we check whether the denominator has a root in $[1,4]$. 
+This is clearly an improper integral because one of the bounds is infinite, but we need to be cautious about the integrand as well. The integrand is a rational function so we check whether the denominator has a root in $[1,4]$. 
 Factoring the denominator $x^{2}+x-6=(x-2)(x+3)$ so we see that $x=2$ makes the denominator zero 
 and lies in the interval of integration. 
 
-Since $2$ lies in the middle of the interval we need to break the integral into two pieces
+Since $2$ lies in the middle of the interval and the upper limit of integration is infinity, we need to break the integral into three pieces
 \begin{align*}
-\int_{1}^{4} \frac{5x}{x^{2}+x-6} \d x &= \int_{1}^{2} \frac{5x}{(x-2)(x+3)} \d x  + \int_{2}^{4} \frac{5x}{x^{2}+x-6} \d x \\
-      &=\lim_{a \to 2^{-}} \frac{5x}{(x-2)(x+3)} \d x + \lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x
+& \int_{1}^{\infty} \frac{5x}{x^{2}+x-6} \d x \\
+&= \int_{1}^{2} \frac{5x}{(x-2)(x+3)} \d x  + \int_{2}^{4} \frac{5x}{x^{2}+x-6} \d x + \int_{4}^{\infty} \frac{5x}{x^{2}+x-6} \d x\\
+      &=\lim_{a \to 2^{-}} \int_{1}^a \frac{5x}{(x-2)(x+3)} \d x + \lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x +\lim_{c \to \infty} \int_{4}^{c} \frac{5x}{x^{2}+x-6} \d x
 \end{align*}
 
 Since the integrand is a rational function, where the denominator is reducible, we could apply partial fractions decomposition to get
@@ -611,7 +667,7 @@ Now we find the antiderivative to get
 \end{align*}
 
 
-Now we evaluate 
+Now we evaluate one integral at a time.  Let's start with
 
 \begin{align*}
 \lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x&= \lim_{b \to 2^{+}} \eval{ 2\ln|x-2| + 3\ln|x+3 | }_{b}^{4} \\

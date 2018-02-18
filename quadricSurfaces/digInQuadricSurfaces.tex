@@ -394,7 +394,82 @@ z=d & \text{Hyperbola}
 
 \section{Identifying quadric surfaces}
 
-In this course, we will be looking at quadric surfaces of the form
+Let's start by working a specific example.
+
+\begin{example}
+  Consider the surface:
+  \[
+  z = x^2+4y^2-5xy
+  \]
+  Is this surface an elliptic paraboloid or a hyperbolic paraboloid?
+  \begin{explanation}
+    We'll work somewhat naively. Consider the plane $y= mx$. This
+    plane is perpendicular to the $(x,y)$-plane. If we intersect this
+    plane with the surface above, we will find a parabola. If we can
+    change the direction that the parabola opens by varying $m$, then
+    our surface is a hyperbolic paraboloid. If we cannot change the
+    direction that the parabola opens by varying $m$, then our surface
+    is an elliptic paraboloid. Start by setting $m = 0$. In this case
+    we find:
+    \[
+    z = \answer[given]{x^2}
+    \]
+    This is a parabola that opens ``up'' in the $(x,z)$-plane. Can we
+    find a parabola that opens ``down'' by varying $m$? Intersecting
+    the surface $z = x^2 + 4y^2 -5xy$ and $y=mx$ we find:
+    \begin{align*}
+      z &= \answer[given]{x^2 + 4 m^2 x^2 -5 x^2 m}\\
+      &=x^2\left(\answer[given]{4 m^2-5m + 1}\right)
+    \end{align*}
+    This parabola will open ``downward'' when we can find $m$ such
+    that $4 m^2-5m + 1$ is negative. The expression $4 m^2-5m + 1$ is zero when
+    \begin{align*}
+      m &= 1/4\\
+      m &= \answer[given]{1}.
+    \end{align*}
+    Let's draw a sign-chart:
+    \begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            trim axis left,
+            scale only axis,
+            domain=0:1.75,
+            ymax=2,
+            ymin=-2,
+            axis lines=none,
+            height=3cm, %% Hard coded height! 
+            width=\textwidth, %% width
+          ]
+          \addplot [draw=none, fill=fill1, domain=(0:1/4)] {2} \closedcycle;
+          \addplot [draw=none, fill=fill2, domain=(1/4:1)] {2} \closedcycle;
+          \addplot [draw=none, fill=fill1, domain=(1:1.75)] {2} \closedcycle;
+                    
+          \addplot [->,textColor] plot coordinates {(0,0) (1.75,0)}; %% axis{0};
+          
+          \addplot [dashed, textColor] plot coordinates {(1/4,0) (1/4,2)};
+          \addplot [dashed, textColor] plot coordinates {(1,0) (1,2)};
+                    
+          \node at (axis cs:1/4,0) [anchor=north,textColor] {\footnotesize$1/4$};
+          \node at (axis cs:1,0) [anchor=north,textColor] {\footnotesize$1$};
+
+          \node at (axis cs:.125,1) [textColor] {\footnotesize$+$};
+          \node at (axis cs:.625,1) [textColor] {\footnotesize$-$};
+          \node at (axis cs:1.375,1) [textColor] {\footnotesize$+$};
+          
+
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    Since the intersection of $z=x^2+4y^2-5xy$ with the plane $y=0$ is
+    a parabola that opens ``up'' in the $(x,z)$-plane, and the
+    intersection of the surface with the plane $y = x/2$ (or $y=mx$
+    where $m$ is between $1/4$ and $1$) is a parabola that opens
+    ``down'' in the $(x,z)$-plane, we have a hyperbolic paraboloid.
+  \end{explanation}
+\end{example}
+
+Later in this course, we will be looking at quadric surfaces of the
+form
 \begin{align*}
   z = &\left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})(x-c_1)^2\\
   &+ \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(y-c_2)^2 \\
@@ -453,39 +528,20 @@ If
 \[
 \sign(F^{(2,0)}(\vec{c})) = \sign(F^{(0,2)}(\vec{c})),
 \]
-then we start by examining the section
+then we start by examining the section:
 \[
-y= c_2
-\]
-If $y=c_2$ then the surface
-\begin{align*}
-  z = &\left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})(x-c_1)^2\\
-  &+ \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(y-c_2)^2 \\
-  &+ F^{(1,1)}(\vec{c}) (x-c_1)(y-c_2)\\
-  &+ F(\vec{c}).
-\end{align*}
-becomes
-\[
-z = F^{(2,0)}(\vec{c})(x-c_1)^2 + F(\vec{c}),
-\]
-and this is a parabola that opens in the $z$-direction of the sign of
-$F^{(2,0)}(\vec{c})$.
-
-When can we find another parabola on this surface that opens in the
-opposite direction? Well, let's examine the section:
-\[
-y -c_2 = K (x-c_1)
+y -c_2 = m (x-c_1)
 \]
 Substituting this into the surface above, we find
 \begin{align*}
   z = &\left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})(x-c_1)^2\\
-  &+ K^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(x-c_1)^2\\
-  &+ K F^{(1,1)}(\vec{c}) (x-c_1)^2 \\
+  &+ m^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(x-c_1)^2\\
+  &+ m F^{(1,1)}(\vec{c}) (x-c_1)^2 \\
   &+ F(\vec{c}).
 \end{align*}
 Factoring and rearranging, set
 \[
-A = K^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + K F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})
+A = m^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + m F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})
 \]
 and now 
 \begin{align*}
@@ -494,24 +550,24 @@ z = (x-c_1)^2 A + F(\vec{c}).
 This is a parabola that opens in the $z$-direction of the sign of
 $F^{(2,0)}(\vec{c})$ when
 \[
-A = K^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + K F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})
+A = m^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + m F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})
 \]
 has the same sign as $F^{(2,0)}(\vec{c})$.  The parabola opens in the
 opposite direction, when
 \[
-A = K^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + K F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})
+A = m^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + m F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c})
 \]
-has the opposite sign as $F^{(2,0)}(\vec{c})$.  We can find a $K$ that
+has the opposite sign as $F^{(2,0)}(\vec{c})$.  We can find a $m$ that
 produces this opposite sign when the quadratic equation, in the
-variable $K$,
+variable $m$,
 \[
-K^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + K F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c}) = 0
+m^2 \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c}) + m F^{(1,1)}(\vec{c}) + \left(\frac{1}{2}\right)F^{(2,0)}(\vec{c}) = 0
 \]
 has two real solutions. Let's investigate using the quadratic formula:
 \[
-K = \frac{- F^{(1,1)}\pm(\vec{c})\sqrt{F^{(1,1)}(\vec{c})^2-F^{(2,0)}(\vec{c})F^{(0,2)}(\vec{c})}}{F^{(0,2)}(\vec{c})}
+m = \frac{- F^{(1,1)}\pm(\vec{c})\sqrt{F^{(1,1)}(\vec{c})^2-F^{(2,0)}(\vec{c})F^{(0,2)}(\vec{c})}}{F^{(0,2)}(\vec{c})}
 \]
-We see that there are two real solutions for $K$ when
+We see that there are two real solutions for $m$ when
 \[
 F^{(1,1)}(\vec{c})^2-F^{(2,0)}(\vec{c})F^{(0,2)}(\vec{c})>0
 \]

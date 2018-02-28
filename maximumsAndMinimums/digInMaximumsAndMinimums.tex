@@ -63,9 +63,58 @@ maximum or a local minimum.
 %%     All global extrema are local extrema.
 %%   \end{feedback}
 %% \end{question}
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-3:2,
+            ymax=1,
+            ymin=-5.5,
+            %samples=100,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west}
+          ]
+          \addplot [dashed, penColor2, smooth] plot coordinates {(1,0) (1,-5)}; %% {.451};
+          \addplot [dashed, textColor, smooth] plot coordinates {(0.85,-0.6) (0.85,-4.75)}; %% axis{2.215};
+           \addplot [dashed, textColor, smooth] plot coordinates {(0.85,0) (0.85,-0.21)}; %% axis{2.215};
+       \addplot [ very thick, penColor, smooth] plot coordinates {(0.75,0) (1.25,0)}; 
+          \addplot [very thick, penColor, smooth] {-2*x^3+9*x^2-12*x};
+          \node at (axis cs:2.2,5/2) [anchor=west] {\color{penColor}$f$};  
+              \node at (axis cs:0.52,-3) [anchor=west] {\color{penColor}$f(x)$};  
+                \node at (axis cs:1,-3) [anchor=west] {\color{penColor2}$f(1)$};  
+     \node at (axis cs:0.78,-0.35) [anchor=west] {\color{penColor}$x$}; 
+       \node at (axis cs:0.9,0.6) [anchor=west] {\color{penColor}$I$};  
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1,0)};  %% closed hole
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0.85,0)};  %% closed hole
+          \addplot[color=penColor,fill=penColor2,only marks,mark=*] coordinates{(1,-5)};  %% closed hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0.85,-4.9)};  %% closed hole
+              \addplot [color=penColor,fill=fill1,only marks,mark=*] coordinates{(0.75,0)};  %% open hole   
+                 \addplot [color=penColor,fill=fill1,only marks,mark=*] coordinates{(1.25,0)};  %% open hole  
+        \end{axis}
+     
+\end{tikzpicture}
+%% \caption{A plot of $f(x) = x^3-4x^2+3x$ and $f'(x) = 3x^2-8x+3$.}
+%% \label{figure:x^3-4x^2+3x}
+\end{image}
+\begin{example}
+Here we clarify the definition of a local minimum.\\
+
+In the figure above the function $f$ has a local minimum at ,
+\[
+a=\answer[given]{1},
+\]
+ because were able to find  an \textbf{open} interval $I$ (marked in the figure) that contains the number
+ \[
+a=\answer[given]{1},
+\]
+ and for all numbers $x$ in $I$ the following statement is true:
+ \[
+f(\answer[given]{x})\le f(\answer[given]{1}).
+\] 
+\end{example}
 
 Local maximum and minimum points are quite distinctive on the graph of
-a function, and are therefore useful in understanding the shape of the
+a function, and are, therefore, useful in understanding the shape of the
 graph. In many applied problems we want to find the largest or
 smallest value that a function achieves (for example, we might want
 to find the minimum cost at which some task can be performed) and so
@@ -76,11 +125,40 @@ problems as well.
 
 \section{Critical points}
 
+Consider the graph of the function $f$.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=-6:6, xmin=-6, xmax=6, ymin=-2,ymax=7,    
+            unit vector ratio*=1 1 1,
+         axis lines =center, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={-6,...,6}, ytick={-3,...,10},
+            xticklabels={-6,,-4,,-2,,0,,2,,4,,6}, yticklabels={,-2,,0,,2,,4,,6,,8,,10},
+            grid=major,width=4in,
+            grid style={dashed, gridColor},
+          ]
+          \addplot [very thick, penColor, smooth, domain=(-6:-4)] {x+9};
+	  \addplot [very thick, penColor, smooth, domain=(-4:-2)] {1-x};
+	  \addplot [very thick, penColor, smooth, domain=(-2:3)] {0.5*x^2-1};
+          \addplot [very thick, penColor, smooth, domain=(3:4)] {(x-4)^3+4.5};
+           \addplot [very thick, penColor, smooth, domain=(4:6)] {-(x-4)^2+4.5};
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,3)};  %% open hole
+          \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(-2,1)};  %% open hole
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-2,6)};  %% closed hole
+              \addplot [ very thick, penColor2, smooth] plot coordinates {(3.2,4.5) (4.8,4.5)}; 
+                 \addplot [ very thick, penColor2, smooth] plot coordinates {(-0.75,-1) (0.75,-1)}; 
+                   \node at (axis cs:1,6) [anchor=west] {\color{penColor}$y=f(x)$};  
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+The function $f$  has four local extremums: at  $x=-4$, $x=-2$, $x=0$ and $x=4$.
+Notice that the function $f$ is \textbf{not differentiable} at  $x=-4$ and  $x=-2$.
+Notice that $f'(0)=0$ and $f'(4)=0$.
 
-If $(x,f(x))$ is a point where $f$ reaches a local maximum or minimum,
-and if the derivative of $f$ exists at $x$, then the graph has a
-tangent line and the tangent line must be horizontal. This is
-important enough to state as a theorem, though we will not prove it.
+After this example, the following theorem should not come as a surprise. 
+
 
 \begin{theorem}[Fermat's Theorem]\index{Fermat's Theorem}\label{theorem:fermat}
 If $f$ has a local extremum at $x=a$ and $f$ is differentiable
@@ -314,7 +392,8 @@ We can easily express  $f'(x)$ as a product of its factors
 \[
 \ddx f(x)=3(x+\answer[given]{\frac{\sqrt{3}}{3}})(x-\answer[given]{\frac{\sqrt{3}}{3}}),
 \] 
-which implies that the function $f$ has only two critical points, $x=-\frac{\sqrt{3}}{3}$ and  $x=\frac{\sqrt{3}}{3}$. This implies that derivative \textbf{does not change the sign} on the intervals $(-\infty,-\frac{\sqrt{3}}{3})$, $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$, and $(\frac{\sqrt{3}}{3},\infty)$. 
+which implies that the function $f$ has only two critical points, $x=-\frac{\sqrt{3}}{3}$ and  $x=\frac{\sqrt{3}}{3}$. Notice that the derivative $f'(x)$ is a polynomial, and polynomials do not change signs except possibly at their zeros. This implies that derivative $f'(x)$ \textbf{does not change the sign} on the intervals $(-\infty,-\frac{\sqrt{3}}{3})$, $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$, and $(\frac{\sqrt{3}}{3},\infty)$, because these intervals do not contain any zeros of $f'(x)$.
+ 
 \begin{question}
 Circle the correct  statement about the sign of $f'(x)$ on the intervals $(-\infty,-\frac{\sqrt{3}}{3})$ and $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$. \\
  
@@ -322,8 +401,8 @@ Circle the correct  statement about the sign of $f'(x)$ on the intervals $(-\inf
     \choice{$f'(x)>0$ on $(-\infty,-\frac{\sqrt{3}}{3})$ and $f'(x)>0$ on $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$. }
       \choice[correct]{$f'(x)>0$ on $x$ in $(-\infty,-\frac{\sqrt{3}}{3})$ and $f'(x)<0$ on $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$. }
         \choice{$f'(x)<0$ on $(-\infty,-\frac{\sqrt{3}}{3})$ and $f'(x)>0$ on $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$. }
-          \choice{$f'(x)<0$ on $(-\infty,-\frac{\sqrt{3}}{3})$ and $f'(x)<0$ on $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$. }
-  \end{multipleChoice}
+          \choice{$f'(x)<0$ on $(-\infty,-\frac{\sqrt{3}}{3})$ and $f'(x)<0$ on $(-\frac{\sqrt{3}}{3},\frac{\sqrt{3}}{3})$}
+            \end{multipleChoice}
   \end{question}
   If we know the sign of the derivative on an interval, we also know whether the function is increasing or decreasing on that interval. This will help us determine whether the function has a local extremum at the critical point  where $x=-\frac{\sqrt{3}}{3}$. \\
   \begin{question}
@@ -448,8 +527,8 @@ f'(x) &= \answer[given]{x^3+x^2-2x} \\
 &=x(x+2)\answer[given]{(x-1)}.
 \end{align*}
 So the critical points (when $f'(x)=0$) are when $x=-2$, $x=0$, and
-$x=1$. Now we can check points \textbf{between} the critical points to find
-when $f'(x)$ is increasing and decreasing:
+$x=1$. Since the derivative, $f'(x)$, is a polynomial, it does not change the sign on intervals between its zeros, i.e., between its the critical points. Now we can check the sign of $f'(x)$ at some points \textbf{between} the critical points to find
+where $f'(x)$ is positive and where negative:
 \begin{align*}
   f'(-3)&=\answer[given]{-12},\\
   f'(.5)&=\answer[given]{-0.625},\\

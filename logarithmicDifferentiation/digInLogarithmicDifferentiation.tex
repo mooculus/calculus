@@ -112,7 +112,7 @@ example to see how this is actually used.
 \begin{example} 
 Compute:
 \[
-\ddx \frac{x^9e^{4x}}{\sqrt{x^2+4}}
+\ddx \frac{x^9e^{4x}}{\sqrt{x-4}}
 \]
 
 Recall the properties of logarithms:
@@ -126,21 +126,21 @@ While we could use the product and quotient rule to solve this
 problem, it would be tedious. Start by taking the logarithm of the
 function to be differentiated.
 \begin{align*}
-\ln\left(\frac{x^9e^{4x}}{\sqrt{x^2+4}} \right) &= \ln\left(\answer[given]{x^9e^{4x}}\right) - \ln\left(\answer[given]{\sqrt{x^2+4}}\right)\\
-&= \ln\left(x^9\right)+\ln\left(e^{4x}\right) - \ln\left((x^2+4)^{1/2}\right)\\
-&= \answer[given]{9}\ln(x)+4x - \answer[given]{\frac{1}{2}}\ln(x^2+4).
+\ln\left(\frac{x^9e^{4x}}{\sqrt{x-4}} \right) &= \ln\left(\answer[given]{x^9e^{4x}}\right) - \ln\left(\answer[given]{\sqrt{x-4}}\right)\\
+&= \ln\left(x^9\right)+\ln\left(e^{4x}\right) - \ln\left((x-4)^{1/2}\right)\\
+&= \answer[given]{9}\ln(x)+4x - \answer[given]{\frac{1}{2}}\ln(x-4).
 \end{align*}
-Setting $f(x) = \frac{x^9e^{4x}}{\sqrt{x^2+4}}$, we can write
+Setting $f(x) = \frac{x^9e^{4x}}{\sqrt{x-4}}$, we can write
 \[
-\ln(f(x)) = 9\ln(x)+4x - \frac{1}{2}\ln(x^2+4).
+\ln(f(x)) = 9\ln(x)+4x - \frac{1}{2}\ln(x-4).
 \]
 Differentiating both sides, we find
 \[
-\frac{f'(x)}{f(x)} = \answer[given]{\frac{9}{x}+4} - \frac{x}{x^2+4}.
+\frac{f'(x)}{f(x)} = \answer[given]{\frac{9}{x}+4} - \frac{1}{2(x-4)}.
 \]
 Finally we solve for $f'(x)$, write
 \[
-f'(x) = \left(\frac{9}{x}+4 - \frac{x}{x^2+4}\right)\left(\answer[given]{\frac{x^9e^{4x}}{\sqrt{x^2+4}}}\right).
+f'(x) = \left(\frac{9}{x}+4 - \frac{1}{2(x-4)}\right)\left(\answer[given]{\frac{x^9e^{4x}}{\sqrt{x-4}}}\right).
 \]
 \end{example}
 
@@ -149,11 +149,14 @@ The process above is called \textit{logarithmic
 new derivatives too.
 
 \begin{example}
-Compute:
+
+For  $x>0$, compute 
 \[
 \ddx x^x
 \]
+
 \begin{explanation}
+
 The function $x^x$ is tricky to differentiate. We cannot use the power
 rule, as the exponent is not a constant. However, if we set $f(x) = x^x$ we can write
 \begin{align*}
@@ -172,28 +175,70 @@ f'(x) = x^x + x^x\ln(x).
 \end{example}
 
 
+\begin{example}
+\author{Nela Lakos}
+Compute the derivative.
+\[
+\ddx\ln{(|x|)}
+\]
+\begin{explanation}
+
+The function $|x|$ is a piecewise defined function. \\
+
+If $x>0$
+\begin{align*}
+\ddx\ln{(|x|)} &= \ddx\ln{(\answer[given]{x})}\\
+&=\dfrac{1}{\answer[given]{x}}.
+\end{align*}
+The function $\ln{(|x|)}$ is not defined at $x=0$.\\
+
+ If $x<0$
+\begin{align*}
+\ddx\ln{(|x|)} &= \ddx\ln{(\answer[given]{-x})}\\
+&=\dfrac{\ -1}{\answer[given]{-x}}\\
+&=\answer[given]{\dfrac{1}{x}}.
+\end{align*}
+\end{explanation}
+\end{example}
+
+The next  example will be useful when we want to use logarithmic differentiations for functions that  assume negative values. 
 
 
+\begin{example}
+\author{Nela Lakos}
+Compute the derivative.
+\[
+\ddx\ln{(|f(x)|)}
+\]
+\begin{explanation}
+By the previous example and the Chain Rule
+\begin{align*}
+\ddx\ln{(|f(x)|)} &=\answer[given]{\dfrac{1}{f(x)}}\cdot f'(x).\\
+&=\answer[given]{\dfrac{f'(x)}{f(x)}}
+\end{align*}
+\end{explanation}
+\end{example}
 
 
-\section{A general explanation of the power rule}
+\section{Proof of the power rule}
 
 
-Finally, recall that previously we only explained the power rule for
-positive exponents. Now we'll use logarithmic differentiation to give
-a explanation for all real-valued exponents. We restate the power rule
+Finally, recall that previously we only proved the power rule for
+positive integer exponents. Now we'll use logarithmic differentiation to give
+a proof for all real-valued exponents. We restate the power rule
 for convenience sake:
 
 \begin{theorem}[Power Rule]\index{power rule}
-For any real number $n$, 
+For any  real number $n$, 
 \[
 \ddx x^n = n x^{n-1}.
 \]
 \begin{explanation}
+
 We will use logarithmic differentiation. Set $f(x) = x^n$. Write
 \begin{align*}
-\ln(f(x)) &= \ln\left(x^n\right) \\ 
-&= n\ln(x).
+\ln(|f(x)|) &= \ln\left(|x|^n\right) , x\ne0\\ 
+&= n\ln(|x|).
 \end{align*}
 Now differentiate both sides, and solve for $f'(x)$
 \begin{align*}
@@ -201,7 +246,9 @@ Now differentiate both sides, and solve for $f'(x)$
 f'(x) &=\frac{n f(x)}{x}\\
 &= \answer[given]{n x^{n-1}}.
 \end{align*}
-Thus we see that the power rule holds for all real-valued exponents.
+Whenever $x=0$ is in the domain of $f$, the definition of the derivative at $x=0$ implies that  $f'(0)=0$, if $n\ne1$ and $f'(0)=1$, if $n=1$ , so the power rule applies to $x=0$, too.\\
+
+Thus we see that the power rule holds for all real-valued (nonzero) exponents.
 \end{explanation}
 \end{theorem}
 

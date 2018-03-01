@@ -177,10 +177,10 @@ $y$-axis. Then your thumb will point in the $z$-direction.
 \begin{question}
   Which of the following axes are aligned according to the right-hand rule?
   \begin{hint}
-    Point your pointer finger of your right hand in the positive
-    direction of $x$-axis while simultaneously pointing your middle
-    finger in the positive direction of $y$-axis. Your thumb will point
-    in the positive direction of the $z$-axis.
+    Point the ``pointer finger'' of your right hand in the positive
+    direction of the $x$-axis while simultaneously pointing your
+    ``middle finger'' in the positive direction of the $y$-axis. Your
+    thumb will point in the positive direction of the $z$-axis.
   \end{hint}
    \begin{selectAll}
      \choice[correct]{
@@ -225,22 +225,54 @@ $y$-axis. Then your thumb will point in the $z$-direction.
 
 
 
-\section{Basic planes}
+\section{Basic plotting}
 
-We can clearly see the $(x,y)$-plane in our axes
-\begin{image}[2in]
+
+To plot a point $(a,b,c)$ in $\R^3$, you move $a$ in the
+$x$-direction, $b$ in the $y$-direction and $c$ in the $z$ direction.
+
+\begin{image}
   \begin{tikzpicture}
-    \draw[draw=none,fill=fill1] (1.2,-.3)--(1.2,.9)--(-1,.9)--(-1,-.3)--(1.2,-.3);
-    \draw[->] (-1,0)--(1,0);
-    \draw[->] (0,-1)--(0,1);
-    \draw[->] (.4,.7)--(-.4,-.7);
-    \node[right] at (1,0) {$x$};
-    \node[above] at (0,1) {$y$};
-    \node[below] at (-.4,-.7) {$z$};
+    \begin{axis}[
+        axis lines=none,
+        clip=false,
+        width=5in,
+        height=2.5in,
+      ]          
+      \addplot [->,textColor] plot coordinates {(0,0) (-2,-4)}; %% x axis
+      \addplot [->,textColor] plot coordinates {(0,0) (4,0)}; %% y axis
+      \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% z axis
+      
+      \addplot [dashed] plot coordinates {(-1.3,-2.6) (2.6,-2.6)}; %%bottom dashed line
+      \addplot [dashed] plot coordinates {(2.6,-2.6) (3.5,0)}; %% bottom right dashed
+      \addplot [dashed] plot coordinates {(3.5,0) (3.5,5.5)};  %% back right vert dashed
+      \addplot [dashed] plot coordinates {(2.6,-2.6) (2.6,2.9)}; %% front right vert dashed
+      \addplot [dashed] plot coordinates {(3.5,5.5) (2.6,2.9)}; %% top right dashed
+      \addplot [dashed] plot coordinates {(0,5.5) (-1.3,2.9)}; %% top left dashed
+      \addplot [dashed] plot coordinates {(-1.3,-2.6) (-1.3,2.9)}; %% left vert front
+      \addplot [dashed] plot coordinates {(-1.3,2.9) (2.6,2.9)}; %% top horz
+      \addplot [dashed] plot coordinates {(0,5.5) (3.5,5.5)}; %% top horz rear
+            
+      \node at (axis cs:-1.3,-2.6) [anchor=east] {$a$};          
+      \node at (axis cs:3.5,0) [anchor=south west] {$b$};
+      \node at (axis cs:0,5.5) [anchor=south east] {$c$};
+
+      \addplot[penColor,only marks,mark=*] coordinates{(2.6,2.9)};  %% closed hole
+      \node[penColor,below right] at (axis cs:2.6,2.9) {$(a,b,c)$};
+    \end{axis}
   \end{tikzpicture}
 \end{image}
-but there are also two other planes containing the lines of our axes:
-$(x,z)$-plane, and the $(y,z)$-plane.
+
+Of course, we're going to be plotting many points. We typically
+described groups of points, as those that satisfy a given equation
+involving $x$, $y$, and $z$. Here is a place where working in three
+dimensions is really different from working in two.
+\begin{itemize}
+\item In $\R^2$, any equation involving $x$ and/or $y$ draws a \textbf{curve}.
+\item In $\R^3$, any equation involving $x$, $y$, and/or $z$ draws a \textbf{surface}.  
+\end{itemize}
+
+The most basic surface in $\R^3$ is a plane.
 
 \begin{question}
   The $(y,z)$-plane corresponds to which of the following
@@ -251,7 +283,7 @@ $(x,z)$-plane, and the $(y,z)$-plane.
     \choice{$z=0$}
   \end{multipleChoice}
   \begin{hint}
-    Every point on the $(y,z)$-axis has $x=0$, so this is the answer.
+    For every point on the $(y,z)$-plane, the $x$-coordinate is zero.
   \end{hint}
 \end{question}
 
@@ -271,14 +303,136 @@ $(x,z)$-plane, and the $(y,z)$-plane.
   \end{hint}
 \end{question}
 
-%% Lines and planes
-%% Ax+ by=c standard form ANY line.
-%% In 3 D?
+
+Another way to think of the point $(a,b,c)$ is as the intersection of the planes $x=a$, $y=b$, $z=c$. 
+\begin{onlineOnly}
+  Move the point around below to see the planes that define it.
+
+  \begin{center}
+    \geogebra{KyDyU28S}{800}{600}
+  \end{center}
+\end{onlineOnly}
+
+
+While the intersection of three planes is a point, the intersection of
+two planes is a line.
+
+\begin{question}
+  What is the intersection of the $(x,y)$-plane and the $(y,z)$-plane?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice{The $x$-axis.}
+      \choice[correct]{The $y$-axis.}
+      \choice{The $z$-axis.}
+    \end{multipleChoice}
+  \end{prompt}
+  \begin{question}
+  What is the intersection of the $(x,y)$-plane and the $(x,z)$-plane?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{The $x$-axis.}
+      \choice{The $y$-axis.}
+      \choice{The $z$-axis.}
+    \end{multipleChoice}
+  \end{prompt}
+  \begin{question}
+    What is the intersection of the $(x,z)$-plane and the $(y,z)$-plane?
+    \begin{prompt}
+      \begin{multipleChoice}
+        \choice{The $x$-axis.}
+      \choice{The $y$-axis.}
+      \choice[correct]{The $z$-axis.}
+      \end{multipleChoice}
+    \end{prompt}
+  \end{question}
+  \end{question}
+\end{question}
+
+
+
 
 \section{Distance and spheres}
 
-What's the most famous theorem in mathematics? I'll tell you: The
-Pythagorean Theorem:
+So the objects in our geometry are made of points, and now we must
+tell you how we plan to ``measure'' objects. To do this, we'll use our
+old friend, the distance formula.
+
+\begin{theorem}
+  Given two points $P=(x,y)$ and $Q=(a,b)$ in $\R^2$, the distance between
+  them is given by:
+  \[
+  |PQ|=\sqrt{(x-a)^2 + (y-b)^2}
+  \]
+  \begin{explanation}
+    This is nothing more than a corollary of the Pythagorean
+    Theorem. Plot the points $P=(a,b)$ and $Q=(x,y)$:
+    \begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            xmin=0, xmax=5,ymin=0,ymax=5,
+            axis lines =left, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,3}, xticklabels={$a$,$x$},
+            ytick={2,3}, yticklabels={$b$,$y$},
+            axis on top,
+          ]       
+          \addplot[penColor,dashed] plot coordinates {(1,0) (1,2)};
+          \addplot[penColor,dashed] plot coordinates {(0,2) (1,2)};
+          \addplot[penColor,dashed] plot coordinates {(3,0) (3,3)};
+          \addplot[penColor,dashed] plot coordinates {(0,3) (3,3)};
+          \addplot[penColor2,only marks,mark=*] coordinates{(1,2)};  %% closed hole          
+          \addplot[penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole          
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    We may now construct a right triangle with horizontal side length
+    $\answer[given]{(x-a)}$ and vertical side length
+    $\answer[given]{(y-b)}$ whose hypotenuse is the shortest path
+    between the two points:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            xmin=0, xmax=5,ymin=0,ymax=5,
+            axis lines =left, 
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,3}, xticklabels={$a$,$x$},
+            ytick={2,3}, yticklabels={$b$,$y$},
+            axis on top,
+          ]       
+          \node at (axis cs:2,1.75) {$(x-a)$}; 
+          \node at (axis cs:3.5,2.5) {$(y-b)$}; 
+          \addplot[dashed] plot coordinates {(1,2) (3,3)};
+          \addplot[textColor] plot coordinates {(1,2) (3,2)};
+          \addplot[textColor] plot coordinates {(3,2) (3,3)};
+          \addplot[textColor] plot coordinates {(2.83,2) (2.83,2.2) (3,2.2)};
+          \addplot[penColor2,only marks,mark=*] coordinates{(1,2)};  %% closed hole          
+          \addplot[penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole          
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    By the Pythagorean Theorem, the length of this path is given by 
+    \[
+    |PQ|=\sqrt{(x-a)^{2}+(y-b)^{2}}.
+    \]
+  \end{explanation}
+\end{theorem}
+
+\begin{question}
+  What is the distance between the points $P=(-17,379)$ and
+  $Q=(14,-101)$ in $\R^2$?
+  \begin{prompt}
+    \[
+    |PQ|=\answer{481}\unit{units}.
+    \]
+  \end{prompt}
+\end{question}
+
+On a completely related note, what's the most famous theorem in
+mathematics? I'll tell you: The Pythagorean Theorem. In essence, the
+distance formula \textit{is} The Pythagorean Theorem. Let's see if we
+can explain why the Pythagorean Theorem is true.
 
 \begin{theorem}
   Given a right triangle,
@@ -337,7 +491,11 @@ Pythagorean Theorem:
         \node[right] at (4,2.5) {$b$};
         \node[above] at (1.5,4) {$b$};
 
-        
+        \node[left] at (0,3.5) {$a$};
+        \node[right] at (4,.5) {$a$};
+        \node[below] at (.5,0) {$a$};
+        \node[above] at (3.5,4) {$a$};
+
         %% Second square
         \coordinate (AA) at (6,0);
         \coordinate (BB) at (6,4);
@@ -435,82 +593,8 @@ Pythagorean Theorem:
   \end{explanation}
 \end{theorem}
   
-  
+ 
 
-On a completely related note, suppose you want to know the distance
-between two points $(x,y)$ and $(a,b)$. To do this, we use the
-distance formula!
-\begin{theorem}
-  Given two points $P=(x,y)$ and $Q=(a,b)$ in $\R^2$, the distance between
-  them is given by:
-  \[
-  |PQ|=\sqrt{(x-a)^2 + (y-b)^2}
-  \]
-  \begin{explanation}
-    This is nothing more than a corollary of the Pythagorean
-    Theorem. Plot the points $P=(a,b)$ and $Q=(x,y)$:
-    \begin{image}
-      \begin{tikzpicture}
-	\begin{axis}[
-            xmin=0, xmax=5,ymin=0,ymax=5,
-            axis lines =left, 
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            xtick={1,3}, xticklabels={$a$,$x$},
-            ytick={2,3}, yticklabels={$b$,$y$},
-            axis on top,
-          ]       
-          \addplot[penColor,dashed] plot coordinates {(1,0) (1,2)};
-          \addplot[penColor,dashed] plot coordinates {(0,2) (1,2)};
-          \addplot[penColor,dashed] plot coordinates {(3,0) (3,3)};
-          \addplot[penColor,dashed] plot coordinates {(0,3) (3,3)};
-          \addplot[penColor2,only marks,mark=*] coordinates{(1,2)};  %% closed hole          
-          \addplot[penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole          
-        \end{axis}
-      \end{tikzpicture}
-    \end{image}
-    We may now construct a right triangle with horizontal side length
-    $\answer[given]{(x-a)}$ and vertical side length
-    $\answer[given]{(y-b)}$ whose hypotenuse is the shortest path
-    between the two points:
-    \begin{image}
-      \begin{tikzpicture}
-        \begin{axis}[
-            xmin=0, xmax=5,ymin=0,ymax=5,
-            axis lines =left, 
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            xtick={1,3}, xticklabels={$a$,$x$},
-            ytick={2,3}, yticklabels={$b$,$y$},
-            axis on top,
-          ]       
-          \node at (axis cs:2,1.75) {$(x-a)$}; 
-          \node at (axis cs:3.5,2.5) {$(y-b)$}; 
-          \addplot[dashed] plot coordinates {(1,2) (3,3)};
-          \addplot[textColor] plot coordinates {(1,2) (3,2)};
-          \addplot[textColor] plot coordinates {(3,2) (3,3)};
-          \addplot[textColor] plot coordinates {(2.83,2) (2.83,2.2) (3,2.2)};
-          \addplot[penColor2,only marks,mark=*] coordinates{(1,2)};  %% closed hole          
-          \addplot[penColor,only marks,mark=*] coordinates{(3,3)};  %% closed hole          
-        \end{axis}
-      \end{tikzpicture}
-    \end{image}
-    By the Pythagorean Theorem, the length of this path is given by 
-    \[
-    |PQ|=\sqrt{(x-a)^{2}+(y-b)^{2}}.
-    \]
-  \end{explanation}
-\end{theorem}
-
-\begin{question}
-  What is the distance between the points $P=(-17,379)$ and
-  $Q=(14,-101)$ in $\R^2$?
-  \begin{prompt}
-    \[
-    |PQ|=\answer{481}\unit{units}.
-    \]
-  \end{prompt}
-\end{question}
 
 The distance formula also extends to higher dimensions:
 
@@ -564,6 +648,9 @@ The distance formula also extends to higher dimensions:
           
           \addplot[penColor2,only marks,mark=*] coordinates{(1.4,2.7)};  %% closed hole
           \addplot[penColor,only marks,mark=*] coordinates{(2.6,2.9)};  %% closed hole
+
+          \node[penColor2,below left] at (axis cs: 1.4,2.7) {$Q$};
+          \node[penColor,above right]  at (axis cs: 2.5,2.9) {$P$};
 
           
         \end{axis}
@@ -623,6 +710,9 @@ The distance formula also extends to higher dimensions:
           
           \addplot[penColor2,only marks,mark=*] coordinates{(1.4,2.7)};  %% closed hole
           \addplot[penColor,only marks,mark=*] coordinates{(2.6,2.9)};  %% closed hole
+          \node[penColor2,below left] at (axis cs: 1.4,2.7) {$Q$};
+          \node[penColor,above right]  at (axis cs: 2.5,2.9) {$P$};
+          
         \end{axis}
       \end{tikzpicture}
     \end{image}
@@ -687,13 +777,16 @@ The distance formula also extends to higher dimensions:
           
           \addplot[penColor2,only marks,mark=*] coordinates{(1.4,2.7)};  %% closed hole
           \addplot[penColor,only marks,mark=*] coordinates{(2.6,2.9)};  %% closed hole
+
+          \node[penColor2,below left] at (axis cs: 1.4,2.7) {$Q$};
+          \node[penColor,above right]  at (axis cs: 2.5,2.9) {$P$};
         \end{axis}
       \end{tikzpicture}
     \end{image}
     The length of the hypotenuse of this new triangle is the distance between $P$ and $Q$. Again by the Pythagorean Theorem, we see
     \begin{align*}
       |PQ|^2 &= \left(\sqrt{(x-a)^2+(y-b)^2}\right)^2 + (z-c)^2\\
-      |PQ| &=  \sqrt{(x-a)^2+(y-b)^2 + (z-c)^2}
+      |PQ| &=  \sqrt{(x-a)^2+(y-b)^2 + (z-c)^2}.
     \end{align*}
     Thus the distance formula in $\R^3$ is indeed what we claimed.
   \end{explanation}
@@ -750,8 +843,9 @@ Let me remind you what the definition of a circle is:
       \choice[correct]{no}
     \end{multipleChoice}
     \begin{feedback}
-      Well, $|CC|=0$, and the radius of a circle is nonzero, so the
-      center is not part of the circle.
+      Well, the distance from the center of a circle to the center of
+      the circle is zero, and the radius of a circle is nonzero, so
+      the center is not part of the circle.
     \end{feedback}
   \end{prompt}
 \end{question}
@@ -769,12 +863,12 @@ sphere is related to the distance formula in $\R^3$:
   The equation for a sphere of radius $r$ centered at the point
   $(a,b,c)$ in $\R^3$ is
   \[
-  r^2 = (x-a)^2 + (y-b)^2 + (x-c)^2
+  r^2 = (x-a)^2 + (y-b)^2 + (z-c)^2
   \]
   In general, the equation for a $n$-dimensional ``sphere'' of radius
   $r$ centered at the point $(c_1,c_2,c_3,\dots,c_n)$ in $\R^n$ is
   \[
-  r^2 = \sum_{i=1}^n(x-c_i)^2
+  r^2 = \sum_{i=1}^n(x_i-c_i)^2
   \]
   \begin{explanation}
     This follows directly from the distance formula since a $n$-sphere
@@ -787,7 +881,7 @@ sphere is related to the distance formula in $\R^3$:
   In general, the equation for a $n$-dimensional ``ball'' of radius
   $r$ centered at the point $(a_1,a_2,a_3,\dots,a_n)$ is
   \[
-  r^2 \ge \sum_{i=1}^n(x-a_i)^2
+  r^2 \ge \sum_{i=1}^n(x_i-a_i)^2
   \]
   \begin{explanation}
     Here the ``$\ge$'' fills-in the $n$-dimensional sphere.
@@ -813,35 +907,128 @@ sphere is related to the distance formula in $\R^3$:
     $4$, then that distance is $2$.  Since the solution set of this
     equation is all points which are a distance of $2$ away from
     $(1,0,-2)$, then this is a sphere of radius $2$ centered at
-    $(1,0,-2)$
+    $(1,0,-2)$.
   \end{hint}
 \end{question}
 
+Things really get interesting when we have both spheres and planes
+around. Spheres can intersect planes at one point (if they are
+``just'' touching the plane), no points (if they are missing the
+plane), or an infinite number of points (here the intersection is a
+circle). Let's see some examples. 
 
-\section{Notation for functions}
+\begin{example}
+  How many points are on the intersection of
+  \[
+  (x-3)^2 + (y+2)^2 + (z-1)^2 = 9
+  \]
+  and the $(y,z)$-plane? Describe the intersection.
+  \begin{explanation}
+    The first thing we should note, is that the surface defined by
+    \[
+    (x-3)^2 + (y+2)^2 + (z-1)^2 = 9
+    \]
+    is a sphere, of radius $\answer[given]{3}$, centered at the point
+    $(\answer[given]{3},\answer[given]{-2},\answer[given]{1})$. Moreover,
+    the $(y,z)$-plane is the plane $\answer[given]{x}=0$. Since the
+    plane is $\answer[given]{3}$ units away from the center of the
+    sphere, and the radius of the sphere is $\answer[given]{3}$, there
+    is exactly one point on the intersection, namely
+    $(\answer[given]{0},\answer[given]{-2},\answer[given]{1})$.
+  \end{explanation}
+\end{example}
 
-In this course we will be working with functions that could have multiple
-inputs and multiple outputs. We will try to adhere to the following
-(nonstandard!) convention to aid the young mathematician:
+That wasn't too bad, let's see another.
 
-\begin{itemize}
-  \item The \textbf{case} of the function will denote the number of
-    \textbf{inputs}, with lowercase indicating a single input, and uppercase
-    indicating multiple inputs.
-  \item The \textbf{face} of the function will denote the number of
-    \textbf{outputs}, with normalface ($f$ or $F$) indicating a single
-    output, and boldface ($\vec{f}$, and $\vec{F}$) indicating multiple
-    outputs.
-\end{itemize}
-Hence we could have functions that map:
-\begin{itemize}
-\item $f:\R \to \R$ (a curve in $\R^2$)
-\item $\vec{p}:\R \to \R^2$ (a parametric curve in $\R^2$)
-\item $\vec{p}:\R \to \R^3$ (a parametric curve in $\R^3$)
-\item $\vec{P}:\R^2 \to \R^3$ (a parametric surface in $\R^3$)
-\item $F:\R^2\to \R$ (a surface in $\R^3$)
-\item $F:\R^3\to \R$ (a surface in $\R^4$)
-\item $\vec{F}:\R^2 \to \R^2$ (a vector-field in $\R^2$)
-\item $\vec{F}:\R^3 \to \R^3$ (a vector-field in $\R^3$)
-\end{itemize}
+\begin{example}
+  How many points are on the intersection of
+  \[
+  (x-3)^2 + (y-1)^2 + (z+2)^2 = 8
+  \]
+  and the $(x,y)$-plane? Describe the intersection.
+  \begin{explanation}
+    The first thing we should note, is that the surface defined by
+    \[
+    (x-3)^2 + (y-1)^2 + (z+2)^2 = 8
+    \]
+    is a sphere, of radius $\answer[given]{\sqrt{8}}$, centered at the
+    point
+    $(\answer[given]{3},\answer[given]{1},\answer[given]{-2})$. Moreover,
+    the $(x,y)$-plane is the plane $\answer[given]{z}=0$. Since the
+    plane is $\answer[given]{2}$ units away from the center of the
+    sphere, and the radius of the sphere is
+    $\answer[given]{\sqrt{18}}$, there are an infinite number of
+    points on the intersection. The intersection is in fact a
+    circle. The center of the circle is the point
+    $(\answer[given]{3},(\answer[given]{1},(\answer[given]{0})$. The
+    radius of the circle can be found by plugging
+    $z=\answer[given]{0}$ into
+    \[
+    (x-3)^2 + (y-1)^2 + (z+2)^2 = 8
+    \]
+    and rearranging to find
+    \[
+    (x-3)^2 + (y-1)^2  = \answer[given]{4}.
+    \]
+    Hence, the intersection is a circle of radius $\answer[given]{2}$,
+    centered at the point
+    $(\answer[given]{3},(\answer[given]{1},(\answer[given]{0})$, in
+    the plane $z=\answer[given]{0}$.
+  \end{explanation}
+\end{example}
+
+
+For our last example, we've left the easiest case of all.
+
+\begin{example}
+  How many points are on the intersection of
+  \[
+  (x+1)^2 + (y+3)^2 + (z-2)^2 = 6
+  \]
+  and the $(x,z)$-plane? Describe the intersection.
+  \begin{explanation}
+    The first thing we should note, is that the surface defined by
+    \[
+    (x+1)^2 + (y+3)^2 + (z-2)^2 = 6
+    \]
+    is a sphere, of radius $\answer[given]{\sqrt{6}}$, centered at the
+    point
+    $(\answer[given]{-1},\answer[given]{-3},\answer[given]{2})$. Moreover,
+    the $(x,z)$-plane is the plane $\answer[given]{y}=0$. Since the
+    plane is $\answer[given]{3}$ units away from the center of the
+    sphere, and the radius of the sphere is
+    $\answer[given]{\sqrt{6}}$, there are no points on the intersection!
+  \end{explanation}
+\end{example}
+
+
+
+%% \section{Notation for functions}
+
+%% In this course we will be working with functions that could have multiple
+%% inputs and multiple outputs. We will try to adhere to the following
+%% (nonstandard!) convention to aid the young mathematician:
+
+%% \begin{itemize}
+%%   \item The \textbf{case} of the function will denote the number of
+%%     \textbf{inputs}, with lowercase indicating a single input, and uppercase
+%%     indicating multiple inputs.
+%%   \item The \textbf{face} of the function will denote the number of
+%%     \textbf{outputs}, with normalface ($f$ or $F$) indicating a single
+%%     output, and boldface ($\vec{f}$, and $\vec{F}$) indicating multiple
+%%     outputs.
+%% \end{itemize}
+%% Hence we could have functions that map:
+%% \begin{itemize}
+%% \item $f:\R \to \R$ (a curve in $\R^2$)
+%% \item $\vec{p}:\R \to \R^2$ (a parametric curve in $\R^2$)
+%% \item $\vec{p}:\R \to \R^3$ (a parametric curve in $\R^3$)
+%% \item $\vec{P}:\R^2 \to \R^3$ (a parametric surface in $\R^3$)
+%% \item $F:\R^2\to \R$ (a surface in $\R^3$)
+%% \item $F:\R^3\to \R$ (a surface in $\R^4$)
+%% \item $\vec{F}:\R^2 \to \R^2$ (a vector-field in $\R^2$)
+%% \item $\vec{F}:\R^3 \to \R^3$ (a vector-field in $\R^3$)
+%% \end{itemize}
+
+
 \end{document}

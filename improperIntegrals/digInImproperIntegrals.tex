@@ -16,21 +16,36 @@
 \maketitle
 
 
-When we defined the definite integral
+Recall that we introduced the definite integral
+
 \[
 \int_a^b f(x) \d x,
 \]
-we made two stipulations:
+
+as a limit of Riemann Sums. This limit need not always exist, as it depended on the properties of the
+function $f$ on the given interval $[a, b]$. In particular, in order for the construction of the integral to work 
+we needed both of the following to be true: 
+
 \begin{itemize}
-\item The interval over which we integrated, $[a,b]$, was a finite
+\item The interval over which we integrated, $[a,b]$, must be a finite length
   interval, and
-\item The function $f$ was continuous on $[a,b]$ (ensuring that the
-  range of $f$ was finite).
+\item The function $f$ must be bounded on $[a,b]$.
 \end{itemize}
 
-In this section we consider integrals where one or both of the above
-conditions do not hold. Such integrals are called \textbf{improper
-  integrals.} Let's state this explicitly in a definition:
+
+\begin{remark}
+Recall that in order for a function defined on $[a, b]$ to be bounded on $[a,b]$, there needs to exist an some real number $M>0$ such that 
+\[
+|f(x)| \leq M \text{ for all } x \text{ in } [a, b]
+\]
+
+This says that the outputs of $f$ are trapped between the horizontal lines $y=-M$ and $y=M$. Thus the output values cannot 
+become arbitrarily large in either the positive or negative sense on $[a,b]$. 
+\end{remark}
+
+
+It turns out that there are many instances where these limitations are a problem.  For instance, there are applications in statistics, physics, and engineering where we need to integrate over unbounded regions or we need to integrate unbounded functions.  In this section, we will generalize the notion of the integral in such a way to overcome each of the restrictions above.
+
 
 
 \begin{definition}
@@ -40,13 +55,13 @@ conditions do not hold. Such integrals are called \textbf{improper
   \]
   is called an \dfn{improper integral} if one of, or both, of the conditions hold:
   \begin{itemize}
-  \item The interval $[a,b]$ is not finite.
+  \item The region you are integrating over is infinite.
   \item The function $f$ is unbounded on the interval $[a,b]$.
   \end{itemize}
 \end{definition}
 
 \begin{question}
-  Which of the following integrals are improper integrals?
+  Which of the following integrals are improper according to the previous definition?
   \begin{selectAll}
     \choice{$\int_{-1}^{100} \frac{1}{1+x^2} \d x$}
     \choice[correct]{$\int_{1}^{\infty}\frac{1}{1+x^2}\d x$}
@@ -59,59 +74,210 @@ conditions do not hold. Such integrals are called \textbf{improper
 
 
 
+
+
 \section{Unbounded intervals}
 
-The easiest way to identify an improper integral is too look for
-$\infty$ or $-\infty$ in the limits of integration.  How do we deal
-with improper integrals of this type? Well consider the following
-definite integrals:
-\begin{itemize}
-\item	$\int_0^{100}\frac{1}{1+x^2} \d x \approx 1.5608,$
-\item	$\int_0^{1000}\frac{1}{1+x^2} \d x \approx 1.5698,$
-\item	$\int_0^{10000}\frac{1}{1+x^2} \d x \approx 1.5707.$
-\end{itemize}
-Notice how the integrand is $1/(1+x^2)$ in each integral. As the upper
-bound gets larger, one would expect the ``area under the curve'' would
-also grow. While the definite integrals do increase in value as the
-upper bound grows, they are not increasing by much.
 
-\begin{question}
-\[
-\int_0^b \frac{1}{1+x^2} \d x =  \answer{\arctan(b)}
+Consider the expression
+\[ 
+\int_{a}^{\infty} f(x) \d x
 \]
-\begin{hint}
-  \[
-  \int \frac{1}{1+x^2} \d x = \arctan(x)+C,
-  \]
-  so $\int_0^b \frac{1}{1+x^2} \d x = \arctan(b) -\arctan(0) = \arctan(b)$.
-\end{hint}
-\end{question}
+What does this expression mean?  Let's consider a particular example and see if we can make sense of it.
 
-Now we take the limit as $b$ goes to infinity.
+\begin{example}
+Evaluate the improper integral
+\[ 
+\int_{1}^{\infty} \frac{1}{x} \d x
+\]
+\begin{explanation}
 
-\begin{question}
-  What is the limit of $\arctan(b)$ as $b$ goes to infinity?
-  \begin{hint}
-    Remember $\arctan(b) = \theta$ means that $\tan(\theta) = b$ and
-    that $-\pi/2 < \theta < \pi/$.
-  \end{hint}
-  \begin{hint}
-    Remember, $\tan(\theta) = \frac{\sin(\theta)}{\cos(theta)}$.
-  \end{hint}
-  \begin{hint}
-    If $\tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)} \to \infty$
-    and $-\pi/2 < \theta < \pi/$, then it must be the case that
-    $\theta$ is approaching $\pi/2$.
-  \end{hint}
-  \begin{prompt}
-    \[
-    \lim_{b\to\infty} \arctan(b) = \answer{\pi/2}
-    \]
-  \end{prompt}
-\end{question}
+We interpret definite integrals as giving us the net area underneath the graph of the function over the given interval. If we used this interpretation here, this notation should mean that we want to find the area under $\frac{1}{x}$ from $1$ to $\infty$.  This idea needs to be more precisely defined.  Let's consider the definite integral
+\[
+\int_{1}^{N} \frac{1}{x} \d x=\eval{\ln|x|}_{1}^{N}=\ln(N)
+\]
 
-Let's explicitly state how to compute integrals with unbounded limits of integration:
+where $N \geq 1$ is some fixed number. 
 
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=4,ymin=-.3,ymax=1.1,domain=.001:1,
+      axis lines = center, xlabel=$x$, ylabel=$y$,
+      xtick={1,2,3},
+      ytick={0.5,1},
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+%      width=6in,
+%      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp,domain=1:3.75 ] {1/x} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.5:10,samples=100] {1/x};
+    \addplot [penColor, smooth,domain=0:.267] (3.75,x); 
+    \addplot [penColor, smooth,domain=0:1] (1,x);
+    \node at (axis cs:3.75,-.075) {$N$};
+    \node at (axis cs:2,1) [penColor] {$y = \frac{1}{x}$};
+    \draw[thick,->] (axis cs:3.75,.133) -- (axis cs:4,.133);
+   \end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+
+ This integral gives us the area underneath $1/x$ from $1$ to $N$. If we wanted to make sense of the integral to $\infty$, we could think of letting $N$ 
+get larger and larger and seeing how this affects the area. 
+
+That is, we interpret the integral from 1 to $\infty$ as a limit of a definite integral:
+
+\[
+\int_{1}^{\infty} \frac{1}{x} \d x= \lim_{N \to \infty} \int_{1}^{N} \frac{1}{x} \d x= \lim_{N \to \infty} \ln(N) = \infty
+\]
+
+We can interpret this result to mean that the area under $\frac{1}{x}$ from $1$ to $\infty$ is infinite.
+\end{explanation}
+\end{example}
+
+It might seem like we should always get an answer of infinity or negative infinity if we integrate over an unbounded region, but the next example shows that is not always the case.
+
+\begin{example}
+Compute 
+\[
+\int_{1}^{\infty} \frac{1}{x^{2}} \d x
+\]
+
+\begin{explanation}
+The previous example shows us we should consider this expression to be the limit of a definite integral 
+in the following manner:
+
+\[
+\int_{1}^{\infty} \frac{1}{x^{2}} \d x=\lim_{N \to \infty} \int_{1}^{N} \frac{1}{x^{2}} \d x
+\]
+
+We calculate the definite integral 
+\[
+\int_{1}^{N} \frac{1}{x^{2}} \d x= \eval{\frac{-1}{x}}_{1}^{N}=1-\frac{1}{N}
+\]
+
+This gives the area under $1/x^{2}$ on the interval $[1, N]$. 
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=4,ymin=-.3,ymax=1.1,domain=.001:1,
+      axis lines = center, xlabel=$x$, ylabel=$y$,
+      xtick={1,2,3},
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+%      width=6in,
+%      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp,domain=1:3.75] {1/x^2} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.5:10,samples=100] {1/x^2};
+    \addplot [penColor, smooth,domain=0:.071] (3.75,x); 
+    \addplot [penColor, smooth,domain=0:1] (1,x);
+    \node at (axis cs:3.75,-.075) {$N$};
+    \node at (axis cs:2,.75) [penColor] {$y = \frac{1}{x^2}$};
+    \draw[thick,->] (axis cs:3.75,.035) -- (axis cs:4,.035);
+   \end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+Now we take the limit of this area as $N \to \infty$. 
+
+\[
+\int_{1}^{N} \frac{1}{x^{2}} \d x= \lim_{N \to \infty} 1-\frac{1}{N}=1
+\]
+  
+In this case, when we take the limit, we get a finite number, namely $1$. This suggests that we can consider the 
+area under $1/x^{2}$ from $1$ to $\infty$ to be equal to $1$ despite the fact that the region is unbounded. 
+
+
+
+\end{explanation}
+\end{example}
+
+
+
+
+
+%In the previous two examples we have seen we can assign a meaning to expressions like $\int_{a}^{\infty} f(x) \d x$
+%by interpreting such an expression as shorthand for the following limit.
+
+%\[
+%\int_{a}^{\infty} f(x) \d x:=\lim_{N \to \infty} \int_{a}^{N} f(x) \d x
+%\]
+%
+%We say that such integrals are \textbf{improper}. We will see other types of improper integrals later. 
+
+%If the limit exists, that is, the limit is equal to a finite number $L$, then we say that the improper integral converges and we say the integral is equal to $L$. 
+%If the limit does not exist, we say that the improper integral diverges. 
+
+
+Thus in the two examples we have studied so far we have 
+
+
+\[
+\int_{1}^{\infty} \frac{1}{x} \d x = \infty
+\]
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=6.5,ymin=-.3,ymax=1.1,domain=.001:1,
+      axis lines = center, xlabel=$x$, ylabel=$y$,
+      xtick={1,2,3,4,5,6},
+      ytick={0.5,1},
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+%      width=6in,
+%      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp,domain=1:6 ] {1/x} \closedcycle;
+    \addplot [penColor,very thick, ->,smooth,domain=.5:6.1,samples=100] {1/x};
+    \addplot [penColor, smooth,domain=0:1] (1,x);
+    \node at (axis cs:2,1) [penColor] {$y = \frac{1}{x}$};
+   \end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+and 
+
+\[
+\int_{1}^{\infty} \frac{1}{x^{2}} \d x =1
+\]
+
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=0, xmax=6.5,ymin=-.3,ymax=1.1,domain=.001:1,
+      axis lines = center, xlabel=$x$, ylabel=$y$,
+      xtick={1,2,3,4,5,6},
+      ytick={0.5,1},
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+%      width=6in,
+%      height=3in,
+    ] 
+    \addplot [draw=none, fill=fillp,domain=1:6 ] {1/x^2} \closedcycle;
+    \addplot [penColor,very thick, ->,smooth,domain=.5:6.1,samples=100] {1/x^2};
+    \addplot [penColor, smooth,domain=0:1] (1,x);
+    \node at (axis cs:2,.75) [penColor] {$y = \frac{1}{x^2}$};
+   \end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+Why do we get such different answer in these two cases?  The difference lies in the speed with which each function approaches $0$ as $x \to \infty$. Although both functions approach $0$ as $x \to \infty$, the function $\frac{1}{x^{2}}$ becomes smaller much more rapidly than $\frac{1}{x}$. 
+We can see in the graphs above that $\frac{1}{x^{2}}$ shrinks down to zero much more quickly. The key idea is that the area that we are accumulating as $x\to \infty$ is shrinking rapidly enough that the total area stays bounded. This is a theme we will see again when we study convergence of series. 
+
+We now give a precise definition for integrals over unbounded regions.
 
 \begin{definition}\hfil
 \begin{itemize}
@@ -135,8 +301,8 @@ Let's explicitly state how to compute integrals with unbounded limits of integra
 \end{itemize}
 An improper integral is said to \dfn{converge} if its corresponding
 limit exists and is equal to a real number. Otherwise, the improper
-integral is said to \dfn{diverge}. In this case, the integral either
-does not exist, or is equal to $-\infty$ or $\infty$.
+integral is said to \dfn{diverge}. 
+%In this case, the integral either does not exist, or is equal to $-\infty$ or $\infty$.
 \end{definition}
 
 \begin{warning}
@@ -155,37 +321,87 @@ does not exist, or is equal to $-\infty$ or $\infty$.
   \]
   converge to real numbers.
 \end{warning}
+
 A question for the young mathematician: Suppose that the improper
 integral $\int_{-\infty}^\infty f(x) \d x$ exists.  Why does it not
 matter which $c$ you choose to split the integral up at?
 
 
+\begin{example}
+Determine whether the integral
+\[
+\int_{-\infty}^{\infty} \frac{1}{1+x^{2}} \d x 
+\]
+converges or diverges. If it converges, determine the value of the integral. 
+\begin{explanation}
+Here both of the bounds of integration involve $\infty$ so to reinterpret the integral in terms of limits of definite integrals, 
+we must first break up the integral into two pieces.
 
-\begin{example}	
- Compute:
- \[
- \int_1^\infty \frac{1}{x^2} \d x
- \]
- \begin{explanation}
-   Write with me,
-   \begin{align*}
-     \int_1^\infty \frac{1}{x^2} \d x &= \lim_{\answer[given]{b} \to \infty} \int_1^b \frac{1}{x^2} \d x\\
-     &= \lim_{b \to \infty} \eval{\answer[given]{\frac{-1}{x}}}_1^b\\ 
-     &= \lim_{b \to \infty} \left(1 - \frac{1}{b}\right)\\
-     &= \answer[given]{1}.
-   \end{align*}
- \end{explanation}
+\begin{align*}
+\int_{-\infty}^{\infty} \frac{1}{1+x^{2}} \d x&= \int_{-\infty}^{0} \frac{1}{1+x^{2}} \d x + \int_{0}^{\infty} \frac{1}{1+x^{2}} \d x \\
+& =\lim_{M \to -\infty} \int_{M}^{0} \frac{1}{1+x^{2}} \d x + \lim_{N \to \infty} \int_{0}^{\infty} \frac{1}{1+x^{2}} \d x 
+\end{align*}
+ 
+Now we must look at each integral separately. 
+
+\[
+\int_{0}^{N} \frac{1}{1+x^2} \d x =  \answer{\arctan(N)}
+\]
+
+
+Similarly we obtain
+
+\[
+\int_{M}^{0} \frac{1}{1+x^{2}} \d x= \answer{-\arctan(M)}
+\]
+ 
+%\begin{hint}
+%Recall that 
+%  \[
+%  \int \frac{1}{1+x^2} \d x = \arctan(x)+C,
+%  \]
+%  \end{hint}
+
+Now we take the limits of each integral
+
+\begin{question}
+Determine the following limits:
+
+ \begin{prompt}
+   \[
+    \lim_{N\to\infty} \arctan(N) = \answer{\pi/2}
+    \]
+
+\[
+\lim_{M \to -\infty} -\arctan(M)=\answer{\pi/2}
+\]
+  \end{prompt}
+\end{question}
+
+Hence we have
+
+\[
+\int_{-\infty}^{\infty} \frac{1}{1+x^{2}} \d x=\lim_{M \to -\infty} \int_{M}^{0} \frac{1}{1+x^{2}} \d x + \lim_{N \to \infty} \int_{0}^{\infty} \frac{1}{1+x^{2}} \d x =\answer{ \pi}
+\]
+In this example, both integrals converge and therefore the entire integral converges. 
+\end{explanation}
 \end{example}
+
+
+
+
+
+
 
 \begin{example}	
   Compute:
   \[
-  \int_{-\infty}^{-1}\frac{1}{|x|\sqrt{x^2-1}} \d x
+  \int_{-\infty}^{-1}\frac{-1}{x\sqrt{x^2-1}} \d x
   \]
   \begin{explanation}
     Write with me,
     \begin{align*}
-      \int_{-\infty}^{-1} \frac{1}{x\sqrt{x^2-1}} \d x &= \lim_{a \to -\infty} \int_{a}^{-1} \frac{1}{|x|\sqrt{x^2-1}}\d x\\
+      \int_{-\infty}^{-1} \frac{1}{x\sqrt{x^2-1}} \d x &= \lim_{a \to -\infty} \int_{a}^{-1} \frac{-1}{x\sqrt{x^2-1}}\d x\\
       &= \lim_{a \to -\infty} \eval{\answer[given]{\arcsec(x)}}_{a}^{-1} \\
       &= \lim_{a \to -\infty} \left(\arcsec(-1) - \arcsec(a)\right)\\
       &= \answer[given]{\pi - \frac{\pi}{2}}.
@@ -201,16 +417,16 @@ matter which $c$ you choose to split the integral up at?
   \begin{explanation}
     Write with me:
     \[
-    \int_{-\infty}^\infty \sin(\theta) \d \theta = \lim_{a\to -\infty} \int_a^c \sin(\theta) \d \theta + \lim_{b\to\infty}\int_c^b \sin(\theta) \d \theta.
+    \int_{-\infty}^\infty \sin(\theta) \d \theta = \lim_{a\to -\infty} \int_a^1 \sin(\theta) \d \theta + \lim_{b\to\infty}\int_1^b \sin(\theta) \d \theta.
     \]
     Let us evaluate these limits one at a time:
     \begin{align*}  
-      \lim_{a\to -\infty}\eval{-\cos(\theta)}_a^c &= \lim_{a\to -\infty}\left(-\cos(c)+\cos(a)\right)\\
-      &= \lim_{a\to -\infty} \cos(a) -\cos(c)\\
+      \lim_{a\to -\infty}\eval{-\cos(\theta)}_a^1 &= \lim_{a\to -\infty}\left(-\cos(1)+\cos(a)\right)\\
+      &= \lim_{a\to -\infty} \cos(a) -\cos(1)\\
       &= \answer[given]{DNE}.
     \end{align*}
-    We can stop here. Since one limit was infinite, the integral is
-    divergent, and hence does not exist (DNE).
+    We can stop here. Since one limit did not exist, the integral is
+    divergent, and hence does not exist (DNE). We do not need to evaluate the other integral.
   \end{explanation}
 \end{example}
 
@@ -231,21 +447,24 @@ integral.
 \end{warning}
 
 
+
+
+
+
+
+
+
+
 \section{Unbounded functions}
 
 We have just considered definite integrals where the interval of
 integration was unbounded. We now consider another type of improper
-integration, where the range of the integrand is unbounded.
+integral, where the interval is finite but the function is unbounded on the interval. 
 
-\begin{definition}
-Let $f(x)$ be a continuous function on $[a,b]$ except at $c$, $a\leq
-c\leq b$, where $x=c$ is a vertical asymptote of $f$. Define
-\[
-\int_a^b f(x)\d x = \lim_{t\to c^-}\int_a^t f(x)\d x + \lim_{t\to c^+}\int_t^b f(x)\d x
-\]
-\end{definition}
 
-Let's work a few examples:
+
+
+Let's begin with some examples.
 
 \begin{example}	
   Compute:
@@ -253,40 +472,86 @@ Let's work a few examples:
   \int_{0}^1 \frac{1}{\sqrt{x}} \d x
   \]
   \begin{explanation}
-    Write with me,
+It may not be obvious at first glance that this integral is improper, but it is.  Here the problem is that the function $\frac{1}{\sqrt{x}}$ is unbounded on $[0,1]$ because $\frac{1}{\sqrt{x}}$ gets arbitrarily large as $x$ approaches $0$ from the right That is, there is a vertical asymptote at $x=0$ because $\lim_{x \to 0^+} \frac{1}{\sqrt{x}} \d x = \infty$. From now on, we will need to be cautious when evaluating integrals to check whether the integrand is bounded on the region of integration. 
+
+How then do we work with integrals of unbounded functions?  Can we define this integral in terms of integrals we know how to compute?
+
+Suppose $b$ lies strictly between $0$ and $1$. Then consider the definite integral
+
+\[
+\int_{b}^{1} \frac{1}{\sqrt{x}} \d x
+\]
+
+\begin{image}
+  \begin{tikzpicture}
+  \begin{axis}[
+      xmin=-.1, xmax=1.1,ymin=-.3,ymax=3.5,domain=.01:1,
+      axis lines =center, xlabel=$x$, ylabel=$y$,
+      xtick={.5,1},
+      every axis y label/.style={at=(current axis.above origin),anchor=south},
+      every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      axis on top,
+    ] 
+    \addplot [draw=none, fill=fillp, domain=.25:1,samples=100] {1/sqrt(x)} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.01:1,samples=100] {1/sqrt(x)};
+    \addplot [penColor,very thick, smooth,domain=1:3] {1/sqrt(x)};
+    \addplot [penColor,domain=0:1] (1,x);
+    \addplot [penColor,domain=0:2] (.25,x);
+	\node at (axis cs:.25,-.2) {$b$};
+    \node at (axis cs:.5,2.5) [penColor] {$y = \frac{1}{\sqrt{x}}$};
+    \draw[thick,->] (axis cs:.25,1) -- (axis cs:.125,1);
+  \end{axis}
+\end{tikzpicture}
+\end{image}
+
+The function is now bounded on this smaller interval. 
+
+\[
+\int_{b}^1 \frac{1}{\sqrt{x}} \d x=  \eval{\answer[given]{2\sqrt{x}}}_b^1=\answer{2-2\sqrt{b}}
+\]
+
+Now we can examine what will happen if we let $b$ begin to move towards $0$ from the right. What will happen to the area under the curve? 
+Just as we did in the case of unbounded integrals, we can make sense of this integral by defining it as the limit of a definite integral 
+
+\[
+\int_{0}^{1} \frac{1}{\sqrt{x}} \d x=\lim_{b \to 0^{+}} \frac{1}{\sqrt{x}} \d x
+\]
+We can then evaluate our original improper integral: 
     \begin{align*}
-      \int_{0}^1 \frac{1}{\sqrt{x}} \d x &= \lim_{\answer[given]{a} \to 0} \int_{a}^1 \frac{1}{\sqrt{x}} \d x \\
-      &=  \lim_{a \to 0}  \eval{\answer[given]{2\sqrt{x}}}_a^1 \\
-      &=  \lim_{a \to 0} \left(\answer[given]{2-2\sqrt{a}}\right)\\
+      \int_{0}^1 \frac{1}{\sqrt{x}} \d x &= \lim_{\answer[given]{b} \to 0} \int_{b}^1 \frac{1}{\sqrt{x}} \d x \\
+      &=  \lim_{b \to 0}  \eval{\answer[given]{2\sqrt{x}}}_b^1 \\
+      &=  \lim_{b \to 0} \left(\answer[given]{2-2\sqrt{b}}\right)\\
       &= \answer[given]{2}.
     \end{align*}
-  \end{explanation}
-\end{example}
 
 Isn't it quite surprising that the area bounded by a curve which has a
 vertical asymptote can be finite? Consider the graph of $y=
 \frac{1}{\sqrt{x}}$ on the interval $[0,1]$:
+
 \begin{image}
   \begin{tikzpicture}
   \begin{axis}[
-      xmin=-3, xmax=3,ymin=-1,ymax=3,domain=.01:1,
+      xmin=-.1, xmax=1.1,ymin=-.3,ymax=3.5,domain=.001:1,
       axis lines =center, xlabel=$x$, ylabel=$y$,
+      xtick={.5,1},
       every axis y label/.style={at=(current axis.above origin),anchor=south},
       every axis x label/.style={at=(current axis.right of origin),anchor=west},
       axis on top,
-      width=6in,
-      height=3in,
     ] 
-    \addplot [draw=none, fill=fillp] {1/sqrt(x)} \closedcycle;
-    \addplot [penColor,very thick, smooth,domain=.01:1] {1/sqrt(x)};
-    \addplot [penColor,very thick, smooth,domain=1:3] {1/sqrt(x)};
+    \addplot [draw=none, fill=fillp, samples=100] {1/sqrt(x)} \closedcycle;
+    \addplot [penColor,very thick, smooth,domain=.081:1,samples=100,<-] {1/sqrt(x)};
+    \addplot [penColor,domain=0:1] (1,x);
+    \node at (axis cs:.5,2.5) [penColor] {$y = \frac{1}{\sqrt{x}}$};
   \end{axis}
 \end{tikzpicture}
 \end{image}
-Essentially, the function $\frac{1}{\sqrt{x}}$ goes to infinity ``fast
-enough,'' as $x\to 0^+$, so that only a finite amount of area is
-accumulated.
 
+Essentially, the function $\frac{1}{\sqrt{x}}$ approaches the vertical asymptote at $x=0$ ``fast enough'' so that only a finite amount of area is accumulated. 
+
+  \end{explanation}
+\end{example}
+
+Now we look at another example: 
 
 \begin{example}	
   Compute:
@@ -294,24 +559,51 @@ accumulated.
   \int_{-1}^1 \frac{1}{x^2} \d x
   \]
   \begin{explanation}
-    The function $\frac{1}{x^2}$ has a vertical asymptote at $a=0$.
-    Write with me,
-  \[
-  \int_{-1}^1 \frac{1}{\sqrt{x}} \d x = \lim_{t \to 0^+} \int_{t}^1 \frac{1}{x^2} \d x  + \lim_{t \to 0^-} \int_{-1}^t \frac{1}{x^2} \d x.
-  \]  
+    The function $\frac{1}{x^2}$ has a vertical asymptote at $a=0$. Since the problematic point 
+occurs in the middle of the interval we need to break the integral into two pieces.
+  We have
+\begin{align*}
+  \int_{-1}^1 \frac{1}{x^{2}} \d x =&= \int_{-1}^{0} \frac{1}{x^{2}} \d x + \int_{0}^{1} \frac{1}{x^{2}} \d x \\
+&= \lim_{a \to 0^+} \int_{a}^1 \frac{1}{x^2} \d x  + \lim_{b \to 0^-} \int_{-1}^{b} \frac{1}{x^2} \d x.
+ \end{align*}
   Let us evaluate these limits one at a time.
   \begin{align*}
-    \lim_{t \to 0^+} \int_{t}^1 \frac{1}{x^2} \d x  &=  \lim_{\answer[given]{t} \to 0^+} \eval{\answer[given]{\frac{-1}{x}}}_t^1 \\
-    &=  \lim_{t \to 0^+} \frac{1}{t}-1\\
+    \lim_{a \to 0^+} \int_{a}^1 \frac{1}{x^2} \d x  &=  \lim_{\answer[given]{a} \to 0^+} \eval{\answer[given]{\frac{-1}{x}}}_a^1 \\
+    &=  \lim_{a \to 0^+} \frac{1}{a}-1\\
     &= \infty.
   \end{align*}
     We can stop here. Since one limit was infinite, the integral is
-    divergent, and hence does not exist (DNE).
+    divergent, and hence does not exist (DNE). 
   \end{explanation}
 \end{example}
 
+\begin{remark}
+We encountered the integral
+\[
+\int_{1}^{\infty} \frac{1}{x^{2}} \d x 
+\]
+
+earlier and saw that this integral converges. We remarked at the time this was due to how rapidly the function approached $0$ as $x \to \infty$. 
+
+However the integral
+
+\[
+\int_{0}^{1} \frac{1}{x^{2}} \d x 
+\]
+
+diverges. The issue is that the integral is approaching the vertical asymptote $x=0$ too slowly and thus the area builds up too quickly. This is due to the fact that the manner in which $\frac{1}{x^{2}}$ approaches the horizontal asymptote $y=0$ is different from the manner in which 
+it approaches the vertical asymptote $x=0$. 
+\end{remark}
+
+
 \begin{warning}
-In the last example, what would have happened if had we \textbf{not
+In the previous example,
+
+\[
+\int_{-1}^{1} \frac{1}{x^{2}} \d x
+\]
+
+ what would have happened if had we \textbf{not
   noticed the vertical asymptote} in the integrand at $x=0$?
 
 We probably would have blindly computed:
@@ -322,8 +614,29 @@ We probably would have blindly computed:
 \end{align*}
 
 But the integrand is always positive, so this answer of $-2$ is
-complete nonsense! \textbf{Be on the lookout for vertical asymptotes!}
+complete nonsense! The reason this error occurs is because this expression is not a definite integral. It only has meaning if we
+interpret it as a limit of definite integrals 
+\[
+ \int_{-1}^1 \frac{1}{x^{2}} \d x = \lim_{a \to 0^+} \int_{a}^1 \frac{1}{x^2} \d x  + \lim_{b \to 0^-} \int_{-1}^{b} \frac{1}{x^2} \d x.
+\]
+
+
+\textbf{Be on the lookout for vertical asymptotes!}
 \end{warning}
+
+
+We can now generalize the previous two examples to give a definition for such 
+improper integrals of unbounded functions.
+
+\begin{definition}
+Let $f(x)$ be a continuous function on $[a,b]$ except at $c$, $a\leq
+c\leq b$, where $x=c$ is a vertical asymptote of $f$. Define
+\[
+\int_a^b f(x)\d x = \lim_{M\to c^-}\int_a^M f(x)\d x + \lim_{N\to c^+}\int_N^b f(x)\d x
+\]
+\end{definition}
+
+Let's look at a couple more examples. 
 
 
 \begin{example}
@@ -333,83 +646,144 @@ complete nonsense! \textbf{Be on the lookout for vertical asymptotes!}
   \]
   \begin{explanation}
     Since $\lim_{x\to 0^+} \ln(x) = -\infty$, the natural logarithm
-    has a vertical asymptote at $x = 0$. Thus, write with me
+    has a vertical asymptote at $x = 0$. Thus, we have
     \begin{align*}
     \int_0^1 \ln(x) \d x &=\lim_{\answer[given]{t}\to 0^+} \int_t^1 \ln(x) \d x \\
     &= \lim_{t\to 0^+} \eval{\answer[given]{x \ln(x)-x}}_t^1 \\
-    &= \lim_{t\to 0^+} \left(\answer[given]{-1 -t \ln(t) +t}\right) \\
-    &= -1.
-    \end{align*}
+    &=\lim_{t \to 0^{+}} ( -1 + t - t\ln(t) ) \\
+&=\answer{ -1} 
+      \end{align*}
+\begin{hint}
+The limit 
+\[
+\lim_{t \to 0^{+}} t\ln(t)
+\]
+was the form $0\cdot -\infty$. By rewriting it in the appropriate way, we can apply L'Hopital's Rule to 
+determine the limit. 
+\end{hint}
   \end{explanation}
 \end{example}
 
-Compare our last example to
+
+\begin{example}
+Determine the integral
 \[
-\int_{-\infty}^0 e^x \d x.
+\int_{1}^{\infty} \frac{5x}{x^{2}+x-6} \d x 
 \]
-This is equal to
+
+
+\begin{explanation}
+This is clearly an improper integral because one of the bounds is infinite, but we need to be cautious about the integrand as well. The integrand is a rational function so we check whether the denominator has a root in $[1,4]$. 
+Factoring the denominator $x^{2}+x-6=(x-2)(x+3)$ so we see that $x=2$ makes the denominator zero 
+and lies in the interval of integration. 
+
+Since $2$ lies in the middle of the interval and the upper limit of integration is infinity, we need to break the integral into three pieces
 \begin{align*}
-  \int_{-\infty}^0 e^x \d x &= \lim_{a\to -\infty} \int_a^0 e^x \d x\\
-  &= \lim_{a\to-\infty}\eval{e^x}_{a}^0 \\
-  &= \lim_{a\to-\infty}\left(e^0 - e^a\right) \\
-  &=1.
+& \int_{1}^{\infty} \frac{5x}{x^{2}+x-6} \d x \\
+&= \int_{1}^{2} \frac{5x}{(x-2)(x+3)} \d x  + \int_{2}^{4} \frac{5x}{x^{2}+x-6} \d x + \int_{4}^{\infty} \frac{5x}{x^{2}+x-6} \d x\\
+      &=\lim_{a \to 2^{-}} \int_{1}^a \frac{5x}{(x-2)(x+3)} \d x + \lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x +\lim_{c \to \infty} \int_{4}^{c} \frac{5x}{x^{2}+x-6} \d x
+\end{align*}
+
+Since the integrand is a rational function, where the denominator is reducible, we could apply partial fractions decomposition to get
+
+\[
+\frac{5x}{(x-2)(x+3)}=\frac{ 2}{x-2} +\frac{ 3}{x+3}
+\]
+
+
+Now we find the antiderivative to get 
+\begin{align*}
+\int \frac{5x}{(x-2)(x+3)} \d x&=\int \frac{ 2}{x-2} \d x + \int \frac{ 3}{x+3} \d x \\
+=& 2\ln|x-2| + 3\ln|x+3 | + C
 \end{align*}
 
 
-\begin{question}
-  Is it an accident that
-  \[
-  \int_{-\infty}^0 e^x \d x = \left| \int_0^1 \ln(x)\d x \right|?
-  \]
-  \begin{prompt}
-  \begin{multipleChoice}
-    \choice{yes}
-    \choice[correct]{no}
-  \end{multipleChoice}
-  \begin{feedback}
-    Since $\ln(x)$ is the inverse function of $e^x$, these integrals
-    are computing the same geometric area.
-  \end{feedback}
-  \end{prompt}
-\end{question}
+Now we evaluate one integral at a time.  Let's start with
 
+\begin{align*}
+\lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x&= \lim_{b \to 2^{+}} \eval{ 2\ln|x-2| + 3\ln|x+3 | }_{b}^{4} \\
+&=\lim_{b \to 2^{+}} (2\ln(2) + 3 \ln(7) - 2\ln|b-2| -3\ln|b+3| ) \\
+&=2\ln(2) +3\ln(7)-3\ln(5) + \infty=\infty
+\end{align*}
 
-What is a practical example of an improper integral?  Sometimes in the
-real world it is useful to compute using infinity because we are
-interested in limiting behavior, or because we want to measure
-something which is ``effectively'' infinite in some way (really, really
-large).
+Thus this integral diverges, so the entire integral must diverge. 
 
-\begin{example}
-  How much work is required to move an $A\unit{kg}$ object from the
-  surface of the Earth out to a distance where the gravitation force
-  between the object and the Earth can be disregarded?
-
-  As a gesture of friendship, we will tell you the following facts:
-  The force of gravity between two objects of mass $A$ and $B$ in
-  kilograms at a distance of $x$ meters is given by
-  \[
-  F(x) = G\cdot \frac{A\cdot B}{x^2},
-  \]
-  where $G$ is the gravitational constant. 
-  \begin{explanation}
-    To start, we will work in terms of $A$, $B$, and $G$. In this
-    problem we are accumulating large forces over infinitesimal
-    distances. Hence
-    \begin{align*}
-      \d W &= F \d x\\
-      &= \answer[given]{G\cdot \frac{A\cdot B}{x^2}} \d x
-    \end{align*}
-    We can approximate ``really, really far away'' with ``infinitely
-    far away''. Write with me,
-    \begin{align*}
-      \mathrm{Work} &= \int_1^\infty F \d x\\
-      &= \int_1^\infty G\frac{A\cdot B}{x^2} \d x\\
-      &= G\cdot A\cdot B \lim_{\answer[given]{b} \to \infty} \eval{\answer[given]{-\frac{1}{x}}}_1^b\\
-      &=G\cdot A\cdot B \lim_{b \to \infty} \left(\answer[given]{1 - \frac{1}{b}}\right)\\
-      &=\answer[given]{G\cdot A\cdot B}.
-    \end{align*}
-  \end{explanation}
+\end{explanation}
 \end{example}
+
+
+
+%  &= \lim_{t\to 0^+} \left(\answer[given]{-1 -t \ln(t) +t}\right) \\
+%    &= -1.
+
+
+%Compare our last example to
+%\[
+%\int_{-\infty}^0 e^x \d x.
+%\]
+%This is equal to
+%\begin{align*}
+%  \int_{-\infty}^0 e^x \d x &= \lim_{a\to -\infty} \int_a^0 e^x \d x\\
+%  &= \lim_{a\to-\infty}\eval{e^x}_{a}^0 \\
+%  &= \lim_{a\to-\infty}\left(e^0 - e^a\right) \\
+%  &=1.
+%\end{align*}
+%
+%
+%\begin{question}
+%  Is it an accident that
+%  \[
+%  \int_{-\infty}^0 e^x \d x = \left| \int_0^1 \ln(x)\d x \right|?
+%  \]
+%  \begin{prompt}
+%  \begin{multipleChoice}
+%    \choice{yes}
+%    \choice[correct]{no}
+%  \end{multipleChoice}
+%  \begin{feedback}
+%    Since $\ln(x)$ is the inverse function of $e^x$, these integrals
+%    are computing the same geometric area.
+%  \end{feedback}
+%  \end{prompt}
+%\end{question}
+
+%
+%What is a practical example of an improper integral?  Sometimes in the
+%real world it is useful to compute using infinity because we are
+%interested in limiting behavior, or because we want to measure
+%something which is ``effectively'' infinite in some way ( that is, really, really
+%large).
+%
+%\begin{example}
+%  How much work is required to move an $m\unit{kg}$ object from the
+%  surface of the Earth out to a distance where the gravitation force
+%  between the object and the Earth can be disregarded?
+%
+%  As a gesture of friendship, we will tell you the following facts:
+%  The force of gravity between two objects of mass $M$ and $m$ in
+%  kilograms at a distance of $x$ meters is given by
+%  \[
+%  F(x) = G\cdot \frac{m\cdot M}{x^2},
+%  \]
+%  where $G$ is the gravitational constant. 
+%  \begin{explanation}
+%    To start, we will work in terms of $m$, $M$, and $G$. In this
+%    problem we are accumulating large forces over infinitesimal
+%    distances. Hence
+%    \begin{align*}
+%      \d W &= F \d x\\
+%      &= \answer[given]{G\cdot \frac{m\cdot M}{x^2}} \d x
+%    \end{align*}
+%    We can approximate ``really, really far away'' with ``infinitely
+%    far away''. Write with me,
+%    \begin{align*}
+%      \mathrm{Work} &= \int_1^\infty F \d x\\
+%      &= \int_1^\infty G\frac{m\cdot M}{x^2} \d x\\
+%      &= G\cdot m\cdot M \lim_{\answer[given]{b} \to \infty} \eval{\answer[given]{-\frac{1}{x}}}_1^b\\
+%      &=G\cdot m\cdot M \lim_{b \to \infty} \left(\answer[given]{1 - \frac{1}{b}}\right)\\
+%      &=\answer[given]{G\cdot m\cdot M}.
+%    \end{align*}
+%  \end{explanation}
+%\end{example}
 
 \end{document}

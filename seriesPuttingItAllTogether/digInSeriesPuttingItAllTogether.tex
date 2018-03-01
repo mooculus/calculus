@@ -1,0 +1,464 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+
+\outcome{Answer conceptual questions about sequences.}
+\outcome{Answer conceptual questions about series.}
+\outcome{Determine which convergence tests are applicable to a given series.}
+\outcome{Determine an efficient test to use to determine whether a given series converges or diverges.}
+
+
+\title[Dig-In:]{Putting it all together}
+
+\begin{document}
+\begin{abstract}
+The various concepts associated with sequences and series are reviewed.
+\end{abstract}
+\maketitle
+
+All of the series convergence tests we have used require that the
+underlying sequence $\seq{a_n}$ be a positive sequence. We can
+actually relax this and state that there must be an $N>0$ such that
+$a_n>0$ for all $n>N$; that is, $\seq{a_n}$ is positive for all but a
+finite number of values of $n$.  We've also stated this by saying that 
+the tail of the sequence must have positive terms. In this section we explore series
+whose summation includes negative terms.
+
+
+\section{Alternating series test}
+
+We start with a very specific form of series, where the terms of the
+summation alternate between being positive and negative.
+
+\begin{definition}
+Let $\seq{a_n}$ be a positive sequence. An \dfn{alternating series} is
+a series of either the form 
+\[
+\sum_{n=1}^\infty (-1)^na_n\qquad \text{or}\qquad \sum_{n=1}^\infty (-1)^{n+1}a_n.
+\]
+\end{definition}
+
+In essence, the signs of the terms of $\seq{a_n}$ alternate between 
+positive and negative.
+
+Recall that the terms of the harmonic series come from the harmonic sequence
+$\seq{a_n} = \seq{1/n}$. An important alternating series is the
+\dfn{alternating harmonic series}:
+\[
+\sum_{n=1}^\infty \frac{(-1)^{n+1}}{n} = 1-\frac12+\frac13-\frac14+\frac15-\frac16+\cdots
+\]
+
+Geometric series are also alternating series when $r<0$. For
+instance, if $r=-1/2$, the geometric series is
+\[
+\sum_{n=0}^\infty \left(\frac{-1}{2}\right)^n = 1-\frac12+\frac14-\frac18+\frac1{16}-\frac1{32}+\cdots
+\]
+
+We know that geometric series converge when $|r|<1$ and have the sum:
+\[
+\sum_{n=0}^\infty r^n = \frac1{1-r}.
+\]
+When $r=-1/2$ as above, we find
+\[
+\sum_{n=0}^\infty \left(\frac{-1}{2}\right)^n = \frac1{1-(-1/2)} = \frac 1{3/2} = \frac23.
+\]
+
+A powerful convergence theorem exists for other alternating series
+that meet a few conditions.
+
+\begin{theorem}[Alternating Series Test]\index{alternating series test}
+Let $\seq{a_n}$ be a positive, nonincreasing sequence where
+$\lim_{n\to\infty}a_n=0$. Then
+\[
+\sum_{n=1}^\infty (-1)^{n}a_n \qquad \text{and}\qquad \sum_{n=1}^\infty (-1)^{n+1}a_n 
+\]
+converge.
+\end{theorem}
+
+%% The basic idea behind the theorem above is illustrated below
+%% \[
+%% BADBAD%\ref{fig:alt_series_converge}
+%% \]
+%% A positive, decreasing sequence $\seq{a_n}$ is shown along with the
+%% partial sums
+%% \[
+%% S_n = \sum_{i=1}^n(-1)^{i+1}a_i =a_1-a_2+a_3-a_4+\cdots+(-1)^na_n.
+%% \]
+%% Because $\seq{a_n}$ is decreasing, the amount by which $S_n$ bounces
+%% up/down decreases. Moreover, the odd terms of $S_n$ form a decreasing,
+%% bounded sequence, while the even terms of $S_n$ form an increasing,
+%% bounded sequence. Since bounded, monotonic sequences converge and the
+%% terms of $\seq{a_n}$ approach $0$, one can show the odd and even terms
+%% of $S_n$ converge to the same common limit $L$, the sum of the series.
+
+\begin{question}
+  Does the alternating series test apply to the series
+  \[
+  \sum_{n=1}^\infty \frac{(-1)^{n+1}}{n} ?
+  \]
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{yes}
+      \choice{no}
+    \end{multipleChoice}
+    \begin{feedback}
+      This is the alternating harmonic series as seen previously. The
+      underlying sequence is $\seq{a_n} = \seq{1/n}$, which is
+      positive, decreasing, and approaches 0 as
+      $n\to\infty$. Therefore we can apply the alternating series test
+      and conclude this series converges.
+      
+      %While the test does not state what the series converges to, we
+      %will see later that $\sum_{n=1}^\infty
+      %(-1)^{n+1}\frac1n=\ln2.$
+    \end{feedback}
+  \end{prompt}
+  \begin{question}
+    Does the alternating series test apply to the series
+    \[
+    \sum_{n=1}^\infty \frac{(-1)^n\ln n}{n}?
+    \]
+    \begin{prompt}
+      \begin{multipleChoice}
+        \choice[correct]{yes}
+        \choice{no}
+      \end{multipleChoice}
+      \begin{feedback}
+        The underlying sequence is $\seq{a_n} = \seq{\ln n/n}$. This
+        is positive and approaches $0$ as $n\to\infty$ (use
+        L'H\^opital's Rule). However, the sequence is not decreasing
+        for all $n$. It is straightforward to compute $a_1=0$,
+        $a_2\approx0.347$, $a_3\approx 0.366$, and $a_4\approx 0.347$:
+        the sequence is increasing for at least the first $3$ terms.
+      
+        However, we do not ``give-up'' and immediately conclude that we
+        cannot apply the alternating series test. Rather, consider the
+        long term behavior of $\seq{a_n}$. Treating $a_n=a(n)$ as a
+        continuous function of $n$ defined on $(1,\infty)$, we can take
+        its derivative:
+        \[
+        a'(n) = \frac{1-\ln n}{n^2}.
+        \]
+        The derivative is negative for all $n\geq 3$ (actually, for
+        all $n>e$), meaning $a(n)=a_n$ is decreasing on
+        $(3,\infty)$. We can now apply the alternating series test to
+        the series when we start with $n=3$ and conclude that
+        $\sum_{n=3}^\infty(-1)^n\frac{\ln n}{n}$ converges; adding the
+        terms with $n=1$ and $n=2$ do not change the convergence.
+        
+        The important lesson here is that as before, if a series fails
+        to meet the criteria of the alternating series test on only a
+        finite number of terms, we can still apply the test.
+      \end{feedback}
+    \end{prompt}
+    \begin{question}
+      Does the alternating series test apply to the series
+      \[
+      \sum_{n=1}^\infty (-1)^{n+1}\frac{|\sin n|}{n^2}?
+      \]
+      \begin{prompt}
+        \begin{multipleChoice}
+          \choice{yes}
+          \choice[correct]{no}
+        \end{multipleChoice}
+        \begin{feedback}
+          The underlying sequence is $\seq{a_n} = |\sin n|/n$. This
+          sequence is positive and approaches $0$ as
+          $n\to\infty$. However, it is not a decreasing sequence; the
+          value of $|\sin n|$ oscillates between $0$ and $1$ as
+          $n\to\infty$. We cannot remove a finite number of terms to
+          make $\seq{a_n}$ decreasing, therefore we cannot apply the
+          alternating series test.
+	  
+          Keep in mind that this does not mean we conclude the series
+          diverges; in fact, it does converge. We are just unable to
+          conclude this based on the alternating series test.
+        \end{feedback}
+      \end{prompt}
+    \end{question}
+  \end{question}
+\end{question}
+
+
+
+
+\section{Approximating alternating series}
+
+
+While there are many factors involved when studying rates of
+convergence, the alternating structure of an alternating series gives
+us a powerful tool when approximating the sum of a convergent series.
+
+\begin{theorem}[Alternating Series Approximation]\index{alternating approximation theorem}
+Let $\seq{a_n}$ be a sequence that satisfies the hypotheses of the
+alternating series test, let $S_n$ be the $n$th partial
+sum, and let
+\[
+L = \sum_{n=1}^\infty (-1)^{n}a_n\qquad\text{or}\qquad L=\sum_{n=1}^\infty (-1)^{n+1}a_n.
+\]
+Then
+\begin{itemize}
+\item $|L-S_n| \leq a_{n+1}$, and
+\item $L$ is between $S_n$ and $S_{n+1}$.
+\end{itemize}
+In this case, $R_n=L-S_n$ is called the $n$th \dfn{remainder} of the
+series.
+\end{theorem}
+
+Here is the basic idea behind this theorem.  Say we have an alternating sequence, 
+$\seq{a_n}$.  Let's assume the first term is positive, so the second is negative, and 
+so on.  We add the first two numbers and get some number $S_2$.  Now $S_2$ is 
+smaller than $S_1 = a_1$, because we subtracted something from $a_1$.  Next, we 
+add on the third term, $a_3$, to get the partial sum $S_3$.  This $S_3$ is bigger than 
+$S_2$, because the sequence is alternating, but is smaller than $S_1$, because the
+sequence is decreasing.
+
+If we know the series converges to some $L$, we can see that we must be bouncing 
+back and forth around $L$ as we add and subtract terms.  At one point, 
+$S_n$ is larger than $L$, and then subtracting off the next term makes the partial sum 
+smaller than $L$.  In other words, the 
+true limit $L$ must be between $S_n$ and $S_{n+1}$.  Imagine plotting $\seq{a_n}$, 
+$\seq{S_n}$, and $L$ on a number line.  (Or, try it yourself with the alternating harmonic 
+series!)  can be no further from $S_n$ than whatever the next term in the sequence 
+is.  How do we get from $S_n$ to $S_{n+1}$?  By adding (or subtracting) $a_{n+1}$, which 
+takes us back ``across'' $L$ again.  In other words, the distance between $L$ and $S_n$ can 
+be no more than $a_{n+1}$.
+
+See if you can use these same ideas to prove the alternating series test!
+
+Let's see an example of approximating an alternating series.
+
+\begin{example}
+Approximate the sum of the alternating harmonic series with an error less than $10^{-2}$.
+\begin{explanation}
+  Look at the $(n+1)$th term.
+	\begin{align*}
+	\frac{1}{n+1} &< 10^{-2}\\
+	n+1&> 100\\
+	n&> 99 
+	\end{align*}
+	Using a computer, we can see that
+        \[
+        S_{99} = 0.69849462\dots
+        \]
+        We will see later that the true value of this series is $\ln(2)$. Comparing
+        \begin{align*}
+          \ln(2) &= 0.69314718\dots \qquad \text{and}\\
+          S_{99} &= 0.69849462\dots
+        \end{align*}
+         we have our desired accuracy.
+\end{explanation}
+\end{example}
+
+%% BADBAD
+%% Which partial sum gives a remainder less than....
+%% It would be nice to have quick questions about this
+
+
+
+
+\section{Absolute convergence versus conditional convergence}
+
+
+It is an interesting result that the harmonic series,
+\[
+\sum_{n=1}^\infty \frac1n
+\]
+diverges, yet the alternating harmonic series,
+\[
+\sum_{n=1}^\infty (-1)^{n+1}\frac1n,
+\]
+converges. The notion that simply alternating the signs of the terms in a
+series can change a series from divergent to convergent leads us to the following
+definitions.
+
+\begin{definition}\index{absolutley convergent}\index{conditionally convergent}\hfil
+\begin{itemize}
+\item A series $\sum_{n=1}^\infty a_n$ \dfn{converges absolutely} if $\sum_{n=1}^\infty |a_n|$ converges.
+\item A series $\sum_{n=1}^\infty a_n$ \dfn{converges conditionally} if $\sum_{n=1}^\infty a_n$ converges but $\sum_{n=1}^\infty |a_n|$ diverges.
+\end{itemize}
+\end{definition}
+
+Note, in the definition above, $\sum_{n=1}^\infty a_n$ is not
+necessarily an alternating series; it may just have some negative
+terms.
+
+\begin{question}
+  Does the series
+  \[
+  \sum_{n=1}^\infty (-1)^n\frac{n+3}{n^2+2n+5}
+  \]
+  converge absolutely, converge conditionally, or diverge?
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{The series converges conditionally.}
+      \choice{The series converges absolutely.}
+      \choice{The series diverges.}
+    \end{multipleChoice}
+    \begin{feedback}
+      We can show the series
+      \[
+      \sum_{n=1}^\infty \left|(-1)^n\frac{n+3}{n^2+2n+5}\right|=
+      \sum_{n=1}^\infty \frac{n+3}{n^2+2n+5}
+      \]
+      diverges using the limit comparison test, comparing with $1/n$.
+      The series
+      \[
+      \sum_{n=1}^\infty (-1)^n\frac{n+3}{n^2+2n+5}
+      \]
+      converges using the alternating series test; we conclude the
+      series converges conditionally.
+    \end{feedback}
+  \end{prompt}
+  \begin{question}
+    Does the series
+    \[
+    \sum_{n=1}^\infty (-1)^n\frac{n^2+2n+5}{2^n}
+    \]
+    converge absolutely, converge conditionally, or diverge?
+    \begin{prompt}
+      \begin{multipleChoice}
+        \choice{The series converges conditionally.}
+        \choice[correct]{The series converges absolutely.}
+        \choice{The series diverges.}
+      \end{multipleChoice}
+      \begin{feedback}
+        We can show the series
+        \[
+        \sum_{n=1}^\infty \left|(-1)^n\frac{n^2+2n+5}{2^n}\right|=\sum_{n=1}^\infty \frac{n^2+2n+5}{2^n}
+        \]
+        converges using the ratio test.  Therefore we conclude
+        \[
+        \sum_{n=1}^\infty (-1)^n\frac{n^2+2n+5}{2^n}
+        \]
+        converges absolutely.
+      \end{feedback}
+    \end{prompt}
+    \begin{question}
+      Does the series
+      \[
+      \sum_{n=3}^\infty (-1)^n\frac{3n-3}{5n-10}
+      \]
+      converge absolutely, converge conditionally, or diverge?
+      \begin{prompt}
+        \begin{multipleChoice}
+          \choice{The series converges conditionally.}
+          \choice{The series converges absolutely.}
+          \choice[correct]{The series diverges.}
+        \end{multipleChoice}
+        \begin{feedback}
+	  The series
+          \[
+          \sum_{n=3}^\infty \left|(-1)^n\frac{3n-3}{5n-10}\right| =
+          \sum_{n=3}^\infty \frac{3n-3}{5n-10}
+          \]
+          diverges using the divergence test, so it does not converge
+          absolutely.  The series
+          \[
+          \sum_{n=3}^\infty (-1)^n\frac{3n-3}{5n-10}
+          \]
+          fails the conditions of the alternating series test as
+          $(3n-3)/(5n-10)$ does not approach $0$ as $n\to\infty$. We
+          can state further that this series diverges; as
+          $n\to\infty$, the series effectively adds and subtracts
+          $3/5$ over and over. This causes the sequence of partial
+          sums to oscillate and not converge.  Therefore the series
+          diverges.
+        \end{feedback}
+      \end{prompt}
+    \end{question}
+  \end{question}
+\end{question}
+
+Knowing that a series converges absolutely allows us to make two
+important statements. The first, given in the following theorem, is
+that absolute convergence is ``stronger'' than regular
+convergence. That is, just because
+\[
+\sum_{n=1}^\infty a_n
+\]
+converges, we cannot conclude that
+\[
+\sum_{n=1}^\infty |a_n|
+\]
+will converge, but knowing a series converges absolutely tells us that
+$\sum_{n=1}^\infty a_n$ will converge.
+
+One reason this is important is that our convergence tests all require
+that the underlying sequence of terms be positive. By taking the
+absolute value of the terms of a series where not all terms are
+positive, we are often able to apply an appropriate test and determine
+absolute convergence. This, in turn, determines that the series we are
+given also converges.
+
+The second statement relates to \dfn{rearrangements} of series. When
+dealing with a finite set of numbers, the sum of the numbers does not
+depend on the order in which they are added. (So $1+2+3 = 3+1+2$.) One
+may be surprised to find out that when dealing with an infinite set of
+numbers, the same statement does not always hold true: some infinite
+lists of numbers may be rearranged in different orders to achieve
+different sums. The theorem states that the terms of an absolutely
+convergent series can be rearranged in any way without affecting the
+sum.
+
+\begin{theorem}[Absolute Convergence]\index{absolute convergence theorem}
+  Let $\sum_{n=1}^\infty a_n$ be a series that converges absolutely.
+  Let $\seq{b_n}$ be any rearrangement of the sequence
+  $\seq{a_n}$. Then
+  \[
+  \sum_{n=1}^\infty b_n = \sum_{n=1}^\infty a_n.
+  \]
+\end{theorem}
+
+This theorem states that rearranging the terms of an absolutely
+convergent series does not affect its sum. Making such a statement implies that perhaps
+the sum of a conditionally convergent series can change based on the
+arrangement of terms. Indeed, it can. The \textit{Riemann
+  rearrangement theorem} (named after Bernhard Riemann) states that
+any conditionally convergent series can have its terms rearranged so
+that the sum is any desired value, including $\infty$!
+
+
+As an example, consider the alternating harmonic series once more. We
+have stated that
+\[
+\sum_{n=1}^\infty \frac{(-1)^{n+1}}{n} =1-\frac12+\frac13-\frac14+\frac15-\frac16+\frac17\cdots = \ln 2.
+\]
+Consider the rearrangement where every positive term is followed by two negative terms:
+\[
+1-\frac12-\frac14+\frac13-\frac16-\frac18+\frac15-\frac1{10}-\frac1{12}\cdots
+\]
+(Convince yourself that these are exactly the same numbers as appear
+in the alternating harmonic series, just in a different order.) Now
+group some terms and simplify:
+\begin{align*}
+\left(1-\frac12\right)-\frac14+\left(\frac13-\frac16\right)-\frac18+\left(\frac15-\frac1{10}\right)-\frac1{12}+\cdots &= \\
+\frac12-\frac14+\frac16-\frac18+\frac1{10}-\frac{1}{12}+\cdots &= \\
+\frac12\left(1-\frac12+\frac13-\frac14+\frac15-\frac16+\cdots\right) & = \frac12\ln 2.
+\end{align*}
+By rearranging the terms of the series, we have arrived at a different
+sum!
+\begin{quote}
+  One could \textit{try} to argue that the alternating harmonic series
+  does not actually converge to $\ln 2$, and here is an example of such 
+  an argument. According to the
+  alternating series test, we know that this series converges to some number $L$. 
+   If, as our intuition tells us should be true, the rearrangement does not change the sum,
+  then we have just seen that $L = L/2$.  The only possibility for $L$ is then $L=0$. But the alternating series
+  approximation theorem quickly shows that $L>0$. The only conclusion
+  is that the rearrangement \textit{did}, contrary to our intuition, change the sum.
+\end{quote}
+The fact that conditionally convergent series can be rearranged to
+equal any number is really an incredible result.
+
+
+
+While series are worthy of study in and of themselves, our ultimate
+goal within calculus is the study of \textit{power series}, which we
+will consider in the next section. We will use power series to create
+functions where the output is the result of an infinite summation.
+
+%A special type of power series is something called a Taylor Series; in the context of Taylor Series we will finally show the Alternating Harmonic Series converges to $\ln 2$.
+
+\end{document}

@@ -68,7 +68,7 @@ with quantities that denote both \textit{direction} and
         \end{axis}
 \end{tikzpicture}
 \end{image}
-and thinking of the difference of their coordiantes:
+and thinking of the difference of their coordinates:
 \begin{image}
   \begin{tikzpicture}
 	\begin{axis}[
@@ -181,6 +181,41 @@ Two vectors are equal when they have the same direction and magnitude.
   \end{prompt}
 \end{question}
 
+Vector need not be limited to the $(x,y)$-plane. They can have any \textit{dimension}.
+
+\begin{definition}
+The \dfn{dimension} of a vector is the number of entries. Each
+individual entry of a vector is called a \dfn{component}.
+\end{definition}
+
+In $\R^2$ we usually label the first component the $x$-component, and
+the second component the $y$-component. In $\R^3$ we lable the
+components $x$, $y$, and $z$.
+
+
+\begin{question}
+  What is the dimension of the vector 
+  \[
+  \vector{3,4,1,-4}?
+  \]
+  \begin{prompt}
+  \[
+  \text{Dimension} = \answer{4}
+  \]
+  \end{prompt}
+  \begin{question}
+    What are the components of the vector $\vector{1,2,3}$?
+    \begin{prompt}
+      \begin{itemize}
+      \item The $x$-component is $\answer{1}$.
+      \item The $y$-component is $\answer{2}$.
+      \item The $z$-component is $\answer{3}$.
+      \end{itemize}
+    \end{prompt}
+  \end{question}
+\end{question}
+
+
 So far, we have mostly studied functions which take single numbers as
 their inputs and output either individual numbers or ordered-pairs (as
 in the case of parametric functions).  Now we set the stage for the
@@ -230,13 +265,16 @@ used to working with $2$ dimensional objects.  We make the following
 definition in $n$ dimensions.
 
 \begin{definition}
-	Let $\vec{v} = \langle v_1, v_2, v_3, \dots, v_n \rangle \in
-        \R^n$ be an $n$-dimensional vector.  Then the \dfn{magnitude}
-        of $\vec{v}$ is denoted by $|\vec{v}|$ and is defined by:
+	Let $\vec{v} = \vector{v_1, v_2, v_3, \dots, v_n}$ in $\R^n$
+        be an $n$-dimensional vector.  Then the \dfn{magnitude} of
+        $\vec{v}$ is denoted by $|\vec{v}|$ and is defined by:
 	\[
 	|\vec{v}| = \sqrt{v_1^2+v_2^2+v_3^2+\dots+v_n^2}
 	\]
 \end{definition}
+
+Note, the magnitude of the vector is just the distance of the point
+determined by its components from the origin!
 
 \begin{question}
   What is the magnitude of the vector
@@ -255,31 +293,6 @@ definition in $n$ dimensions.
 
 \section{Operations on vectors}
 
-\begin{definition}
-The \dfn{dimension} of a vector is the number of entries. Each
-individual entry of a vector is called a \dfn{component}.
-\end{definition}
-\begin{question}
-  What is the dimension of the vector 
-  \[
-  \vector{3,4,1,-4}?
-  \]
-  \begin{prompt}
-  \[
-  \text{Dimension} = \answer{4}
-  \]
-  \end{prompt}
-  \begin{question}
-    What are the components of the vector $\vector{1,2,3}$?
-    \begin{prompt}
-      \begin{itemize}
-      \item The $x$-component is $\answer{1}$.
-      \item The $y$-component is $\answer{2}$.
-      \item The $z$-component is $\answer{3}$.
-      \end{itemize}
-    \end{prompt}
-  \end{question}
-\end{question}
 
 We can add vectors of the same dimension together by component-wise
 addition. Here it is useful to write vectors vertically:
@@ -313,7 +326,7 @@ addition. Here it is useful to write vectors vertically:
 Now let us investigate the geometry of addition of vectors. Let
 $\vec{v} = \vector{1,2}$ and $\vec{w} = \vector{3,1}$.  If we
 place the tail of the vector $\vec{w}$ at the tip of the vector
-$\vec{v}$,
+$\vec{v}$, like this:
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}[
@@ -340,8 +353,74 @@ $\vec{v}$,
     \end{axis}
 \end{tikzpicture}
 \end{image}
+Or like this:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1,xmax=5,ymin=-1,ymax=4,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            ytick={-2,-1,...,7},
+	    %yticklabels={$0.5$,$1$,$1.5$,$2$},
+	    xtick={-2,-1,...,10},
+	    %xticklabels={$0.5$,$1$,$1.5$,$2$},
+	    grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot[very thick,penColor2,->] plot coordinates {(3,1) (4,3)};
+          \addplot[very thick,penColor3,->] plot coordinates {(0,0) (4,3)};
+          \addplot[ultra thick,penColor,->] plot coordinates {(0,0) (3,1)};
+
+           \node[right] at (axis cs:3.5, 2) [penColor2] {$\vec{v}$};
+           \node[below] at (axis cs:1.5, .5 ) [penColor] {$\vec{w}$};
+           \node[above left] at (axis cs:2, 1.5 ) [penColor3] {$\vec{v}+\vec{w}$};
+    \end{axis}
+\end{tikzpicture}
+\end{image}
 then the sum $\vec{v}+\vec{w}$ connects the tail of $\vec{v}$ to the
-tip of $\vec{w}$. Hence
+tip of $\vec{w}$. In fact, you can think of the sum of two vectors as
+being the diagonal of the parallelogram formed by the two vectors:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1,xmax=5,ymin=-1,ymax=4,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            ytick={-2,-1,...,7},
+	    %yticklabels={$0.5$,$1$,$1.5$,$2$},
+	    xtick={-2,-1,...,10},
+	    %xticklabels={$0.5$,$1$,$1.5$,$2$},
+	    grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot[very thick,penColor,->] plot coordinates {(1,2) (4,3)};
+          \addplot[very thick,penColor2,->] plot coordinates {(0,0) (1,2)};
+          \addplot[ultra thick,penColor3,->] plot coordinates {(0,0) (4,3)};
+
+          \node[left] at (axis cs:.5, 1) [penColor2] {$\vec{v}$};
+          \node[above] at (axis cs:2.5, 2.5 ) [penColor] {$\vec{w}$};
+          \node[below right] at (axis cs:1.9, 1.6 ) [penColor3] {$\vec{v}+\vec{w}$};
+          
+          \addplot[very thick,penColor2,->] plot coordinates {(3,1) (4,3)};
+          \addplot[very thick,penColor3,->] plot coordinates {(0,0) (4,3)};
+          \addplot[ultra thick,penColor,->] plot coordinates {(0,0) (3,1)};
+          
+          \node[right] at (axis cs:3.5, 2) [penColor2] {$\vec{v}$};
+          \node[below] at (axis cs:1.5, .5 ) [penColor] {$\vec{w}$};
+          %\node[above left] at (axis cs:2, 1.5 ) [penColor3] {$\vec{v}+\vec{w}$};
+    \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
+Hence
 \[
 \vec{v}+\vec{w} = \vector{4 , 3}.
 \]
@@ -510,7 +589,7 @@ Vectors with magnitude $1$ are particularly important.
 
 
 \begin{question}
-  Find a unit vector $\uvec{u}$ which points in the same direction as the vector $\vec{v} = \langle 2,1,3,7,1\rangle$.
+  Find a unit vector $\uvec{u}$ which points in the same direction as the vector $\vec{v} = \vector{2,1,3,7,1}$.
   \begin{prompt}
   \[
   \vector{

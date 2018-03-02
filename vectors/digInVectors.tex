@@ -2,6 +2,8 @@
 
 \input{../preamble.tex}
 
+\author{Bart Snapp}
+
 
 \outcome{State the definition of a vector.}
 \outcome{Work with vectors in two or three dimensions. }
@@ -23,41 +25,126 @@
 
 \section{The idea of vectors}
 
+The most successful textbook that was ever written was \link[\textit{Euclid's
+    Elements}]{https://mathcs.clarku.edu/~djoyce/java/elements/elements.html}. While
+you are surely skeptical of this claim, and it is \textit{good} to be
+skeptical, consider this: \textit{Euclid's Elements} was used (in
+various editions) as a primary mathematics textbook for nearly 2000
+years. There are few textbooks (if any) that can share this
+claim. However, it does have its short comings. Euclid defines a point
+as ``that which has no part.'' It is not really clear to me what he
+means. However, from our modern viewpoint, a point is an ordered list
+of numbers, like:
+\[
+(1,1)\quad\text{or}\quad(4,2)
+\]
+We have grown to see that a point should be thought of as
+\textit{location}, and nothing but location. With this in mind, it
+doesn't really make sense to have operations between points like
+adding or subtraction.
 
-So far, we have mostly studied functions which take single numbers as
-their inputs and output either individual numbers or ordered-pairs (as
-in the case of parametric functions).  Now we set the stage for the
-study of functions that accept lists of numbers as inputs and lists of
-numbers as outputs. When we want to keep track of more than one number
-at a time, we often use a \textit{vector}.
-
-\begin{definition}
-  A \dfn{vector} is something with ``direction'' and ``magnitude.''
-\end{definition}
-
-We write vectors typographically as either boldfaced letters or
-numbers (like $\vec{v}$ or $\vec{w}$) or decorated with an arrow hat
-(like $\arrowvec{v}$ or $\arrowvec{w}$).  We often visualize a vector as
-an arrow to explicitly show its direction and magnitude:
+When trying to understand the world around us, we are often concerned
+with quantities that denote both \textit{direction} and
+\textit{magnitude}. We can do this by starting with two points:
 \begin{image}
   \begin{tikzpicture}
 	\begin{axis}[
             xmin=-1,xmax=5,ymin=-1,ymax=3,
             clip=false,
             axis lines=center,
-            %ticks=none,
+            ticks=none,
             unit vector ratio*=1 1 1,
             xlabel=$x$, ylabel=$y$,
             %ytick={-2,-1,...,7},
 	    %xtick={-2,-1,...,10},
+	    %grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot[mark=*,penColor2] coordinates {(1,1)};
+          \addplot[mark=*,penColor2] coordinates {(4,2)};
+          \node[above] at (axis cs:4, 2) [penColor2] {$(a,b)$};
+          \node[below] at (axis cs:1, 1) [penColor2] {$(c,d)$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+and thinking of the difference of their coordiantes:
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1,xmax=5,ymin=-1,ymax=3,
+            clip=false,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            %ytick={-2,-1,...,7},
+	    %xtick={-2,-1,...,10},
+	    %grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot[mark=*,penColor2] coordinates {(1,1)};
+          \addplot[mark=*,penColor2] coordinates {(4,2)};
+          
+          \addplot[very thick,penColor,->] plot coordinates {(1,1) (4,2)};
+          \node[above] at (axis cs:4, 2) [penColor2] {$\mathrm{tip}=(a,b)$};
+          \node[below] at (axis cs:1, 1) [penColor2] {$\mathrm{tail}=(c,d)$};
+          \node[below right] at (axis cs:2.5, 1.5) [penColor] {$\vec{v}=\vector{a-c,b-d}$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+This difference in the values of the coordinates of the points is a
+called a \textit{vector}. Above the vector is
+$\vec{v}=\vector{a-c,b-d}$. We write vectors typographically as either
+boldfaced letters or numbers (like $\vec{v}$ or $\vec{w}$) or
+decorated with a harpoon (like $\arrowvec{v}$ or $\arrowvec{w}$). We
+often visualize a vector (at least in two and three dimensions) as an
+arrow to explicitly show its direction and magnitude. This leads us to
+our definition of a vector:
+
+\begin{definition}
+  A \dfn{vector} is something that can be ascribed the qualities of
+  direction and magnitude. 
+\end{definition}
+
+\begin{question}
+  What vector has its tip at $(1,2)$ and its tail at $(4,3)$?
+  \begin{prompt}
+    \[
+    \vec{v} = \vector{\answer{-3},\answer{-1}}
+    \]
+  \end{prompt}
+  
+  \begin{feedback}[correct]
+    Note, since we are denoting the vector by a single pair of
+    numbers, this pair of numbers represents the tip of the vector,
+    and we assume that the tail of the vector is at the origin:
+     \begin{image}
+       \begin{tikzpicture}
+	 \begin{axis}[
+            xmin=-4,xmax=5,ymin=-2,ymax=4,
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            ytick={-2,-1,...,4},
+	    xtick={-4,-3,...,5},
 	    grid = major,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
           ]
-          \addplot[very thick,penColor,->] plot coordinates {(1,1) (4,2)};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
+          \addplot[very thick,penColor,->] plot coordinates {(4,3) (1,2)};
+          \addplot[very thick,penColor2,->] plot coordinates {(0,0) (-3,-1)};
+          \node[above] at (axis cs:2.5, 2.5) [penColor] {$\vec{v}$};
+          \node[above] at (axis cs:-1.5, -.5) [penColor2] {$\vec{v}$};
+
+         \end{axis}
+       \end{tikzpicture}
+     \end{image}
+  \end{feedback}
+\end{question}
 Two vectors are equal when they have the same direction and magnitude.
 \begin{question}
   True or False: Given vectors $\vec{v}$ and $\vec{w}$ in the diagram
@@ -94,65 +181,13 @@ Two vectors are equal when they have the same direction and magnitude.
   \end{prompt}
 \end{question}
 
-Given two points in the plane, the vector $\vec{v}$ whose tip is at $(a,b)$ and
-whose tail is at $(c,d)$ is $\vec{v}=\vector{a-c,b-d}$
-\begin{image}
-  \begin{tikzpicture}
-	\begin{axis}[
-            xmin=-1,xmax=5,ymin=-1,ymax=3,
-            clip=false,
-            axis lines=center,
-            ticks=none,
-            unit vector ratio*=1 1 1,
-            xlabel=$x$, ylabel=$y$,
-            %ytick={-2,-1,...,7},
-	    %xtick={-2,-1,...,10},
-	    %grid = major,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-          \addplot[very thick,penColor,->] plot coordinates {(1,1) (4,2)};
-          \node[above] at (axis cs:4, 2) [penColor] {$\mathrm{tip}=(a,b)$};
-          \node[below] at (axis cs:1, 1) [penColor] {$\mathrm{tail}=(c,d)$};
-          \node[below right] at (axis cs:2.5, 1.5) [penColor] {$\vec{v}=\vector{a-c,b-d}$};
-         \end{axis}
-\end{tikzpicture}
-\end{image}
+So far, we have mostly studied functions which take single numbers as
+their inputs and output either individual numbers or ordered-pairs (as
+in the case of parametric functions).  Now we set the stage for the
+study of functions that accept lists of numbers as inputs and lists of
+numbers as outputs. When we want to keep track of more than one number
+at a time, we often use a vector.
 
-\begin{question}
-  What vector has its tip at $(1,2)$ and its tail at $(4,3)$?
-  \begin{prompt}
-    \[
-    \vec{v} = \vector{\answer{-3},\answer{-1}}
-    \]
-  \end{prompt}
-  
-  \begin{feedback}
-     \begin{image}
-       \begin{tikzpicture}
-	 \begin{axis}[
-            xmin=-4,xmax=5,ymin=-2,ymax=4,
-            clip=false,
-            axis lines=center,
-            %ticks=none,
-            unit vector ratio*=1 1 1,
-            xlabel=$x$, ylabel=$y$,
-            ytick={-2,-1,...,4},
-	    xtick={-4,-3,...,5},
-	    grid = major,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-          \addplot[very thick,penColor,->] plot coordinates {(4,3) (1,2)};
-          \addplot[very thick,penColor2,->] plot coordinates {(0,0) (-3,-1)};
-          \node[above] at (axis cs:2.5, 2.5) [penColor] {$\vec{v}$};
-          \node[above] at (axis cs:-1.5, -.5) [penColor2] {$\vec{v}$};
-
-         \end{axis}
-       \end{tikzpicture}
-     \end{image}
-  \end{feedback}
-\end{question}
 
 
 \subsection{Computing the direction and magnitude of vectors}

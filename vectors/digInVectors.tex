@@ -25,16 +25,18 @@
 
 \section{The idea of vectors}
 
-The most successful textbook that was ever written was \link[\textit{Euclid's
+The most successful textbook that was ever written was
+\link[\textit{Euclid's
     Elements}]{https://mathcs.clarku.edu/~djoyce/java/elements/elements.html}. While
 you are surely skeptical of this claim, and it is \textit{good} to be
 skeptical, consider this: \textit{Euclid's Elements} was used (in
 various editions) as a primary mathematics textbook for nearly 2000
 years. There are few textbooks (if any) that can share this
-claim. However, it does have its short comings. Euclid defines a point
-as ``that which has no part.'' It is not really clear to me what he
-means. However, from our modern viewpoint, a point is an ordered list
-of numbers, like:
+claim. However, \textit{Euclid's Elements} does have its short
+comings. Euclid defines a point as ``that which has no part.'' That is
+a pretty confusing definition. It is not really clear to this author
+what Euclid means. However, from our modern viewpoint, a point is an
+ordered list of numbers, like:
 \[
 (1,1)\quad\text{or}\quad(4,2)
 \]
@@ -96,11 +98,11 @@ and thinking of the difference of their coordinates:
 \end{image}
 This difference in the values of the coordinates of the points is a
 called a \textit{vector}. In the graph above, the vector is
-$\vec{v}=\vector{a-c,b-d}$. We write vectors typographically as
-boldfaced letters or numbers decorated with a harpoon (like $\vec{v}$
-or $\vec{w}$). Other authors may simply used a boldface (like
-$\mathbf{v}$ or $\mathbf{w}$) or just a harpoon (like $\arrowvec{v}$ or
-$\arrowvec{w}$). We often visualize a vector (at least in two and
+$\vec{v}=\vector{a-c,b-d}$. We write vectors typographically in
+boldfaced decorated with a harpoon (like $\vec{v}$ or
+$\vec{w}$). Other authors may simply used a boldface (like
+$\mathbf{v}$ or $\mathbf{w}$) or just a harpoon (like $\arrowvec{v}$
+or $\arrowvec{w}$). We often visualize a vector (at least in two and
 three dimensions) as an arrow to explicitly show its direction and
 magnitude. This leads us to our definition of a vector:
 
@@ -190,7 +192,7 @@ individual entry of a vector is called a \dfn{component}.
 \end{definition}
 
 In $\R^2$ we usually label the first component the $x$-component, and
-the second component the $y$-component. In $\R^3$ we lable the
+the second component the $y$-component. In $\R^3$ we label the
 components $x$, $y$, and $z$.
 
 
@@ -458,7 +460,36 @@ Hence
     \choice{$\vec{a} + \vec{b} = \vec{c}$}
     \choice[correct]{$\vec{a} + \vec{c} = \vec{b}$}
     \choice{$\vec{b} + \vec{c} = \vec{a}$}
-\end{multipleChoice}
+  \end{multipleChoice}
+  \begin{feedback}[correct]
+    We also could have drawn the diagram above like this:
+      \begin{image}
+        \begin{tikzpicture}
+          \begin{axis}[
+              xmin=0,xmax=5,ymin=-1,ymax=4,
+              axis lines=center,
+              %ticks=none,
+              unit vector ratio*=1 1 1,
+              xlabel=$x$, ylabel=$y$,
+              ytick={-2,-1,...,7},
+	      %yticklabels={$0.5$,$1$,$1.5$,$2$},
+	      xtick={-2,-1,...,10},
+	      %xticklabels={$0.5$,$1$,$1.5$,$2$},
+	      grid = major,
+              every axis y label/.style={at=(current axis.above origin),anchor=south},
+              every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            ]
+            \addplot[very thick,penColor,->] plot coordinates {(4,3) (3,0)};
+            \addplot[very thick,penColor2,->] plot coordinates {(4,3) (1,2)};
+            \addplot[very thick,penColor3,->] plot coordinates {(3,0) (1,2)};
+          
+            \node[right] at (axis cs:3.5, 1.5 ) [penColor] {$\vec{a}$};
+            \node[above] at (axis cs:2.5, 2.5) [penColor2] {$\vec{b}$};
+            \node[below left] at (axis cs:2, 1 ) [penColor3] {$\vec{c}$};
+          \end{axis}
+        \end{tikzpicture}
+      \end{image}
+  \end{feedback}
 \end{question}
 
 
@@ -475,10 +506,12 @@ multiplying each component by the scalar:
 \begin{question}
   True or False: Multiplying a vector by a nonzero scalar will not
   change the direction of the vector.
+  \begin{prompt}
   \begin{multipleChoice}
     \choice{true}
     \choice[correct]{false}
   \end{multipleChoice}
+  \end{prompt}
   \begin{feedback}
     Multiplying a vector by a positive scalar $s$ will not change the
     direction of the vector:
@@ -534,7 +567,7 @@ multiplying each component by the scalar:
 \end{question}
 
 Thinking about the magnitude of a vector reveals why scalars are
-called ``scalars.''
+called \textit{scalars}.
 
 \begin{question}
   Consider a vector
@@ -551,14 +584,14 @@ called ``scalars.''
     What is the magnitude of $6\cdot\vec{v}$?
     \begin{prompt}
       \[
-      |6\cdot\vec{v}| = \answer{6\cdot\sqrt{a^2+b^2+c^2}}
+      |6\cdot\vec{v}| = \answer{6}\cdot\sqrt{a^2+b^2+c^2}
       \]
     \end{prompt}
     \begin{question}
     What is the magnitude of $-6\cdot\vec{v}$?
     \begin{prompt}
       \[
-      |-6\cdot\vec{v}| = \answer{6\cdot\sqrt{a^2+b^2+c^2}}
+      |-6\cdot\vec{v}| = \answer{6}\cdot\sqrt{a^2+b^2+c^2}
       \]
     \end{prompt}
     \begin{feedback}
@@ -593,7 +626,7 @@ Vectors with magnitude $1$ are particularly important.
   Find a unit vector $\uvec{u}$ which points in the same direction as the vector $\vec{v} = \vector{2,1,3,7,1}$.
   \begin{prompt}
   \[
-  \vector{
+  \uvec{u} = \vector{
     \answer{2/8},
     \answer{1/8},
     \answer{3/8},
@@ -619,16 +652,16 @@ and direction, where we view a unit vector as supplying \textit{only}
 direction information. Identifying unit vectors with direction allows
 us to define \textit{parallel vectors}:
 \begin{definition}
-Unit vectors $\vec u_1$ and $\vec u_2$ are \dfn{parallel} if
+Unit vectors $\uvec u$ and $\uvec v$ are \dfn{parallel} if
 \[
-\vec{u}_1 = \pm \vec{u}_2.
+\uvec{u} = \pm \uvec{v}.
 \]
-Nonzero vectors $\vec v_1$ and $\vec v_2$ are \dfn{parallel} if their
+Nonzero vectors $\vec a$ and $\vec b$ are \dfn{parallel} if their
 respective unit vectors are parallel.
 \end{definition}
-It is equivalent to say that vectors $\vec v_1$ and $\vec v_2$ are
-parallel if there is a scalar $s\neq 0$ such that $\vec v_1 =
-s\cdot\vec v_2$. However, the zero vector, $\vec 0$ is directionless
+It is equivalent to say that vectors $\vec a$ and $\vec b$ are
+parallel if there is a scalar $s\neq 0$ such that $\vec a =
+s\cdot\vec b$. However, the zero vector, $\vec 0$ is directionless
 because $|\vec{0}|=0$. Hence there is no unit vector in the
 ``direction'' of $\vec 0$. Different authors have different
 conventions regarding the zero vector, some say it is ``parallel to
@@ -788,13 +821,13 @@ Vectors are a great tool for applied mathematics.
       \end{bmatrix}
       +m_1
       \begin{bmatrix}
-        \cos(\answer[given]{120}^\circ)\\
-        \sin(\answer[given]{120}^\circ)
+        \cos\left(\answer[given]{120}^\circ\right)\\
+        \sin\left(\answer[given]{120}^\circ\right)
       \end{bmatrix}
       + m_2
       &\begin{bmatrix}
-      \cos(\answer[given]{45}^\circ)\\
-      \sin(\answer[given]{45}^\circ)
+      \cos\left(\answer[given]{45}^\circ\right)\\
+      \sin\left(\answer[given]{45}^\circ\right)
       \end{bmatrix}\\
       =
       &\begin{bmatrix}

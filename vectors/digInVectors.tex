@@ -191,9 +191,9 @@ The \dfn{dimension} of a vector is the number of entries. Each
 individual entry of a vector is called a \dfn{component}.
 \end{definition}
 
-In $\R^2$ we usually label the first component the $x$-component, and
-the second component the $y$-component. In $\R^3$ we label the
-components $x$, $y$, and $z$.
+In $\R^2$ we usually label the first component the ``$x$-component,''
+and the second component the ``$y$-component.'' In $\R^3$ we usually
+label the components ``$x$,'' ``$y$,'' and ``$z$.''
 
 
 \begin{question}
@@ -661,12 +661,17 @@ respective unit vectors are parallel.
 \end{definition}
 It is equivalent to say that vectors $\vec a$ and $\vec b$ are
 parallel if there is a scalar $s\neq 0$ such that $\vec a =
-s\cdot\vec b$. However, the zero vector, $\vec 0$ is directionless
-because $|\vec{0}|=0$. Hence there is no unit vector in the
-``direction'' of $\vec 0$. Different authors have different
-conventions regarding the zero vector, some say it is ``parallel to
-every vector.'' We prefer the given definition as it is grounded in
-the fact that \textbf{unit vectors provide direction information}.
+s\cdot\vec b$.
+
+INCLUDE INTERACTIVE!!!!
+
+
+Note that the zero vector, $\vec 0$ is directionless because there is
+no unit vector in the ``direction'' of $\vec 0$. Different authors
+have different conventions regarding the zero vector, some even say it
+is ``parallel to every vector.'' We prefer to simply say that the zero
+vector has no direction, as it is grounded in the fact that
+\textbf{unit vectors provide direction information}.
 
 \begin{question}
   True or False: If two vectors are parallel, then they point in the same direction.
@@ -681,11 +686,46 @@ the fact that \textbf{unit vectors provide direction information}.
 
 
 
-On the other hand, sometimes you want to specify a vector with an
-angle relative to a given line. If one graphed all unit vectors in
-$\R^2$ with the tail at the origin, then the tips would all lie on the
-unit circle. Based on what we know from trigonometry, we can then say
-that the components of any unit vector in $\R^2$ can be expressed as
+\subsection{Angles and vectors}
+
+Sometimes you want to specify a vector with an angle relative to a
+given line. If one graphed all unit vectors in $\R^2$ with the tail at
+the origin, then the tips would all lie on the unit circle.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=-1.1,xmax=1.1,ymin=-1.1,ymax=1.1,
+            axis lines=center,
+            width=4in,
+            xtick={-1,1},
+            ytick={-1,1},
+            clip=false,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [dashed, smooth, domain=(0:360)] ({cos(x)},{sin(x)}); %% unit circle
+
+          \addplot [thick,penColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
+          \addplot [thick,penColor2] plot coordinates {(0,0) (.766,0)}; %% 40 degrees
+          
+          %\addplot [ultra thick,penColor3] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+      
+          \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
+          %\addplot [very thick,penColor] plot coordinates {(0,0) (.766,.643)}; %% sector
+          %\addplot [very thick,penColor] plot coordinates {(0,0) (1,0)}; %% sector
+          %\addplot [very thick, penColor, smooth, domain=(0:40)] ({cos(x)},{sin(x)}); %% sector
+          \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
+          \node[penColor, rotate=-90] at (axis cs:.84,.322) {$\sin(\theta)$};
+          \node[penColor2] at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
+
+          \addplot [penColor3,ultra thick, ->] plot coordinates {(0,0) (.766,.643)}; %% 40 degrees
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+Based on what we know from trigonometry, we can then say that the
+components of any unit vector in $\R^2$ can be expressed as
 $\vector{\cos(\theta),\sin(\theta)}$ for some angle $\theta$.
 
 \begin{theorem}

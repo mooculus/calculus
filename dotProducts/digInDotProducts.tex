@@ -12,7 +12,8 @@
 
 \begin{document}
 \begin{abstract}
-  The dot product is one way to multiply two vectors.
+  The dot product measures how aligned two vectors are with each
+  other.
 \end{abstract}
 \maketitle
 
@@ -52,7 +53,8 @@ but this operation is not especially useful, and will \textbf{never be
 \end{warning}
 
 In this section we will define a way to ``multiply'' two vectors
-called the \textit{dot product}.
+called the \textit{dot product}. The dot product measures how
+``aligned'' two vectors are with each other.
 
 \begin{definition}
   The \dfn{dot product} of two vectors is given by:
@@ -110,9 +112,22 @@ The first thing you should notice about the the dot product is that
     \choice{$\vector{1,3} \dotp \vector{-1,2,5}$}
     \choice{$\vec{u}\dotp \vec{v}+\vec{w}$}
   \end{selectAll}
+  \begin{hint}
+    Think about which terms/factors are vectors and which
+    terms/factors are scalars.
+  \end{hint}
+  \begin{question}
+    Which of the following are vectors?
+    \begin{selectAll}
+    \choice[correct]{$(\vec{w} \dotp \vec{u} ) \vec{u}$}
+    \choice{$5(\vec{u} +\vec{w}) \dotp {\vec{u}}$}
+    \choice{$\vector{2,3} \dotp \vector{4,2} + 7$}
+    \choice[correct]{$\vec{w} / ( \vec{u} \dotp \vec{u})$}
+    \end{selectAll}
+  \end{question}
 \end{question}
 
-The dot product allows us to write some complex formulas more simply.
+The dot product allows us to write some complicated formulas more simply.
 
 \begin{theorem}
   The magnitude of vector $\vec{v}$ is given by
@@ -226,8 +241,9 @@ have
     \end{align*}
   \end{explanation}
 \end{theorem}
-	
-This tells us something interesting about the dot product:
+
+The theorem above tells us something interesting about the dot
+product:
 
 \begin{theorem}
   If $\vec{v}$ and $\vec{w}$ are two nonzero vectors, and $\theta$ is
@@ -238,11 +254,12 @@ This tells us something interesting about the dot product:
   \]
 \end{theorem}
 
-We have a special buzz-word for when the angle between two vectors is $\pi/2$:
+We have a special buzz-word for when the dot product is zero:
 
 \begin{definition}
-  Two vectors are called \dfn{orthogonal} if the angle between them is
-  $\pi/2$.
+  Two vectors are called \dfn{orthogonal} if the the dot product of
+  these vectors is zero. Geometrically, this means that the angle
+  between the vectors is $\pi/2$ or $90^\circ$.
 \end{definition}
 
 From this we see that the dot product of two vectors is zero if those
@@ -253,8 +270,10 @@ using the formula
 \]
 allows us to compute the angle between these vectors via
 \[
-\theta = \arccos\left(\frac{\vec{v} \dotp \vec{w} }{|\vec{v}|\cdot|\vec{w}|}\right).
+\theta = \arccos\left(\frac{\vec{v} \dotp \vec{w}
+}{|\vec{v}|\cdot|\vec{w}|}\right)
 \]
+where $0\le \theta\le \pi$.
 
 \begin{question}
   Find the angle between the vectors:
@@ -273,12 +292,53 @@ allows us to compute the angle between these vectors via
 \end{question}
 
 
+\begin{question}
+  Find all unit vectors orthogonal to:
+  \begin{align*}
+    \vec{v} &= \veci + \vecj\\
+    \vec{w} &= \veci + \veck 
+  \end{align*}
+  \begin{prompt}
+    Write your vectors in the order of increasing $x$-components:
+    \[
+    \vector{\answer{-1/\sqrt{3}},\answer{1/\sqrt{3}},\answer{1/\sqrt{3}}}\quad\text{and}\quad \vector{\answer{1/\sqrt{3}},\answer{-1/\sqrt{3}},\answer{-1/\sqrt{3}}}
+    \]
+  \end{prompt}
+\end{question}
+
+
 
 \section{Projections and components}
 
 \subsection{Projections}
 One of the major uses of the dot product is to let us \textit{project}
-one vector in the direction of another.
+one vector in the direction of another. Conceptually, we are looking
+at the ``shadow'' of one vector projected onto another, sort of like
+in the case of a sundial:
+\begin{image}%%https://commons.wikimedia.org/wiki/File:Perceton_sundial_-_detail.JPG
+  \includegraphics{sundial.jpg}
+\end{image}
+In essence we imagine the ``Sun'' directly over a vector, casting a shadow onto another vector:
+\begin{image}
+  \begin{tikzpicture}
+    \foreach \angle in { 270,280,...,450 }{
+      \draw [ultra thick, yellow!70!orange, rotate around={\angle:(3,4)}]
+      (3,3.5)--(3,3);
+    };
+    \draw[very thick, penColor,->] (0,0) -- (5,0);
+    \draw[ultra thick,penColor4,->] (0,0) -- (3,2);
+    \draw[ultra thick,penColor2,->] (0,0) -- (3,0);
+    \draw[ultra thick, yellow!50!orange] (2.5,4)
+    arc (180:360:.5);
+
+    \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (0,0)--(3,0);
+    \node at (1.5,-.5) {projection};
+
+  \end{tikzpicture}
+\end{image}
+
+While this is good starting point for understanding orthogonal
+projections, now we need the definition.
 
 \begin{definition}
   The \dfn{orthogonal projection}\index{projection} in the direction
@@ -313,11 +373,9 @@ one vector in the direction of another.
     $\proj_{\vec{w}}(\vec{v})$. Move the tips of vectors $\vec{v}$ and
     $\vec{w}$ to help you understand $\proj_{\vec{w}}(\vec{v})$:
     \begin{center}
-      \geogebra{SRyzj9SD}{800}{600}
+      \geogebra{f8bqsRAz}{800}{600}
     \end{center}
 \end{onlineOnly}
-
-
 \end{definition}
 
 \begin{question}
@@ -360,63 +418,47 @@ product:
     \[
     \frac{\vec{w}}{|\vec{w}|}
     \]
-    and the magnitude of $\proj_\vec{w}(\vec{v})$
+    and the magnitude of $\proj_\vec{w}(\vec{v})$ is given by:
+    \[
+    |\proj_{\vec{w}}(\vec{v})| = |\vec{v}|\cdot \left| \answer[given]{\cos(\theta)}\right|
+    \]
     \begin{image}
       \begin{tikzpicture}
         \draw (.5,.1) arc[radius=.5cm,start angle=11.3,end angle=56.3];
         \draw[->,ultra thick,penColor] (0,0) -- (5,1);
         \draw[->,ultra thick,penColor2] (0,0) -- (2,3);
-        \node[below,penColor] at (2.5,.5) {$\vec{w}$}; %% <a,b>
+        \draw[thin] (2.46,.71)--(2.25,.67)--(2.29,0.46);
+        \draw[dashed] (2,3) -- (2.5,.5);
+        \node[below,penColor] at (3.75,.75) {$\vec{w}$}; %% <a,b>
         \node[above left,penColor2] at (1,1.5) {$\vec{v}$}; %% <c,d>
         \node[above right] at (.4,.2) {$\theta$}; %% <c,d>
+        \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (0,0)--(2.5,.5);
+        \node at (1.25,-.25) {$\cos(\theta)$};
       \end{tikzpicture}
     \end{image}
-    is given by:
+    Now
     \[
-    |\proj_{\vec{w}}(\vec{v})| = |\vec{v}|\cdot \answer[given]{\cos(\theta)}
+    \proj_\vec{w}(\vec{v}) = \mathrm{direction}\cdot\mathrm{magnitude}
     \]
-    Thus
+    where
+    \[
+    \mathrm{direction} = \pm \frac{\vec{w}}{|\vec{w}|}
+    \]
+    has a positive sign if $0<\theta< \pi/2$, and a negative sign if
+    $\pi/2< \theta< \pi$; and
+    \[
+    \mathrm{magnitude} = |\vec{v}|\cdot\left|\answer[given]{\cos(\theta)}\right|
+    \]
+    Multipliying direction and magnitude (note the sign of the
+    direction is the sign of cosine, so we simply remove the absolute
+    value from the cosine) we find:
     \begin{align*}
-      \proj_\vec{w}(\vec{v}) &= \mathrm{direction}\cdot\mathrm{magnitude}\\
-      &= \frac{\vec{w}}{|\vec{w}|}\cdot|\vec{v}|\cdot\answer[given]{\cos(\theta)}\\
       &= \frac{\vec{w}}{|\vec{w}|^2}\cdot |\vec{w}|\cdot |\vec{v}|\cdot\answer[given]{\cos(\theta)}\\
       &= \left(\frac{\vec{v} \dotp \vec{w}}{|\vec{w}|^2}\right) \vec{w}\\
       &=\left(\frac{\vec{v} \dotp \vec{w}}{\vec{w}\dotp \vec{w}}\right) \vec{w}.
     \end{align*}
   \end{explanation}
 \end{theorem}
-
-\begin{question}
-  Consider the formula:
-  \[
-  \proj_\vec{w}(\vec{v}) =\left(\frac{\vec{v} \dotp \vec{w}}{\vec{w}\dotp \vec{w}}\right) \vec{w}.
-  \]
-  Is $\vec{v}\dotp \vec{w}$ a number or a vector?
-  \begin{prompt}
-  \begin{multipleChoice}
-    \choice[correct]{number}
-    \choice{vector}
-  \end{multipleChoice}
-  \end{prompt}
-  \begin{question}
-    Is $\vec{w}\dotp\vec{w}=|\vec{w}|^2$ a number or a vector?
-     \begin{prompt}
-    \begin{multipleChoice}  
-      \choice[correct]{number}
-      \choice{vector}
-      \end{multipleChoice}
-     \end{prompt}
-    \begin{question}
-      Is $\vec{w}$ a number or a vector?
-      \begin{prompt}
-        \begin{multipleChoice}
-          \choice{number}
-          \choice[correct]{vector}
-        \end{multipleChoice}
-      \end{prompt}
-    \end{question}
-  \end{question}
-\end{question}
 
 \begin{question}
   Find the projection of the vector $\vec{v} = \vector{2,3,1}$ in the
@@ -428,8 +470,24 @@ product:
   \end{prompt}
 \end{question}
 
-\subsection{Components}
+\begin{question}
+  Let $\vec{v}$ and $\vec{w}$ be nonzero vectors in $\R^2$. Let $k\ge
+  1$. Select all statements that must be true:
+  \begin{selectAll}
+    \choice{$\proj_{\vec{w}}(\vec{v})=\proj_{\vec{v}}(\vec{w})$}
+    \choice[correct]{$|\proj_{\vec{w}}(\vec{v})|\le |\vec{v}|$}
+    \choice{$|\proj_{\vec{w}}(\vec{v})|\le |\vec{w}|$}
+    \choice[correct]{$|\proj_{\vec{w}}(\vec{v})|\le |\proj_{\vec{w}}(k\cdot \vec{v})|$}
+    \choice{$|\proj_{\vec{w}}(k\cdot \vec{v})|\le |\proj_{\vec{w}}(\vec{v})|$}
+    \choice[correct]{$|\proj_{\vec{w}}(\vec{v})|\le |\proj_{k\cdot \vec{w}}(\vec{v})|$}
+    \choice[correct]{$|\proj_{k\cdot \vec{w}}(\vec{v})|\le |\proj_{\vec{w}}(\vec{v})|$}
+  \end{selectAll}
+\end{question}
 
+
+\subsection{Components}
+Scalar components compute ``how much'' of a vector is pointing in a
+particular direction.
 \begin{definition}
   Let $\vec{v}$ and $\vec{w}$ be vectors and let $0\le\theta\le\pi$ be
   the angle between them.  The \dfn{scalar component}\index{component}
@@ -490,6 +548,18 @@ another, you use the dot product:
 
 
 \subsection{Orthogonal decomposition}
+
+
+
+\begin{onlineOnly}
+  Move the point around to see various orthogonal decompositions of
+  vector $\vec{v}$:
+  \begin{center}
+    \geogebra{juszKc6k}{800}{600}
+  \end{center}
+\end{onlineOnly}
+
+
 
 \begin{definition}
 Let $\vec v$ and $\vec w$ be vectors. The \dfn{orthogonal

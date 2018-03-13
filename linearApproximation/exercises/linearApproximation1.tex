@@ -1,6 +1,6 @@
 \documentclass{ximera}
 \input{../../preamble.tex}
-\author{Steven Gubkin}
+\author{Steven Gubkin\and Nela Lakos}
 \license{Creative Commons 3.0 By-NC}
 
 \outcome{Define linear approximation as an application of the tangent to a curve.}
@@ -9,15 +9,95 @@
 \begin{document}
 \begin{exercise}
 
-Approximate $\sqrt{9.5}$ by hand using the idea of linear approximation (of a conventiently chosen function, and base point).  Using the second derivative, explain whether you think this is an underapproximation or an overapproximation.
+Approximate $\sqrt{9.5}$ by hand using the idea of linear approximation (of a conventiently chosen function, and base point).  Using the second derivative, explain whether you think this is an underestimate or an overestimate.
+\begin {hint}
 
+The number that you have to approximate should be expressed as
+
+ $\sqrt{9.5}=f(x)$.
+Obviously, $f(x)=\sqrt{x}$, and $x=9.5$.
+\end {hint}
+\begin {hint}
+
+You will now approximate  $\sqrt{9.5}=f(x)$
+ with $\l (x)$, where $\l$ is the linear approximation of $f$ at $a$.
+In other words, $\sqrt{9.5}=f(x)\approx \l(x)$.
+
+ You have to choose $a$  wisely, so that $x=9.5$ is near $a$, and so that you can easily and exactly compute the values $f(a)$ and $f'(a)$.
+ These two values are needed when we compute the expression for $\l (x)$. 
+\end {hint}
+\begin {hint}
+The obvious choice for $a$ is $a=9$. Any other number for which it is easy to compute $\sqrt{a}$ is farther away from $x=9.5$.
+Now we have to compute $f(a)=f(9)$ and $f'(a)=f'(9)$.
+\begin{prompt}
+	$$f(9)=  \answer{3}$$
+	\end{prompt}
+	\begin{prompt}
+	$$f'(x)= \frac{1}{ \answer{2\sqrt{x}}}$$
+	\end{prompt}
+	\begin{prompt}
+	$$f'(9)= \frac{1}{ \answer{6}}$$
+	\end{prompt}
+\end {hint}
+\begin {hint}
+
+Now, we have to find an expression for $\l(x)=f(9)+f'(9)(x-9)$.
+\begin{prompt}
+	$$\l(x)= \answer{3}+\answer{\frac{1}{6}}(x-9)$$
+	\end{prompt}
+ 
+\end {hint}
+\begin {hint}
+
+Now, we have to evaluate $\l(x)=\l(9.5)$.
+\begin{prompt}
+	$$\l(9.5)= \answer{3}+\answer{\frac{1}{6}}(9.5-9)$$
+	\end{prompt}
+ 
+\end {hint}
 \begin{prompt}
 	$$\sqrt{9.5} \approx \answer{3+\frac{1}{12}}$$
+Is this an underestimate or overestimate?
+\begin{hint}
+ \begin{image}
+%\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=0,xmax=25,ymin=0,ymax=6,
+            axis lines=center,
+            ticks=none,
+            %width=3in,
+            %height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [ thick, penColor, smooth, domain=(0:25)] {sqrt(x)};
+          \addplot [thick, penColor2,smooth, domain=(0:25)] {3+(1/6)*(x-9)};
+          \node at (axis cs:18,3.5) [penColor] {$y=f(x)$};
+          \node at (axis cs:18.5,5.4) [penColor2] {$y=\l(x)$}; 
+          \node at (axis cs:9.1,4.5) [penColor2] {$(9,f(9))$}; 
+            \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(9,3)};  %% closed hole         
+        \end{axis}
+\end{tikzpicture}
+%\caption{A linear approximation of $f(x) = \sin(x)$ at $x=0$.}
+%\label{figure:la sin}
+%\end{marginfigure}
+\end{image}
+\end{hint}
+\begin {hint}
+Recall: $f''(x)=-\frac{1}{4\cdot x^{\answer{\frac{3}{2}}}}$. 
 
+Since $f''(x)<0$ on $(0,\infty)$,  the graph of $f$ is concave down. Therefore, the tangent line lies above the graph of $f$, except at $x=9$, where $f(9)=\l(9)$.
+
+
+This means that $\l(x)\ge f(x)$. So, $\l(9.5)\ge f(9.5)$.
+\end{hint}
 This is an
 \begin{multipleChoice}
-   \choice{underapproximation}
-   \choice[correct]{overapproximation}
+   \choice{underestimate}
+   \choice[correct]{overestimate}
 \end{multipleChoice}
 \end{prompt}
 

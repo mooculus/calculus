@@ -167,9 +167,9 @@ we think of the terms as follows:
 
 
 \begin{definition}
-  Given a $3\times 3$ matrix, the \dfn{determinant} is given by
-  \begin{align*}
-  &\det\begin{bmatrix}
+  Given a $3\times 3$ matrix, the \dfn{determinant} is denoted by:
+  \[
+  \det\begin{bmatrix}
   a_1 &  a_2 & a_3 \\
   b_1 &  b_2 & b_3 \\
   c_1 &  c_2 & c_3
@@ -179,12 +179,10 @@ we think of the terms as follows:
     a_1 &  a_2 & a_3 \\
     b_1 &  b_2 & b_3 \\
     c_1 &  c_2 & c_3
-  \end{vmatrix}\\
-  &= a_1b_2c_3+b_1c_2a_3+c_1a_2b_3-a_3b_2c_1-b_3c_2a_1-c_3a_2b_1.
-  \end{align*}
-\end{definition}
-We can remember this formula by using the following pattern:
-\begin{image}
+  \end{vmatrix}
+  \]
+  It can be computed using the following pattern:
+\begin{image}[3in]
 \begin{tikzpicture}
 \node at (0,0) {$\det
 \begin{bmatrix}
@@ -234,6 +232,11 @@ We can remember this formula by using the following pattern:
     \end{bmatrix}$}};
 \end{tikzpicture}
 \end{image}
+which equals:
+\[
+= a_1(b_2c_3-b_3c_2)- a_2(b_1c_3-b_3c_1)+ a_3(b_1c_2-b_2c_1)
+\]
+\end{definition}
 
 %% Or:
 %% Commented because this is not a particularly useful method in this course.
@@ -311,6 +314,10 @@ We can remember this formula by using the following pattern:
 
 \section{Cross products}
 
+Determinants in $\R^n$ have many uses. In $\R^3$, one of the uses is
+the definition of the \textit{cross product}.
+
+
 \begin{definition}
   The \dfn{cross product} of two vectors is given by: 
   \[
@@ -328,82 +335,92 @@ The first thing you should notice about the the cross product is that
 \]
   When computing the cross product, the pattern:
 
-  \begin{image}
-\begin{tikzpicture}
-\node at (0,0) {$\det
-  \begin{bmatrix}
-    \veci & \vecj & \veck\\
-    a_1 & a_2 & a_3\\
-    b_1 & b_2 & b_3
-\end{bmatrix}
-= \veci
-\begin{vmatrix}
-  a_2 & a_3\\
-  b_2 & b_3
-\end{vmatrix}
--\vecj
-\begin{vmatrix}
-  a_1 & a_3\\
-  b_1 & b_3
-\end{vmatrix}
-+\veck
-\begin{vmatrix}
-  a_1 & a_2\\
-  b_1 & b_2
-\end{vmatrix}$};
+\begin{image}[3in]
+  \begin{tikzpicture}
+    \node at (0,0) {$\det
+      \begin{bmatrix}
+        \veci & \vecj & \veck\\
+        a_1 & a_2 & a_3\\
+        b_1 & b_2 & b_3
+      \end{bmatrix}
+      = \veci
+      \begin{vmatrix}
+        a_2 & a_3\\
+        b_2 & b_3
+      \end{vmatrix}
+      -\vecj
+      \begin{vmatrix}
+        a_1 & a_3\\
+        b_1 & b_3
+      \end{vmatrix}
+      +\veck
+      \begin{vmatrix}
+        a_1 & a_2\\
+        b_1 & b_2
+      \end{vmatrix}$};
+    
+    \draw[ultra thick,->,gray] (-.27,-1.3) -- (-.27,-.7);
+    \draw[ultra thick,->,gray] (1.61,-1.3) -- (1.61,-.7);
+    \draw[ultra thick,->,gray] (3.58,-1.3) -- (3.58,-.7);
 
-\draw[ultra thick,->,gray] (-.27,-1.3) -- (-.27,-.7);
-\draw[ultra thick,->,gray] (1.61,-1.3) -- (1.61,-.7);
-\draw[ultra thick,->,gray] (3.58,-1.3) -- (3.58,-.7);
+    \node at (-.27,-2) {\scalebox{.7}{
+        $\begin{bmatrix}
+          \veci & \bullet & \bullet\\
+          \bullet & a_2 & a_3\\
+          \bullet & b_2 & b_3
+        \end{bmatrix}$}};
+    
+    \node at (1.61,-2) {\scalebox{.7}{
+        $\begin{bmatrix}
+          \bullet & \vecj & \bullet\\
+          a_1 & \bullet & a_3\\
+          b_1 & \bullet & b_3
+        \end{bmatrix}$}};
 
-\node at (-.27,-2) {\scalebox{.7}{
-    $\begin{bmatrix}
-      \veci & \bullet & \bullet\\
-      \bullet & a_2 & a_3\\
-      \bullet & b_2 & b_3
-    \end{bmatrix}$}};
-
-\node at (1.61,-2) {\scalebox{.7}{
-    $\begin{bmatrix}
-      \bullet & \vecj & \bullet\\
-      a_1 & \bullet & a_3\\
-      b_1 & \bullet & b_3
-    \end{bmatrix}$}};
-
-\node at (3.58,-2) {\scalebox{.7}{
-    $\begin{bmatrix}
-      \bullet & \bullet & \veck\\
-      a_1 & a_2 & \bullet\\
-      b_1 & b_2 & \bullet
-    \end{bmatrix}$}};
-\end{tikzpicture}
-  \end{image}
+    \node at (3.58,-2) {\scalebox{.7}{
+        $\begin{bmatrix}
+          \bullet & \bullet & \veck\\
+          a_1 & a_2 & \bullet\\
+          b_1 & b_2 & \bullet
+        \end{bmatrix}$}};
+  \end{tikzpicture}
+\end{image}
   
 is usually most efficient, because you immediately have the
 components of the desired vector, without additional
 simplification.
 
 \begin{question}
-  Compute:
-  \[
+  Compute: $\vector{2,3,1} \cross \vector{1,1,1}$
+  \begin{prompt}
+  \begin{align*}
   \vector{2,3,1} \cross \vector{1,1,1}
-  \begin{prompt}
-    = \vector{\answer{2},\answer{-1},\answer{-1}}
+  &= \det \begin{bmatrix}
+      \veci & \vecj & \veck \\
+      \answer{2} & \answer{3} & \answer{1}\\
+      \answer{1} & \answer{1} & \answer{1}
+    \end{bmatrix}\\
+    &= \vector{\answer{2},\answer{-1},\answer{-1}}
+  \end{align*}
   \end{prompt}
-  \]
   \begin{question}
-  Compute:
-  \[
-  \vector{1,1,1}\cross\vector{2,3,1} 
+  Compute: $\vector{1,1,1}\cross\vector{2,3,1}$
   \begin{prompt}
-    = \vector{\answer{-2},\answer{1},\answer{1}}
+  \begin{align*}
+    \vector{1,1,1}\cross\vector{2,3,1}
+    &=\det \begin{bmatrix}
+      \veci & \vecj & \veck \\
+      \answer{1} & \answer{1} & \answer{1}\\
+      \answer{2} & \answer{3} & \answer{1}
+    \end{bmatrix}\\
+  &= \vector{\answer{-2},\answer{1},\answer{1}}
+  \end{align*}
   \end{prompt}
-  \]
 \end{question}
 \end{question}
 
 Note that the cross product is not commutative! In fact, it is
-anticommutative:
+\textit{anticommutative}:
 
 \begin{theorem}[The Cross Product is Anticommutative]
   Given two vectors $\vec{a}$ and $\vec{b}$ in $\R^3$
@@ -413,8 +430,11 @@ anticommutative:
 \end{theorem}
 The anticommutative property of the cross product demonstrates that
 $\vec{a}\cross\vec{b}$ and $\vec{b}\cross\vec{a}$ differ only by a
-sign. These vectors have the same magnitude but point in the opposite
-direction. Now let's examine the cross product on famous unit vectors.
+sign. These vectors have the same magnitude but point in opposite
+directions.
+
+
+Now let's examine the cross product on famous unit vectors.
 \begin{question}
   Compute:
   \[
@@ -754,7 +774,21 @@ product and geometry:
   \end{question}
 \end{question}
 
+Note, if $\vec{a}$ and $\vec{b}$ are in $\R^2$, we can \textit{still}
+use the cross product to compute the area of the parallelogram spanned
+by $\vec{a}$ and $\vec{b}$, just add a $z$-component of $0$ to each
+vector.
 
+
+\begin{question}
+  What is the area of the parallelogram spanned by $\vector{1,2}$ and
+  $\vector{3,4}$?
+  \begin{prompt}
+    \[
+    \text{Area} = \answer{2}
+    \]
+  \end{prompt}
+\end{question}
 
 \begin{theorem}
   If $\vec{a}$ and $\vec{b}$ are two nonzero vectors, and $\theta$ is
@@ -763,12 +797,11 @@ product and geometry:
   \vec{a}\cross \vec{b} = \vec{0} \text{ if and only if $\theta=
   0$ or $\theta=\pi$}.
   \]
+  \begin{explanation}
+    This follows since the area of the parallelogram spanned by
+    parallel vectors is zero.
+  \end{explanation}
 \end{theorem}
-
-This theorem tells us that the cross product of nonzero parallel
-vectors is $\vec{0}$.
-
-
 
 
 \section{Applications}
@@ -865,13 +898,13 @@ given by
 \section{The algebra of the cross product}
 
 
-Below, we summarize some rules for working with cross products.
+Below we summarize some rules for working with cross products.
 
 \begin{theorem}
   The following are true for all scalars $s$ and $t$, and vectors
   $\vec{u}$, $\vec{v}$, and $\vec{w}$ in $\R^3$.
   \begin{description}
-  \item[Anticommutativty:] $\vec{v} \cross \vec{w}  = -\vec{w} \cross \vec{v}$.
+  \item[Anticommutative:] $\vec{v} \cross \vec{w}  = -\vec{w} \cross \vec{v}$.
   \item[Left-distributive:] $\vec{u} \cross (\vec{v} +\vec{w}) = \vec{u} \cross \vec{v}+\vec{u}\cross\vec{w}$.
   \item[Right-distributive:] $(\vec{v}+\vec{w}) \cross \vec{u} = \vec{v} \cross \vec{u}+\vec{w} \cross \vec{u}$.
   \item[Respects scalar multiplication:] $s\vec{v} \cross t\vec{w} = st \vec{v} \cross \vec{w}$.
@@ -894,7 +927,7 @@ you to travel deeper into your studies.
 For some interesting extra reading check out:
 \begin{itemize}
 \item \link[\textit{Matrices and determinants}, J.J.
-  O'Connor and E.F.\ Robertson, MacTutor History
+  O'Connor and E.F.\ Robertson, Mac Tutor History
 of Mathematics archive]{http://www-groups.dcs.st-and.ac.uk/history/HistTopics/Matrices_and_determinants.html}.
 \item \link[\textit{Cross Products of Vectors in Higher Dimensional Euclidean Spaces},
   W.S.\ Massey, The American Mathematical Monthly, December

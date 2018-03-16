@@ -234,7 +234,7 @@ tip of $\vec{p}$, and points in a direction $\vec{v}$.  Then we write
   \end{hint}
   \begin{hint}
     \[
-    \vec{v}= \vec{2,2,2}-\vec{1,2,3}
+    \vec{v}= \vector{2,2,2}-\vector{1,2,3}
     \]
   \end{hint}
 \end{question}
@@ -282,6 +282,22 @@ line. Try your hand at the following puzzlers:
       \choice{These are the same function!}
     \end{multipleChoice}
   \end{prompt}
+  \begin{hint}
+    Note both lines start at the same point when $t=0$. 
+  \end{hint}
+  \begin{hint}
+    We can rewrite $\vec{f}$ and $\vec{g}$ as:
+    \begin{align}
+      \vec{f}(t) &= \vector{-3,5,1}+t\vector{1,2,3}\\
+      \vec{g}(t) &= \vector{-3,5,1}+t\vector{-1,-2,-3}
+    \end{align}
+  \end{hint}
+  \begin{hint}
+    We can further rewrite $\vec{g}$ as:
+    \[
+    \vec{g}(t) = \vector{-3,5,1}-t\vector{1,2,3}
+    \]
+  \end{hint}
 \end{question}
 
 We can use these ideas to parameterize any line in space. However, our
@@ -289,65 +305,6 @@ parameterizations will not be unique as there are infinitely many
 different ways to parameterize the same line.  Some parameterizations
 may ``move faster'' than others, or in the opposite direction, or even
 at uneven rates!
-
-
-
-
-
-\subsection{Lines embedded in surfaces}
-
-Sometimes lines lie on surprising surfaces:
-
-\begin{question}
-  Consider the surface determined by all $x$, $y$ and $z$ such that:
-  \[
-  x^2+y^2=z^2+1
-  \]
-  This surface looks something like:
-  \begin{image}
-    \begin{tikzpicture}
-      \begin{axis}[
-          xmin=-4, xmax=4,
-          clip=false,
-          width=4in,
-          height=2in,
-          axis lines =none,
-        ]
-        \draw[penColor,very thick,fill=fillp] (axis cs:0,2.8) ellipse (290 and 50);
-        \draw[penColor,very thick,] (axis cs: -1,0) arc (180:360:100 and 30);
-        \draw[penColor!50!white,very thick,] (axis cs: -1,0) arc (180:0:100 and 30);
-        \draw[penColor!50!white,very thick,] (axis cs: -2.9,-2.7) arc (180:0:290 and 50);
-        \draw[penColor,very thick,] (axis cs: -2.9,-2.7) arc (180:360:290 and 50);
-       
-        \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {sqrt(x^2-1)};%(sqrt(1+u^2) cos(v), sqrt(1+u^2) sin(v), u)
-        \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {sqrt(x^2-1)};    % v in 0 2pi % u is whatevs
-        \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {-sqrt(x^2-1)};
-        \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {-sqrt(x^2-1)};
-
-          \draw[->] (axis cs: -3,0)--(axis cs: 3,0);
-          \draw[->] (axis cs: 0,-3.5)--(axis cs: 0,3.5);
-          \draw[->] (axis cs: 1.2,2.1)--(axis cs: -1.2,-2.1);
-          \node[right] at (axis cs: 3,0) {$y$};
-          \node[above] at (axis cs: 0,3.5) {$z$};
-          \node[below] at (axis cs: -1.2,-2.1) {$x$};
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  Which of the following lines lie on the surface $x^2+y^2=z^2+1$?
-  \begin{selectAll}% l(t) = (cos v,sin v, 0) + t(sin v,-cos v,1)% m(t) = (cos v,sin v, 0) + t(-sin v,cos v,1)
-    \choice{$\vector{1,0,0} + t\vector{-5,0,5}$}
-    \choice[correct]{$\vector{1,0,0} + t\vector{0,-3,3}$}
-    \choice[correct]{$\vector{0,1,0} + t\vector{-7,0,-7}$}
-    \choice{$\vector{0,1,0} + t\vector{-4,4,0}$}
-    \choice[correct]{$\vector{1/2,\sqrt{3}/2,0} + t\vector{-\sqrt{3},1,2}$}
-    \choice{$\vector{1/2,\sqrt{3}/2,0} + t\vector{-1,\sqrt{3},2}$}
-  \end{selectAll}
-  \begin{hint}
-    Separate each line into its component functions: $x$, $y$, and
-    $z$, and see if the equation defining the surface is valid for all
-    $t$.
-  \end{hint}
-\end{question}
 
 
 \subsection{Distance between a point and a line}
@@ -483,26 +440,123 @@ so we see that
 
 
 
+\section{Lines and curves embedded in surfaces}
 
-\section{Curves}
+Curves can lie on surfaces. Typically, the surface is defined
+implicitly, and the curve is a vector-valued function. To check if the
+curve lies on the surface, break the curve into components and
+substitute:
+\begin{itemize}
+  \item The $x$-component of the curve for $x$ in the equation of the
+    surface.
+  \item The $y$-component of the curve for $y$ in the equation of
+    the surface.
+  \item The $z$-component of the curve for $z$ in the equation of the
+    surface.
+\end{itemize}
+If the equation defining the surfaces holds after the subsitution, the
+curve lies on the surface. Try your hand at these puzzles:
+
+\begin{question}
+  Consider the plane:
+  \[
+  x+2y+3z = 6
+  \]
+  \begin{hint}
+    Separate each line into its component functions: $x$, $y$, and
+    $z$, and see if the equation defining the surface is valid for all
+    $t$.
+  \end{hint}
+\end{question}
+
+\begin{question}
+  Consider the planes:
+  \begin{align*}
+    -2x+3y+3z &=6\\
+    4x+y+6z &=12
+  \end{align*}
+  \begin{hint}
+    Separate each line into its component functions: $x$, $y$, and
+    $z$, and see if the equation defining the surface is valid for all
+    $t$.
+  \end{hint}
+\end{question}
+
+
+Sometimes lines lie on surprising surfaces:
+
+\begin{question}
+  Consider the surface determined by all $x$, $y$ and $z$ such that:
+  \[
+  x^2+y^2=z^2+1
+  \]
+  This surface looks something like:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-4, xmax=4,
+          clip=false,
+          width=4in,
+          height=2in,
+          axis lines =none,
+        ]
+        \draw[penColor,very thick,fill=fillp] (axis cs:0,2.8) ellipse (290 and 50);
+        \draw[penColor,very thick,] (axis cs: -1,0) arc (180:360:100 and 30);
+        \draw[penColor!50!white,very thick,] (axis cs: -1,0) arc (180:0:100 and 30);
+        \draw[penColor!50!white,very thick,] (axis cs: -2.9,-2.7) arc (180:0:290 and 50);
+        \draw[penColor,very thick,] (axis cs: -2.9,-2.7) arc (180:360:290 and 50);
+       
+        \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {sqrt(x^2-1)};%(sqrt(1+u^2) cos(v), sqrt(1+u^2) sin(v), u)
+        \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {sqrt(x^2-1)};    % v in 0 2pi % u is whatevs
+        \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {-sqrt(x^2-1)};
+        \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {-sqrt(x^2-1)};
+
+          \draw[->] (axis cs: -3,0)--(axis cs: 3,0);
+          \draw[->] (axis cs: 0,-3.5)--(axis cs: 0,3.5);
+          \draw[->] (axis cs: 1.2,2.1)--(axis cs: -1.2,-2.1);
+          \node[right] at (axis cs: 3,0) {$y$};
+          \node[above] at (axis cs: 0,3.5) {$z$};
+          \node[below] at (axis cs: -1.2,-2.1) {$x$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Which of the following lines lie on the surface $x^2+y^2=z^2+1$?
+  \begin{selectAll}% l(t) = (cos v,sin v, 0) + t(sin v,-cos v,1)% m(t) = (cos v,sin v, 0) + t(-sin v,cos v,1)
+    \choice{$\vector{1,0,0} + t\vector{-5,0,5}$}
+    \choice[correct]{$\vector{1,0,0} + t\vector{0,-3,3}$}
+    \choice[correct]{$\vector{0,1,0} + t\vector{-7,0,-7}$}
+    \choice{$\vector{0,1,0} + t\vector{-4,4,0}$}
+    \choice[correct]{$\vector{1/2,\sqrt{3}/2,0} + t\vector{-\sqrt{3},1,2}$}
+    \choice{$\vector{1/2,\sqrt{3}/2,0} + t\vector{-1,\sqrt{3},2}$}
+  \end{selectAll}
+  \begin{hint}
+    Separate each line into its component functions: $x$, $y$, and
+    $z$, and see if the equation defining the surface is valid for all
+    $t$.
+  \end{hint}
+\end{question}
 
 Though their formulation may be more complex, a vector-valued function
 that produces a curve is no different from that which produces a line
-(a line is a special type of curve!). Though there are some cases we should discuss.
+(a line is a special type of curve!).
 
-\subsection{Circles and ellipses}
 
-Given two orthogonal unit vectors, $\uvec{u}$ and $\uvec{v}$, and any
-other vector $\vec{p}$, the vector-valued function
-\[
-\vec{f}(t) = \vec{p}+r\cdot \cos(t)\cdot \uvec{u} + r \cdot \sin(t)\cdot\uvec{v}
-\]
-gives a circle of radius $r$, centered at the tip of $\vec{p}$, lying
-in the plane containing $\uvec{u}$ and $\uvec{v}$. Moreover, to produce
-an ellipse, we write:
-\[
-\vec{g}(t) = \vec{p}+a\cdot \cos(t)\cdot \uvec{u} + b \cdot \sin(t)\cdot\uvec{v}
-\]
+
+\begin{question}
+  Consider the unit sphere:
+  \[
+  x^2+y^2+z^2 = 1
+  \]
+  Which of the following curves lie on this sphere?
+  \begin{hint}
+    Separate each curve into its component functions: $x$, $y$, and
+    $z$, and see if the equation defining the surface is valid for all
+    $t$.
+  \end{hint}
+\end{question}
+
+
+
 
 \begin{question}
   Consider the surface determined by all $x$, $y$ and $z$ such that:
@@ -524,6 +578,33 @@ an ellipse, we write:
     $t$.
   \end{hint}
 \end{question}
+
+
+
+
+
+
+
+\section{Circles and ellipses}
+
+
+Though there are some cases we should discuss.
+
+
+
+Given two orthogonal unit vectors, $\uvec{u}$ and $\uvec{v}$, and any
+other vector $\vec{p}$, the vector-valued function
+\[
+\vec{f}(t) = \vec{p}+r\cdot \cos(t)\cdot \uvec{u} + r \cdot \sin(t)\cdot\uvec{v}
+\]
+gives a circle of radius $r$, centered at the tip of $\vec{p}$, lying
+in the plane containing $\uvec{u}$ and $\uvec{v}$. Moreover, to produce
+an ellipse, we write:
+\[
+\vec{g}(t) = \vec{p}+a\cdot \cos(t)\cdot \uvec{u} + b \cdot \sin(t)\cdot\uvec{v}
+\]
+
+
 
 
 \end{document}

@@ -30,20 +30,68 @@ of a (complicated) function at a given point.
 Given a function, a \textit{linear approximation} is a fancy phrase
 for something you already know:
 \begin{quote}
-  \textbf{The derivative is the slope of the tangent line.}
+  \textbf{The line tangent to the graph of a function at a point is very close to the graph of the function near that point.}
 \end{quote}
-Except in this section, the emphasis is on the \textbf{line}.
+This tangent line is the graph of a linear function, called  the \textbf{linear approximation}.
+\begin{example}
+The graph of a function $f$  and the line tangent to the curve
 
+ $y=f(x)$ at the point where $x=a$ are given in the figure below.
+Find the equation of the tangent line.
+ \begin{image}
+%\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=0,xmax=2,ymin=0,ymax=2,
+            axis lines=center,
+            ticks=none,
+            %width=3in,
+            %height=2in,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [ thick, penColor, smooth, domain=(0:3)] {3*sqrt(x)-2};
+          \addplot [thick, penColor2,smooth] {(3/2)*x+3/2-2};
+          \node at (axis cs:1.7,1.5) [penColor] {$y=f(x)$};
+          \node at (axis cs:1,1.5) [penColor2] {$y=L(x)$}; 
+          \node at (axis cs:1.3,1) [penColor2] {$(a,f(a))$}; 
+            \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1,1)};  %% closed hole         
+        \end{axis}
+\end{tikzpicture}
+%\caption{A linear approximation of $f(x) = \sin(x)$ at $x=0$.}
+%\label{figure:la sin}
+%\end{marginfigure}
+\end{image}
+Find the expression for $m$, the slope of the tangent line to the curve $y=f(x)$ at the point $(a,f(a))$.
+ Select the correct choice.
+ \begin{multipleChoice}
+
+ \choice{$m= f(a)$}
+  \choice[correct] {$m=f'(a)$}
+   \choice{$m= \frac{f(a)-f(0)}{a-0}$}
+     \choice{$m= \frac{f(a+h)-f(a)}{h}$}
+ \choice{ We don't have enough information to determine the slope.}
+  \end{multipleChoice}
+Since we know a point $(a,f(a))$ and the slope  $m$ of the tangent line, we can write an equation of the tangent line. 
+
+\[
+y= f'(a)(x-a) +f(a).
+\]
+We can define a function, $L$,  by $L(x)= f'(a)(x-a) +f(a)$. This function is linear, its graph is the line tangent to the curve $y=f(x)$ at the point where $x=a$.
+This function deserves a special name.
+\end{example}
 \begin{definition}\index{linear approximation}
-If $f$ is a differentiable function at $x=a$, then a \textbf{linear
+If $f$ is a function differentiable at $x=a$, then a \textbf{linear
   approximation} for $f$ at $x=a$ is given by
 \[
-\l(x) = f'(a)(x-a) +f(a).
+L(x) = f'(a)(x-a) +f(a).
 \]
 \end{definition}
 
 
-Note that $\l(x)$ is just the tangent line to $f(x)$ at $x=a$.
+Note that the graph of $L$ is just the tangent line to $f(x)$ at $x=a$.
 
 A linear approximation of $f$ is a ``good'' approximation as long as
 $x$ is ``not too far'' from $a$.
@@ -54,17 +102,16 @@ will see how linear approximations allow us to make approximate
 ``difficult'' computations.
 
 \begin{example}
-Use a linear approximation of $f(x) =\sqrt[3]{x}$ at $x=64$ to
+Use a linear approximation of $f(x) =\sqrt[3]{x}$ at $a=64$ to
 approximate $\sqrt[3]{50}$.
 \begin{explanation}
 To start, write
 \[
 \ddx f(x) = \ddx x^{1/3} = \frac{1}{\answer[given]{3x^{2/3}}}.
 \]
-So our linear approximation is
 \begin{align*}
-\l(x) &= \frac{1}{3\cdot 64^{2/3}} (x-64) + \answer[given]{4} \\
-&= \frac{1}{\answer[given]{48}} (x-64) + 4\\
+L(x) &= \answer[given]{4}+ \frac{1}{3\cdot 64^{2/3}} (x-64)  \\
+&=4+ \frac{1}{\answer[given]{48}} (x-64) \\
 &= \frac{x}{48} +\frac{8}{3}.
 \end{align*}
 \begin{image}
@@ -82,7 +129,7 @@ So our linear approximation is
           \addplot [textColor,dashed] plot coordinates {(64,0) (64,4)};
           \addplot [textColor,dashed] plot coordinates {(0,4) (64,4)};
           \node at (axis cs:20,2.3) [penColor] {$f$};
-          \node at (axis cs:20,3.3) [penColor2] {$\l$};
+          \node at (axis cs:20,3.3) [penColor2] {$L$};
           \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole            
         \end{axis}
 \end{tikzpicture}
@@ -90,14 +137,46 @@ So our linear approximation is
 %\label{figure:la sqrt3x}
 %\end{marginfigure}
 \end{image}
-Now we evaluate $\l(50) \approx 3.71$ and compare it to
+Now we evaluate $L(50) \approx 3.71$ and compare it to
 $\sqrt[3]{50}\approx 3.68$.  From this we see that the linear
 approximation, while perhaps inexact, is computationally \textbf{easier}
 than computing the cube root.
 \end{explanation}
+What would happen if we chose $a=27$ instead?
+Then we would use $L_{27}$, the linear approximation of $f$ at $a=27$.
+In that case, $L_{27}=f(27)+f'(27)(x-27)=3+\frac{1}{27}(x-27$.
+The graph of  $L_{27}$, together with the graphs of $f$ and $L=L_{64}$ is given in the figure below.
+\begin{image}
+%\begin{marginfigure}
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=1,xmax=100,ymin=0,ymax=5,
+            axis lines=center,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [very thick, penColor, samples=150,smooth,domain=(0:100)] {x^(1/3))};
+          \addplot [very thick, penColor2, domain=(0:100)] {x/48+8/3};
+            \addplot [very thick, penColor4, domain=(0:100)] {(x-27)/27+3};
+          \node at (axis cs:6,1.3) [penColor] {$f$};
+          \node at (axis cs:20,3.3) [penColor2] {$L_{64}$};
+           \node at (axis cs:6,2.5) [penColor4] {$L_{27}$};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole         
+            \addplot[color=penColor3,fill=penColor4,only marks,mark=*] coordinates{(27,3)};  %% closed hole    
+             \addplot[color=penColor3,fill=penColor,only marks,mark=*] coordinates{(50,0)};  %% closed hole     
+        \end{axis}
+\end{tikzpicture}
+%\caption{A linear approximation of $f(x) = \sqrt[3]{x}$ at $x=64$.}
+%\label{figure:la sqrt3x}
+%\end{marginfigure}
+\end{image}
+From the picture we can see that 
+
+ $L_{27}(50)>L_{64}(50)>f(50)$.
+ 
+ So, our choice, $a=64$, was better!
 \end{example}
-
-
 With modern calculators and computing software it may not appear
 necessary to use linear approximations. In fact they are quite
 useful. In cases requiring an explicit numerical approximation, they
@@ -108,7 +187,7 @@ otherwise intractable calculation possible, without serious loss of
 accuracy.
 
 \begin{example}%\label{exam:linear approximation of sine}
-Use a linear approximation of $f(x) =\sin(x)$ at $x=0$ to approximate
+Use a linear approximation of $f(x) =\sin(x)$ at $a=0$ to approximate
 $\sin(0.3)$.
 \begin{explanation}
 To start, write
@@ -117,7 +196,7 @@ To start, write
 \]
 so our linear approximation is
 \begin{align*}
-\l(x) &= \answer[given]{\cos(0)}\cdot(x-0) + 0\\
+L(x) &= 0+\answer[given]{\cos(0)}\cdot(x-0)\\
 &= x.
 \end{align*}
 \begin{image}
@@ -140,7 +219,7 @@ so our linear approximation is
           \addplot [very thick, penColor, samples=100,smooth, domain=(-1.6:1.6)] {sin(deg(x))};
           \addplot [very thick, penColor2, samples=100,smooth] {x};
           \node at (axis cs:1,.6) [penColor] {$f$};
-          \node at (axis cs:-1,-1.2) [penColor2] {$\l$};
+          \node at (axis cs:-1,-1.2) [penColor2] {$L$};
           \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
         \end{axis}
 \end{tikzpicture}
@@ -148,32 +227,21 @@ so our linear approximation is
 %\label{figure:la sin}
 %\end{marginfigure}
 \end{image}
-Hence a linear approximation for $\sin(x)$ at $x=0$ is $\l(x) = x$,
-and so $\l(0.3) = 0.3$.  Comparing this to $\sin(.3) \approx 0.295$,
+Hence, a linear approximation for $\sin(x)$ at $a=0$ is $\l(x) = x$,
+and so $L(0.3) = 0.3$.  Comparing this to $\sin(.3) \approx 0.295$,
 we see that the approximation is quite good. For this reason, it is common
-to approximate $\sin(x)$ with its linear approximation $\l(x) = x$
+to approximate $\sin(x)$ with its linear approximation $L(x) = x$
 when $x$ is near zero.  
 %see Figure~\ref{figure:la sin}.
 \end{explanation}
 \end{example}
 
-
-
 \section{Differentials}
 
-The notion of a \textit{differential} goes back to the origins of
-calculus, though our modern conceptualization of a differential is
-somewhat different than how they were initially understood.
+The  graph of a function $f$ and the graph of $L$, the linear approximation of $f$ at $a$, are shown in the figure below.
+Also, two quantities, $\d x$ and $\d f$, and a point $P$ are marked in the figure. Look carefully at the figure when answering the questions below.
 
-\begin{definition}
-Let $f$ be a differentiable function. We define a new independent
-variable $\d x$, and a new dependent variable
-\[
-\d f=f'(x)\cdot \d x.
-\] 
-The variables $\d x$ and $\d f$ are called
-\dfn{differentials}. Geometrically, differentials can be interpreted
-via the diagram below
+
 \begin{image}
 %\begin{marginfigure}[0in]
 \begin{tikzpicture}
@@ -188,9 +256,17 @@ via the diagram below
           \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(1.4,10/6) (1.7,10/6)};
 	  \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(1.7,10/6) (1.7,10/6 +.3/.36)};
           \addplot [very thick,penColor, smooth,samples=100,domain=(0:1.833)] {-1/(x-2)};
+            \addplot [very thick,penColor2, smooth,samples=100,domain=(0:1.833)] {1/0.6+(1/0.36)*(x-1.4)};
+  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.7,1/0.3)};  %% closed hole  
+   \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1.7,10/6 +.3/.36)};  %% closed hole  
           \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1.4,10/6)};  %% closed hole            
           \node at (axis cs:1.55,1.67) [below] {$\d x$};
           \node at (axis cs:1.7,2.08) [right] {$\d f$};
+            \node at (axis cs:1.15,1.85) [below] {$y=f(x)$};
+          \node at (axis cs:1.05,0.55) [right] {$y=L(x)$};
+           \node at (axis cs:1.24,2.0) [right] {$(a,f(a))$};
+            \node at (axis cs:1.478,3.315) [right] {$(x,f(x))$};
+              \node at (axis cs:1.68,2.8) [right] {$P$};
         \end{axis}
 \end{tikzpicture}
 %\caption{While $dy$ and $\d x$ are both variables, $dy$ depends on $\d x$,
@@ -199,12 +275,104 @@ via the diagram below
 %\label{figure:differentials}
 %\end{marginfigure}
 \end{image}
+\begin{question}
+  Select all the correct expressions for the quantity $\d x$.
+   \begin{hint}
+     You can see that $x=a+\d x$.
+    \end{hint}
+    \begin{selectAll}
+      \choice{$\d x=f(x)-f(a)$}
+            \choice{$\d x=f(x)-L(x)$}
+      \choice[correct]{$\d x=x-a$}
+      \choice{$\d x=L(x)-f(a)$}
+          \choice{$\d x=L(x)-L(a)$}
+    \end{selectAll}
+   
+  \end{question}
+  \begin{question}
+  Select all the correct expressions for the quantity $\d f$.
+   \begin{hint}
+     You can see that $L(x)=f(a)+\d f$.
+    \end{hint}
+      \begin{hint}
+    Recall: $L(a)=f(a)$.
+    \end{hint}
+    \begin{selectAll}
+       \choice{$\d f=f(x)-f(a)$}
+            \choice{$\d f=f(x)-L(x)$}
+      \choice{$\d f=x-a$}
+      \choice[correct]{$\d f=L(x)-f(a)$}
+          \choice[correct]{$\d f=L(x)-L(a)$}
+         
+    \end{selectAll}
+   
+  \end{question}
+
+ \begin{question}
+Based on  the figure and the expression for $L(x)$, select all the correct expressions for $\d f$.
+ \begin{hint}
+    Recall: $\d f=L(x)-f(a)=f(a)+f'(a)(x-a)-f(a)=f'(a)(x-a)=f'(a)\d x$.
+    \end{hint}
+    \begin{multipleChoice}
+      \choice[correct]{ $\d f=f'(a)(x-a)$}
+      \choice[correct]{ $\d f=f'(a)\d x$}
+  \choice{$\d f=f'(x-a)$}
+    \choice{$\d f=f'(x)\d x$}
+    \choice{$\d f=f'(x)(x-a)$}
+    \end{multipleChoice}
+  \end{question}
+  
+ So, we can write $\d f=f'(a)\d x$ and call it a \textbf{differential} of $f$ at $a$. Notice, that $f'(a)$ is a constant, therefore $\d f$ is a linear function of a variable $\d x$.
+Notice that we can define a differential at any point $x$ of the domain of $f$, provided that $f'(x)$ exists.
+We will  do that in our next definition.
+\begin{definition}
+Let $f$ be a differentiable function. 
+We define  $\d f$, a differential of $f$,  at a point $x$ by 
+\[
+\d f=f'(x)\cdot \d x
+\] 
+where $\d x$ is an independent variable that  is called a \textbf{differential of $x$}.
+ Geometrically, differentials can be interpreted via the diagram below.
+\begin{image}
+%\begin{marginfigure}[0in]
+\begin{tikzpicture}
+	\begin{axis}[
+            xmin=1, xmax=2, range=0:6,ymax=6,ymin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            ticks=none,
+            axis on top,
+          ]         
+          \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(1.4,10/6) (1.7,10/6)};
+	  \addplot [draw=black,dashed,->,>=stealth'] plot coordinates {(1.7,10/6) (1.7,10/6 +.3/.36)};
+          \addplot [very thick,penColor, smooth,samples=100,domain=(0:1.833)] {-1/(x-2)};
+            \addplot [very thick,penColor2, smooth,samples=100,domain=(0:1.833)] {1/0.6+(1/0.36)*(x-1.4)};
+  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1.7,1/0.3)};  %% closed hole  
+   \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1.7,10/6 +.3/.36)};  %% closed hole  
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(1.4,10/6)};  %% closed hole            
+          \node at (axis cs:1.55,1.67) [below] {$\d x$};
+          \node at (axis cs:1.7,2.08) [right] {$\d f$};
+            \node at (axis cs:1.15,1.85) [below] {$f$};
+          \node at (axis cs:1.05,0.55) [right] {$L$};
+           \node at (axis cs:1.24,2.0) [right] {$(x,f(x))$};
+            \node at (axis cs:1.26,3.6) [right] {$(x+\d x,f(x+\d x))$};
+          
+        \end{axis}
+\end{tikzpicture}
+%\caption{While $dy$ and $\d x$ are both variables, $dy$ depends on $\d x$,
+  %and approximates how much a function grows after a change of size
+  %$\d x$ from a given point.}
+%\label{figure:differentials}
+%\end{marginfigure}
+\end{image}
+
 Note, it is now the case (by definition!) that 
 \[
-\frac{\d f}{\d x} = f'(x).
+ f'(x)=\frac{\d f}{\d x}.
 \]
 \end{definition}
-
+We should not be surprised, since the slope of the tangent line in the figure is $f'(x)$,  and this slope is also given by $\frac{\d f }{\d x}$.
 \begin{question}
   The differential $\d x$ is:
   \begin{multipleChoice}
@@ -237,7 +405,11 @@ f'(x)\cdot \d x &\approx f(x+\d x)-f(x)\\
 \end{align*}
 Adding $f(x)$ to both sides we see
 \[
-f(x+\d x)\approx f(x) + \d f.
+f(x) + \d f\approx f(x+\d x)
+\]
+or, equivalently
+\[
+f(x+\d x)\approx f(x) + \d f .
 \]
 While this is something of a ``sleight of hand'' with variables, there
 are contexts where the language of differentials is common. Here is
@@ -259,7 +431,7 @@ We will repeat our previous examples using differentials.
 Use differentials to approximate $\sqrt[3]{50}$.
 \begin{explanation}
   Set $f(x) = \sqrt[3]{x}$. We want to know $\sqrt[3]{50}$.  Since
-  $4^3 = 64$, we set $x=64$.  Setting $\d x=-14$, we have
+  $4^3 = 64$, we set $x=64$.  Setting $\d x=50-64=-14$, we have
   \begin{align*}
   \sqrt[3]{50} = f(x + \d x) &\approx  f(x) + \d f\\
   &\approx \sqrt[3]{64} + \d f.
@@ -437,15 +609,27 @@ $x$. Essentially, $\Delta x$ and $\d x$ are the same type of thing,
 they are (usually small) changes in $x$. However, $\Delta y$ and $\d
 y$ are very different things.
 \begin{itemize}
-\item $\Delta y$ is the change of $y$ associated to $\Delta x$.
-\item $\d y$ is the change in $y$ needed to make the following relation true:
+\item $\Delta y=f(x+\Delta x)-f(x)$; it  is the change in $y=f(x)$ associated to $\Delta x$.
+\item $\d y=L(x+\d x)-L(x)$, it is the change in $y=L(x)$ associated to $\Delta x=\d x$.
   \[
-  \d y = f'(x)\d x
+  \d y =f'(x)\d x
+  \]
+  Note: $ L(x+\d x)= f(x)+f'(x)\d x$.
+   
+  So, the change
+   \[
+  \d y = L(x+\d x)-L(x)= f(x)+f'(x)\d x-L(x)= f(x)+f'(x)\d x-f(x)=f'(x)\d x
   \]
 \end{itemize}
 \begin{question}
   Suppose $f(x) = x^2$. If we are at the point $x=1$ and $\Delta x =\d x
   = 0.1$, what is $\Delta y$? What is $\d y$?
+  \begin{hint}
+ $ \Delta y=f(1+\Delta x)-f(1)=f(1.1)-f(1)$
+    \end{hint}
+      \begin{hint}
+ $\d y=f'(1)\cdot\d x=f'(1)\cdot0.1$
+    \end{hint}
   \begin{prompt}
     \[
     \Delta y = \answer{0.21}\qquad \d y = \answer{0.2}

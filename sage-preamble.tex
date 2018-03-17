@@ -1,9 +1,16 @@
 \usepackage{currfile}
 
 \makeatletter
+\ifxake
+% The code below the \else is executed in a sagecell on the Ximera
+% server, so \makerandom doesn't have to do anything when run under
+% xake.
+\newcommand{\makerandom}{}
+\else
 \newcommand{\makerandom}{%
   \ST@wsf{jobname="\currfilebase"}%
   \ST@wsf{import hashlib}%
   \ST@wsf{set_random_seed(int(hashlib.sha256(jobname.encode('utf-8')).hexdigest(), 16))}%
 }
+\fi
 \makeatother

@@ -1,0 +1,53 @@
+\documentclass{ximera}
+
+\title{Derivative flashcards}
+\author{Jim Fowler}
+
+\input{../../sage-preamble.tex}
+
+\begin{document}
+\begin{abstract}
+  Practice taking derivatives.
+\end{abstract}
+\maketitle
+\makerandom
+
+\begin{sagesilent}
+  vs = ['x','y','z','w']
+  x = var(vs[randint(0,len(vs)-1)])
+
+  Fs = ['f','g','h','F','G','H']
+  F = var(Fs[randint(0,len(Fs)-1)])
+  
+  def random_expression(depth):
+    if depth == 0:
+      return [x,1,-1][randint(0,2)]
+    else:
+      possible = [
+        lambda: random_expression(depth-1) + random_expression(depth-1),
+        lambda: random_expression(depth-1) - random_expression(depth-1),
+        lambda: random_expression(depth-1) * random_expression(depth-1),
+        lambda: random_expression(depth-1) / random_expression(depth-1),
+        lambda: sin(random_expression(depth-1)),
+        lambda: cos(random_expression(depth-1)),
+        lambda: exp(random_expression(depth-1))
+      ]
+      result = possible[randint(0,len(possible)-1)]()
+      if result.is_zero():
+        result = 1
+      return result
+
+  f = random_expression(4)
+  while (derivative(f,x).is_zero()) or (len(latex(derivative(f,x))) > 40):
+    f = random_expression(randint(1,4))
+\end{sagesilent}
+
+\begin{exercise}
+
+  Suppose $\sage{F}(\sage{x}) = \sage{f}$.
+
+  Then $\sage{F}'(\sage{x}) = \answer{\sage{derivative(f,x)}}$.
+
+\end{exercise}
+
+\end{document}

@@ -604,29 +604,29 @@ Sometimes lines lie on surprising surfaces:
   \begin{image}
     \begin{tikzpicture}
       \begin{axis}[
-          xmin=-4, xmax=4,
+          xmin=-4, xmax=4, ymin =-4, ymax = 4,
           clip=false,
           width=4in,
           height=2in,
           axis lines =none,
         ]
-        \draw[penColor,very thick,fill=fillp] (axis cs:0,2.8) ellipse (290 and 50);
-        \draw[penColor,very thick,] (axis cs: -1,0) arc (180:360:100 and 30);
-        \draw[penColor!50!white,very thick,] (axis cs: -1,0) arc (180:0:100 and 30);
-        \draw[penColor!50!white,very thick,] (axis cs: -2.9,-2.7) arc (180:0:290 and 50);
-        \draw[penColor,very thick,] (axis cs: -2.9,-2.7) arc (180:360:290 and 50);
-       
+        \addplot [penColor,very thick,fill=fillp,domain=0 :360,smooth] ({2.9*cos(x)},{.5*sin(x)+2.8});
+        \addplot [penColor,very thick,domain=180 :360,smooth] ({cos(x)},{.3*sin(x)});
+        \addplot [penColor!50!white,very thick,domain=0 :180,smooth] ({cos(x)},{.3*sin(x)});
+        \addplot [penColor,very thick,domain=180 :360,smooth] ({2.9*cos(x)},{.5*sin(x)-2.7});
+        \addplot [penColor!50!white,very thick,domain=0 :180,smooth] ({2.9*cos(x)},{.5*sin(x)-2.7});
+         
         \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {sqrt(x^2-1)};%(sqrt(1+u^2) cos(v), sqrt(1+u^2) sin(v), u)
         \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {sqrt(x^2-1)};    % v in 0 2pi % u is whatevs
         \addplot [penColor,very thick,domain=1:2.9,smooth,samples=100] {-sqrt(x^2-1)};
         \addplot [penColor,very thick,domain=-2.9:-1,smooth,samples=100] {-sqrt(x^2-1)};
 
-          \draw[->] (axis cs: -3,0)--(axis cs: 3,0);
-          \draw[->] (axis cs: 0,-3.5)--(axis cs: 0,3.5);
-          \draw[->] (axis cs: 1.2,2.1)--(axis cs: -1.2,-2.1);
-          \node[right] at (axis cs: 3,0) {$y$};
-          \node[above] at (axis cs: 0,3.5) {$z$};
-          \node[below] at (axis cs: -1.2,-2.1) {$x$};
+        \draw[->] (axis cs: -3,0)--(axis cs: 3,0);
+        \draw[->] (axis cs: 0,-3.5)--(axis cs: 0,3.5);
+        \draw[->] (axis cs: 1.2,2.1)--(axis cs: -1.2,-2.1);
+        \node[right] at (axis cs: 3,0) {$y$};
+        \node[above] at (axis cs: 0,3.5) {$z$};
+        \node[below] at (axis cs: -1.2,-2.1) {$x$};
       \end{axis}
     \end{tikzpicture}
   \end{image}
@@ -661,7 +661,12 @@ that produces a curve is no different from that which produces a line
     $z$, and see if the equation defining the surface is valid for all
     $t$.
   \end{hint}
-  \choice
+  \begin{selectAll}
+    \choice[correct]{$\vector{\cos(t),\sin(t),0}$}
+    \choice[correct]{$\vector{\sin(t),0,\cos(t)}$}
+    \choice[correct]{$\vector{\cos(t),\sin(t),1}/\sqrt{2}$}
+    \choice[correct]{$\vector{\sin(t),\sin(t),\cos(t)}/\sqrt{2}$}
+  \end{selectAll}
 \end{question}
 
 

@@ -523,7 +523,162 @@ work. Moreover, merely \emph{understanding} the examples above will
 probably not be enough for you to become proficient in computing
 antiderivatives. You must practice, practice, practice!
 
+\section{Differential equations}
+
+  Differential equations show you relationships between rates of
+  functions.
 
 
 
+A \textit{differential equation}\index{differential equation} is
+simply an equation with a derivative in it. Here is an example:
+\[
+a\cdot f'(x)+ b\cdot f(x) = g(x). 
+\]
+\begin{question}
+  What is a differential equation?
+  \begin{multipleChoice}
+    \choice{An equation that you take the derivative of.}
+    \choice[correct]{An equation that relates the rate of a function to other values.}
+    \choice{It is a formula for the slope of a tangent line at a given point.}  
+  \end{multipleChoice}
+\end{question}
+
+When a mathematician solves a differential equation, they are finding
+\textit{functions} satisfying the equation.
+\begin{question}
+  Which of the following functions solve the differential equation
+  \[
+  f'(x) = f(x)?
+  \]
+  \begin{selectAll}
+    \choice{$f(x) = \sin(x)$}
+    \choice{$f(x) = x^2$}
+    \choice[correct]{$f(x) = e^x$}
+     \choice[correct]{$f(x) =6 e^x$}
+    \choice{$f(x) = e^{-x}$}
+    \choice{$f(x) = \tan(x)$}
+  \end{selectAll}
+  \begin{feedback}
+    It turns out that the complete solution to this differential equation
+    is $Ce^x$, i.e., all the solutions of this differential equation have this form. 
+    
+    Showing that any function $y=Ce^x$ is a solution of this  differential equation is easy, but showing that \textbf{all} of the solutions have this form is beyond the scope of this course.  
+    
+      A function $Ce^x$ is called a \dfn{general solution} of the differential equation. 
+      
+   Since there are infinitely many solutions to a differential equation, we can impose additional condition, called an \dfn{initial condition}, e.g. $f(0)=1$.
+   
+   
+   The problem now is to find a function $f$ that satisfies both the differential equation (DE) and the initial condition (IC).
+     \[
+  f'(x) = f(x) \hspace{0.3in}(DE)  
+   \]  
+  \[
+  f(0) =1   \hspace{0.46in}(IC)  
+  \]
+   This is called an \dfn{initial value problem} (IVP). 
+      
+   The figure below shows several solutions of the differential equation. 
+     \begin{image}
+          \begin{tikzpicture}
+	    \begin{axis}[
+            domain=-3:3,
+            xmin=-3, xmax=3,
+            ymin=-6
+           , ymax=6,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {e^x};
+         \addplot [very thick, penColor2, smooth] {2*e^x};
+    \addplot [very thick, penColor2, smooth] {-2*e^x};
+        \addplot [very thick, penColor2, smooth] {-e^x};
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,1)};  %% closed hole 
+          \node at (axis cs:1.6,2.3) [penColor] {$f(x)=e^x$};
+          \node at (axis cs:2.25,-5) [penColor2] {$y=-e^x$};
+          \node at (axis cs:0.25,-5) [penColor2] {$y=-2e^x$};
+            \node at (axis cs:0.54,5.5) [penColor2] {$y=2e^x$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+The figure suggests that the only solution to the initial value problem is the function $f(x)=e^x$.
+We can verify this result.
+
+Since all solutions of the differential equation have the form $f(x)=Ce^x$ and $f(0)=1$, it follows that 
+  \[
+  Ce^0 = 1.
+  \]
+Therefore,
+ \[
+  C = \answer[given]{1}.
+  \]
+  So, the \textbf{unique} solution of the given initial value problem is the function $f(x)=e^x$.
+  \end{feedback}
+\end{question}
+
+\begin{example}
+Solve the initial value problem (IVP):
+\[
+f'(x)=\sin{x}
+\]
+\[
+f(0)=-1
+\]
+\begin{explanation}
+First, we have to solve the differential equation. The solution is clearly an antiderivative of $\sin{x}$.
+\[
+f(x)=-\answer[given]{\cos{x}}+C,
+\]
+where $C$ is an arbitrary constant. We have found the general solution of the DE  and this family of solutions is shown in the figure below. 
+   \begin{image}
+          \begin{tikzpicture}
+	    \begin{axis}[
+            domain=-3:3,
+            xmin=-3, xmax=3,
+            ymin=-3
+           , ymax=3,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {-cos(deg(x))};
+         \addplot [very thick, penColor2, smooth] {1-cos(deg(x))};
+    \addplot [very thick, penColor2, smooth] {3-cos(deg(x))};
+     \addplot [very thick, penColor2, smooth] {2-cos(deg(x))};
+        \addplot [very thick, penColor2, smooth] {-1-cos(deg(x))};
+          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-1)};  %% closed hole 
+          \node at (axis cs:0,-1.1) [penColor] {$f(x)=-\cos{x}$};
+          \node at (axis cs:0,-2.2) [penColor2] {$y=-\cos{x}-1$};
+         \node at (axis cs:0.2,-0.1) [penColor2] {$y=-\cos{x}+1$};
+            \node at (axis cs:0,0.9) [penColor2] {$y=-\cos{x}+2$};
+             \node at (axis cs:0,1.8) [penColor2] {$y=-\cos{x}+3$};
+            \node at (axis cs:0.54,5.5) [penColor2] {$y=2e^x$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+Now, we have to find the solution that also satisfies the initial condition 
+
+$f(0)=-1$.
+
+Since
+\[
+f(0)=\answer[given]{-1}+C,
+\]
+ it follows that
+\[
+-1=\answer[given]{-1}+C.
+\]
+Therefore,
+\[
+C=\answer[given]{0}.
+\]
+The function 
+\[
+f(x)=\answer[given]{-\cos{x}}.
+\]
+is the solution of the initial value problem and it is shown in the figure above.
+\end{explanation}
+\end{example}
 \end{document}

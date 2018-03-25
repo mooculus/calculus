@@ -34,29 +34,68 @@ for all $x$ in the interval.
 
 \begin{question}
   How many antiderivatives does $f(x) = 2x$ have?
+  
   \begin{multipleChoice}
     \choice{none}
     \choice{one}
     \choice[correct]{infinitely many}
   \end{multipleChoice}
   \begin{feedback}
-    The functions $x^2$, $x^2+1$, $x^2-5$, and so on, are all
+   \begin{image}
+          \begin{tikzpicture}
+	    \begin{axis}[
+            domain=-3:3,
+            xmin=-3, xmax=3,
+            ymin=-2, ymax=6
+         ,
+            axis lines =middle, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+	  \addplot [very thick, penColor, smooth] {x^2};
+         \addplot [very thick, penColor2, smooth] {x^2-1.5};
+    \addplot [very thick, penColor2, smooth] {x^2+2};
+        \addplot [very thick, penColor2, smooth] {x^2+5};
+          \node at (axis cs:-0.004,2.6) [penColor2] {$F(x)+2$};
+          \node at (axis cs:-0.004,.7) [penColor] {$F(x)=x^2$};
+          \node at (axis cs:-0.004,-0.9) [penColor2] {$F(x)-1.5$};
+            \node at (axis cs:-0.004,4.7) [penColor2] {$F(x)+5$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{A plot of $f(x)=x^2$ and $f^{-1}(x) = \sqrt{x}$. While
+%%   $f(x)=x^2$ is not one-to-one on $\RR$, it is one-to-one on
+%%   $[0,\infty)$.}
+%% \label{plot:fxn and inverse x^2}
+\end{image}
+    The functions $x^2$, $x^2-1.5$, $x^2+2$, $x^2+5$ and so on, are all
     antiderivatives of $2x$.
+    
+     It is clear that any function $x^2+C$, where $C$ is a constant, is an antiderivative of $f$. Why?
+    Because, $(x^2+C)'=2x=f(x)$.
+    
+     Could there exist any other antiderivative of $f$, call it $G$, such that $G(x)$ is not a sum of $x^2$ and a constant?
+    In that case, for all $x$  we would have
+  \[
+  (G(x)-x^2)' = G'(x)-2x=f(x)-2x= \answer[given]{0}\\
+\]
   \end{feedback}
+  Recall: Any function whose derivative is equal to $0$ on some interval is equal to a constant on that interval.
+  This means that the function $G(x)-x^2=C$, for some constant $C$. This implies that $G(x)=x^2+C$, for all x.
 \end{question}
+\begin{theorem}[The Family of Antiderivatives]\label{theorem:FOA}
 
-There are two common ways to notate antiderivatives, either with a
-capital letter or with a funny symbol:
-
+If $F$ is an antiderivative of $f$, then the function $f$ has a whole \textbf{family of antiderivatives}. Each antiderivative of $f$ is the sum of $F$ and some constant $C$.
+\end{theorem}
+So, when we write $F(x)+C$, we denote the entire family of antiderivatives of $f$.  Alternative notation for this family of antiderivatives was introduced by G.W.Leibniz(1646-1716):
+ 
 \begin{definition}\index{antiderivative!notation}\index{indefinite integral}
-The antiderivative is denoted by
+If $F$ is an antiderivative of $f$, then the family of  antiderivatives is denoted by
 \[
 \int f(x) \d x = F(x)+C,
 \]
-where $dx$ identifies $x$ as the variable and $C$ is a constant
-indicating that there are many possible antiderivatives, each varying by
-the addition of a constant.  This is often called the
-\dfn{indefinite integral}.
+where $dx$ identifies $x$ as the variable and $C$ is a constant.
+This is often called the
+\dfn{indefinite integral} of $f$.
 \end{definition}
 
 Fill out these basic antiderivatives. Note each of these examples comes
@@ -114,7 +153,7 @@ and the \textit{chain rule}. The analogues of these two rules are much
 more difficult to deal with when taking antiderivatives. However, not
 all is lost. 
 
-First, consider the following example.
+Consider the following example.
 \begin{example}
   Find  an antiderivative of the function $h$ defined by expression
   
@@ -132,11 +171,11 @@ First, consider the following example.
 \end{example}
 It is easy to recognize an antiderivative: we just have to differentiate it, and check wether $H'(x)=h(x)$, for all $x$ in $I$.
 
-Notice, that the function $h$ is the sum of the two functions, $f$ and $g$, where $f(x)=\cos{x}$ and $g(x)=\frac{1}{x}$.
+Notice, that the function $h$ is the sum of the two functions, $f$ and $g$, where $f(x)=\cos{x}$ and $g(x)=\frac{1}{x}$, for $x$ in $I$.
 
-We know antiderivatives of both functions:  $F(x)=\sin{x}$ and $G(x)=\ln{x}$ are antiderivatives of $f$ and $g$, respectively.
+We know antiderivatives of both functions:  $F(x)=\sin{x}$ and $G(x)=\ln{x}$,  for $x$ in $I$, are antiderivatives of $f$ and $g$, respectively.
 So, in this example we see that the function  $F+G$ is an antiderivative of $f+g$.
-In other words, the sum of antiderivatives is an antiderivative of a sum.
+In other words, "the sum of antiderivatives is an antiderivative of a sum".
 
 Is this true in general? 
 
@@ -173,7 +212,7 @@ Let's consider the following example.
 \begin{example}
   Find  an antiderivative of the function $h$, where
   
-   $h(x)=5\sec^{2}{x}$,  for $x$ in some interval $I$.
+   $h(x)=5\sec^{2}{x}$,  for all $x$ in some interval $I$.
   \begin{multipleChoice}
   \choice[correct]{$H(x)=5\tan{x}$}
     \choice{$H(x)=5\sec^{2}{x}$}
@@ -189,21 +228,21 @@ It is easy to recognize an antiderivative: we just have to differentiate it, and
 
 Notice, in this example the function $h$ is a constant multiple of $f$, 
 
-where $f(x)=\sec^{2}{x}$. We also happen to know that the function $F$, defined by 
+where $f(x)=\sec^{2}{x}$. On the other hand, we know that the function $F$, defined by 
 $F(x)=\tan{x}$ is an antiderivative of $f$.
 
 If we  differentiate the function $5F$, we get that
 
   $\left(5F(x)\right)'=\left(5\tan{x}\right)'=5\left(\tan{x}\right)'=5\sec^{2}{x}=5f(x)$, for $x$ in $I$.
   
-  In other words, a constant multiple of an antiderivative is an antiderivative of a constant multiple of a function.
+  In other words, "a constant multiple of an antiderivative is an antiderivative of a constant multiple of a function".
 Is this always true?
 
 Let's check whether this rule holds for  any constant $k$ and any eligible  function $f$ defined on some interval $I$.
  \begin{question}
 Let $k$ be a constant, let $f$ be a function defined on some interval $I$ and let $F$ be an antiderivative of $f$, i.e.
 
-$F'(x)=f(x)$, for  $x$ in some interval $I$.
+$F'(x)=f(x)$, for all  $x$ in some interval $I$.
 
   Find an antiderivative of the function $k f$.
     \begin{hint}
@@ -289,6 +328,7 @@ antiderivatives is guess-and-check.
 %\begin{guessingAntiderivatives}\hfil
 \paragraph{Tips for guessing antiderivatives}
 \begin{enumerate}
+\item Simplify, if possible, the function that you are integrating.
 \item Make a guess for the antiderivative.
 \item Take the derivative of your guess.
 \item Note how the above derivative is different from the function
@@ -297,18 +337,72 @@ antiderivatives is guess-and-check.
   or by \textbf{adding} in new functions.
 \end{enumerate}
 %\end{guessingAntiderivatives}
+\begin{example}
+  Compute:
+  \[
+  \int \cos{(4x)} \d x
+  \]
+  \begin{explanation}
+   
+   Start with a guess of 
+    \[
+    \int \cos{(4x)} \d x \approx \sin{(4x)}.
+    \]
+    Take the derivative of your guess to see if it is correct:
+    \[
+    \ddx  \sin{(4x)} = 4 \cos{(4x)}.
+    \]
+    We're off by a factor of $\frac{1}{4}$, so multiply your guess by this constant
+    to get the solution,
+    \[
+  \int \cos{(4x)} \d x = \answer[given]{\frac{1}{4}\sin{(4x)}}+C.
+    \]
+\end{explanation}
+\end{example}
+\begin{example}
+  Compute:
+  \[
+  \int 3x^2\sin{(x^3 -6)} \d x
+  \]
+  \begin{explanation}
+    Start with a guess of 
+    \[
+ \int 3x^2\sin{(x^3 -6)} \d x \approx -\cos{(x^3 -6)}.
+    \]
+    Take the derivative of your guess to see if it is correct:
+    \[
+    \ddx \left(-\cos{(x^3 -6)}\right) = 3x^2\sin{(x^3 -6)}.
+    \]
+   Therefore,
+    \[
+    \int 3x^2\sin{(x^3 -6)} \d x
+ =- \cos{(\answer[given]{x^3 -6})}+C.
+    \]
+\end{explanation}
+\end{example}
 
-\begin{template}\label{template:powerchain}
-If the indefinite integral looks \emph{something} like
-\[
-\int \mathrm{stuff}' \cdot (\mathrm{stuff})^n \d x
-\]
-guess
-\[
-\mathrm{stuff}^{n+1}
-\]
-where $n\ne -1$.
-\end{template}
+\begin{example}
+  Compute:
+  \[
+  \int x^2\sin{(x^3 -6)} \d x
+  \]
+  \begin{explanation}
+    Start with a guess of 
+    \[
+ \int x^2\sin{(x^3 -6)} \d x \approx -\cos{(x^3 -6)}.
+    \]
+    Take the derivative of your guess to see if it is correct:
+    \[
+    \ddx \left(-\cos{(x^3 -6)}\right) = 3x^2\sin{(x^3 -6)}.
+    \]
+    We're off by a factor of $1/3$, so multiply our guess by this constant
+    to get the solution,
+    \[
+    \int x^2\sin{(x^3 -6)} \d x
+ =- \answer[given]{\frac{1}{3}}\cos{(x^3 -6)}+C.
+    \]
+\end{explanation}
+\end{example}
 
 \begin{example}
   Compute:
@@ -331,61 +425,52 @@ where $n\ne -1$.
     We're off by a factor of $2/4$, so multiply our guess by this constant
     to get the solution,
     \[
-    \int \frac{x^3}{\sqrt{x^4 -6}} \d x = \answer[given]{(2/4)(x^4 -6)^{1/2}}+C.
+    \int \frac{x^3}{\sqrt{x^4 -6}} \d x = \answer[given]{\frac{1}{2}}(x^4 -6)^{1/2}+C.
     \]
 \end{explanation}
 \end{example}
 
-
-\begin{template}\label{template:echain}
-If the indefinite integral looks \emph{something} like
-\[
-\int \mathrm{junk}\cdot e^{\mathrm{stuff}} \d x
-\]
-guess
-\[
-e^{\mathrm{stuff}} \text{ or }\mathrm{junk} \cdot e^{\mathrm{stuff}}.
-\]
-\end{template}
-
-
 \begin{example}
 Compute:
 \[
-\int xe^{x} \d x
+\int xe^{x^2} \d x
 \]
 \begin{explanation}
 We try to guess the antiderivative. Start with a guess of
 \[
-\int xe^x \d x \approx xe^x.
+\int xe^{x^2} \d x \approx e^{x^2}.
 \]
 Take the derivative of your guess to see if it is correct:
 \[
-\ddx xe^x = e^x + xe^x.
+\ddx e^{x^2} = 2xe^{x^2} .
 \]
-Ah! So we need only subtract $e^x$ from our original guess.  We now
+Ah! So we need only multiply our original guess by $\frac{1}{2}$.  We now
 find
 \[
-\int xe^x \d x =\answer[given]{xe^x - e^x} + C.
+\int xe^{x^2} \d x =\answer[given]{\frac{1}{2}}e^{x^2} + C.
 \]
 \end{explanation}
 \end{example}
-
-
-
-
-
-\begin{template}\label{template:lnchain}
-If the indefinite integral looks \emph{something} like
+\begin{example}
+Compute:
 \[
-\int \frac{\mathrm{stuff}'}{\mathrm{stuff}}\d x
+\int \frac{21x^2}{7x^3 + 3} \d x
 \]
-guess
+\begin{explanation}
+We notice that the numerator is the derivative of the denominator, i.e., the function that we are integrating has the form $\frac{f'(x)}{f(x)}$.
 \[
-\ln(\mathrm{stuff}).
+\int \frac{21x^2}{7x^3 + 3} \d x = \ln(7x^3+3).
 \]
-\end{template}
-
+Take the derivative of your guess to see if it is correct:
+\[
+\ddx \ln(7x^3+3) = \frac{21x^2}{7x^3 + 3}.
+\]
+Therefore,
+\[
+\int \frac{21x^2}{7x^3 + 3} \d x = \ln{(\answer[given]{7x^3+3})}+C.
+\]
+\end{explanation}
+\end{example}
 \begin{example}
 Compute:
 \[
@@ -409,55 +494,27 @@ original guess by this constant to get the solution,
 \end{example}
 
 
-
-
-\begin{template}\label{template:trigchain}
-If the indefinite integral looks \emph{something} like
-\[
-\int \mathrm{junk}\cdot \sin(\mathrm{stuff}) \d x
-\]
-guess
-\[
-\cos(\mathrm{stuff}) \text{ or }\mathrm{junk}\cdot \cos(\mathrm{stuff}),
-\]
-likewise if you have 
-\[
-\int \mathrm{junk}\cdot \cos(\mathrm{stuff}) \d x
-\]
-guess
-\[
-\sin(\mathrm{stuff}) \text{ or }\mathrm{junk}
-\cdot \sin(\mathrm{stuff}).
-\]
-\end{template}
-
-
-
 \begin{example}
 Compute:
 \[
-\int x^4\sin(3x^5+7) \d x
+\int \frac{\sqrt{x}+1+x}{x} \d x
 \]
 \begin{explanation}
-Here we simply try to guess the antiderivative. Start with a guess of
+Before guessing the solution, let's simplify the function we are integrating.
 \[
-\int x^4\sin(3x^5+7)\d x \approx \cos(3x^5+7).
+\int \frac{\sqrt{x}+1+x}{x} \d x=
+\int \left(\frac{\sqrt{x}}{x}+\frac{1}{x}+\frac{x}{x}\right) \d x=\int \left(\frac{1}{\sqrt{x}}+\frac{1}{x}+1\right) \d x
 \]
-To see if your guess is correct, take the derivative of $\cos(3x^5+7)$,
+Now, we can apply the Sum Rule.
 \[
-\ddx \cos(3x^5+7) = -15x^4\sin(3x^5+7).
+\int \frac{\sqrt{x}+1+x}{x} \d x=\int \frac{1}{\sqrt{x}}\d x+\int\frac{1}{x}\d x+\int1 \d x
 \]
-We are off by a factor of $-1/15$. Hence we should multiply our
-original guess by this constant to find
+Now we can finish the problem.
 \[
-\int x^4\sin(3x^5+7) \d x = \answer[given]{\frac{-\cos(3x^5+7)}{15}} + C.
+\int \frac{\sqrt{x}+1+x}{x} \d x=  \answer[given]{2}\sqrt{x}+\ln{x}+ \answer[given]{x} + C.
 \]
 \end{explanation}
 \end{example}
-
-
-
-
 
 \section{Final thoughts}
 Computing antiderivatives is a place where insight and rote

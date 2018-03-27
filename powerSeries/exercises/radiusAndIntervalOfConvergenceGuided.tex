@@ -1,0 +1,197 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\pgfplotsset{compat=1.13}  %%%JIM
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-bC}
+
+
+\outcome{}
+
+
+\begin{document}
+\begin{exercise}
+Consider the power series $f(x) = \sum_{k=0}^{\infty} \frac{2^k}{5k-1}(x-1)^{k}$.
+
+We want to determine the radius and interval of convergence for this power series. 
+
+First, we use the Ratio Test to determine the radius of convergence. 
+
+To do this, we'll think of the power series as a sum of functions of $x$ by writing: 
+
+\[
+\sum_{k=0}^{\infty} \frac{2^k}{5k-1}(x-1)^{k} = \sum_{k=0}^{\infty} b_k(x)
+\]
+
+We need to determine the limit $L(x) = \lim_{k \to \infty} \left| \frac{b_{k+1}(x)}{b_k(x)}\right|$, where we have explicitly indicated here that this limit likely depends on the $x$-value we choose. 
+
+We calculate $b_{k+1}(x)=\answer{\frac{2^{k+1}}{5k+4}(x-1)^{k+1}}$ and $b_k(x)=\answer{ \frac{2^k}{5k-1}(x-1)^k}$. 
+
+\begin{exercise}
+
+Simplifying the ratio $\left|\frac{b_{k+1}}{b_k}\right|$ gives us $\left|\frac{b_{k+1}}{b_k}\right|=\answer{\frac{2(5k-1)}{5k-4} |x-1|}$.
+
+
+\begin{exercise}
+
+Since the $|x-1|$ term does not depend on $k$, we can factor it out of the limit and then calculate:
+
+\[
+L(x) = |x-1| \lim_{k \to \infty}   \frac{2(5k-1)}{5k-4}  =\answer{ 2|x-1|}
+\]
+
+\begin{exercise}
+
+Recall the Ratio Test tells us that a series $\sum^{\infty}_{k=1} b_k$ converges if $L <1$ where $L=\lim_{k \to \infty}\left| \frac{b_{k+1}}{b_k}\right|$. 
+
+Thus, in order to determine the set of $x$ for which our power series converges, we need to determine those $x$-values that satisfy the inequality $2|x-1| <1$. 
+
+Rewriting this inequality we obtain $|x-1|< \answer{\frac{1}{2}}$. 
+
+Thus, the  power series $\sum_{k=0}^{\infty} \frac{2^k}{5k-1}(x-1)^{k}$ has radius of convergence $\answer{\frac{1}{2}}$.
+
+\begin{exercise}
+
+Now, recall that we can interpret an inequality of the form:
+
+\[
+|x-c|<R
+\]
+
+as the set of all points that are at most $R$ units from $x=c$.  Here, $R=\answer{\frac{1}{2}}$ and $c=1$.
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-6:3,
+	axis x line = middle,
+	axis line style=-,
+	axis y line = none,
+	xmin=-6.5,
+	xmax=3.5,
+	ymin=-1,
+	ymax=1,
+	xtick={-1.5},
+	xticklabels={},
+	]
+	
+	\draw[very thick,penColor] (-3,0) -- (0,0);
+	\draw[->,very thick,penColor2] (-3,0) -- (-6.5,0);
+	\draw[->,very thick,penColor2] (0,0) -- (3.5,0);
+%Vertical LInes%%%
+	\draw[->,thick,black,dashed] (-3,-.5) -- (-3,.3);
+	\draw[->,thick,black,dashed] (0,-.5) -- (0,.3);
+	
+%arrows and ROC
+	\draw[->,thick,penColor4] (-1.4,.15) -- (0,.15);
+	\draw[->,thick,penColor4] (-1.6,.15) -- (-3,.15);
+      	\node[penColor4] at (-.75,.22) {\small{$1/2$}};
+        \node[penColor4] at (-2.3,.22) {\small{$1/2$}};
+	
+	\node at (-3,0) [scale=.5,shape=circle, fill=white, draw=penColor] {};
+	%\node at (-1.5,0) [scale=.5,shape=circle, fill=penColor] {};
+	\node at (-1.5,-.05) [below, penColor] {$1$};
+	\node at (0,0) [scale=.5,shape=circle, fill=white, draw=penColor] {};
+	\addplot[draw=none] coordinates {(-4.5,0)};
+	\node at (-1.5,0) [scale=.5,shape=circle, fill=black, draw=penColor] {};
+	\addplot[draw=none] coordinates {(-4.5,0)};
+
+
+%	\node[excl] at (1.5,0) [scale=.5,shape=circle, fill=penColor2] {};
+
+%%BRACES%%%%%%%
+	\draw [penColor2,thick,decoration={brace,mirror,raise=2em},decorate] 
+        (axis cs:-6.5,0) --
+        (axis cs:-3,0);
+    \draw [penColor,thick,decoration={brace,mirror,raise=2em},decorate] 
+        (axis cs:-3,0) --
+        (axis cs:0,0);
+    \draw [penColor2,thick,decoration={brace,mirror,raise=2em},decorate] 
+        (axis cs:0,0) --
+        (axis cs:3.5,0);
+        
+ %%%text%%%
+    \node[penColor2] at (-5,-.4) {diverges};
+    \node[penColor] at (-1.5,-.41) {converges};
+    \node[penColor2] at (2,-.4) {diverges};
+
+    \node[black] at (-1.5,.5) {We need to check for convergence};
+        \node[black] at (-1.5,.4) {separately at the endpoints.};
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+The lefthand endpoint of the interval of convergence is $x=\answer{\frac{1}{2}}$ and the righthand endpoint is $x= \answer{\frac{3}{2}}$.
+
+\begin{hint}
+The lefthand endpoint will be $c-R$ ($R$ units left of $x=c$) while the righthand one will be $c+R$ ($R$ units right of $x=c$) 
+\end{hint}
+
+\begin{exercise} 
+Now we need to determine if our power series converges at the endpoints $x=\frac{1}{2}$ and $x=\frac{3}{2}$.  Note that these are precisely the points where $L(x)=1$, and the Ratio test is thus inconclusive, so we will have to appeal to another test to determine whether the resulting series will converge or diverge.
+
+First we test convergence at $x=\frac{1}{2}$. 
+
+We substitute $x=\frac{1}{2}$ into $f(x) = \sum_{k=0}^{\infty} \frac{2^k}{5k-1}(x-1)^{k}$ to obtain:
+
+\[
+f\left(\frac{1}{2}\right) = \sum^{\infty}_{k=0} \answer{\frac{(-1)^k}{5k-1}}
+\]
+
+Note that there is no geometric growth or decay for this series anymore since $(-1)^k$ is alternating.
+
+This series: 
+
+\begin{multipleChoice}
+\choice[correct]{converges by the Alternating Series Test}
+\choice{diverges}
+\end{multipleChoice}
+
+Now we plug $x=\frac{3}{2}$ into $\sum_{k=0}^{\infty} \frac{2^k}{5k-1}(x-1)^{k}$ to obtain:
+
+\[
+\sum^{\infty}_{k=0} \frac{1}{5k-1}
+\]
+
+Which method should we use to test for convergence?
+
+\begin{multipleChoice}
+\choice{Use the Alternating Series Test.}
+\choice{Use the Ratio or Root Test.}
+\choice{Use the Divergence Test.}
+\choice{Use the Limit Comparison Test.}
+\end{multipleChoice}
+
+Using this test, the series: 
+\begin{multipleChoice}
+\choice{converges.}
+\choice[correct]{diverges.}
+\end{multipleChoice}
+
+\begin{exercise}
+The interval of convergence of the power series $\sum_{k=0}^{\infty} \frac{2^k}{5k-1}(x-1)^{k}$ is:
+\begin{multipleChoice}
+\choice{$\left(\frac{1}{2},\frac{3}{2}\right)$}
+\choice{$\left(\frac{1}{2},\frac{3}{2}\right]$}
+\choice[correct]{$\left[\frac{1}{2},\frac{3}{2}\right)$}
+\choice{$\left[\frac{1}{2},\frac{3}{2}\right]$}
+\end{multipleChoice}
+
+
+
+
+
+
+
+\end{exercise}
+
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{exercise}
+\end{document}

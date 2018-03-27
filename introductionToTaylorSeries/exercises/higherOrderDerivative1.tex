@@ -1,0 +1,125 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-bC}
+
+
+\outcome{}
+
+
+\begin{document}
+\begin{exercise}
+For the function $f(x) = 3x^5 \cos(x^3)$, find $f^{(95)}(0)$.
+
+\[
+f^{(95)}(0) = \answer{\frac{-3 \cdot (95)!}{(30)!}}
+\]
+
+(If you're stuck, please use the hint)
+
+\begin{hint}
+First, let's exhibit the Taylor series centered at $x=\answer{0}$ for $f(x)$ by using known series as well as the rules for sums, products, and compositions.
+
+Note that we can write:
+
+\[
+3x^5 \cos(x^3) =  3x^5 \cdot \cos(x^3)
+\]
+
+We thus have a product.  
+
+The Taylor series centered at $x=0$ for $3x^5$ is:
+\begin{multipleChoice}
+\choice[correct]{$3x^5$ since this is already a polynomial centered at $x=0$.}
+\choice{something that requires more computation than what the above step suggests.}
+\end{multipleChoice}
+
+For the Taylor series centered at $x=0$ of $ \cos(x^3)$, the more efficient way to compute it is:
+\begin{multipleChoice}
+\choice[correct]{Use the known series for $\cos(x)$ and the rule for composing series.}
+\choice{Use the definition to find the first several coefficients and look for a pattern.}
+\end{multipleChoice}
+
+The Taylor series for $\cos(x)$ centered at $x=0$ is:
+
+\begin{multipleChoice}
+\choice{$\sum_{k=0}^{\infty} \frac{1}{k!}x^k$}
+\choice[correct]{$\sum_{k=0}^{\infty} \frac{(-1)^k}{(2k)!}x^{2k}$}
+\choice{$\sum_{k=0}^{\infty} \frac{(-1)^k}{(2k+1)!}x^{2k+1}$}
+\choice{$\sum_{k=0}^{\infty} x^k$}
+\choice{None of these}
+\end{multipleChoice}
+We can thus find the series for  $ \cos(x^3)$ by substituting $x^3$ in for $x$ in the series above:
+
+\[
+\cos(x^3) = \sum_{k=0}^{\infty} \frac{(-1)^k}{(2k)!}\left(\answer{x^3}\right)^{2k}.
+\]
+
+Simplifying this gives:
+
+\[
+\cos(x^3) = \sum_{k=0}^{\infty} \frac{(-1)^k}{(2k)!} \cdot x^{\answer{6k}}.
+\]
+
+\begin{question}
+The series in summation notation for $f(x) =3x^5 \cos(x^3)$ is thus:
+
+\[
+3x^5 \cos(x^3) = 3x^5 \cdot \cos(x^3) = 3x^5 \cdot   \sum_{k=0}^{\infty} \frac{(-1)^k}{(2k)!} \cdot x^{\answer{6k}}
+\]
+
+We eventually need to find a way to take $95$ derivatives of this.  In order to do this, we should:
+\begin{selectAll}
+\choice{Use the fact that $95$ derivatives of $3x^5$ gives $0$, so the derivative of the product above is $0$.}
+\choice[correct]{Simplify the above then use the relationship between the coefficients of the Taylor series and the derivatives of the function it represents.}
+\end{selectAll}
+
+Indeed, simplifying the above gives:
+
+\[
+3x^5 \cos(x^3) = 3x^5 \cdot  \sum_{k=0}^{\infty} \frac{(-1)^k}{(2k)!} \cdot x^{6k} =  \sum_{k=0}^{\infty} 3 \cdot \frac{(-1)^k}{(2k)!} \cdot x^{\answer{6k+5}}.
+\]
+
+
+\begin{question}
+Now, we can use the relationship that if $f(x) = \sum_{k=0}^{\infty} a_k(x-c)^k$, then $a_n = \frac{f^{(n)}(c)}{n!}$.
+
+Here, $c= \answer{0}$, and to find $f^{(95)}(0)$, we have $n=\answer{95}$. 
+
+We now need to find $a_{95}$.
+
+\begin{question}
+First, note that $a_{95}$ is:
+\begin{multipleChoice}
+\choice{found by plugging $k=95$ into the summand, so $a_{95} = \frac{-3}{(190)!} \cdot x^{575}$.}
+\choice{found by plugging $k=95$ into the summand, so $a_{95} =  \frac{-3}{(190)!}$.}
+\choice[correct]{the coefficient of $x^{95}$.}
+\end{multipleChoice}
+
+To find this, note that $x^{6k+5} = x^{95}$ when $k=\answer{15}$.  
+
+\begin{question}
+Thus:
+
+\[
+a_{95} = 3 \cdot \frac{(-1)^k}{(2k)!}  \bigg|_{k=15} = \frac{\answer{-3}}{(\answer{30})}!
+\]
+
+and the formula $a_{95} = \frac{f^{(95)}(0)}{95!}$ gives that:
+
+\[
+f^{(95)}(0) = \answer{\frac{-3 \cdot (95)!}{(30)!}}
+\]
+\end{question}
+
+
+\end{question}
+
+\end{question}
+
+\end{question}
+\end{hint}
+\end{exercise}
+\end{document}

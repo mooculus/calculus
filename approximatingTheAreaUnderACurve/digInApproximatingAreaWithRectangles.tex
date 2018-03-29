@@ -882,6 +882,108 @@ and we find
   \end{explanation}
 \end{example}
 
+\begin{example}
+
+Consider the function
+\[
+f(x) = 16 - x^2
+\]
+on the interval $[0,4]$.  We will approximate the area of the region bounded by the graph of $f$ and the $x$-axis.  See the figure below.
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-0.3,xmax=4.3,ymin=-0.3,ymax=16.5,
+        clip=true,
+        unit vector ratio*=6 1 1,
+        axis lines=center,
+        grid = major,
+        ytick={0,4,...,16},
+        xtick={0,0.5,1,1.5,2,2.5,3,3.5,4},
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]      
+      \pgfplotsinvokeforeach{0.5,1,...,4}{\draw[very thick,penColor,fill,fill opacity=0.3] (axis cs:{#1-0.5},0) rectangle (axis cs:{#1},{16-#1^2});}
+      
+      \addplot[very thick,penColor,domain=0:6] plot{16-x^2};
+      
+      \node at (axis cs:2.5,14) {$y=f(x)$};
+      \end{axis}`
+  \end{tikzpicture}
+\end{image}
+
+The image depicts a \wordChoice{\choice{Left}\choice[correct]{Right}\choice{Midpoint}} Riemann sum with $n=\answer{8}$ subintervals.
+
+\begin{align*}
+x_6^* &= \answer{3}\\
+f(x_6^*) &= \answer{7}\\
+\Delta x &= \answer{\frac{1}{2}}\\
+\sum_{k=1}^n f(x_k^*)\Delta x &= \answer{38.5}
+\end{align*}
+
+\end{example}
+
+\begin{example}
+
+Consider the function
+\[
+f(x) = 16 - x^2
+\]
+on the interval $[0,4]$.  We will approximate the area of the region bounded by the graph of $f$ and the $x$-axis using a \textbf{right }Riemann
+  sum with $n$ rectangles.
+ First, determine the width of each rectangle.
+  \[
+  \Delta x = \answer{\frac{4}{n}}\\
+\]
+Next, we will determine the grid-points.
+
+\begin{align*}
+x_0 &= \answer{0}\\
+ x_1 &=0+\Delta x=\frac{4}{n}\\
+  x_2 &=  x_1+\Delta x=\answer{2}\frac{4}{n}\\
+   x_3 &= x_2+\Delta x= \answer{3}\frac{4}{n}\\
+   ...\\
+     x_{k-1}&= x_{k-2}+\Delta x=(\answer{k-1})\frac{4}{n}\\
+ x_k&= x_{k-1}+\Delta x=\answer{k}\frac{4}{n}\\
+ ...\\
+  x_n&=\answer{4}.
+\end{align*}
+For a right Riemann sum 
+\begin{align*}
+x_k^* &= x_k=\answer{k}\frac{4}{n}.\\
+\end{align*}
+Now, we can approximate the area with a right Riemann sum.
+\[
+A\approx\sum_{k=1}^n  f(x_k^*)\Delta x  = \sum_{k=1}^n  f(x_k)\frac{4}{n}  = \sum_{k=1}^n  f\left(k\frac{4}{n}\right)\frac{4}{n}  = \sum_{k=1}^n  \left(16-k^2\frac{16}{n^2}\right)\frac{4}{n} 
+\]
+We can now simplify the last sum above by using the distribution, commutativity and associativity properties of a sum.
+\[
+A\approx \sum_{k=1}^n  \left(16-k^2\frac{16}{n^2}\right)\frac{4}{n} =\frac{4}{n} \sum_{k=1}^n  \left(16-k^2\frac{16}{n^2}\right)=\frac{4}{n}\left( \sum_{k=1}^n 16-\sum_{k=1}^n k^2\frac{16}{n^2}\right)
+\]
+In the last sum above, the constant $\frac{16}{n^2}$ is a common factor, so we can again apply the distribution property and obtain the following 
+\[
+A\approx\frac{4}{n}\left( \sum_{k=1}^n 16-\frac{16}{n^2}\sum_{k=1}^n k^2\right)
+\]
+In the  first sum above, the constant $16$ is added $n$ times; and we have a formula for the second sum. (Recall:$\sum_{k=1}^n k^2=\frac {n(n+1)(2n+1)}{6}$). Therefore,
+\[
+A\approx\frac{4}{n}\left(  n(16)-\frac{16}{n^2}\cdot\frac{n(n+1)(2n+1)}{6}\right)
+\]
+We can simplify this expression and obtain
+\[
+A\approx64-\frac{32(n+1)(2n+1)}{3n^2}
+\]
+NOTE: In our previous example we have computed a right Riemann sum for $n=8$. Check whether your result was correct by plugging in $n=8$ in the formula above.
+
+Now, we can take the limit of Riemann sums as  $n\to\infty$ 
+\[
+A=\lim_{n\to\infty}\sum_{k=1}^n  f(x_k^*)\Delta x. 
+\]
+and obtain the exact value of the area of the region under the curve $y=f(x)$ on the interval $[0,4]$. 
+\[
+A=\lim_{n\to\infty}\left(64-\frac{32(n+1)(2n+1)}{3n^2}\right)=64-\frac{64}{3}=\frac{128}{3}
+\]
+\end{example}
 
 
 \subsection{Summary}
@@ -901,8 +1003,14 @@ several things to know:
     can be left-endpoints, right-endpoints, or midpoints.
   \item What is the actual height of the rectangle? This will always
     be $f(x_k^*)$.
+      \item We approximate the area $A$ with a Riemann sum
+      
+      $A\approx\sum_{k=1}^n  f(x_k^*)\Delta x$.
+      \item As $n$ gets bigger and bigger,  $\Delta x$ gets smaller and smaller, and approximation gets better and better.
+      We compute the exact value of $A$ by taking the limit of Riemann sums
+      
+      
+     $A= \lim_{n\to\infty}\sum_{k=1}^n  f(x_k^*)\Delta x$.
 \end{itemize}
-
-
-
 \end{document}
+

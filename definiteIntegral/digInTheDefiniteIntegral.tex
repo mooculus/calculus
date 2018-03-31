@@ -22,90 +22,342 @@
 \maketitle
 
 
-Definite integrals, often simply called integrals, compute signed area. 
 
-\begin{definition}\index{integral}\index{definite integral}
-The \dfn{definite integral}
+
+Process of approximating areas under curves led to the notion of a Riemann sum
+
 \[
-\int_a^b f(x) \d x
+A\approx\sum_{k=1}^n f(x_k^*)\Delta x,
 \]
-computes the signed area between $y=f(x)$ and the $x$-axis on the
-interval $[a,b]$.
-\begin{itemize}
-  \item If the region is above the $x$-axis, then the area has
-    positive sign.
-  \item If the region is below the $x$-axis, then the area has
-    negative sign.
-\end{itemize}
-Note, when working with signed area, ``positive'' and ``negative''
-area cancel each other out.
-\end{definition}
+where $f$ is a positive, continuous function on the interval $[a,b]$,
 
+ $x_k^*$ is a sample point form the $k^{th}$ interval, $k=1,2,..., n$.
+ 
+ The limit of Riemann sums, as $n\to\infty$, gives the exact area between the curve $y=f(x)$ and the interval on the $x-$axis.
+ 
+\[
+A=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x
+\]
+It does not matter whether we consider only right Riemann sums, or left Riemann sums, or midpoint Riemann sums, or others: the limit of any kind of Riemann sum as $n\to\infty$  is equal to the area, as long as $f$ is continuous on $[a,b]$. 
+
+
+ 
+What happens when a continuous function $f$ on an interval $[a,b]$ assumes both negative and positive values on $[a,b]$?
+
+We can still form Riemann sums and take the limit. 
+The question is: What is the meaning of a Riemann sum in that case?
+
+ \begin{example}
+The graph of the function $f$ on the interval $[0,10]$ is given in the figure below.
+
+ \begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = 6+\x/2 - pow(\x,2)/4;}]
+    \begin{axis}[  
+        domain=0:10, xmin =-1,xmax=10.5,ymax=10,ymin=-15,
+        width=6in,
+        height=3in,xtick={0,2,4,...,10},
+        xticklabels={$x_1^*=0$,$x_2^*=2$,$x_3^*=4$,$x_4^*=6$,$x_5^*=8$},
+        %% ytick style={draw=none},
+        %% yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \addplot [draw=penColor,fill=fill1] plot coordinates
+               {({(0) * 2},{f(2)})
+                 ({(1) * 2},{f(2) })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill1] plot coordinates
+               {({2-1) * 2},{f(4)})
+                 ({(2) * 2},{f(4) })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill1] plot coordinates
+               {({3-1) * 2},{f(6)})
+                 ({(3) * 2},{f(6) })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({4-1) * 2},{f(8)})
+                 ({(4) * 2},{f(8) })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({5-1) * 2},{f(10)})
+                 ({(5) * 2},{f(10) })} \closedcycle;
+               
+               \addplot [very thick,penColor, smooth] {f(x)};
+              \node at (axis cs:1,7) {\large$f(2)\cdot 2$};
+              \node at (axis cs:3,7) {\large$f(4)\cdot 2$};
+              \node at (axis cs:5,5) {\large$f(6)\cdot 2$};
+              \node at (axis cs:7,1) {\large$f(8)\cdot 2$};
+              \node at (axis cs:9,1) {\large$f(10)\cdot 2$}; 
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+ The figure illustrates a right Riemann sum with $n=5$ rectangles for $f$ on $[0,10]$.
+\[
+\sum_{k=1}^5 f(x_k^*)\Delta x= \underbrace{f(2)\Delta x+ f(4)\Delta x+ f(6)\Delta x}_{\text{nonnegative values}}+ \underbrace{f(8)\Delta x+ f(10)\Delta x}_{\text{negative values}}
+\]
+\[
+\sum_{k=1}^5 f(x_k^*)\Delta x= \underbrace{f(2)\Delta x+ f(4)\Delta x+ f(6)\Delta x}_{\text{sum of areas of rectangles above $x-$axis}}- \underbrace{|f(8)|\Delta x+ |f(10)|\Delta x}_{\text{sum of areas of rectangles below $x-$axis}}
+\]
+
+So, the Riemann sum is the sum of areas of rectangles that lie above the $x-$axis \textbf{minus} the sum of the areas of rectangles that lie below the $x-$axis.
+ \end{example}
+
+ Then, when we take the limit of Riemann sums, we should expect to get
+ 
+ \[
+\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x= A_1-A_2,
+\]
+where the areas $A_1$ and $A_2$ are depicted in the figure below.
+
+ \begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = 6+\x/2 - pow(\x,2)/4;}]
+    \begin{axis}[  
+        domain=0:10, xmin =-1,xmax=10.5,ymax=10,ymin=-15,
+        width=6in,
+        height=3in,xtick={0,2,4,...,10},
+        xticklabels={0,2,4,...,10},
+        %% ytick style={draw=none},
+        %% yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+       \addplot [draw=none,fill=fillp,domain=0:6, smooth] {f(x)} \closedcycle;
+            \addplot [draw=none,fill=fill2,domain=6:10, smooth] {f(x)} \closedcycle;
+          \addplot [very thick,penColor, smooth] {f(x)};
+            \node at (axis cs:2,2) {\huge$A_1$};
+              \node at (axis cs:9,-5) {\huge$A_2$};
+        \end{axis}  
+  \end{tikzpicture}
+\end{image}
+
+The limit will exist for any continuous functions on the interval $[a,b]$, even if $f$ assumes negative values on $[a,b]$.
+In this case, the limit will no longer give us the area under the curve, but the \textbf{net area} of the region between the graph of $f$ and the $x-$ axis.
+
+ 
+This limit  deserves a special name.
+\begin{definition}
+\index{integral}\index{definite integral}
+Let $f$ be a function, continuous on the interval $[a,b]$. We define the \dfn{definite integral} of $f$ on $[a,b]$ by
+\[
+\int_a^b f(x) \d x=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x.
+\]
+\end{definition}
+The definite integral is a number that gives the net area of the region between the curve $y=f(x)$ and the $x-$axis on the interval $[a,b]$.   
+
+\begin{example}
+Compute the definite integral
+\[
+\int_0^{10}-x \d x
+\]
+\begin{prompt}
+The  area between the $x-$axis and the curve can be easily computed, since it is the area of the triangle
+\[
+A=\frac{1}{2}\cdot 10\cdot10=\answer[given]{50}.
+\]
+
+Then, it follows that
+
+\[
+\int_0^{10}-x \d x=\answer[given]{-}A
+\]
+On the other hand, the function $f(x)=-x$ is very simple, so we can compute the definite integral using the \textbf{definition}.
+\[
+\int_0^{10}-x \d x=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x=\lim_{n\to\infty}\sum_{k=1}^n -x_k^*\Delta x
+\]
+It does not matter what  type of a Riemann sum we use, so we can choose a right Riemann sum.
+
+\[
+\int_0^{10}-x \d x=\lim_{n\to\infty}\sum_{k=1}^n -x_k\Delta x
+\]
+A right Riemann sum with $n=5$ is illustrated in the figure below.
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = -x;}]
+    \begin{axis}[  
+        domain=0:10, xmin =-1,xmax=10.2,ymax=10,ymin=-10,
+        width=6in,
+        height=3in,xtick={2,4,...,10},
+        xticklabels={$x_1^*=2$,$x_2^*=4$,$x_3^*=6$,$x_4^*=8$,$x_5^*=10$},
+        %% ytick style={draw=none},
+        %% yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({(1-1) * 2},{-2)})
+                 ({(1) * 2},{-2})} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({(2-1) * 2},{-4})
+                 ({(2) * 2},{-4 })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({(3-1) * 2},{-6)})
+                 ({(3) * 2},{-6 })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({(4-1) * 2},{-8)})
+                 ({(4) * 2},{-8) })} \closedcycle;
+
+               \addplot [draw=penColor,fill=fill2] plot coordinates
+               {({(5-1) * 2},{-10})
+                 ({(5) * 2},{-10 })} \closedcycle;
+               
+               \addplot [very thick,penColor, smooth] {f(x)};
+             
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+We can apply some rules for sums and limits and obtain
+
+\[
+\int_0^{10}-x \d x=\lim_{n\to\infty}\sum_{k=1}^n -x_k\Delta x=\lim_{n\to\infty}\left(-\sum_{k=1}^n x_k\Delta x\right)=-\lim_{n\to\infty}\sum_{k=1}^n x_k\Delta x
+\]
+The last expression is clearly the signed area of the region between the x-axis and the curve $y=-x$. We already used that fact.
+
+Now we want to compute the limit from scratch.
+\begin{align*}
+\int_0^{10}-x \d x&=-\lim_{n\to\infty}\sum_{k=1}^n x_k\Delta x\\
+&=-\lim_{n\to\infty}\sum_{k=1}^n k\cdot\frac{10}{n}\cdot\frac{10}{n}\\
+&=-\lim_{n\to\infty}\left(\frac{10}{n}\right)^2\sum_{k=1}^n k\\
+&=-\lim_{n\to\infty}\left(\frac{10}{n}\right)^2\frac{n(n+1)}{2}\\
+&=-\lim_{n\to\infty}50\frac{n+1}{n}\\
+&=\answer[given]{-50}\\
+\end{align*}
+\end{prompt}
+\end{example}
+\begin{example}
+  Compute this limit:
+  \[
+  \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-\left(-1+\frac{2k}{n}\right)^2}\right)
+  \left(\frac{2}{n}\right)
+  \]
+  \begin{explanation}
+    This is a limit of Riemann sums!  Specifically, it is a limit of
+    Riemann sums of $n$ rectangles, where
+    \[
+    \Delta x = \answer[given]{\frac{2}{n}}
+    \]
+    and
+    \[
+    x_k^* = -1+\frac{2k}{n}.
+    \]
+    Hence, we may rewrite this as
+    \[
+    \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-(x_k^*)^2}\right)
+    \Delta x.
+    \]
+    Now we see that this computes the area between the $x$-axis and
+    the curve $y = \sqrt{1-x^2}$. Let's see it:
+    \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        width=6in,
+        %height=3in,
+        unit vector ratio*=1 1 1,            
+        xmin=-1.1, xmax=1.1,ymin=-.1,ymax=1.1,
+        axis lines =center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+    ] 
+      \addplot [draw=none, fill=fillp,samples=200,domain=-1:1] {sqrt(1-x^2)} \closedcycle;
+      
+      \addplot [penColor,very thick,samples=200,domain=-1:1] {sqrt(1-x^2)};
+    \end{axis}
+  \end{tikzpicture}
+    \end{image}
+    By geometry, we know that this semicircle has area $\answer[given]{\pi/2}$. Hence
+    \[
+    \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-(x_k^*)^2}\right)\Delta x =\answer[given]{\pi/2}.
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+
+The definite integral computes the signed area (or net area) between $y=f(x)$ and the $x$-axis on the
+interval $[a,b]$.
+%\begin{itemize}
+ % \item If the region is above the $x$-axis, then the area has
+   % positive sign.
+  %\item If the region is below the $x$-axis, then the area has
+  %  negative sign.
+%\end{itemize}
 \begin{question}
-Consider the following graph of $y=f(x)$:
+Consider the graph of  a function $f$ on the interval $[0,5]$.
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}[
         width=6in,
         height=3in,
-        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=1.2,domain=0:6,
+        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=2.2,domain=0:5,
         axis lines =center, xlabel=$x$, ylabel=$y$,
         every axis y label/.style={at=(current axis.above origin),anchor=south},
         every axis x label/.style={at=(current axis.right of origin),anchor=west},
         axis on top,
     ] 
+      %\addplot [draw=none, %pattern=north west lines, pattern color=blue,
+        fill=fillp,
+       %domain=0:1] {x} \closedcycle;
       \addplot [draw=none, %pattern=north west lines, pattern color=blue,
         fill=fillp,
-        domain=0:1] {x} \closedcycle;
-      \addplot [draw=none, %pattern=north west lines, pattern color=blue,
-        fill=fillp,
-        domain=1:5] {1.5-x/2} \closedcycle;
+        domain=0:5] {1.5-x/2} \closedcycle;
       
-      \addplot [penColor,very thick,domain=0:1] {x};
-      \addplot [penColor,very thick,domain=1:5] {1.5-x/2};
+    \addplot [draw=none,fill=fillp,domain=0:3, smooth] {1.5-x/2} \closedcycle;
+            \addplot [draw=none,fill=fill2,domain=3:5, smooth] {1.5-x/2} \closedcycle;
+          \addplot [very thick,penColor, smooth] {1.5-x/2};
+            \node at (axis cs:1,0.5) {\huge$A_1$};
+              \node at (axis cs:4.75,-0.45) {\huge$A_2$};
+      \addplot [penColor,very thick,domain=0:5] {1.5-x/2};
   \end{axis}
   \end{tikzpicture}
 \end{image}
-Compute:
-\begin{enumerate}
-\item $\int_0^3 f(x) \d x \begin{prompt}= \answer{1.5}\end{prompt}$
-\item $\int_3^5 f(x) \d x \begin{prompt}= \answer{-1}\end{prompt}$
-\item $\int_0^5 f(x) \d x \begin{prompt}= \answer{0.5}\end{prompt}$
-\item $\int_0^3 5\cdot f(x) \d x \begin{prompt}= \answer{7.5}\end{prompt}$
-\item $\int_1^1 5\cdot f(x) \d x \begin{prompt}= \answer{0}\end{prompt}$
-\end{enumerate}
-\begin{hint}
-  Use the formula for the area of a triangle.
-\end{hint}
-\begin{hint}
-  Remember, we are dealing with ``signed'' area here:
-  \begin{image}
-  \begin{tikzpicture}
-    \begin{axis}[
-        width=6in,
-        height=3in,
-        xmin=-.5, xmax=5.5,ymin=-1.2,ymax=1.2,domain=0:6,
-        axis lines =center, xlabel=$x$, ylabel=$y$,
-        every axis y label/.style={at=(current axis.above origin),anchor=south},
-        every axis x label/.style={at=(current axis.right of origin),anchor=west},
-        axis on top,
-    ] 
-      \addplot [draw=none, fill=fillp,domain=0:1] {x} \closedcycle;
-      \addplot [draw=none, fill=fillp,domain=1:3] {1.5-x/2} \closedcycle;
-      \addplot [draw=none, fill=filln,domain=3:5] {1.5-x/2} \closedcycle;
-      
-      \addplot [penColor,very thick,domain=0:1] {x};
-      \addplot [penColor,very thick,domain=1:5] {1.5-x/2};
-      \node at (axis cs:1.1,.4) [textColor] {\scalebox{2}{$\boldsymbol+$}};
-      \node at (axis cs:4.5,-.4) [textColor] {\scalebox{2}{$\boldsymbol-$}};
-  \end{axis}
-  \end{tikzpicture}
-\end{image}
-\end{hint}
+Compute the definite integral
+\[
+\int_0^5 f(x) \d x.
+\]
+\begin{prompt}
+The net area in the figure above is given by
+\[
+\int_0^5 f(x) \d x=A_1-A_2
+\]
+ 
+The areas $A_1$ and $A_2$ are easily computed, since both are the  areas of triangles. Therefore,
+\[
+\int_0^5 f(x) \d x=\answer[given]{1.25}
+\]
+\end{prompt}
 \end{question}
+We got something more from this example than just the value of the definite integral.
+Notice that 
+\[
+ \int_0^3 f(x) \d x= A_1,
+ \]
+ \[
+ \int_3^5 f(x) \d x=-A_2,
+ \]
+and
+\[
+\int_0^5 f(x) \d x=A_1-A_2.
+\]
+It follows that
+ \[
+\int_0^5 f(x) \d x= \int_0^3 f(x) \d x+ \int_3^5 f(x) \d x.
+\]
 
-
-Our previous question hopefully gives us enough insight that this next
+This hopefully gives us enough insight that this next
 theorem is unsurprising.
 
 \begin{theorem}[Properties of the definite integral]
@@ -116,8 +368,8 @@ hold:
 \item $\int_a^a f(x)\d x = 0$
 \item $\int_a^c f(x)\d x + \int_c^b f(x)\d x = \int_a^b f(x)\d x$
 \item $\int_a^bf(x)\d x = -\int_b^a f(x)\d x$
-\item $\int_a^b f(x)\pm g(x)\d x = \int_a^bf(x)\d x \pm \int_a^bg(x)\d x$
 \item $\int_a^bk\cdot f(x)\d x = k\cdot\int_a^bf(x)\d x$
+\item $\int_a^b f(x)\pm g(x)\d x = \int_a^bf(x)\d x \pm \int_a^bg(x)\d x$
 \end{enumerate}
 \begin{explanation}
   We will address each property in turn:
@@ -246,8 +498,9 @@ and if $g(x) = x^4$, then
 \[
 g(-7) = g(7).
 \]
-Geometrically, even functions have \textit{horizontal
-  symmetry}. Cosine is an even function:
+Geometrically, even functions have 
+  symmetry with respect to the $y-$axis
+  . Cosine is an even function:
 \begin{image}
  \begin{tikzpicture}
 	\begin{axis}[
@@ -357,7 +610,7 @@ around the origin. Sine is an odd function:
 
 
 
-\section{Signed verses geometric area}
+\section{Net area versus geometric area}
 
 
 We know that the signed area between a curve $y=f(x)$ and the $x$-axis
@@ -380,80 +633,13 @@ meaning the ``actual'' area, we compute
     \choice[correct]{false}
   \end{multipleChoice}
   \begin{feedback}
-    Consider $f(x) = x^3$ on the interval $[-1,1]$. Here
+    Consider $f(x) = x$ on the interval $[-1,1]$. Here
     \[
-    \int_a^b |f(x)| \d x = 1/2 \qquad\text{but}\qquad \left|\int_a^b
+    \int_a^b |f(x)| \d x = 1 \qquad\text{but}\qquad \left|\int_a^b
     f(x) \d x\right| = 0.
     \]
   \end{feedback}
 \end{question}
-
-
-
-\section{Integrals and Riemann sums}
-
-Exactly how does an integral compute area? It depends on who you
-ask. If you ask Riemann, then you set
-\[
-\Delta x = \frac{b-a}{n}
-\]
-and look at the following limit of Riemann sums:
-\[
-\lim_{n\to \infty} \sum_{k=1}^n f(x_k^*) \Delta x = \int_a^b f(x) \d x.
-\]
-This says, take a curve, slice it up into $n$ pieces on the interval
-$[a,b]$, add up all the areas of rectangles whose width is determined
-by the slices and the height is determined by a sample point in one of
-these pieces.
-
-\begin{example}
-  Compute this limit:
-  \[
-  \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-\left(-1+\frac{2k}{n}\right)^2}\right)
-  \left(\frac{2}{n}\right)
-  \]
-  \begin{explanation}
-    This is a limit of Riemann sums!  Specifically, it is a limit of
-    Riemann sums of $n$ rectangles, where
-    \[
-    \Delta x = \answer[given]{\frac{2}{n}}
-    \]
-    and
-    \[
-    x_k^* = -1+\frac{2k}{n}.
-    \]
-    Hence, we may rewrite this as
-    \[
-    \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-(x_k^*)^2}\right)
-    \Delta x.
-    \]
-    Now we see that this computes the area between the $x$-axis and
-    the curve $y = \sqrt{1-x^2}$. Let's see it:
-    \begin{image}
-  \begin{tikzpicture}
-    \begin{axis}[
-        width=6in,
-        %height=3in,
-        unit vector ratio*=1 1 1,            
-        xmin=-1.1, xmax=1.1,ymin=-.1,ymax=1.1,
-        axis lines =center, xlabel=$x$, ylabel=$y$,
-        every axis y label/.style={at=(current axis.above origin),anchor=south},
-        every axis x label/.style={at=(current axis.right of origin),anchor=west},
-        axis on top,
-    ] 
-      \addplot [draw=none, fill=fillp,samples=200,domain=-1:1] {sqrt(1-x^2)} \closedcycle;
-      
-      \addplot [penColor,very thick,samples=200,domain=-1:1] {sqrt(1-x^2)};
-    \end{axis}
-  \end{tikzpicture}
-    \end{image}
-    By geometry, we know that this semicircle has area $\answer[given]{\pi/2}$. Hence
-    \[
-    \lim_{n\to \infty} \sum_{k=1}^n \left(\sqrt{1-(x_k^*)^2}\right)\Delta x =\answer[given]{\pi/2}.
-    \]
-  \end{explanation}
-\end{example}
-
 
 
 \end{document}

@@ -29,22 +29,23 @@ The process of approximating areas under curves led to the notion of a Riemann s
 \[
 A\approx\sum_{k=1}^n f(x_k^*)\Delta x,
 \]
-where $f$ is a positive, continuous function on the interval $[a,b]$,
+where $f$ is a nonnegative, continuous function on the interval $[a,b]$, and
 
- $x_k^*$ is a sample point form the $k^{th}$ interval, $k=1,2,..., n$.
+ $x_k^*$ is a sample point for the $k^{th}$ rectangle, $k=1,2,..., n$.
  
  The limit of Riemann sums, as $n\to\infty$, gives the exact area between the curve $y=f(x)$ and the interval on the $x-$axis:
  
 \[
 A=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x.
 \]
-It does not matter whether we consider only right Riemann sums, or left Riemann sums, or midpoint Riemann sums, or others: the limit of any kind of Riemann sum as $n\to\infty$  is equal to the area, as long as $f$ is continuous on $[a,b]$. 
+It does not matter whether we consider only right Riemann sums, or left Riemann sums, or midpoint Riemann sums, or others: the limit of any kind of Riemann sum as $n\to\infty$  is equal to the area, as long as $f$ is nonnegative and continuous on $[a,b]$. 
 
 
  
-What happens when a continuous function $f$ on an interval $[a,b]$ assumes both negative and nonnegative or only negative values  on $[a,b]$?
+What happens when a continuous function $f$ assumes negative values  on the interval $[a,b]$?
 
 We can still form Riemann sums and take the limit. 
+
 The question is: What is the meaning of a Riemann sum in that case?
 
  \begin{example}
@@ -98,22 +99,26 @@ The graph of the function $f$ on the interval $[0,10]$ is given in the figure be
 
  The figure illustrates a right Riemann sum with $n=5$ rectangles for $f$ on $[0,10]$.
 \[
-\sum_{k=1}^5 f(x_k^*)\Delta x= \underbrace{f(2)\Delta x+ f(4)\Delta x+ f(6)\Delta x}_{\text{nonnegative values}}+ \underbrace{f(8)\Delta x+ f(10)\Delta x}_{\text{negative values}}
-\]
-\[
-\sum_{k=1}^5 f(x_k^*)\Delta x= \underbrace{f(2)\Delta x+ f(4)\Delta x+ f(6)\Delta x}_{\text{sum of areas of rectangles above $x-$axis}}- \underbrace{|f(8)|\Delta x+ |f(10)|\Delta x}_{\text{sum of areas of rectangles below $x-$axis}}
+\sum_{k=1}^5 f(x_k^*)\Delta x= f(2)\Delta x+ f(4)\Delta x+ f(6)\Delta x+f(8)\Delta x+ f(10)\Delta x
 \]
 
-So, the Riemann sum is the sum of areas of rectangles that lie above the $x-$axis \textbf{minus} the sum of the areas of rectangles that lie below the $x-$axis.
+So, the Riemann sum is the sum of \textbf{signed areas} of rectangles: rectangles that lie above the $x-$axis contribute positive values, and rectangles that lie below the $x-$axis contribute negative values to the Riemann sum.
+\[
+\sum_{k=1}^5 f(x_k^*)\Delta x= \left(\underbrace{f(2)\Delta x}_{\text{nonnegative }}+  \underbrace{f(4)\Delta x}_{\text{nonnegative }}+  \underbrace{f(6)\Delta x}_{\text{nonnegative }}\right)+ \left(\underbrace{f(8)\Delta x}_{\text{negative }}+  \underbrace{f(10)\Delta x}_{\text{negative }}\right)
+\]
  \end{example}
 
- Then, when we take the limit of Riemann sums, we should expect to get
+ When we take the limit of Riemann sums, it seems that we should get that
  
  \[
-\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x= A_1-A_2,
+\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x= A_1+(-A_2),
 \]
-where the areas $A_1$ and $A_2$ are depicted in the figure below.
+where the areas $A_1$ and $A_2$ are depicted in the figure below. 
 
+In other words, the limit of Riemann sums seems to be equal to the sum of signed areas of the regions that lie entirely above  or below  the $x-$axis.
+The signed area of  regions that lie above the $x-$axis is positive, and the signed area of regions that lie below the $x-$axis is negative.
+
+This sum of signed areas is called the net area of the region  between the graph of $f$ and the interval on the $x-$ axis .
  \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = 6+\x/2 - pow(\x,2)/4;}]
@@ -142,9 +147,7 @@ where the areas $A_1$ and $A_2$ are depicted in the figure below.
 
 The limit of Riemann sums will exist for any continuous functions on the interval $[a,b]$, even if $f$ assumes negative values on $[a,b]$.
 
-In this case, the limit will no longer give us the area under the curve, but the \textbf{net area} of the region between the graph of $f$ and the $x-$ axis.
-
-Note:  the net area is the sum of the areas of the regions that lie above the $x-$axis minus the sum of  areas of regions that lie below the $x-$axis.
+In this case, the limit of Riemann sums will no longer give us the area under the curve, but the  \textbf{net area} of the region between the graph of $f$ and the $x-$ axis.
 
 This leads to the following definition.
 \begin{definition}
@@ -194,7 +197,6 @@ Express the integral in terms of areas $A_1$, $A_2$, $A_3$ and $A_4$.
 \begin{explanation}
 \begin{align*}
     \int_0^9 f(x) \d x&= -A_1+A_2-A_3+A_4\\
-    &=\underbrace{A_2+A_4}_{\text{sum of areas above x-axis}}-\underbrace{(A_1+A_3)}_{\text{sum of areas below x-axis}}
 \end{align*}
 
 \end{explanation}
@@ -207,7 +209,7 @@ Consider the integral
 \]
 Compute the integral in two ways:
 \begin{enumerate}
-\item by interpreting the integral as the net area of the region between the curve $y=-x$ and the $x-$axis on the interval $[0,10]$;
+\item by interpreting the integral as the net area of the region between the curve $y=-x$ and the interval $[0,10]$ on  the $x-$axis;
 \item using the definition of the definite integral, i.e. by computing the limit of Riemann sums.
 \end{enumerate}
 \begin{explanation}
@@ -228,10 +230,10 @@ Compute the integral in two ways:
         every axis x label/.style={at=(current axis.right of origin),anchor=west},
         axis on top,
       ]
-       \addplot [draw=none,fill=fillp,domain=0:10, smooth] {f(x)} \closedcycle;
+       \addplot [draw=none,fill=fill2,domain=0:10, smooth] {f(x)} \closedcycle;
          
           \addplot [very thick,penColor, smooth] {f(x)};
-      
+       \node at (axis cs:8,-5) {\huge$A$};
             
         \end{axis}  
   \end{tikzpicture}
@@ -302,7 +304,6 @@ We can apply the constant multiple rule for sums and limits:
 \[
 \int_0^{10}-x \d x=\lim_{n\to\infty}\sum_{k=1}^n -x_k\Delta x=\lim_{n\to\infty}\left(-\sum_{k=1}^n x_k\Delta x\right)=-\lim_{n\to\infty}\sum_{k=1}^n x_k\Delta x
 \]
-Note: the last Riemann sum is clearly  the area of the region between the x-axis and the curve $y=-x$.
 
 We can now finish our computation of the limit of right Riemann sums.
 \begin{align*}
@@ -388,7 +389,7 @@ We can now finish our computation of the limit of right Riemann sums.
 
 
 
-The definite integral computes the signed area (or net area) between $y=f(x)$ and the $x$-axis on the
+The definite integral computes the net area (sum of signed areas) between $y=f(x)$ and the $x$-axis on the
 interval $[a,b]$.
 %\begin{itemize}
  % \item If the region is above the $x$-axis, then the area has
@@ -670,7 +671,7 @@ around the origin. Sine is an odd function:
     \end{image}
   \end{hint}
   \begin{hint}
-    The integral above computes the following (signed) area:
+    The integral above computes the following net area:
     \begin{image}
       \begin{tikzpicture}
         \begin{axis}[
@@ -757,8 +758,9 @@ The graph of a function $f$ is given in the figure below.
 \end{image}
 \begin{enumerate}
 \item Express the  geometric  area of the region between the curve $y=f(x)$ and the $x-$axis on the interval $[0,9]$ as a definite integral.
+\item Express the  geometric  area of the region between the curve $y=f(x)$ and the $x-$axis on the interval $[0,9]$ in terms of  definite integrals of $f$.
 \item Express the  geometric  area of the region between the curve $y=f(x)$ and the $x-$axis on the interval $[0,9]$ in terms of areas $A_1$, $A_2$, $A_3$ and $A_4$.
-\item Express the  geometric  area of the region between the curve $y=f(x)$ and the $x-$axis on the interval $[0,9]$ as a sum/difference of  definite integrals of $f$.
+
 \begin{explanation}
 \begin{enumerate}
 \item The geometric area is given by the  integral
@@ -797,15 +799,17 @@ The figure below depicts the graph of $|f|$.
         \end{axis}  
   \end{tikzpicture}
 \end{image}
-
+\item Using the properties of definite integrals, we can write
+\begin{align*}
+  \int_0^9 |f(x)| \d x &= \int_0^1 |f(x) |\d x+ \int_1^5 |f(x)| \d x+ \int_5^8 |f(x)| \d x+ \int_8^9 |f(x)| \d x \\
+  &= \int_0^1 (-f(x)) \d x+ \int_1^5 f(x) \d x+ \int_5^8 (-f(x)) \d x+ \int_8^9 f(x) \d x\\
+    &= -\int_0^1 f(x) \d x+ \int_1^5 f(x) \d x- \int_5^8 f(x) \d x+ \int_8^9 f(x) \d x
+ \end{align*}
   \item
    \[
   \int_0^9 |f(x)| \d x =A_1 +A_2+A_3+A_4
   \]
-\item 
-  \[
-  \int_0^9 |f(x)| \d x = -\int_0^1 f(x) \d x+ \int_1^5 f(x) \d x- \int_5^8 f(x) \d x+ \int_8^9 f(x) \d x
-  \]
+
  \end{enumerate}
 \end{explanation}
  \end{enumerate}

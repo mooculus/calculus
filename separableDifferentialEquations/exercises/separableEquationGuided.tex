@@ -1,0 +1,142 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Review integration techniques}
+
+
+\begin{document}
+\begin{exercise}
+Follow the indicated steps to solve the initial value problem below:
+
+\[
+e^x \frac{dy}{dx} -xy = 0 , \qquad y(0)=3
+\]
+
+We first solve for $\frac{dy}{dx}$ to obtain:
+
+\[
+\frac{dy}{dx} = \answer{xye^{-x}}
+\]
+
+Note that we cannot integrate both sides because there is more than one variable on the righthand side.  
+
+Is the equation separable?
+\begin{multipleChoice}
+\choice[correct]{Yes}
+\choice{No}
+\end{multipleChoice}
+
+The differentials $\d y$ and $\d x$ are related by:
+
+\[
+\left(\answer{\frac{1}{y}} \right) \d y = \left(\answer{ xe^{-x}} \right) \d x
+\]
+
+Note that we want to integrate both sides, and the easiest way to proceed with the righthand side is to write:
+
+\[
+\frac{x}{e^{x}} = xe^{-x}
+\]
+
+In general, it is a VERY good habit to get into moving exponentials from one side to the other by multiplying by their multiplicative inverses rather than dividing;  in other words since $e^x \frac{dy}{dx} =xy$ here, it's better to write:
+
+\[
+e^{-x} \cdot\left[ e^x \frac{dy}{dx} \right] = e^{-x} \cdot xy
+\]
+
+than dividing both sides by $e^x$.
+
+\begin{exercise}
+We can now integrate both sides:
+
+\[
+\int \frac{1}{y} \d y =  \int xe^{-x} \d x
+\]
+
+The lefthand side is easy enough: $\int \frac{1}{y} \d y = \answer{\ln|y|}+C_1$
+
+For the righthand side, what should we do?
+
+\begin{multipleChoice}
+\choice{$\int xe^{-x} \d x = -\frac{1}{2}x^2 e^{-x} +C_2$}
+\choice{Use a $u$-substitution.}
+\choice[correct]{Use integration by parts.}
+\choice{Use partial fraction decomposition.}
+\choice{Do a trigonometric substitution.}
+\end{multipleChoice}
+
+Since we have a product of a polynomial and an exponential, we should use integration by parts.
+
+\begin{align*}
+u &= \answer{x} & \d v & = \answer{e^{-x}} \d x \\
+ \d u &= \answer{1} \d x & v&= \answer{-e^{-x}}
+ \end{align*}
+
+Applying the integration by parts formula yields:
+
+\[
+\int xe^{-x} \d x = \answer{-xe^{-x}}-\int \left(\answer{-e^{-x}}\right) \d x
+\]
+
+After computing the final integral, we find:
+
+\[
+\int xe^{-x} \d x = \answer{-xe^{-x}-e^{-x}} +C_2
+\]
+
+\begin{exercise}
+We thus find that:
+
+\[
+\ln|y| +C_1 = -xe^{-x}-e^{-x} +C_2
+\]
+or, by writing $\hat{C} = C_2-C_1$:
+
+\[
+\ln|y| = -xe^{-x}-e^{-x} +\hat{C}
+\]
+
+(Note that we usually only will include a single constant of integration since we can always do this)
+
+Now, we can solve for $y$ by exponentiating both sides and find:
+
+\[
+|y| = e^{-xe^{-x}-e^{-x} +\hat{C}} = e^{-xe^{-x}-e^{-x}} e^{\hat{C}}
+\]
+
+Note that $e^{\hat{C}}$ is just a constant, so letting $C = e^{\hat{C}}$ gives:
+
+\[
+|y| = C e^{-xe^{-x}-e^{-x}} 
+\]
+Furthermore, the expression on the righthand side is always positive or always negative (depending on the sign of $C$), so we can use this constant to take into account the effect the $| \cdot |$ has and write:
+
+\[
+y = C e^{-xe^{-x}-e^{-x}} 
+\]
+
+\begin{remark}
+Note that we have been very explicit with the manipulations with the constants here.  More often than not, these manipulations will not be made explicitly in other books.  The general idea is that algebraically manipulating arbitrary constants gives arbitrary constants, and whenever we use arbitrary constants, we denote them by $C$ throughout.
+\end{remark}
+
+We can now use the initial condition to find $C$:
+
+\[
+y(0) = 3 = C e^{-(0)e^{-(0)}-e^{-(0)}} 
+\]
+so $C= \answer{3e}$, and the specific solution is:
+
+\[
+y = \answer{ 3 e^{-xe^{-x}-e^{-x}+1} }
+\]
+
+\end{exercise}
+\end{exercise}
+ 
+\end{exercise}
+\end{document}

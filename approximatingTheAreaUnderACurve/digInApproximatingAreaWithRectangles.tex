@@ -180,7 +180,7 @@ With even more, we get a closer, and closer, approximation:
   and the $x$-axis on the interval $[-1,1]$, with $8$ rectangles. What is $\Delta x$?
   \begin{prompt}
     \[
-    \Delta x = \answer{1/4}
+    \Delta x = \answer[given]{1/4}
     \]
   \end{prompt}
 \end{question}
@@ -216,7 +216,7 @@ width of the rectangles goes to zero and the number of rectangles goes
 to infinity.
 
 
-Let's setup some notation to help with these calculuations:
+Let's setup some notation to help with these calculations:
 
 
 \begin{definition}
@@ -274,7 +274,7 @@ x_0=a\qquad\text{and}\qquad x_n = b.
     You can draw it!
   \end{hint}
   \begin{prompt}
-    We'll have $\answer{12}$ grid points.
+    We'll have $\answer[given]{12}$ grid points.
   \end{prompt}
 \end{question}
 
@@ -286,25 +286,81 @@ x_0=a\qquad\text{and}\qquad x_n = b.
 
 \section{But which set of rectangles?}
 
-If we are going to try and actually use many small rectangles to
-compute the area under a curve, we should decide on exactly
-\textit{which} rectangles we want to use. We need another definition:
+When we use $n$ rectangles to
+compute the area under a curve, the  width of each rectangle is $\Delta x=\frac{b-a}{n}$. It is clear that $\Delta x=x_k-x_{k-1}$, for $k=1,..., n$. 
+
+But how do we determine 
+\textit{the height} of the rectangle?
+
+  We choose a \textit{sample point} $x_k^*$ and evaluate the function at that point. The value $f(x_k^*)$ determines the height of a rectangle.
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = -sin(deg(\x)) + 3;}]
+    \begin{axis}[  
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        width=6in,
+        height=3in,xtick={1,3,3.4,4,6},
+        xticklabels={$x_0=a$,$x_{k-1}$,$x^*_{k}$,$x_k$,$x_n=b$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {3}
+               {
+                 \addplot [draw=penColor,fill=fillp] plot coordinates
+                          {({1+(\rectnumber - 1) * 5/5},{f(0.4+\rectnumber * 5/5)})
+                            ({1+(\rectnumber) * 5/5},{f(0.4+\rectnumber * 5/5) })} \closedcycle;
+               };
+               \addplot [very thick,penColor, smooth] {f(x)};
+                  \addplot [very thick,penColor2, smooth] plot coordinates {(3.4,0) (3.4,3.28)};
+               \node[fillp!50!black] at (axis cs:3.8,1.5) {\huge$\mathsf{k}$};
+                 \node[fillp!50!black] at (axis cs:2.5,1.5) {${f(x^*_{k})}$};
+                  \node[fillp!50!black] at (axis cs:3.5,3.8) {${\Delta x}$};
+                   \node[fillp!50!black] at (axis cs:1.5,3.8) {\huge${y=f(x)}$};
+                     \addplot[decoration={brace,raise=.2cm},decorate,thin] plot coordinates
+                       {(2.95,.1) (2.95,{f(3.4)-.1})};
+               \addplot[decoration={brace,raise=.2cm},decorate,thin] plot coordinates
+                       {(3,3.35) (4,3.35)};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
 
 \begin{definition}
   When approximating an area with rectangles, a \dfn{sample point} is
-  the $x$-coordinate that determines the relevant height of our
-  rectangles. We denote a sample point as:
+  the $x$-coordinate that determines the height of $k^{th}$
+  rectangle. For  $k=1,..., n$, we denote a sample point as:
   \[
   x_k^*
   \]
+  and the value
+   \[
+ f( x_k^*)
+  \]
+  is the height of the $k^{th}$ rectangle.
 \end{definition}
-The sample point tells us where the rectangles touch the curve.  Here
+\begin{question}
+ What is the area of the $k^{th}$ rectangle shown in the figure above? 
+  \begin{selectAll}
+    \choice{$A=\Delta x $}
+     \choice{$A=f(x)\Delta x $}
+       \choice{$A= f( x_k^*)x_k^*$}
+    \choice[correct]{$A= f( x_k^*)\Delta x$}
+    \choice{$A=f(x)x$}  
+     \choice{$A=k\Delta k$} 
+       \choice[correct]{$A= f( x_k^*)(x_k-x_{k-1})$}
+  \end{selectAll}
+\end{question}
+ Here
 are three options for sample points that we consider:
 
 \subsection{Rectangles defined by left-endpoints}
 
-We can set the rectangles up so that the left-endpoint touches the
-curve.
+We can set the rectangles up so that the sample point is the left-endpoint.
+
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -335,7 +391,7 @@ curve.
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the $k$th rectangle's left-endpoint is touching the curve.
+In the graph above, the $k^{th}$ rectangle's left-endpoint determines the height of the rectangle.
 
 
 
@@ -343,8 +399,8 @@ In the graph above, the $k$th rectangle's left-endpoint is touching the curve.
 
 \subsection{Rectangles defined by right-endpoints}
 
-We can set the rectangles up so that the right-endpoint touches the
-curve.
+We can set the rectangles up so that the right-endpoint determines the height.
+
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -375,13 +431,13 @@ curve.
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the $k$th rectangle's right-endpoint is touching the curve.
+In the graph above, the $k^{th}$ rectangle's right-endpoint of the base determines the height.
 
 
 \subsection{Rectangles defined by midpoints}
 
-We can set the rectangles up so that the midpoint of one of the
-horizontal sides touches the curve.
+We can set the rectangles up so that the midpoint of the base determines the height.
+
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -415,9 +471,8 @@ horizontal sides touches the curve.
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the midpoint of the horizontal side of the $k$th
-rectangle is touching the curve.
-
+In the graph above, the midpoint of the base of the $k^{th}$
+rectangle determines the height.
 
 %% \begin{question}
 %%   Which approximation is most accurate?
@@ -433,8 +488,8 @@ rectangle is touching the curve.
 
 \section{Riemann sums and approximating area}
 
-Once we know how to identify our rectangles, we can compute some
-approximate areas. If we are approximating area with $n$ rectangles, then 
+Once we know how to identify our rectangles, we can compute approximations of some
+ areas. If we are approximating area with $n$ rectangles, then 
 \begin{align*}
   \text{Area} &\approx \sum_{k=1}^n (\text{height of $k$th rectangle})\times(\text{width of $k$th rectangle}) \\
   &=\sum_{k=1}^n  f(x_k^*)\Delta x \\
@@ -451,7 +506,7 @@ approximate areas. If we are approximating area with $n$ rectangles, then
 \end{definition}
 
 A Riemann sum computes an approximation of the area between a curve
-and the $x$-axis on the interval $[a,b]$. It can be defined several
+and the $x$-axis on the interval $[a,b]$. It can be defined in several
 different ways. In our class, it will be defined via left-endpoints,
 right-endpoints, or midpoints. Here we see the explicit connection
 between a Riemann sum defined by left-endpoints and the area between a curve
@@ -519,8 +574,8 @@ and here is the associated Riemann sum
 \subsection{Left Riemann sums}
 
 \begin{example}
-  Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
-  the $x$-axis on the interval $[-1,3]$ using a left-endpoint Riemann
+  Consider $f(x) = x^3/8-x+2$. Approximate the area between the curve $y=f(x)$ and
+  the $x$-axis on the interval $[-1,3]$ using a \textbf{left-endpoint} Riemann
   sum with $n=5$ rectangles.
   
   \begin{explanation}
@@ -601,7 +656,7 @@ It is helpful to collect all of this data into a table:
   5 & \answer[given]{3}    & \answer[given]{2.2}      & \answer[given]{1.131}        \\
 \end{array}
 \]
-Now we may write a left Riemann sum and approximate the area
+Now we may write a left Riemann sum 
 \[
 f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x,
 \]
@@ -622,8 +677,8 @@ and we find
 
 
 \begin{example}
-  Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
-  the $x$-axis on the interval $[-1,3]$ using a right-endpoint Riemann
+  Consider $f(x) = x^3/8-x+2$. Approximate the area between the graph of $f$ and
+  the $x$-axis on the interval $[-1,3]$ using a \textbf{right-endpoint} Riemann
   sum with $n=5$ rectangles.
   
   \begin{explanation}
@@ -704,7 +759,7 @@ It is helpful to collect all of this data into a table:
   5 & \answer[given]{3}    & \answer[given]{3}         & \answer[given]{2.375}   \\
 \end{array}
 \]
-Now we may write a right Riemann sum and approximate the area
+Now we may write a right Riemann sum 
 \[
 f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x +f(x_4^*)\Delta x+   f(x_5^*)\Delta x,
 \]
@@ -726,8 +781,8 @@ and we find
 \subsection{Midpoint Riemann sums}
 
 \begin{example}
-  Consider $f(x) = x^3/8-x+2$. Approximate the area between $f$ and
-  the $x$-axis on the interval $[-1,3]$ using a midpoint Riemann
+  Consider $f(x) = x^3/8-x+2$. Approximate the area between the graph of $f$ and
+  the $x$-axis on the interval $[-1,3]$ using a \textbf{midpoint }Riemann
   sum with $n=5$ rectangles.
   
   \begin{explanation}
@@ -811,7 +866,7 @@ It is helpful to collect all of this data into a table:
   5 & \answer[given]{3}    & \answer[given]{2.6}     & \answer[given]{1.597}   \\
 \end{array}
 \]
-Now we may write a midpoint Riemann sum and approximate the area
+Now we may write a midpoint Riemann sum 
 \[
 f(x_1^*)\Delta x + f(x_2^*)\Delta x + f(x_3^*)\Delta x+ f(x_4^*)\Delta x + f(x_5^*)\Delta x,
 \]
@@ -827,6 +882,118 @@ and we find
   \end{explanation}
 \end{example}
 
+\begin{example}
+
+Consider the function
+\[
+f(x) = 16 - x^2
+\]
+on the interval $[0,4]$. We will approximate the area between the graph of $f$ and the $x$-axis on the interval $[0,4]$. See the figure below.
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-0.3,xmax=4.3,ymin=-0.3,ymax=16.5,
+        clip=true,
+        unit vector ratio*=6 1 1,
+        axis lines=center,
+        grid = major,
+        ytick={0,4,...,16},
+        xtick={0,0.5,1,1.5,2,2.5,3,3.5,4},
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]      
+      \pgfplotsinvokeforeach{0.5,1,...,4}{\draw[very thick,penColor,fill,fill opacity=0.3] (axis cs:{#1-0.5},0) rectangle (axis cs:{#1},{16-#1^2});}
+      
+      \addplot[very thick,penColor,domain=0:6] plot{16-x^2};
+      
+      \node at (axis cs:2.5,14) {$y=f(x)$};
+      \end{axis}`
+  \end{tikzpicture}
+\end{image}
+
+The image depicts a \wordChoice{\choice{Left}\choice[correct]{Right}\choice{Midpoint}} Riemann sum with $n=\answer[given]{8}$ subintervals.
+
+\begin{align*}
+x_1^* &= \answer[given]{0.5}\\
+f(x_1^*) &= \answer[given]{15.75}\\
+x_6^* &= \answer[given]{3}\\
+f(x_6^*) &= \answer[given]{7}\\
+x_n^* &= \answer[given]{4}\\
+f(x_n^*) &= \answer[given]{0}\\
+\Delta x &= \answer[given]{\frac{1}{2}}\\
+\sum_{k=1}^n f(x_k^*)\Delta x &= \answer[given]{38.5}
+\end{align*}
+This approximation is an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}. 
+\end{example}
+
+\begin{example}
+
+Consider the function
+\[
+f(x) = 16 - x^2
+\]
+on the interval $[0,4]$. We will approximate the area between the graph of $f$ and the $x$-axis on the interval $[0,4]$ using a \textbf{right }Riemann
+  sum with $n$ rectangles.
+ First, determine the width of each rectangle.
+  \[
+  \Delta x = \answer[given]{\frac{4}{n}}\\
+\]
+Next, we will determine the grid-points.
+
+\begin{align*}
+x_0 &= \answer[given]{0}\\
+ x_1 &=0+\Delta x=\frac{4}{n}\\
+  x_2 &=  x_1+\Delta x=\answer[given]{2}\frac{4}{n}\\
+   x_3 &= x_2+\Delta x= \answer[given]{3}\frac{4}{n}\\
+   ...\\
+     x_{k-1}&= x_{k-2}+\Delta x=(\answer[given]{k-1})\frac{4}{n}\\
+ x_k&= x_{k-1}+\Delta x=\answer[given]{k}\frac{4}{n}\\
+ ...\\
+  x_n&=\answer[given]{4}.
+\end{align*}
+For a right Riemann sum, for $k=1,...,n$, we determine the sample points as follows:
+\begin{align*}
+x_k^* &= x_k=\answer[given]{k}\frac{4}{n}.  \\
+\end{align*}
+
+ 
+  
+Now, we can approximate the area with a right Riemann sum.
+\[
+A\approx\sum_{k=1}^n  f(x_k^*)\Delta x  = \sum_{k=1}^n  f(x_k)\frac{4}{n}  = \sum_{k=1}^n  f\left(k\frac{4}{n}\right)\frac{4}{n}  = \sum_{k=1}^n  \left(16-k^2\frac{16}{n^2}\right)\frac{4}{n} 
+\]
+We can now simplify the last sum  by using the distribution, commutativity and associativity properties of a sum.
+\[
+A\approx \sum_{k=1}^n  \left(16-k^2\frac{16}{n^2}\right)\frac{4}{n} =\frac{4}{n} \sum_{k=1}^n  \left(16-k^2\frac{16}{n^2}\right)=\frac{4}{n}\left( \sum_{k=1}^n 16-\sum_{k=1}^n k^2\frac{16}{n^2}\right)
+\]
+In the last sum, the constant $\frac{16}{n^2}$ is a common factor, so we can again apply the distribution property and obtain the following 
+\[
+A\approx\frac{4}{n}\left( \sum_{k=1}^n 16-\frac{16}{n^2}\sum_{k=1}^n k^2\right)
+\]
+In the  first sum above, the constant $16$ is added $n$ times, and we have a formula for the second sum. Recall: $\sum_{k=1}^n k^2=\frac {n(n+1)(2n+1)}{6}$. Therefore,
+\[
+A\approx\frac{4}{n}\left(  n(16)-\frac{16}{n^2}\cdot\frac{n(n+1)(2n+1)}{6}\right)
+\]
+We can simplify this expression and obtain
+\[
+A\approx64-\frac{32(n+1)(2n+1)}{3n^2}
+\]
+This approximation is an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}. 
+
+
+NOTE: In our previous example we have computed a right Riemann sum for $n=8$. Check whether your result was correct by plugging in $n=8$ in the formula above.
+
+Now, we can take the limit of Riemann sums as  $n\to\infty$ to find the  exact value of the area of the region under the curve $y=f(x)$ on the interval $[0,4]$. Namely,  
+\[
+A=\lim_{n\to\infty}\sum_{k=1}^n  f(x_k^*)\Delta x, 
+\]
+and, therefore
+\[
+A=\lim_{n\to\infty}\left(64-\frac{32(n+1)(2n+1)}{3n^2}\right)=\answer[given]{\frac{128}{3}}.
+\]
+\end{example}
 
 
 \subsection{Summary}
@@ -846,8 +1013,14 @@ several things to know:
     can be left-endpoints, right-endpoints, or midpoints.
   \item What is the actual height of the rectangle? This will always
     be $f(x_k^*)$.
+      \item We approximate the area $A$ with a Riemann sum
+      
+      $A\approx\sum_{k=1}^n  f(x_k^*)\Delta x$.
+      \item As $n$ gets bigger and bigger,  $\Delta x$ gets smaller and smaller, and approximation gets better and better.
+      We compute the exact value of $A$ by taking the limit of Riemann sums
+      
+      
+     $A= \lim_{n\to\infty}\sum_{k=1}^n  f(x_k^*)\Delta x$.
 \end{itemize}
-
-
-
 \end{document}
+

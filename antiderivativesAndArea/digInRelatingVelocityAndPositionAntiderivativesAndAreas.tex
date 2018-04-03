@@ -464,18 +464,54 @@ This scenario is illustrated in the figure below.
         \end{axis}
 \end{tikzpicture}
 \end{image}
+We pause here to illustrate the  $k^{th}$ rectangle when computing a left Riemann sum of the function $v$ on the interval $[0,4]$.
+\begin{image}
+  \begin{tikzpicture}[
+      declare function = {f(\x) = (1/4)*x^2 + 1;}]
+    \begin{axis}[  
+        domain=-.2:4.2, xmin =-.2,xmax=4.2,ymax=5.2,ymin=-.7,
+        width=6in,
+        height=3in,xtick={0,2,2.8,4},
+        xticklabels={$t_0=0$,$t_{k-1}=t^*_{k}$,$t_k$,$t_n=4$},
+        ytick style={draw=none},
+        yticklabels={},
+        axis lines=center, xlabel=$t$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        axis on top,
+      ]
+      \foreach \rectnumber in {2}
+               {
+                \addplot [draw=none,fill=fillp,domain=2:2.8, smooth] {2.037} \closedcycle;
+               };
+               \addplot [very thick,penColor2, smooth] {f(x)}; 
+               \addplot [very thick,penColor, smooth, domain=2:2.8] {2.037};
+                  \addplot [very thick,penColor2, smooth] plot coordinates {(2,0) (2,2.037)};
+               \node[fillp!50!black] at (axis cs:2.4,0.7) {\huge$\mathsf{k}$};
+                 \node[fillp!50!black] at (axis cs:1.7,1.1) {${v(t^*_{k})}$};
+                  \node[fillp!50!black] at (axis cs:2.4,2.65) {${\Delta t}$};
+                   \node[fillp!50!black] at (axis cs:1.5,3.8) {\huge${y=v(t)}$};
+                     \addplot[decoration={brace,raise=.2cm},decorate,thin] plot coordinates
+                       {(1.95,.1) (1.95,{f(2)-.1})};
+               \addplot[decoration={brace,raise=.2cm},decorate,thin] plot coordinates
+                       {(2,2.005) (2.8,2.005)};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
 We continue by approximating the displacement of the object assuming that the velocity is constant during $4/n$-second time intervals, with velocity equal to the velocity at the beginning of each time interval.
 
 
- Under this assumption, during the first $\frac{4}{n}$-second interval, the object would move by $v(0)\cdot\frac{4}{n}$;  during the second such time interval, the object would move by $v\left(\frac{4}{n}\right)\cdot\frac{4}{n}$, during the third time interval, the object would move by 
+ Under this assumption, during the first $\frac{4}{n}$-second interval, the object would move by $v(0)\cdot\frac{4}{n}$ ft;  during the second such time interval, the object would move by $v\left(\frac{4}{n}\right)\cdot\frac{4}{n}$ ft, during the third time interval, the object would move by 
  
- $v\left(2\frac{4}{n}\right)\cdot\frac{4}{n}$,etc. 
+ $v\left(2\frac{4}{n}\right)\cdot\frac{4}{n}$ ft, etc. 
  
  During the entire time interval, the object would move by
 \[
    displacement \approx v(0)\cdot\Delta t+v\left(\frac{4}{n}\right)\cdot\Delta t+v\left(2\frac{4}{n}\right)\cdot\Delta t+...+v\left((n-1)\frac{4}{n}\right)\cdot\Delta t+v\left(n\frac{4}{n}\right)\cdot\Delta t
 \]
-Using sigma notation and the fact that $\Delta t=\frac{4-0}{n}=\frac{4}{n}$, and notation for sample pints, we write 
+Using sigma notation, notation for  the length of each time interval, $\Delta t=\frac{4-0}{n}=\frac{4}{n}$, and notation for sample pints, we write 
 
   \[
    displacement\approx \sum_{k=1}^nv((k-1)\cdot\Delta t)\Delta t
@@ -493,7 +529,7 @@ Approximations get better and better, because we approximate the velocity with a
 Therefore, it seems reasonable to  write
 
   \[
-   displacement=\lim_{n\to\infty}\sum_{k=1}^nv((k-1)\cdot\Delta t)\Delta t
+   displacement=\lim_{n\to\infty}\sum_{k=1}^nv(t_k^*)\Delta t
 \]
 
 By  the definition of the definite integral, we can write
@@ -507,13 +543,13 @@ This gives us another interpretation of the definite integral. Namely,
 
 
 
-''definite integral of the velocity over $[a,b]$= the displacement over $[a,b]$".
+``definite integral of the velocity over $[a,b]$= the displacement over $[a,b]$".
 
 
 
   On the other hand, the displacement of anobject during the time interval $[0,4]$ is given by
   \[
-   displacement=change\hspace{0.1in} of\hspace{0.1in} position
+   displacement=change\hspace{0.05in} of\hspace{0.05in} position
 \]
   
   The change of position can be written in terms of $s$, the position function of the object

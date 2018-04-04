@@ -18,27 +18,48 @@
 \end{abstract}
 \maketitle
 
+A question I've often asked myself is: ``How do you know when you are
+doing a calculus problem?'' The answer, I think, is that you are doing
+a calculus problem when you are computing: a limit, a derivative, or
+an integral. Now we are going to do calculus with vector-valued
+functions.  To build a theory of calculus for vector-valued functions,
+we simply treat each component of a vector-valued function as a
+regular, single-variable function.  Since we are currently thinking
+about vector-valued functions that only have a single input, we can
+work \dfn{component-wise}. Let's see this in action.
 
-Since we are currently thinking about vector-valued functions that
-only have a single input, we can work \dfn{component-wise}. This means
-that to build a theory of calculus for vector-valued functions, we
-simply treat each component of a vector-valued function as a regular,
-single-variable function. Let's see this in action.
+
 
 \section{Limits of vector-valued functions}
 
-\begin{definition}
+With a vector-valued function, you have something like
+\begin{align*}
+  \vec{f} &= \vector{x(t),y(t),z(t)}\\
+  &= \veci x(t) + \vecj y(t)  + \veck z(t)
+\end{align*}
+where each component is completely independent of the other
+components. When computing a limit, we can write:
+\begin{align*}
+  \lim_{t\to a} \vec{f}(t) &= \lim_{t\to a}\left(\veci x(t) + \vecj y(t)  + \veck z(t)\right)\\
+  &= \lim_{t\to a}\veci x(t) + \lim_{t\to a}\vecj y(t)  + \lim_{t\to a}\veck z(t)\\
+  &= \veci \lim_{t\to a}\veci x(t) + \vecj\lim_{t\to a} y(t)  + \veck\lim_{t\to a} z(t)\\
+  &= \vector{\lim_{t \to a}x(t),\lim_{t \to a}y(t),\lim_{t \to a}z(t)}.
+\end{align*}
+
+This is worth stating as a theorem.
+
+\begin{theorem}\index{limit!of a vector-valued function}
   Let $\vec{f}:\R \to \R^3$ be a vector-valued function
   \[
   \vec{f}(t) = \vector{x(t),y(t),z(t)}
   \]
-  then the vector-valued \dfn{limit} as $t$ goes to $a$ is given by 
+  then the vector-valued limit as $t$ goes to $a$ is given by 
   \[
   \lim_{t \to a} \vec{f}(t) = \vector{\lim_{t \to a}x(t),\lim_{t \to a}y(t),\lim_{t \to a}z(t)}.
   \]
   This limit exists if and only if each of the limits of the
   components exist.
-\end{definition}
+\end{theorem}
 
 We evaluate limits by just taking the limit of each component
 separately.
@@ -83,14 +104,38 @@ real values of $t$?
   \choice{$\vector{\ln(t^2), \ln(t), t^{3/2}}$}
   \choice[correct]{$\vector{0, 0, 0}$}
 \end{selectAll}
+\begin{hint}
+  Recall the following theorem:
+  \begin{theorem}[Continuity of Famous Functions]\index{continuity of famous functions}\label{theorem:continuity}
+    The following functions are continuous on their natural domains, for $k$ a real number and $b$ a positive real number:
+    \begin{description}
+    \item[Constant function]\index{constant function} $f(x) =k$
+    \item[Identity function]\index{identity function} $f(x) = x$
+    \item[Power function]\index{power function} $f(x)=x^b$
+    \item[Exponential function]\index{exponential function} $f(x)=b^x$
+    \item[Logarithmic function]\index{logarithmic function} $f(x)=\log_b(x)$
+    \item[Sine and cosine] Both $\sin(x)$ and $\cos(x)$ \index{sine}\index{cosine}
+    \end{description}
+    In essence, we are saying that the functions listed above are
+    continuous wherever they are defined.
+  \end{theorem}
+\end{hint}
 \end{question}
 
 
 \section{Derivatives}
 
-We also compute derivatives component-wise:
+Recall the limit definition of the derivative:
+\[
+\ddx f(x) = \lim_{h\to 0} \frac{f(x+h)-f(x)}{h}
+\]
+We have a similar limit definition of vector-valued functions:
+\[
+\dd{t} \vec{f}(t) = \lim_{h\to 0} \frac{\vec{f}(t+h)-\vec{f}(t)}{h}
+\]
+Since limits can be computed component-wise, this derivative can be computed component-wise.
 
-\begin{definition}
+\begin{theorem}
   Let $\vec{f}:\R \to \R^3$ be a vector-valued function
   \[
   \vec{f}(t) = \vector{x(t),y(t),z(t)},
@@ -99,7 +144,21 @@ We also compute derivatives component-wise:
   \[
   \vec{f}'(t) = \vector{x'(t),y'(t),z'(t)}.
   \]
-\end{definition}
+\end{theorem}
+
+The derivative of a vector-valued function gives a vector that points
+in the direction that the vector-valued function draws the curve.
+
+\begin{onlineOnly}
+  Below we see the derivative of the vector-valued function along with
+  an approximation of the limit for small values of $h$:
+  \begin{center}
+    \geogebra{CmhkZhqk}{800}{600} %%https://ggbm.at/CmhkZhqk
+  \end{center}
+\end{onlineOnly}
+
+
+
 
 \begin{question}
   Let $\vec{f}(t) = \vector{\arctan(t),7^t, \sec(t^2)}$.
@@ -127,8 +186,52 @@ We also have some (additional) derivative rules:
   \end{itemize}
 \end{theorem}
 
+
+\begin{question}
+  Suppose that $s:\R\to\R$, $\vec{f}:\R\to\R^3$, and $\vec{g}:\R\to\R^3$ where:
+  \begin{itemize}
+  \item $s(2) = 3$ and  $s'(2) =-1$.
+  \item $\vec{f}(2) = \vector{1,-1,0}$ and $\vec{f}'(2) = \vector{-1,1,0}$.
+  \item $\vec{g}(2) = \vector{0,1,2}$ and $\vec{g}'(2) = \vector{2,0,-1}$.
+  \end{itemize}
+    Compute: $\eval{\dd{t} s(t)\vec{f}(t)}_{t=2}$
+    \begin{prompt}
+      \[
+      \eval{\dd{t} s(t)\vec{f}(t)}_{t=2} = \vector{\answer{-4},\answer{4},\answer{0}}
+      \]
+    \end{prompt}
+    \begin{question}
+      Compute: $\eval{\dd{t} \vec{f}(t)\dotp\vec{g}(t)}_{t=2}$
+      \begin{prompt}
+        \[
+        \eval{\dd{t} \vec{f}(t)\dotp\vec{g}(t)}_{t=2} = \answer{3}
+        \]
+      \end{prompt}
+      \begin{question}
+        Compute: $\eval{\dd{t} s(t)\vec{f}(t)}_{t=2}$
+        \begin{prompt}
+          \[
+          \eval{\dd{t} \vec{f}(t)\cross\vec{g}(t)}_{t=2} = \vector{\answer{3},\answer{3},\answer{1}}
+          \]
+        \end{prompt}
+      \end{question}
+    \end{question}
+  \end{question}
+  
+
+
+
 The derivative of a vector-valued function gives a \textit{tangent
-  vector} that points in the direction that the curve is drawn.
+  vector}. A tangent vector is a vector that points in the direction
+that the curve is drawn.
+
+\begin{onlineOnly}
+  Below we see the derivative of the vector-valued function along with
+  an approximation of the limit for small values of $h$:
+  \begin{center}
+    \geogebra{TgtNuNhF}{800}{600} %%https://ggbm.at/TgtNuNhF
+  \end{center}
+\end{onlineOnly}
 
 \begin{definition}
 Let $\vec{f}(t)$ be a differentiable vector-valued function on an open
@@ -142,7 +245,8 @@ interval $I$ containing $c$, where $\vec{f}'(c)\neq \vec{0}$.
   \[
   \boldsymbol{\l}(t) = \vec f(c) + t\vec{f}'(c).
   \]
-\item The \dfn{unit tangent vector} of $\vec{f}$ is given by
+\item The direction of $\vec{f}$ is given by the \dfn{unit tangent
+  vector} of $\vec{f}$ is given by
   \[
   \utan(t)=\frac{\vec{f}'(t)}{|\vec{f}'(t)|} = \frac{\vec{f}'(t)}{\sqrt{\vec{f}'(t)\dotp \vec{f}'(t)}}.
   \]
@@ -160,9 +264,12 @@ interval $I$ containing $c$, where $\vec{f}'(c)\neq \vec{0}$.
   \end{prompt}
 \end{question}
 
-If the tangent vector is ever the zero vector, then there is a
-problem, since there is no ``tangent line'' at that point. Because of
-this, we have a special name for functions where the tangent vector is never zero:
+We want to be able to predict how a curve drawn by a vector-valued
+function behaves based on the function's derivative. However, if the
+derivative is ever the zero vector, we loose all such information.
+When this happens we cannot use the tools of calculus. Because of
+this, we have a special name for functions where the tangent vector is
+never zero:
 
 \begin{definition}
 Let $\vec{f}(t)$ be a differentiable vector-valued function on an open
@@ -192,8 +299,11 @@ for $t$ in $I$.
 \end{question}
 
 
-Finally, we should point out that if a vector-valued function has
-constant length, then it traces out part of a circle.
+Finally, we point out that if a vector-valued function has unit
+length, then there is a special relationship between the function and
+its tangent vectors.
+
+
 \begin{theorem}
   Let $\vec f(t)$ be a differentiable vector-valued function on an
   open interval $I$. $\vec{f}(t)$ is of constant length if and only if
@@ -204,7 +314,8 @@ constant length, then it traces out part of a circle.
     \[
     \vec{f}(t) \dotp \vec{f}(t) = c^2.
     \]
-    Now take the derivative of both sides. Write with me
+    Now take the derivative with respect to $t$ of both sides and
+    apply the derivative rules from above. Write with me
     \begin{align*}
       \vec{f}'(t) \dotp \vec{f}(t) + \vec{f}(t)\dotp \vec{f}'(t) &= 0\\
       2\vec{f}'(t) \dotp \vec{f}(t) &= 0\\
@@ -239,11 +350,12 @@ circle. However, it does not mean the curve looks like a circle globally.
   For example, consider this curve:
 
   \begin{center}
-    \geogebra{sAtZbVuM}{800}{600}
+    \geogebra{BjaXggAp}{800}{600} %%https://ggbm.at/BjaXggAp
   \end{center}
 
   By moving the slider around you can see the vector of constant
-  length that draws the curve.
+  length that draws the curve and the tangent vector. Note that these
+  vectors are orthogonal.
 \end{onlineOnly}
 
 
@@ -252,8 +364,10 @@ circle. However, it does not mean the curve looks like a circle globally.
 
 
 \section{Integrals}
+Since we took the derivative of vector-valued functions by
+differentiating each component, we will also compute indefinite and
+definite integrals by computing antiderivatives of each component.
 
-Indefinite and definite integrals of vector-valued functions are also evaluated component-wise.
 
 \begin{theorem}
   Let $\vec{f}:\R \to \R^3$ be a continuous vector-valued function
@@ -332,7 +446,7 @@ We can also solve initial value problems, check out our next example:
   \end{explanation}
 \end{example}
 
-We now leave you with a question: What does the integration of a
+We now leave you with a question: What does  integration of a
 vector-valued function \textit{mean}?  There are many applications,
 but none as direct as ``the area under the curve'' that we used in
 understanding the integral of a real-valued function. We will explore

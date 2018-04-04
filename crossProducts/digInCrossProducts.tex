@@ -15,20 +15,19 @@
 \end{abstract}
 \maketitle
 
-There is no ``nice'' way to ``multiply'' two vectors and obtain
-another vector in general. However, in the special case of $\R^3$,
-there is an important multiplication operation called ``the cross
-product.''
+There is no useful way to ``multiply'' two vectors and obtain another
+vector in $\R^n$ for arbitrary $n$. However, in the special case of
+$\R^3$, there is an important multiplication operation called ``the
+cross product''.
 
 The cross product is linked inextricably to the determinant, so we
 will first introduce the determinant before introducing this new
-operation. See \link[this paper]{http://www-groups.dcs.st-and.ac.uk/history/HistTopics/Matrices_and_determinants.html}
-for a discussion of the history of the idea of a \textit{determinant}.
+operation. 
 
 \section{Determinants}
 
 \begin{definition}
-  Given a $2\times2$ matrix, the \dfn{determinant} is given by:
+  Given a $2\times2$ matrix, the \dfn{determinant} is given by
   \[
   \det
   \begin{bmatrix}
@@ -47,7 +46,7 @@ Why would anyone ever be interested in this? Well to start, given nonzero vector
 \[
 \vec{v} = \vector{a,b}\quad\text{and}\quad\vec{w}=\vector{c,d}
 \]
-we can form a parallelogram:
+we can form a parallelogram as below.
 \begin{image}
 \begin{tikzpicture}
   \draw[fill=fill1!50!white,draw=none]
@@ -62,12 +61,14 @@ we can form a parallelogram:
   \draw[->,ultra thick,dashed,penColor] (2,3) -- (7,4);
   \node[above,penColor] at (2.5,.5) {$\vec{v}$}; %% <a,b>
   \node[below right,penColor2] at (1,1.5) {$\vec{w}$}; %% <c,d>
+  \draw[->] (.5,.1) arc[radius=.5cm,start angle=11.3,end angle=56.3];
+  \node[above right] at (.4,.2) {$\theta$}; 
 \end{tikzpicture}
 \end{image}
 The determinant gives the (signed) area of this parallelogram, where
-the sign of the area is given by the sign of the angle (drawn
+the sign of the area is given by the sign of the angle $\theta$ (drawn
 counterclockwise) between $\vec{v}$ and $\vec{w}$. To understand why
-this is true, make a rectangle around the parallelogram:
+this is true, make a rectangle around the parallelogram as below.
 \begin{image}
 \begin{tikzpicture}
   \draw[fill=fill1!50!white,draw=none]
@@ -122,7 +123,7 @@ this is true, make a rectangle around the parallelogram:
   \node[below right,penColor2] at (1,1.5) {$\vec{w}$}; %% <c,d>
 \end{tikzpicture}
 \end{image}
-Now we see that the area of the parallelogram is
+Now, we see that the area of the parallelogram is
 \[
 \text{Area of rectangle} - \text{Area of other regions}
 \]
@@ -137,8 +138,8 @@ and this is
   \end{bmatrix}.
 \end{align*}
 
-Typically when one computes the determinant of a $2\times 2$ matrix,
-we think of the terms as follows:
+Typically, when one computes the determinant of a $2\times 2$ matrix,
+we think of the terms as follows.
 \begin{image}[1in]
   \begin{tikzpicture}
     \matrix (mtrx)  [matrix of math nodes,ampersand replacement=\&,%column sep=.1em,
@@ -166,9 +167,9 @@ we think of the terms as follows:
 
 
 \begin{definition}
-  Given a $3\times 3$ matrix, the \dfn{determinant} is given by
-  \begin{align*}
-  &\det\begin{bmatrix}
+  Given a $3\times 3$ matrix, the \dfn{determinant} is denoted by the following.
+  \[
+  \det\begin{bmatrix}
   a_1 &  a_2 & a_3 \\
   b_1 &  b_2 & b_3 \\
   c_1 &  c_2 & c_3
@@ -178,12 +179,10 @@ we think of the terms as follows:
     a_1 &  a_2 & a_3 \\
     b_1 &  b_2 & b_3 \\
     c_1 &  c_2 & c_3
-  \end{vmatrix}\\
-  &= a_1b_2c_3+b_1c_2a_3+c_1a_2b_3-a_3b_2c_1-b_3c_2a_1-c_3a_2b_1.
-  \end{align*}
-\end{definition}
-We can remember this formula by using the following pattern:
-\begin{image}
+  \end{vmatrix}
+  \]
+  The determinant can be computed using the following pattern.
+\begin{image}[3in]
 \begin{tikzpicture}
 \node at (0,0) {$\det
 \begin{bmatrix}
@@ -233,6 +232,11 @@ We can remember this formula by using the following pattern:
     \end{bmatrix}$}};
 \end{tikzpicture}
 \end{image}
+This equals
+\[
+ a_1(b_2c_3-b_3c_2)- a_2(b_1c_3-b_3c_1)+ a_3(b_1c_2-b_2c_1).
+\]
+\end{definition}
 
 %% Or:
 %% Commented because this is not a particularly useful method in this course.
@@ -287,7 +291,7 @@ We can remember this formula by using the following pattern:
 %% \end{image}
 
 \begin{question}
-  Compute:
+  Compute.
   \[
   \det
   \begin{bmatrix} 
@@ -310,99 +314,114 @@ We can remember this formula by using the following pattern:
 
 \section{Cross products}
 
+Determinants in $\R^n$ have many uses. In $\R^3$, one of the uses is
+the definition of the \textit{cross product}.
+
+
 \begin{definition}
-  The \dfn{cross product} of two vectors is given by: 
+  The \dfn{cross product} of two vectors is given by 
   \[
   \vector{a_1,a_2,a_3} \cross \vector{b_1,b_2,b_3} = \det
   \begin{bmatrix}
     \veci & \vecj & \veck\\
     a_1 & a_2 & a_3\\
     b_1 & b_2 & b_3
-  \end{bmatrix}
+  \end{bmatrix}.
   \]
 \end{definition}
 The first thing you should notice about the the cross product is that
 \[
 \mathbf{vector}\cross \mathbf{vector} = \mathbf{vector}.
 \]
-  When computing the cross product, the pattern:
+In particular, the cross product is not precisely a determinant, since 
+a determinant would be a number, not a vector.  But, the determinant 
+provides us with a useful memory tool for computing the cross product.  The pattern
 
-  \begin{image}
-\begin{tikzpicture}
-\node at (0,0) {$\det
-  \begin{bmatrix}
-    \veci & \vecj & \veck\\
-    a_1 & a_2 & a_3\\
-    b_1 & b_2 & b_3
-\end{bmatrix}
-= \veci
-\begin{vmatrix}
-  a_2 & a_3\\
-  b_2 & b_3
-\end{vmatrix}
--\vecj
-\begin{vmatrix}
-  a_1 & a_3\\
-  b_1 & b_3
-\end{vmatrix}
-+\veck
-\begin{vmatrix}
-  a_1 & a_2\\
-  b_1 & b_2
-\end{vmatrix}$};
+\begin{image}[3in]
+  \begin{tikzpicture}
+    \node at (0,0) {$\det
+      \begin{bmatrix}
+        \veci & \vecj & \veck\\
+        a_1 & a_2 & a_3\\
+        b_1 & b_2 & b_3
+      \end{bmatrix}
+      = \veci
+      \begin{vmatrix}
+        a_2 & a_3\\
+        b_2 & b_3
+      \end{vmatrix}
+      -\vecj
+      \begin{vmatrix}
+        a_1 & a_3\\
+        b_1 & b_3
+      \end{vmatrix}
+      +\veck
+      \begin{vmatrix}
+        a_1 & a_2\\
+        b_1 & b_2
+      \end{vmatrix}$};
+    
+    \draw[ultra thick,->,gray] (-.27,-1.3) -- (-.27,-.7);
+    \draw[ultra thick,->,gray] (1.61,-1.3) -- (1.61,-.7);
+    \draw[ultra thick,->,gray] (3.58,-1.3) -- (3.58,-.7);
 
-\draw[ultra thick,->,gray] (-.27,-1.3) -- (-.27,-.7);
-\draw[ultra thick,->,gray] (1.61,-1.3) -- (1.61,-.7);
-\draw[ultra thick,->,gray] (3.58,-1.3) -- (3.58,-.7);
+    \node at (-.27,-2) {\scalebox{.7}{
+        $\begin{bmatrix}
+          \veci & \bullet & \bullet\\
+          \bullet & a_2 & a_3\\
+          \bullet & b_2 & b_3
+        \end{bmatrix}$}};
+    
+    \node at (1.61,-2) {\scalebox{.7}{
+        $\begin{bmatrix}
+          \bullet & \vecj & \bullet\\
+          a_1 & \bullet & a_3\\
+          b_1 & \bullet & b_3
+        \end{bmatrix}$}};
 
-\node at (-.27,-2) {\scalebox{.7}{
-    $\begin{bmatrix}
-      \veci & \bullet & \bullet\\
-      \bullet & a_2 & a_3\\
-      \bullet & b_2 & b_3
-    \end{bmatrix}$}};
-
-\node at (1.61,-2) {\scalebox{.7}{
-    $\begin{bmatrix}
-      \bullet & \vecj & \bullet\\
-      a_1 & \bullet & a_3\\
-      b_1 & \bullet & b_3
-    \end{bmatrix}$}};
-
-\node at (3.58,-2) {\scalebox{.7}{
-    $\begin{bmatrix}
-      \bullet & \bullet & \veck\\
-      a_1 & a_2 & \bullet\\
-      b_1 & b_2 & \bullet
-    \end{bmatrix}$}};
-\end{tikzpicture}
-  \end{image}
+    \node at (3.58,-2) {\scalebox{.7}{
+        $\begin{bmatrix}
+          \bullet & \bullet & \veck\\
+          a_1 & a_2 & \bullet\\
+          b_1 & b_2 & \bullet
+        \end{bmatrix}$}};
+  \end{tikzpicture}
+\end{image}
   
-is usually most efficient, because you immediately have the
-components of the desired vector, without additional
-simplification.
+is efficient, because you immediately have the components of the
+desired vector without additional simplification.
 
 \begin{question}
-  Compute:
-  \[
+  Compute $\vector{2,3,1} \cross \vector{1,1,1}$.
+  \begin{prompt}
+  \begin{align*}
   \vector{2,3,1} \cross \vector{1,1,1}
-  \begin{prompt}
-    = \vector{\answer{2},\answer{-1},\answer{-1}}
+  &= \det \begin{bmatrix}
+      \veci & \vecj & \veck \\
+      \answer{2} & \answer{3} & \answer{1}\\
+      \answer{1} & \answer{1} & \answer{1}
+    \end{bmatrix}\\
+    &= \vector{\answer{2},\answer{-1},\answer{-1}}
+  \end{align*}
   \end{prompt}
-  \]
   \begin{question}
-  Compute:
-  \[
-  \vector{1,1,1}\cross\vector{2,3,1} 
+  Compute $\vector{1,1,1}\cross\vector{2,3,1}$.
   \begin{prompt}
-    = \vector{\answer{-2},\answer{1},\answer{1}}
+  \begin{align*}
+    \vector{1,1,1}\cross\vector{2,3,1}
+    &=\det \begin{bmatrix}
+      \veci & \vecj & \veck \\
+      \answer{1} & \answer{1} & \answer{1}\\
+      \answer{2} & \answer{3} & \answer{1}
+    \end{bmatrix}\\
+  &= \vector{\answer{-2},\answer{1},\answer{1}}
+  \end{align*}
   \end{prompt}
-  \]
 \end{question}
 \end{question}
 
-Note that the cross product is not commutative! In fact, it is
-anticommutative:
+Notice that the cross product is not commutative! In fact, it is
+\textit{anticommutative}, meaning the statement below.
 
 \begin{theorem}[The Cross Product is Anticommutative]
   Given two vectors $\vec{a}$ and $\vec{b}$ in $\R^3$
@@ -412,28 +431,31 @@ anticommutative:
 \end{theorem}
 The anticommutative property of the cross product demonstrates that
 $\vec{a}\cross\vec{b}$ and $\vec{b}\cross\vec{a}$ differ only by a
-sign. These vectors have the same magnitude but point in the opposite
-direction. Now let's examine the cross product on famous unit vectors.
+sign. These vectors have the same magnitude but point in opposite
+directions.
+
+
+Let's examine the cross product on famous unit vectors.
 \begin{question}
-  Compute:
+  Compute
   \[
-  \veci \cross \vecj
+  \veci \cross \vecj.
   \begin{prompt}
     = \vector{\answer{0},\answer{0},\answer{1}}
   \end{prompt}
   \]
   \begin{question}
-  Compute:
+  Compute
   \[
-  \vecj\cross\veck 
+  \vecj\cross\veck. 
   \begin{prompt}
     = \vector{\answer{1},\answer{0},\answer{0}}
   \end{prompt}
   \]
   \begin{question}
-  Compute:
+  Compute
   \[
-  \veck\cross\veci 
+  \veck\cross\veci. 
   \begin{prompt}
     = \vector{\answer{0},\answer{1},\answer{0}}
   \end{prompt}
@@ -442,7 +464,7 @@ direction. Now let's examine the cross product on famous unit vectors.
 \end{question}
 \end{question}
 
-One way to remember the relation between the cross product and the unit vectors $\veci$, $\vecj$, and $\veck$ is to use the diagram below:
+One way to remember the cross products of the unit vectors $\veci$, $\vecj$, and $\veck$ is to use the diagram below.
 \begin{image}[1in]
 \begin{tikzpicture}
   \draw[ultra thick,->] (.94,-.34) arc (-20:80:1cm);
@@ -455,7 +477,7 @@ One way to remember the relation between the cross product and the unit vectors 
 \end{image}
 
 Since we see that the cross product of two basic unit vectors produces
-a vector orthogonal to \textit{both} unit vectors, we are lead to our
+a vector orthogonal to \textit{both} unit vectors, we are led to our
 next theorem (which could be verified through brute force
 computations).
 
@@ -464,17 +486,17 @@ computations).
   and $\vec{b}$.
 \end{theorem}
 
-When seeking a vector perpendicular to both $\vec a$ and $\vec b$, we
-essentially have two directions to choose from, one in the direction
-of $\vec{a}\cross\vec{b}$ and one in the direction of
+In three-dimensional space, when seeking a vector perpendicular to both 
+$\vec a$ and $\vec b$, we could choose one of two directions: the direction
+of $\vec{a}\cross\vec{b}$, or the direction of
 $\vec{b}\cross\vec{a}$.  The direction of the cross product is given
 by the \textit{right-hand rule}.  Given $\vec{a}$ and $\vec{b}$ in
 $\R^3$ with the same initial point, point the index finger of your
-right-hand in the direction of $\vec{a}$ and let your middle finger
+right hand in the direction of $\vec{a}$ and let your middle finger
 point in the direction of $\vec{b}$ (much as we did when establishing
 the right-hand rule for the 3-dimensional coordinate system). Your
 thumb will naturally extend in the direction of
-$\vec{a}\cross\vec{b}$.  If you switch, and point the index finder in
+$\vec{a}\cross\vec{b}$.  If you switch your fingers, pointing the index finder in
 the direction of $\vec{b}$ and the middle finger in the direction of
 $\vec{a}$, your thumb will now point in the opposite direction,
 allowing you to ``visualize'' the anticommutative property of the
@@ -586,7 +608,7 @@ cross product.\index{right-hand rule}
 
 
 \begin{question}
-  Consider the vectors below:
+  Consider the vectors below.
   \begin{image}
     \begin{tikzpicture}
       \draw[->,ultra thick,penColor] (0,0) -- (5,1);
@@ -610,8 +632,8 @@ cross product.\index{right-hand rule}
 
 Just as we related the angle between two vectors and their dot
 product, there is a similar relationship relating the cross product of
-two vectors to the angle between them. Before we get started we need
-an identity:
+two vectors to the angle between them. Before we get started, we need
+an identity.
 
 \begin{theorem}[Lagrange's Idenitity]\index{Lagrange's identity}
   Given two vectors $\vec{a}$ and $\vec{b}$,
@@ -632,7 +654,7 @@ an identity:
 \begin{theorem}[Geometric Interpretation of the Cross Product]\index{cross product}
   For any two vectors $\vec{a}$ and $\vec{b}$,
   \[
-  |\vec{a} \cross \vec{b}| = |\vec{a}||\vec{b}|\sin(\theta)
+  |\vec{a} \cross \vec{b}| = |\vec{a}||\vec{b}|\sin(\theta),
   \]
   where $0\le \theta\le\pi$ is the angle between $\vec{a}$ and
   $\vec{b}$.
@@ -643,24 +665,24 @@ an identity:
     \]
     However, we also know that
     \[
-    \vec{a} \dotp\vec{b} = |\vec{a}| |\vec{b}|\cos(\theta)
+    \vec{a} \dotp\vec{b} = |\vec{a}| |\vec{b}|\cos(\theta).
     \]
-    and so, write with me:
+    So, write with me.
     \begin{align*}
       |\vec{a}\cross\vec{b}|^2 &= |\vec{a}|^2 |\vec{b}|^2 - (\vec{a}\dotp\vec{b})^2\\
       &= |\vec{a}|^2 |\vec{b}|^2 - |\vec{a}|^2 |\vec{b}|^2\cos^2(\theta)\\
       &= |\vec{a}|^2 |\vec{b}|^2(1 - \cos^2(\theta))\\
-      &= |\vec{a}|^2 |\vec{b}|^2\sin^2(\theta).
+      &= |\vec{a}|^2 |\vec{b}|^2\sin^2(\theta)
     \end{align*}
-    Hence $|\vec{a} \cross \vec{b}| = |\vec{a}||\vec{b}|\sin(\theta)$.
+    Hence, $|\vec{a} \cross \vec{b}| = |\vec{a}||\vec{b}|\sin(\theta)$.
   \end{explanation}
 \end{theorem}
 
 The theorems above help us make a strong connection between the cross
-product and geometry:
+product and geometry.
 
 \begin{theorem}
-  Given two vectors $\vec{a}$ and $\vec{b}$ in $\R^3$
+  Given two vectors $\vec{a}$ and $\vec{b}$ in $\R^3$,
   \begin{image}
     \begin{tikzpicture}
 \begin{axis}%
@@ -710,7 +732,7 @@ product and geometry:
     \]
     where $b$ is the length of the base and $h$ is the height of the
     parallelogram. Two vectors $\vec{a}$ and $\vec{b}$ define a
-    parallelogram when drawn from the same initial point,
+    parallelogram when drawn from the same initial point, as follows.
     \begin{image}[2in]
       \begin{tikzpicture}[thick,scale=1.25,>=stealth]
         \draw (.8,0) -- (.8,.2) -- (1,.2);
@@ -726,10 +748,10 @@ product and geometry:
         \node[below,penColor2] at (1,0) {$\vec b$};
       \end{tikzpicture}
     \end{image}
-    Trigonometry tells us that $h = |\vec{a}| \sin(\theta)$, hence the
+    Trigonometry tells us that $h = |\vec{a}| \sin(\theta)$, and so the
     area of the parallelogram is
     \[
-    A = |\vec{a}||\vec{b}|\sin(\theta) = |\vec{a}\cross\vec{b}|,
+    A = |\vec{a}||\vec{b}|\sin(\theta) = |\vec{a}\cross\vec{b}|.
     \]
   \end{explanation}
 \end{theorem}
@@ -753,7 +775,21 @@ product and geometry:
   \end{question}
 \end{question}
 
+Note that if $\vec{a}$ and $\vec{b}$ are in $\R^2$, we can \textit{still}
+use the cross product to compute the area of the parallelogram spanned
+by $\vec{a}$ and $\vec{b}$. We just add a $z$-component of $0$ to each
+vector.
 
+
+\begin{question}
+  What is the area of the parallelogram spanned by $\vector{1,2}$ and
+  $\vector{3,4}$?
+  \begin{prompt}
+    \[
+    \text{Area} = \answer{2}
+    \]
+  \end{prompt}
+\end{question}
 
 \begin{theorem}
   If $\vec{a}$ and $\vec{b}$ are two nonzero vectors, and $\theta$ is
@@ -762,12 +798,11 @@ product and geometry:
   \vec{a}\cross \vec{b} = \vec{0} \text{ if and only if $\theta=
   0$ or $\theta=\pi$}.
   \]
+  \begin{explanation}
+    This follows from our work with parallelograms, since the area of the parallelogram spanned by
+    parallel vectors is zero.
+  \end{explanation}
 \end{theorem}
-
-This theorem tells us that the cross product of nonzero parallel
-vectors is $\vec{0}$.
-
-
 
 
 \section{Applications}
@@ -791,13 +826,13 @@ occur.
   The torque $\vec{t}$ obtained by applying a force $\vec{F}$ to a
   lever arm with position vector $\vec{r}$ is given by
   \[
-  \vec{t} = \vec{r} \cross \vec{F} 
+  \vec{t} = \vec{r} \cross \vec{F}. 
   \]
 \end{definition}
 
 \begin{question}
   A pipe of length $3 \unit{m}$ has a force of magnitude $2 \unit{N}$
-  applied to it as shown below:
+  applied to it as shown below.
   \begin{image}
     \begin{tikzpicture}
       \begin{axis}[
@@ -845,7 +880,7 @@ a force.  If the charge is $q$, the velocity of the particle is
 $\vec{v}$, and the magnetic field is $\vec{B}$, then the force is
 given by
 \[
-\vec{F} = q\vec{v} \cross \vec{B}
+\vec{F} = q\vec{v} \cross \vec{B}.
 \]
 
 \begin{question}
@@ -870,26 +905,35 @@ Below, we summarize some rules for working with cross products.
   The following are true for all scalars $s$ and $t$, and vectors
   $\vec{u}$, $\vec{v}$, and $\vec{w}$ in $\R^3$.
   \begin{description}
-  \item[Anticommutativty:] $\vec{v} \cross \vec{w}  = -\vec{w} \cross \vec{v}$.
-  \item[Left-distributive:] $\vec{u} \cross (\vec{v} +\vec{w}) = \vec{u} \cross \vec{v}+\vec{u}\cross\vec{w}$.
-  \item[Right-distributive:] $(\vec{v}+\vec{w}) \cross \vec{u} = \vec{v} \cross \vec{u}+\vec{w} \cross \vec{u}$.
-  \item[Respects scalar multiplication:] $s\vec{v} \cross t\vec{w} = st \vec{v} \cross \vec{w}$.
-  \item[Relation to parallel vectors:] $\vec{v} \cross \vec{v} = \vec{0}$.
-  \item[Orientation:] $\veci \cross \vecj = \veck$, $\vecj \cross \veck = \veci$, and $\veck \cross \veci = \vecj$. 
+  \item[Anticommutative:] $\vec{v} \cross \vec{w}  = -\vec{w} \cross \vec{v}$
+  \item[Left-distributive:] $\vec{u} \cross (\vec{v} +\vec{w}) = \vec{u} \cross \vec{v}+\vec{u}\cross\vec{w}$
+  \item[Right-distributive:] $(\vec{v}+\vec{w}) \cross \vec{u} = \vec{v} \cross \vec{u}+\vec{w} \cross \vec{u}$
+  \item[Respects scalar multiplication:] $s\vec{v} \cross t\vec{w} = st \vec{v} \cross \vec{w}$
+  \item[Relation to parallel vectors:] $\vec{v} \cross \vec{v} = \vec{0}$
+  \item[Orientation:] $\veci \cross \vecj = \veck$, $\vecj \cross \veck = \veci$, and $\veck \cross \veci = \vecj$.
   \end{description}
   Moreover, these properties determine the cross product uniquely.
 \end{theorem}
 
 We will not prove that the cross product is the only function with
 these properties, but that is an important point.  If you ever
-wondered where this crazy formula came from, this explains it.  If you
-want these properties, there is only one operation which does it and
-it is the cross product. We leave you with the following curious fact:
-The cross product only exists in $\R^3$ and $\R^7$. While this is
-beyond the scope of this course, the interested young mathematician can read about it \link[here]{http://www.jstor.org/discover/10.2307/2323537}.
+wondered where this crazy formula came from, the uniqueness of the cross product is your explanation.  If you
+want these properties, there is only one operation which gives them to you, and
+it is the cross product. We leave you with the following curious fact.
+The cross product only exists in $\R^3$ and $\R^7$. While a proof of this fact is
+beyond the scope of this course, we hope that this mystery encourages
+you to travel deeper into your studies.
 
 
-
+For some interesting extra reading check out:
+\begin{itemize}
+\item \link[\textit{Matrices and determinants}, J.J.
+  O'Connor and E.F.\ Robertson, Mac Tutor History
+of Mathematics archive]{http://www-groups.dcs.st-and.ac.uk/history/HistTopics/Matrices_and_determinants.html}.
+\item \link[\textit{Cross Products of Vectors in Higher Dimensional Euclidean Spaces},
+  W.S.\ Massey, The American Mathematical Monthly, December
+  1983]{http://www.jstor.org/discover/10.2307/2323537}.
+\end{itemize}
 
 
 

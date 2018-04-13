@@ -1,0 +1,221 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+%\outcome{Find tangent lines to parametric curves}
+\author{Jim Talamo}
+
+\begin{document}
+\begin{exercise}
+Desmos can allow us to view several famous examples of polar curves.
+
+One famous example is a \emph{rose curve}.  These are curves of the form $r= A \cos(n \theta)$ or $r= A \sin(n \theta)$.
+
+\begin{exercise}
+Let's study what $r= a \cos(n \theta)$ looks like and examine the effect of the parameters $A$ and $n$.  
+
+Set $A=1$, and graph $r=\cos(n \theta)$ for $n=1,2,3,4,$ and $5$ using Desmos.  Now, fill out the following tables:
+
+$\bullet$ How many times is the rose traced out when $\theta$ varies between $0$ and $2 \pi$?
+
+\[
+\begin{array}{r|c|c|c|c|c}
+\textrm{value for } n & 1 & 2 & 3 & 4 & 5 \\
+\hline
+\textrm{\# times traced out:} & 2 & \answer{1} & \answer{2} & \answer{1} & \answer{2}
+\end{array}
+\]
+
+\begin{exercise}
+You should notice a pattern! Which of the following describes the pattern?
+\begin{multipleChoice}
+\choice{The curve is traversed once when $\theta$ varies from $0$ to $2 \pi$ regardless of the choice of $n$.}
+\choice{The curve is traversed once when $\theta$ varies from $0$ to $2 \pi$ if $n$ is odd and twice if $n$ is even.}
+\choice[correct]{The curve is traversed once when $\theta$ varies from $0$ to $2 \pi$ if $n$ is even and twice if $n$ is odd.}
+\end{multipleChoice}
+\end{exercise}
+
+$\bullet$ How many petals does each rose have?
+
+\[
+\begin{array}{r|c|c|c|c|c}
+\textrm{value for } n & 1 & 2 & 3 & 4 & 5 \\
+\hline
+\textrm{\# petals:} & 1 & \answer{4} & \answer{3} & \answer{8} & \answer{5}
+\end{array}
+\]
+
+\begin{exercise}
+You should notice a pattern! Which of the following describes the pattern?
+\begin{multipleChoice}
+\choice{The curve has $n$ petals.}
+\choice[correct]{The curve has $n$ petals if $n$ is odd and $2n$ petals if $n$ is even.}
+\choice{The curve has $n$ petals if $n$ is even and $2n$ petals if $n$ is odd.}
+\end{multipleChoice}
+\end{exercise}
+
+$\bullet$ Now, let's examine the effect of the parameter $A$.  Set $n=3$, and look at the graph of $r=A \cos(3\theta)$ (If you type this expression, Desmos should prompt you for a slider for $A$).  We can define the length of a petal to be the maximum distance between the origin and a point on the curve.  It should seem reasonable that this is the distance shown below:
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-2.5,  
+        xmax=2.5,  
+        ymin=-2.5,  
+        ymax=2.5,  
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+         \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, thick] (x,{2*cos(3*x)});
+         \draw (axis cs:2,2.9) node { $r=1+\sin\theta$};
+         \addplot[only marks, mark=*] coordinates {(0, 0)};
+         \addplot[only marks, mark=*] coordinates {(2, 0)};
+	 \addplot [draw=black,fill=gray!50,ultra thick] coordinates {(0,0)(2,0)};
+	  \draw[decoration={brace,raise=.1cm},decorate,thin] (axis cs:0,.5)--(axis cs:2,.5);
+	  \node at (axis cs:1,1.2) [penColor] {\small{length of a petal}};
+	    \node at (axis cs:1,.9) [penColor] {\small{(maximum distance)}};
+         \end{axis}  
+  \end{tikzpicture}  
+\end{image} 
+
+Now, change the value of $A$.  From the picture, what does the parameter $A$ represent for $r=A\cos(3 \theta)$?
+
+\begin{multipleChoice}
+\choice{$A$ is the period of the petal.}
+\choice[correct]{$A$ is the length of a petal.}
+\end{multipleChoice}
+
+Now, choose a particular value of $A$ and let $n$ vary.  What effect does this have on the length of a leaf?
+
+\begin{multipleChoice}
+\choice{The length of a petal is $An$.}
+\choice[correct]{The length of any petal is $A$; the length is independent of $n$.}
+\choice{Neither of these.}
+\end{multipleChoice}
+
+How can we verify this?  Since we have defined this length as the maximum distance between the origin and a point on the rose, we can write down an expression for the distance between the origin and a point on the rose, then maximize it!
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-2.5,  
+        xmax=2.5,  
+        ymin=-2.5,  
+        ymax=2.5,  
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+         \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, thick] (x,{2*cos(3*x)});
+         \draw (axis cs:2,2.9) node { $r=1+\sin\theta$};
+         \addplot[only marks, mark=*] coordinates {(0, 0)};
+         \addplot[only marks, mark=*] coordinates {(1.381,0.365)};
+	 \addplot [draw=black,fill=gray!50,ultra thick] coordinates {(0,0)(1.381,0.365)};
+	 	 \node at (axis cs:.45,0.5) [penColor] {$d(x,y)$};
+		 \node at (axis cs:1.381,0.6) [penColor] {$(x,y)$};
+         \end{axis}  
+  \end{tikzpicture}  
+\end{image} 
+\end{exercise}
+
+Using the distance formula:
+
+\[
+d(x,y) = \sqrt{\answer{x^2+y^2}}
+\]
+(type an answer in terms of $x$ and $y$)
+
+In order to maximize this, we need to express $d$ in terms of a single variable.  Which is the most natural choice?
+
+\begin{multipleChoice}
+\choice{$x$}
+\choice{$y$}
+\choice{$r$}
+\choice[correct]{$\theta$}
+\end{multipleChoice}
+Since we have a parametric description of the curve in terms of $\theta$, this is the natural choice! In fact:
+
+\begin{align*}
+x(\theta) &= \answer{A\cos(3\theta)\cos(\theta)} \\
+y(\theta) &= \answer{A\cos(3\theta)\sin(\theta)}
+\end{align*}
+
+Thus:
+
+\[
+d(\theta) = \sqrt{[x(\theta)]^2+[y(\theta)]^2} = \sqrt{\left[\answer{A\cos(3\theta)\cos(\theta)}\right]^2+\left[ \answer{A\cos(3\theta)\sin(\theta)} \right]^2}
+\]
+
+\begin{exercise}
+We can simplify the expression under the square root:
+\begin{align*}
+\left[A\cos(3\theta)\cos(\theta)\right]^2+\left[A\cos(3\theta)\sin(\theta) \right]^2 &= A^2\cos^2(3\theta) \cos^2(\theta) + A^2\cos^2(3\theta) \sin^2(\theta)\\
+&=  A^2\cos^2(3\theta) \left( \answer{\cos^2(\theta)+\sin^2(\theta)} \right) \\
+&= A^2\cos^2(3\theta)
+\end{align*}
+
+Now, by symmetry, we can consider only the upper half of the petal that is bisected by the positive $x$-axis, where $\answer{0} \leq \theta \leq \answer{\frac{\pi}{6}}$.
+
+Since $d(\theta) =\sqrt{A^2\cos^2(3\theta)} = A\cos(3\theta)$ (because $\cos(3\theta)\geq 0$ for $0 \leq \theta \leq \frac{\pi}{6}$, no absolute value is necessary, all we have the optimization problem:
+
+\begin{quote}
+Maximize $d(\theta) = A\cos(3\theta)$ on the closed interval $\left[0,\frac{\pi}{6}\right]$.
+\end{quote}
+
+Since the maximum of $A\cos(3\theta)$ is $\answer{A}$, and this occurs when $\theta = \answer{0}$, the length of the petal is $\answer{A}$.
+
+\end{exercise}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+Let's study what $r= a \sin(n \theta)$ looks like and examine the effect of the parameters $a$ and $n$.  
+
+Set $a=1$, and graph $r=\sin(n \theta)$ for $n=1,2,3,4,$ and $5$ using Desmos.  Now, fill out the following tables:
+
+$\bullet$ How many times is the rose traced out when $\theta$ varies between $0$ and $2 \pi$?
+
+\[
+\begin{array}{r|c|c|c|c|c}
+\textrm{value for } n & 1 & 2 & 3 & 4 & 5 \\
+\hline
+\textrm{\# times traced out:} & 2 & \answer{1} & \answer{2} & \answer{1} & \answer{2}
+\end{array}
+\]
+
+\begin{exercise}
+You should notice a pattern! Which of the following describes the pattern?
+\begin{multipleChoice}
+\choice{The curve is traversed once when $\theta$ varies from $0$ to $2 \pi$ regardless of the choice of $n$.}
+\choice{The curve is traversed once when $\theta$ varies from $0$ to $2 \pi$ if $n$ is odd and twice if $n$ is even.}
+\choice[correct]{The curve is traversed once when $\theta$ varies from $0$ to $2 \pi$ if $n$ is even and twice if $n$ is odd.}
+\end{multipleChoice}
+\end{exercise}
+
+$\bullet$ How many petals does each rose have?
+
+\[
+\begin{array}{r|c|c|c|c|c}
+\textrm{value for } n & 1 & 2 & 3 & 4 & 5 \\
+\hline
+\textrm{\# petals:} & 1 & \answer{4} & \answer{3} & \answer{8} & \answer{5}
+\end{array}
+\]
+
+\begin{exercise}
+You should notice a pattern! Which of the following describes the pattern?
+\begin{multipleChoice}
+\choice{The curve has $n$ petals.}
+\choice[correct]{The curve has $n$ petals if $n$ is odd and $2n$ petals if $n$ is even.}
+\choice{The curve has $n$ petals if $n$ is even and $2n$ petals if $n$ is odd.}
+\end{multipleChoice}
+\end{exercise}
+
+We could also ask what role $A$ has in the length of a leaf here.  The computation is a bit lengthier, but similar in spirit to the one before.  You are invited (and encouraged!) to explore it on your own.
+
+\end{exercise}
+\end{exercise}
+\end{document}

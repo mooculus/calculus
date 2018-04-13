@@ -403,7 +403,7 @@ We demonstrate the principles involved in this version of the Mean
 Value Theorem in the following example.
 
 \begin{example}%%%BADBAD we state that this is an existential thm, then we ask for the value!
-  Consider $\int_0^\pi \sin x \d x$. Find a value $c$ guaranteed by the Mean Value Theorem.
+  Let $f(x)=\sin{x}$. Consider $\int_0^\pi \sin x \d x$. Find a value $c$ guaranteed by the Mean Value Theorem.
   \begin{explanation}
     We first need to evaluate $\int_0^\pi \sin x\d x$.
     \[
@@ -411,19 +411,24 @@ Value Theorem in the following example.
     \]
     Thus we seek a value $c$ in $[0,\pi]$ such that $\pi\sin c =2$. 
     \[
-    \pi\sin c = 2\ \ \Rightarrow\ \ \sin c = 2/\pi\ \ \Rightarrow\ \ c = \arcsin(2/\pi) \approx 0.69.
+    \pi\sin c = 2\ \ \Rightarrow\ \ \sin c = 2/\pi\ \ \Rightarrow\ \ c_1 = \arcsin(2/\pi) \approx 0.69.
     \]
-    
-A graph of $\sin x$ is sketched along with a rectangle with height
-$\sin (0.69)$ are pictured below. The area of the rectangle is the
-same as the area under $\sin x$ on $[0,\pi]$.
+    There is another  such point: $c_2=\pi-0.69$.
+   Indeed,
+    \[
+    f( \pi-0.69)=\sin{(\pi-0.69)}=\sin{(0.69)}=\frac{2}{\pi}=\overline{f}.
+    \]
+A graph of $\sin x$, along with a rectangle with height
+$\sin (0.69)$, is pictured below. The area of the rectangle is the
+same as the area under $\sin x$ on $[0,\pi]$. The two points $c_1$ and $c_2$ are also shown in the figure.
+Recall, $f(c_1)=f(c_2)=\overline{f}$. 
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = sin(deg(\x));}]
     \begin{axis}[  
         domain=-.2:3.3, xmin =-.2,xmax=3.3,ymax=1.2,ymin=-.2,
         width=6in,
-        height=3in,xtick={3.141,6.282},
+        height=2in,xtick={3.141,6.282},
         xticklabels={$\pi$, $2\pi$},
         ytick style={draw=none},
         yticklabels={},
@@ -436,7 +441,16 @@ same as the area under $\sin x$ on $[0,\pi]$.
                           {({0},{2/pi})
                             ({pi},{2/pi})} \closedcycle;
                \addplot [very thick,penColor, smooth] {f(x)};
-
+ \addplot[color=penColor,fill=penColor2,only marks,mark=*] coordinates{(0.69,0)};  %% closed hole   
+  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0.69,2/pi)};  %% closed hole  
+   \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(pi-0.69,2/pi)};  %% closed hole    
+      \addplot[color=penColor,fill=penColor2,only marks,mark=*] coordinates{(pi-0.69,0)};  %% closed hole   
+       \addplot[decoration={brace,mirror,raise=.1cm},decorate,thick] plot coordinates
+                       {(0,0) (0,2/pi)};
+        \node[black] at (axis cs:0.69,-0.1) {$c_1$};
+         \node[black] at (axis cs:pi-0.69,-0.1) {$c_2$};
+           \node[black] at (axis cs:0.1,1/3) {\large$\overline{f}$};
+             \node[black] at (axis cs:2.3,1) {\large$y=f(x)$};
     \end{axis}
   \end{tikzpicture}
 \end{image}

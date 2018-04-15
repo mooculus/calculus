@@ -23,17 +23,24 @@ chain rule that
 \[
 \ddx f(g(x)) = f'(g(x))g'(x)
 \]
-so if we conisder
+and we can use this to evaluate a definite integral. Namely,
 \begin{align*}
   \int_a^b f'(g(x))g'(x) \d x &= \eval{f(g(x))}_a^b \\
-  &= f(g(b)) - f(g(a)) \\
+  &= f(g(b)) - f(g(a)). \\
  \end{align*}
 On the other hand, we know that
 \begin{align*}
   \int_{g(a)}^{g(b)} f'(u)\d u &= \eval{f(u)}_{g(a)}^{g(b)}\\
-  &= f(g(b)) - f(g(a)) \\
+  &= f(g(b)) - f(g(a)). \\
  \end{align*}
- Combining these  equations, we get the following theorem. 
+ The right hand sides of these equalities are equal, therefore, the left hand sides are equal, too.
+ 
+\[
+  \int_a^b f'(g(x))g'(x) \d x =  \int_{g(a)}^{g(b)} f'(u)\d u
+\]
+
+ 
+This simple observation  leads to the following theorem. 
 
 
 \begin{theorem}[Integral Substitution Formula]\index{integral substitution formula} 
@@ -43,71 +50,144 @@ differentiable on the interval $[g(a),g(b)]$, then
 \int_a^b f'(g(x)) g'(x) \d x =\int_{g(a)}^{g(b)} f'(u) \d u.
 \]
 \end{theorem}
+It appears that the integral on the left is much simpler than the original integral.
+So, when  evaluating a difficult integral we try to apply this theorem and replace the original integral with a simpler one.
+ We can do that as long as the conditions of the theorem are satisfied.
 
-
-
-We will apply the ISF to the following example.
+We will apply the Integral Substitution Formula (ISF)  to the following example.
 
 \begin{example}
 Compute:
 \[
-\int_1^3 x\cos(x^2)\d x
+\int_0^2 x e^{x^2}\d x
 \]
 \begin{explanation}
 Why do we think that the ISF can be useful in this example?
+
 Does this integral have the structure
 \[
-\int_a^b f'(g(x)) g'(x) \d x 
+\int_a^b f'(g(x)) g'(x) \d x ,  
 \]
+so that we can apply the ISF?
 
-Set $g(x) = x^2$, so $g'(x)dx = 2x dx$, and note that
-
-\[
-\int_1^3 x\cos(x^2)\d x=
-\int_1^3 \cos(x^2)x\d x=\frac{1}{2}\int_1^{3} \cos(\underbrace{x^2})\underbrace{2x\d x}=\frac{1}{2}\int_1^{3} \cos{(g(x))}g'(x)\d x.
-\]
-We can apply the Integral Substitution Formula
+We set $g(x) =x^2$, so $g'(x)dx =2xdx$, and note that
 
 \[
-\int_1^3 x\cos(x^2)\d x=
-\frac{1}{2}\int_1^{3} \cos{(g(x))}g'(x)\d x=\frac{1}{2}\int_{g(1)}^{g(3)} \cos(u) \d u.
+\int_0^2 x e^{x^2}\d x
+=\frac{1}{2}\int_0^{2} e^{\underbrace{x^2}}\underbrace{2x\d x}=\frac{1}{2}\int_0^{2} e^{g(x)}g'(x)\d x
 \]
+So we wrote the integral in a form suitable for application of the ISF. Therefore, we can substitute $u$ for $g(x)$ and $\d u$ for $g'(x)\d x$ and write
+
+\[
+\int_0^2 x e^{x^2}\d x=\frac{1}{2}\int_0^{2} e^{g(x)}g'(x)\d x=\frac{1}{2}\int_{g(0)}^{g(2)} e^{u}\d u
+\]
+Now, compute the endpoints: 
+\begin{align*}
+g(0) &= 0^2 = 0  \\
+g(2) &=2^2 = 4.
+\end{align*}
 We can easily evaluate the last integral
 \[
-\int_1^3 x\cos(x^2)\d x=
-\frac{1}{2}\int_{g(1)}^{g(3)} \cos(u) \d u=\frac{1}{2}\int_{1}^{9} \cos(u) \d u=\frac{1}{2}\eval{\sin(u)}_1^9= \frac{\sin(9) -\sin(1)}{2}.
+\frac{1}{2}\int_{g(0)}^{g(2)} e^{u}\d u=
+\frac{1}{2}\int_{0}^{4} e^{u}\d u=\frac{1}{2}\eval{e^u}_0^4=\frac{1}{2}\left(\answer[given]{e^4}-e^0\right)=\frac{\answer[given]{e^4}-1}{2}
 \]
+In summary,
 
-Notice the change of endpoints in the second equality!  
-We obtained the new limits of integration by the computations
-\begin{align*}
-g(1) &= 1^2 = 1  \\
-g(3) &= 3^2 = 9.
-\end{align*}
+\[
+\int_0^2 x e^{x^2}\d x=\frac{1}{2}\int_{0}^{4} e^{u}\d u
+\]
+  The figure below illustrates both integrals.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-0.3,xmax=4.2,ymin=-0.3,ymax=3.5,
+        clip=true,
+        unit vector ratio*=2 2 2,
+        axis lines=center,
+        grid = major,
+         width=7in,
+        height=7in,
+        ytick={0,3.125},
+        xtick={0,2,4},
+         yticklabels={0,100},
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+     \addplot[fill=penColor,fill opacity=0.3,draw=none,domain=0:{2},samples=50]  {((1/32)*x*e^(x^2)} \closedcycle;;   
+      \addplot[thick,penColor,domain=0:{2},samples=150] {((1/32)*x*e^(x^2)};   
+  % \addplot [draw=none,fill=fillp,domain=8:9, smooth] {f(x)} \closedcycle;
+	  \node at (axis cs:1.75,0.55) {\Huge $A$};  
+	   \node at (axis cs:3,2.55) { \Huge$A=\int_0^2 xe^{x^2}\d x$};       
+      \node at (axis cs:1.2,1.75) {\Huge$y=xe^{x^2}$};
+      \end{axis}`
+  \end{tikzpicture}
+  \begin{tikzpicture}
+	  \begin{axis}[
+        xmin=-0.3,xmax=4.2,ymin=-0.3,ymax=3.5,
+        clip=true,
+        unit vector ratio*=2 2 2,
+        axis lines=center,
+        grid = major,
+         width=7in,
+        height=7in,
+        ytick={0,3.125},
+        xtick={0,2,4},
+         yticklabels={0,100},
+        xlabel=$u$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+      \addplot[fill=penColor,fill opacity=0.3,draw=none,domain=0:{4},samples=50] {(1/64)*e^x} \closedcycle;
+      \addplot[thick,draw=penColor,domain=0:{4},samples=50] {(1/64)*e^x};
+
+	  \node at (axis cs:3.6,0.3) {\Huge $B$}; 
+	   \node at (axis cs:1,2.55) { \Huge$B=\int_0^4 \frac{1}{2}e^{u}\d u$};           
+      \node at (axis cs:2.8,0.7) {\Huge$y=\frac{1}{2}e^u$};
+      \end{axis}`
+  \end{tikzpicture}
+\end{image}
+The two shaded areas in the figure, $A= \int_0^2 x e^{x^2}\d x$ and $B=\frac{1}{2}\int_{0}^{4} e^{u}\d u$, appear to be equal,
+and this confirms what was established by computation before.
+  
+  
+Therefore, whenever we are faced with a problem of evaluating a difficult integral, we try to  replace it with  a simpler one, as long as  both  integrals represent the same net area.
+
+
 \end{explanation}
 \end{example}
 
-We will usually solve these problems in a slightly different
+We can solve a problem like this in a slightly different
 way. Let's do the same example again, this time we will think in terms
 of differentials.
 
 \begin{example}\label{main example}
 Compute:
 \[
-\int_1^3 x\cos(x^2)\d x
+\int_0^2 x e^{x^2}\d x
 \]
 \begin{explanation}
-Here we will set $u=g(x) = x^2$. Then $\d u =g'(x)\d x=2x\d x$,
-where we are thinking in terms of differentials. So we can solve for
-$\d x$ to get $\d x = \frac{\d u}{2x}$.  We then see
-that
+Here we will set
+\[ u=g(x) = x^2.
+\]
+ Then 
+ \[
+ \d u =g'(x)\d x=2x\d x.
+ \]
+Here, we are thinking in terms of differentials.
+We can solve for $\d x$ to get 
+\[
+\d x = \frac{\d u}{2x}.
+\]
+Using this equality, we can write
+
 \begin{align*}
-  \int_1^3 x \cos(x^2) \d x &= \int_{g(1)}^{g(3)} x \cos(u) \frac{\d u}{2x}\\
-  &= \int_{1}^{9} \frac{\cos(u)}{2}\d u .
+\int_0^2 x e^{x^2}\d x &= \int_{g(0)}^{g(2)} x  e^{x^2} \frac{\d u}{2x}\\
+  &= \int_{0}^{4} \frac{e^u}{2}\d u .
 \end{align*}
 At this point, we can continue as we did before and write
 \[
-\int_1^3 x\cos(x^2)\d x= \frac{\sin(9) -\sin(1)}{2}.
+ \int_{0}^{4} \frac{e^u}{2}\d u= \frac{e^4 -e^0}{2}.
 \]
 \end{explanation}
 \end{example}
@@ -118,33 +198,33 @@ its own, we'll repeat the example one more time demonstrating this.
 \begin{example}
 Compute:
 \[
-\int_1^3 x\cos(x^2)\d x
+\int_0^2 x e^{x^2}\d x
 \]
 \begin{explanation}
-In order to apply the Second Fundamental Theorem of Calculus, we need to compute an indefinite integral on a side.
+We can apply the Second Fundamental Theorem of Calculus and, in order to do that, we first need to compute an indefinite integral.
 \[
-\int x \cos(x^2) \d x.
+\int  x e^{x^2} \d x.
 \]
 
 As before, we set $u=g(x)=x^2$, and compute $\d u =  2x \d x$,
  thinking in terms of differentials. Now we see that
 \[
-\int x \cos(x^2) \d x = \int x \cos(u) \frac{\d u}{2x} = \int \frac{\cos(u)}{2}\d u .
+\int   x e^{x^2} \d x = \int x e^{u} \frac{\d u}{2x} = \int \frac{e^{u}}{2}\d u .
 \]
 Hence 
 \[
-\int x\cos(x^2)\d x = \frac{\sin(u)}{2}+C .
+\int  x e^{x^2} \d x = \frac{e^{u}}{2}+C .
 \]
-But, we need to find an antiderivative of the function $ x \cos(x^2) \d x$, and our result is a function of $u$.
+This does not look right, since  we need to find an antiderivative of the function $ x e^{x^2},$ and our result is a function of $u$.
 We can easily fix this, by simply substituting $u$ with $g(x)=x^2$.
 Therefore,
 \[
-\int x\cos(x^2)\d x = \frac{\sin(u)}{2}= \frac{\sin(x^2)}{2}+C .
+\int xe^{x^2}\d x =\frac{e^{u}}{2}+C= \frac{e^{x^2}}{2}+C .
 \]
 Finally, we can apply the SFTOC
 \begin{align*}
-\int_1^3 x\cos(x^2)\d x &=\eval{\frac{\sin(x^2)}{2}}_1^3\\
-&= \frac{\sin(9) -\sin(1)}{2}.
+\int_0^2 x e^{x^2}\d x &=\eval{\frac{e^{x^2}}{2}}_0^2\\
+&= \frac{e^4 -e^0}{2}.
 \end{align*}
 \end{explanation}
 \end{example}

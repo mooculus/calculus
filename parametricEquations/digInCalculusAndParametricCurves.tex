@@ -15,25 +15,53 @@
 
 \section{Derivatives}
 
-Let's get right to it. Given a parametric function $(x(t),y(t))$ and
-recalling that
-\begin{align*}
-  \d x &= x'(t) \d t\\
-  \d y &= y'(t) \d t,
-\end{align*}
-we can see how to compute the derivative of $y$ with respect to $x$
-using differentials:
-\[
-\frac{\d y}{\d x} = \frac{y'(t) \d t}{x'(t) \d t} = \frac{y'(t)}{x'(t)}
-\]
-provided that $x'(t) \ne 0$.
+Recall from differential calculus that the tangent line provides the best linear approximation to a curve at a given point. Thus, we are often interested in calculating the tangent line.   If the curve can be expressed as a function of either $x$ or $y$ then the slope of the tangent line is obtained by taking the derivative at the given point. If the curve has a Cartesian description $F(x,y)=0$, then even if we can't express it as a function, we can still use implicit differentiation to find the slope of the tangent line. 
 
-We use this to define the tangent line.
+Suppose we have a curve given parametrically. Remember that for some parametric curves would be difficult or impossible to find Cartesian forms. We would like to be able to find the slope of the tangent line directly from the parametric description without having to convert to a Cartesian form.
+
+
+Suppose we have a curve $C$ that is traced out by the parametric equations 
+
+\[ 
+\begin{cases}
+x&=x(t) \\
+y&=y(t)
+\end{cases}
+\]
+
+In order to find the slope of the tangent line we need to compute the rate of change  $\dd[y]{x}$ of $y$ with respect to $x$,
+
+We use the chain rule to write 
+\[
+\frac{\d y}{\d x} = \dd[y]{t} \dd[t]{x}
+\]
+
+Recall from the Inverse Function Theorem, we have $\dd[t]{x}=\frac{1}{\dd[x]{t}}$. This means we can rewrite $\dd[y]{x}$ as 
+
+\[
+\frac{\d y}{\d x} = \frac{\dd[y]{t}}{ \dd[x]{t}}
+\]
+
+Here the notation is a little cumbersome so we often write this formula in the following way:
+
+\[
+\frac{\d y}{\d x} = \frac{ y'(t)}{x'(t)}
+\]
+
+Notice that this formula allows us to calculate $\dd[y]{x}$ directly from our parametric description of $C$.
 
 \begin{definition}
-Let a curve $C$ be parametrized by $x(t)$ and $y(t)$, where $x$ and
-$y$ are differentiable functions on some interval $I$ containing
-$t=t_0$. The \dfn{tangent line} to $C$ at $t=t_0$ is the line through
+Let a curve $C$ be parametrized by 
+
+\[ 
+\begin{cases}
+x&=x(t) \\
+y&=y(t)
+\end{cases}
+\]
+for $t$ in an interval $I$. 
+
+Suppose that $x$ and $y$ are differentiable functions on $I$ and let $t_{0}$ be a point in $I$. The \dfn{tangent line} to $C$ when $t=t_0$ is the line through
 \[
 \big(x(t_0),y(t_0)\big)\text{ with slope }m=\frac{y'(t_0)}{x'(t_0)},
 \]
@@ -61,11 +89,20 @@ above definition.
 \item If the normal line at $t=t_0$ has a slope of $0$, the tangent
   line to $C$ at $t=t_0$ is the line $x=x(t_0)$.
 \end{itemize}
-Time for some examples. 
+
+Let's look at some examples. 
 
 \begin{example}
-  Let $x=5t^2-6t+4$ and $y=t^2+6t-1$, and let $C$ be the curve defined
-  by these equations. Find the equations of the tangent and normal lines
+Consider the curve $C$ given by the parametrization
+\[ 
+\begin{cases}
+x(t)&=5t^2-6t+4 \\
+y(t)&=t^2+6t-1
+\end{cases}
+\]
+where $t$ ranges over all of $\mathbb{R}$. 
+
+ Find the equations of the tangent and normal lines
   to $C$ at $t=3$.
   \begin{explanation}
     We start by computing
@@ -84,109 +121,234 @@ Time for some examples.
     function of $t$, not $x$. Just as points on the curve are found in
     terms of $t$, so are the slopes of the tangent lines.
 		
-    The point on $C$ at $t=3$ is $(31,26)$. The slope of the tangent
-    line is $m=1/2$ and the slope of the normal line is $m=-2$. Thus,
+    The point on $C$ at $t=3$ is $(\answer[given]{31},\answer[given]{26})$. The slope of the tangent
+    line is $m=\answer[given]{1/2}$ and the slope of the normal line is $m=\answer[given]{-2}$. Thus,
     \begin{itemize}
     \item the equation of the tangent line is
-      $y=\answer[given]{\frac{(x-31)}{2}+26}$, and
+      $y=\answer[given]{\frac{(x-31)}{2}+26}$(shown below in orange), and
     \item the equation of the normal line is
-      $y=\answer[given]{-2(x-31)+26}$.
+      $y=\answer[given]{-2(x-31)+26}$(shown below in green).
     \end{itemize}
   \end{explanation}
+
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            %xmin=-25,xmax=25,ymin=-25,ymax=25,
+            width=3in,
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]      
+          \addplot [very thick, penColor, smooth,samples=100,domain=(0:4)] ({5*x^2-6*x+4},{x^2+6*x-1});
+           \addplot [ultra thick, penColor5, smooth,domain=0:60] {1/2*(x-31)+26};  
+           \addplot[only marks, mark=*] coordinates {(31, 26)};
+          \addplot [ultra thick, penColor4, smooth,domain=20:43] {-2*(x-31)+26};  
+            \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
 \end{example}
 
 
 \begin{example}
-  Find where the circle, defined by $x=\cos t$ and $y=\sin t$ on
-  $[0,2\pi]$, has vertical and horizontal tangent lines.
+  Find where the circle, defined by $x=\cos( t)$ and $y=\sin( t)$ on
+  $[0,2\pi)$, has vertical and horizontal tangent lines.
   \begin{explanation}
     We compute the derivative 
     \[
     \dd[y]{x} = \frac{y'(t)}{x'(t)} = \answer[given]{-\frac{\cos t}{\sin t}}.
     \]
-    The derivative is $0$ when $\cos t= \answer[given]{0}$. This
-    happens when $t=\pi/2$, and $t= 3\pi/2$. These are the points
-    $(0,1)$ and $(0,-1)$ on the circle.
+    The derivative is $0$ when $\cos( t)= \answer[given]{0}$. Note that we only need the values of $t$ in the interval $[0, 2\pi)$ that satisfy $\cos(t)$. 
+    This  happens when $t=\pi/2$, and $t= 3\pi/2$. These two $t$ values correspond to the points $(0,1)$ and $(0,-1)$ on the circle.
 
     The normal line is horizontal (and hence, the tangent line is
     vertical) when $\sin t=\answer[given]{0}$. This happens when $t=
-    0$, $t=pi$, $t=2\pi$, corresponding to the points $(-1,0)$ and
+    0$ and $t=\pi$ corresponding to the points $(-1,0)$ and
     $(0,1)$ on the circle. These results should make intuitive sense.
   \end{explanation}
+
+
+
+
+
 \end{example}
-
-
-
-
-
-\section{Integrals}
-
-
-Assuming that the curve given by a parametric formula $(x(t),y(t))$
-represents $y$ as a function of $x$, that is traced out exactly once,
-we can integrate our parametric formula without too much additional
-trouble.  Again, recall that
-\[
-\d x = x'(t) \d t
-\]
-So we may write
-\[
-\int_a^b y \d x = \int_\alpha^\beta y(t) \cdot x'(t) \d t
-\]
-where $x(\alpha) = a$ and $x(\beta) = b$.
-
-We'll be talking about this in more detail soon, so a simple example
-should suffice.
 
 \begin{example}
-  Let $x(t) = \cos(t)$ and $y(t)= \sin(t)$ as $t$ runs from $0$ to
-  $\pi$:
-  \begin{image}
-    \begin{tikzpicture}
-      \begin{axis}[
-          xmin=-1.2,xmax=1.2,ymin=-.2,ymax=1.2,
-          axis lines=center,
-          xlabel=$x$, ylabel=$y$,
-          unit vector ratio*=1 1 1,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-        ]        
-        \addplot [very thick, penColor, smooth, domain=(0:180)] ({cos(x)},{sin(x)});
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  Compute the area between this region and the $x$-axis on the
-  interval $[-1,1]$.
-  \begin{explanation}
-    We would like to compute:
-    \[
-    \int_{-1}^1 y \d x
-    \]
-    The parametric equations allow us to make a substitution: 
-    \begin{align*}
-      y(t) &=\answer[given]{\sin(t)}\\
-      \d x &=\answer[given]{-\sin(t)}\d t
-    \end{align*}
-    now then integral becomes
-    \[
-    \int_{-1}^{1} y \d x= \int_\alpha^\beta (\sin(t))(-\sin(t))\d t
-    \]
-    Now we need to find $\alpha$ and $\beta$. Note that using
-    \[
-    x(t)=\cos(t)
-    \]
-    When $x=-1$, $t=\answer[given]{\pi}$. Likewise, when $x=1$, $t=\answer[given]{0}$. Hence our
-    integral becomes
-    \begin{align*}
-      \int_{-1}^{1} y \d x&= \int_\pi^0 (\sin(t))(-\sin(t))\d t\\
-      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\sin^2(t)\d t\\
-      &= \int_0^\pi\frac{1-\cos(2t)}{2}\d t\\
-      &= \int_0^\pi\frac{1}{2}-\frac{\cos(2t)}{2}\d t\\
-      &= \eval{\frac{t}{2}-\frac{\sin(2t)}{4}}_0^\pi\\
-      &= \answer[given]{\frac{\pi}{2}}
-    \end{align*}
-  \end{explanation}
+
+Consider the parametric equations 
+
+\[ 
+\begin{cases}
+x(t)&=\sin(2t) \\
+y(t)&=\cos(3t)
+\end{cases}
+\]
+
+Below is the curve traced out by the above parametric curves as $t$ varies over $[0, 2\pi)$. 
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            %xmin=-25,xmax=25,ymin=-25,ymax=25,
+            width=3in,
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]      
+          \addplot [very thick, penColor, smooth,samples=100,domain=(0:2*pi)] ({sin(deg(2*x))},{cos(deg(3*x))});
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+Notice that the origin belongs to the curve. What is the tangent line to the curve when at the origin?  Phrased in this manner, this question does not make sense. If we zoom in on
+the origin, the curve does not begin to look more and more like a straight line. In fact, it will look like two lines crossing no matter how far we zoom in. Thus it seems that the curve is not differentiable at the origin. However we are only focusing on the curve itself rather than how the curve is traced out. Let's use the parametrization to investigate how the curve is traced out. 
+
+The $t$ values for which the curve passes through the origin are obtained by find the $t$ values that simulaneously solve $\cos(3t)=0$ and $\sin(2t)=0$. 
+This gives us $t=\pi/2$ and $t=9\pi/6$. 
+
+See below how the curve is traced out as $t$ varies. Use the slider for $a$ to traced out the curve. 
+
+
+\desmos{kffagvek2c}{1024}{500}
+
+
+What is the tangent line to the curve when $t=\frac{\pi}{2}$? What about when $t=\frac{9\pi}{6}$. Look at the interactive figure below. Think of the parameter $t$ as time. Then the figure below shows a point corresponding to the time as well as some points corresponding to both future and past time values close to the given time. We see that if we look our curve for times close to $\frac{\pi}{2}$ we see that the curve looks approximately like a line. Similarly, if we look at our curve for times close to $\frac{9\pi}{6}$ then again we see that the curve looks approximately linear if we zoom in on the origin.
+
+\desmos{girdw5krf7}{1024}{500}
+
+
+
+
+ Now we can find the tangent line to the curve at the two different times it passes through the origin. 
+Apply the formula 
+
+
+\[
+\frac{\d y}{\d x} = \frac{ y'(t)}{x'(t)}
+\]
+
+we get 
+\[
+\dd[y]{x}=\frac{\answer[given]{-3\sin(3t)}}{\answer[given]{2\cos(2t)}}
+\]
+
+
+Then calculating the $\dd[y]{x}$ when $t=\frac{\pi}{2}$ gives us $\answer[given]{ \frac{-3}{2}  }$. Thus the tangent line to the curve when $t=\frac{\pi}{2}$ is 
+$y-\answer[given]{ 0}=\answer[given]{\frac{-3}{2}}(x-\answer[given]{0})$ (shown in orange below). 
+
+Similarly the tangent line to the curve when $t=\frac{9\pi}{6}$ is $y-\answer[given]{0}=\answer[given]{\frac{3}{2}  }(x-\answer{0})$ (shown in green below).
+
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            %xmin=-25,xmax=25,ymin=-25,ymax=25,
+            width=3in,
+            clip=false,
+            axis lines=center,
+            %ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]      
+          \addplot [very thick, penColor, smooth,samples=100,domain=(0:2*pi)] ({sin(deg(2*x))},{cos(deg(3*x))});
+            \addplot [ultra thick, penColor5, smooth,domain=-1:1] {-3/2*x};  
+              \addplot [ultra thick, penColor4, smooth,domain=-1:1] {3/2*x};  
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
+Finally here is a visualization that shows how the tangent line to the curve varies as we vary $t$. 
+
+\desmos{l3efqzndog}{1024}{500}
+
 \end{example}
+
+
+
+%\section{Integrals}
+%
+%
+%Assuming that the curve given by a parametric formula $(x(t),y(t))$
+%represents $y$ as a function of $x$, that is traced out exactly once,
+%we can integrate our parametric formula without too much additional
+%trouble.  Again, recall that
+%\[
+%\d x = x'(t) \d t
+%\]
+%So we may write
+%\[
+%\int_a^b y \d x = \int_\alpha^\beta y(t) \cdot x'(t) \d t
+%\]
+%where $x(\alpha) = a$ and $x(\beta) = b$.
+%
+%We'll be talking about this in more detail soon, so a simple example
+%should suffice.
+%
+%\begin{example}
+%  Let $x(t) = \cos(t)$ and $y(t)= \sin(t)$ as $t$ runs from $0$ to
+%  $\pi$:
+%  \begin{image}
+%    \begin{tikzpicture}
+%      \begin{axis}[
+%          xmin=-1.2,xmax=1.2,ymin=-.2,ymax=1.2,
+%          axis lines=center,
+%          xlabel=$x$, ylabel=$y$,
+%          unit vector ratio*=1 1 1,
+%          every axis y label/.style={at=(current axis.above origin),anchor=south},
+%          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+%        ]        
+%        \addplot [very thick, penColor, smooth, domain=(0:180)] ({cos(x)},{sin(x)});
+%      \end{axis}
+%    \end{tikzpicture}
+%  \end{image}
+%  Compute the area between this region and the $x$-axis on the
+%  interval $[-1,1]$.
+%  \begin{explanation}
+%    We would like to compute:
+%    \[
+%    \int_{-1}^1 y \d x
+%    \]
+%    The parametric equations allow us to make a substitution: 
+%    \begin{align*}
+%      y(t) &=\answer[given]{\sin(t)}\\
+%      \d x &=\answer[given]{-\sin(t)}\d t
+%    \end{align*}
+%    now then integral becomes
+%    \[
+%    \int_{-1}^{1} y \d x= \int_\alpha^\beta (\sin(t))(-\sin(t))\d t
+%    \]
+%    Now we need to find $\alpha$ and $\beta$. Note that using
+%    \[
+%    x(t)=\cos(t)
+%    \]
+%    When $x=-1$, $t=\answer[given]{\pi}$. Likewise, when $x=1$, $t=\answer[given]{0}$. Hence our
+%    integral becomes
+%    \begin{align*}
+%      \int_{-1}^{1} y \d x&= \int_\pi^0 (\sin(t))(-\sin(t))\d t\\
+%      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\sin^2(t)\d t\\
+%      &= \int_0^\pi\frac{1-\cos(2t)}{2}\d t\\
+%      &= \int_0^\pi\frac{1}{2}-\frac{\cos(2t)}{2}\d t\\
+%      &= \eval{\frac{t}{2}-\frac{\sin(2t)}{4}}_0^\pi\\
+%      &= \answer[given]{\frac{\pi}{2}}
+%    \end{align*}
+%  \end{explanation}
+%\end{example}
 
 
 

@@ -18,111 +18,214 @@
 Computing antiderivatives is not as easy as computing derivatives.
 One issue is that the chain rule can be difficult to ``undo.''  We
 have a general method called ``integration by substitution'' that will
-somewhat help with this difficulty. The idea is this, we know from the
-chain rule that
+somewhat help with this difficulty. 
+
+If the functions are differentiable, we can apply the chain rule and obtain
 \[
 \ddx f(g(x)) = f'(g(x))g'(x)
 \]
-so if we conisder
+If the derivatives are continuous, we can use this equality to evaluate a definite integral. Namely,
 \begin{align*}
   \int_a^b f'(g(x))g'(x) \d x &= \eval{f(g(x))}_a^b \\
-  &= f(g(b)) - f(g(a)) \\
-  &= \eval{f(g)}_{g(a)}^{g(b)}\\
-  &= \int_{g(a)}^{g(b)}f'(g) \d g.
-\end{align*}
+  &= f(g(b)) - f(g(a)). \\
+ \end{align*}
+On the other hand, it is also true that
+\begin{align*}
+  \int_{g(a)}^{g(b)} f'(u)\d u &= \eval{f(u)}_{g(a)}^{g(b)}\\
+  &= f(g(b)) - f(g(a)). \\
+ \end{align*}
+ Since the right hand sides of these equalities are equal,  the left hand sides must be equal, too. So, it follows that
+ 
+\[
+  \int_a^b f'(g(x))g'(x) \d x =  \int_{g(a)}^{g(b)} f'(u)\d u .
+\]
 
-This ``transformation'' is worth stating explicity:
+ 
+This simple observation  leads to the following theorem. 
+
 
 \begin{theorem}[Integral Substitution Formula]\index{integral substitution formula} 
-If $g$ is differentiable on the interval $[a,b]$ and $f$ is
-differentiable on the interval $[g(a),g(b)]$, then
+Let $g'$ be the derivative of a  function $g$ and let $f'$ be the derivative of a function $f$. If $g'$ is continuous on the interval $[a,b]$ and  $f'$ is
+continuous on the interval $[g(a),g(b)]$, then
 \[
-\int_a^b f'(g(x)) g'(x) \d x =\int_{g(a)}^{g(b)} f'(g) \d g.
+\int_a^b f'(g(x)) g'(x) \d x =\int_{g(a)}^{g(b)} f'(u) \d u.
 \]
 \end{theorem}
+The integral on the right appears to be much simpler than the original integral.
+So, when evaluating a difficult integral,  we try to apply this theorem and replace the original integral with a simpler one.
+ We can do this as long as the conditions of the theorem are satisfied.
 
-\section{Three similar techinques}
+We will apply the Integral Substitution Formula (ISF)  to the following example.
 
-There are several different ways to think about substitution. The
-first is directly using the formula
-\[
-\int_a^b f'(g(x)) g'(x) \d x = \int_{g(a)}^{g(b)} f'(g) \d g.
-\]
 \begin{example}
 Compute:
 \[
-\int_1^3 x\cos(x^2)\d x
+\int_0^2 x e^{x^2}\d x
 \]
 \begin{explanation}
-A little thought reveals that if $x\cos(x^2)$ is the derivative of
-some function, then it must have come from an application of the chain
-rule. 
+Why do we think that the ISF can be useful in this example?
+
+Does this integral have the structure
 \[
-\int \underbrace{x}_{\text{derivative of inside}}\cos(\underbrace{x^2}_{\text{inside}})\d x.
+\int_a^b f'(g(x)) g'(x) \d x ,  
 \]
-Set $g(x) = x^2$, so $g'(x) = 2x$, and now it must be that $f'(g) =
-\frac{\cos(g)}{2}$. Now we see
+so that we can apply the ISF?
+
+We set $g(x) =x^2$, so $g'(x)dx =2xdx$, and note that
+
+\[
+\int_0^2 x e^{x^2}\d x
+=\frac{1}{2}\int_0^{2} e^{\underbrace{x^2}}\underbrace{2x\d x}=\frac{1}{2}\int_0^{2} e^{g(x)}g'(x)\d x
+\]
+So we wrote the integral in a form suitable for application of the ISF. Therefore, we can substitute $u$ for $g(x)$ and $\d u$ for $g'(x)\d x$ and write
+
+\[
+\int_0^2 x e^{x^2}\d x=\frac{1}{2}\int_0^{2} e^{g(x)}g'(x)\d x=\frac{1}{2}\int_{g(0)}^{g(2)} e^{u}\d u
+\]
+Now, compute the endpoints: 
 \begin{align*}
-\int_1^3 x\cos(x^2)\d x &= \int_1^9 \frac{\cos(g)}{2}\d g\\
-&= \eval{\frac{\sin(g)}{2}}_1^9 \\
-&= \frac{\sin(9) -\sin(1)}{2}.
+g(0) &= 0^2 = 0  \\
+g(2) &=2^2 = 4.
 \end{align*}
-Notice the change of endpoints in the first equality!  
-We obtained the new integrands by the computations
-\begin{align*}
-g(1) &= 1^2 = 1  \\
-g(3) &= 3^2 = 9.
-\end{align*}
+We can easily evaluate the last integral
+\[
+\frac{1}{2}\int_{g(0)}^{g(2)} e^{u}\d u=
+\frac{1}{2}\int_{0}^{4} e^{u}\d u=\frac{1}{2}\eval{e^u}_0^4=\frac{1}{2}\left(\answer[given]{e^4}-e^0\right)=\frac{\answer[given]{e^4}-1}{2}
+\]
+In summary,
+
+\[
+\int_0^2 x e^{x^2}\d x=\frac{1}{2}\int_{0}^{4} e^{u}\d u
+\]
+  The figure below illustrates both integrals.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-0.3,xmax=4.2,ymin=-0.3,ymax=3.5,
+        clip=true,
+        unit vector ratio*=2 2 2,
+        axis lines=center,
+        grid = major,
+         width=3in,
+        height=3in,
+        ytick={0,3.125},
+        xtick={0,2,4},
+         yticklabels={0,100},
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+     \addplot[fill=penColor,fill opacity=0.3,draw=none,domain=0:{2},samples=50]  {((1/32)*x*e^(x^2)} \closedcycle;;   
+      \addplot[thick,penColor,domain=0:{2},samples=150] {((1/32)*x*e^(x^2)};   
+  % \addplot [draw=none,fill=fillp,domain=8:9, smooth] {f(x)} \closedcycle;
+	  \node at (axis cs:1.75,0.55) { $A$};  
+	   \node at (axis cs:3,2.55) { $A=\int_0^2 xe^{x^2}\d x$};       
+      \node at (axis cs:1.2,1.75) {$y=xe^{x^2}$};
+      \end{axis}`
+  \end{tikzpicture}
+  \begin{tikzpicture}
+	  \begin{axis}[
+        xmin=-0.3,xmax=4.2,ymin=-0.3,ymax=3.5,
+        clip=true,
+        unit vector ratio*=2 2 2,
+        axis lines=center,
+        grid = major,
+         width=3in,
+        height=3in,
+        ytick={0,3.125},
+        xtick={0,2,4},
+         yticklabels={0,100},
+        xlabel=$u$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+      \addplot[fill=penColor,fill opacity=0.3,draw=none,domain=0:{4},samples=50] {(1/64)*e^x} \closedcycle;
+      \addplot[thick,draw=penColor,domain=0:{4},samples=50] {(1/64)*e^x};
+
+	  \node at (axis cs:3.6,0.3) { $B$}; 
+	   \node at (axis cs:1,2.55) {$B=\int_0^4 \frac{1}{2}e^{u}\d u$};           
+      \node at (axis cs:2.8,0.7) {$y=\frac{1}{2}e^u$};
+      \end{axis}`
+  \end{tikzpicture}
+\end{image}
+The two shaded areas in the figure, $A= \int_0^2 x e^{x^2}\d x$ and $B=\frac{1}{2}\int_{0}^{4} e^{u}\d u$, appear to be equal,
+and this confirms what was established by computation before.
+  
+  
+Therefore, whenever we are faced with a problem of evaluating a difficult integral, we try to  replace it with  a simpler one, as long as  both  integrals represent the same net area.
+
+
 \end{explanation}
 \end{example}
 
-We will usually solve these problems in a slightly different
+We can solve a problem like this in a slightly different
 way. Let's do the same example again, this time we will think in terms
 of differentials.
 
 \begin{example}\label{main example}
 Compute:
 \[
-\int_1^3 x\cos(x^2)\d x
+\int_0^2 x e^{x^2}\d x
 \]
 \begin{explanation}
-Here we will set $g(x) = x^2$. Then $\d g = \answer[given]{2x} \d x$,
-where we are thinking in terms of differentials. So we can solve for
-$\d x$ to get $\d x = \frac{\d g}{\answer[given]{2x}}$.  We then see
-that
+Here we will set
+\[ u=g(x) = x^2.
+\]
+ Then 
+ \[
+ \d u =g'(x)\d x=2x\d x.
+ \]
+Here, we are thinking in terms of differentials.
+We can solve for $\d x$ to get 
+\[
+\d x = \frac{\d u}{2x}.
+\]
+Using this equality, we can write
+
 \begin{align*}
-  \int_1^3 x \cos(x^2) \d x &= \int_{g(1)}^{g(3)} x \cos(g) \frac{\d g}{2x}\\
-  &= \int_{1}^{9} \frac{\cos(g)}{2}\d g .
+\int_0^2 x e^{x^2}\d x &= \int_{g(0)}^{g(2)} x  e^{u} \frac{\d u}{2x}\\
+  &= \int_{0}^{4} \frac{e^u}{2}\d u .
 \end{align*}
 At this point, we can continue as we did before and write
 \[
-\int_1^3 x\cos(x^2)\d x= \frac{\sin(9) -\sin(1)}{2}.
+ \int_{0}^{4} \frac{e^u}{2}\d u= \frac{\answer[given]{e^4} -e^0}{2}.
 \]
 \end{explanation}
 \end{example}
 
 Finally, sometimes we simply want to deal with the antiderivative on
-its own, we'll repeat the example one more time demonstrating this.
+its own.  We will repeat the example one more time in oder to demonstrate this approach.
 
 \begin{example}
 Compute:
 \[
-\int_1^3 x\cos(x^2)\d x
+\int_0^2 x e^{x^2}\d x
 \]
 \begin{explanation}
-Here we start as we did before, setting $g(x)=x^2$. Now $\d g =  2x \d x$,
-again thinking in terms of differentials. Now we see that
+We can apply the Second Fundamental Theorem of Calculus and, in order to do that, we first need to compute an indefinite integral.
 \[
-\int x \cos(x^2) \d x = \int x \cos(g) \frac{\d g}{2x} = \int \frac{\cos(g)}{2}\d g .
+\int  x e^{x^2} \d x.
+\]
+
+As before, we set $u=g(x)=x^2$, and compute $\d u =  2x \d x$,
+ thinking in terms of differentials. Now we see that
+\[
+\int   x e^{x^2} \d x = \int x e^{u} \frac{\d u}{2x} = \int \frac{e^{u}}{2}\d u .
 \]
 Hence 
 \[
-\int x\cos(x^2)\d x = \frac{\sin(g)}{2} = \frac{\sin(x^2)}{2}.
+\int  x e^{x^2} \d x = \frac{e^{u}}{2}+C .
 \]
-So
+This does not look right, since  we need to find an antiderivative of the function $ x e^{x^2},$ and our result is a function of $u$.
+We can easily fix this, by simply substituting $u$ with $g(x)=x^2$.
+Therefore,
+\[
+\int xe^{x^2}\d x =\frac{e^{u}}{2}+C= \frac{e^{x^2}}{2}+C .
+\]
+Finally, we can apply the SFTOC
 \begin{align*}
-\int_1^3 x\cos(x^2)\d x &=\eval{\frac{\sin(x^2)}{2}}_1^3\\
-&= \frac{\sin(9) -\sin(1)}{2}.
+\int_0^2 x e^{x^2}\d x &=\eval{\frac{e^{x^2}}{2}}_0^2\\
+&= \frac{\answer[given]{e^4} -e^0}{2}.
 \end{align*}
 \end{explanation}
 \end{example}
@@ -130,31 +233,32 @@ So
 \section{More examples}
 
 With some experience, it is (usually) not too hard to see what to
-substitute as $g$.  We will work through the following examples in the
-same way that we did for Example \ref{main example}. Let's see another
-example.
-
+substitute as $u$.  We will work through the following examples in the
+same way that we did for Example \ref{main example}.
 \begin{example}
 Compute:
 \[
 \int x^4(x^5+1)^{9} \d x
 \]
 \begin{explanation}
-Here we set $g(x) =  \answer[given]{x^5+1}$, so $\d g =  \answer[given]{5x^4} \d x$.  Then
+Here we set $u =  \answer[given]{x^5+1}$, so $\d u =  \answer[given]{5x^4} \d x$.  Then
+it follows that $\d x=\frac{\d u}{5x^4}$. Therefore
 \begin{align*}
-  \int x^4(x^5+1)^{9} \d x &= \frac{1}{5} \int 5x^4 (x^5+1)^{9} \d x \\
-  &= \frac{1}{5} \int g^{9} \d g\\
-&= \answer[given]{\frac{g^{10}}{50}}.
+  \int x^4(x^5+1)^{9} \d x &= \int x^4 (u)^{9} \frac{\d u}{5x^4} \\
+  &= \frac{1}{5} \int u^{9} \d u\\
+&=\frac{u^{10}}{ \answer[given]{50}}.
 \end{align*}
 Notice that this example is an indefinite integral and not a definite
 integral, meaning that there are no limits of integration.  So we do
 not need to worry about changing the endpoints of the integral.  However,
 we do need to back-substitute into our answer, so that our final
-answer is a function of $x$.  Recalling that $g(x) = x^5+1$, we have
+answer is a function of $x$.  Recalling that $u= x^5+1$, we have
 our final answer
 \[
-\int x^4(x^5+1)^{9} \d x= \answer[given]{\frac{(x^5+1)^{10}}{50}}+C.
+\int x^4(x^5+1)^{9} \d x= \frac{(x^5+1)^{10}}{\answer[given]{50}}+C.
 \]
+Reminder: you can always verify your result by differentiating.
+
 \end{explanation}
 \end{example}
 
@@ -170,25 +274,25 @@ The next two problems are really good examples of this philosophy.
 \begin{example}
 Compute:
 \[
-\int_{-1}^0 12x^3 e^{x^4} \d x
+\int_{-1}^0 12x^3 \cos({x^4}) \d x
 \]
 \begin{explanation}
-The ``ugly'' part of the function being integrated is $e^{x^4}$.  The
+The ``ugly'' part of the function being integrated is $\cos({x^4})$.  The
 ``inside'' of this term is then $x^4$.  So a good possibility is to
 try
 \[
-g(x) =  \answer[given]{x^4}.
+u =g(x)= x^4.
 \]
 Then
 \[
-\d g =  \answer[given]{4x^3} \d x 	\qquad	\Rightarrow	\qquad	\d x = \answer[given]{\frac{1}{4x^3}} \d g
+\d u = (4x^3) \d x 	\qquad	\Rightarrow	\qquad	\d x = \answer[given]{\frac{1}{4x^3}} \d u
 \]
 and so
 \begin{align*}
-\int_{-1}^0 12x^3 e^{x^4} \d x &= \int_{g(-1)}^{g(0)} 12 x^3 e^g \answer[given]{\frac{1}{4x^3}} \d g  \\
-&= \int_{\answer[given]{1}}^{\answer[given]{0}} \answer[given]{3 e^g} \d g  \\
-&= \eval{\answer[given]{3e^g}}_{\answer[given]{1}}^{\answer[given]{0}}  \\
-&= \answer[given]{3(1-e)}.
+\int_{-1}^0 12x^3 \cos({x^4}) \d x &= \int_{g(-1)}^{g(0)} 12 x^3 \cos({u}) \answer[given]{\frac{1}{4x^3}} \d u  \\
+&= \int_{\answer[given]{1}}^{\answer[given]{0}} 3 \cos({u}) \d u  \\
+&= \eval{3\sin({u})}_{\answer[given]{1}}^{\answer[given]{0}}  \\
+&= \answer[given]{3(0-\sin({1}))}.
 \end{align*}
 \end{explanation}
 \end{example}
@@ -205,11 +309,11 @@ and so
 Here the ``ugly'' part here is $\cos(\ln x)$.  So we substitute for
 the inside:
 \[
-g(x)=\answer[given]{\ln x}.
+u=g(x)=\answer[given]{\ln x}.
 \]
 Then
 \[
-\d g =  \answer[given]{\frac{1}{x}} \d x 	\qquad	\Rightarrow	\qquad	\d x = \answer[given]{x} \d g.
+\d u =  \answer[given]{\frac{1}{x}} \d x 	\qquad	\Rightarrow	\qquad	\d x = \answer[given]{x} \d u.
 \]
 Notice that
 \begin{align*}
@@ -218,21 +322,21 @@ g \left( e^{\frac{\pi}{4}} \right) &= \ln \left( e^{\frac{\pi}{4}} \right) = \an
 \end{align*}
 Then we substitute back into the original integral and solve:
 \begin{align*}
-\int_{1}^{e^{\frac{\pi}{4}}} \frac{\cos(\ln x)}{x} \d x &= \int_0^{\frac{\pi}{4}} \frac{\cos(g)}{x} x \d g  \\
-&= \int_0^{\frac{\pi}{4}} \cos(g) \d g  \\
-&= \eval{\answer[given]{\sin(g)}}_{0}^{\frac{\pi}{4}}  \\
-&= \answer[given]{\frac{\sqrt{2}}{2}} - \answer[given]{0} = \answer[given]{\frac{\sqrt{2}}{2}}.
+\int_{1}^{e^{\frac{\pi}{4}}} \frac{\cos(\ln x)}{x} \d x &= \int_0^{\frac{\pi}{4}} \frac{\cos(u)}{x} x \d u  \\
+&= \int_0^{\frac{\pi}{4}} \cos(u) \d u  \\
+&= \eval{\answer[given]{\sin(u)}}_{0}^{\frac{\pi}{4}}  \\
+&= \frac{\sqrt{2}}{\answer[given]{2}} - \answer[given]{0} = \frac{\sqrt{2}}{\answer[given]{2}}.
 \end{align*}
 \end{explanation}
 \end{example}
 
 To summarize, if we suspect that a given function is the derivative of
-another via the chain rule, we let $g$ denote a likely candidate for
-the inner function, then translate the given function so that it is
-written entirely in terms of $g$, with no $x$ remaining in the
-expression. If we can integrate this new function of $g$, then the
-antiderivative of the original function is obtained by replacing $g$
-by the equivalent expression in $x$.
+another via the chain rule, we introduce a new variable $u=g(x)$, where $g$ is a likely candidate for
+the inner function. We rewrite the integral
+ entirely in terms of $u$, with no $x$ remaining in the
+expression. If we can integrate this new function of $u$, then the
+antiderivative of the original function is obtained by replacing $u$
+by $g(x)$.
 
 
 \end{document}

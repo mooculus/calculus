@@ -20,30 +20,28 @@ We give more contexts to understand integrals.
 
 Some values include ``direction'' that is relative to some fixed point.
 
-\begin{definition}\hfill
+
   \begin{itemize}
   \item $v(t)$ is the \dfn{velocity} of an object at time $t$. This
     represents the ``change in position'' at time $t$.
   \item $s(t)$ is the \dfn{position} of an object at time $t$. This
-    gives location with respect to the origin. If we can assume that
-    $s(a) = 0$, then
-    \[
-    s(t) = \int_a^t v(x) \d x.
+    gives location with respect to the origin.     \[
+    s(t) = s(a)+\int_a^t v(z) \d z.
     \]
   \item $s(b) -s(a)$ is the \dfn{displacement}, the distance between the
     starting and finishing locations.
   \end{itemize}
-\end{definition}
+
 
 On the other hand \textit{speed} and \textit{distance} are values
 without ``direction.''
 
-\begin{definition}\hfil
+
   \begin{itemize}
   \item $|v(t)|$ is the \dfn{speed}.
   \item $\int_a^b |v(t)| \d t$ is the \dfn{distance} traveled.
   \end{itemize}
-\end{definition}
+
 
 \begin{question}
   Consider a particle whose velocity at time $t$ is given by $v(t) = \sin(t)$.
@@ -88,7 +86,73 @@ That is, compute:
 \]
 \end{question}
 
+\section{ Change in the  amount }
 
+We can apply the Fundamental Theorems of Calculus to a variety of problems where both accumulation and rate of change play important roles.
+For example, we can consider a tank that is being filled with fuel at some rate. Given the rate, we can ask what is the amount of fuel in the tank  at a  certain time.
+Or, a tank that is being emptied at a given rate, or  a culture of bacteria growing in a Petri dish, or a  population of a city, etc.
+This brings us to our next theorem.
+
+
+\begin{theorem}\hfill
+
+Let  $A(t)$ denote the amount of some substance/population at the time $t$.
+
+ Assume that the function $A$ is continuous, differentiable and its derivative, $A'$, continuous on some time interval $[a,b]$.
+ 
+ 
+Then, the \textbf{change} in the amount $A$ over the time interval $[a,b]$ is given by
+\[
+A(b)-A(a)=\int_a^bA'(t)dt.
+\]
+\end{theorem}
+\begin {explanation}
+The equation follows directly from the Second Theorem of Calculus. 
+The left hand side obviously gives the change in the amount $A$ over the time interval $[a,b]$, which is the difference between the amount at the end of the time interval and the amount at the beginning of the time interval. 
+
+The right hand side of the equation gives the ``accumulation of a rate".
+You can think of this definite integral as the limit of Riemann sums, where each Riemann sum is the``sum of  the changes of the amount over small intervals of time".
+\end {explanation}
+
+\begin{example}
+An experiment is conducted in which a culture of bacteria is grown in a Petri dish. The initial population was  estimated at 1200 cells. 
+The  growth rate of the population is estimated at  $P'(t)=100e^{-0.2 t}$ cells/day.
+\begin{enumerate}
+\item By how much has the population grown during the first three days of the experiment?
+\begin{explanation}
+The growth of population during the first three days of the experiment is given by
+\[
+P(3)-P(0)=\int_0^3 P'(t)\d t=\int_0^3 100 e^{-0.2 t}\d t=\eval{\frac{100}{-0.2}e^{-0.2 t}}_0^3\approx 226.
+\]
+During the first three  days, the population  grew  approximately by 226 cells. 
+\end{explanation}
+
+\item 
+Compute the right Riemann sum of the function $P'$ and the interval $[0,3]$ with $n=3$.
+What does this Riemann sum approximate?  Is this approximation and underestimate or an overestimate and why?
+
+
+\begin{explanation}
+This Riemann sum approximates the change in population during the first three days of the experiment.
+We expect it to be an underestimate, because the function $P'$ is decreasing and this is a right Riemann sum.
+
+Since $n=3$,  $\Delta t=1$.
+\[
+P(3)-P(0)\approx\sum_{k=1}^3P'(k)=P'(1)+P'(2)+P'(3)=100e^{-0.2 }+100e^{-0.4}+100e^{-0.6}\approx 204
+\]
+\end{explanation}
+\item Find the population at any time $t\ge0$.
+\begin{explanation}
+\[
+P(t)-P(0)=\int_0^t P'(z)\d z=\int_0^t 100 e^{-0.2 z}\d z=\eval{\frac{100}{-0.2}e^{-0.2 z}}_0^t=500\left(1-e^{-0.2 t}\right)
+\]
+Therefore, for $t\ge0$,
+\[
+P(t)=P(0)+500\left(1-e^{-0.2 t}\right)=1700 -500e^{-0.2 t}
+\]
+\end{explanation}
+\end{enumerate}
+\end{example}
 
 \section{Average value}
 
@@ -98,18 +162,20 @@ better metaphor for integrals comes from the idea of \textit{average
   value}.  Looking back to your days as an even younger mathematician,
 you may recall the idea of an \textit{average}:
 \[
-\frac{f_1+f_2+\dots+f_n}{n} = \frac{1}{n}\sum_{k=1}^n f_i
+\frac{f_1+f_2+\dots+f_n}{n} = \frac{1}{n}\sum_{k=1}^n f_k
 \]
-If we want to know the average value of a function, a naive approach
-might be to partition the interval $[a,b]$ into $n$ equally spaced
-subintervals, 
+If we want to know $\overline{f}$, the average value of a function on the interval $[a,b]$, a naive approach
+might be to introduce $n+1$ equally spaced
+grid points on the interval $[a,b]$
 \[
 a=x_0 < x_1 < \dots < x_{n}=b
 \]
-and choose any $x_k^*$ in $[x_i,x_{i+1}]$. The average of $f(x_1^*)$,
-$f(x_2^*)$, \dots, $f(x_n^*)$ is:
+and choose a sample point $x_k^*$ in  each interval $[x_k,x_{k+1}]$, $k=1,...,n$. 
+
+We will approximate the average value of $f$ on the interval $[a,b]$ with the average of $f(x_1^*)$,
+$f(x_2^*)$, \dots, and  $f(x_n^*)$:
 \[
-\frac{f(x_1^*) + f(x_2^*) + \dots + f(x_n^*)}{n} = \frac1n\sum_{k=1}^n f(x_k^*).
+\overline{f}\approx\frac{f(x_1^*) + f(x_2^*) + \dots + f(x_n^*)}{n} = \frac1n\sum_{k=1}^n f(x_k^*).
 \]
 Multiply this last expression by $1 = \frac{(b-a)}{(b-a)}$:
 \begin{align*}
@@ -118,9 +184,12 @@ Multiply this last expression by $1 = \frac{(b-a)}{(b-a)}$:
   &=\frac{1}{b-a} \sum_{k=1}^n f(x_k^*)\Delta x
 \end{align*}
 where $\Delta x = (b-a)/n$.  Ah! On the right we have a Riemann Sum!
-Now take the limit as $n\to\infty$:
+
+What will happen  as $n\to\infty$?
+
+We take the limit as $n\to\infty$:
 \[
-\lim_{n\to\infty} \frac{1}{b-a} \sum_{k=1}^n f(x_k^*)\Delta x = \frac{1}{b-a} \int_a^b f(x)\d x.
+\overline{f}=\lim_{n\to\infty} \frac{1}{b-a} \sum_{k=1}^n f(x_k^*)\Delta x = \frac{1}{b-a} \int_a^b f(x)\d x.
 \]
 This leads us to our next definition:
 
@@ -128,19 +197,22 @@ This leads us to our next definition:
   Let $f$ be continuous on $[a,b]$. The \dfn{average value} of $f$ on
   $[a,b]$ is given by
   \[
-  \frac{1}{b-a}\int_a^b f(x)\d x.
+\overline{f}=  \frac{1}{b-a}\int_a^b f(x)\d x.
   \]
 \end{definition}
-
-The average value of a function gives the height of a single rectangle whose area is equal to
+Multiplying this equation by $(b-a)$, we obtain that 
+ \[
+\overline{f}(b-a)= \int_a^b f(x)\d x.
+  \]
+If $f$ is positive,  the average value of a function gives the  height of a single rectangle whose  area is equal to
 \[
-\int_a^b f(x) \d x
+\int_a^b f(x) \d x.
 \]
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
     \begin{axis}[  
-        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-.7,
+        domain=-.2:7, xmin =-.2,xmax=7,ymax=5,ymin=-1,
         width=6in,
         height=3in,xtick={1,6},
         xticklabels={$a$,$b$},
@@ -158,7 +230,13 @@ The average value of a function gives the height of a single rectangle whose are
                             ({1+(\rectnumber) * 5},{3.08})} \closedcycle;
                };
                \addplot [very thick,penColor, smooth] {f(x)};
-               \node[black] at (axis cs:3.5,1.5) {\huge$\int_a^b f(x) \d x$};
+                \addplot[decoration={brace,raise=.1cm},decorate,thin] plot coordinates
+                       {(1,.1) (1,3)};
+               \addplot[decoration={brace,mirror,raise=.1cm},decorate,thin] plot coordinates
+                       {(1,-0.05) (6,-0.05)};
+                         \node[black] at (axis cs:3.99,1.7) {\huge$\overline{f}(b-a)=\int_a^bf(x)\d x$};
+               \node[black] at (axis cs:3.5,-0.5) {\huge$b-a$};
+                \node[black] at (axis cs:0.7,1.5) {\huge$\overline{f}$};
     \end{axis}
   \end{tikzpicture}
 \end{image}
@@ -169,19 +247,54 @@ An application of this definition is given in the next example.
 \begin{example}
 An object moves back and forth along a straight line with a velocity
 given by $v(t) = (t-1)^2$ on $[0,3]$, where $t$ is measured in seconds
-and $v(t)$ is measured in ft/s.
+and $v(t)$ in ft/s.
 
 What is the average velocity of the object?
 \begin{explanation}
 By our definition, the average velocity is:
 \begin{align*}
-\frac{1}{3-0}\int_0^3 (t-1)^2\d t &=\frac13 \int_0^3 t^2-2t+1\d t\\
+\overline{v}&=\frac{1}{3-0}\int_0^3v(t)\d t\\
+&=\frac{1}{3}\int_0^3 (t-1)^2\d t \\
+&=\frac13 \int_0^3 (t^2-2t+1)\d t&=\\
 &= \frac13\eval{\frac{t^3}{3}-t^2+t}_0^3\\
 &= 1\text{ ft/s}.
 \end{align*}
 \end{explanation}
 \end{example}
+\begin{question}
+Choose \textbf{all} the correct expressions for $\overline{v}$, the average velocity of an object moving along a straight line over the time interval $[a,b]$.
 
+(Reminder: $s$ is the position function, and $a$ the acceleration). 
+\begin{selectAll}
+\choice{$\overline{v}=\frac{1}{b-a}\int_a^b s(t)\d t$}
+
+\choice[correct]{$\overline{v}=\frac{1}{b-a}\int_a^b v(t)\d t$}
+
+\choice{$\overline{v}=\frac{1}{b-a}\int_a^b a(t)\d t$}
+
+\choice{$\overline{v}=\frac{a(b)-a(a)}{b-a}$}
+
+
+\choice{$\overline{v}=\frac{v(b)-v(a)}{b-a}$}
+\choice[correct]{$\overline{v}=\frac{s(b)-s(a)}{b-a}$}
+
+\end{selectAll}
+\begin{feedback}
+We know from before that
+\[
+\overline{v}=\frac{s(b)-s(a)}{b-a}.
+\]
+We also know that the position function is given by
+\[
+s(t)=s(a)+\int_a^tv(z)\d z.
+\]
+Therefore,
+\[
+\overline{v}=\frac{s(b)-s(a)}{b-a}=\frac{s(a)+\int_a^bv(t)\d t-s(a)}{b-a}=\frac{1}{b-a}\int_a^bv(t)\d t.
+\]
+Therefore, we can compute the average velocity using either the position function or the velocity function.
+\end{feedback}
+\end{question}
 
 
 When we take the average of a finite set of values, it does not matter
@@ -197,7 +310,7 @@ circle''
     \begin{axis}[  
         domain=-3:3, xmin =-1.2,xmax=1.2,ymax=1.2,ymin=-.2,
         width=6in,
-        height=3in,xtick={-1,1},
+        height=4in,xtick={-1,1},
         xticklabels={$-1$, $1$},
         ytick style={draw=none},
         yticklabels={},
@@ -290,7 +403,7 @@ We demonstrate the principles involved in this version of the Mean
 Value Theorem in the following example.
 
 \begin{example}%%%BADBAD we state that this is an existential thm, then we ask for the value!
-  Consider $\int_0^\pi \sin x \d x$. Find a value $c$ guaranteed by the Mean Value Theorem.
+  Let $f(x)=\sin{x}$. Consider $\int_0^\pi \sin x \d x$. Find a value $c$ guaranteed by the Mean Value Theorem.
   \begin{explanation}
     We first need to evaluate $\int_0^\pi \sin x\d x$.
     \[
@@ -298,19 +411,24 @@ Value Theorem in the following example.
     \]
     Thus we seek a value $c$ in $[0,\pi]$ such that $\pi\sin c =2$. 
     \[
-    \pi\sin c = 2\ \ \Rightarrow\ \ \sin c = 2/\pi\ \ \Rightarrow\ \ c = \arcsin(2/\pi) \approx 0.69.
+    \pi\sin c = 2\ \ \Rightarrow\ \ \sin c = 2/\pi\ \ \Rightarrow\ \ c_1 = \arcsin(2/\pi) \approx 0.69.
     \]
-    
-A graph of $\sin x$ is sketched along with a rectangle with height
-$\sin (0.69)$ are pictured below. The area of the rectangle is the
-same as the area under $\sin x$ on $[0,\pi]$.
+    There is another  such point: $c_2=\pi-0.69$.
+   Indeed,
+    \[
+    f( \pi-0.69)=\sin{(\pi-0.69)}=\sin{(0.69)}=\frac{2}{\pi}=\overline{f}.
+    \]
+A graph of $\sin x$, along with a rectangle with height
+$\sin (0.69)$, is pictured below. The area of the rectangle is the
+same as the area under $\sin x$ on $[0,\pi]$. The two points $c_1$ and $c_2$ are also shown in the figure.
+Recall, $f(c_1)=f(c_2)=\overline{f}$. 
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = sin(deg(\x));}]
     \begin{axis}[  
         domain=-.2:3.3, xmin =-.2,xmax=3.3,ymax=1.2,ymin=-.2,
         width=6in,
-        height=3in,xtick={3.141,6.282},
+        height=2in,xtick={3.141,6.282},
         xticklabels={$\pi$, $2\pi$},
         ytick style={draw=none},
         yticklabels={},
@@ -323,7 +441,16 @@ same as the area under $\sin x$ on $[0,\pi]$.
                           {({0},{2/pi})
                             ({pi},{2/pi})} \closedcycle;
                \addplot [very thick,penColor, smooth] {f(x)};
-
+ \addplot[color=penColor,fill=penColor2,only marks,mark=*] coordinates{(0.69,0)};  %% closed hole   
+  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0.69,2/pi)};  %% closed hole  
+   \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(pi-0.69,2/pi)};  %% closed hole    
+      \addplot[color=penColor,fill=penColor2,only marks,mark=*] coordinates{(pi-0.69,0)};  %% closed hole   
+       \addplot[decoration={brace,mirror,raise=.1cm},decorate,thick] plot coordinates
+                       {(0,0) (0,2/pi)};
+        \node[black] at (axis cs:0.69,-0.1) {$c_1$};
+         \node[black] at (axis cs:pi-0.69,-0.1) {$c_2$};
+           \node[black] at (axis cs:0.1,1/3) {\large$\overline{f}$};
+             \node[black] at (axis cs:2.3,1) {\large$y=f(x)$};
     \end{axis}
   \end{tikzpicture}
 \end{image}

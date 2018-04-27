@@ -4,6 +4,8 @@
 
 \author{Bart Snapp}
 
+\outcome{Undestand the relationship between grad, curl, and div.}
+
 \title[Dig-In:]{Grad, Curl, Div}
 
 \begin{document}
@@ -13,8 +15,8 @@
 \end{abstract}
 \maketitle
 
-At far-point in our study, we have many fundamental theorems. Let's
-try to use them together, and see what we can find. 
+At this point in our study, we have many fundamental theorems. Let's
+try to use them together, and see what we can discover.
 
 \section{A two-dimensional dream}
 
@@ -22,10 +24,28 @@ So far we have two fundamental theorems of calculus for functions of
 two variables.
 \begin{itemize}
 \item The fundamental theorem of line integrals:
+  \begin{image}
+    \begin{tikzpicture}
+      \draw [ultra thick, gray] plot [smooth] coordinates {(-2,2) (0,3) (-.5,2) (2,3)};
+      \draw [ultra thick, gray,->,opacity=1] plot [smooth] coordinates {(0,2.9) (-.35,2.4)};
+      \draw[black,fill=black] (-2,2) circle (.5ex);
+      \draw[black,fill=black] (2,3) circle (.5ex);
+      \node[black,left] at (-2,2) {$\vec{a}$};
+      \node[black,right] at (2,3) {$\vec{b}$};
+    \end{tikzpicture}
+\end{image}
   \[
   \int_C \grad F \dotp\d\vec{p} = F(\vec{b}) -F(\vec{a})
   \]
 \item Green's theorem:
+  \begin{image}
+    \begin{tikzpicture}
+      \draw[ultra thick, black,fill=gray] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
+      \draw[ultra thick,black, ->] plot [smooth] coordinates {(.85,1.51) (1.02,1.95)};
+      \node[black] at (-.5,1.5) {$R$};
+      \node[black,right] at (.5,1) {$\partial R$};
+    \end{tikzpicture}
+  \end{image}
   \[
   \iint_R \curl \vec{F} \d A = \oint_{\partial R} \vec{F} \dotp \d \vec{p}
   \]
@@ -37,10 +57,54 @@ make something like:
 \]
 A double integral, equaling a single integral, equaling a difference!
 It's an amazing idea, and while it is true, we shouldn't get too
-excited. In fact each expression above is equal to zero.
+excited. In fact each expression above is equal to zero. Let's see
+why.
 
-Upshot: $\curl\grad F = 0$ for all functions $\vec{F}:\R^2\to\R^2$
-with continuous second derivatives.
+First note that both sides of the equation:
+\[
+\oint_{\partial R} \grad F \dotp \d \vec{p} = F(\vec{b}) - F(\vec{a})
+\]
+are zero. This is because, with a closed curve, $\vec{a}=\vec{b}$, and
+so $F(\vec{a}) = F(\vec{b})$. But this means that
+\[
+\iint_R \curl \grad F \d A = 0
+\]
+Note, this is totally independent of the region of the region $R$ and
+the surface $F$. The upshot: $\curl\grad F = 0$ for all functions
+$\vec{F}:\R^2\to\R^2$ with continuous second derivatives!
+
+\begin{question}
+  Let $F:\R^2\to \R$ be a function with continuous second
+  derivatives. Which of the following make sense?
+  \begin{selectAll}
+    \choice[correct]{$\grad F$}
+    \choice{$\curl F$}
+    \choice{$\divergence F$}
+    \choice[correct]{$\curl\grad F$}
+    \choice{$\curl \divergence F$}
+    \choice[correct]{$\divergence \grad F$}
+    \choice{$\divergence \curl F$}
+  \end{selectAll}
+  \begin{question}
+    Of the choices above that make sense, which must be equal to $0$?
+    \begin{prompt}
+    \begin{selectAll}
+      \choice{$\grad F$}
+      \choice[correct]{$\curl\grad F$}
+      \choice{$\divergence \grad F$}
+    \end{selectAll}
+    \end{prompt}
+    \end{question}
+\end{question}
+
+Of course, you could poo-poo the work above and say ``I already knew
+that!  This is just just the Clairaut gradient test!'' Well, sure, but
+what we just presented is \textit{another} reason that $\curl \grad F
+= 0$. Moreover, this line of reasoning will lead us to new ideas
+too. Read-on young mathematician, there is not much further to go in
+this course.
+
+
 
 
 \section{A three-dimensional dream}
@@ -49,14 +113,39 @@ Working in a similar way to how we worked above, let us recall the fundamental t
 
 \begin{itemize}
 \item The fundamental theorem of line integrals:
+  \begin{image}
+    \begin{tikzpicture}
+      \draw [ultra thick, gray] plot [smooth] coordinates {(-2,2) (0,3) (-.5,2) (2,3)};
+      \draw [ultra thick, gray,->,opacity=1] plot [smooth] coordinates {(0,2.9) (-.35,2.4)};
+      \draw[black,fill=black] (-2,2) circle (.5ex);
+      \draw[black,fill=black] (2,3) circle (.5ex);
+      \node[black,left] at (-2,2) {$\vec{a}$};
+      \node[black,right] at (2,3) {$\vec{b}$};
+    \end{tikzpicture}
+\end{image}
   \[
   \int_C \grad F \dotp\d\vec{p} = F(\vec{b}) - F(\vec{a}) 
   \]
 \item Stokes' theorem:
+  \begin{image}
+    \begin{tikzpicture}
+      \draw[gray,ultra thick] plot[smooth] coordinates {(-1.5,1.5) (-1,3) (0,3.3)  (1.5,1.5)};
+      \shade[ball color=white!50!gray] plot[smooth] coordinates {(-1.5,1.5) (-1,3) (0,3.3)  (1.5,1.5)};
+      \shade[top color=black!50!gray, middle color=black]  (0,1.5) ellipse (1.5 and .3);
+      \draw[black,ultra thick] (0,1.5) ellipse (1.5 and .3);
+    \end{tikzpicture}
+  \end{image}
   \[
-  \iint_R \curl\vec{F} \d S = \oint_{\partial R} \vec{F} \dotp \d \vec{p}
+  \iint_R \curl\vec{F}\dotp \uvec{n} \d S = \oint_{\partial R} \vec{F} \dotp \d \vec{p}
   \]
 \item The divergence theorem:
+  \begin{image}
+  \begin{tikzpicture}
+    \draw[ultra thick, gray!50!black] plot [smooth cycle] coordinates {(-1.5,2) (.5,1) (1.5,2) (.5,3) (-1.5,3)};
+    \shade[ball color=gray!50!white] plot [smooth cycle] coordinates {(-1.5,2) (.5,1) (1.5,2) (.5,3) (-1.5,3)};
+  \end{tikzpicture}
+\end{image}
+
   \[
   \iiint_R \divergence\vec{F} \d V = \oiint_{\partial R} \vec{F}\dotp\uvec{n} \d S
   \]
@@ -66,29 +155,35 @@ Putting Stokes' theorem and the divergence theorem together, we find the beautif
 \iiint_R \divergence\left(\curl\vec{F}\right)\d V = \oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d S = \oint_{\partial\partial R} \vec{F}\dotp \d \vec{p}
 \]
 Again, what a fantastic idea, a triple integral, equaling a double
-integral, equaling a single integral!
-
-
+integral, equaling a single integral! However, there is again a rub,
+the boundary of a closed curve is \textit{empty}. A closed curve has
+\textbf{no boundary}! Hence:
 \[
 \oint_{\partial\partial R} \vec{F}\dotp \d \vec{p} = 0
 \]
-
-
+This fact, in turn means that all of the integrals above, including:
 \[
-\iiint_R \divergence\left(\curl\vec{F}\right)\d V = \oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d S = \oint_{\partial\partial R} \vec{F}\dotp \d \vec{p}
+\iiint_R \divergence\left(\curl\vec{F}\right)\d V = \oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d S
 \]
-This tells us that the circulation along \textbf{any} closed surface is zero!
+Are all equal to to zero!  We thus conclude:
+\begin{itemize}
+\item $\oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d
+  S=0$ tells us that the circulation along \textbf{any} closed surface
+  is zero, and
+\item $\iiint_R \divergence\left(\curl\vec{F}\right)\d V = 0$ tells us
+  that for any vector field $\vec{F}:\R^3\to\R^3$,
+  $\divergence\left(\curl\vec{F}\right)=0$.
+\end{itemize}
 
-\[
-\divergence\left(\curl\vec{F}\right) =  0
-\]
 
-%% \begin{image}
-%%   \begin{tikzcd}[ampersand replacement=\&, row sep=.1em]
+
+\section{Grad, Curl, Div}
+
+%% \begin{tikzcd}[ampersand replacement=\&,row sep=.1em]
 %%     C^{\infty}(\R^2,\R) \arrow[r,"\grad"] \& C^{\infty}(\R^2,\R^2) \arrow[r,"\curl"] \& C^{\infty}(\R^2,\R)\\
 %%     F \arrow[r,mapsto] \& \grad F  \arrow[r,mapsto] \& 0
-%%   \end{tikzcd}
-%% \end{image}
+%% \end{tikzcd}
+
 
 %% \begin{image}
 %%   \begin{tikzcd}[ampersand replacement=\&, row sep=.1em]

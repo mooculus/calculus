@@ -43,13 +43,15 @@ Let $\vec{p}(t)$ be a smooth function on an open interval $I$. The
   \end{prompt}
 \end{question}
 
+
+In previous courses, we found tangent lines to curves at given points.
 Just as knowing the direction tangent to a path is important, knowing
 a direction orthogonal to a path is important. When dealing with
-real-valued functions, one defined the \dfn{normal line} at a point to
-the be the line through the point that was perpendicular to the
-tangent line at that point. We can do a similar thing with
-vector-valued functions. Given $\vec{p}(t)$ in $\R^2$, we have $2$
-directions perpendicular to the tangent vector
+real-valued functions, one defines the \dfn{normal line} at a point to
+the be the line through the point perpendicular to the tangent line at
+that point. We can do a similar thing with vector-valued
+functions. Given $\vec{p}(t)$ in $\R^2$, we have $2$ directions
+perpendicular to the tangent vector
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}%
@@ -84,10 +86,57 @@ preferable over the other?''  This question only gets harder in higher
 dimensions.  Given $\vec{p}(t)$ in $\R^3$, there are infinite vectors
 orthogonal to the tangent vector at a given point. Again, we might
 wonder ``Is one of these infinite choices preferable over the others?
-Is one of these the `right' choice?''
-
-The answer in both $\R^2$ and $\R^3$ is ``Yes, there is one vector
-that is preferable, and it is the `right' one to choose!'' Recall:
+Is one of these the `right' choice?'' Well, we have several options
+for finding vectors normal to curves. In $\R^2$ if $\vec{p}(t) =
+\vector{x(t),y(t)}$ we could write the tangent vector as:
+\[
+\vec{p}'(t) =\vector{x'(t),y'(t)}
+\]
+and then a normal vector as
+\[
+\vec{n}(t) = \vector{y'(t),-x'(t)}
+\]
+for a vector normal to $\vec{p}'(t)$. You can check for yourself that
+this vector is normal to $\vec{p}(t)$ using the dot product. In
+two-dimensions, the vector $\vec{n}$ defined above will always point
+``outward'' for a closed curve drawn in a counterclockwise
+fashion. Below we see a closed curve drawn in a counterclockwise
+fashion with some normal vectors:
+\begin{image}
+  \begin{tikzpicture}
+	\begin{axis}[
+            xmin=-4.1,xmax=4.1,ymin=-4.1,ymax=4.1,
+            axis lines=center,
+            %width=4in,
+            %xtick={-1,1},
+            %ytick={-1,1},
+            clip=false,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]        
+          \addplot [ultra thick, penColor, smooth, samples=100,domain=(0:360)] ({cos(x)*(3+sin(5*x))},{sin(x)*(3+sin(5*x))});
+          
+          \foreach \x in {50,120,200,260,330}
+          {
+          \addplot[penColor2,->,ultra thick] plot coordinates {
+            (
+            {cos(\x)*(3+sin(5*\x))},
+            {sin(\x)*(3+sin(5*\x))}
+            )
+            (
+            { 5*cos(5*\x)*sin(\x)+2*cos(\x)*(3+sin(5*\x))},
+            {-5*cos(\x)*cos(5*\x)+2*sin(\x)*(3+sin(5*\x))}
+            )
+          };
+          }
+          
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+On the other hand, there is no analogous trick for vector-valued
+functions in higher dimensions. In this case, recall:
 \begin{quote}
 If $\vec{p}(t)$ has constant length, then $\vec{p}(t)$ is orthogonal
 to $\vec{p}'(t)$ for all $t$.
@@ -97,12 +146,9 @@ constant length. Therefore
 \[
 \utan(t)\text{ is orthogonal to }\utan'(t).
 \]
-
-The vector-valued function $\utan'(t)$ is more than just a
-convenient choice of vector that is orthogonal to $\vec{p}'(t)$;
-rather, it is the ``right'' choice. We will use this to construct our
-\textit{unit normal vector}:
-
+Since this works in all dimensions, we will often use this to
+construct our \textit{unit normal vector}. This normal vector will
+always point toward the ``inside'' of how a curve is curving.
 \begin{definition}
 Let $\vec{p}(t)$ be a vector-valued function where the unit tangent
 vector, $\utan(t)$, is smooth on an open interval $I$. The

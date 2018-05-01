@@ -59,12 +59,12 @@ $\vec{n}=\vector{a,b}$, then
   \vector{a,b}\dotp(\vector{x,y}- \vector{x_0,y_0}) &= 0\\
   a(x-x_0)+ b(y-y_0) &= 0
 \end{align*}
-is an implicit formula for the line. This means that if points make
-the equation above true, thens those points are on a line. As we will
-see, a nearly identical implicit formula defines a plane.
+is an implicit formula for the line. This means that if points $(x,y)$
+make the equation above true, then those points are on the line. As we
+will see, a nearly identical implicit formula defines a plane.
 
 \begin{question}
-  Give an implict equation for a line that goes through $(-2,3)$ and
+  Give an implicit equation for a line that goes through $(-2,3)$ and
   is perpendicular to the vector $\vector{4,-5}$.
   \begin{prompt}
     \[
@@ -169,7 +169,7 @@ $(x_0,y_0,z_0)$ with normal vector $\vec{n}$.
   \end{center}
 \end{onlineOnly}
 \begin{question}
-  Find an explict formula for the plane above.
+  Find an explicit formula for the plane above.
   \begin{prompt}
     \[
     z = \answer{2+y-3x}
@@ -221,9 +221,10 @@ they help us describe properties of planes.
 \section{Parametric planes}
 
 
-Given \textbf{any} two nonzero vectors, $\vec{v}$ and $\vec{w}$ such that
+Given \textbf{any} two nonzero vectors in $\R^3$, $\vec{v}$ and
+$\vec{w}$, such that
 \[
-\vec{v}\cross \vec{w} \ne \vec{0}
+\vec{v}\cross \vec{w} \ne \vec{0},
 \]
 we can produce a parametric formula for a plane by writing
 \[
@@ -256,6 +257,34 @@ where $\vec{v}$ is a vector that points in the direction of the line,
 both represent linear relationships, and hence we use similar notation
 for both.
 
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-2,xmax=4,ymin=-1,ymax=3,
+        unit vector ratio*=1 1 1,
+        ticks=none,
+        axis line style={draw=none}
+      ]
+      \addplot[dashed,black] plot {x/2 +3};
+      \addplot[dashed,black] plot {x/2 +1.5};
+      \addplot[dashed,black] plot {x/2};
+      \addplot[dashed,black] plot {x/2-1.5};
+
+      \addplot[dashed,black] plot {2*x+6};
+      \addplot[dashed,black] plot {2*x+3};
+      \addplot[dashed,black] plot {2*x};
+      \addplot[dashed,black] plot {2*x-3};
+      \addplot[dashed,black] plot {2*x-6};
+
+      \addplot[ultra thick, penColor, ->] plot coordinates {(0,0) (2,1)};
+      \addplot[ultra thick, penColor2, ->] plot coordinates {(0,0) (1,2)};
+      \node[left,penColor2] at (axis cs: .5,1) {$\vec{w}$};
+      \node[below,penColor] at (axis cs: 1,.5) {$\vec{v}$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
 Now that we have \textbf{two} methods of graphing planes, let's use
 both of the representations at once!
 
@@ -269,39 +298,21 @@ both of the representations at once!
   \end{prompt}
   \begin{question}
     Use your answer above to give an \textbf{implicit} equation for
-    the plane that passes through the point $(1,2,3)$ that is normal
+    the plane that passes through the point $(3,2,1)$ that is normal
     to $\vec{v}\cross\vec{w}$.
     \begin{onlineOnly}
-      Check your answer by modifying the
-      \link[SAGE]{http://www.sagemath.org/} code below to show
-      appropriate normal vector and modifying the definition of
-      $F(x,y,z)$:
-      \begin{sageCell}
-vector=arrow3d((1,2,3),(1,-2,-4),5,color='blue');
-        
-F(x,y,z) = 1*(x+2)+1*(y+2)+1*(z+2)
-
-plane=implicit_plot3d(F(x,y,z)==1,(x,-10,10),(y,-10,10),(z,-10,10),color='red');
-plane+vector
-\end{sageCell}
-\end{onlineOnly}
+      Check your answer by moving the sliders below:
+      \begin{center}
+        \geogebra{fssBbva6}{800}{600} %https://ggbm.at/fssBbva6
+      \end{center}
+      \end{onlineOnly}
     \begin{question}
-      Now give a parametric formula for the same plane using the vectors given above.
-\begin{onlineOnly}
-\begin{sageCell}
-var('t s')
-normal=arrow3d((1,2,3),(1,0,-1),5,color='blue')
-          
-point = vector([1,2,3])
-          
-dir1 = vector([t,t,t])
-          
-dir2 = vector([0,s,s])
-
-paraPlane = parametric_plot(point+dir1+dir2,(s,-2,3),(t,-2,3))
-paraPlane+normal
-\end{sageCell}
-\end{onlineOnly}
+      Now give a vector-valued formula for the same plane using the vectors given above.
+      \begin{prompt}
+        \[
+        \vec{L}(s,t) = \vector{3+s-t,\answer{2-2s-2t},\answer{1+s+t}}
+        \]
+      \end{prompt}
     \end{question}
   \end{question}
 \end{question}

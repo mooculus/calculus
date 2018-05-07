@@ -4,18 +4,30 @@
 
 \title[Dig-In:]{Parametric plots}
 
+\author{Bart Snapp}
+
 \begin{document}
 \begin{abstract}
-  Tangent and normal vectors can help us plot make interesting
-  parametric functions.
+  Tangent and normal vectors can help us make interesting parametric
+  plots.
 \end{abstract}
 \maketitle
 
 \section{A sine curve on a circle}
 
-Suppose you wish to make a sine curve on a circle like this:
+Suppose you wish to draw a sine curve on a circle like this:
 \begin{image}
-  \includegraphics{sinOnCircle.jpg}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-4.1,xmax=4.1,ymin=-4.1,ymax=4.1,
+        unit vector ratio*=1 1 1,
+        axis lines={none},
+      ]
+      \addplot [ultra thick, black, smooth, samples=100,domain=(0:360)] ({cos(x)*(3)},{sin(x)*(3))});
+      
+      \addplot [ultra thick, penColor, smooth, samples=100,domain=(0:360)] ({cos(x)*(3-sin(4*x))},{sin(x)*(3-sin(4*x))});
+    \end{axis}
+  \end{tikzpicture}
 \end{image}
 
 How do you do this? Well, a general method for placing one curve along
@@ -23,56 +35,85 @@ another is to use unit tangent and unit normal vectors!
 \begin{example}
   Plot the curve $y= \sin(5x)$ ``wrapped'' around a circle of radius $3$.
   \begin{explanation}
-    To do this, start by setting
+    To do this, start by setting:
     \[
     \vec{c}(t) = \vector{3\cos(t),\answer[given]{3\sin(t)}}
     \]
-    This will produce our circle of radius $3$.
-\begin{onlineOnly}
-\begin{sageCell}
-var('s t')
-x(t) = 3*cos(t)
-y(t) = 3*sin(t)
-c(t) = (x(t),y(t))
-circle=parametric_plot(c(t),(t,0,2*pi),color="black")
-circle
-\end{sageCell}
-\end{onlineOnly}
-Now we need to add our sine curve. To do this, we compute the unit tangent vector
-\begin{align*}
-  \utan(t) &= \frac{\vec{c}'(t)}{|\vec{c}'(t)|}\\
-  &=\vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}
-\end{align*}
-and the unit normal vector:
-\begin{align*}
-  \unormal(t) &= \frac{\utan'(t)}{|\utan'(t)|}\\
-  &=\vector{\answer[given]{-\cos(t)},\answer[given]{-\sin(t)}}
-\end{align*}
-We've plotted our circle of radius $3$ with some unit tangent and unit
-normal vectors for your viewing pleasure:
-\begin{image}
-  \includegraphics{circleArrows.jpg}
-\end{image}
-To add the sine curve, quite litterally, add it in:
-\[
-\vec{f}(t) = \vec{c}(t) + \unormal(t)\cdot \sin(t)
-\]
-\begin{onlineOnly}
-We can confirm our construction with \link[SAGE]{http://www.sagemath.org/}: 
-\begin{sageCell}
-var('s t')
-x(t) = 3*cos(t)
-y(t) = 3*sin(t)
-c(t) = (x(t),y(t))
-dc=derivative(c,t)
-ut= dc / dc.norm()
-ddc = derivative(ut,t)
-n = ddc / ddc.norm()
-circle=parametric_plot(c(t),(t,0,2*pi),color="black")
-curve=parametric_plot(c(t) + n*sin(5*t), (t,0,2*pi))
-circle+curve
-\end{sageCell}
-\end{onlineOnly}
+    The function $\vec{c}$ will draw our circle of radius $3$.  Now
+    we need to add our sine curve. To do this, we compute the unit
+    tangent vector
+    \begin{align*}
+      \utan(t) &= \frac{\vec{c}'(t)}{|\vec{c}'(t)|}\\
+      &=\vector{\answer[given]{-\sin(t)},\answer[given]{\cos(t)}}
+    \end{align*}
+    and the unit normal vector:
+    \begin{align*}
+      \unormal(t) &= \frac{\utan'(t)}{|\utan'(t)|}\\
+      &=\vector{\answer[given]{-\cos(t)},\answer[given]{-\sin(t)}}
+    \end{align*}
+    We've plotted our circle of radius $3$ with some unit tangent and unit
+    normal vectors for your viewing pleasure:
+    \begin{image}
+      \begin{tikzpicture}
+	\begin{axis}[
+            xmin=-4.1,xmax=4.1,ymin=-4.1,ymax=4.1,
+            axis lines=center,
+            clip=false,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+          \addplot [ultra thick, black, smooth, samples=100,domain=(0:360)] ({cos(x)*(3))},{sin(x)*(3)});
+          
+          \foreach \x in {0,40,...,320}
+          {
+          \addplot[penColor,->,ultra thick] plot coordinates {
+            (
+            {cos(\x)*(3)},
+            {sin(\x)*(3)}
+            )
+            (
+            { -sin(\x)+3*cos(\x)},
+            {cos(\x)+3*sin(\x)}
+            )
+          };
+          }
+          \foreach \x in {0,40,...,320}
+          {
+          \addplot[penColor2,->,ultra thick] plot coordinates {
+            (
+            {cos(\x)*(3)},
+            {sin(\x)*(3)}
+            )
+            (
+            { -cos(\x)+3*cos(\x)},
+            {-sin(\x)+3*sin(\x)}
+            )
+          };
+          }
+          
+          \node[penColor,left] at (axis cs: -1.4,2.8) {$\utan(t)$};
+          \node[penColor2,left] at (axis cs: 1.5,-1.5) {$\unormal(t)$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    To add the sine curve, quite literally, add it in:
+    \[
+    \vec{f}(t) = \vec{c}(t) + \unormal(t)\cdot \answer[given]{\sin(5t)}
+    \]
+    where $\vec{c}(t)$ draws the circle, and $\unormal(t)\cdot
+    \sin(5t)$ draws the sine curve. Note, breaking $\vec{f}$ in to components we have:
+    \begin{align*}
+      x(t) &= \answer[given]{3\cos(t)-\sin(5t)\cos(t)}\\
+      y(t) &= \answer[given]{3\sin(t)-\sin(5t)\sin(t)}
+    \end{align*}
+    \begin{onlineOnly}
+      We can confirm our construction by making a graph:
+      \begin{center}
+      \geogebra{ka7ND9Gg}{800}{600} %%https://ggbm.at/ka7ND9Gg
+      \end{center}
+    \end{onlineOnly}
   \end{explanation}
 \end{example}
 
@@ -186,21 +227,15 @@ Let's see these vectors in action with our next example.
       \vec{F}(s,t) = \vec{f}(t) &+ 0.5 \unormal(\answer[given]{t})\cos(\answer[given]{s})\\
       &+ 0.5 \ubinormal(\answer[given]{t})\sin(\answer[given]{s})
     \end{align*}
+    Here the function $\vec{f}$ runs along the center of the tube, and
+    $\uvec{n}$ and $\uvec{b}$ create a moving axis, where a circle is
+    drawn. Putting this all together we get a tube drawn around
+    $\vec{f}$.
     \begin{onlineOnly}
-      We can check our work with \link[SAGE]{http://www.sagemath.org/}.
-  \begin{sageCell}
-var('s t')
-x(t) = t^2-2
-y(t) = t^2-2
-z(t) = 1-t
-f(t) = (x(t),y(t),z(t))
-df=derivative(f,t)
-ut = df / df.norm()
-ddf = derivative(ut,t)
-n = ddf / ddf.norm()
-bn = ut.cross_product(n)
-parametric_plot3d(f(t) + 0.5*n*cos(s) + 0.5*bn*sin(s), (t,-3,3), (s,0,2*pi))
-  \end{sageCell}
+      We can check our work with the following interactive:
+      \begin{center}
+        \geogebra{ydAMvuHm}{800}{600} %%https://ggbm.at/ydAMvuHm
+      \end{center}
     \end{onlineOnly}
   \end{explanation}
 \end{example}

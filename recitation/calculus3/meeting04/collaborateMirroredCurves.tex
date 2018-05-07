@@ -1,0 +1,285 @@
+\documentclass[handout,noauthor,nooutcomes]{ximera}
+
+\author{Bart Snapp}
+
+\outcome{}
+
+\input{../../../preamble.tex}
+
+\title[Collaborate:]{Mirrored curves}
+
+\begin{document}
+\begin{abstract}
+  We study how to bounce vectors off of curves.
+\end{abstract}
+\maketitle
+
+\textbf{Work in groups of 3--4, writing your answers on a separate
+  sheet of paper.}
+
+\section{Normal vectors}
+
+\begin{problem}
+Consider the following line:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1,xmax=5,ymin=-1,ymax=3,
+        clip=true,
+        axis lines=center,
+        %ticks=none,
+        unit vector ratio*=1 1 1,
+        xlabel=$x$, ylabel=$y$,
+        %ytick={-2,-1,...,7},
+	%xtick={-2,-1,...,10},
+	grid = major,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+      \addplot[ultra thick,penColor] {-x/2+2};
+      %\addplot[very thick,penColor2,->] plot coordinates {(2,1) (3,3)};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+Find a vector normal to this line. Explain your reasoning.
+\end{problem}
+
+\begin{problem}
+  Now consider the line $ax+by = c$ in $\R^2$. Find a vector normal to
+  this line. Explain your reasoning.
+\end{problem}
+
+\begin{problem}
+  Consider the equation:
+  \[
+  \vec{n}\dotp (\vec{x}-\vec{p}) = 0
+  \]
+  Explain how this connects to finding normal vectors to lines in
+  $\R^2$ of the form:
+  \[
+  ax + by = c
+  \]
+  In particular, you should explain what $\vec{n}$, $\vec{x}$, and
+  $\vec{p}$ represent.
+\end{problem}
+
+
+\begin{problem}
+  Quick! Tell me normal vectors for the following lines:
+  \begin{multicols}{2}
+  \begin{enumerate}
+  \item $-3x+7y=11$
+  \item $4y =8$
+  \item $x=y$
+  \item $y=-4x+1$
+  \end{enumerate}
+  \end{multicols}
+\end{problem}
+
+
+\section{Reflecting off of lines}
+
+
+Now we will explore how mirrors reflects light.
+
+\begin{fact}[Law of Reflection]
+  Light is reflected at the same angle as it arrived, as
+  measured from a line perpendicular to the mirror. Draw a picture
+  illustrating this fact. 
+\end{fact}
+
+Let's see if we can explain why the Law of Reflection is true. We'll
+address this in the next several problems.
+
+
+\begin{problem}
+  Consider the following diagram:
+  \begin{image}
+    \begin{tikzpicture}
+      \coordinate (A) at (0,2);
+      \coordinate (B) at (0,5);
+      \coordinate (C) at (8,1);
+      \coordinate (E) at (8,4);
+      \coordinate (D) at (4,3);
+      
+      \draw[ultra thick,penColor] (A)--(E)--(D);
+      \draw[thick,penColor3,->] (B)--(D);
+      \draw[dashed] (D)--(C);
+      \tkzMarkAngle[size=0.7cm,thin](B,D,A)
+      \tkzLabelAngle[pos = -0.4](B,D,A){$\alpha$}
+            
+      \tkzMarkAngle[size=0.9cm,thin](C,D,E)
+      \tkzLabelAngle[pos = 0.6](C,D,E){$\beta$}
+            
+      %\draw[step=.5cm] (0,0) grid (10,5);
+    \end{tikzpicture}
+  \end{image}
+  Explain why the opposite angles $\alpha$ and $\beta$ must be
+  equal.
+  \begin{hint}
+    Label more angles in your picture. Some pairs of angles will sum
+    to $180^\circ$. Use this to conclude that $\alpha = \beta$.
+  \end{hint}
+\end{problem}
+
+Since a mirror simply reflects light, we see that the initial light
+beam makes the same angle with the line as the reflected light beam:
+\begin{image}
+  \begin{tikzpicture}
+      \coordinate (A) at (0,2);
+      \coordinate (B) at (0,5);
+      \coordinate (C) at (8,1);
+      \coordinate (E) at (8,4);
+      \coordinate (D) at (4,3);
+      \coordinate (CR) at (6.59,6.65);
+      
+      \draw[ultra thick,penColor] (A)--(E)--(D);
+      \draw[thick,penColor3,->] (B)--(D);
+      \draw[thick,penColor3,->,dashed] (D)--(CR);
+      \draw[dashed] (D)--(C);
+      \tkzMarkAngle[size=0.7cm,thin](B,D,A)
+      \tkzLabelAngle[pos = -0.4](B,D,A){$\alpha$}
+
+      \tkzMarkAngle[size=0.9cm,thin](C,D,E)
+      \tkzLabelAngle[pos = 0.6](C,D,E){$\alpha$}
+      
+      \tkzMarkAngle[size=0.7cm,thin](E,D,CR)
+      \tkzLabelAngle[pos = 0.4](E,D,CR){$\alpha$}
+            
+      
+      %\draw[step=.5cm] (0,0) grid (10,5);
+  \end{tikzpicture}
+\end{image}
+
+\begin{problem}
+  Adding a normal vector to the diagram above:
+  \begin{image}
+    \begin{tikzpicture}
+      \coordinate (A) at (0,2);
+      \coordinate (B) at (0,5);
+      \coordinate (C) at (8,1);
+      \coordinate (E) at (8,4);
+      \coordinate (D) at (4,3);
+      \coordinate (CR) at (6.59,6.65);
+      \coordinate (F) at (3,7);
+      
+      \draw[ultra thick,penColor] (A)--(E)--(D);
+      \draw[thick,penColor3,->] (B)--(D);
+      \draw[thick,penColor3,->,dashed] (D)--(CR);
+      \draw[thick,penColor2,->] (D)--(F);
+      %% \tkzMarkAngle[size=0.7cm,thin](B,D,A)
+      %% \tkzLabelAngle[pos = -0.4](B,D,A){$\alpha$}
+
+      %\tkzMarkAngle[size=0.9cm,thin](C,D,E)
+      %\tkzLabelAngle[pos = 0.6](C,D,E){$\alpha$}
+      
+      %% \tkzMarkAngle[size=0.7cm,thin](E,D,CR)
+      %% \tkzLabelAngle[pos = 0.4](E,D,CR){$\alpha$}
+
+      \tkzMarkAngle[size=0.7cm,thin](CR,D,F)
+      \tkzLabelAngle[pos = 0.4](CR,D,F){$\theta$}
+      
+      \tkzMarkAngle[size=0.8cm,thin](F,D,B)
+      \tkzLabelAngle[pos = 0.5](F,D,B){$\varphi$}
+            
+            
+      %\draw[step=.5cm] (0,0) grid (10,5);
+    \end{tikzpicture}
+  \end{image}
+  Explain why $\theta$ and $\varphi$ are equal.
+\end{problem}
+
+
+\begin{problem}
+  Someone says that if $\vec{n}$ is a normal vector to a mirror, and
+  $\vec{v}$ represents a light beam, then the reflected light beam is
+  given by:
+  \[
+  \vec{r}=\vec{v} - 2\proj_{\vec{n}}(\vec{v})
+  \]
+  Give \textbf{two} explanations verifying the formula above:
+  \begin{itemize}
+  \item An explanation where you sketch $\vec{r}$ and show that it is
+    a reasonable answer.
+  \item An explanation where you show (via a computation) that the
+    angle which light is reflected is the same angle as it arrived, as
+    measured from a line perpendicular to the mirror.
+  \end{itemize}
+\end{problem}
+
+
+
+
+\begin{problem}
+  Now imagine the line below as a mirror and imagine vector $\vec{v}$
+  as a light-ray that strikes the mirror. Find the vector representing
+  the reflection of $\vec{v}$.
+  \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1,xmax=5,ymin=-1,ymax=3,
+        clip=true,
+        axis lines=center,
+        %ticks=none,
+        unit vector ratio*=1 1 1,
+        xlabel=$x$, ylabel=$y$,
+        %ytick={-2,-1,...,7},
+	%xtick={-2,-1,...,10},
+	grid = major,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+      \addplot[ultra thick,penColor] {-x/2+2};
+      %\addplot[very thick,penColor2,->] plot coordinates {(2,1) (3,3)};
+      \addplot[ultra thick,penColor3,->] plot coordinates {(1,3) (2,1)};
+      %\addplot[very thick,dashed,penColor3,->] plot coordinates {(2,1) (4,1)};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+\end{problem}
+
+
+\section{Reflecting off of curves}
+
+Reflecting off of mirrored surfaces doesn't require calculus unless
+the mirror is curved. 
+
+\begin{problem}
+  Let
+  \[
+  \vec{p}(t) = \vector{t,t^2}
+  \]
+  We claim that $\vec{n} = \vector{2t,-1}$ is a normal vector for this
+  curve for any given $t$. Confirm or deny this claim.
+\end{problem}
+
+\begin{problem}
+  Suppose light rays $\vec{v}=\vector{0,-1}$ are hitting a mirrored
+  surface described by:
+  \[
+  \vec{p}(t) = \vector{t,t^2}
+  \]
+  Find a formula for the vector reflected off the surface for any
+  given value of $t$. Call this vector $\vec{r}(t)$. Explain your
+  reasoning.
+\end{problem}
+
+
+\begin{problem}
+  For any given value of $t$, $\vector{t,t^2}$ is a point on our
+  curve. In the previous problem you found a vector $\vec{r}(t)$
+  describing a reflected light beams $\vec{v}=\vector{0,-1}$. Consider
+  the line:
+  \[
+  \vecl(s) = \vector{t,t^2} + s \cdot \vec{r}(t)
+  \]
+  \begin{itemize}
+  \item Find $a$ so that $\vecl(a)$ intersects the $y$-axis.
+  \item What is the $y$-value of $\vecl(a)$?
+  \item Do the questions directly above tell us? What does this have
+    to do with telescopes, space-heaters, vanity mirrors, and
+    eavesdropping devices?
+  \end{itemize}
+\end{problem}
+
+\end{document}

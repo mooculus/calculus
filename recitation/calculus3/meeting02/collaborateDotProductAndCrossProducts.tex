@@ -1,0 +1,176 @@
+\documentclass[handout,nooutcomes,noauthor]{ximera}
+
+\author{Bart Snapp}
+
+\input{../preamble.tex}
+
+\title[Collaborate:]{Dot products and cross products}
+
+\begin{document}
+\begin{abstract}
+  Working with the dot product and cross product. 
+\end{abstract}
+\maketitle
+
+\textbf{Work in groups of 3--4, writing your answers on a separate
+  sheet of paper.}
+
+\begin{problem}
+  Draw and label two vectors $\vec{v}$ and $\vec{w}$ such that
+  \begin{enumerate}
+  \item $\vec{v}\dotp\vec{w} <0$
+  \item $\vec{v}\dotp\vec{w} =0$
+  \item $\vec{v}\dotp\vec{w} >0$
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+  Give \textbf{three} explanations (one algebraic, one geometric, one
+  using trigonometry) why
+  \[
+  \proj_{\vec{a}}(\vec{b}) = \vec{0}
+  \]
+  if $\vec{a}\dotp\vec{b} = 0$.
+\end{problem}
+
+\begin{problem}
+  Give two explanations (one algebric and one geometric) that shows
+  that
+  \[
+  \vec{b} - \proj_{\vec{a}}(\vec{b}) \quad\text{is orthogonal to}\quad \vec{a}
+  \]
+\end{problem}
+
+
+\begin{problem}
+  Let $\vec{r}$ be a random (nonzero) vector in $\R^2$. Compute:
+  \[
+  \proj_\vecj\left(\proj_\veci(\vec{r})\right)
+  \]
+  Explain your reasoning.
+\end{problem}
+
+\begin{problem}
+  Let $\vec{r}$ be a random (nonzero) vector in $\R^2$. Could there be
+  a vector $\vec{v}$ such that one expects
+  \[
+  \proj_\vecj\left(\proj_{\vec{v}}\left(\proj_\veci(\vec{r})\right)\right)\ne \vec{0}?
+  \]
+  Explain your reasoning.
+\end{problem}
+
+
+
+
+
+\begin{problem}
+  Consider three vectors in $\R^3$:
+  \begin{align*}
+    \vec{a} &= \vector{a_1,a_2,a_3}\\
+    \vec{b} &= \vector{b_1,b_2,b_3}\\
+    \vec{c} &= \vector{c_1,c_2,c_3}
+  \end{align*}
+    We claim:
+    \[
+    \det \begin{bmatrix}
+      a_1 & a_2 & a_3\\
+      b_1 & b_2 & b_3\\
+      c_1 & c_2 & c_3
+    \end{bmatrix}
+    =
+      \vec{a}\dotp(\vec{b}\cross\vec{c}) =
+    (\vec{a}\cross\vec{b})\dotp\vec{c}
+    \]
+    Give an algebraic verification of this claim.  For your
+    information, $(\vec{a}\cross\vec{b})\dotp \vec{c}$ is commonly
+    called the \dfn{scalar triple product}.
+ \end{problem}
+
+
+\begin{problem}
+  Given vectors $\vec{a}$, $\vec{b}$, and $\vec{c}$, in $\R^3$, we
+    claim:
+    \[
+    \vec{a}\dotp(\vec{b}\cross\vec{c}) =
+    (\vec{a}\cross\vec{b})\dotp\vec{c}
+    \]
+    Use the diagram
+    \begin{image}
+    \begin{tikzpicture}
+      \coordinate (A) at (0,0);
+      \coordinate (B) at (4,-1);
+      \coordinate (C) at (4,1); 
+      \coordinate (D) at (0,4);
+      \coordinate (E) at (2,3);
+      \coordinate (F) at (8,0);
+      \coordinate (G) at (6,2);
+      \coordinate (H) at (6,4);
+      \coordinate (I) at (10,3);
+
+
+      \draw[draw=none,pattern=north west lines, pattern color=penColor3] (A)--(B)--(F)--(C)--cycle;
+      %% \draw[dashed,penColor] (O)--(E);
+      %% \draw[dashed,penColor2] (O)--(F);
+      %% \draw[dashed,penColor4] (O)--(D); 
+
+      \draw[->,ultra thick,penColor,shorten <=2pt,shorten >=5pt] (A)--(B);
+      \draw[->,ultra thick,penColor2,shorten <=2pt,shorten >=5pt] (A)--(C);
+      \draw[->,ultra thick,penColor4,shorten <=2pt,shorten >=5pt] (A)--(E);
+      \draw[->,ultra thick,penColor3,shorten <=2pt,shorten >=5pt] (A)--(D);
+
+      \draw[ultra thick, gray] (B)--(G);
+      \draw[ultra thick, gray] (B)--(F);
+      \draw[ultra thick, gray] (F)--(I);
+      \draw[ultra thick, gray] (E)--(G);
+      \draw[ultra thick, gray] (G)--(I);
+      \draw[ultra thick, gray] (H)--(I);
+      \draw[ultra thick, gray] (E)--(H);
+      \draw[ultra thick, dashed, gray] (C)--(H);
+      \draw[ultra thick, dashed, gray] (A)--(C);
+      \draw[ultra thick, dashed, gray] (C)--(F);
+
+      
+      \tkzDefMidPoint(A,B) \tkzGetPoint{a}
+      \tkzDefMidPoint(A,C) \tkzGetPoint{b}
+      \tkzDefMidPoint(A,E) \tkzGetPoint{c}
+      \tkzDefMidPoint(A,D) \tkzGetPoint{axb}
+
+      
+      \tkzMarkAngle(E,A,D)
+      \tkzLabelAngle[pos = .6](E,A,D){$\theta$}
+%% \tkzMarkRightAngle(C,E,O)
+
+      \node[left,penColor4] at (c) {$\vec{c}$};
+      \node[above,penColor2] at (b) {$\vec{b}$};
+      \node[below,penColor] at (a) {$\vec{a}$};
+      \node[left,penColor3] at (axb) {$\vec{a}\cross\vec{b}$};
+      %% \tkzLabelPoints[above](c)
+      %% \tkzLabelPoints[below](b)
+      %% \tkzLabelPoints[left](a) {$\vec{a}$}
+    \end{tikzpicture}
+  \end{image}
+    and recall that the volume of a parallelpiped is given by
+    \[
+    \text{area of the base}\times\text{height}
+    \]
+    to give a geometric verification of the \textbf{two} facts:
+    \begin{itemize}
+    \item First, that
+      \[
+      \left |\det\begin{bmatrix}
+      a_1 & a_2 & a_3\\
+      b_1 & b_2 & b_3\\
+      c_1 & c_2 & c_3
+      \end{bmatrix}\right|
+      \]
+      is the volume of the parallelepiped spanned by vectors $\vec{a}$,
+      $\vec{b}$, and $\vec{c}$.
+    \item Second, that
+      \[
+      \vec{a}\dotp(\vec{b}\cross\vec{c}) =
+      (\vec{a}\cross\vec{b})\dotp\vec{c}
+      \]
+    \end{itemize}
+\end{problem}
+
+\end{document}

@@ -300,17 +300,59 @@ variables. These are often called \textit{functions of several
   variables}.
 
 \begin{definition}
-  A \dfn{function of several variables} with \dfn{domain} $D$ is a
-  relation
+  A \dfn{function of several variables} with \dfn{domain} $D$ ($D$ is
+  a subset of $\R^n$) of $\R^n$ is a relation
   \begin{align*}
-    F: D\subset \R^n  &\to \R\\
+    F: D &\to \R\\
     \vec{x} &\mapsto y\\
     \vector{x_1,x_2,\dots,x_n} &\mapsto y
   \end{align*}
-  that assigns every ordered tuple in $D$ ($D$ is a subset of $\R^n$)
-  a unique real number in $\R$. The set of all outputs of $F$ is the
-  \dfn{range} (a subset of $\R$).
+  that assigns every ordered tuple in $D$ a unique real number in
+  $\R$. The set of all outputs of $F$ is the \dfn{range} (a subset of
+  $\R$).
 \end{definition}
+
+\begin{remark}
+  In this text, we will use an upper-case letter to denote a function
+  of several variables.
+\end{remark}
+
+To plot a function of two variables, you pick a point in the
+$(x,y)$-plane, and then plot the three dimensional point $(x,y,F(x,y))$:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={110}{25},
+	name=myplot,
+	xtick=\empty,
+        ytick=\empty,
+        ztick=\empty,
+	ymin=-.1,ymax=1.2,
+	xmin=-.1,xmax=1.2,
+	zmin=-.2, zmax=2.1,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool,
+      ]
+      \addplot3[gray,domain=0:2,samples y=0,dashed] ({1*cos(45)},{1*sin(45)},x); %% line for z
+      \addplot3[gray,domain=0:cos(45),samples y=0,dashed] ({x},{1*sin(45)},0); %% line for x
+      \addplot3[gray,domain=0:cos(45),samples y=0,dashed] ({sin(45)},{x},0); %% line for y
+            
+      \filldraw [black] (axis cs:{1*cos(45)},{1*sin(45)},1.95) circle (2.5pt);        
+      \node[right] at (axis cs:{1*cos(45)},{1*sin(45)},2) {$(x,y,F(x,y))$};
+
+      \filldraw [black!50!white] (axis cs:{1*cos(45)},{1*sin(45)},0) circle (2.5pt);        
+      \node[below right,black!50!white] at (axis cs:{1*cos(45)},{1*sin(45)},0) {$(x,y)$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
 
 Let's investigate functions of two variables, $F:\R^2\to\R$:
 
@@ -416,12 +458,15 @@ two-dimensional plane. The graph of a function of two variables, $z =
 F(x,y)$ is a surface in three-dimensional space. The graph of a
 function of three variables, $w=F(x,y,z)$ is a surface in
 \textit{four}-dimensional space. How can we visualize such functions?
-While technology is readily available to help us graph functions of
-two variables, there is still a paper-and-pencil approach that is
-useful.  This technique is know as sketching \textit{level sets}. When
-working with functions $F:\R^2\to\R$, our level sets are \textit{level
-  curves}, and when working with functions $F:\R^3\to\R$, our level
-sets are \textit{level surfaces}.\index{level sets}
+For visualizeing functions $f:\R\to\R$, a grapher like
+\link[\textsl{Desmos}]{https://www.desmos.com/} is really great. For
+visualizing functions $F:\R^2\to\R$,
+\link[\textsl{GeoGebra}]{https://www.geogebra.org/3d} is
+  great. However, there are other interpertations too.  One powerful
+  technique is know as sketching \textit{level sets}. When working
+  with functions $F:\R^2\to\R$, our level sets are \textit{level
+    curves}, and when working with functions $F:\R^3\to\R$, our level
+  sets are \textit{level surfaces}.\index{level sets}
 
 
 \subsection{Level curves}
@@ -439,52 +484,46 @@ elevation with \dfn{contour lines}. Another example would be
 \end{image}
 
 Given a function $z=F(x,y)$, we can draw a ``topographical map'' of
-$F$ by drawing \dfn{level curves} (or, contour lines). A level curve
-at $z=c$ is a curve in the $(x,y)$-plane such that for all points
-$(x,y)$ on the curve, $F(x,y) = c$. Below we see a surface with level
-curves drawn beneath the surface:
+$F$ by drawing \textit{level curves}.
+
+\begin{definition}
+  A \dfn{level curve} at $z=c$ is a curve in the $(x,y)$-plane such that for
+  all points $(x,y)$ on the curve, $F(x,y) = c$.
+\end{definition}
+
+Below we see a surface with level curves drawn beneath the surface:
 
 \begin{image}
   \includegraphics{firstContourPlot.png}
-%%   %% Based on: 
-%%   %% http://tex.stackexchange.com/questions/87674/how-to-coherently-combine-3d-and-contour-plots-with-pgfplots
-%% \begin{tikzpicture}
-%% \begin{axis}[
-%%     domain=-2:2,
-%%     domain y=0:2*pi,
-%% ]
-
-%%     \newcommand\expr[2]{-exp(-#1^2) * sin(deg(#2))}
-
-%%     \addplot3[%% Contour plot
-%%         contour gnuplot={
-%%             % cdata should not be affected by z filter:
-%%             output point meta=rawz,
-%%             number=10,
-%%             labels=false,
-%%         },
-%%         samples=41,
-%%         z filter/.code=\def\pgfmathresult{-1.6},
-%%     ]
-%%         {\expr{x}{y}};
-
-        
-%%     \addplot3[surf,samples=25] %% ACTUAL FUNCTION
-%%         {\expr{x}{y}};
-
-%% \end{axis}
-%% \end{tikzpicture}
 \end{image}
 
 %% \begin{question} BADBAD Bart would like to add a question here
 %%   Matching level curves to surfaces.
 %% \end{question}
 
+If the ``heights'' of the level curves are equally spaced, then level
+curves are close together when the function is changing rapidly, and
+far apart when the function is changing slowly.
 
-When drawing level curves, it is important that the $c$ values are
-spaced equally apart as that gives the best insight to how quickly the
-``elevation'' is changing. Examples will help one understand this
-concept.
+\begin{question}
+  \begin{image}
+    \begin{tikzpicture}	
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{(10,4) (9,3) (10,3)};
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{(11,2) (10,5) (8,3)};
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{
+        (7,3) (12,1) (10,6) (7,5) (5,6) (5,5) (7,4)
+      };
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{
+        (13,0) (10,7) (4,9) (1,8) (1,4) (5,1)
+      };
+
+%        \node[penColor,fill=white] at (axis cs:2,2.66) {$7$};
+    \end{tikzpicture}
+  \end{image}
+\end{question}
+
+
+
 
 \begin{example}
   Let $F(x,y) = \sqrt{1-\frac{x^2}{9}-\frac{y^2}{4}}$. Find the level

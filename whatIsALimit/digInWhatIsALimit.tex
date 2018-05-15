@@ -205,11 +205,16 @@ Let's look at a graph:
           \addplot [very thick, penColor, domain=(2:3)] {2};
           \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};  %% closed hole  
           \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
+          \addplot[color=penColor,fill=penColor2,only marks,mark=*] coordinates{(1.9,0)};  %% closed hole  
           
           \addplot[(-),color=penColor2,ultra thick] plot coordinates {(1.75,0) (2.25,0)};
 
           \addplot[color=penColor2,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
           \addplot[textColor,dashed] plot coordinates {(1.9,0) (1.9,1)};
+            \addplot[decoration={brace,raise=.075cm},decorate,thin] plot coordinates
+                       {(1.91,0) (1.91,1)};
+           \node[black] at (axis cs:1.9,-0.15) {$x$};
+             \node[black] at (axis cs:1.75,0.5) {$f(x)$};
         \end{axis}
 \end{tikzpicture}
 \end{image}
@@ -231,9 +236,14 @@ that $f(x) = 1$. However, if we allow the values of x  on the right of 2 to get 
           \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(2,1)};  %% open hole
           
           \addplot[(-),color=penColor2,ultra thick] plot coordinates {(1.75,0) (2.25,0)};
-
+   \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(2.1,0)};  %% closed hole  
           \addplot[color=penColor2,fill=background,only marks,mark=*] coordinates{(2,0)};  %% open hole
           \addplot[textColor,dashed] plot coordinates {(2.1,0) (2.1,2)};
+        
+            \addplot[decoration={brace,mirror,raise=.05cm},decorate,thin] plot coordinates
+                       {(2.11,0) (2.11,2)};
+           \node[black] at (axis cs:2.1,-0.15) {$x$};
+             \node[black] at (axis cs:2.27,1) {$f(x)$};
         \end{axis}
 \end{tikzpicture}
 \end{image}
@@ -247,8 +257,8 @@ Tables can be used to help guess limits, but one must be careful.
 
 \begin{question}
   Consider $f(x) = \sin\left(\frac{\pi}{x}\right)$. Fill in the 
-  tables below:
-  \[
+  table below:
+   \[
   \begin{array}{l|l}
     x      & f(x)      \\ \hline
     0.1    & \begin{prompt}\answer{0}\end{prompt}\\
@@ -256,7 +266,13 @@ Tables can be used to help guess limits, but one must be careful.
     0.001  & \begin{prompt}\answer{0}\end{prompt}\\
     0.0001 & \begin{prompt}\answer{0}\end{prompt} 
   \end{array}
-  \qquad\text{and}\qquad
+    \]
+  We may rush and say that, based on the table above,
+   \[
+  \lim_{x\to 0}\sin\left(\frac{\pi}{x}\right)=0.
+  \]
+Wait! Fill in another table.
+  \[
   \begin{array}{l|l}
     x      & f(x)            \\ \hline
     0.3    &  \begin{prompt}\answer{-.866}\end{prompt} \\
@@ -265,7 +281,7 @@ Tables can be used to help guess limits, but one must be careful.
     0.0003 &  \begin{prompt}\answer{-.866}\end{prompt}
   \end{array}
   \]
-  What do the tables tell us about
+  What do these two tables tell us about
   \[
   \lim_{x\to 0}\sin\left(\frac{\pi}{x}\right)?
   \]
@@ -274,12 +290,12 @@ Tables can be used to help guess limits, but one must be careful.
     \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right)=1$}
     \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right) = -.866$}
     \choice{$\lim_{x\to 0}\sin\left(\frac{\pi}{x}\right) = -.433$}
-    \choice[correct]{it is unclear what the tables are telling us about the limit}
+    \choice[correct]{The limit does not exist.}
   \end{multipleChoice}
   \begin{feedback}
-    Neither tables nor graphs can ever tell us for certain what a
-    limit is. However, sometimes they can help ``guess'' the limit. In
-    this case the graph of $f(x)$ is somewhat more helpful:
+   The limit does not exist. The first table shows that we can always find a value of $x$ as close as we want to $0$ such that $f(x)=0$.
+   However, the limit is not equal to $0$, since the second table shows that we can also find a value of $x$ as close as we want to $0$ such that $f(x)=-\frac{\sqrt{3}}{2}$.
+   It turns out that  for any number $a$, $-1\le a\le1$, we can find a value of $x$ as close as we want to $0$ such that $f(x)=a$. Check the graph of the function $f$.
     \begin{image}
       \begin{tikzpicture}
 	\begin{axis}[

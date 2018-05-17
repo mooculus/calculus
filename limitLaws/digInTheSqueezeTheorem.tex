@@ -25,7 +25,7 @@ situation where this is possible.
   for all $x$ close to $a$ but not necessarily equal to $a$. If
   \[
   \lim_{x\to a} g(x) = L = \lim_{x\to a} h(x),
-  \] 
+  \]
   then $\lim_{x\to a} f(x) = L$.
 \end{theorem}
 
@@ -50,7 +50,7 @@ situation where this is possible.
 \begin{example}
 Consider the function
 \[
-f(x) = 
+f(x) =
 \begin{cases}
 \sqrt[5]{x}\sin\left(\frac{1}{x}\right) & \text{if $x \ne 0$,}\\
 0 & \text{if $x = 0$,}
@@ -59,12 +59,12 @@ f(x) =
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
-            domain=-.2:.2,    
+            domain=-.2:.2,
             samples=500,
             width=6in,
             height=3in,
             axis lines =middle, xlabel=$x$, ylabel=$y$,
-            yticklabels = {}, 
+            yticklabels = {},
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
             clip=false,
@@ -89,47 +89,56 @@ Is this function continuous at $x=0$?
 \begin{explanation}
 We must show that $\lim_{x\to 0} f(x) = \answer[given]{0}$. First, let's assume that $x\ge0$ and small. Since
 \[
-0\le \sin{\left(\frac{1}{x}\right)}\le 1
+  -1 \le \sin{\left(\frac{1}{x}\right)}\le 1
+  % su18(TK): sin(x) \ge 0 for small x \ge 0, but not sin(1/x).
 \]
 
 by multiplying these inequalities by $\sqrt[5]{x} \ge0$
 , we obtain
 \[
-0\le \sqrt[5]{x}\sin{\left(\frac{1}{x}\right)} \le \sqrt[5]{x}
+-\sqrt[5]{x} \le \sqrt[5]{x}\sin{\left(\frac{1}{x}\right)} \le
+\sqrt[5]{x} % su18(TK): fix here
 \]
 which can be written as
 
 
 \[
-0\le f(x) \le \sqrt[5]{x}
+-\sqrt[5]{x} \le f(x) \le \sqrt[5]{x}. % su18(TK): here
 \]
-and, therefore as
+% su18(TK): comment the following out
+% and, therefore as
 
-\[
-0\le f(x) \le \Big|\sqrt[5]{x}\Big|
-\]
+% \[
+% 0\le f(x) \le \Big|\sqrt[5]{x}\Big|
+% \]
 
 Now, let's assume that $x\le0$ and small.
 Since
 \[
--1\le \sin{\left(\frac{1}{x}\right)}\le 0
+-1\le \sin{\left(\frac{1}{x}\right)}\le 1 % su18(TK): here
 \]
 by multiplying these inequalities by $\sqrt[5]{x} \le0$
 , we obtain
 \[
-0\le \sqrt[5]{x}\sin{\left(\frac{1}{x}\right)} \le -\sqrt[5]{x}
-\]
+\sqrt[5]{x} \le \sqrt[5]{x}\sin{\left(\frac{1}{x}\right)} \le -\sqrt[5]{x}
+\]                              % su18(TK): another here
 which can be written as
 \[
-0\le f(x) \le \Big|\sqrt[5]{x}\Big|
+  \sqrt[5]{x} \le f(x) \le -\sqrt[5]{x}.
 \]
+
 Therefore for all small values of x
 \[
-0\le f(x) \le \Big|\sqrt[5]{x}\Big|
+-\Big|\sqrt[5]{x}\Big| \le f(x) \le \Big|\sqrt[5]{x}\Big|.
 \]
-Since 
+
+% \[
+% 0\le f(x) \le \Big|\sqrt[5]{x}\Big|
+% \]
+Since
 \[
-\lim_{x\to 0}0= \answer[given]{0} = \lim_{x\to 0}\Big|\sqrt[5]{x}\Big|
+  \lim_{x\to 0} \left( - \Big|\sqrt[5]{x}\Big|  \right)
+  = \answer[given]{0} = \lim_{x\to 0}\Big|\sqrt[5]{x}\Big|
 \]
  we apply the Squeeze Theorem and obtain that
 
@@ -167,7 +176,7 @@ the diagrams below:
             xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]        
+          ]
           \addplot [very thick, penColor2, smooth, domain=(-.1:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
           \addplot [textColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
           \addplot [very thick, penColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
@@ -179,7 +188,7 @@ the diagrams below:
           \node at (axis cs:.383,0) [anchor=north] {$\cos(\theta)$};
           \node at (axis cs:.5,-.1) [anchor=north] {Triangle $A$};
         \end{axis}
-\end{tikzpicture} & 
+\end{tikzpicture} &
 \begin{tikzpicture}
   \begin{axis}[
       clip=false,
@@ -190,13 +199,13 @@ the diagrams below:
       xlabel=$x$, ylabel=$y$,
       every axis y label/.style={at=(current axis.above origin),anchor=south},
       every axis x label/.style={at=(current axis.right of origin),anchor=west},
-    ]        
+    ]
     \addplot [draw=none,fill=fill1] plot coordinates {(0,0) (.766,.643)}\closedcycle; %% sector
-    \addplot [draw=none, fill=fill1, samples=100, domain=(0:40)] ({cos(x)},{sin(x)})\closedcycle; %% sector 
+    \addplot [draw=none, fill=fill1, samples=100, domain=(0:40)] ({cos(x)},{sin(x)})\closedcycle; %% sector
     \addplot [very thick, penColor2, smooth, domain=(-.1:.2+pi/2)] ({cos(deg(x))},{sin(deg(x))});
     \addplot [textColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
     \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
-    \addplot [textColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+    \addplot [textColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees
     \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
     \addplot [very thick,penColor] plot coordinates {(0,0) (.766,.643)}; %% sector
     \addplot [very thick,penColor] plot coordinates {(0,0) (1,0)}; %% sector
@@ -205,7 +214,7 @@ the diagrams below:
     \node at (axis cs:.5,0) [anchor=north] {$1$};
     \node at (axis cs:.5,-.1) [anchor=north] {Sector};
   \end{axis}
-\end{tikzpicture} & 
+\end{tikzpicture} &
 \begin{tikzpicture}
   \begin{axis}[
       clip=false,
@@ -216,12 +225,12 @@ the diagrams below:
       xlabel=$x$, ylabel=$y$,
       every axis y label/.style={at=(current axis.above origin),anchor=south},
       every axis x label/.style={at=(current axis.right of origin),anchor=west},
-    ]        
-    \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (1,.839)}\closedcycle; %% triangle          
+    ]
+    \addplot [very thick,penColor,fill=fill1] plot coordinates {(0,0) (1,.839)}\closedcycle; %% triangle
     \addplot [very thick, penColor2, smooth, domain=(-.1:1.671)] ({cos(deg(x))},{sin(deg(x))});
     \addplot [very thick, penColor] plot coordinates {(0,0) (1,.839)}; %% 40 degrees
     \addplot [textColor] plot coordinates {(.766,0) (.766,.643)}; %% 40 degrees
-    \addplot [very thick, penColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees          
+    \addplot [very thick, penColor] plot coordinates {(1,0) (1,.839)}; %% 40 degrees
     \addplot [textColor,smooth, domain=(0:40)] ({.15*cos(x)},{.15*sin(x)});
     \node at (axis cs:.15,.07) [anchor=west] {$\theta$};
     \node at (axis cs:.5,0) [anchor=north] {$1$};
@@ -276,7 +285,7 @@ which functions you are using to ``squeeze-out'' your limit.
     \begin{image}
       \begin{tikzpicture}
 	\begin{axis}[
-            domain=-4:4,    
+            domain=-4:4,
             width=6in,
             height=3in,
             axis lines =middle, xlabel=$x$, ylabel=$y$,
@@ -291,7 +300,7 @@ which functions you are using to ``squeeze-out'' your limit.
             domain=(.35:4)]  {sin(deg(x))*e^(cos(deg(1/x^3)))};
 	  \addplot [color=penColor, fill=penColor,smooth,domain=(-.35:.35)] {sin(deg(x))*e} \closedcycle;
           \addplot [color=background, fill=background, smooth,domain=(-.35:.35)] {sin(deg(x)*1/e} \closedcycle;
-          
+
           %\addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:0)] {-abs(sin(deg(x))*e)} \closedcycle;
           %\addplot [color=penColor, fill=penColor, very thick, smooth,domain=(-.3:0)] {abs(sin(deg(x)*1/e)} \closedcycle;
         \end{axis}
@@ -324,7 +333,7 @@ which functions you are using to ``squeeze-out'' your limit.
     \[
     \sin(x) \answer[given]{e} \le \sin(x) e^{\cos\left(\frac{1}{x^3}\right)} \le \sin(x) \answer[given]{e^{-1}}
     \]
-    and so 
+    and so
     \[
     \lim_{x\to 0^-}\sin(x) \answer[given]{e} =\answer[given]{0}=\lim_{x\to 0^-}\sin(x) \answer[given]{e^{-1}},
     \]

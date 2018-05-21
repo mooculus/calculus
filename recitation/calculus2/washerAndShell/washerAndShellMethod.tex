@@ -1,0 +1,266 @@
+\documentclass[]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../../../preamble.tex}
+
+
+
+\author{Tom Needham and Jim Talamo}
+
+\outcome{Use definite integrals to compute volumes of solids of revolution.}
+\outcome{Determine whether the Washer or Shell method is better to compute the volume of a solid.}
+\outcome{Determine the appropriate variable of integration to compute the volume of a solid.}
+\outcome{Set up integrals with respect to both $x$ and $y$ that give the volume of the solid.}
+
+\title[]{Volume by Slicing}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.9in}
+
+\section{Discussion Questions}
+
+\begin{problem}
+\begin{enumerate}
+\item[I.] The region bounded by $y=x$, $y=3x$, and $x=2$ is revolved about the line $x=5$. We wish to compute the volume of the resulting solid by integrating with respect to $x$. Which method (Washer or Shell) should be used to compute the volume?
+
+\item[II.]  The region bounded by $y=\sqrt{x}$, $y=0$, $x=1$ and $x=4$ is revolved about the line $x=8$.  We wish to compute the volume of the resulting solid using the Washer Method. Which variable should we integrate with respect to in order to compute the volume?
+
+\item[III.] The region bounded by $y=-e^x$, $y=0$, $x=1$ and $x=2$ is rotated about either a horizontal or a vertical line. Suppose that the volume of the resulting solid can be calculated using the Shell method, integrating with respect to $y$. Was the axis of rotation horizontal or vertical?
+\end{enumerate}
+\end{problem}
+
+\begin{freeResponse}
+I. Since we are revolving around a vertical line and integrating with respect to $x$, our slices need to be vertical as well. This means that we should use the Shell method.
+
+II. Since we are revolving around a vertical line and using the Washer method, our slices must be horizontal. This means that we should use the Washer method.
+
+III. Since we are integrating with respect to $y$, the slices used to form the shells must be horizontal. This means that the axis of rotation must have been horizontal.
+\end{freeResponse}
+
+\begin{problem}
+Let $R$ be the region bounded by $y=4-x^2$ and $2x+y=1$.  
+\begin{center}
+\resizebox {6cm} {!} {
+\begin{tikzpicture}
+		\begin{axis}[
+			domain=-2:4, ymax=6,xmax=4, ymin=-6, xmin=-2,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {4-x^2};
+            	\addplot [draw=penColor2,very thick,smooth] {1-2*x};
+                       
+            	\addplot [name path=A,domain=-1:3,draw=none] {4-x^2};   
+            	\addplot [name path=B,domain=-1:3,draw=none] {1-2*x};
+            	\addplot [fillp] fill between[of=A and B];
+
+		
+		\node at (axis cs:1.75,3.75) [penColor] {$y=4-x^2$};
+		\node at (axis cs:1.2,-4) [penColor2] {$2x+y=1$};
+                      
+            	\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	
+\begin{enumerate}
+\item[I.] If $R$ is revolved about the line $x=-2$, what is the minimum number of integrals required to express the volume of the resulting solid if the Washer method is used?  What if the Shell method is used?
+
+\item[II.] If $R$ is revolved about the line $y=5$, what is the minimum number of integrals required to express the volume of the resulting solid if the Washer method is used?  What if the Shell method is used?
+\end{enumerate}
+\end{problem}
+
+\begin{freeResponse}
+I. If we use the Washer method, then the slices used to form the washers must be horizontal. This means that we would need two integrals to compute the volume (see the figure below). If we use the Shell method, then the slices would be vertical and the volume could be calculated with a single integral.
+
+\begin{center}
+\resizebox {6cm} {!} {
+\begin{tikzpicture}
+		\begin{axis}[
+			domain=-2:4, ymax=6,xmax=4, ymin=-6, xmin=-2,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {4-x^2};
+            	\addplot [draw=penColor2,very thick,smooth] {1-2*x};
+            	\addplot [domain = -1:1, draw = penColor, very thick,smooth]{3};
+                       
+            	\addplot [name path=A,domain=-1:3,draw=none] {4-x^2};   
+            	\addplot [name path=B,domain=-1:3,draw=none] {1-2*x};
+            	\addplot [fillp] fill between[of=A and B];
+
+		
+		\node at (axis cs:1.75,3.75) [penColor] {$y=4-x^2$};
+		\node at (axis cs:1.2,-4) [penColor2] {$2x+y=1$};
+                      
+            	\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	
+	II. Now the Washer method would use vertical slices, so the computation would take one integral. The Shell method would use horizontal slices and would require two integrals.
+
+\end{freeResponse}
+
+
+
+\section{Group Work}
+
+\begin{problem}
+The region $R$ bounded by $y=\ln(x)$, $y=0$, $y=2$, and $x=1$ is revolved about the $y$-axis. Calculate the volume of the resulting solid using any method you like.
+\end{problem}
+
+\begin{freeResponse}
+The region $R$ is shown below. From the plot, it is clear that either the Shell or Washer method will only require a single integral.
+
+\begin{center}
+\resizebox {6cm} {!} {
+\begin{tikzpicture}
+		\begin{axis}[
+			domain=0:9, ymax=3,xmax=9, ymin=-1, xmin=0,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {ln(x)};
+            	\addplot [draw=penColor2,very thick,smooth] {2};
+                       
+            	\addplot [name path=A,domain=1:e^2,draw=none] {2};   
+            	\addplot [name path=B,domain=1:e^2,draw=none] {ln(x)};
+            	\addplot [fillp] fill between[of=A and B];
+
+		
+		\node at (axis cs:4.2,1) [penColor] {$y=\ln (x)$};
+                      
+            	\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	
+To use the Shell method, we would integrate with respect to $x$. We see that in this case, our integrand would be the function $2 \pi x (2-\ln (x))$, which doesn't seem very easy to integrate. We therefore choose to use the Washer method, whence we integrate with respect to $y$. The bounds on $y$ are $0$ and $2$. To find the correct integrand, we solve $y = \ln (x)$ for $x$ to obtain $x = e^y$. The washer at $y$ has outer radius $e^y$ and inner radius $1$. Our volume integral is therefore given by
+$$
+\int_0^2 \pi (e^y)^2 - \pi \d y.
+$$
+The volume is
+$$
+\int_0^2 \pi e^{2y} - \pi \d y = \eval{\frac{\pi}{2} e^{2y} - \pi y}_0^2 = \frac{\pi}{2} e^4 - \frac{\pi}{2} -2\pi.
+$$
+
+
+\end{freeResponse}
+
+\begin{problem}
+The region $R$ in the upper half plane, bounded by the curves $x^2+y^2 = 1$ and $y=0$, is rotated around the line $y=2$. Set up (but don't evaluate) an integral or some of integrals with respect to $y$ which could be used to compute the volume of the solid.
+\end{problem}
+
+\begin{freeResponse}
+Since we are integrating with respect to $y$, our slices must be horizontal. Since we are rotating around a horizontal axis, we must use the shell method. The graph of $x^2+y^2=1$ is a circle, so we can immediately conclude that the bounds on integration will be $y=0$ and $y=1$. To find the integrand, we need to solve the equation for $x$ in terms of $y$. Doing so, we see that there are two solutions:
+$$
+x^2+y^2 = 1 \Rightarrow x^2 = 1-y^2 \Rightarrow x = \pm \sqrt{1-y^2}.
+$$
+The solutions correspond to the left and right halves of the circle, respectively. The height of each cylindrical slice is therefore given by subtracting the left boundary value from the right boundary value, or
+$$
+\left(\sqrt{1-y^2}\right) - \left(-\sqrt{1-y^2}\right) = 2\sqrt{1-y^2}.
+$$
+We conclude that the volume integral is
+$$
+\int_0^1 2 \pi (2-y) \cdot 2 \sqrt{1-y^2} \d y = 4 \pi \int_0^1 (2-y) \sqrt{1-y^2} \d y.
+$$
+\end{freeResponse}
+
+\begin{problem}
+Let $R$ be the region bounded by $y=\sin (x)$, $y=0$, $x=\frac{\pi}{4}$ and $x = \frac{\pi}{2}$. For each of the following cases, set up (but don't evaluate) integrals which could be used to calculate the volume of the given solid using both the Shell method and the Washer method.
+
+\begin{enumerate}
+\item[I.] The solid is formed by rotating $R$ around the line $x = -1$.
+\item[II.] The solid is formed by rotating $R$ around the line $y=-1$.
+\end{enumerate}
+\end{problem}
+
+\begin{freeResponse}
+The region is pictured below. 
+\begin{center}
+\resizebox {6cm} {!} {
+\begin{tikzpicture}
+		\begin{axis}[
+			domain=0:3.14159, ymax=1.5,xmax=3.14159, ymin=-1.5, xmin=-1.25,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {sin(deg(x))};
+                       
+            	\addplot [name path=A,domain=3.14159/4:3.14159/2,draw=none] {0};   
+            	\addplot [name path=B,domain=3.14159/4:3.14159/2,draw=none] {sin(deg(x))};
+            	\addplot [fillp] fill between[of=A and B];
+
+		
+		\node at (axis cs:1.5,1.2) [penColor] {$y=\sin (x)$};
+                      
+            	\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	
+I. Since we are rotating the region around a vertical line, the Shell method will require integration with respect to $x$ (the slices are parallel to the axis of rotation, hence vertical, hence parameterized by $x$ values) and the Washer method will require integration with respect to $y$. 
+
+Let us begin with the Shell method. The bounds on $x$ are $\frac{\pi}{4}$ and $\frac{\pi}{2}$ and the cylindrical slice at parameter $x$ has radius $x+1$ and height $\sin (x)$. The volume integral is
+$$
+\int_{\pi/4}^{\pi/2} 2\pi (x+1) \sin (x) \d x.
+$$
+
+To use the Washer method, we must integrate with respect to $y$. Solving $y=\sin (x)$ for $x$ yields $x = \arcsin (y)$. (One must be careful here, since the function $f(x) = \sin(x)$ is only invertible if its domain is restricted. The values of $x$ that we are interested in lie in the appropriate restricted domain $[-\pi/2,\pi/2]$, so this will not cause an issue in this example.) The inner radius of the washer at parameter $y$ is $\arcsin(y)$ and the outer radius is $1+\frac{\pi}{2}$ (this doesn't depend on $y$). The volume is therefore given by
+$$
+\int_0^1 \pi \left(1+ \frac{\pi}{2}\right)^2 - \pi \arcsin(y)^2 \d y.
+$$
+
+II. We now rotate about a horizontal line, so that the Shell method will require integration with respect to $y$ and the Washer method will require integration with respect to $x$. 
+
+Using the Shell method, the cylindrical shell at $y$ will have radius $1+y$ and height $\frac{\pi}{2} - \arcsin(y)$. The volume integral is
+$$
+\int_0^1 2 \pi (1+y) \left(\frac{\pi}{2} - \arcsin (y) \right) \d y.
+$$
+
+Using the Washer method, the washer at $x$ will have outer radius $\sin (x) + 1$ and inner radius $1$. The volume of the resulting solid is
+$$
+\int_{\pi/4}^{\pi/2} \pi \left(\sin (x) + 1\right)^2 - \pi \d x.
+$$
+
+\end{freeResponse}
+
+
+\end{document}

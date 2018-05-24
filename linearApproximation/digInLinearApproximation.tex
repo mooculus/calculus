@@ -64,7 +64,7 @@ Find the equation of the tangent line.
 %\label{figure:la sin}
 %\end{marginfigure}
 \end{image}
-Find the expression for $m$, the slope of the tangent line to the curve $y=f(x)$ at the point $(a,f(a))$.
+First, find the expression for $m$, the slope of the tangent line to the curve $y=f(x)$ at the point $(a,f(a))$.
  Select the correct choice.
  \begin{multipleChoice}
 
@@ -74,36 +74,42 @@ Find the expression for $m$, the slope of the tangent line to the curve $y=f(x)$
      \choice{$m= \frac{f(a+h)-f(a)}{h}$}
  \choice{ We don't have enough information to determine the slope.}
   \end{multipleChoice}
-Since we know a point $(a,f(a))$ and the slope  $m$ of the tangent line, we can write an equation of the tangent line. 
+Since we know that the point $(a,f(a))$  lies on the tangent line,  we can write an equation of the tangent line. 
 
 \[
 y= f'(a)(x-a) +f(a).
 \]
-We can define a function, $L$,  by $L(x)= f'(a)(x-a) +f(a)$. This function is linear, its graph is the line tangent to the curve $y=f(x)$ at the point where $x=a$.
+Now, we define a function, $L$,  by $L(x)= f'(a)(x-a) +f(a)$. This function is linear and its graph is the line tangent to the curve $y=f(x)$ at the point where $x=a$.
 This function deserves a special name.
 \end{example}
 \begin{definition}\index{linear approximation}
 If $f$ is a function differentiable at $x=a$, then a \textbf{linear
-  approximation} for $f$ at $x=a$ is given by
+  approximation} to the function $f$ at $x=a$ is given by
 \[
 L(x) = f'(a)(x-a) +f(a).
 \]
 \end{definition}
 
 
-Note that the graph of $L$ is just the tangent line to $f(x)$ at $x=a$.
+Note that the graph of $L$ is just the tangent line to the graph of $f$ at $x=a$.
 
 A linear approximation of $f$ is a ``good'' approximation as long as
 $x$ is ``not too far'' from $a$.
 %As we see from Figure~\ref{figure:informal-tangent}, 
-If one ``zooms in'' on $f$ sufficiently, then $f$ and the linear
-approximation are nearly indistinguishable. As a first example, we
+If one ``zooms in'' on the graph of $f$ sufficiently, then the graphs of $f$ and $L$ 
+ are nearly indistinguishable.
+ 
+  As a first example, we
 will see how linear approximations allow us to approximate
 ``difficult'' computations.
 
 \begin{example}
-Use a linear approximation of $f(x) =\sqrt[3]{x}$ at $a=64$ to
-approximate $\sqrt[3]{50}$.
+Let $f$ be a function defined by 
+\[
+f(x) =\sqrt[3]{x}.
+\]
+Approximate $\sqrt[3]{50}$, using $L$,  a linear approximation to the function $f$ at $a=64$.
+
 \begin{explanation}
 To start, write
 \[
@@ -118,8 +124,10 @@ L(x) &= \answer[given]{4}+ \frac{1}{3\cdot 64^{2/3}} (x-64)  \\
 %\begin{marginfigure}
 \begin{tikzpicture}
 	\begin{axis}[
-            xmin=1,xmax=100,ymin=0,ymax=5,
+            xmin=0,xmax=100,ymin=0,ymax=5,
             axis lines=center,
+             xtick={0, 20, 40, 50, 64, 80, 90, 100},
+        xticklabels={0, 20, 40, 50, 64, 80, 90, 100},
             xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
@@ -128,9 +136,12 @@ L(x) &= \answer[given]{4}+ \frac{1}{3\cdot 64^{2/3}} (x-64)  \\
           \addplot [very thick, penColor2, domain=(0:100)] {x/48+8/3};
           \addplot [textColor,dashed] plot coordinates {(64,0) (64,4)};
           \addplot [textColor,dashed] plot coordinates {(0,4) (64,4)};
+          \addplot [textColor,dashed] plot coordinates {(50,0) (50,3.68)};
           \node at (axis cs:20,2.3) [penColor] {$f$};
           \node at (axis cs:20,3.3) [penColor2] {$L$};
-          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole            
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(64,4)};  %% closed hole     
+           \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(50,0)};  %% closed hole  
+                  
         \end{axis}
 \end{tikzpicture}
 %\caption{A linear approximation of $f(x) = \sqrt[3]{x}$ at $x=64$.}
@@ -143,7 +154,7 @@ approximation, while perhaps inexact, is computationally \textbf{easier}
 than computing the cube root.
 \end{explanation}
 What would happen if we chose $a=27$ instead?
-Then we would use $L_{27}$, the linear approximation of $f$ at $a=27$.
+Then we would use $L_{27}$, the linear approximation to the function $f$ at $a=27$.
 In that case, $L_{27}=f(27)+f'(27)(x-27)=3+\frac{1}{27}(x-27)$.
 The graph of  $L_{27}$, together with the graphs of $f$ and $L=L_{64}$ is given in the figure below.
 \begin{image}
@@ -152,6 +163,8 @@ The graph of  $L_{27}$, together with the graphs of $f$ and $L=L_{64}$ is given 
 	\begin{axis}[
             xmin=1,xmax=100,ymin=0,ymax=5,
             axis lines=center,
+              xtick={0, 27, 40, 50, 64, 80, 90, 100},
+        xticklabels={0, 27, 40, 50, 64, 80, 90, 100},
             xlabel=$x$, ylabel=$y$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
@@ -159,6 +172,7 @@ The graph of  $L_{27}$, together with the graphs of $f$ and $L=L_{64}$ is given 
           \addplot [very thick, penColor, samples=150,smooth,domain=(0:100)] {x^(1/3))};
           \addplot [very thick, penColor2, domain=(0:100)] {x/48+8/3};
             \addplot [very thick, penColor4, domain=(0:100)] {(x-27)/27+3};
+              \addplot [textColor,dashed] plot coordinates {(50,0) (50,3.68)};
           \node at (axis cs:6,1.3) [penColor] {$f$};
           \node at (axis cs:20,3.3) [penColor2] {$L_{64}$};
            \node at (axis cs:6,2.5) [penColor4] {$L_{27}$};

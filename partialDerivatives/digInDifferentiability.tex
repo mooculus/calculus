@@ -1,0 +1,212 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\author{Bart Snapp}
+
+\outcome{Compute tangent planes.}
+\outcome{Be familiar with theorems about differentiability.}
+
+\title[Dig-In:]{Differentiability}
+
+\begin{document}
+\begin{abstract}
+  We introduce differentiability for functions of several variables and find tangent planes.
+\end{abstract}
+\maketitle
+
+
+\section{Differentiability}
+
+In the past you may have learned
+\begin{quote}\index{tangent line}
+Given a function $f$ and a number $a$ in the domain of $f$, if one can
+``zoom in'' on the graph at $(a, f(a))$ sufficiently so that it
+appears to be a straight line, then the function is
+\dfn{differentiable}, and that line is the \dfn{tangent line} to
+$f(x)$ at the point $(a,f(a))$.
+\end{quote}
+We illustrate this informal definition with the following diagram:
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+            domain=0:6, range=0:7,
+            ymin=-.2,ymax=7,
+            width=6in,
+            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+            axis lines=none,
+          ]   
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+          
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+          
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+
+          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+          
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+          
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+
+          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+
+          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+        \end{axis}
+\end{tikzpicture}
+%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+%% sufficiently so that the graph seems to be a straight line,
+%% then that line is the \textbf{tangent line} to $f$ at the point
+%% determined by $(a, f(a))$.}
+%% \label{figure:informal-tangent}
+\end{image}
+%% \todo{This image should be interactive.}
+
+When working with functions of several variables, intuitively, a
+function $F:\R^2\to R$ is differentiable when one can ``zoom-in'' and
+the surface determined by $F$ looks like a plane. %%BADBAD would like an image
+\begin{quote}\index{tangent plane}%%BADBAD would like an image
+  Given a function $F:\R^2\to\R$ and a vector $\vec{a}$ in the domain
+  of $F$, if one can ``zoom in'' on the graph at $(\vec{a}, F(\vec{a}))$
+  sufficiently so that it appears to be a plane, then the
+  function is \dfn{differentiable}, and that plane is the \dfn{tangent plane}
+  to $F$ at the point $(\vec{a},F(\vec{a}))$.
+\end{quote}
+The following theorem states that differentiable functions are
+continuous, followed by another theorem that provides a more tangible
+way of determining whether a great number of function are
+differentiable or not.
+
+\begin{theorem}[Differentiability Implies Continuity]
+Let $F:\R^n\to\R$ be defined on an open set $S$ containing
+$\vec{a}$.  If $F$ is differentiable at $\vec{a}$, then $F$ is
+continuous at $\vec{a}$.
+\end{theorem}
+
+\begin{theorem}[A Criterion for Differentiability]
+  Let $F:\R^n\to\R$ be defined on an open set $S$ containing
+  $\vec{a}$.  If
+  \[
+  \pp[F]{x_1},\pp[F]{x_2},\dots,\pp[F]{x_n}
+  \]
+  are all continuous on $S$, then $F$ is differentiable on $S$.
+\end{theorem}
+
+The theorems assure us that essentially all functions that we see in
+the course of our studies here are differentiable (and hence
+continuous) on their natural domains. There is a small caveat to the
+Theorem above: it is possible for a function $F$ to be differentiable
+yet some partials may not be continuous. Such strange behavior of
+functions is a source of delight for many mathematicians.
+
+\subsection{Finding tangent planes}
+
+In your earlier calculus courses, you often found tangent lines to
+curves. To do this, you were given a function $f$, a point $x=a$, and
+then you produced
+\[
+y = f'(a)\cdot (x-a) + f(a)
+\]
+as your tangent line. Now, with functions $F:\R^2\to\R$,
+and a point $(a,b)$ we use partial derivatives to find \textit{tangent
+  planes}. These are planes of the form:
+\[
+z= F^{(1,0)}(a,b)\cdot(x-a) + F^{(0,1)}(a,b)\cdot(y-b)+F(a,b) 
+\]
+\begin{question}
+  Find a tangent plane to $F(x,y) = 3\cos(x)\sin(y)$ at $(x,y) =
+  (\pi/3,\pi/6)$.
+  \begin{prompt}
+    \[
+    z = \answer{(-3\sqrt{3}/4)\cdot (x-\pi/3) + (3\sqrt{3}/4)\cdot (y-\pi/6) + 3/4}
+    \]
+  \end{prompt}
+\end{question}
+
+
+We can also find tangent planes of surfaces that are defined
+parameterically.
+\begin{example}
+Consider the parameterization of the unit sphere,
+centered at the origin where $0\le \theta< 2\pi$ and $0\le\phi\le \pi$:
+\begin{align*}
+  x(\theta,\phi) &= \cos(\theta)\sin(\phi)\\
+  y(\theta,\phi) &= \sin(\theta)\sin(\phi)\\
+  z(\theta,\phi) &= \cos(\phi)
+\end{align*}
+Find a plane tangent to the sphere when $\theta = \pi/4$ and $\phi =
+\pi/3$.
+\begin{explanation}
+  Here we'll use the parametric formula for a plane:
+  \[
+  \vec{L}(s,t) = \vec{p}+ s \vec{v} + t\cdot \vec{w}
+  \]
+  The the point $\vec{p}$ (denoted by a vector) is:
+  \[
+  \vec{p} = \vector{\answer[given]{\sqrt{3/8}},\answer[given]{\sqrt{3/8}},\answer[given]{1/2}}
+  \]
+  The vector $\vec{v}$ is given by
+  \begin{align*}
+    \vec{v} &=\eval{\pp{\theta}\vector{x(\theta,\phi),y(\theta,\phi),z(\theta,\phi)}}_{\substack{\theta = \pi/4\\ \phi = \pi/3}}\\
+      &= \eval{\vector{\answer[given]{-\sin(\theta)\sin(\phi)},\answer[given]{\cos(\theta)\sin(\phi)},\answer[given]{0}}}_{\substack{\theta = \pi/4\\ \phi = \pi/3}}\\
+      &= \vector{-\sqrt{3/8},\sqrt{3/8},0}
+  \end{align*}
+  And vector $\vec{w}$ is given by
+  \begin{align*}
+    \vec{w} &=\eval{\pp{\phi}\vector{x(\theta,\phi),y(\theta,\phi),z(\theta,\phi)}}_{\substack{\theta = \pi/4\\ \phi = \pi/3}}\\
+      &= \eval{\vector{\answer[given]{\cos(\theta)\cos(\phi)},\answer[given]{\sin(\theta)\cos(\phi)},\answer[given]{-\sin(\phi)}}}_{\substack{\theta = \pi/4\\ \phi = \pi/3}}\\
+      &= \vector{1/\sqrt{8},1/\sqrt{8},-\sqrt{3}/2}
+  \end{align*}
+  Hence our desired plane is given by:
+  \[
+  \vec{L}(s,t) = \begin{bmatrix}
+    \answer[given]{\sqrt{3/8}-s\sqrt{3/8}+ t/\sqrt{8}}\\
+    \answer[given]{\sqrt{3/8} +s\sqrt{3/8} + t/\sqrt{8}}\\
+    \answer[given]{1/2 -t\sqrt{3}/2}
+  \end{bmatrix}
+  \]
+\end{explanation}
+\end{example}
+
+
+
+\end{document}

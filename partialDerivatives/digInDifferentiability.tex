@@ -101,26 +101,38 @@ We illustrate this informal definition with the following diagram:
 \end{image}
 %% \todo{This image should be interactive.}
 
-When working with functions of several variables, intuitively, a
-function $F:\R^2\to R$ is differentiable when one can ``zoom-in'' and
-the surface determined by $F$ looks like a plane. %%BADBAD would like an image
-\begin{quote}\index{tangent plane}%%BADBAD would like an image
-  Given a function $F:\R^2\to\R$ and a vector $\vec{a}$ in the domain
-  of $F$, if one can ``zoom in'' on the graph at $(\vec{a}, F(\vec{a}))$
-  sufficiently so that it appears to be a plane, then the
-  function is \dfn{differentiable}, and that plane is the \dfn{tangent plane}
-  to $F$ at the point $(\vec{a},F(\vec{a}))$.
-\end{quote}
-The following theorem states that differentiable functions are
-continuous, followed by another theorem that provides a more tangible
-way of determining whether a great number of function are
-differentiable or not.
+**INTERACTIVE IMAGE**
 
-\begin{theorem}[Differentiability Implies Continuity]
-Let $F:\R^n\to\R$ be defined on an open set $S$ containing
-$\vec{a}$.  If $F$ is differentiable at $\vec{a}$, then $F$ is
-continuous at $\vec{a}$.
-\end{theorem}
+We would like to generalize this notion of a tangent line to functions of several variables.  We would like to say $F$  is differentiable when one can ``zoom-in'' and the surface looks "flat".  
+
+Let's start by considering functions from $\R^2\to \R$ as these are the easiest to visualize. In this case, if our function is differentiable, when we "zoom-in", $F: \R^2\to \R$ should look like a plane. We call this plane the \dfn{tangent plane}. 
+
+**INTERACTIVE IMAGE**
+%%BADBAD would like an image
+
+In fact, this is what the technical definition of differentiability of a function $F: \R^2\to \R$ says.
+
+\begin{definition}
+Let $F: \R^2\to \R$.  We say $F$ is  \dfn{differentiable} at a vector $\vec{a}$ if there exists a tangent plane $T_a(\vec{x})$ such that 
+\[
+\lim_{\vec{x} \rightarrow \vec{a}} \frac{|F(\vec{x})-T_a(\vec{x})|}{|\vec{x}-\vec{a}|} = 0
+\]
+A function is \dfn{differentiable} on an open set if it is differentiable at every point in that set.
+\end{definition}
+
+We can interpert this definition as saying that a function $F$ is differentiable at a vector$\vec{a}$ if there is a tangent plane $T_a(\vec{x})$ at that point such that $F$ approaches its  tangent plane $T_a(\vec{x})$ faster than $\vec{x}$ approaches $\vec{a}$.  That is, if one ``zooms in'' on the graph at $(\vec{a}, F(\vec{a}))$ sufficiently, $F$  looks just like the tangent plane.
+
+Now let's generalize this statement to higher dimensions.  When we zoomed in a differentiable curve from $\R \to \R$, we saw a line. When we zoomed in on a differentiable surface from $\R^2 \to \R$, we saw a plane.  Similarly, when we zoom in on a differentiable surface $F:\R^n \to \R$, we should expect to see a flat surface which looks like $\R^n$.  Formalizing this, we have
+
+\begin{definition}
+Let $F: \R^n\to \R$ and let $\vec{x}=\vector{x_1, x_2, ..., x_n}$ and $\vec{a} = \vector{a_1, a_2, ..., a_n}$.  We say $F$ is  \dfn{differentiable} at a vector $\vec{a}$ if there exists a $T_a(\vec{x})=c_0+\sum_{i=1}^n c_i (x_i-a_i)$ for some real constants $c_i$ such that 
+\[
+\lim_{\vec{x} \rightarrow \vec{a}} \frac{|F(\vec{x})-T_a(\vec{x})|}{|\vec{x}-\vec{a}|} = 0
+\]
+A function is \dfn{differentiable} on an open set if it is differentiable at every point in that set.
+\end{definition}
+
+Keep in mind that this statement of differentiability is much stronger than just saying the partial derivatives of $F$ exist at $\vec{a}$.  Because this is a limit in a higher dimension, we are saying this limit must exist for every path by which $\vec{x}$ could approach $\vec{a}$, not just the paths along the axes.  Because of this, it is very difficult to use this definition to show that a function is differentiable.  Thankfully we have the following theorem:
 
 \begin{theorem}[A Criterion for Differentiability]
   Let $F:\R^n\to\R$ be defined on an open set $S$ containing
@@ -131,10 +143,23 @@ continuous at $\vec{a}$.
   are all continuous on $S$, then $F$ is differentiable on $S$.
 \end{theorem}
 
-The theorems assure us that essentially all functions that we see in
+Once we know a function is differentable we can use the following theorems to conclude it is a also continuous and the partial derivatives all exist.
+
+\begin{theorem}[Differentiability Implies Partial Derivatives Exist]
+Let $F:\R^n\to\R$ be defined on an open set $S$ containing
+$\vec{a}$.  If $F$ is differentiable at $\vec{a}$, then all the partial derivatives of $F$ exist at $\vec{a}$.
+\end{theorem}
+
+\begin{theorem}[Differentiability Implies Continuity]
+Let $F:\R^n\to\R$ be defined on an open set $S$ containing
+$\vec{a}$.  If $F$ is differentiable at $\vec{a}$, then $F$ is
+continuous at $\vec{a}$.
+\end{theorem}
+
+These theorems assure us that essentially all functions that we see in
 the course of our studies here are differentiable (and hence
 continuous) on their natural domains. There is a small caveat to the
-Theorem above: it is possible for a function $F$ to be differentiable
+theorems above: it is possible for a function $F$ to be differentiable
 yet some partials may not be continuous. Such strange behavior of
 functions is a source of delight for many mathematicians.
 
@@ -146,12 +171,55 @@ then you produced
 \[
 y = f'(a)\cdot (x-a) + f(a)
 \]
-as your tangent line. Now, with functions $F:\R^2\to\R$,
-and a point $(a,b)$ we use partial derivatives to find \textit{tangent
-  planes}. These are planes of the form:
+as your tangent line. Using our new notation, we would write this same equation as
 \[
-z= F^{(1,0)}(a,b)\cdot(x-a) + F^{(0,1)}(a,b)\cdot(y-b)+F(a,b) 
+T_a(x)=f(a)+f^{(1)}(a)\cdot (x-a)
 \]
+
+
+Now, for a function $F:\R^2\to\R$ which is differentiable at a vector $\vec{a}=\vector{a_1, a_2}$ we would like to use partial derivatives to find the tangent
+  plane. 
+
+We know from the definition above that our tangent plane is of the form:
+\[
+T_a(\vec{x})=c_0+ c_1 (x_1-a_1)+ c_2 (x_2-a_2)
+\]
+
+To find the constants, we use the following criteria about the tangent plane:
+
+the following criteria about our tangent plane:
+\[
+F(\vec{a}) =T_a(\vec{a})
+\]
+\[
+ F^{(1,0)}(\vec{a})=T_a^{(1,0)}(\vec{a})
+\]
+\[
+F^{(0,1)}(\vec{a})= T_a^{(0,1)}(\vec{a})
+\]
+ That is, the tangent plane at $\vec{a}$ touches the surface at $\vec{a}$ and the partial derivatives all agree at $\vec{a}$.  Saying the tangent plane has the same partial derivatives as the function is another way of saying that tangent plane has to contain the tangent lines we can find using the partial derivatives.
+
+**INSERT IMAGE**\\
+It is now an easy computation to find the constants $c_0, c_1,$ and $c_2$.
+\[
+F(\vec{a})=T_a(\vec{a})=c_0+ c_1 (a_1-a_1)+ c_2 (a_2-a_2) =\answer[given]{c_0}
+\]
+\[
+F^{(1,0)}(\vec{a})= T_a^{(1,0)}(\vec{a})=\answer[given]{c_1}
+\]
+\[
+F^{(0,1)}(\vec{a})= T_a^{(0,1)}(\vec{a})=\answer[given]{c_2}
+\]
+
+Therefore, we now have the equation of the tangent plane 
+\[
+T_a(\vec{x})=F(\vec{a})+ F^{(1,0)}(\vec{a}) (x_1-a_1)+ F^{(0,1)}(\vec{a}) (x_2-a_2)
+\]
+We can rewrite this equation to look more like the equation from single variable calculus if we use the dot product.
+\[
+T_a(\vec{x})=F(\vec{a})+ \vector{F^{(1,0)}(\vec{a}), F^{(0,1)}(\vec{a})} \cdot (\vec{x}-\vec{a})
+\]
+
 \begin{question}
   Find a tangent plane to $F(x,y) = 3\cos(x)\sin(y)$ at $(x,y) =
   (\pi/3,\pi/6)$.

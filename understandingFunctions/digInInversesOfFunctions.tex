@@ -95,7 +95,7 @@ initially appear.
 \begin{warning}
   This notation can be very confusing.  Keep a watchful eye:
   \begin{align*}
-    f^{-1}(x) &= \text{the inverse function of $f(x)$.}\\
+    f^{-1}(x) &= \text{the inverse function of $f$ evaluated at $x$.}\\
     f(x)^{-1} &= \text{$\frac{1}{f(x)}$.}
   \end{align*}
 \end{warning}
@@ -118,58 +118,6 @@ initially appear.
 \end{question}
 
 
-\begin{question}
-  Consider the graph of $y=f(x)$ below
-  \begin{image}
-    \begin{tikzpicture}
-      \begin{axis}
-	[xmin=-0.2,
-          xmax=2.2,
-          ymin=-0.2,
-          ymax=2.2,
-          axis lines=center,
-          xlabel=$x$,ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-	  domain=-1:2,
-          clip=false,
-	  ytick={0.5,1,1.5,2},
-	  yticklabels={$0.5$,$1$,$1.5$,$2$},
-	  xtick={0.5,1.0,1.5,2},
-	  xticklabels={$0.5$,$1$,$1.5$,$2$},
-	  grid = major
-	]
-        \addplot[very thick,penColor] plot coordinates {(0,0) (1,1)};
-        \addplot[very thick,penColor] plot coordinates {(1,2) (2,0)};
-        
-        %\draw[very thin,color=black] (axis cs:0,-0.2) -- (axis cs:0,2);
-
-        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,1)};  %% open hole
-        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(.5,.5)};  %% open hole
-
-        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
-        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,0)};  %% closed hole
-        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,2)};  %% closed hole
-        
-        %% \draw[fill=black] (axis cs:0,0) circle [radius=2pt];
-	%% \draw[fill=black] (axis cs:2,0) circle [radius=2pt];
-        %% \draw[fill=black] (axis cs:1,2) circle [radius=2pt];
-	
-	\end{axis}
-    \end{tikzpicture}
-  \end{image}
-  Is $f(x)$ invertible at $x=0.5$? 
-  \begin{multipleChoice}
-    \choice[correct]{yes}
-    \choice{no}
-  \end{multipleChoice}
-  \begin{question}
-    \[
-    f^{-1}(1) = \answer{1.5}
-    \]
-  \end{question}
-\end{question}
-
 
 So far, we've only dealt with abstract examples.  Let's see
 if we can ground this in a real-life context.
@@ -180,7 +128,7 @@ if we can ground this in a real-life context.
   f(t) = \left(\frac{9}{5}\right) t + 32
   \]	
   takes a temperature $t$ in degrees Celsius, and converts it into Fahrenheit.  
-  The domain of this function is $-\infty < t < \infty$.  What does the inverse 
+  What does the inverse 
   of this function tell you? What is the inverse of this function?
 
   \begin{explanation}
@@ -205,7 +153,7 @@ if we can ground this in a real-life context.
     \end{align*}
     So $f^{-1}(t) = \left(\frac{5}{9}\right)(t - 32)$ is the inverse
     function of $f$, which converts a Fahrenheit measurement back into
-    a Celsius measurement.  The domain of this inverse function is $-\infty < t <\infty$.
+    a Celsius measurement.  
     
     Finally, we could check our work again using the definition of inverse functions.
      We have already guaranteed that
@@ -226,7 +174,7 @@ which shows that $f^{-1}(f(t)) = t$.
 
 We have examined several functions in order to determine their inverse
 functions, but there is still more to this story.  Not every function
-has an inverse function, so we must learn how to check for this
+has an inverse, so we must learn how to check for this
 situation.
 
 
@@ -306,8 +254,8 @@ if every horizontal line crosses the plot at most once, and we call this
 the \dfn{horizontal line test}.
 
 \begin{theorem}
-  A function is one-to-one at $x=a$ if the horizontal line $y = f(a)$
-  intersects the curve $y=f(x)$ in exactly one point. This is called
+  A function is one-to-one on its domain if the horizontal line $y = b$
+  intersects the curve $y=f(x)$ in exactly one point, for all values $b$ in the range of $f$. This is called
   the \dfn{horizontal line test}.
 \end{theorem}
 Below, we give a graph of $f(x)=-5x^2+30x+60$. While this graph passes
@@ -324,10 +272,12 @@ one-to-one.
               origin),anchor=west}, ]
           \addplot [very thick, penColor,smooth] {-5*x^2 +30*x+60};
           \addplot [very thick,penColor2] {80};
-          \addplot [very thick, penColor4] plot coordinates {(5,0) (5,110)};
+           \addplot [very thick,penColor4] {20};
         \end{axis}
 \end{tikzpicture}
 \end{image}
+Although the line $y=20$ intersects the curve $y=f(x)$ exactly once, the function $f$ is \textbf{not one-to-one} on its domain, since the line $y=80$ intersects the curve twice.
+
 
 As we have discussed, we can only find an inverse of a function when
 it is one-to-one.  If a function is not one-to-one, but we still want
@@ -443,6 +393,73 @@ functions like $f(x) = \sqrt{x}$.
 \end{image}
 \end{explanation}
 \end{example}
+\begin{question}
+  Consider the graph of $y=f(x)$ below
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}
+	[xmin=-0.2,
+          xmax=2.2,
+          ymin=-0.2,
+          ymax=2.2,
+          axis lines=center,
+          xlabel=$x$,ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	  domain=-1:2,
+          clip=false,
+	  ytick={0.5,1,1.5,2},
+	  yticklabels={$0.5$,$1$,$1.5$,$2$},
+	  xtick={0.5,1.0,1.5,2},
+	  xticklabels={$0.5$,$1$,$1.5$,$2$},
+	  grid = major
+	]
+        \addplot[very thick,penColor] plot coordinates {(0,0) (1,1)};
+        \addplot[very thick,penColor] plot coordinates {(1,2) (2,0)};
+        
+        %\draw[very thin,color=black] (axis cs:0,-0.2) -- (axis cs:0,2);
+
+        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(1,1)};  %% open hole
+        \addplot[color=penColor,fill=background,only marks,mark=*] coordinates{(.5,.5)};  %% open hole
+
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,0)};  %% closed hole
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,0)};  %% closed hole
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,2)};  %% closed hole
+        
+        %% \draw[fill=black] (axis cs:0,0) circle [radius=2pt];
+	%% \draw[fill=black] (axis cs:2,0) circle [radius=2pt];
+        %% \draw[fill=black] (axis cs:1,2) circle [radius=2pt];
+	
+	\end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Is the function  $f$ one-to-one on the interval $[1,2]$?
+  \begin{multipleChoice}
+    \choice[correct]{yes}
+    \choice{no}
+  \end{multipleChoice}
+  \begin{question}
+  Let $f^{-1}$ be the inverse function of $f$ restricted to the domain $[1,2]$. 
+  \begin{enumerate}
+  \item Find the domain of $f^{-1}$.
+   \[
+   Domain = [\answer{0}, \answer{2}]
+    \]
+    \item Find the value.
+    \[
+   f\Bigl( f^{-1}(0.5)\Bigr) = \answer{0.5}
+    \]
+    
+      \item Choose the correct answer regarding $f^{-1}(0.5)$.
+  \begin{multipleChoice}
+    \choice[correct]{$f^{-1}(0.5)>1.5$}
+    \choice{$f^{-1}(0.5)\le1.5$}
+    \choice{$f^{-1}(0.5)$ is not defined}
+  \end{multipleChoice}
+    \end{enumerate}
+  \end{question}
+\end{question}
+
 
 
 
@@ -451,11 +468,11 @@ Consider the function
 \[
 f(x) = x^3.
 \]
-Does $f(x)$ have an inverse? If so, what is it? If not, attempt to
-restrict the domain of $f(x)$ and find an inverse on the restricted
+Does the function $f$ have an inverse? If so, what is it? If not, attempt to
+restrict the domain of $f$ and find an inverse on the restricted
 domain.
 \begin{explanation}
-  In this case $f(x)$ is one-to-one. We may write
+  In this case $f$ is one-to-one. We may write
   \begin{align*}
     f(f^{-1}(x)) &= \left(f^{-1}(x)\right)^3\\
     x &= \left(f^{-1}(x)\right)^3\\

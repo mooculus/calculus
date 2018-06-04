@@ -1,1 +1,65 @@
-linePointDistance.tex
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+\input{../../sage-preamble.tex}
+
+\author{Jim Fowler}
+
+\license{Creative Commons 3.0 By-SA}
+\outcome{Compute the distance between a given point and a line.}
+
+\begin{document}
+
+\makerandom
+
+\begin{sagesilent}
+  x = var('x')
+  y = var('y')
+
+  p = q = v = w = nearest_point = vector([0,0,0])
+
+  while nearest_point.norm() <= 1:
+    p = vector([randint(-1,1),randint(-2,2),randint(-1,1)])
+    v = vector([randint(-1,1),randint(-2,2),randint(-1,1)])
+    q = v.dot_product(v)*vector([randint(-1,1),randint(-1,1),randint(-1,1)]) + p
+    w = q-p
+    nearest_point = ((q - p).dot_product(v) / v.dot_product(v)) * v + p
+\end{sagesilent}
+
+\begin{exercise}
+  Consider the line $\vecl$ in the direction $\vec{v} = \vector{\sage{v[0]},\sage{v[1]},\sage{v[2]}}$ which passes through the point $\sage{p}$.
+  
+  How far is the point \(\sage{q}\) from the line \(\vecl\)?  It is
+  \(\answer{\sage{(q - nearest_point).norm()}}\) units.
+
+  \begin{hint}
+    We can rephrase this problem in terms of vectors.
+  \end{hint}
+
+  \begin{hint}
+    The tip of the vector $\vec{p} = \vector{\sage{p[0]},\sage{p[1]},\sage{p[2]}}$ is on the line $\vecl$.
+  \end{hint}
+
+  \begin{hint}
+    The vector $\vec{w} = \vector{\sage{(q-p)[0]},\sage{(q-p)[1]},\sage{(q-p)[2]}}$ starts at the point $\sage{p}$ and ends at the point $\sage{q}$.
+  \end{hint}
+
+  \begin{hint}
+    The length of the cross product $\vec{w} \cross \vec{v}$ is $|\vec{v}|$ times the distance from the point to the line.
+  \end{hint}
+
+  \begin{hint}
+    In this case, $\vec{w} \cross \vec{v} = \sage{w.cross_product(v)}$.
+  \end{hint}
+
+  \begin{hint}
+    Consequently, the distance from the point $\sage{p}$ to the line $\vecl$ is the length of $\sage{w.cross_product(v)}$ divided by $|\vec{v}| = \sage{v.norm()}$.  This turns out to be $\sage{w.cross_product(v).norm()/v.norm()}$ units.
+  \end{hint}
+
+  \begin{hint}
+    With more work (say, using orthogonal projection), we could also discover that $\sage{nearest_point}$ is the point on $\vecl$ nearest to the point $\sage{q}$.
+  \end{hint}
+  
+\end{exercise}
+
+\end{document}

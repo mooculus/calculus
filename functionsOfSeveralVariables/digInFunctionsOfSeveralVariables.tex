@@ -317,8 +317,8 @@ variables. These are often called \textit{functions of several
     \vector{x_1,x_2,\dots,x_n} &\mapsto y
   \end{align*}
   
-  The  \dfn{range} of $F$ is the set of all outputs of $F$.  It is a subset of
-  $\R$ (not $\R^n$).
+  The \dfn{range} of $F$ is the set of all outputs of $F$.  It is a
+  subset of $\R$, not $\R^n$.
 \end{definition}
 
 \begin{example}
@@ -544,7 +544,7 @@ before.
 \end{remark}
 
 This now allows us to present a concept that will play a pivotal role
-in many of the concepts that follow in the rest of this chapter:
+in much of this course.
 
 \subsection{Curves on Surfaces}
 
@@ -564,9 +564,9 @@ Fill out the table below:
 \[\begin{array}{c|c|c}
 x & y =2x & z=2-x^3+y^2\\
 \hline
--.5 & \answer[given]{-1} & \answer[given]{3.5}\\
+-0.5 & \answer[given]{-1} & \answer[given]{3.5}\\
 0 & \answer[given]{0} & \answer[given]{2}\\
-.5 & \answer[given]{1} &  \answer[given]{2.5}\\
+0.5 & \answer[given]{1} &  \answer[given]{2.5}\\
 1 & \answer[given]{2} & \answer[given]{2}\\
 \end{array}\]
 
@@ -678,15 +678,19 @@ arise when we discuss limits of functions of several variables,
 derivatives and differentiability, chain rule, tangent planes, and
 constrained optimization later in this chapter.  It is important that
 you get a good intuitive feel for this conceptually as well as make
-sure you remember where curves are (whether we are considering curves
-in the domain or curves on the surface).
+sure you remember whether we are considering curves in the domain, for
+example the $(x,y)$-plane, or curves on the surface, for example
+$(x,y,z)$-space.
 \end{remark}
-%Add another example?%
 
-\subsection{Level curves and contour curves}
+\subsection{Level sets}
 
-
-One of the most common ways is to consider the graph of the
+It was Descartes who said ``\link[Je pense, donc je
+  suis]{https://en.wikipedia.org/wiki/Cogito,_ergo_sum},'' He also
+developed our rectangular coordinate system, the $(x,y)$-plane. This
+is also known as the \link[Cartesian coordinate
+  system]{https://en.wikipedia.org/wiki/Cartesian_coordinate_system}.
+This coordinate system allows us to consider the graph of the
 function. First, recall that the graph of a function of a single
 variable, $y=f(x)$ is a curve in a two-dimensional plane.  In the same
 sense, the graph of a function of two variables, $z = F(x,y)$ is a
@@ -701,99 +705,94 @@ helpful. However, once we get to functions $F:\R^3\to\R$, we can no
 longer visualize the graph of the function as we did before.  One
 powerful technique to help us understand a function $F:\R^3\to\R$
 visually is know as sketching \textit{level sets}.
-  
-To begin, we present the scenario for functions $F:\R^2 \to \R$ since
+
+
+\begin{definition}
+  Suppose that $F:\R^n \to \R$ is a function and $c$ is in the range
+  of $F$. A \dfn{level set} corresponding to $F(\vec{x})=c$ is a set
+  in the domain of the function such that $F(\vec{x}) = c$ for all
+  points in the set.
+\end{definition}
+
+%% \begin{remark}
+%% Some people call the curve on the surface $z=F(x,y)$ that lies
+%% directly above (or below) the level curve a \dfn{contour curve}.
+%% \end{remark}
+
+
+It may be surprising to find that the concept of level sets is
+familiar to most people (they just don't realize it).  Topographical
+maps, like the one below represent the surface of Earth by
+indicating points with the same elevation with \dfn{contour
+  lines}.
+
+\begin{image}
+  \includegraphics{topomap.jpg}
+\end{image}
+
+
+Another example you may know are \dfn{isotherms}, curves where the
+temperatures are the same. We see these in weather maps:
+
+\begin{image}
+  \includegraphics{isotherm.jpg}
+\end{image}
+
+When working with functions $F:\R^2\to\R$ the level sets are known as
+\dfn{level curves}.  Below we see a surface with level curves drawn
+beneath the surface:
+
+\begin{image}
+  \includegraphics{firstContourPlot.png}
+\end{image}
+
+%% \begin{question} BADBAD Bart would like to add a question here
+%%   Matching level curves to surfaces.
+%% \end{question}
+
+If the ``heights'' of the level curves are equally spaced, then level
+curves are close together when the function is changing rapidly, and
+far apart when the function is changing slowly.
+
+\begin{question}
+  \begin{image}
+    \begin{tikzpicture}	
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{(10,4) (9,3) (10,3)};
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{(11,2) (10,5) (8,3)};
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{
+        (7,3) (12,1) (10,6) (7,5) (5,6) (5,5) (7,4)
+      };
+      \draw[very thick, penColor] plot[smooth cycle] coordinates{
+        (13,0) (10,7) (4,9) (1,8) (1,4) (5,1)
+      };
+
+%        \node[penColor,fill=white] at (axis cs:2,2.66) {$7$};
+    \end{tikzpicture}
+  \end{image}
+\end{question}
+
+
+Let's work within the scenario for functions $F:\R^2 \to \R$ since
 they are easier to visualize.  The idea behind a level set is fairly
 intuitive.  Rather than picking points along a grid in the
 $(x,y)$-plane and evaluating the function at these points, we can pick
 a $z$-value, say $z=c$, in the range of the function and ask ``at
 which points $(x,y)$ can we evaluate the function to get $F(x,y)=c$?''
-Those points form our level set. Let's be explicit and state a
-definition.
-\begin{definition}
-  Suppose that $F:\R^2 \to \R$ is a function and $c$ is in the range of $F(x,y)$.  
-  \begin{itemize}
-  \item The \dfn{level set} corresponding to $z=c$ is the curve in the domain of the function such that $F(x,y) = c$ for
-    all points $(x,y)$ on the curve.
-  \item The \dfn{contour curve} associated to this level curve is the curve on the surface $z=F(x,y)$ that lies directly above (or below) the level curve.
-  \end{itemize}
-\end{definition}
-  
-\begin{remark}
-  If we choose a value $z=c$ that was not in the range of $F$, there
-  would be no points in the $(x,y)$-plane for which $F(x,y)=c$, and
-  hence no level curve nor contour curve associated to it.
-\end{remark}
-  
-\begin{remark}
-  We can easily generalize the above definition to functions $F:\R^n \to \R$.  When working
-  with functions $F:\R^2\to\R$, our level sets are \textit{level
-    curves}, and when working with functions $F:\R^3\to\R$, our level
-  sets are \textit{level surfaces}.  \index{level sets}
-\end{remark}
- 
-We illustrate these ideas with a picture.  Consider the function,
-$F(x,y) = 5-4x+y^2$.  Noting that the domain of this function is
-$\R^2$ and the range is $\R$, we can choose any value for $c$ that we
-want.
- 
-\begin{itemize}
-\item If we choose $c=1$, the set of all points in the domain of $F$ for which $z=0$ is found easily by setting $z= 5-4x+y^2 = 1$.  This is the curve in the $(x,y)$-plane described by $4x-y^2 = 1$ or $x= \frac{1}{4}+ \frac{1}{4}y^2$.
-\item If we choose $c=5$, the set of all points in the domain of $F$ for which $z=0$ is found easily by setting $z= 5-4x+y^2 = 4$. This is the curve in the $(x,y)$-plane described by $4x-y^2 = 0$ or $x= \frac{1}{4}y^2$.
-\end{itemize}
-
-We now plot the level curves and the contour curves on the same plot:   
-   
-\begin{image}
-  \begin{tikzpicture}
-    \begin{axis}[tick label style={font=\scriptsize},axis on top,
-	axis lines=center,
-	view={110}{25},
-	name=myplot,
-	xtick=\empty,
-        ytick=\empty,
-        ztick=\empty,
-	ymin=-1,ymax=1,
-	xmin=-.5,xmax=1,
-	zmin=-.5, zmax=9,
-	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
-	xlabel={\scriptsize $x$},
-	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
-	ylabel={\scriptsize $y$},
-	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
-	zlabel={\scriptsize $z$},
-        colormap/cool,
-      ]
-%      \addplot3[gray,domain=0:2,samples y=0,dashed] ({1*cos(45)},{1*sin(45)},x); %% line for z
-%      \addplot3[gray,domain=0:cos(45),samples y=0,dashed] ({x},{1*sin(45)},0); %% line for x
-%      \addplot3[gray,domain=0:cos(45),samples y=0,dashed] ({sin(45)},{x},0); %% line for y
-\addplot3[domain=-1:2,y domain=-1:2,mesh,samples y=25,very thin,z buffer=sort,  samples=25,] (x,y,{5-4*x+y^2});   
-\addplot3 [very thick,penColor, smooth,domain=-1:2,samples=20,samples y=0] ({(.25+.25*x^2)},{x},{1});
-\addplot3 [very thick,penColor, dashed,domain=-1:2,samples=20,samples y=0] ({(.25+.25*x^2)},{x},{0});
-\addplot3 [very thick,penColor2, smooth,domain=-1:2,samples=20,samples y=0] ({(.25*x^2)},{x},{4});
-\addplot3 [very thick,penColor2, dashed,domain=-1:2,samples=20,samples y=0] ({(.25*x^2)},{x},{0});
-       \end{axis}
-  \end{tikzpicture}
-  
- \end{image}
- 
-\begin{center}
-  The dashed lines represent the level curves corresponding to $z=1$ and $z=5$.  The smooth lines on the surface represent the contour curves on the surface.  Note that the contour curve associated to $z=1$ can be found by ``lifting'' the corresponding level curve up $1$ unit, while the contour curve associated to $z=5$ can be found by ``lifting'' the corresponding level curve up $5$ units.
-\end{center}
-
+Those points form our level set.  Before moving on, take a second to
+try to visualize what we just described for a function $z=F(x,y)$.
 \begin{example}
-Before moving on, take a second to try to visualize what we just described for a function $z=F(x,y)$.  Then, given that $z=c$ is in the range of $z=F(x,y)$, select the statements below that are true:
-
-\begin{selectAll}
-\choice[correct]{The level curves $F(x,y)=c$ are curves in the domain of the function.} 
-\choice[correct]{The level curves $F(x,y)=c$ are curves in the $(x,y)$-plane.} 
-\choice{The contour curves associated to $F(x,y)=c$ are curves in the range of the function.} 
-\choice[correct]{The contour curves associated to $F(x,y)=c$ are curves on the surface $z=F(x,y)$.} 
-\choice[correct]{The contour curves associated to $F(x,y)=c$ can also be thought of as the intersection of the plane $z=c$ with the surface $z=F(x,y)$.} 
-\end{selectAll}
+  Given that $z=c$ is in the range of $z=F(x,y)$, select the
+  statements below that are true:
+  \begin{selectAll}
+    \choice[correct]{The level curves $F(x,y)=c$ are curves in the domain of the function.} 
+    \choice[correct]{The level curves $F(x,y)=c$ are curves in the $(x,y)$-plane.} 
+    \choice{The contour curves associated to $F(x,y)=c$ are curves in the range of the function.} 
+    \choice[correct]{The contour curves associated to $F(x,y)=c$ are curves on the surface $z=F(x,y)$.} 
+    \choice[correct]{The contour curves associated to $F(x,y)=c$ can also be thought of as the intersection of the plane $z=c$ with the surface $z=F(x,y)$.} 
+  \end{selectAll}
 \end{example}
- 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+Now it's time for an example.
 
 \begin{example}
   Suppose that $F(x,y) = \sqrt{1-\frac{x^2}{9}-\frac{y^2}{4}}$.  Find
@@ -885,6 +884,67 @@ Before moving on, take a second to try to visualize what we just described for a
   \end{explanation}
 \end{example}
 
+\begin{remark}
+  If we choose a value $z=c$ that was not in the range of $F$, there
+  would be no points in the $(x,y)$-plane for which $F(x,y)=c$, and
+  hence no level curve nor contour curve associated to it.
+\end{remark}
+
+ 
+%% We illustrate these ideas with a picture.  Consider the function,
+%% $F(x,y) = 5-4x+y^2$.  Noting that the domain of this function is
+%% $\R^2$ and the range is $\R$, we can choose any value for $c$ that we
+%% want.
+ 
+%% \begin{itemize}
+%% \item If we choose $c=1$, the set of all points in the domain of $F$ for which $z=0$ is found easily by setting $z= 5-4x+y^2 = 1$.  This is the curve in the $(x,y)$-plane described by $4x-y^2 = 1$ or $x= \frac{1}{4}+ \frac{1}{4}y^2$.
+%% \item If we choose $c=5$, the set of all points in the domain of $F$ for which $z=0$ is found easily by setting $z= 5-4x+y^2 = 4$. This is the curve in the $(x,y)$-plane described by $4x-y^2 = 0$ or $x= \frac{1}{4}y^2$.
+%% \end{itemize}
+
+%% We now plot the level curves and the contour curves on the same plot:   
+   
+%% \begin{image}
+%%   \begin{tikzpicture}
+%%     \begin{axis}[tick label style={font=\scriptsize},axis on top,
+%% 	axis lines=center,
+%% 	view={110}{25},
+%% 	name=myplot,
+%% 	xtick=\empty,
+%%         ytick=\empty,
+%%         ztick=\empty,
+%% 	ymin=-1,ymax=1,
+%% 	xmin=-.5,xmax=1,
+%% 	zmin=-.5, zmax=9,
+%% 	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+%% 	xlabel={\scriptsize $x$},
+%% 	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+%% 	ylabel={\scriptsize $y$},
+%% 	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+%% 	zlabel={\scriptsize $z$},
+%%         colormap/cool,
+%%       ]
+%% %      \addplot3[gray,domain=0:2,samples y=0,dashed] ({1*cos(45)},{1*sin(45)},x); %% line for z
+%% %      \addplot3[gray,domain=0:cos(45),samples y=0,dashed] ({x},{1*sin(45)},0); %% line for x
+%% %      \addplot3[gray,domain=0:cos(45),samples y=0,dashed] ({sin(45)},{x},0); %% line for y
+%% \addplot3[domain=-1:2,y domain=-1:2,mesh,samples y=25,very thin,z buffer=sort,  samples=25,] (x,y,{5-4*x+y^2});   
+%% \addplot3 [very thick,penColor, smooth,domain=-1:2,samples=20,samples y=0] ({(.25+.25*x^2)},{x},{1});
+%% \addplot3 [very thick,penColor, dashed,domain=-1:2,samples=20,samples y=0] ({(.25+.25*x^2)},{x},{0});
+%% \addplot3 [very thick,penColor2, smooth,domain=-1:2,samples=20,samples y=0] ({(.25*x^2)},{x},{4});
+%% \addplot3 [very thick,penColor2, dashed,domain=-1:2,samples=20,samples y=0] ({(.25*x^2)},{x},{0});
+%%        \end{axis}
+%%   \end{tikzpicture}
+  
+%%  \end{image}
+ 
+%% \begin{center}
+%%   The dashed lines represent the level curves corresponding to $z=1$ and $z=5$.  The smooth lines on the surface represent the contour curves on the surface.  Note that the contour curve associated to $z=1$ can be found by ``lifting'' the corresponding level curve up $1$ unit, while the contour curve associated to $z=5$ can be found by ``lifting'' the corresponding level curve up $5$ units.
+%% \end{center}
+
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+
 \begin{example}
 Suppose that $F(x,y) = 4xy+3y^2+3$.  
 
@@ -930,53 +990,19 @@ Note that the $z$-component of the contour curve should not require much calcula
 \end{question}
 \end{example}  
   
+
+
+  
+\begin{remark}
+  We can easily generalize the above definition to functions $F:\R^n
+  \to \R$.  When working with functions $F:\R^2\to\R$, our level sets
+  are \textit{level curves}, and when working with functions
+  $F:\R^3\to\R$, our level sets are \textit{level surfaces}.
+  \index{level sets}
+\end{remark}
+
+
 \subsection{Real world examples}
-It may be surprising to find that the problem of representing a three
-dimensional surface on paper is familiar to most people (they just
-don't realize it).  Topographical maps, like the one shown in Figure
-represent the surface of Earth by indicating points with the same
-elevation with \dfn{contour lines}. Another example would be
-\textit{isotherms}, we see these in weather maps:
-
-\begin{image}
-  \includegraphics{isotherm.jpg}
-\end{image}
-
-Given a function $z=F(x,y)$, we can draw a ``topographical map'' of
-$F$ by drawing \textit{level curves}.
-
-
-
-Below we see a surface with level curves drawn beneath the surface:
-
-\begin{image}
-  \includegraphics{firstContourPlot.png}
-\end{image}
-
-%% \begin{question} BADBAD Bart would like to add a question here
-%%   Matching level curves to surfaces.
-%% \end{question}
-
-If the ``heights'' of the level curves are equally spaced, then level
-curves are close together when the function is changing rapidly, and
-far apart when the function is changing slowly.
-
-\begin{question}
-  \begin{image}
-    \begin{tikzpicture}	
-      \draw[very thick, penColor] plot[smooth cycle] coordinates{(10,4) (9,3) (10,3)};
-      \draw[very thick, penColor] plot[smooth cycle] coordinates{(11,2) (10,5) (8,3)};
-      \draw[very thick, penColor] plot[smooth cycle] coordinates{
-        (7,3) (12,1) (10,6) (7,5) (5,6) (5,5) (7,4)
-      };
-      \draw[very thick, penColor] plot[smooth cycle] coordinates{
-        (13,0) (10,7) (4,9) (1,8) (1,4) (5,1)
-      };
-
-%        \node[penColor,fill=white] at (axis cs:2,2.66) {$7$};
-    \end{tikzpicture}
-  \end{image}
-\end{question}
 
 
 
@@ -1217,7 +1243,7 @@ A(x,y) = 4xy
 \]
 \end{explanation}
 
-We can now see that this area is a function of two variables, $x$ and $y$.  With no additional restrictions, we see that by requiring that $(x,y)$ lies in the first quadrant, the domain of $A(x,y)$ will be $\{ (x,y) \in \R^2 : x \geq 0, y \geq 0 \}$ and the range will be $\R$.  Hence, the function $z = A(x,y)$ is a surface in the $xyz$-plane whose output is the area of such a rectangle to each point in its domain. 
+We can now see that this area is a function of two variables, $x$ and $y$.  With no additional restrictions, we see that by requiring that $(x,y)$ lies in the first quadrant, the domain of $A(x,y)$ will be $\{ (x,y) \in \R^2 : x \geq 0, y \geq 0 \}$ and the range will be $\R$.  Hence, the function $z = A(x,y)$ is a surface in the $(x,y,z)$-space whose output is the area of such a rectangle to each point in its domain. 
 
 However, we now introduce that $(x,y)$ must also lie on the ellipse $\frac{x^2}{4}+\frac{y^2}{9} =1$, which is a curve in the domain of the function.  We thus must examine the outputs of $z=A(x,y)$ along this curve.  
 

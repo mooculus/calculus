@@ -18,132 +18,160 @@
 
 \section{Differentiability}
 
-In the past you may have learned
-\begin{quote}\index{tangent line}
-Given a function $f$ and a number $a$ in the domain of $f$, if one can
-``zoom in'' on the graph at $(a, f(a))$ sufficiently so that it
-appears to be a straight line, then the function is
-\dfn{differentiable}, and that line is the \dfn{tangent line} to
-$f(x)$ at the point $(a,f(a))$.
-\end{quote}
-We illustrate this informal definition with the following diagram:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-            domain=0:6, range=0:7,
-            ymin=-.2,ymax=7,
-            width=6in,
-            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
-            axis lines=none,
-          ]   
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+Previously in your calculus experience, we often asked the question, ``Is this function differentiable?''  When looking at $f: \R \to \R$, the answer to that questions was the same as the asnwer to,``Does the deriviative exist?''  Now that we are working with multivariable functions, we've already seen that there is more than one derivative we can define at any given point, giving us different information about the surface.  Therefore, we need a different strategy. Another way we could have answered whether a function $f: \R \to \R$ was differentiable was to ask whether there exists a tangent line (that is, a linear approximation) to the function at that point.  This idea we can generalize to higher dimensions.
 
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
-          
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
-          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
-          
+Recall, for $f: \R \to \R$, we say a function is differentiable if the limit
+\[
+f'(a)=\lim_{x \to a} \frac{f(x)-f(a)}{x-a} 
+\]
+exists.  This is equivalent to saying that
+\begin{align*}
+\lim_{x \to a} \frac{f(x)-f(a)}{x-a} -\answer[given]{f'(a)}=0 \\
+\lim_{x \to a} \frac{f(x)-f(a) -f'(a)\answer[given]{(x-a)}}{x-a}=0\\
+\lim_{x \to a} \frac{f(x)-(f(a) +f'(a)(x-a))}{x-a}=0\\
+\lim_{x \to a} \frac{f(x)-T_a(x)}{x-a}=0\\
+\end{align*}
+where $T_a(x)$ is the equation of the tangent line to $f$ at $a$. 
 
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
-
-          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
-          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
-          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
-          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
-
-          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
-          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
-          
-          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
-          
-          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
-
-          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
-
-          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
-
-          \node at (axis cs:2.2,0) [anchor=east] {$x$};
-          \node at (axis cs:0,6.6) [anchor=north] {$y$};
-        \end{axis}
-\end{tikzpicture}
-%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
-%% sufficiently so that the graph seems to be a straight line,
-%% then that line is the \textbf{tangent line} to $f$ at the point
-%% determined by $(a, f(a))$.}
-%% \label{figure:informal-tangent}
-\end{image}
-%% \todo{This image should be interactive.}
-
-**INTERACTIVE IMAGE**
-
-We would like to generalize this notion of a tangent line to functions of several variables.  We would like to say $F$  is differentiable when one can ``zoom-in'' and the graph of the function looks "flat".  
-
-Let's start by considering functions from $\R^2\to \R$ as these are the easiest to visualize. In this case, if our function is differentiable, when we "zoom-in", graph of $F: \R^2\to \R$ should look like a plane. We call this plane the \dfn{tangent plane}. 
-
-**INTERACTIVE IMAGE**
-%%BADBAD would like an image
-
-In fact, this is what the technical definition of differentiability of a function $F: \R^2\to \R$ says.
+Let's use this same idea to define differentiability in higher dimensions.
 
 \begin{definition}
-Let $F: \R^2\to \R$.  We say $F$ is  \dfn{differentiable} at a vector $\vec{a}$ if there exists a tangent plane $T_a(\vec{x})$ such that 
+Let $F: \R^n\to \R$ and let $\vec{x}=\vector{x_1, x_2, ..., x_n}$ and $\vec{a} = \vector{a_1, a_2, ..., a_n}$ be vectors in the interior of the domain of $F$.  We say $F$ is  \dfn{differentiable} at a vector $\vec{a}$ if there exists a $T_{\vec{a}}(\vec{x})=c_0+\sum_{i=1}^n c_i (x_i-a_i)$ for some real constants $c_i$ such that 
 \[
-\lim_{\vec{x} \rightarrow \vec{a}} \frac{|F(\vec{x})-T_a(\vec{x})|}{|\vec{x}-\vec{a}|} = 0
+\lim_{\vec{x} \rightarrow \vec{a}} \frac{F(\vec{x})-T_{\vec{a}}(\vec{x})}{|\vec{x}-\vec{a}|} = 0
 \]
 A function is \dfn{differentiable} on an open set if it is differentiable at every point in that set.
 \end{definition}
 
-We can interpert this definition as saying that a function $F$ is differentiable at a vector$\vec{a}$ if there is a tangent plane $T_a(\vec{x})$ at that point such that $F$ approaches its  tangent plane $T_a(\vec{x})$ faster than $\vec{x}$ approaches $\vec{a}$.  That is, if one ``zooms in'' on the graph of $F$ at $(\vec{a}, F(\vec{a}))$ sufficiently, it  looks just like the tangent plane.
 
-Now let's generalize this statement to higher dimensions.  When we zoomed in a differentiable curve from $\R \to \R$, we saw a line. When we zoomed in on a differentiable surface from $\R^2 \to \R$, we saw a plane.  Similarly, when we zoom in on a differentiable surface $F:\R^n \to \R$, we should expect to see a flat surface which looks like $\R^n$.  Formalizing this, we have
+%In the past you may have learned
+%\begin{quote}\index{tangent line}
+%Given a function $f$ and a number $a$ in the domain of $f$, if one can
+%``zoom in'' on the graph at $(a, f(a))$ sufficiently so that it
+%appears to be a straight line, then the function is
+%\dfn{differentiable}, and that line is the \dfn{tangent line} to
+%$f(x)$ at the point $(a,f(a))$.
+%\end{quote}
+%We illustrate this informal definition with the following diagram:
+%\begin{image}
+%\begin{tikzpicture}
+%  \begin{axis}[
+%            domain=0:6, range=0:7,
+%            ymin=-.2,ymax=7,
+%            width=6in,
+%            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+%            axis lines=none,
+%          ]   
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+%
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+%          
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+%          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+%          
+%
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+%          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+%
+%          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+%          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+%          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+%          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+%          
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+%
+%          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+%          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+%          
+%          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+%          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+%          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+%          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+%          
+%          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+%          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+%          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+%          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+%
+%          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+%          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+%          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+%          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+%
+%          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+%          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+%          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+%          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+%
+%          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+%          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+%        \end{axis}
+%\end{tikzpicture}
+%%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+%%% sufficiently so that the graph seems to be a straight line,
+%%% then that line is the \textbf{tangent line} to $f$ at the point
+%%% determined by $(a, f(a))$.}
+%%% \label{figure:informal-tangent}
+%\end{image}
+%%% \todo{This image should be interactive.}
+%
+%**INTERACTIVE IMAGE**
+%
+%We would like to generalize this notion of a tangent line to functions of several variables.  We would like to say $F$  is differentiable when one can ``zoom-in'' and the graph of the function looks "flat".  
+%
+%Let's start by considering functions from $\R^2\to \R$ as these are the easiest to visualize. In this case, if our function is differentiable, when we "zoom-in", graph of $F: \R^2\to \R$ should look like a plane. We call this plane the \dfn{tangent plane}. 
+%
+%**INTERACTIVE IMAGE**
+%%%BADBAD would like an image
 
-\begin{definition}
-Let $F: \R^n\to \R$ and let $\vec{x}=\vector{x_1, x_2, ..., x_n}$ and $\vec{a} = \vector{a_1, a_2, ..., a_n}$.  We say $F$ is  \dfn{differentiable} at a vector $\vec{a}$ if there exists a $T_a(\vec{x})=c_0+\sum_{i=1}^n c_i (x_i-a_i)$ for some real constants $c_i$ such that 
-\[
-\lim_{\vec{x} \rightarrow \vec{a}} \frac{|F(\vec{x})-T_a(\vec{x})|}{|\vec{x}-\vec{a}|} = 0
-\]
-A function is \dfn{differentiable} on an open set if it is differentiable at every point in that set.
-\end{definition}
+%In fact, this is what the technical definition of differentiability of a function $F: \R^2\to \R$ says.
+
+%\begin{definition}
+%Let $F: \R^2\to \R$.  We say $F$ is  \dfn{differentiable} at a vector $\vec{a}$ if there exists a tangent plane $T_a(\vec{x})$ such that 
+%\[
+%\lim_{\vec{x} \rightarrow \vec{a}} \frac{F(\vec{x})-T_a(\vec{x})}{|\vec{x}-\vec{a}|} = 0
+%\]
+%A function is \dfn{differentiable} on an open set if it is differentiable at every point in that set.
+%\end{definition}
+
+In $\R^2$, we can interpret this definition as saying that a function $F$ is differentiable at a vector$\vec{a}$ if there is a tangent plane $T_{\vec{a}}(\vec{x})$ at that point such that $F$ approaches its  tangent plane $T_{\vec{a}}(\vec{x})$ faster than $\vec{x}$ approaches $\vec{a}$.  That is, if one ``zooms in'' on the graph of $F$ at $(\vec{a}, F(\vec{a}))$ sufficiently, it  looks more and more like the tangent plane.
+
+\begin{onlineOnly}
+  You can use this interactive to visualize a tangent plane.
+  \begin{center}
+    \geogebra{aurqzZWx}{800}{600}%https://www.geogebra.org/3d/aurqzZWx
+  \end{center}
+\end{onlineOnly}
+
+How do we interpret this definition in higher dimensions?  If we zoom in on a differentiable curve $f:\R \to \R$, we will see $f$ approach its tangent line. If we zoom in on a differentiable surface $F:\R^2 \to \R$, we will see $F$ approach its tangent plane.  Similarly, if we zoom in on a differentiable surface $F:\R^n \to \R$, we should expect to see $F$ approach a flat surface $T_{\vec{a}}(x)$ which looks like $\R^n$.  
 
 Keep in mind that this statement of differentiability is much stronger than just saying the partial derivatives of $F$ exist at $\vec{a}$.  Because this is a limit in a higher dimension, we are saying this limit must exist and be equal for every path by which $\vec{x}$ could approach $\vec{a}$, not just the paths along the axes.  Because of this, it is very difficult to use this definition to show that a function is differentiable.  Thankfully we have the following theorem:
 
-\begin{theorem}[A Criterion for Differentiability]
+\begin{theorem}[A Sufficient Criterion for Differentiability]
   Let $F:\R^n\to\R$ be defined on an open set $S$ containing
   $\vec{a}$.  If
   \[
-  \pp[F]{x_1},\pp[F]{x_2},\dots,\pp[F]{x_n}
+  \pp[F]{x_i}(x_1, x_2, \dots, x_n)
   \]
-  are all continuous on $S$, then $F$ is differentiable on $S$.
+ for $i$ from $1$ to $n$ are all continuous on $S$, then $F$ is differentiable on $S$.
 \end{theorem}
 
-Once we know a function is differentable we can use the following theorems to conclude it is a also continuous and the partial derivatives all exist.
+In words, this theorem is saying that if all of the partial derivatives are all continuous on all of $S$, then $F$ is differentiable at $a$.  Notice how much easier this is to use than the definition! This theorem assures us that essentially all functions that we see in
+the course of our studies here are differentiable on their natural domains.
+
+Remember, we were trying to generalize the concept of differentiability for $f:\R \to \R$?  Our concept of differentiability for $f:\R \to \R$ had a lot of nice properties.  Many of these properties also hold for differentiability in higher dimensions.  In particular, here are a few examples.
 
 \begin{theorem}[Differentiability Implies Partial Derivatives Exist]
 Let $F:\R^n\to\R$ be defined on an open set $S$ containing
@@ -156,10 +184,9 @@ $\vec{a}$.  If $F$ is differentiable at $\vec{a}$, then $F$ is
 continuous at $\vec{a}$.
 \end{theorem}
 
-These theorems assure us that essentially all functions that we see in
-the course of our studies here are differentiable (and hence
-continuous) on their natural domains. There is a small caveat to the
-theorems above: it is possible for a function $F$ to be differentiable
+Since most of the functions we see in this course are differentiable on their domains, they are also continuous.
+
+A note of caution: differentiability in higher dimensions is a much more subtle notion.  For instance, it is possible for a function $F$ to be differentiable
 yet some partials may not be continuous. Such strange behavior of
 functions is a source of delight for many mathematicians.
 

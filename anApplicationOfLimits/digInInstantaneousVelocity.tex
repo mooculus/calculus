@@ -23,7 +23,7 @@ When we compute average velocity, we look at
 To obtain the (instantaneous) velocity, we want the change in time to
 ``go to'' zero. By this point we should know that ``go to'' is a
 buzz-word for a \emph{limit}. The change in time is often given as
-the length of an interval, and this length goes to zero.
+the length of a time interval, and this length goes to zero.
 
 The average velocity on the (time) interval $[a,b]$ is given by
 \[
@@ -42,8 +42,24 @@ is given by
 \[
 s(t) = 40t-16t^2 \qquad\text{(feet above the ground)} .
 \]
-
-When will the ball hit the ground?
+Here is the graph of $s$.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false, domain=0:2.5, axis lines =middle, xlabel=$t$,
+            ylabel=$s$, every axis y label/.style={at=(current
+              axis.above origin),anchor=south}, every axis x
+            label/.style={at=(current axis.right of
+              origin),anchor=west}, ]
+          \addplot [very thick, penColor,smooth] {-16*x^2 +40*x};
+          %\addplot [very thick,penColor2] {80};
+          % \addplot [very thick,penColor4] {20};
+           \node at (axis cs:0,-1.2) {$0$};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{enumerate}
+\item When will the ball hit the ground?
 
 \begin{explanation}
 To determine when the ball hits the ground we need to solve the
@@ -63,10 +79,10 @@ thrown, we know that the ball hits the ground at $t=\answer[given]{2.5}$
 seconds.
 \end{explanation}
 
-What is the height of the ball after $2$ seconds?
+\item What is the height of the ball after $2$ seconds?
 
 \begin{explanation}
-To find the height of the ball after $2$ seconds we simply need 
+To find the height of the ball after $2$ seconds, we simply need 
 to plug $2$ into the equation for $s(t)$ to find
 \[
 s(2) = 40\cdot\answer[given]{2} - 16\cdot\answer[given]{2}^2 = 
@@ -75,7 +91,7 @@ s(2) = 40\cdot\answer[given]{2} - 16\cdot\answer[given]{2}^2 =
 
 \end{explanation}
 
-Consider the following points lying along the $s$ axis.
+\item Consider the following points lying along the $s$ axis.
 \begin{image}
 \begin{tikzpicture}
     \begin{axis}[
@@ -97,7 +113,7 @@ Consider the following points lying along the $s$ axis.
         \addplot[only marks,very thick,penColor,mark=*]
 	        coordinates{(0,0)};
 	    \node at (axis cs:0,0) [right] {$B$};
-	    
+	      \node at (axis cs:0,0) [left] {$0$};
 	    \addplot[only marks,very thick,penColor,mark=*]
 	        coordinates{(0,40-16)};
 	    \node at (axis cs:0,40-16) [right] {$D$};
@@ -113,7 +129,7 @@ Consider the following points lying along the $s$ axis.
 \end{tikzpicture}
 \end{image}
 
-Which points correspond to the height of the ball at times $0$, $1$ and $2$? 
+Which points correspond to the height of the ball at times $0$, $1$ and $2$ seconds? 
 \begin{explanation}
 The point that corresponds to $s(0)$, the position (height) of the 
 ball at $t=0$, is \wordChoice{\choice{A}\choice[correct]{B}\choice{C}\choice{D}}.
@@ -126,17 +142,19 @@ ball at $t=2$, is \wordChoice{\choice{A}\choice{B}\choice[correct]{C}\choice{D}}
 
 \end{explanation}
 
-Next let's consider the average velocity of the ball. What is the average velocity of the ball on the interval $[1,2]$?
+Next let's consider the average velocity of the ball.
+
+\item What is the average velocity of the ball on the time interval $[1,2]$?
 
 \begin{explanation}
 
 In order to find the average velocity of the ball on the 
 interval $[1,2]$ we recall that the average velocity on 
-the interval $[a,b]$ is given by
+the time interval $[a,b]$ is given by
 \[
 v_{\text{av}} = 
 \frac{s(b) - s\left(\answer[given]{a}\right)}
-{\answer[given]{b} - \answer[given]{a}}.
+{b-a}.
 \]
 Plugging in $a=1$ and $b=2$ we find that 
 \[
@@ -144,16 +162,49 @@ v_{\text{av}} = \frac{s(2)-s(1)}{2-1} =
 \frac{\answer[given]{16} - \answer[given]{24}}{1} =
 \answer[given]{-8}\unit{ft}/\unit{s}.
 \] 
+Check the figure below.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false, domain=0:2.5, axis lines =middle, xlabel=$t$,
+            ylabel=$s$, every axis y label/.style={at=(current
+              axis.above origin),anchor=south}, every axis x
+            label/.style={at=(current axis.right of
+              origin),anchor=west}, ]
+          \addplot [very thick, penColor,smooth] {-16*x^2 +40*x};
+      
+       \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
+                       {(1,16.1) (1,23.9)};
+                         \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
+                       {(1,15.9) (2,15.9)};
+           \node at (axis cs:0,-1.2) {$0$};
+             \addplot [very thick,penColor2,<-]  plot coordinates {(1,16) (1,24)};
+             \addplot [very thick,penColor4,->]  plot coordinates {(1,16) (2,16)};
+              \addplot [very thick,penColor2, dashed]  plot coordinates {(1,0) (1,16)};
+               \addplot[only marks,very thick,penColor,mark=*]
+	        coordinates{(1,24)};
+	        \addplot[only marks,very thick,penColor,mark=*]
+	        coordinates{(2,16)};
+              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+              \addplot [very thick,penColor2, dashed]  plot coordinates {(2,0) (2,16)};
+               \node at (axis cs:1.5,14.8) {change in time};
+                \node at (axis cs:1.4,20.7) {change in };
+                \node at (axis cs:1.4,18.9) {position };
+                 \node at (axis cs:2.3,16) {$(2,s(2))$ };
+                  \node at (axis cs:0.7,24) {$(1,s(1))$ };
 
+        \end{axis}
+\end{tikzpicture}
+\end{image}
 \end{explanation}
 
-What is the average velocity of the ball on the interval
-$[t,2]$ for $0<t<2$?.  
+\item What is the average velocity of the ball on the time interval
+$[t,2]$, for $0<t<2$? 
 
 \begin{explanation}
 
 We use the same formula we used to find the average velocity on
-the interval $[1,2]$ to find the average velocity on the interval
+the interval $[1,2]$ to find the average velocity on the time interval
 $[t,2]$ for $0<t<2$.
 \begin{align*}
 v_{\text{av}} &= 
@@ -161,32 +212,79 @@ v_{\text{av}} &=
 {\answer[given]{2}-\answer[given]{t}}\\
 &= \frac{16 - (40t-16t^2)}{2-t}\\
 &= \frac{8(2t^2-5t+2)}{2-t}\\
-&= \frac{8(2t-1)(t-2)}{-(t-2)}\\
+&= \frac{8(2t-1)\cancel{(t-2)}}{-\cancel{(t-2)}}\\
 &= -8(2t-1)\\
-&= (8-16t)\unit{ft}/\unit{s}
+&= 8-16t \hspace{0.06in}\unit{ft}/\unit{s},
 \end{align*}
 for $0<t<2$.
+Check the figure below.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            clip=false, domain=0:2.5, axis lines =middle, xlabel=$t$,
+            ylabel=$s$, every axis y label/.style={at=(current
+              axis.above origin),anchor=south}, every axis x
+            label/.style={at=(current axis.right of
+              origin),anchor=west}, ]
+          \addplot [very thick, penColor,smooth] {-16*x^2 +40*x};
+      
+       \addplot[decoration={brace,raise=.06cm},decorate,thin] plot coordinates
+                       {(1.8,16) (1.8,20)};
+                         \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
+                       {(1.8,15.9) (2,15.9)};
+           \node at (axis cs:0,-1.2) {$0$};
+             \addplot [very thick,penColor2,<-]  plot coordinates {(1.8,16) (1.8,20)};
+             \addplot [very thick,penColor4,->]  plot coordinates {(1.8,16) (2,16)};
+              \addplot [very thick,penColor2, dashed]  plot coordinates {(1.8,0) (1.8,16)};
+               \addplot[only marks,very thick,penColor,mark=*]
+	        coordinates{(1.8,20)};
+	        \addplot[only marks,very thick,penColor,mark=*]
+	        coordinates{(2,16)};
+              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+              \addplot [very thick,penColor2, dashed]  plot coordinates {(2,0) (2,16)};
+               \node at (axis cs:1.9,14.2) {$\Delta t$ };
+              
+                \node at (axis cs:1.6,18) {$\Delta s$ };
+               \node at (axis cs:1.8,-1.2) {$t$ };
+                 \node at (axis cs:2.3,16) {$(2,s(2))$ };
+                  \node at (axis cs:2.1,20) {$(t,s(t))$ };
+
+        \end{axis}
+\end{tikzpicture}
+\end{image}
 
 \end{explanation}
 
-What is the average velocity of the ball on the interval $[2,t]$ for
+\item What is the average velocity of the ball on the interval $[2,t]$, for
 $2<t<2.5$?
 
 \begin{explanation}
 
-To calculate the average velocity on the interval $[2,t]$ for 
-$2<t<2.5$ we will use our average velocity formula one more time
+To calculate the average velocity on the interval $[2,t]$, for 
+$2<t<2.5$, we will use our average velocity formula one more time
 to find
 \[
 v_{\text{av}} = \frac{s(t)-s(2)}{t-2} = \frac{s(2)-s(t)}{2-t}. 
 \]
 However, this is exactly the same expression we got when calculating
 the average velocity on the interval $[t,2]$ for $0<t<2$.  So the 
-average velocity on the interval $[2,t]$ for $2<t<2.5$ is given by
+average velocity on the interval $[2,t]$, for $2<t<2.5$, is given by
 \[
-v_{\text{av}} =\answer[given]{(8-16t)}\unit{ft}/\unit{s}.
+v_{\text{av}} =\answer[given]{8-16t}\hspace{0.06in}\unit{ft}/\unit{s}.
 \]
 \end{explanation}
+\item Using the results in parts (e) and (f), compute the average velocity on the interval
+\begin{enumerate}
+\item $[2, 2.1]$
+\[
+v_{\text{av}} =  8-16(\answer[given]{2.1})=-25.6 \hspace{0.06in}\unit{ft}/\unit{s}
+\]
+\item $[1.9,2]$
+\[
+v_{\text{av}} =  8-16(\answer[given]{1.9})=-22.4 \hspace{0.06in}\unit{ft}/\unit{s}
+\]
+\end{enumerate}
+\end{enumerate}
 \end{example}
 
 In our previous example, we computed \textit{average velocity} on
@@ -204,10 +302,10 @@ Find the instantaneous velocity of the ball $2$ seconds after it
 is thrown.
 \begin{explanation}
 From the previous example, we know that the average velocity of the
-ball on the interval $[t,2]$ for $0<t<2$ and the average velocity
-on the interval $[2,t]$ for $2<t<2.5$ are both given by
+ball on the interval $[t,2]$, for $0<t<2$, and the average velocity
+on the interval $[2,t]$, for $2<t<2.5$, are both given by
 \[
-v_{\text{av}} =  \frac{s(t)-s(2)}{t-2}= \answer[given]{(8-16t)}\unit{ft}/\unit{s}.
+v_{\text{av}} =  \frac{s(t)-s(2)}{t-2}= 8-16t \hspace{0.06in}\unit{ft}/\unit{s}.
 \]
 All we need to do to find the instantaneous velocity at $t=2$ is 
 take the limit as $t$ goes to $\answer[given]{2}$ of the expression

@@ -1,0 +1,187 @@
+\documentclass[handout]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../../../preamble.tex}
+
+
+
+\author{Tom Needham}
+
+\outcome{Evaluate integrals using partial fraction decompositions.}
+
+\title[]{Partial Fractions}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.9in}
+
+\section{Discussion Questions}
+
+\begin{problem}
+Classify each of the following expressions as an irreducible quadratic, a product of distinct linear factors, or a product of repeated linear factors.
+\begin{center}
+\begin{tabular}{lll}
+I. $x^2+5x+1$ \hspace{.4in} II. $x^2$ \hspace{.4in} III. $x^2+x+1$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse}
+I. Although it may not be immediately obvious how to factor it, this quadratic is reducible. To test this, one checks the discriminant $b^2-4ac$; the discriminant is  $\geq 0$ if and only if the polynomial can be factored, and is strictly greater than zero if and only if the factors are distinct. In this case the discriminant is $5^2-4 \cdot 1 \cdot 1 = 21 > 0$. The expression is therefore a product of distinct linear factors.
+
+II. This expression is a product of the repeated linear factor $x$.
+
+III. The discriminant is $1^2-4 \cdot 1 \cdot 1 = -3 < 0$, so the quadratic is irreducible.
+\end{freeResponse}
+
+\begin{problem}
+A student claims that the partial fraction decomposition for $\frac{6x^2+7x+1}{x(2x+1)^2}$ is $\frac{Ax+B}{(2x+1)^2}+\frac{C}{x}$ and justifies his or her response by finding that $A=2$, $B=3$ and $C=1$.
+
+\begin{itemize}
+\item[I.] Is it true that $\frac{6x^2+7x+1}{x(2x+1)^2}+\frac{1}{x} = \frac{2x+3}{(2x+1)^2}+\frac{1}{x}$?
+\item[II.] Is this the correct partial fraction decomposition?
+\end{itemize}
+\end{problem}
+
+\begin{freeResponse}
+I. This is true, as we can readily check:
+$$
+\frac{2x+3}{(2x+1)^2}+\frac{1}{x} = \frac{2x^2+3x}{x(2x+1)^2} + \frac{(2x+1)^2}{x(2x+1)^2} = \frac{2x^2+3x+4x^2+4x+1}{x(2x+1)^2} =\frac{6x^2+7x+1}{x(2x+1)^2}.
+$$
+
+II. Remember that the whole point of the method of partial fraction decomposition is to rewrite the rational function in an equivalent way which \emph{we know how to integrate}. The student has provided an equivalent expression for the rational function, but their expression includes the term  $\frac{2x+3}{(2x+1)^2}$, and it is not clear how to find the antiderivative of this term. The correct partial fraction decomposition is of the form
+$$
+\frac{6x^2+7x+1}{x(2x+1)^2} = \frac{A}{x} + \frac{B}{2x+1} + \frac{C}{(2x+1)^2}.
+$$
+Note that each term in the resulting definition is something that we know how to integrate. 
+\end{freeResponse}
+
+\section{Group Work}
+
+\begin{problem}
+Determine the form of the partial fraction decomposition of each expression, but don't solve for constants.
+\begin{center}
+\begin{tabular}{lll}
+I. $\frac{2x+1}{x^2+5x+6}$ \hspace{.2in} II. $\frac{2x^2+x+3}{(x^2-2x+1)(x+2)}$ \hspace{.2in} III. $\frac{3x^2+x+1}{3x^3+3x^2+6x}$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse}
+The partial fraction decompositions take the forms:
+
+I. $\frac{2x+1}{x^2+5x+6} = \frac{2x+1}{(x+2)(x+3)} = \frac{A}{x+2} + \frac{B}{x+3}$
+
+II. $\frac{2x^2+x+3}{(x^2-2x+1)(x+2)} = \frac{2x^2+x+3}{(x-1)^2(x+2)} = \frac{A}{x-1} + \frac{B}{(x-1)^2} + \frac{C}{x+2}$
+
+III. $\frac{3x^2+x+1}{3x^3+3x^2+6x} = \frac{3x^2 + x + 1}{3x(x^2+x + 2)} = \frac{A}{3x} + {Bx+C}{x^2+x+2}$
+\end{freeResponse}
+
+\begin{problem}
+Evaluate the integral
+$$
+\int \frac{1}{x^3-x^2} \d x.
+$$
+\end{problem}
+
+\begin{freeResponse}
+The partial fraction decomposition of the integrand is given by 
+$$
+\frac{1}{x^3-x^2} = \frac{1}{x^2(x-1)} = \frac{A}{x} + \frac{B}{x^2} + \frac{C}{x-1}.
+$$
+Clearing denominators in this equation, we have
+$$
+1 = Ax(x-1) + B(x-1) + Cx^2 = (A + C)x^2 + (-A + B) x + (-B).
+$$
+Comparing terms by degree, it must be that $-B = 1$, or $B=-1$. We also have $-A+B = 0$, or $A=B=-1$. Finally, $A+C=0$ implies $C = -A = 1$. We conclude that 
+$$
+\frac{1}{x^3-x^2} = -\frac{1}{x} - \frac{1}{x^2} + \frac{1}{x-1}.
+$$
+Therefore
+\begin{align*}
+\int \frac{1}{x^3-x^2} \d x &= \int \frac{1}{x^3-x^2} = \int -\frac{1}{x} - \frac{1}{x^2} + \frac{1}{x-1}\d x  \\
+&= -\ln |x| + \frac{1}{x} + \ln |x-1| + C.
+\end{align*} 
+\end{freeResponse}
+
+\begin{problem}
+Consider the integral
+$$
+\int_2^3 \frac{1}{x^2-1} \d x.
+$$
+Evaluate the integral in two ways: first by trigonometric substitution with $x=\sec \theta$, then via partial fraction decomposition. For the trigonometric substitution method, it may be useful to recall that
+$$
+\int \csc \theta \d \theta = -\ln | \csc \theta + \cot \theta | + C.
+$$
+If we change the bounds of integration to $x=0$ to $x=1/2$, would both methods still be valid?
+\end{problem}
+
+\begin{freeResponse}
+First let $x=\sec \theta$, so that $\d x = \sec \theta \tan \theta \d \theta$. Then
+\begin{align*}
+\int \frac{1}{x^2-1} \d x &= \int \frac{1}{\tan^2 \theta} \sec \theta \tan \theta \d \theta \\
+&= \int \frac{\sec \theta}{\tan \theta} \d \theta \\
+&= \int \frac{1}{\cos \theta} \frac{\cos \theta}{\sin \theta} \d \theta \\
+&= \int \csc \theta \d \theta \\
+&= \ln |\csc \theta - \cot \theta| + C \\
+&= \ln \left|\frac{x}{\sqrt{x^2-1}} - \frac{1}{\sqrt{x^2-1}}\right|+C,
+\end{align*}
+with the last line derived via a reference triangle. Therefore
+\begin{align*}
+\int_2^3 \frac{1}{x^2-1} \d x &= \eval{\ln \left|\frac{x}{\sqrt{x^2-1}} - \frac{1}{\sqrt{x^2-1}}\right|}_2^3 \\
+&= \ln \left|\frac{3}{\sqrt{8}} - \frac{1}{\sqrt{8}}\right| - \ln \left| \frac{2}{\sqrt{3}} - \frac{1}{\sqrt{3}}\right|\\
+&= \ln \frac{1}{\sqrt{2}} - \ln \frac{1}{\sqrt{3}} \\
+&= -\frac{1}{2} \ln 2 + \frac{1}{2} \ln 3.
+\end{align*}
+
+On the other hand, the partial fraction decomposition of the integrand is 
+$$
+\frac{1}{x^2-1} = \frac{1}{(x+1)(x-1)} = \frac{A}{x+1} + \frac{B}{x-1}.
+$$
+Clearing denominators, we have
+$$
+1 = A(x-1) + B(x+1) = (A+B)x + (-A+B).
+$$
+Comparing terms of the same degree, we have $-A+B=1$ and $A+B = 0$. Solving the second equation yields $A=-B$, and substituting this into the first equation yields $2B=1$, or $B=1/2$. Therefore $A=-1/2$, and 
+$$
+\frac{1}{x^2-1} = -\frac{1/2}{x+1} + \frac{1/2}{x-1}.
+$$
+The integral is therefore given by
+\begin{align*}
+\int_2^3 \frac{1}{x^2-1} \d x &= \int_2^3  -\frac{1/2}{x+1} + \frac{1/2}{x-1} \d x \\
+&= \eval{-\frac{1}{2} \ln |x+1| + \frac{1}{2} \ln |x-1| }_2^3 \\
+&= \frac{1}{2}\left(- \ln 4 + \ln 2 + \ln 3 - \ln 1\right) \\
+&=  -\frac{1}{2} \ln 2 + \frac{1}{2} \ln 3.
+\end{align*}
+We therefore obtain the same answer as we did using trigonometric substitution, but with a smaller amount of effort. Moreover, making the substitution $x=\sec \theta$ implicitly assumes that $|x| \geq 1$ (since this is the range of the secant function). This means that the trigonometric substitution method would not be valid if we integrated over any region containing $x$ with $|x| < 1$. 
+\end{freeResponse}
+
+
+\end{document}

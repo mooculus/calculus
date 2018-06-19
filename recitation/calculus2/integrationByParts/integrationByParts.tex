@@ -1,4 +1,4 @@
-\documentclass[handout]{ximera}
+\documentclass[]{ximera}
 %handout:  for handout version with no solutions or instructor notes
 %handout,instructornotes:  for instructor version with just problems and notes, no solutions
 %noinstructornotes:  shows only problem and solutions
@@ -55,7 +55,10 @@ Is the student's work correct?
 \end{problem}
 
 \begin{freeResponse}
-
+The student's work is certainly not correct! Since they are evaluating a definite integral, their answer should be a number. However, their answer is a function of the integration variable $x$. In particular, the student forgot to evaluate the first term during the course of the integration by parts process. The correct solution is 
+$$
+\int_0^1 x e^x \d x = \eval{x e^x}_0^1 - \int_0^1 e^x \d x = e^1 - 0e^0 + \eval{e^x}_0^1 = e^1 + e^1 - e^0 = 2e -1.
+$$
 \end{freeResponse}
 
 \begin{problem}
@@ -67,6 +70,18 @@ I. $\int x \sin (x) \d x$ \hspace{0.2in} & II. $\int x \sin (x^2) \d x$  \hspace
 \end{tabular}
 \end{center}
 \end{problem}
+
+\begin{freeResponse}
+I. This integral is easily solved via Integration by Parts, with $u=x$ and $\d v = \sin(x) \d x$.
+
+II. This integral can be solved via $u$-substitution with $u = x^2$, so that $\d u = 2 x \d x$.
+
+III. Integration by Parts can be used for this example, with $u=x^2$ and $\d v = \sin(x) \d x$. After applying the method once, the integral reduces to 
+$$
+\int x^2 \sin (x) \d x = -x^2\cos(x) + 2\int x \cos(x) \d x.
+$$
+The second term can be evaluated by applying Integration by Parts once more with $u = x$ and $\d v = \cos (x) \d x$. 
+\end{freeResponse}
 \section{Group work:}
 
 
@@ -78,8 +93,59 @@ Evaluate the following integrals
 I. $\int_1^3 x^2 e^{2x} \d x$ \hspace{0.2in} & II. $\int \arcsin(x) \d x$  \hspace{0.2in} & III. $\int x^{\frac{5}{3}} (\ln x)^2 \d x$.
 \end{tabular}
 \end{center}
-	
 \end{problem}
+	
+\begin{freeResponse}
+I. We use Integration by Parts with $u = x^2$ and $\d v = e^{2x} \d x$, so that $\d u = 2x \d x$ and $v = \frac{1}{2} e^{2x}$. Then
+$$
+\int_1^3 x^2 e^{2x} \d x = \eval{\frac{x^2}{2} e^{2x}}_1^3 - \int_1^3 x e^{2x} \d x.
+$$
+The second integral is evaluated by another application of Integration by Parts, with $u =x$, $\d v = e^{2x} \d x$, $\d u = \d x$ and $v = \frac{1}{2}e^{2x}$. Continuing our integration, we have 
+\begin{align*}
+\eval{\frac{x^2}{2} e^{2x}}_1^3 - \int_1^3 x e^{2x} \d x & = \frac{9}{2} e^6 - \frac{1}{2} e^2 - \eval{\frac{x}{2}e^{2x}}_1^3 + \int_1^3 \frac{1}{2} e^{2x} \d x \\
+& = \frac{9}{2} e^6 - \frac{1}{2} e^2 - \frac{3}{2} e^6 + \frac{1}{2} e^2 + \eval{\frac{1}{4}e^{2x}}_1^3 \\
+& = 3e^6 + \frac{1}{4} e^6 - \frac{1}{4} e^2 \\
+& = \frac{13}{4} e^6 - \frac{1}{4} e^2.
+\end{align*}
+
+II. We do not know how to integrate $\arcsin(x)$, but we do know how to differentiate it, so we will use integration by parts. Let $u = \arcsin(x)$ and $\d v =  \d x$. Then $\d u = \frac{1}{\sqrt{1-x^2}} \d x$ and $v = x$. This gives us
+$$
+\int \arcsin(x) \d x = x\arcsin(x) - \int \frac{x \d x}{\sqrt{1-x^2}}.
+$$
+The second term can be evaluated by $u$-substitution, with $u = 1- x^2$ and $\d u = -2x \d x$.  This yields
+	\begin{align*}
+	\int \frac{x \d x}{\sqrt{1-x^2}} &= \int \frac{-\d u}{2\sqrt{u}}\\
+	&= -\frac{1}{2} \int u^{-\frac{1}{2}} \d u \\
+	&= -\frac{1}{2} \cdot 2u^{\frac{1}{2}} +C \\
+	&= - \sqrt{1-x^2} +C.
+	\end{align*}
+Therefore
+$$
+	\int \arcsin(x) \d x  = x\arcsin(x) + \sqrt{1-x^2} +C.
+	$$
+	
+III. We begin with the substitution $w = \ln x$, so that $\d w = \frac{1}{x} \d x$. Solving the substitution equation for $x$ yields $x = e^w$, and we have
+		\begin{align*}
+		\int x^{\frac{5}{3}} (\ln x)^2 \d x 
+		&= \int x^{\frac{8}{3}} (\ln x)^2 \cdot \frac{1}{x} \d x  \\
+		&= \int (e^w)^{\frac{8}{3}} w^2 \d w  \\
+		&= \int w^2 e^{\frac{8}{3} w} \d w.
+		\end{align*}
+	We now use integration by parts, with $u = w^2$ and $\d v = e^{\frac{8}{3} w} \d w$, whence $\d u = 2 w \d w$ and $v = \frac{3}{8} e^{\frac{8}{3} w}$. This gives us
+		\begin{align*}
+		\int x^{\frac{5}{3}} (\ln x)^2 \d x
+		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \int \frac{3}{8} (2w) e^{\frac{8}{3} w} \d w  \\
+		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \frac{3}{4} \int w e^{\frac{8}{3} w} \d w.
+		\end{align*}
+	To evaluate the second term, we apply integration by parts one last time with $u = w$, $\d u = \d w$, 	$\d v = e^{\frac{8}{3} w} \d w$ and $v = \frac{3}{8} e^{\frac{8}{3} w}$. This yields
+		\begin{align*}
+		\int x^{\frac{5}{3}} (\ln x)^2 \d x
+		&= \frac{3}{8}w^2 e^{\frac{8}{3} w} - \frac{3}{4} \left( \frac{3}{8} w e^{\frac{8}{3} w} - \frac{3}{8} \int e^{\frac{8}{3} w} \d w \right) \\
+		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \frac{9}{32} w e^{\frac{8}{3} w} + \frac{27}{256} e^{\frac{8}{3} w} + C  \\
+		&= \frac{3}{8} e^{\frac{8}{3} \ln x} \left( (\ln x)^2 - \frac{3}{4} \ln x + \frac{9}{32} \right) + C  \\
+		&= \frac{3}{8} x^{\frac{8}{3}} \left( (\ln x)^2 - \frac{3}{4} \ln x + \frac{9}{32} \right) + C.
+		\end{align*}
+\end{freeResponse}
 
 
 
@@ -100,11 +166,82 @@ I. $\int \sin(3x) e^{7x} \d x$ \hspace{.5in} II. $\int x^5 \cos \left( x^3 \righ
 	
 \end{problem}
 
+\begin{freeResponse}
+I. We begin by letting $I = \int \sin(3x) e^{7x} \d x$.  
+	We then use integration by parts with
+		\[
+		u = e^{7x} \qquad \d v = \sin(3x) \d x
+		\]
+		\[
+		\d u = 7e^{7x} \d x \qquad v = -\frac{1}{3} \cos(3x).
+		\]
+	Then
+		\begin{align*}
+		I = \int \sin(3x) e^{7x} \d x &= -\frac{1}{3} e^{7x} \cos(3x) - \int -\frac{1}{3} (7e^{7x}) \cos(3x) \d x  \\
+		 &= -\frac{1}{3} e^{7x} \cos(3x) + \frac{7}{3} \int e^{7x} \cos(3x) \d x.
+		\end{align*}
+	We then apply integration by parts again, this time with
+		\[
+		u = e^{7x} 		\qquad	\d v = \cos(3x) \d x
+		\]
+		\[
+		\d u = 7e^{7x} \d x 	\qquad	v = \frac{1}{3} \sin(3x).
+		\]
+	This gives us
+		\begin{align*}
+		I &= -\frac{1}{3} e^{7x} \cos(3x) + \frac{7}{3} \left[ \frac{1}{3} e^{7x} \sin(3x) - \int \frac{1}{3} (7e^{7x}) \sin(3x) \d x \right]  \\
+				&= -\frac{1}{3} e^{7x} \cos(3x) + \frac{7}{9} e^{7x} \sin(3x) - \frac{49}{9} \int e^{7x} \sin(3x) \d x  \\
+		&= -\frac{1}{3} e^{7x} \cos(3x) + \frac{7}{9} e^{7x} \sin(3x) - \frac{49}{9} I.
+		\end{align*}
+		Since we are interested in the integral $I$, we solve the above equation for $I$ to obtain
+		$$
+		\frac{58}{9} I = -\frac{1}{3} e^{7x} \cos(3x) + \frac{7}{9} e^{7x} \sin(3x),
+		$$
+		so that 
+		$$
+		I = \frac{9}{58} \left( -\frac{1}{3} e^{7x} \cos(3x) + \frac{7}{9} e^{7x} \sin(3x) \right) + C.
+		$$
+		
+		II. We begin with the substitution $w = x^3$, so that $\d w = 3x^2 \d x$. It follows that 
+		\begin{align*}
+		\int x^5 \cos \left( x^3 \right) \d x 
+		&= \int x^3 \cos \left( x^3 \right) \cdot x^2 \d x  \\
+		&= \int w \cos(w) \cdot \frac{1}{3} \d w  \\
+		&= \frac{1}{3} \int w \cos(w) \d w.
+		\end{align*}
+	We then use integration by parts, with
+		\[
+		u = w 		\qquad	\d v = \cos(w) \d w
+		\]
+		\[
+		\d u = \d w 	\qquad	v = \sin(w),
+		\]
+	which yields
+		\begin{align*}
+		\int x^5 \cos \left( x^3 \right) \d x 
+		&= \frac{1}{3} \left( w \sin(w) - \int \sin(w) \d w \right)  \\
+		&= \frac{1}{3} \left( w \sin(w) + \cos(w) \right) + C  \\
+		&= \frac{1}{3} \left( x^3 \sin \left( x^3 \right) + \cos \left( x^3 \right) \right) + C.  
+		\end{align*}
+\end{freeResponse}
 
 \begin{problem}
 The region $R$ is bounded by the curves $y=0$, $y=\ln (x)$ and $x=e$. Using the shell method, find the volume of the solid formed by rotating $R$ around the $y$-axis.
 \end{problem}
 
+\begin{freeResponse}
+Since we are rotating around a vertical axis and we wish to use the Shell method, our slices should be vertical. The height of the shell at $x$ is given by $\ln (x)$, and our bounds of integration are $x=1$ (corresponding to $y=0$) and $x=e$. The volume integral is 
+$$
+\int_1^e 2 \pi x \ln (x) \d x.
+$$ 
+To evaluate the integral, we use integration by parts with $u = \ln (x)$ and $\d v = x \d x$, so that $\d u = \frac{1}{x} \d x$ and $v = \frac{x^2}{2}$. This gives us 
+\begin{align*}
+\int_1^e 2 \pi x \ln (x) \d x &= \eval{\frac{x^2}{2} \ln x}_1^e - \int_1^e \frac{x}{2} \d x \\
+&= \frac{e^2}{2}\ln(e) - \frac{1}{2}\ln (1) - \eval{\frac{x^2}{4}}_1^e \\
+&= \frac{e^2}{2} - \frac{e^2}{4} + \frac{1}{4} \\
+&= \frac{e^2}{4} + \frac{1}{4}.
+\end{align*}
+\end{freeResponse}
 \end{document} 
 
 

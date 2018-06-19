@@ -1,0 +1,151 @@
+\documentclass[]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../../../preamble.tex}
+
+
+
+\author{Tom Needham}
+
+\outcome{Recognize when a definite integral is improper.}
+\outcome{Determine whether an improper integral converges or diverges.}
+\outcome{Evaluate convergent improper integrals.}
+
+\title[]{Improper Integrals}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.7in}
+
+\section{Discussion Questions}
+
+\begin{problem}
+Determine whether the following integrals are improper.
+\begin{center}
+\begin{tabular}{llll}
+I. $\int_{-1}^1 \frac{1}{x-2} \d x$ \hspace{.2in} II. $\int_{-1}^2 \frac{1}{x-2} \d x$ \hspace{.2in} III. $\int_1^\infty \d x$ \hspace{.2in} IV. $\int_1^3 \sec (x) \d x$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse}
+I. This integral is not improper, since the integrand function is continuous on the closed interval $[-1,1]$.
+
+II. This integral is improper, since $\lim_{x \rightarrow 2^-} \frac{1}{x-2} = -\infty$.
+
+III. This integral is improper, since one of the limits of integration is $\infty$.
+
+IV. This integral is improper, since $y=\sec(x)$ has a vertical asymptote at $x = \frac{\pi}{2}$ and this value is contained in the region of integration.
+\end{freeResponse}
+
+\begin{problem}
+Consider the integral
+$$
+\int_{-1}^1 \frac{1}{x} \d x.
+$$
+A student evaluates the integral using the Fundamental Theorem of Calculus to obtain
+$$
+\int_{-1}^1 \frac{1}{x} \d x = \eval{ \ln |x| }_{-1}^1 = \ln |1| - \ln |-1| = \ln (1)  - \ln (1) = 0.
+$$
+Is the student's work correct? If not, which step in the calculation was unjustified?
+\end{problem}
+
+\begin{freeResponse}
+The student is not correct. One hypothesis of the  Fundamental Theorem of Calculus is that the integrand is continuous over the region of integration. That is not the case here, as $y=\frac{1}{x}$ has a vertical asymptote at $x=0$, which lies within the region of integration. This integral is improper, so more sophisticated methods must be used to evaluate it or to determine that it diverges.
+\end{freeResponse}
+
+
+\section{Group Work}
+
+\begin{problem}
+Evaluate the improper integrals.
+\begin{center}
+\begin{tabular}{ll}
+I. $\int_0^\infty \frac{2x-4}{(x^2+1)(2x+1)} \d x$ \hspace{.5in} II. $\int_{-\infty}^0 x e^x \d x$
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{freeResponse}
+I. The partial fraction decomposition of the integrand is 
+$$
+\frac{2x-4}{(x^2+1)(2x+1)} = \frac{Ax+B}{x^2+1} + \frac{C}{2x+1}.
+$$
+Clearing denominators, we have
+$$
+2x-4 = (Ax+B)(2x+1) + C(x^2+1) = (2A+C)x^2 + (A+2B)x+(B+C).
+$$
+Comparing terms of equal degree, we have
+\begin{align*}
+2A + C &= 0 \\ 
+A + 2B &= 2 \\ 
+B + C &= -4.
+\end{align*}
+Solving these equations, we have $A=2$, $B=0$ and $C=-4$, so that 
+$$
+\frac{2x-4}{(x^2+1)(2x+1)} = \frac{2x}{x^2+1} - \frac{4}{2x+1}.
+$$
+Thus, for any $b \geq 0$, 
+\begin{align*}
+\int_0^b \frac{2x-4}{(x^2+1)(2x+1)}  \d x &= \int_0^b \frac{2x}{x^2+1} - \frac{4}{2x+1} \d x \\
+&= \eval{\ln |x^2+1| - 2\ln |2x+1|}_0^b \\
+&= \ln (b^2+1) - 2 \ln (2b+1) - \ln 1 + 2 \ln 1 \\
+&= \ln (b^2+1) - 2 \ln (2b+1).
+\end{align*}
+To evaluate the improper integral, we take the limit as $b\rightarrow \infty$. Note that the form of this limit will be $\infty - \infty$, so we will exploit log rules to derive the answer. The limit is given by
+\begin{align*}
+\lim_{b\rightarrow \infty} \ln (b^2+1) - 2 \ln (2b+1) &= \lim_{b\rightarrow \infty} \ln \frac{b^2+1}{(2b+1)^2} \\
+&= \ln \left(\lim_{b\rightarrow \infty} \frac{b^2+1}{(2b+1)^2}\right) \\
+&= \ln \frac{1}{4}.
+\end{align*}
+The second-to-last equality uses the continuity of the natural logarithm function and the last equality uses limit rules for evaluating rational functions of polynomials. Therefore 
+$$
+\int_0^\infty \frac{2x-4}{(x^2+1)(2x+1)} \d x = \ln \frac{1}{4}.
+$$
+
+II. For any number $b \geq 0$, we evaluate the integral using integration by parts with $u=x$, $\d u = \d x$, $\d v = e^x \d x$ and $v = e^x$ as
+\begin{align*}
+\int_{-b}^0 x e^x \d x &= \eval{x e^x}_{-b}^0 - \int_{-b}^0 e^x \d x \\
+&= \eval{x e^x - e^x}_{-b}^0 \\
+&= 0 \cdot e^0 - e^0 - (-b)e^{-b} + e^{-b} \\
+&= b e^{-b} + e^{-b} - 1.
+\end{align*}
+To evaluate the improper integral, we take the limit as $b \rightarrow \infty$. The term $e^{-b}$ approaches zero and the term $-1$ is constant. On the other hand, the limit of $b e^{-b}$ is of the form $\infty \cdot 0$, so we rewrite the limit as
+$$
+\lim_{b\rightarrow \infty}b e^{-b} = \lim_{b\rightarrow \infty} \frac{b}{e^b} = \lim_{b\rightarrow \infty} \frac{1}{e^b} = 0.
+$$
+The second equality follows from an application of L'Hopital's rule. We conclude that 
+$$
+\int_{-\infty}^0 x e^x \d x = -1.
+$$
+\end{freeResponse}
+
+
+\end{document}

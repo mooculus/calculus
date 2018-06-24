@@ -44,11 +44,48 @@ Before we begin, we recall that in order to find the volume of a hollowed out cy
 \[
 \textrm{Volume} = \pi R^2h-\pi r^2h=\pi(R^2-r^2)h 
 \]
-Note that the volume of a hollow cylinder requires only these geometric quantities of interest; it does not require that we work with a coordinate system.  However, in order to use calculus, we must work with functions.  We thus will recognize that our solids of revolution will be formed by revolving regions in the $xy$-plane, whose boundaries are functions of $x$ or $y$, about an axis of rotation.  Hence, one of the essential skills will be a familiar one; we must express the geometric quantities of interest (inner and outer radii and height) in terms of our variable of integration.
+Note that the volume of a hollow cylinder requires only these geometric quantities of interest; it does not require that we work with a coordinate system.  To use calculus, however, we must work with functions described using a coordinate system.  We thus will create solids of revolution by revolving regions in the $xy$-plane about an axis of rotation.  One of the essential skills to find the resulting volumes will be a familiar one; we must express the geometric quantities of interest ($R$, $r$, and $h$ here) in terms of our variable of integration.
 
 \section{The Washer Method}
 
-A solid of revolution is formed by revolving the region bounded $y=x^2-4$, $x=1$, and $y=5$ about the $y$-axis.  
+To illustrate the first method, we start with a motivating example:  
+
+\paragraph{Motivating Example} Consider the region in the $xy$-plane bounded by $y=x^2-4$, $x=1$, and $y=5$: 
+
+ \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=6.8,xmax=4.2, ymin=-.8, xmin=-.8,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,domain=0:9,very thick,smooth] {x^2-4};
+	        \addplot [draw=penColor5,very thick,smooth] {5};
+	        \addplot [draw=penColor2,very thick,smooth] coordinates {(1,-10)(1,10)};
+            	\addplot [draw=penColor2,very thick,dashed] coordinates {(0,-10)(0,10)};
+	                            
+            	\addplot [name path=A,domain=1:3,draw=none,samples=200] {5};   
+            	\addplot [name path=B,domain=1:2,draw=none,samples=200] {0};
+	        \addplot [name path=C,domain=2:3,draw=none] {x^2-4};
+            	\addplot [fillp] fill between[of=A and B];
+	        \addplot [fillp] fill between[of=C and A];
+	        
+	         \addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.51,2.3)(1,2.3)(1,2)};
+	         
+                                   
+            	\node at (axis cs:3,1) [penColor] {$x=\sqrt{y+4}$};
+            	\node at (axis cs:3.5,4.6) [penColor5] {$y=5$};
+		\node at (axis cs:1.5,5.4) [penColor2] {$x=1$};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+
+A solid of revolution is formed by revolving this region about the $y$-axis:  
 
  \begin{image}
             \begin{tikzpicture}
@@ -119,40 +156,9 @@ The geometry of the base region suggests that it is advantageous to use horizont
 
 We indicate a prototypical slice of thickness $\Delta y$ at an unspecified $y$-value on the base:
 
- \begin{image}
-            \begin{tikzpicture}
-            	\begin{axis}[
-            		domain=-10:10, ymax=6.8,xmax=4.2, ymin=-.8, xmin=-.8,
-            		axis lines =center, xlabel=$x$, ylabel=$y$,
-            		every axis y label/.style={at=(current axis.above origin),anchor=south},
-            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            		axis on top,
-            		]
-                      
-            	\addplot [draw=penColor,domain=0:9,very thick,smooth] {x^2-4};
-	        \addplot [draw=penColor5,very thick,smooth] {5};
-	        \addplot [draw=penColor2,very thick,smooth] coordinates {(1,-10)(1,10)};
-            	\addplot [draw=penColor2,very thick,dashed] coordinates {(0,-10)(0,10)};
-	                            
-            	\addplot [name path=A,domain=1:3,draw=none,samples=200] {5};   
-            	\addplot [name path=B,domain=1:2,draw=none,samples=200] {0};
-	        \addplot [name path=C,domain=2:3,draw=none] {x^2-4};
-            	\addplot [fillp] fill between[of=A and B];
-	        \addplot [fillp] fill between[of=C and A];
-	        
-	         \addplot [draw=black,fill=gray!50,thick] coordinates {(1,2)(2.45,2)(2.51,2.3)(1,2.3)(1,2)};
-	         
-                                   
-            	\node at (axis cs:3,1) [penColor] {$x=\sqrt{y+4}$};
-            	\node at (axis cs:3.5,4.6) [penColor5] {$y=5$};
-		\node at (axis cs:1.5,5.4) [penColor2] {$x=1$};
-	    
-	      \end{axis}
-            \end{tikzpicture}
-            \end{image}
 
 \paragraph{Step 2: Approximate}
-We approximate the slice on the base as a rectangle:
+We approximate the slice on the base by a rectangle:
 
  \begin{image}
             \begin{tikzpicture}
@@ -289,7 +295,7 @@ Our goal is now to express both $R$ and $r$ in terms of the unspecified $y$-valu
 \choice{the distance from the axis of rotation to the inner curve.}
 \end{multipleChoice}
 
-From our picture, we see that the outer radius $r$ is:
+and the inner radius $r$ is:
 
 \begin{multipleChoice}
 \choice{the distance from the axis of rotation to the outer curve.}
@@ -299,8 +305,8 @@ From our picture, we see that the outer radius $r$ is:
 Both of these distances are:
 
 \begin{multipleChoice}
-\choice[correct]{horizontal distances}
-\choice{vertical distances}
+\choice[correct]{horizontal distances.}
+\choice{vertical distances.}
 \end{multipleChoice}
 
 We now label these on the image of the base:
@@ -335,7 +341,7 @@ We now label these on the image of the base:
                  %Draws R and r
                   \addplot [draw=penColor,thick] coordinates {(0,3)(2.64,3)};
                   \node at (axis cs:1.8,3.3) [penColor] {$R$};
-                  \addplot [draw=penColor,thick] coordinates {(0,2.5)(2.55,2.5)};
+                  \addplot [draw=penColor,thick] coordinates {(0,2.5)(1,2.5)};
                    \node at (axis cs:1.5,2.7) [penColor] {$r$};
                    
                  %labels functions                  
@@ -351,19 +357,21 @@ We can find both $R$ and $r$ now the way we always find horizontal distance.
 
 For the outer radius $R$:
 
-The righthand curve is given by:
+\begin{itemize}
+\item The righthand curve is given by:
 \begin{multipleChoice}
 \choice[correct]{$x_{right} = \sqrt{y+4}$}
 \choice{$x_{right} = 1$}
 \choice{$x_{right} = 0$}
 \end{multipleChoice}
 
-The lefthand curve is given by:
+\item The lefthand curve is given by:
 \begin{multipleChoice}
 \choice{$x_{left} = \sqrt{y+4}$}
 \choice{$x_{left} = 1$}
 \choice[correct]{$x_{left} = 0$}
 \end{multipleChoice}
+\end{itemize}
 
 Thus $R = x_{right}-x_{left} = \answer[given]{\sqrt{y+4}-0}$.
             
@@ -372,7 +380,7 @@ Following similar logic for the inner radius $r$ gives: $r = x_{right}-x_{left} 
 The volume of our single approximate slice is thus:
 
 \[
-\Delta V = \pi((\sqrt{y+4})^2-(1)^2)\Delta y = \pi(y+3)\Delta y
+\Delta V = \pi\left[\left(\sqrt{y+4}\right)^2-(1)^2\right]\Delta y = \pi(y+3)\Delta y
 \]   
    
 and the approximate total volume using $n$ slices is found by adding the volume of each slice:
@@ -380,6 +388,8 @@ and the approximate total volume using $n$ slices is found by adding the volume 
 \[
 V = \sum_{k=1}^n \pi(y_k+3)\Delta y_k
 \]      
+
+where $y_k$ is the $y$-value chosen for the $k$-th slice and $\Delta y_k$ is the thickness of that slice.
    
 \paragraph{Step 3: Integrate}
 In order to find the exact volume, we simultaneously must shrink the width of our slices while adding all of the volumes together.  As usual, the definite integral allows us to do this, and we may write:
@@ -389,12 +399,11 @@ V= \int_{y=0}^{y=5} \pi(y+3) \d y
 \]    
 Evaluating this integral gives that the total volume is $\answer[given]{\frac{55}{2}\pi}$.   
 
-\begin{remark}
-Recall that an infinitesimal washer is a hollow cylinder whose inner and outer radii are finite and whose height is infinitesimal.  In order to obtain this type of hollow cylinder, the slices must be \emph{perpendicular} to the axis of rotation.
-\end{remark}
 
 %%%%NEW SECTION%%%%%%%%%%
 \section{The Washer method formula}
+Recall that an infinitesimal slice is  a washer if its inner and outer radii are finite and whose height is infinitesimal.  In order to obtain this type of hollow cylinder, the slices must be \emph{perpendicular} to the axis of rotation.
+
 We can summarize the results of the above argument nicely:
 
 \begin{formula}
@@ -405,17 +414,17 @@ V=\int_{x=a}^{x=b} \pi(R^2-r^2) \d x \qquad \textrm{ or } \qquad V=\int_{y=c}^{y
 \]
 where the outer radius $R$ is the distance from the axis of rotation to the outer curve and the inner radius $r$ is the distance from the axis of rotation to the inner curve.
 
-The variable of integration is chosen by requiring that the slices be perpendicular to the axis of rotation.
+The variable of integration is determined by the requirment that the slices be perpendicular to the axis of rotation.
 \end{formula}   
    
 To see how this formula works in action, let's consider an example where we take the same region and revolve it about different lines:
 
 \begin{example}
 
-Let $R$ be the region in the $xy$-plane bounded by $y=0$, $y=\sqrt{x}$, and $x=2$.  Use the Washer Method to set up an integral that gives the volume of the solid of revolution when $R$ is revolved about the following line $x=4$
+Let $R$ be the region in the $xy$-plane bounded by $y=0$, $y=\sqrt{x}$, and $x=2$.  Use the Washer Method to set up an integral that gives the volume of the solid of revolution when $R$ is revolved about the following line $x=4$.
 
 \begin{explanation}
-To use the Washer Method, the slices must be perpendicular to the axis of rotation.  This means that the slices are horizontal and we must integrate with respect to $y$.  We draw and label a picture, making sure to express all curves as functions of $y$:
+To use the Washer Method, the slices must be perpendicular to the axis of rotation.  This means that the slices are horizontal and we must integrate with respect to $y$.  We draw and label a picture, making sure to describe all curves using functions of $y$:
 
 
             \begin{image}
@@ -458,14 +467,15 @@ Since we must integrate with respect to $y$, we will use the result:
 
 \[V = \int_{y=c}^{y=d} \pi\left(R^2-r^2\right) \d y \]
 
-to set up the volume.  We must now find the limits of integration as express the outer radius $R$ and the inner radius $r$ in terms of the variable of integration $y$. 
+to set up the volume.  We must now find the limits of integration and express the outer radius $R$ and inner radius $r$ in terms of the variable of integration $y$. 
 
 The limits of integration are: $c = \answer[given]{0}$ and $d = \answer[given]{\sqrt{2}}$. 
-            
+
+          
  We see from the picture that both $R$ and $r$ are:
  \begin{multipleChoice}
- \choice{vertical distances}
- \choice[correct]{horizontal distances}
+ \choice{vertical distances.}
+ \choice[correct]{horizontal distances.}
  \end{multipleChoice}           
             
 
@@ -475,7 +485,7 @@ Thus, the volume integral to be evaluated is:
         
 	\[
 	V= \int_{y=\answer[given]{0}}^{y=\answer[given]{\sqrt{2}}}
-	\answer[given]{\pi \left((4-y^2)^2-(2)^2\right)}\d y
+	\answer[given]{\pi \left[(4-y^2)^2-(2)^2\right]}\d y
 	\]
 
 
@@ -493,7 +503,7 @@ To use the Washer Method, the slices must be perpendicular to the axis of rotati
 \choice{the slices are horizontal.  We should integrate with respect to $y$.}
 \end{multipleChoice}
 
-We draw and label a picture, making sure to express all curves as functions of $x$:
+We draw and label a picture, making sure to describe all curves by functions of $x$:
 
 
             \begin{image}
@@ -545,17 +555,17 @@ The limits of integration are: $a = \answer[given]{0}$ and $b = \answer[given]{2
             
  We see from the picture that both $R$ and $r$ are:
  \begin{multipleChoice}
- \choice[correct]{vertical distances}
- \choice{horizontal distances}
+ \choice[correct]{vertical distances.}
+ \choice{horizontal distances.}
  \end{multipleChoice}           
             
 
-So, we can compute both by taking $y_{top}-y_{bot}$, and by noting that the bottom $y$-values lie on the axis $y=-1$.  This gives $R= \answer[given]{\sqrt{x}-(-1)}$ and $r= \answer[given]{0-(-1)}$.
+So, we can compute both by taking $y_{top}-y_{bot}$.  Since the bottom $y$-values lie on the axis of rotation $y=-1$, $R= \answer[given]{\sqrt{x}-(-1)}$ and $r= \answer[given]{0-(-1)}$.
 
 Thus, the volume integral to be evaluated is:
             
 	\[
-	V= \int_{x=\answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\pi \left((2+\sqrt{x})^2-(1)^2\right)}\d x
+	V= \int_{x=\answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\pi \left[\left(2+\sqrt{x}\right)^2-(1)^2\right]}\d x
 	\]
 
 
@@ -590,7 +600,7 @@ Some volumes of revolution require more than one integral using the Washer Metho
             	\addplot [fillp] fill between[of=A and B];
 	                      
 		
-		\node at (axis cs:.4,-.2) [penColor] {$\frac{\pi}{8}$};
+		\node at (axis cs:.4,-.3) [penColor] {$\frac{\pi}{8}$};
        		\node at (axis cs:.4,2.2) [penColor] {$y=2-x^2$};
        		\node at (axis cs:1.2,1.5) [penColor2] {$x=1$};
 				
@@ -642,7 +652,7 @@ We indicate a prototypical slice of thickness $\Delta x$ at an unspecified $x$-v
             \end{image}     
 
 \paragraph{Step 2: Approximate}
-We approximate the slice on the base as a rectangle:
+We approximate the slice on the base by a rectangle:
 
 
     \begin{image}
@@ -901,7 +911,7 @@ In order to understand how to write the volume $\Delta V$ of a slice, we note th
 \Delta V = \pi (R^2-r^2)h = \pi(R+r)(R-r)h = \pi(R+r)h \Delta x
 \] 
 
-As the slice width shrinks, we see that $R$ and $r$ become indistinguishable, so we can replace them with their average value $\rho = \frac{R+r}{2}$, and write:
+As the slice width shrinks, we see that $R$ and $r$ become indistinguishable, so we can replace them with their average value $\rho = \frac{R+r}{2}$, which is the midpoint of the slice, and write:
 
 \[
 \Delta V = \pi (R+r)h \Delta x = \pi (2 \cdot \frac{R+r}{2} )h \Delta x  = 2\pi \rho h \Delta x

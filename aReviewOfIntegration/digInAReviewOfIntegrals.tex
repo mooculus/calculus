@@ -1,0 +1,251 @@
+\documentclass[nooutcomes]{ximera}
+\author{Jim Talamo and Bart Snapp}
+\input{../preamble.tex}
+
+
+\outcome{Review the basic rules of integration.}
+\outcome{Review the definition of an antiderivative.}
+\outcome{Review the relationship between differentiation and antidifferentiation.}
+\outcome{Review the meaning of a definite integral.}
+\outcome{Review the Fundamental Theorem of Calculus.}
+
+\title[Dig-In:]{A review of integration}
+
+\begin{document}
+\begin{abstract}
+  We review differentiation and integration.
+\end{abstract}
+\maketitle
+
+\section{Antiderivatives}
+
+As a summary, one of the important questions of differential calculus is ``Given a function, what is its derivative?"  There is an important related question in integral calculus that requires ``undoing" the process of differentiation; that is, ``Given $f'(x)$, what are the possibilities for $f(x)$?"   This is made precise by the following definition:
+
+\begin{definition}\index{Antiderivative}  
+Given a function $f(x)$, we say that $F(x)$ is an \dfn{antiderivative} of $f(x)$ if $F'(x) = f(x)$.
+\end{definition}
+
+ There is an important, but subtle way this definition is phrased; note that we used the phrase ``an antiderivative" and not ``the antiderivative".  To expound:
+ 
+ \begin{question}
+  Which of the following are antiderivatives of $2x$?
+  \begin{selectAll}
+    \choice[correct]{$x^2+5$}
+    \choice[correct]{$x^2-3$}
+    \choice{$2x^2+3$}
+    \choice{$2-x^2$}
+  \end{selectAll}
+\end{question}
+
+Notice that there are several choices for antiderivatives of $x^2$.  So, how could these antiderivatives differ?  The answer is a consequence of the Mean Value Theorem, and we state the result below:
+%%%Include exercise exploring MVT%%%%%%%
+%%% Geometric reasoning %%%%%%
+
+\begin{theorem}[Antiderivatives differ by a constant]
+Let $f(x)$ be a function for which $F(x)$ and $G(x)$ are antiderivatives.  Then, there is a constant $C$ such that $F(x) = G(x) +C$. 
+\end{theorem}
+
+This theorem guarantees that the antiderivatives of a function $f(x)$ are the same up to an additive constant, which allows us to introduce the following notation:
+
+%%%%%EXERCISE: integrate 1/(3x) two ways%%%%%%%%%%
+
+\begin{definition}
+Let $f(x)$ be a function.  The collection of \emph{all} antiderivatives of $f(x)$ is denoted by the symbol $\int f(x) \d x$. 
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{theorem}[Basic Indefinite Integrals]\index{antiderivatives}\index{indefinite integral}\hfil
+\begin{itemize}
+\item $\int k \d x= k x+C$
+\item $\int \frac{1}{x} \d x= \ln|x|+C$
+\item $\int x^n \d x= \answer[given]{\frac{x^{n+1}}{n+1}}+C\qquad(n\ne-1)$
+\item $\int e^x \d x= \answer[given]{e^x} + C$
+\item $\int \cos(x) \d x = \answer[given]{\sin(x)} + C$
+\item $\int \sin(x) \d x = \answer[given]{-\cos(x)} + C$  
+\item $\int \sec^2(x) \d x =\tan(x) + C$
+\item $\int \csc^2(x) \d x = -\cot(x) + C$
+\item $\int \sec(x)\tan(x) \d x = \answer[given]{\sec(x)} + C$
+\item $\int \csc(x)\cot(x) \d x = -\csc(x) + C$
+\item $\int \frac{1}{x^2+a^2}\d x = \frac{1}{a}\arctan\left(\frac{x}{a}\right) + C$
+\item $\int \frac{1}{\sqrt{a^2-x^2}}\d x= \arcsin\left(\frac{x}{a}\right)+C$
+\end{itemize}
+\end{theorem}
+
+%%%%%%%%%%%%
+
+Many of the helpful rules that allow us to find derivatives of more complicated functions are not easily reversible.  We do have the following:
+
+\begin{theorem}[Antiderivative Rules] 
+Suppose that $f(x)$ and $g(x)$ are functions and $k$ is a constant:
+\begin{itemize}
+\item (Addition) $\int \left(f(x) + g(x) \right) \d x = \int f(x) \d x+\int g(x)  \d x$
+\item (Scalar Multiplication) $\int \left(k f(x)\right) \d x = k \int f(x) \d x$
+\end{itemize}
+\end{theorem}
+
+%%%%%%%%%%%
+\begin{question} 
+  Find $\int \left(4x^2 + \dfrac{1}{4+x^2} \right)\d x$.
+  \begin{prompt} 
+    \[
+    \int \left(4x^2 + \dfrac{1}{4+x^2} \right) \d x  = \answer[given]{\frac{4}{3} x^3 + \frac{1}{2}\arctan\left(\frac{x}{2}\right)} +C 
+    \]
+  \end{prompt}
+\end{question}
+
+ %%%%%%%%%%%
+
+
+Unfortunately, there is no simple rule that allows us to compute antiderivatives of general products, quotients, or compositions of arbitrary functions as there were with differentiation. 
+
+
+\begin{example}
+  A student claims that $\int 2x \cos(x) \d x = x^2 \sin(x) +C$.  Determine whether the student is correct or incorrect.
+  
+  \begin{explanation}
+    If the student were correct, then the derivative of $x^2 \sin(x) +C$ with respect to $x$ would have to be $2x \cos(x)$.  However:
+    
+      \[\ddx \left[x^2 \sin(x)\right]= \answer[given]{2x \sin(x) +x^2 \cos(x)} \]
+      
+While this looks different from the original function in the integrand, this does not mean that they are necessarily different.  We can verify that they are not the same by checking that they do not agree at a particular $x$-value.  Notice that when $x=\pi$:
+ 
+ \begin{itemize}
+ \item For the function $f(x) = 2x \cos(x)$, $f(\pi) = \answer[given]{-2\pi}$.
+ \item For the function $g(x) = 2x \sin(x) +x^2 \cos(x)$, $g(\pi) = \answer[given]{-\pi^2}$.
+ \end{itemize}
+ The functions are different and the student is incorrect.
+  \end{explanation}
+\end{example}
+
+\begin{remark}
+Finding antiderivatives is an integral part of integral calculus.  If you are unsure whether you have found the correct antiderivatives of a function, you should check your work simply by taking the derivative of your proposed antiderivative.  
+\end{remark}
+
+\begin{question}
+  Consider $f(x) = \cos(\sqrt{x})$. Which of the following is $\int f(x) \d x$?  
+  \begin{selectAll}
+    \choice{$\sin(\sqrt{x}) +C$}
+    \choice{$\dfrac{1}{\sqrt{x}}\sin(\sqrt{x}) +C$}
+    \choice{$-\dfrac{1}{2 \sqrt{x}} \sin (\sqrt{x})+C$}
+    \choice[correct]{$2 \cos(\sqrt{x}) + 2 \sqrt{x} \sin(\sqrt{x}) +C$}
+    \choice{None of these}
+  \end{selectAll}
+  
+  \begin{feedback}
+  Note that you do not have to know how to antidifferentiate $\cos\left(\sqrt{x}\right)$ to solve this problem.  In fact, the technique requires to evaluate this indefinite integral will be discussed in a later section. However, by differentiating each of the expressions, you can verify which of the is the correct family of antiderivatives.
+  \end{feedback}
+\end{question}
+
+The following is a question that employs the same logic, but is phrased a bit differently:
+
+\begin{example}
+ Find a function $f(x)$ such that $\int f(x) \d x = xe^x +C$.
+  
+  \begin{explanation}
+    We are looking for a function $f(x)$ whose \emph{antiderivatives} are $xe^x +C$.  To do this, we simply have to take the derivative of the righthand side; since $\int f(x) \d x =xe^x +C$, then $f(x) = \ddx\left(\answer[given]{xe^x +C}\right) =\answer[given]{e^x + xe^x}$.
+    
+    \end{explanation}
+\end{example}
+
+
+%%%%%%%%%END%%%%%%%%
+%\begin{question}
+  %Which of the following are an antiderivative of $\frac{1}{x\ln(x^2)}$?
+  %\begin{selectAll}
+    %\choice[correct]{$\frac{1}{2}\ln(\ln(x^2))$}
+    %\choice[correct]{$\frac{\ln(2) + \ln(\ln(x))}{2}$}
+    %\choice[correct]{$\frac{\ln(\ln(x))}{2}$}
+    %\choice[correct]{$\frac{\ln(7\cdot \ln(x))}{2}$}
+    %\choice[correct]{$\frac{\ln(\ln(x^3))}{2}$}
+  %\end{selectAll}
+%\end{question}
+
+%%%%%%%%%%%%%%%Exercises%%%%%%%%%%%%%%
+
+\section{Definite Integrals}
+For continuous functions, the Fundamental Theorem of Calculus provides the link between the process of antidifferentiation and finding certain areas.  Recall that for functions $f(x)$ continuous on a closed interval $[a,b]$, the symbol $\int_a^b f(x) \d x$ denotes the net area bounded by $y=f(x)$ and the $x$-axis between $x=a$ and $x=b$.  By ``net area'', recall that area above the $x$-axis is considered positive, and area below it is considered negative.  
+
+Computing this area initially had to be done by setting up Riemann sums and finding limits of them, but thankfully, there is a much more efficient way to do this:  
+
+
+\begin{theorem}[Fundamental Theorem of Calculus]\index{Fundamental Theorem of Calculus}
+  Let $f$ be continuous on $[a,b]$. If $F$ is \textbf{any}
+  antiderivative of $f$, then
+  \[
+  \int_a^b f(x)\d x = F(b)-F(a).
+  \]
+\end{theorem}
+
+\begin{example}
+Calculate $\int_0^{3} x^2-2x \d x.$  
+
+\begin{explanation}
+Note that $\int x^2-2x \d x = \answer[given]{\frac{1}{3}x^3-x^2}+C$, so by the Fundamental Theorem of Calculus:
+
+\[
+\int_0^3 x^2-2x \d x = \eval{\frac{1}{3}x^3-x^2 }_0^3 = \answer{0}
+\]
+\end{explanation}
+
+We can draw a picture that represents the net area we just found:
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-.5:3.5, ymax=3.8,xmax=3.5, ymin=-1.5, xmin=-.5,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={1,2,3}, ytick={-1,1,2,3}, 
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {x^2-2*x};
+	
+	\node at (axis cs:1.8,1.5) [penColor] {$y=x^2-2x$};
+	
+	\addplot [name path=A,domain=0:2,draw=none] {x^2-2*x};   
+	\addplot [name path=B,domain=0:2,draw=penColor,thick] {0};
+	\addplot [penColor2!30] fill between[of=A and B];
+	
+	\addplot [name path=C,domain=2:3,draw=none] {x^2-2*x};   
+	\addplot [name path=D,domain=2:3,draw=penColor,thick] {0};
+	\addplot [penColor!30] fill between[of=C and D];
+
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+Note that the area $A_1$ below the $x$-axis is negative, and can be found by computing $\int_0^2 x^2-2x \d x = \answer[given]{-\frac{4}{3}}$.  The area $A_2$ above the $x$-axis is positive, and can be found by computing $\int_2^3 x^2-2x \d x = \frac{4}{3}$.  Thus, the \emph{total} area is $-A_1+A_2 = \frac{8}{3}$, while the \emph{net} area is $0$.  
+\end{example}
+
+As a final remark, note that the Fundamental Theorem of Calculus comes with assumptions.  It can only be used if the integrand is continuous on the closed interval of integration and that interval is finite.
+
+\begin{example}
+Consider the function $f(x) = \frac{1}{x-3}$.  
+
+Can the Fundamental Theorem of Calculus be directly applied to find $\int_0^1 f(x) \d x$?
+
+\begin{explanation}
+Yes; the function $f(x) = \frac{1}{x-3}$ is continuous everywhere except at $x=\answer[given]{3}$, so it is continuous on the closed interval $[0,1]$ of integration. 
+\end{explanation}
+
+Can the Fundamental Theorem of Calculus be directly applied to find $\int_0^4 f(x) \d x$?
+
+\begin{explanation}
+No; the function $f(x) = \frac{1}{x-3}$ is not continuous at $x=3$, so it is not continuous on the interval of integration here. 
+\end{explanation}
+
+\end{example}
+
+\begin{remark}
+We will return to study integrals like the last one in the previous example in a future section.  For now, it is only important that you remember that the Fundamental Theorem of Calculus has requirements.
+\end{remark}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

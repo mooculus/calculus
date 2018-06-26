@@ -1,0 +1,96 @@
+\documentclass{ximera}
+\input{../../preamble.tex}
+\author{Bart Snapp}
+\license{Creative Commons 3.0 By-NC}
+\outcome{Set up and evaluate a volume integral using the Washer Method}
+\begin{document}
+
+\begin{exercise}
+  The cross-section of a glass can be modeled by the function $r(x) =
+  \frac{x^4}{3}$, with units in centimeters:
+  \begin{image}
+    \begin{tikzpicture}[
+        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
+      \begin{axis}[
+          xmin =-4,xmax=4,ymax=23,ymin=-.2,
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+        ]
+        \addplot [draw=none,fill=fill1!50!white,domain=-2.65:2.65, smooth] {.8*sqrt(2.65^2-x^2)+16.8} \closedcycle;
+        \addplot [draw=none,fill=fill1,domain=-2.65:2.65, smooth] {-.8*sqrt(2.65^2-x^2)+16.8} \closedcycle; 
+        \addplot [draw=none,fill=white,domain=-2.7:2.7, smooth] {f(x)} \closedcycle;
+        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
+
+        \draw[penColor,very thick] (axis cs:0,16.8) ellipse (265 and 20);
+        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
+
+        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Follow the steps below to determine at what height would one need to place a mark indicating
+  $250\unit{ml}$ of fluid:
+  
+  To start, we should be looking at the following cross-section:
+    \begin{image}
+    \begin{tikzpicture}[
+        declare function = {f(\x) = (1/3)* pow(\x,4);} ]
+      \begin{axis}[
+          xmin =-4,xmax=4,ymax=23,ymin=-.2,
+          axis lines=center, xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          axis on top,
+        ]
+        
+        
+        \addplot [ultra thick,penColor, smooth,domain=-2.75:2.75] {f(x)};
+
+        \draw[penColor,very thick,fill=fill1] (axis cs:0,16.2) ellipse (265 and 20);
+        \draw[penColor,very thick,fill=fill1] (axis cs:0,16.8) ellipse (265 and 20);
+        
+        \draw[penColor,very thick] (axis cs:0,19) ellipse (275 and 20);
+        
+        \draw[decoration={brace,mirror,raise=.1cm},decorate,thin] (axis cs:2.7,15.9)--(axis cs:2.7,16.9);  
+        \node[anchor=west] at (axis cs:2.9,16.5) {$\Delta y$};
+
+        \node[black] at (axis cs:2.5,3) {$y=\frac{x^4}{3}$};       
+      \end{axis}
+    \end{tikzpicture}
+    \end{image}
+    The radius of the disk, given any value of $y$ is given by
+    $\answer[given]{(3y)^{1/4}}$. Hence the volume of the
+    infinitesimal disk is
+    \[
+    \d V = \pi (\answer[given]{(3y)^{1/4}})^2 \d y
+    \]
+   
+   
+   \begin{exercise}
+   Summing these all together via integration we find:
+    \begin{align*}
+      \int_0^h \pi ((3y)^{1/4})^2 \d y &= \int_0^h \pi\answer[given]{3^{1/2} y^{1/2}} \d y\\
+      &= \eval{\answer[given]{\frac{2\pi y^{3/2}}{\sqrt{3}}}}_0^h \textrm{ by evaluating the antiderivative.} \\
+      &= \answer[given]{\frac{2\pi h^{3/2}}{\sqrt{3}}} 
+    \end{align*}
+    
+    \begin{exercise}
+    
+    Now that we have a formula for volume, we need to see when it is
+    equal to $250$. Write with me:
+    \begin{align*}
+       \frac{2\pi h^{3/2}}{\sqrt{3}} &= 250\\
+        h^{3/2} &=  \answer{\frac{\sqrt{3} \cdot 125}{\pi}},\\
+      h &= \answer{\left(\frac{\sqrt{3} \cdot 125}{\pi}\right)^{2/3}}
+    \end{align*}
+    
+    Using a calculator to approximate this height to 2 decimal places, we see that we should put our mark at approximately $16.8$ centimeters.
+
+\end{exercise}
+\end{exercise}
+\end{exercise}
+
+
+\end{document}

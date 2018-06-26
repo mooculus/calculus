@@ -1,0 +1,253 @@
+\documentclass[nooutcomes]{ximera}
+\author{Jim Talamo and Bart Snapp}
+\input{../preamble.tex}
+
+
+\outcome{Review the basic rules of differentiation.}
+\outcome{Review the relationship between the derivative and tangent lines.}
+
+%I want a separate section that reviews the FTC
+
+\title[Dig-In:]{A review of integration}
+
+\begin{document}
+\begin{abstract}
+  We review differentiation and integration.
+\end{abstract}
+\maketitle
+
+
+\section{Review of derivative rules}
+
+One of the fundamental objects of differential calculus is the \emph{derivative}.  As a reminder, here are some important results:
+
+\index{derivative rules} 
+  Let $n\ne 0$, $k$ be a constant and $a>0$.
+
+
+\paragraph{Powers of $x$:}
+\begin{itemize}
+\item $\ddx k =0$
+\item $\ddx x^n  = \answer{n x^{n-1}}$
+\end{itemize}
+
+\paragraph{Exponentials:}
+\begin{itemize}
+\item $\ddx e^x = \answer{e^x}$
+\item $\ddx a^x = a^x\ln(a)$
+\end{itemize}
+
+\paragraph{Logarithms:}
+\begin{itemize}
+\item $\ddx \ln(x) = \frac{1}{x}$
+\item $\ddx \log_a (x) = \frac{1}{\ln a} \frac{1}{x}$
+\end{itemize}
+
+\paragraph{Trigonometric Functions:}
+\begin{itemize}
+\item $\ddx \sin(x) = \answer{\cos(x)}$
+\item $\ddx \cos(x) = \answer{-\sin(x)}$  
+\item $\ddx \tan(x) = \sec^2(x)$  
+\item $\ddx \sec(x) = \answer{\sec(x)\tan(x)}$ 
+\item $\ddx \csc(x) = -\csc(x)\cot(x)$
+\item $\ddx \cot(x) = \answer{-\csc^2(x)}$
+\end{itemize}
+
+\paragraph{Inverse Trigonometric Functions:}
+\begin{itemize}
+\item $\ddx \arcsin(x) = \frac{1}{\sqrt{1-x^2}}$
+\item $\ddx \arccos(x) = \frac{-1}{\sqrt{1-x^2}}$
+\item $\ddx \arctan(x) =\frac{1}{1+x^2}$
+%\item $\ddx \arcsec(x) = \frac{1}{|x|\sqrt{x^2-1}}$ for $|x|>1$
+%\item $\ddx \arccsc(x) = \frac{-1}{|x|\sqrt{x^2-1}}$ for $|x|>1$
+%\item $\ddx \arccot(x) = \frac{-1}{1+x^2}$
+\end{itemize}
+
+
+
+\begin{question} 
+  Using the above rules only, what is the derivative of $\frac{1}{\sqrt[4]{x^3}}$ with respect to $x$?
+  \begin{prompt} 
+    \[
+    \ddx \left[\frac{1}{\sqrt[4]{x^3}}\right] = \answer[given]{- \frac{3}{4} x^{-7/4}}
+    \]
+  \end{prompt}
+\end{question}
+
+
+Once the derivatives of basic functions have been established, we can use them to build the derivatives of more complicated functions:
+
+
+\begin{theorem}[Derivatives of combinations of basic functions]
+  Let $f(x)$ and $g(x)$ be differentiable functions.
+\begin{itemize}
+\item Addition: $\ddx \left( f(x) + g(x) \right) = f'(x) + g'(x)$
+\item Scalar Multiplication: $\ddx \left( af(x) \right) = a f'(x)$
+\item Product Rule: $\ddx \left( f(x) \cdot g(x) \right) = f(x)g'(x) + f'(x)g(x)$
+\item Quotient Rule: $\ddx \frac{f(x)}{g(x)} = \frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}$
+\item Chain Rule: $\ddx f(g(x)) = f'(g(x)) \cdot g'(x)$
+\end{itemize}
+%\end{multicols}
+\end{theorem}
+
+%%%%%%%%%%%
+\begin{question} 
+  What is the derivative of $4x^2 +\frac{2}{3\sqrt{x}} $ with respect to $x$?
+  \begin{prompt} 
+    \[
+    \ddx \left(4x^2 +\frac{2}{3\sqrt{x}} \right) = \answer[given]{8x -\frac{1}{3} x^{-3/2}}
+    \]
+  \end{prompt}
+\end{question}
+
+ %%%%%%%%%%%
+ 
+%%%%%%%%%%%
+\begin{question} 
+  What is the derivative of $x^2 \sin(x) $ with respect to $x$?
+  \begin{prompt} 
+    \[
+    \ddx x^2 \sin(x) = \answer[given]{2x \sin(x) +x^2 \cos(x)}
+    \]
+  \end{prompt}
+\end{question}
+
+% %%%%%%%%%%%
+%\begin{question} 
+%  What is the derivative of $\frac{e^x}{x^2+1}$ with respect to $x$?
+%  \begin{prompt} 
+%    \[
+%    \ddx \frac{e^x}{x^2+1} = \answer[given]{\frac{( x^2 - 2x +1)e^x}{(x^2+1)^2}}
+%    \]
+%  \end{prompt}
+% %%%%%%%%%%% 
+%\end{question}\begin{question} 
+%  What is the derivative of $\arcsin\left(\frac{x}{a}\right)$ with respect to $x$?
+%  \begin{prompt} 
+%    \[
+%    \ddx \arcsin\left(\frac{x}{a}\right) = \answer[given]{\frac{1}{a \sqrt{1-(x/a)^2}}}
+%    \]
+%  \end{prompt}
+%\end{question}
+
+\section{Derivatives and Tangent Lines}
+
+While there are many useful applications of derivatives, on of the most important ones is the relationship between derivatives and tangent lines.
+
+Suppose that $f(x)$ is a differentiable function on an interval $I$.  If we pick a value $a$ in the interval, and ``zoom in" on the graph around $x=a$, notice what happens:
+
+\begin{image}
+\begin{tikzpicture}
+  \begin{axis}[
+            domain=0:6, range=0:7,
+            ymin=-.2,ymax=7,
+            width=6in,
+            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+            axis lines=none,
+          ]   
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+          
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+          
+
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+
+          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+          
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+          
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+
+          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+
+          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+        \end{axis}
+\end{tikzpicture}
+
+\end{image}
+
+As evidenced by the image, when the function $f(x)$ is differentiable at a given $x$-value, the graph of $f(x)$ becomes closer to a line as we ``zoom in", and we call this line the \emph{tangent line} at $x=a$.
+
+To find the equation of this line, we need a point of the line and the slope of the line.  The slope of the line is $m_{tan} =$ \wordChoice{\choice[correct]{$f'(a)$}\choice{$f(a)$}} and the point on the line is \wordChoice{\choice{$a$}\choice{$f(a)$}\choice[correct]{$(a,f(a))$}\choice{$(a,f'(a))$}}.
+
+
+This result is also a direct consequence of the limit definition of the derivative and some algebra.  If $f'(a)$ exists, then:
+
+\[
+f'(a) = \lim_{x \to a} \frac{f(x)-f(a)}{x-a}
+\]
+In order to write everything as a single limit, note we can write $f'(a)$ as:
+
+\[
+f'(a) = \lim_{x \to a} f'(a) =  \lim_{x \to a} \left(f'(a) \cdot \frac{x-a}{x-a}\right) = \lim_{x \to a} \frac{f'(a)(x-a)}{x-a}
+\]
+
+We now return to the limit definition of $f'(a)$ and write: 
+\begin{align*}
+f'(a) &= \lim_{x \to a} \frac{f(x)-f(a)}{x-a}\\
+\lim_{x \to a} \frac{f'(a)(x-a)}{x-a} &= \lim_{x \to a} \frac{f(x)-f(a)}{x-a}\\
+0 &= \lim_{x \to a} \frac{f(x)-f(a)}{x-a} - \lim_{x \to a} \frac{f'(a)(x-a)}{x-a}\\
+0 &= \lim_{x \to a} \left(\frac{f(x)-f(a)}{x-a} - \frac{f'(a)(x-a)}{x-a} \right)\\
+0 &= \lim_{x \to a} \frac{f(x)-f'(a)(x-a) - f(a)}{x-a}\\
+\end{align*} 
+Denoting $ f'(a)(x-a) - f(a)$ by $l_a(x)$, we note that $l_a(x)= f'(a)(x-a) - f(a)$ is the equation of a line, and we can write the last equation above as:
+
+\[
+\lim_{x \to a} \frac{f(x)-l_a(x)}{x-a} = 0
+\]
+Since this limit is $0$, we can interpret it geometrically by saying that as the distance between $x$ and $a$ becomes smaller, the distance between the function $f(x)$ and the line $l_a(x)$ becomes even smaller.  That is, as we ``zoom in'' on the graph of a function at a point where it is differentiable, the graph becomes closer and closer to a line and we call this line the \emph{tangent line}.
+
+\begin{warning}
+Many students mistakenly think that the tangent line can only touch the graph of the function at the point of tangency, but this is not true.  For instance, if $f(x) = 2x+1$, then $f'(x) = \answer{2}$ and $f(1) = \answer[given]{3}$, so the equation of the tangent line at $x=1$ is:
+
+\begin{align*}
+y-y(1) &= m_{tan}(x-x(1)) \\
+y - \answer[given]{3} &= \answer[given]{2}\left(x-\answer{1}\right) \\
+y &= \answer{2x+1}
+\end{align*}
+
+This is exactly the original function.  Thus, in any interval around $x=1$, the graph of the tangent line and the function intersect \wordChoice{\choice{once}\choice{only finitely many times}\choice[correct]{at every point}}.
+
+As such, it is important to realize that a good intuitive way to think about tangent lines is that a function has a tangent line at a point $x=a$ if the graph of the function becomes less distinguishable from its tangent line as we continue to ``zoom in" on the graph of the function at $x=a$.
+\end{warning}
+
+\end{document}

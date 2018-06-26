@@ -14,7 +14,8 @@
 
 \section{Accumulation of cross-sections}
 
-We have seen how to compute certain areas by using integration. The same technique used to find those areas can be applied to find volumes as well. In this section, we consider volumes whose cross-sections taken through their bases are common shapes from geometry.  In fact, we can think of these cross-sections as being ``slabs'' that we are layer either next to each other or over each other to obtain the solid in question.\index{slabs}\index{cross-sections}  We begin with a motivating example.
+We have seen how to compute certain areas by using integration. The same technique used to find those areas can be applied to find volumes as well! In this section, we consider volumes whose cross-sections taken through their bases are common shapes from geometry.  In fact, we can think of these cross-sections as being ``slabs'' that we layer either next to each other or over each other to obtain the solid in question.\index{slabs}\index{cross-sections}  We begin with a motivating example.
+
 
 
 %%%%%%%%
@@ -48,7 +49,7 @@ We have seen how to compute certain areas by using integration. The same techniq
      \addplot [black,very thick,domain=-.63:4,samples=100] {sqrt((4-x)/8.688)};
 
     \addplot [->] plot coordinates {(-1.2,-.8) (1.2,0.8)};
-    \node[anchor=south west] at (axis cs:1.2,0.6) {$y$};
+    \node[anchor=south west] at (axis cs:1.1,0.8) {$y$};
     
                
 \addplot [name path=A,domain=-.65:4,samples=150] {-.2*sqrt(4-x)};
@@ -59,24 +60,18 @@ We have seen how to compute certain areas by using integration. The same techniq
 \addplot [name path=D,domain=.63:4,samples=100] {sqrt((4-x)/1.3672)};
 \addplot [fillp!60] fill between[of=C and D];
 
+%Square
+    	\addplot [draw=penColor, fill=none,very thick] plot coordinates {(1.17,-.34) (2,.33)(2,1.2)(-.63+1.8,.58)(-.63+1.8,-.34)};
 
   \end{axis}
 \end{tikzpicture}
 \end{image}
 
-How do we find the volume of this solid?
-
-\begin{example}
 We can apply the procedure of 	``Slice, Approximate, Integrate" to set up an integral that computes the volume of the solid.
 
-\paragraph{Step 1: Slice} Since the cross-sections are perpendicular to the $x$-axis, our slices should be perpendicular to the $x$-axis on the base of the region.  This means:
+\paragraph{Step 1: Slice} Since the cross-sections are perpendicular to the $x$-axis, this means: \wordChoice{\choice{the slices are horizontal.}\choice[correct]{the slices are vertical.}} 
 
-\begin{multipleChoice}
-\choice{the slices are horizontal.}
-\choice[correct]{the slices are vertical.}
-\end{multipleChoice}  
-
-The slices on the base are one side of the square. These slices are shown below:
+The slices on the actual three-dimensional solid are shown as well:
 
 \begin{image}
 \begin{tikzpicture}
@@ -95,16 +90,14 @@ The slices on the base are one side of the square. These slices are shown below:
 \addplot [name path=B,domain=0:4,samples=50,draw=none] {-sqrt(4-x)};  
 \addplot [fillp] fill between[of=A and B];
 
-%Dark Shade
-\addplot [name path=C,domain=1:2,samples=50,draw=none] {sqrt(4-x)}; 
-\addplot [name path=D,domain=1:2,samples=50,draw=none] {-sqrt(4-x)};  
-\addplot [gray!50] fill between[of=C and D];
-
-
 \addplot [draw=penColor,very thick] coordinates {(1,-1.713)(1,1.713)};
 \addplot [draw=penColor,very thick] coordinates {(2,-1.4)(2,1.4)};
 \addplot [draw=penColor,very thick] coordinates {(3,-1)(3,1)};
 
+%Dark Shade
+\addplot [name path=C,domain=1:2,samples=50,draw=none] {sqrt(4-x)}; 
+\addplot [name path=D,domain=1:2,samples=50,draw=none] {-sqrt(4-x)};  
+\addplot [gray!50] fill between[of=C and D];
 
 \node at (axis cs:3,-1.75) [penColor2] {$x=4-y^2$};
 
@@ -173,14 +166,17 @@ Recall that these slices on the base are the side of a square cross-section.  Th
 \addplot [name path=H,domain=1.5:2.37,samples=100] {sqrt((4-x)/1.3672)};
 \addplot [gray!50] fill between[of=G and H];
 
-
+\addplot [name path=I,domain=1.47:2.37,samples=100] {.6506*x-.45};
+\addplot [name path=J,domain=1.47:2.37,samples=100] {.6506*x-1.295922};
+\addplot [gray!50] fill between[of=I and J];
+               
   \end{axis}
 \end{tikzpicture}
 \end{image}
 
 \paragraph{Step 2: Approximate}
 
-As usual, we approximate the slices on the base as rectangles.  For the sake of example, we have used righthand endpoints and rectangles of uniform width $\Delta x$ to draw the picture:
+As usual, we approximate the base of each slice by a rectangle.  For the sake of example, we use righthand endpoints and rectangles of uniform width $\Delta x$ to draw the picture:
 
 %%%%BASE%%%%%%%%%%%%%
 \begin{image}
@@ -277,11 +273,15 @@ The dark slab is a rectangular prism, so its volume is:
 \Delta V &= s^2 \Delta x
 \end{align*}
 
-Since we are slicing with respect to $x$, we must express the side length $s$ in terms of $x$.  We should thus express the curves in the image as functions of $y$.  
+Since we are slicing with respect to $x$, we must express the side length $s$ in terms of $x$.  Thus, we describe the curves in the image as functions of $x$.  
 
+<<<<<<< HEAD
 Note that the parabola $x=4-y^2$ must be described using $\answer[given]{2}$ functions of $x$.  In fact, solving for $y$, we obtain: $y=+\answer[given]{\sqrt{4-x}}$ and $y=-\answer[given]{\sqrt{4-x}}$.
+=======
+Note that the parabola $x=4-y^2$ does not pass the vertical line test, so it must be described using $\answer[given]{2}$ functions of $x$.  This also arises as an algebraic consequence when we solve for $y$ since we must consider the positive and negative square roots.  In fact, solving for $y$ gives $y=+\answer[given]{\sqrt{4-x}}$ and $y=-\answer[given]{\sqrt{4-x}}$.
+>>>>>>> realmaster
 
-We draw a more helpful image:
+We update our picture with what we have found so far:
 
 \begin{image}
 \begin{tikzpicture}
@@ -323,53 +323,56 @@ We draw a more helpful image:
 \end{tikzpicture}
 \end{image}
 
-From the image, we see that $s$ is a:
+From the image, we see that $s$ is a \wordChoice{\choice[correct]{vertical distance.}\choice{horizontal distance.}}
 
-\begin{multipleChoice}
-\choice[correct]{vertical distance.}
-\choice{horizontal distance.}
-\end{multipleChoice}
+Thus, we may find $s$ using \wordChoice{\choice{$x_{right}-x_{left}$.}\choice[correct]{$y_{top}-y_{bot}$.}}
 
-Thus, we may find $s$ using:
-
-\begin{multipleChoice}
-\choice{$x_{right}-x_{left}$}
-\choice[correct]{$y_{top}-y_{bot}$}
-\end{multipleChoice}
-
-From our picture, we find $y_{top} = \sqrt{\answer[given]{4-x}}$ and $y_{bot} =-\sqrt{ \answer[given]{4-x}}$.  Thus:
+From our picture, we find $y_{top} = \answer[given]{\sqrt{4-x}}$ and $y_{bot} = \answer[given]{-\sqrt{4-x}}$.  Thus:
 
 \[
 s = \answer[given]{2\sqrt{4-x}}
 \]
 
-and using $\Delta V = s^2 \Delta x$, we have that the volume of a \emph{single} slice at a given $x$-value is:
+and using $\Delta V = s^2 \Delta x$, we have that the approximate volume of a \emph{single} slice at a given $x$-value is:
 
 \[
-\Delta V = (\answer[given]{16-4x}) \Delta x
+\Delta V = \left(\answer[given]{16-4x}\right) \Delta x
 \]
 
+<<<<<<< HEAD
 \paragraph{Step 3: Integrate}
 As before, the approximate volume is obtained by adding all of the volumes of all of the approximate slices together.  The exact volume requires simultaneously that the width of the slices become arbitrarily thin and that the number of slices to be added becomes arbitrarily large.
 
 As before, the definite integral performs both of these operations simultaneously.  In fact, since $\Delta V = (16-4x) \Delta x$, we can write:
+=======
+and the total approximate volume using $n$ slices is:
+>>>>>>> realmaster
 
+\[
+V \approx  \sum_{k=1}^n (16-4x_k) \Delta x
+\]
+where $x_k$ is the righthand endpoint of each slice.
+
+\paragraph{Step 3: Integrate}
+As before, the approximate volume is obtained by adding all of the volumes of all of the approximate slices together.  The exact volume requires simultaneously that the width $\Delta x$ of the slices become arbitrarily small while the number of slices to be added becomes arbitrarily large.  Symbolically, we write:
+
+\[
+V = \lim_{n \to \infty} \left[\sum_{k=1}^n (16-4x_k) \Delta x\right]
+\]
+
+As before, we can write this as a definite integral:
+
+<<<<<<< HEAD
+\textbf{Remark:} Since we slice with respect to $x$, we must express the curves in the image as functions of $x$; that is, we must write $y_{top}$ and $y_{bot}$ in terms of $x$.  Once we choose a variable of integration, every quantity (limits of integration, functions in the integrand) must be written in terms of that variable.  This is an important point that arises when we use a Riemann integral to compute any quantity of interest.
+=======
 \[
 V = \int_{x=0}^{x=4} 16-4x \d x
 \]
+>>>>>>> realmaster
 
-Evaluating this, we find the volume is $\answer[given]{32}$ cubic units.
-
-\end{example}
-
-
-\textbf{Remark:} Since we slice with respect to $x$, we must express the curves in the image as functions of $x$; that is, we must write $y_{top}$ and $y_{bot}$ in terms of $x$.  Once we choose a variable of integration, every quantity (limits of integration, functions in the integrand) must be written in terms of that variable.  This is an important point that arises when we use a Riemann integral to compute any quantity of interest.
-
+and the Fundamental Theorem of Calculus can now be used to evaluate the definite integral, which gives a much more efficient way to find the volume (rather than by calculating the simultaneous limits described above).  Applying the Fundamental Theorem of Calculus to evaluate the definite integral, we find the volume is $\answer[given]{32}$ cubic units.
 
 %%Add some image that delineates how to think of integral; draw for Hans
-
-
-
 
 \section{Volumes of solids with known cross-sections}
 
@@ -379,49 +382,28 @@ We can summarize the previous procedure with a simple formula that respects the 
 The volume of a solid with a known type of cross-sectional area is given by either: 
 
 \[
-V=\int_{x=a}^{x=b} A \d x \qquad \textrm{or} \qquad  V =\int_{y=c}^{y=d} A \d y
+V=\int_{x=a}^{x=b} A(x) \d x \qquad \textrm{or} \qquad  V =\int_{y=c}^{y=d} A(y) \d y
 \]
 
-where $A$ is the cross-sectional area of a slice of the solid.
-
-Note that both the area $A$ and the limits of integration must be expressed in terms of the variable of integration.
+where $A$ is the cross-sectional area of a slice of the solid.  Note that both the area and the limits of integration must be expressed in terms of the variable of integration.
 
 \end{formula}
 
 So how do we determine which formula to use?  The problem will indicate an orientation for the slice. Draw the base of the solid in the $xy$-plane, and indicate a prototypical slice on your picture. The orientation of the slice will give you the variable of integration.
 
 \begin{question}
-Suppose that slices are taken \emph{parallel} to the $y$-axis.  Then, the slices are
-\begin{multipleChoice}
-\choice[correct]{the slices are vertical.  We should integrate with respect to $x$.}
-\choice{the slices are vertical.  We should integrate with respect to $y$.}
-\choice{the slices are horizontal.  We should integrate with respect to $x$.}
-\choice{the slices are horizontal.  We should integrate with respect to $y$.}
-\end{multipleChoice}
+Suppose that slices are taken \emph{parallel} to the $y$-axis.  Then, the slices are \wordChoice{\choice[correct]{the slices are vertical}\choice{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice[correct]{$x$}\choice{$y$}}.
 
-Suppose that slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are
-\begin{multipleChoice}
-\choice{the slices are vertical.  We should integrate with respect to $x$.}
-\choice{the slices are vertical.  We should integrate with respect to $y$.}
-\choice{the slices are horizontal.  We should integrate with respect to $x$.}
-\choice[correct]{the slices are horizontal.  We should integrate with respect to $y$.}
-\end{multipleChoice}
-\end{question}
-
+<<<<<<< HEAD
 \begin{remark}
 In order to work these problems, you need to remember some basic formulas from geometry.  Some important ones are:
+=======
+Suppose that slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are \wordChoice{\choice{the slices are vertical}\choice[correct]{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
 
-\[
-\begin{array}{ll}
-\textrm{Shape} & \textrm{Area Formula} \\
-\textrm{Square:} & A=s^2, \textrm{where } s \textrm{ is the length of a side of the square} \\ 
-\textrm{Equilateral Triangle:} & A=\frac{3}{4} s^2, \textrm{where } s \textrm{ is the length of a side of the triangle} \\ 
-\textrm{Right Isosceles Triangle:} & A=\frac{1}{2} s^2, \textrm{where } s \textrm{ is the length of one of the two equal length sides} \\ 
-\textrm{Semicircle:} & A=\frac{1}{2} \pi r^2, \textrm{where } r \textrm{ is the radius of the circle} \\
-\end{array}
-\]
+\end{question}
+>>>>>>> realmaster
 
-\end{remark}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -430,19 +412,12 @@ In order to work these problems, you need to remember some basic formulas from g
 Let's see some examples:
 
 \begin{example}
-The base of a solid is the region in the $xy$-plane bounded by $y=9-3x$, $y=-3$, $x=-2$, and $x=0$.  cross-sections through the solid taken parallel to the $x$-axis are semicircles.  Find the volume of the solid.
+The base of a solid is the region in the $xy$-plane bounded by $y=9-3x$, $y=-3$, $x=-2$, and $x=0$.  Cross-sections through the solid taken parallel to the $x$-axis are semicircles.  Find the volume of the solid.
 
 \begin{explanation}
-Since the slices are taken \emph{parallel} to the $x$-axis.  Then, the slices are
-\begin{multipleChoice}
-\choice{the slices are vertical.  We should integrate with respect to $x$.}
-\choice{the slices are vertical.  We should integrate with respect to $y$.}
-\choice{the slices are horizontal.  We should integrate with respect to $x$.}
-\choice[correct]{the slices are horizontal.  We should integrate with respect to $y$.}
-\end{multipleChoice}
+Since the slices are taken \emph{parallel} to the $x$-axis.  Then, the slices are \wordChoice{\choice{the slices are vertical}\choice[correct]{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
 
-
-Since we have to integrate with respect to $y$, we should describe the line $y=9-3x$ as a function of $y$.  Solving for $x$, we obtain: $x=\answer[given]{3- \frac{1}{3}y}$.
+Since we have to integrate with respect to $y$, we should describe the line $y=9-3x$ as a function of $y$.  Solving for $x$, we obtain $x=\answer[given]{3- \frac{1}{3}y}$.
 
 We draw a picture of the base and indicate a typical slice: 
 
@@ -481,33 +456,23 @@ We draw a picture of the base and indicate a typical slice:
 \end{tikzpicture}
 \end{image}
 
-Note that the cross-sections are semicircles whose base is in the $xy$-plane.  Thus, the quantity labelled $d$ in the image is the:
-\begin{multipleChoice}
-\choice{radius of the semicircle.}
-\choice[correct]{diameter of the semicircle.}
-\end{multipleChoice}
+Note that the cross-sections are semicircles whose base is in the $xy$-plane.  Thus, the quantity labelled $d$ in the image is the \wordChoice{\choice{radius of the semicircle}\choice[correct]{diameter of the semicircle}}.
 
-From the image, we see that $d$ is a:
+From the image, we see that $d$ is a \wordChoice{\choice{vertical distance}\choice[correct]{horizontal distance}}.
 
-\begin{multipleChoice}
-\choice{vertical distance.}
-\choice[correct]{horizontal distance.}
-\end{multipleChoice}
-
-Thus, we may find $s$ using:
-
-\begin{multipleChoice}
-\choice[correct]{$x_{right}-x_{left}$}
-\choice{$y_{top}-y_{bot}$}
-\end{multipleChoice}
+Thus, we may find $s$ using \wordChoice{\choice[correct]{$x_{right}-x_{left}$}\choice{$y_{top}-y_{bot}$}}.
 
 The right curve is $x_{right} = \answer[given]{3-\frac{1}{3}y}$ and the left curve is $x_{left} = \answer[given]{-2}$.  Thus:
 
 \[
 d=x_{right}-x_{left} = \answer[given]{\left(3-\frac{1}{3} y \right)-(-2)}
 \]
+<<<<<<< HEAD
 Notice that is is completely irrelevant of the quadrant in which the left and right curves appear; we can always find a horizontal quantity of interest (in this case $d$), by taking $x_{right}-x_{left}$ and using the expressions that describe the relevant curves in terms of $y$.
  
+=======
+
+>>>>>>> realmaster
 The radius $r$ of the semicircle is (after a little algebra):
 \[
 r = \frac{1}{2}d = \answer[given]{ \left(\frac{5}{2}-\frac{1}{6} y\right)}
@@ -527,22 +492,20 @@ V = \int_{y=\answer[given]{-3}}^{y=\answer[given]{15}} \answer[given]{\frac{1}{2
 Evaluating this integral (which you should verify by working it out on your own.), we find that the volume of the solid is $\answer[given]{27} \pi$ cubic units.
 \end{explanation}
 
+\begin{remark}
+Although it has been pointed out before, the following point is important.  The quadrant in which the left and right curves appear does not affect how we find horizontal distances; we can always find a horizontal distance by taking $x_{right}-x_{left}$.  
+\end{remark}
 \end{example}
 
-Sometimes, more than one integral is needed to set up a volume of a solid with known cross-sections.  If you draw a picture, it should be clear when this will be necessary.
+Sometimes, more than one integral is needed to set up a volume of a solid with known cross-sections.  Drawing a picture helps to identify when this is necessary.
+
 
 \begin{example}
-The base of a solid is the region in the first quadrant of the $xy$-plane bounded by $y=e^x$ and $x=1$. cross-sections taken perpendicular to the $y$-axis are equilateral triangles.  Set up, but do not evaluate, an integral or sum of integrals that would give the volume of the solid.
+The base of a solid is the region in the first quadrant of the $xy$-plane bounded by $y=e^x$ and $x=1$. Cross-sections taken perpendicular to the $y$-axis are equilateral triangles.  Set up, but do not evaluate, an integral or sum of integrals that would give the volume of the solid.
 
 \begin{explanation}
 
-Since the slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are
-\begin{multipleChoice}
-\choice{the slices are vertical.  We should integrate with respect to $x$.}
-\choice{the slices are vertical.  We should integrate with respect to $y$.}
-\choice{the slices are horizontal.  We should integrate with respect to $x$.}
-\choice[correct]{the slices are horizontal.  We should integrate with respect to $y$.}
-\end{multipleChoice}
+Since the slices are taken \emph{perpendicular} to the $y$-axis.  Then, the slices are \wordChoice{\choice{the slices are vertical}\choice[correct]{the slices are horizontal}} and we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
 
 Since we have to integrate with respect to $y$, we should describe the line $y=e^x$ as a function of $y$.  Solving for $x$, we obtain: $x=\answer[given]{\ln(y)}$.
 
@@ -593,19 +556,18 @@ We draw a picture of the base and indicate a typical slice:
 	      \end{axis}
             \end{tikzpicture}
             \end{image}
-            
-            
-As you can see, the curve used to determine the lefthand coordinate of rectangle changes depending on where the slice is drawn. We thus need $\answer[given]{2}$ integrals.
+As you can see, the curve used to determine the lefthand coordinate of rectangle \wordChoice{\choice[correct]{changes}\choice{does not change}} depending on where the slice is drawn.  We thus need $\answer[given]{2}$ integrals to find the volume.
 
-The left curve will change at the $y$-value where the curve $x=ln(y)$ intersects the $y$-axis, which occurs when $y=\answer[given]{1}$.  
+
+The left curve will change at the $y$-value where the curve $x=\ln(y)$ intersects the $y$-axis, which occurs when $y=\answer[given]{1}$.  
 
 For the second region, we find the upper $y$-value by requiring that the curves $x=1$ and $x=\ln(y)$ intersect. This occurs when $y=\answer[given]{e}$.
 
-Using the picture above, we may write down the important information about each region: 
+Using the picture above and the fact that since the cross-sections are equilateral triangles, $A= \frac{\sqrt{3}}{4}s^2$, we may write down the important information about each region: 
 \[
 \begin{array}{ll}
 \text{In Region I:}  & \text{In Region II:}  \\
-\answer[given]{0} \le y \le \answer[given]{1}  \qquad \qquad \qquad & \answer[given]{1} \le y \le \answer[given]{e}\\
+\answer[given]{0} \le y \le \answer[given]{1}  \qquad \qquad \qquad \qquad & \answer[given]{1} \le y \le \answer[given]{e}\\
 x_{right} = \answer[given]{1}    &  x_{right} = \answer[given]{1} \\
 x_{left} = \answer[given]{0}  & x_{left} = \answer[given]{\ln(y)} \\
 s_1= \answer[given]{1} & s_2= \answer[given]{1-\ln(y)} \\
@@ -613,38 +575,47 @@ A_1 = \frac{\sqrt{3}}{4} &  A_2  = \frac{\sqrt{3}}{4}(1-\ln(y))^2 \\
 \end{array}
 \]
 
-Note that since the cross-sections are equilateral triangles, $A= \frac{\sqrt{3}}{4}s^2$.
-
 Putting this together, we can write down a sum of integrals that gives the volume:
 
 \[V= \int_{y= 0}^{y=1}\frac{\sqrt{3}}{4} \d y + \int_{y= 1}^{y=e} \frac{\sqrt{3}}{4}(1-\ln(y))^2 \d y \]
-
-            
-            
+  
 \end{explanation}            
 \end{example}
+
 
 \section{Final thoughts}
 To summarize some recurring ideas we have seen we have seen (and will see again.), always draw and label a picture.  Interpret the quantities in your picture and write down the relevant geometric quantities in terms of the variable of integration.
 
+\[
+\begin{array}{ll}
+\textrm{Shape} & \textrm{Area Formula} \\ [2ex]
+\textrm{Square:} & A=s^2, \textrm{where } s \textrm{ is the length of a side of the square} \\  [2ex]
+\textrm{Equilateral Triangle:} & A=\frac{\sqrt{3}}{4} s^2, \textrm{where } s \textrm{ is the length of a side of the triangle} \\  [2ex]
+\textrm{Right Isosceles Triangle:} & A=\frac{1}{2} s^2, \textrm{where } s \textrm{ is the length of one of the equal length sides} \\  [2ex]
+\textrm{Semicircle:} & A=\frac{1}{2} \pi r^2, \textrm{where } r \textrm{ is the radius of the circle} \\ [2ex]
+\end{array}
+\]
 
-\begin{fact}
-To find vertical distances, we always take $y_{top} - y_{bot}$.
+\end{remark}
 
-To find horizontal distances, we always take $x_{right}-x_{left}$.
-\end{fact}
 
-\begin{fact}
-When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$.
+\section{Final thoughts}
+At the risk of being repetitive, let's summarize some recurring ideas we have seen in the past few sections and will see again.  
 
-When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
-\end{fact}
+\begin{itemize}
+\item Always draw and label a picture.  Interpret the quantities in your picture and write down anything you need in terms of the variable of integration.
+
+\item To find vertical distances, we always take $y_{top} - y_{bot}$.  To find horizontal distances, we always take $x_{right}-x_{left}$.
+
+\item When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$. When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
+
 
 \begin{fact}
 Once we choose a variable of integration, everything in the integrand must be expressed in terms of that variable.  This includes both the limits of integration and any functions that arise in the integrand.
 \end{fact}
 
 Remember, it takes practice to learn math.  Don't just read through examples; work them out yourself as you read along. Calculus is a hard subject. Don't get discouraged.
+
 
 \begin{quote}
 ``The only way to learn mathematics is to do mathematics.'' --- Paul Halmos

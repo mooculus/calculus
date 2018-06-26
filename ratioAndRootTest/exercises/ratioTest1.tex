@@ -2,7 +2,7 @@
 
 \input{../../preamble.tex}
 
-\author{Jason Miller}
+\author{Jim Talamo}
 \license{Creative Commons 3.0 By-bC}
 
 
@@ -45,34 +45,74 @@ where $a_{n+1}=\answer{ \frac{(n+1)!}{(n+1)^{n+1}}}$ and $a_n=\answer{\frac{n!}{
 
 Simplifying we have $ \frac{a_{n+1}}{a_n}=\answer{  \left(\frac{n}{n+1}\right)^n}$
 
-
-\begin{exercise}
-
-Now we need to calculate $\lim_{n\to \infty}  \frac{a_{n+1}}{a_n}  =\answer{ \frac{1}{e} }$
+Computing the limit gives: $\lim_{n\to \infty}  \frac{a_{n+1}}{a_n}  =\answer{ \frac{1}{e} }$
 
 \begin{hint}
-You can calculate $\lim_{n \to \infty} \left(1+\frac{1}{n} \right)^n$ by using 
-L'Hopital's rule on the limit
+You can calculate $\lim_{n \to \infty} \left(\frac{n}{n+1} \right)^n$ by noting that it is an indeterminate form \wordChoice{\choice{$\frac{0}{0}$}\choice{$\frac{\infty}{\infty}$}\choice{$0 \cdot \infty$}\choice{$0^0$}\choice{$\infty^0$}\choice[correct]{$1^{\infty}$}}.
+
+Setting $L=\lim_{n \to \infty} \left(\frac{n}{n+1} \right)^n$ and taking the natural logarithm of both sides:
+
 \[
-\lim_{x \to \infty} \left( 1+\frac{1}{x} \right)^x
+\ln(L) = \ln \left(\lim_{n \to \infty} \left(\frac{n}{n+1} \right)^n\right)
 \]
+
+Since the natural logarithm is continuous on its domain:
+
+\[
+\ln(L) =\lim_{n \to \infty}  \ln \left(\frac{n}{n+1} \right)^n
+\]
+
+Using laws of logarithms gives:
+
+\[
+\ln(L) =\lim_{n \to \infty}  \answer{n} \ln \left(\frac{n}{n+1} \right)
+\]
+
+We now have the indeterminate form \wordChoice{\choice{$\frac{0}{0}$}\choice{$\frac{\infty}{\infty}$}\choice[correct]{$0 \cdot \infty$}\choice{$0^0$}\choice{$\infty^0$}\choice{$1^{\infty}$}}.
+
+We have two options to convert this into a form where we can use L'Hopital's Rule:
+
+
+\[
+\ln(L) =\lim_{n \to \infty}  \frac{\ln \left(\frac{n}{n+1} \right)}{\frac{1}{n}}  \qquad \textrm{ or } \qquad \ln(L)=\lim_{n \to \infty}  \frac{n}{~ \frac{1}{\ln \left(\frac{n}{n+1} \right) }~} 
+\]
+
+The nicer choice is the first one.  Since this is now an example of the indeterminate form  \wordChoice{\choice[correct]{$\frac{0}{0}$}\choice{$\frac{\infty}{\infty}$}\choice{$0 \cdot \infty$}\choice{$0^0$}\choice{$\infty^0$}\choice{$1^{\infty}$}}, L'Hopital's rule applies.  Using the fact that $\ln\left(\frac{n}{n+1}\right) = \ln(n) - \ln(n+1)$ to simplify the differentiation in the numerator, we find:
+
+\[
+\ln(L) = \lim_{n \to \infty}  \frac{\answer{\frac{1}{n} - \frac{1}{n+1}}}{\answer{-\frac{1}{n^2}}}
+\]
+(write the derivative of the numerator and the denominator)
+
+\begin{question}
+To find the limit now, we note:
+
+\[
+\frac{1}{n}-\frac{1}{n+1} = \frac{\answer{1}}{n(n+1)}
+\]
+so:
+
+\[
+\ln(L) = \lim_{n \to \infty}  \frac{\frac{1}{n^2+n}}{-\frac{1}{n^2}} =  \lim_{n \to \infty}  -\frac{n^2}{n^2+n}
+\]
+
+We thus find that $\ln(L) = \answer{-1}$, so $L=\answer{e^{-1}}$.
+
+\end{question}
 \end{hint}
 
 \begin{exercise}
 
-Since $\lim_{n \to \infty} \frac{a_{n+1}}{a_n}=$  \wordChoice{\choice[correct]{less than 1}\choice{greater than 1}\choice{equal to 1}},
-we see that the series
+Since $\lim_{n \to \infty} \frac{a_{n+1}}{a_n}$ \wordChoice{\choice[correct]{$<1$}\choice{$>1$}\choice{$=1$}},
+we see that
 \[
 \sum^{\infty}_{n=1} \frac{n!}{n^n}
 \]
 \begin{multipleChoice}
-\choice[correct]{converges}
-\choice{diverges}
-\choice{ we can't determine convergence or divergence from the Ratio Test  because the test is inconclusive}
+\choice[correct]{ the series converges by Ratio Test.}
+\choice{the series diverges by Ratio Test.}
+\choice{ we can't determine convergence or divergence from the Ratio Test  because the test is inconclusive.}
 \end{multipleChoice}
-
-
-\end{exercise}
 
 \end{exercise}
 \end{exercise}

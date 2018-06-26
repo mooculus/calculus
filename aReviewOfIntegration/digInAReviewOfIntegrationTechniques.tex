@@ -2,9 +2,6 @@
 \author{Jim Talamo and Bart Snapp}
 \input{../preamble.tex}
 
-
-\outcome{Review the basic rules of differentiation and integration.}
-\outcome{Review the relationship between differentiation and antidifferentiation.}
 \outcome{Use algebra to manipulate the integrand.}
 \outcome{Determine when a function is a composition of two or more functions.}
 \outcome{Calculate indefinite and definite integrals requiring substitutions.}
@@ -13,375 +10,27 @@
 
 %I want a separate section that reviews the FTC
 
-\title[Dig-In:]{A review of integration}
+\title[Dig-In:]{A Review of Integration Techniques}
 
 \begin{document}
 \begin{abstract}
-  We review differentiation and integration.
+  We review common techniques to compute indefinite and definite integrals.
 \end{abstract}
 \maketitle
 
+In some sense, calculating derivatives is straightforward.  Most of the functions of interest are sums, scalar multiples, products, quotients, or compositions of common functions whose derivatives we can find.  A ``brute force" application of the sum, scalar multiple, product, quotient, and chain rules will eventually lead to a correct derivative.  Integration is more of an art form.  We often have to apply various techniques in order to write down a nice formula for the antiderivatives. We explore some of the common ones here.
 
-\section{Review of derivative rules}
+\section{Preliminary algebraic simplification}
 
-One of the fundamental objects of differential calculus is the \emph{derivative}.  As a reminder, here are some important results:
 
-\index{derivative rules} 
-  Let $n\ne 0$, $k$ be a constant and $a>0$.
-
-
-\paragraph{Powers of $x$:}
-\begin{itemize}
-\item $\ddx \left[ k \right] =0$
-\item $\ddx \left[ x^n\right]  = n x^{n-1}$
-\end{itemize}
-
-\paragraph{Exponentials:}
-\begin{itemize}
-\item $\ddx \left[ e^x\right] = e^x$
-\item $\ddx \left[ a^x \right]= a^x\ln(a)$
-\end{itemize}
-
-\paragraph{Logartihms:}
-\begin{itemize}
-\item $\ddx \left[ \ln(x) \right]= \frac{1}{x}$
-\item $\ddx \left[ \log_a (x)\right] = \frac{1}{\ln a} \frac{1}{x}$
-\end{itemize}
-
-\paragraph{Trigonometric Functions:}
-\begin{itemize}
-\item $\ddx \left[ \sin(x)\right] = \cos(x)$
-\item $\ddx \left[ \cos(x)\right] = -\sin(x)$  
-\item $\ddx \left[ \tan(x) \right]= \sec^2(x)$  
-\item $\ddx \left[ \sec(x)\right]= \sec(x)\tan(x)$ 
-\item $\ddx \left[ \csc(x)\right] = -\csc(x)\cot(x)$
-\item $\ddx \left[ \cot(x) \right]= -\csc^2(x)$
-\end{itemize}
-
-\paragraph{Inverse Trigonometric Functions:}
-\begin{itemize}
-\item $\ddx \left[ \arcsin(x)\right] = \frac{1}{\sqrt{1-x^2}}$
-\item $\ddx \left[ \arccos(x) \right]= \frac{-1}{\sqrt{1-x^2}}$
-\item $\ddx \left[ \arctan(x) \right]=\frac{1}{1+x^2}$
-\item $\ddx \left[ \arcsec(x)\right] = \frac{1}{|x|\sqrt{x^2-1}}$ for $|x|>1$
-\item $\ddx \left[ \arccsc(x)\right] = \frac{-1}{|x|\sqrt{x^2-1}}$ for $|x|>1$
-\item $\ddx \left[ \arccot(x) \right]= \frac{-1}{1+x^2}$
-\end{itemize}
-
-
-
-\begin{question} 
-  Using the above rules only, what is the derivative of $\frac{1}{\sqrt[4]{x^3}}$ with respect to $x$?
-  \begin{prompt} 
-    \[
-    \ddx \frac{1}{\sqrt[4]{x^3}} = \answer[given]{- \frac{3}{4} x^{-7/4}}
-    \]
-  \end{prompt}
-\end{question}
-
-
-Once the derivatives of basic functions have been established, we can use them to build the derivatives of more complicated functions:
-
-
-\begin{theorem}[Derivatives of combinations of basic functions]
-  Let $f(x)$ and $g(x)$ be differentiable functions and $k$ be a constant.
-\begin{itemize}
-\item Addition: $\ddx \left[ f(x) + g(x) \right] = f'(x) + g'(x)$
-\item Scalar Multiplication: $\ddx \left[ k f(x) \right] = k f'(x)$
-\item Product Rule: $\ddx \left[f(x) \cdot g(x) \right] = f(x)g'(x) + f'(x)g(x)$
-\item Quotient Rule: $\ddx  \left[\frac{f(x)}{g(x)}  \right] = \frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}$
-\item Chain Rule: $\ddx  \left[f(g(x)) \right]  = f'(g(x)) \cdot g'(x)$
-\end{itemize}
-%\end{multicols}
-\end{theorem}
-
-%%%%%%%%%%%
-\begin{question} 
-  What is the derivative of $4x^2 +\frac{2}{3\sqrt{x}} $ with respect to $x$?
-  \begin{prompt} 
-    \[
-    \ddx  \left[4x^2 +\frac{2}{3\sqrt{x}}  \right] = \answer[given]{8x -\frac{1}{3} x^{-3/2}}
-    \]
-  \end{prompt}
-\end{question}
-
- %%%%%%%%%%%
- 
-%%%%%%%%%%%
-\begin{question} 
-  What is the derivative of $x^2 \sin(x) $ with respect to $x$?
-  \begin{prompt} 
-    \[
-    \ddx \left[x^2 \sin(x)\right]= \answer[given]{2x \sin(x) +x^2 \cos(x)}
-    \]
-  \end{prompt}
-\end{question}
-
- %%%%%%%%%%%
-\begin{question} 
-  What is the derivative of $\frac{e^x}{x^2+1}$ with respect to $x$?
-  \begin{prompt} 
-    \[
-    \ddx \left[\frac{e^x}{x^2+1} \right] = \answer[given]{\frac{( x^2 - 2x +1)e^x}{(x^2+1)^2}}
-    \]
-  \end{prompt}
- %%%%%%%%%%% 
-\end{question}\begin{question} 
-  What is the derivative of $\arcsin\left(\frac{x}{a}\right)$ with respect to $x$?
-  \begin{prompt} 
-    \[
-    \ddx \arcsin\left[\frac{x}{a}\right] = \answer[given]{\frac{1}{a \sqrt{1-(x/a)^2}}}
-    \]
-  \end{prompt}
-\end{question}
-
-
-
-
-
-\section{Antiderivatives}
-
-
-As a summary, one of the important questions of differential calculus is ``Given a function, what is its derivative?"  There is an important related question in integral calculus that requires ``undoing" the process of differentiation; that is, ``Given a function, what functions do we have to differentiate to obtain it?"   This is made precise by the following definition:
-
-\begin{definition}\index{Antiderivative}  
-Given a function $f(x)$, we say that $F(x)$ is an \dfn{antiderivative} of $f(x)$ if $F'(x) = f(x)$.
-\end{definition}
-
- There is an important, but subtle way this definition is phrased; note that we used the phrase ``an antiderivative" and not ``the antiderivative".  To expound:
- 
- \begin{question}
-  Which of the following are antiderivatives of $2x$?
-  \begin{selectAll}
-    \choice[correct]{$x^2+5$}
-    \choice[correct]{$x^2-3$}
-    \choice{$2x^2+3$}
-    \choice{$2-x^2$}
-  \end{selectAll}
-\end{question}
-
-Notice that there are several choices for antiderivatives of $x^2$!  So, how could these antiderivatives differ?  The answer is a consequence of the Mean Value Theorem:
-%%%Include exercise exploring MVT%%%%%%%
-%%% Geometric reasoning %%%%%%
-
-\begin{theorem}[Antiderivatives differ by a constant]
-Let $f(x)$ be a function for which $F(x)$ and $G(x)$ are antiderivatives.  Then, there is a constant $C$ such that $F(x) = G(x) +C$. 
-\end{theorem}
-
-This theorem guarantees that the antiderivatives of a function $f(x)$ are the same up to an additive constant, which allows us to introduce the following notation:
-
-%%%%%EXERCISE: integrate 1/(3x) two ways%%%%%%%%%%
-
-\begin{definition}
-Let $f(x)$ be a function.  The collection of \emph{all} antiderivatives of $f(x)$ is denoted by the symbol $\int f(x) \d x$. 
-\end{definition}
-
-%%%To summarize this, we review how to find $\int x^n \d x$ for $n \ne -1$:
-%%
-%%%To differentiate $x^n$:
-%%%\begin{itemize}
-%%\item Multiply by the current exponent $n$.
-%%\item Subtract 1 from the exponent.
-%%\end{itemize}
-%%This process can be imagined with the flowchart: $$ x^n \longrightarrow nx^n \longrightarrow nx^{n-1} $$ %DOES XIMERA SUPPRT mathtools to put textover arrows %
-%%
-%%To find the collection of antiderivatives $\int x^n \d x$, first find \emph{an} antiderivative by reversing this process:
-%%\begin{itemize}
-%%\item Add 1 to the exponent.
-%%\item Multiply by the reciprocal of the current exponent.
-%%\end{itemize}
-%%Now, to exhibit all of the antiderivatives, add an arbitrary constant.  This process can be imagined with the flowchart: $$ x^n \longrightarrow x^{n+1} \longrightarrow \frac{1}{n+1}x^{n+1}  \longrightarrow \frac{1}{n+1}x^{n+1} +C.$$
-%%
-
-For example, we write $\int 2x \d x = x^2+C$ because the symbol $\int x^2 \d x$ denotes the collection of \emph{all} functions whose derivative is $2x$. 
-
-Now it's your turn! 
-
-%%%%%%%%%%%%%%%%%%%%%
-
-\begin{theorem}[Basic Indefinite Integrals]\index{antiderivatives}\index{indefinite integral}\hfil
-\begin{itemize}
-\item $\int k \d x= \answer[given]{k x}+C$
-\item $\int \frac{1}{x} \d x= \ln|x|+C$
-\item $\int x^n \d x= \answer[given]{\frac{x^{n+1}}{n+1}}+C\qquad(n\ne-1)$
-\item $\int e^x \d x= \answer[given]{e^x} + C$
-\item $\int a^x \d x= \answer[given]{\frac{a^x}{\ln(a)}}+C$
-\item $\int \cos(x) \d x = \answer[given]{\sin(x)} + C$
-\item $\int \sin(x) \d x = \answer[given]{-\cos(x)} + C$  
-\item $\int \sec^2(x) \d x = \answer[given]{\tan(x)} + C$
-\item $\int \csc^2(x) \d x = \answer[given]{-\cot(x)} + C$
-\item $\int \sec(x)\tan(x) \d x = \answer[given]{\sec(x)} + C$
-\item $\int \csc(x)\cot(x) \d x = \answer[given]{-\csc(x)} + C$
-\item $\int \frac{1}{x^2+a^2}\d x = \answer[given]{\frac{1}{a}\arctan\left(\frac{x}{a}\right)} + C$
-\item $\int \frac{1}{\sqrt{a^2-x^2}}\d x= \answer[given]{\arcsin\left(\frac{x}{a}\right)}+C$
-\end{itemize}
-\end{theorem}
-
-%%%%%%%%%%%%
-
-Unfortunately, many of the helpful rules that allow us to find derivatives of more complicated functions are not easily reversible.  We do have the following:
-
-\begin{theorem}[Antiderivative Rules] 
-Suppose that $f(x)$ and $g(x)$ are functions and $a$ is a constant:
-\begin{itemize}
-\item (Addition) $\int \left(f(x) + g(x) \right) \d x = \int f(x) \d x+\int g(x)  \d x$
-\item (Scalar Multiplication) $\int a f(x) \d x = a \int f(x) \d x$
-\end{itemize}
-\end{theorem}
-
-%%%%%%%%%%%
-\begin{question} 
-  Find $\int \left(4x^2 + \dfrac{1}{1+x^2} \right)\d x$.
-  \begin{prompt} 
-    \[
-    \int \left(4x^2 + \dfrac{1}{1+x^2} \right) \d x  = \answer[given]{\frac{4}{3} x^3 + \arctan(x)} +C 
-    \]
-  \end{prompt}
-\end{question}
-
- %%%%%%%%%%%
-
-
-Unfortunately, there is no rule that allows us to compute antiderivatives of products, quotients, or compositions of arbitrary functions based off of the antidifferentiation formulas for their constituent functions as there is with differentiation!  
-
-
-\begin{example}
-  A student claims that $\int 2x \cos(x) \d x = x^2 \sin(x) +C$.  Determine whether the student is correct or incorrect.
-  
-  \begin{explanation}
-    If the student were correct, then the derivative of $x^2 \sin(x) +C$ with respect to $x$ would have to be $2x \cos(x)$.  However:
-    
-      \[\ddx x^2 \sin(x) = \answer[given]{2x \sin(x) +x^2 \cos(x)} \]
-      
- Hence, the student is incorrect!
-  \end{explanation}
-\end{example}
-
-\begin{remark}
-Finding antiderivatives is an integral part of integral calculus.  If you are unsure whether you have found the correct antiderivatives of a function, you should check your work simply by taking the derivative of your proposed antiderivative; to be explicit:
-
-\begin{quote}
-$F'(x) = f(x)$ and $\int f(x) \d x = F(x)+C$ carry exactly the same information.
-\end{quote}
-\end{remark}
-
-\begin{question}
-  Which of the following is $\int \cos(\sqrt{x}) \d x$?  
-  \begin{selectAll}
-    \choice{$\sin(\sqrt{x}) +C$}
-    \choice{$\dfrac{1}{\sqrt{x}}\sin(\sqrt{x}) +C$}
-    \choice{$-\dfrac{1}{2 \sqrt{x}} \sin (\sqrt{x})$}
-    \choice[correct]{$2 \cos(\sqrt{x}) + 2 \sqrt{x} \sin(\sqrt{x}) +C$}
-    \choice{None of these}
-  \end{selectAll}
- 
- \begin{feedback}
- Note that you do not have to know how to antidifferentiate $\cos(\sqrt{x})$ to solve this problem; in fact, the technique required to evaluate this indefinite integral will be discussed in a later section.  However, by differentiating each of the expressions, you can verify which of them is the correct family of antiderivatives.
- \end{feedback}  
-\end{question}
-
-The following is a question that employs the same logic, but is phrased a bit differently:
-
-\begin{example}
-  Find a function $f(x)$ such that $\int f(x) \d x = x^2 +C$.
-  
-  \begin{explanation}
-    We are looking for a function $f(x)$ whose \emph{antiderivatives} are $x^2+C$.  To do this, we simply have to take the derivative of the righthand side; since $\int f(x) \d x =x^2+C$, then $f(x) = \ddx \left[\answer[given]{x^2+C}\right] =\answer[given]{2x}$.
-    
-    \end{explanation}
-\end{example}
-
-\begin{question} 
-  Find a function $f(x)$ such that $\int f(x) \d x = xe^x +C$.
-
-  \begin{prompt} 
-    \[
-    f(x) = \answer[given]{e^x + xe^x}
-    \]
-  \end{prompt}
-  
-\end{question}
-%%%%%%%%%END%%%%%%%%
-
-
-
-%\begin{question}
-  %Which of the following are an antiderivative of $\frac{1}{x\ln(x^2)}$?
-  %\begin{selectAll}
-    %\choice[correct]{$\frac{1}{2}\ln(\ln(x^2))$}
-    %\choice[correct]{$\frac{\ln(2) + \ln(\ln(x))}{2}$}
-    %\choice[correct]{$\frac{\ln(\ln(x))}{2}$}
-    %\choice[correct]{$\frac{\ln(7\cdot \ln(x))}{2}$}
-    %\choice[correct]{$\frac{\ln(\ln(x^3))}{2}$}
-  %\end{selectAll}
-%\end{question}
-
-%%%%%%%%%%%%%%%Exercises%%%%%%%%%%%%%%
-
-\section{Definite Integrals}
-For continuous functions, the Fundamental Theorem of Calculus provides the link between the process of antidifferentiation and finding certain areas.  This will be reviewed in a subsequent section, but we review how to compute definite integrals of continuous functions here:
-
-\begin{theorem}[Fundamental Theorem of Calculus]\index{Fundamental Theorem of Calculus}
-  Let $f$ be continuous on $[a,b]$. If $F$ is \textbf{any}
-  antiderivative of $f$, then
-  \[
-  \int_a^b f(x)\d x = F(b)-F(a).
-  \]
-\end{theorem}
-
-\begin{example}
-Calculate $\int_0^{2\ln(3)} 2e^x \d x.$  We find the antiderivative first, then evaluate the expression given by the Fundamental Theorem of Calculus:
-
-\begin{align*}
-\int_0^{2\ln(3)} 2e^x \d x &= \eval{\answer[given]{2e^x}}_0^{2\ln(3)} \\
-&= 2e^{2\ln(3)}-2e^0 \\
-\end{align*}
-
-To simplify the answer, we can proceed in two ways:
-
-\emph{Way 1:} Using the law of logarithms $b \ln(a) = \ln(a^b)$, we have:
-
-\[
-e^{2\ln(3)} = e^{\ln(3^2)} = e^{\ln(9)} = \answer[given]{9}
-\]
-
-\emph{Way 2:} Using the law of exponents $e^{ab} = \left(e^a\right)^b$:
-
-\[
-e^{2\ln(3)} = \left(e^{\ln(3)}\right)^2 = (3)^2 = \answer[given]{9}
-\]
-
-Thus, we have:
-
-\[
-\int_0^{\ln(3)} 2e^x \d x = 2e^{2\ln(3)}-2e^0 = 2(9)-2(1) = \answer[given]{16}
-\]
-
-\begin{remark}
-Simplifying expressions like $e^{b \ln(a)}$ appear frequently, especially in courses in differential equations.  In many contexts, simplifying this type of expression incorrectly (or failing to simplify it at all) will make it impossible to proceed.  We thus highlight how to work with this type of expression here.
-\end{remark}
-\end{example}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-\section{Common techniques for finding antiderivatives}
-In some sense, calculating derivatives is ``easy".  Most of the functions that we've studied so far are sums, scalar multiples, products, quotients, or compositions of the functions listed at the beginning of this section.  A ``brute force" application of the sum, scalar multiple, product, quotient, and chain rules will eventually lead to a correct derivative.  Integration is more of an art form.  We often have to apply various techniques in order to write down a nice formula for the antiderivatives. We explore some of the common ones here:
-
-\section{Preliminary algebra}
-
-A good first step in attempting to compute antiderivatives involves simplifying the integrand first.  Make sure you are careful when doing algebra!
-
-
-
+A good first step in attempting to compute antiderivatives involves simplifying the integrand first.  Doing so requires careful algebra.
 \begin{example}
   Compute:
   \[
   \int (7-x^2)^2 \d x
   \]
   \begin{explanation}
-    Let's start by expanding the integrand:
+   Note first that $(7-x^2)^2 \neq 49-x^4$; we need to expand the integrand by writing out $(7-x^2)(7-x^2)$:
     \[
     \int (7-x^2)^2 \d x  = \int \answer[given]{49 - 14x^2 + x^4} \d x
     \]
@@ -392,23 +41,25 @@ A good first step in attempting to compute antiderivatives involves simplifying 
   \end{explanation}
 \end{example}
 
-\begin{example}
-Consider the indefinite integral $\int \sqrt{x}(x+1)^2 \d x$.  
 
-Note that $\sqrt{x}(x+1)^2 \neq (\sqrt{x}(x+1))^2$ by order of operations (exponentiation comes first). Instead, we can expand $(x+1)^2 = \answer[given]{x^2+2x+1}$ and rewrite the integrand:
+%\begin{example}
+%Consider the indefinite integral $\int \sqrt{x}(x+1)^2 \d x$.  
+%
+%While it may be tempting, note that $\sqrt{x}(x+1)^2 \neq (\sqrt{x}(x+1))^2$ by order of operations (exponentiation comes first). Instead, we can expand $(x+1)^2 = \answer[given]{x^2+2x+1}$ and rewrite the integrand:
+%
+%\begin{align*}
+%\int \sqrt{x}(x+1)^2 \d x &= \int x^{1/2} (x^2+2x+1) \d x \\
+%&=  \int x^{5/2}+2x^{3/2}+x^{1/2} \d x \\
+%&= \frac{2}{7} x^{7/2}+\frac{4}{5}x^{5/2}+\frac{2}{3}x^{3/2}+C
+%\end{align*}
+%
+%\end{example}
 
-\begin{align*}
-\int \sqrt{x}(x+1)^2 \d x &= \int x^{1/2} (x^2+2x+1) \d x \\
-&=  \int x^{5/2}+2x^{3/2}+x^{1/2} \d x \\
-&= \frac{2}{7} x^{7/2}+\frac{4}{5}x^{5/2}+\frac{2}{3}x^{3/2}+C
-\end{align*}
-
-\end{example}
  
 \begin{example}
 Consider the indefinite integral $\int \frac{2x^2-3}{2x^2} \d x$.  
 
-While it may be tempting, note that $\frac{2x^2-3}{2x^2} \neq \frac{\cancel{2x^2}-3}{\cancel{2x^2}}$!  We can never simplify by cancelling terms over addition or subtraction!  Instead, we can split the fraction up then simplify: 
+While it may be tempting, note that $\frac{2x^2-3}{2x^2} \neq \frac{\cancel{2x^2}-3}{\cancel{2x^2}}$.  We can never simplify by cancelling terms over addition or subtraction in the denominator.  Instead, we can split the fraction up then simplify: 
 \begin{align*}
 \int \frac{2x^2-3}{2x^2} \d x &=\int \frac{2x^2}{2x^2}-\frac{3}{2x^2} \d x \\
 &=  \int 1+\frac{3}{2}x^{-2} \d x \\

@@ -1,4 +1,4 @@
-\documentclass[handout]{ximera}
+\documentclass[]{ximera}
 %handout:  for handout version with no solutions or instructor notes
 %handout,instructornotes:  for instructor version with just problems and notes, no solutions
 %noinstructornotes:  shows only problem and solutions
@@ -56,18 +56,29 @@ III. If the series $\sum_{n=1}^\infty a_n$ converges, then $\lim_{n\rightarrow \
 
 IV. If the series $\sum_{n=1}^\infty a_n$ diverges, then $\lim_{n\rightarrow \infty} a_n \neq 0$. 
 
+\begin{solution}
+I. This statement is false. For example, the harmonic series $\sum \frac{1}{n}$ diverges, while $\lim_{n \rightarrow \infty} \frac{1}{n} = 0$. 
+
+II. This is The Divergence Test, and is therefore true.
+
+III. This is the contrapositive of, and is therefore logically equivalent to, The Divergence Test, so it is true.
+
+IV. This statement is the contrapositive of the statement in I., and is false.
+\end{solution}
+
 \end{problem}
 
-\begin{freeResponse}
-solution
-\end{freeResponse}
 
 \begin{problem}
 Suppose that the series $\sum_{k=1}^\infty a_k$ has sequence of partial sums $\{s_n\}$ given by the explicit formula
 $$
 s_n = \frac{2n+1}{4n+3}.
 $$
-Student A claims that the series $\sum_{k=1}^\infty a_k$ converges because $\lim_{n \rightarrow \infty} s_n = \frac{1}{2}$. Student B claims that $\lim_n\rightarrow s_n = \frac{1}{2} \neq 0$, so the divergence test implies that the series $\sum_{k=1}^\infty a_k$ diverges. Which (if either) student is correct?
+Student A claims that the series $\sum_{k=1}^\infty a_k$ converges because $\lim_{n \rightarrow \infty} s_n = \frac{1}{2}$. Student B claims that $\lim_{n\rightarrow \infty} s_n = \frac{1}{2} \neq 0$, so the divergence test implies that the series $\sum_{k=1}^\infty a_k$ diverges. Which (if either) student is correct?
+
+\begin{solution}
+Student A is correct, by the definition of convergence. Student B is incorrect; the divergence test deals with the limit of the sequence of  terms $a_k$, not the limit of the sequence of partial sums.
+\end{solution}
 \end{problem}
 
 \section{Group Work}
@@ -78,11 +89,15 @@ $$
 \sum_{k=1}^\infty \frac{k^3 - \ln(k+10) + k^5}{(2k+100)^5}
 $$
 converges or diverges.
-\end{problem}
 
-\begin{freeResponse}
-solution.
-\end{freeResponse}
+\begin{solution}
+Comparing the growth rates of the dominant terms in the numerator and denominator, we have 
+$$
+\lim_{k \rightarrow \infty} \frac{k^3 - \ln(k+10) + k^5}{(2k+100)^5} = \lim_{k\rightarrow \infty} \frac{k^5}{2^5 k^5} = \frac{1}{32} .
+$$
+Since the limit is nonzero, the series diverges by The Divergence Test.
+\end{solution}
+\end{problem}
 
 
 \begin{problem}
@@ -91,6 +106,25 @@ $$
 \sum_{k=2}^\infty \frac{1}{k \ln (k)}
 $$
 converges or diverges.
+
+\begin{solution}
+Since 
+$$
+\lim_{k \rightarrow \infty} \frac{1}{k \ln (k)} = 0,
+$$
+The Divergence Test is inconclusive, and we will attempt to solve the problem via The Integral Test. We compute the improper integral
+\begin{align*}
+\int_2^\infty \frac{1}{x \ln (x)} \d x
+\end{align*}
+by making the substitution $u = \ln (x)$, so that $\d u = \frac{1}{x} \d x$, so that 
+\begin{align*}
+\int_2^\infty \frac{1}{x \ln (x)} \d x &= \lim_{b \rightarrow \infty} \int_{\ln (2)}^b \frac{1}{u} \d u \\
+&= \lim_{b \rightarrow \infty} \eval{\ln(u)}_{\ln(2)}^b \\
+&= \lim_{b \rightarrow \infty} \ln(b) - \ln 2 \\
+&= \infty.
+\end{align*}
+The Integral Test therefore implies that the series diverges.
+\end{solution}
 \end{problem}
 
 \begin{problem}
@@ -99,6 +133,12 @@ For each part, determine which of the following properties each of the given seq
 I. Let $\{a_k\}_{k=1}^\infty$ be the sequence defined by $a_k = \frac{1}{k^3}$ and let $\{s_n\}_{n=1}^\infty$ denote its sequence of partial sums. 
 
 II. Let $\{a_k\}_{k=1}^\infty$ be the sequence defined by $a_k = \frac{2^k}{2^k +1}$ and let $\{s_n\}_{n=1}^\infty$ denote its sequence of partial sums.
+
+\begin{solution}
+I. The sequence $\{a_k\}$ is monotone decreasing and bounded (above and below), by inspection. Since the terms of $\{a_k\}$ are strictly positive, the sequence $\{s_n\}$ must be monotone increasing. It is straightforward to show via the Integral Test that the series $\sum \frac{1}{k^3}$ converges. It follows by the definition of convergence that the sequence $\{s_n\}$ has a finite limit and is therefore bounded.
+
+II. The sequence $\{a_k\}$ is monotone increasing and bounded, with limit $\lim_{k\rightarrow \infty} a_k = 1$. The Divergence Test implies that the series $\sum a_k$ diverges. It follows that the sequence $\{s_n\}$ is monotone increasing and bounded below (because the terms of $a_k$ are positive), but not bounded above (because $\lim_{n \rightarrow \infty} s_n = \infty$). 
+\end{solution}
 \end{problem}
 
 \end{document}

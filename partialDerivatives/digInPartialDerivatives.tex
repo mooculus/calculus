@@ -17,10 +17,18 @@
 
 Given a function $F:\R^n \to \R$, it is often useful to differentiate
 with respect to a single variable and hold the other variables as
-constants. As a concrete example, let
+constants. One way to think of a function of several variables is as a
+``machine'' with lots of knobs:
+\begin{image}
+  \includegraphics{amp.png}
+\end{image}
+One way to try and understand the machine above would be to hold all
+but one of the knobs constant, and see what happens when you
+``wiggle'' a single knob.  As a explicit example, let
 \[
 F(x,y) = x^2+2y^2
 \]
+Here $F$ is our ``machine'' and the variables are the ``knobs.''
 Fixing $y=2$, allows us to focus our attention to all points on the
 surface where the $y$-value is $2$,
 \begin{image}
@@ -74,17 +82,27 @@ We can now focus our attention on the curve
 \end{axis}
 \end{tikzpicture}
 \end{image}
-and differentiate this curve purely with respect to $x$.
+and differentiate this curve purely with respect to $x$. In a similar way, we could fix $x$ and differentiate with respect to $y$.
 
 \begin{definition}
   Given a function $F:\R^n\to\R$, the \dfn{partial derivative} of $F$
   with respect to the $i$th variable is denoted:
-  \[
-  \pp{x_i} F(\vec{x})
-  \]
-  This means that one should take the derivative with respect to $x_i$
-  while treating all other variables as constants. 
+  \begin{align*}
+  \pp{x_i} F(x_1,x_2,\dots,x_n) &= \pp{x_i} F(\vec{x})\\
+  &= \lim_{h\to 0} \frac{F(x_1,\dots,x_i+h,\dots,x_n) - F(x_1,\dots,x_n)}{h}
+  \end{align*}
+  This means that one should take the single-variable derivative with
+  respect to $x_i$ of $F$ while treating all other variables as
+  constants.
 \end{definition}
+
+\begin{onlineOnly}
+  The following interactive let's you see whats going on with partial derivatives:
+  \begin{center}
+    \geogebra{sdfekprj}{800}{600}%https://ggbm.at/sdfekprj
+  \end{center}
+\end{onlineOnly}
+
 
 \begin{question}
   Let $F(x,y) = x^2+2y^2$. Compute:
@@ -108,14 +126,12 @@ and differentiate this curve purely with respect to $x$.
 
 \begin{definition}\index{partial derivative!notation}
   There are several different notations for the partial derivative.
-  The two we'll mainly be using are
+  We'll mainly be using these:
   \begin{align*}
-    \pp{x} F(x,y,z) &= F^{(1,0,0)}(x,y,z),\\
-    \pp{y} F(x,y,z) &= F^{(0,1,0)}(x,y,z),\\
-    \pp{z} F(x,y,z) &= F^{(0,0,1)}(x,y,z).
+    \pp{x} F(x,y,z) &= F^{(1,0,0)}(x,y,z) = F_x(x,y,z),\\
+    \pp{y} F(x,y,z) &= F^{(0,1,0)}(x,y,z) = F_y(x,y,z),\\
+    \pp{z} F(x,y,z) &= F^{(0,0,1)}(x,y,z) = F_z(x,yz).
   \end{align*}
-  Other texts sometimes use $F_x$ to mean $\pp[F]{x}$, but we won't
-  use that notation.
 \end{definition}
 
 \begin{question}
@@ -145,9 +161,9 @@ only $x$ varies: $y$ is held constant.
 Imagine standing in a rolling meadow, then beginning to walk due
 east. Depending on your location, you might walk up, sharply down, or
 perhaps not change elevation at all. This is similar to measuring
-$\pp[z]{x}$: you are moving only east (in the ``$x$''-direction) and
+$\pp[z]{x}$: you are moving only east (in the $x$-direction) and
 not north/south at all. Going back to your original location, imagine
-now walking due north (in the ``$y$''-direction). Perhaps walking due
+now walking due north (in the $y$-direction). Perhaps walking due
 north does not change your elevation at all. This is analogous to
 $\pp[z]{y}=0$: $z$ does not change with respect to $y$. We can see
 that $\pp[z]{x}$ and $\pp[z]{y}$ do not have to be the same, or even
@@ -569,46 +585,38 @@ We can also estimate partial derivatives by looking at level curves.
 \section{Combining partial derivatives}
 
 While a function $f:\R\to\R$ only has one second derivative. However,
-functions $F:\R^2\to R$ have $4$ \textit{second partial derivatives}
+functions $F:\R^2\to \R$ have $4$ \textit{second partial derivatives}
 and functions $F:\R^3\to\R$ have $9$ \textit{second partial
   derivatives}! Don't run off yet, things get better.
 
 \begin{definition}
-  Let $F(x,y)$ be continuous on an open set $S$.
+  Let $F:\R^n\to\R$ be continuous on an open set $S$.
   \begin{itemize}\index{partial derivative!pure}
   \item The \dfn{second pure partial derivative} of $F$ with respect to $x$ then $x$ is
     \[
-    \pp{x}\left(\pp[F]{x}\right) = \frac{\partial^2 F}{\partial x^2} = \left(F^{(1,0)}\right)^{(1,0)}= F^{(2,0)}
+    \pp{x}\left(\pp[F]{x}\right) = F_{xx}=\frac{\partial^2 F}{\partial x^2} = \left(F^{(1,0)}\right)^{(1,0)}= F^{(2,0)}
     \]
   \item The \dfn{second pure partial derivative} of $F$ with respect to
-    $x$ then $y$ is
+    $y$ then $y$ is
     \[
-    \pp{y}\left(\pp[F]{x}\right) = \frac{\partial^2F}{\partial y\partial x} = \left(F^{(1,0)}\right)^{(0,1)}
+    \pp{y}\left(\pp[F]{y}\right) = F_{yy}=\frac{\partial^2F}{\partial y^2} = \left(F^{(0,1)}\right)^{(0,1)} = F^{(0,2)}
     \]
-
-%\item The \textbf{second partial derivative of $f$ with respect to $y$ then $y$} is $$\frac{\partial}{\partial y}\left(\frac{\partial f}{\py}\right) = \frac{\partial^2 f}{\py^2} = \big(\,f_y\,\big)_y= f_{yy}$$
-%
-%\item The \textbf{second partial derivative of $f$ with respect to $y$ then $x$} is $$\frac{\partial}{\partial x}\left(\frac{\partial f}{\py}\right) = \frac{\partial^2f}{\px\py} = \big(\,f_y\,\big)_x = f_{yx}$$
 \end{itemize}
-Similar definitions hold for $\frac{\partial^2F}{\partial y^2} =
-F^{(0,2)}$ and $\frac{\partial^2F}{\partial x\partial y} =
-\left(F^{(0,1)}\right)^{(1,0)}$. Moreover, there is also the notion of
+Moreover, there is also the notion of
 a \dfn{mixed partial derivative},
 \[
-\frac{\partial^2F}{\partial y\partial x} \quad{and}\quad \frac{\partial^2F}{\partial x\partial y}
+\frac{\partial}{\partial y}\left(\frac{\partial F}{\partial x}\right) = \frac{\partial^2F}{\partial y\partial x} = \left(F_x\right)_y = F_{xy}
 \]
+and
+\[
+\frac{\partial}{\partial x}\left(\frac{\partial F}{\partial y}\right) = \frac{\partial^2F}{\partial x\partial y} = \left(F_y\right)_x =F_{yx}
+\]
+The notation $F^{(1,1)}$ is ambiguious, it does not state which
+derivative should be taken first. As we will see, in practice this is
+not too much of a problem.
 \index{partial derivative!mixed}\index{partial derivative!second derivative}\index{derivative!mixed partial}
 \end{definition}
 
-The notation of second partial derivatives gives some insight into the
-notation of the second derivative of a function of a single
-variable. If $y=f(x)$, then $f''(x) = \frac{\d^2 y}{\d x^2}$. The
-``$\d^2y$'' portion means ``take the derivative of $y$ twice,'' while
-``$\d x^2$'' means ``with respect to $x$ both times.'' When we only know
-of functions of a single variable, this latter phrase seems silly:
-there is only one variable to take the derivative with respect to. Now
-that we understand functions of multiple variables, we see the
-importance of specifying which variables we are referring to.
 
 \begin{question}
   Consider:

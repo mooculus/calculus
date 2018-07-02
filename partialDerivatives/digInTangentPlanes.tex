@@ -19,39 +19,88 @@
 
 \subsection{Finding tangent planes}
 
-We say that a function $F: \R^2 \to \R$ is differentiable at some point $a$ if we can 
-zoom in on the graph of the function at $a$ and observe that the graph looks more 
-and more like a plane near that point.  We have called this plane the tangent plane 
-to $F$ at $a$. Let's turn our attention to finding an equation for this plane.
+We say that a function $F: \R^2 \to \R$ is differentiable at some
+point $a$ if we can zoom-in on the graph of the function at $a$ and
+observe that the graph looks more and more like a plane near that
+point.  We have called this plane the \dfn{tangent plane} to $F$ at
+$a$. Let's turn our attention to finding an equation for this plane.
 
-As we are hoping is becoming a habit, let's start by looking again at the case of 
-functions of one variable, and use what we know from our previous calculus courses 
-to answer our questions in higher dimensions.  As usual with this strategy, we 
-proceed with care.
+As we are hoping is becoming a habit, let's start by looking again at
+the case of functions of one variable, and use what we know from our
+previous calculus courses to answer our questions in higher
+dimensions.  As usual with this strategy, we proceed with care.
 
-Given a function $f : \R \to \R$ and a point of interest $a$ in the domain of $f$, we 
-have previously found an equation for the tangent line to $f$ at $a$, which we also 
-called the linear approximation to $f$ at $a$.
+Given a function $f : \R \to \R$ and a point of interest $x=a$ in the
+domain of $f$, we have previously found an equation for the tangent
+line to $f$ at $x=a$, which we also called the linear approximation to
+$f$ at $x=a$.
 \[
-L(x) = f(a) + f'(a) \cdot (x-a)
+\l(x) = f(a) + f'(a) \cdot (x-a)
 \]
 
-There are three things we should notice about this linear approximation.  First, we 
-think about its geometry.  We know that $f'(a)$ is the rate of change of $f$ at $a$, 
-and we can think of $(x-a)$ as a distance we have moved from the point $a$.  
-Multiplying the two together then gives us an approximate change in the value of the 
-function, so to find the new approximate function value, we need to add on our 
-original height, or $f(a)$.
+There are three things we should notice about this linear
+approximation.
 
-Second, we remember that this linear approximation $L(x)$ is also the first-order 
-Taylor approximation to $f$.  In other words, $L(x)$ is a function which has the same 
-value as $f$ at the point $a$, and also has the same first derivative as $f$ at $a$.
+\paragraph{First think about geometry.}  We know that:
+\begin{itemize}
+\item $f'(a)$ is the rate of change of $f$ at $a$.
+\item $(x-a)$ is the distance we have moved from the point $a$.
+\item $f(a)$ is the ``height'' of $f$ at $x=a$.
+\end{itemize}
 
-Third, we recall that as we zoom in on the function $f$ at $a$, its graph looks more 
-and more like the tangent line $L(x)$.
+Multiplying $f'(a)$ and $(x-a)$ gives us an approximate change in the
+value of the function, so to find the new approximate function value,
+we need to add on our original height, or $f(a)$.
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            domain=0:2, range=0:2.5,ymax=2.5,ymin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,1.5}, ytick={1,1.5},
+            xticklabels={$a$,$x$}, yticklabels={$f(a)$,$\l(x)$},
+            axis on top,clip=false
+          ]         
+      	  \addplot [textColor,dashed] plot coordinates {(1,0) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,1) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,1.5) (1.5,1.5)};
+          \addplot [textColor,dashed] plot coordinates {(1,1) (1.5,1)};
+          \addplot [textColor,dashed] plot coordinates {(1.5,0) (1.5,1.5)};
+          \addplot [ultra thick,penColor, smooth,domain=(0:1.6)] {-1/(x-2)};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.5,1.5)};  %% closed hole          
+          \addplot [very thick,penColor2, smooth,domain=(0:2)] {x};
+
+          \addplot[decoration={brace,mirror,raise=.1cm},decorate,thin] plot coordinates {(1.05,1) (1.45,1)};
+          \node[below] at (axis cs: 1.25,.9) {$(x-a)$};
+
+          \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates {(1.5,1) (1.5,1.5)};
+          \node[right] at (axis cs: 1.6,1.25) {$f'(a)\cdot(x-a)$};
+
+          \addplot[decoration={brace,raise=.2cm},decorate,thin] plot coordinates {(1,.1) (1,.9)};
+          \node[left] at (axis cs: .9,.5) {$f(a)$};
+        \end{axis}
+\end{tikzpicture}
+    \end{image}
+    So we see that:
+    \[
+    \l(x) = \underbrace{f(a)}_{\text{height}} + \overbrace{f'(a)}^{\text{rate}} \cdot \underbrace{(x-a)}_{\text{change}} 
+    \]
+
+    
+\paragraph{Second this is an approximation.}
+
+Specifically this linear approximation $\l(x)$ is also the first-order
+Taylor approximation to $f$.  In other words, $\l(x)$ is a function
+which has the same value as $f$ at the point $a$, and also has the
+same first derivative as $f$ at $a$.
+
+Third, we recall that as we zoom in on the function $f$ at $a$, its
+graph looks more and more like the tangent line $\l(x)$.
 
 Now consider the case of $F : \R^2 \to \R$.  We will reconsider the three points we 
-made about $L(x)$, but in the reverse order and for our function $F$.  First (or third), 
+made about $\l(x)$, but in the reverse order and for our function $F$.  First (or third), 
 we have convinced ourselves that as we zoom in on $F$ at some point $(a,b)$, the 
 graph looks more and more like a plane.  We will call this plane the linear 
 approximation to $F$ at $(a,b)$.  We have seen that the general formula for the 
@@ -59,7 +108,7 @@ equation of a plane is
 \[
 0 = a(x-x_0) + b(y-y_0) + c(z-z_0).
 \]
-Our one variable linear approximation $L(x)$ was a function just of $x$, so we want 
+Our one variable linear approximation $\l(x)$ was a function just of $x$, so we want 
 our two variable linear approximation to be a function of $x$ and $y$.  Solving our 
 plane equation for $z$, we find
 \[

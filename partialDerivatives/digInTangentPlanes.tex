@@ -15,20 +15,110 @@
 \end{abstract}
 \maketitle
 
+\section{Finding tangent planes}
 
-
-\subsection{Finding tangent planes}
-
-We say that a function $F: \R^2 \to \R$ is differentiable at some
-point $a$ if we can zoom-in on the graph of the function at $a$ and
-observe that the graph looks more and more like a plane near that
-point.  We have called this plane the \dfn{tangent plane} to $F$ at
-$a$. Let's turn our attention to finding an equation for this plane.
 
 As we are hoping is becoming a habit, let's start by looking again at
 the case of functions of one variable, and use what we know from our
 previous calculus courses to answer our questions in higher
-dimensions.  As usual with this strategy, we proceed with care.
+dimensions.  As usual with this strategy, we proceed with care.  In
+the past you may have learned:
+\begin{quote}\index{tangent line}
+Given a function $f$ and a number $a$ in the domain of $f$, if one can
+``zoom in'' on the graph at $(a, f(a))$ sufficiently so that it
+appears to be a straight line, then the function is
+\dfn{differentiable}, and that line is the \dfn{tangent line} to
+$f$ at the point $(a,f(a))$.
+\end{quote}
+We illustrate this informal definition with the following diagram:
+\begin{image}
+\begin{tikzpicture}
+ \begin{axis}[
+           domain=0:6, range=0:7,
+           ymin=-.2,ymax=7,
+           width=6in,
+           height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+           axis lines=none,
+         ]   
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+         
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+         \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+         
+
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+
+         \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+         \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+         %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+         \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+         
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+         \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+         \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+         
+         \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+         \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+         \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+         \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+         
+         \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+         \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+         \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+         \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+
+         \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+         \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+         \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+         \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+
+         \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+         \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+         \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+         \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+
+         \node at (axis cs:2.2,0) [anchor=east] {$x$};
+         \node at (axis cs:0,6.6) [anchor=north] {$y$};
+       \end{axis}
+\end{tikzpicture}
+%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+%%   sufficiently so that the graph seems to be a line, then that line is
+%%   the \textbf{tangent line} to $f$ at the point determined by $(a,
+%%   f(a))$.}
+%% \label{figure:informal-tangent}
+\end{image}
+
+We can give a similar informal definition for functions of two
+variables.
+\begin{quote}\index{tangent plane}
+  Given a function $F:\R^2\to\R$ and a vector $\vec{a}$ in the domain
+  of $F$, if one can ``zoom in'' on the graph at $(\vec{a},
+  F(\vec{a}))$ sufficiently so that it appears to be a plane, then the
+  function is \dfn{differentiable}, and that plane is the \dfn{tangent
+    plane} to $F$ at the point $(\vec{a},F(\vec{a}))$.
+\end{quote}
+
+Let's turn our attention to finding an equation for this tangent
+plane.
+
+
+\subsection{The single variable case}
 
 Given a function $f : \R \to \R$ and a point of interest $x=a$ in the
 domain of $f$, we have previously found an equation for the tangent
@@ -38,10 +128,9 @@ $f$ at $x=a$.
 \l(x) = f(a) + f'(a) \cdot (x-a)
 \]
 
-There are three things we should notice about this linear
-approximation.
+There are twothings we should notice about this linear approximation.
 
-\paragraph{First think about geometry.}  We know that:
+\paragraph{First, think about geometry}  We know that:
 \begin{itemize}
 \item $f'(a)$ is the rate of change of $f$ at $a$.
 \item $(x-a)$ is the distance we have moved from the point $a$.
@@ -78,8 +167,8 @@ we need to add on our original height, or $f(a)$.
           \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates {(1.5,1) (1.5,1.5)};
           \node[right] at (axis cs: 1.6,1.25) {$f'(a)\cdot(x-a)$};
 
-          \addplot[decoration={brace,raise=.2cm},decorate,thin] plot coordinates {(1,.1) (1,.9)};
-          \node[left] at (axis cs: .9,.5) {$f(a)$};
+          \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates {(1.5,.1) (1.5,.9)};
+          \node[right] at (axis cs: 1.6,.5) {$f(a)$};
         \end{axis}
 \end{tikzpicture}
     \end{image}
@@ -89,47 +178,64 @@ we need to add on our original height, or $f(a)$.
     \]
 
     
-\paragraph{Second this is an approximation.}
+\paragraph{Second, this is an approximation}
 
-Specifically this linear approximation $\l(x)$ is also the first-order
-Taylor approximation to $f$.  In other words, $\l(x)$ is a function
-which has the same value as $f$ at the point $a$, and also has the
-same first derivative as $f$ at $a$.
+Specifically the tangent line $\l$ to a function $f$ is a line
+constructed so that:
+\begin{itemize}
+\item $\l(a) = f(a)$
+\item $\l'(a) = f'(a)$
+\end{itemize}
+When the values of $\l$ and $f$ are equal at $x=a$, and they are
+changing at the same rates at $x=a$, then it is only reasonable that
+$\l$ is a good approximation of $f$.  Moreover, $\l$ is also the
+first-order Taylor approximation to $f$.
 
-Third, we recall that as we zoom in on the function $f$ at $a$, its
-graph looks more and more like the tangent line $\l(x)$.
 
-Now consider the case of $F : \R^2 \to \R$.  We will reconsider the three points we 
-made about $\l(x)$, but in the reverse order and for our function $F$.  First (or third), 
-we have convinced ourselves that as we zoom in on $F$ at some point $(a,b)$, the 
-graph looks more and more like a plane.  We will call this plane the linear 
-approximation to $F$ at $(a,b)$.  We have seen that the general formula for the 
-equation of a plane is
+
+\subsection{The two variable case}
+
+Now consider a differentiable function $F : \R^2 \to \R$. Here the
+formula for the tangent plane at $\vec{a} =\vector{a,b}$ is given by:
 \[
-0 = a(x-x_0) + b(y-y_0) + c(z-z_0).
+T_{\vec{a}} (x,y) =F(\vec{a})+ F^{(1,0)}(\vec{a}) (x-a)+ F^{(0,1)}(\vec{a}) (y-b)
 \]
-Our one variable linear approximation $\l(x)$ was a function just of $x$, so we want 
-our two variable linear approximation to be a function of $x$ and $y$.  Solving our 
-plane equation for $z$, we find
-\[
-z = \frac{a}{c}(x-x_0) + \frac{b}{c}(y-y_0) - c\cdot z_0.
-\]
-If we rename the coefficients and rearrange, we have
-\[
-z = L(x,y) = T_{\vec{a}}(\vec{x}) = c_0 + c_1(x-x_0) + c_2(y-y_0), 
-\]
-where $c_0, c_1, x_0$, and $y_0$ are real numbers, $\vec{x} = \vector{x,y}$, and $
-\vec{a} = \vector{a,b}$.  In our case, we would like this plane to pass through the point $(a, b, F(a,b))$, so we know that $x_0 = a$ and $y_0 = b$.
+We will work as we did above, but in the \textit{reverse} order.
 
-Second, we would certainly like our tangent plane $L(x,y)$ to pass through the point 
-$F(a,b)$.  We would also like the partial derivatives of $F$ at $(a,b)$ to match the 
-partial derivatives of $L(x,y) = T_{\vec{a}}(\vec{x})$ at $(a,b)$.  In other words, we 
-have the following conditions.
+\paragraph{First, this is an approximation}
+
+Note, first that $z=T_{\vec{a}} (x,y)$ is a plane. To be a bit pedantic, we can write
 \begin{align*}
-F(\vec{a}) &=T_{\vec{a}}(\vec{a}) \\
- F^{(1,0)}(\vec{a})&=T_{\vec{a}}^{(1,0)}(\vec{a})\\
-F^{(0,1)}(\vec{a})&= T_{\vec{a}}^{(0,1)}(\vec{a})
+z &= T_{\vec{a}} (x,y)\\
+z &= F(\vec{a})+ F^{(1,0)}(\vec{a}) \answer[given]{(x-a)}+ F^{(0,1)}(\vec{a}) \answer[given]{(y-b)}
 \end{align*}
+and rearranging, we find:
+\[
+\underbrace{a\cdot F^{(1,0)}(\vec{a}) + b\cdot F^{(0,1)}(\vec{a})- F(\vec{a})}_{\text{a number}} = F^{(1,0)}(\vec{a}) \answer[given]{x}+ F^{(0,1)}(\vec{a}) \answer[given]{y} -z 
+\]
+
+\begin{question}
+  Given a differentiable function $F:\R^2\to\R$, find a vector normal
+  to $T_{\vec{a}} (x,y)$.
+  \begin{prompt}
+    \[
+    \vec{n} = \vector{F^{(1,0)}(\vec{a}), F^{(0,1)}(\vec{a}), \answer[given]{-1}}.
+    \]
+  \end{prompt}
+\end{question}
+
+Now note that the function $T_{\vec{a}}$ is cooked-up so that:
+\begin{itemize}
+\item $T_{\vec{a}} (a,b) = F(a,b)$
+\item $T_{\vec{a}}^{(1,0)} (a,b) = F^{(1,0)}(a,b)$
+\item $T_{\vec{a}}^{(0,1)} (a,b) = F^{(0,1)}(a,b)$
+\end{itemize}
+So, $z=T_{\vec{a}}(x,y)$ is a plane that approximates $z=F(x,y)$  near
+the point $(a,b,F(a,b)$.
+
+
+
+DO A SPECIFIC EXAMPLE NOW!!!
 
 \begin{question}
 What are the first partial derivatives of the tangent plane $T_{\vec{a}}(\vec{x})$, as 
@@ -172,6 +278,10 @@ the surface at $\vec{a}$ and the partial derivatives all agree at $\vec{a}$.  Sa
 tangent plane has the same partial derivatives as the function is another way of 
 saying that tangent plane has to contain the tangent lines we can find using the 
 partial derivatives.
+
+
+\paragraph{Second, think about geometry}
+
 
 Finally, let's look at some of the geometry of the equation we just found.  We know 
 that $F^{(1,0)}(a,b)$ is the rate of change of $F$ at $(a,b)$ in the direction of $x$, 

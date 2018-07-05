@@ -211,9 +211,13 @@ z &= F(\vec{a})+ F^{(1,0)}(\vec{a}) \answer[given]{(x-a)}+ F^{(0,1)}(\vec{a}) \a
 \end{align*}
 and rearranging, we find:
 \[
-\underbrace{a\cdot F^{(1,0)}(\vec{a}) + b\cdot F^{(0,1)}(\vec{a})- F(\vec{a})}_{\text{a number}} = F^{(1,0)}(\vec{a}) \answer[given]{x}+ F^{(0,1)}(\vec{a}) \answer[given]{y} -z 
+a\cdot F^{(1,0)}(\vec{a}) + b\cdot F^{(0,1)}(\vec{a})- F(\vec{a}) = F^{(1,0)}(\vec{a}) \answer[given]{x}+ F^{(0,1)}(\vec{a}) \answer[given]{y} -z 
 \]
-
+and this is the equation of a plane, as it is:
+\[
+\text{number} = \text{number}\cdot x + \text{number}\cdot y + \text{number}\cdot z
+\]
+Let's see if you get this.
 \begin{question}
   Given a differentiable function $F:\R^2\to\R$, find a vector normal
   to the plane $z= L (x,y)$.
@@ -258,32 +262,43 @@ the point $(a,b,F(a,b)$.
   \end{question}
 \end{question}
 
-Our equation for the tangent plane then becomes
+Foreshadwoing a bit, our formula for our linear approximation is:
 \[
-z = L(x,y) = F(\vec{a})+ F^{(1,0)}(\vec{a}) (x-a)+ F^{(0,1)}(\vec{a}) (y-b)
+L(x,y) = F(\vec{a})+ F^{(1,0)}(\vec{a}) (x-a)+ F^{(0,1)}(\vec{a}) (y-b)
 \]
 
-This should look quite a lot like what we might want from a first-order Taylor 
-approximation to our function $F$.  That is, the tangent plane at $\vec{a}$ touches 
-the surface at $\vec{a}$ and the partial derivatives all agree at $\vec{a}$.  Saying the 
-tangent plane has the same partial derivatives as the function is another way of 
-saying that tangent plane has to contain the tangent lines we can find using the 
-partial derivatives.
+This look like what we might want from a first-order Taylor
+approximation to our function $F$ as:
+\begin{itemize}
+\item $L(a,b) = F(a,b)$
+\item $L^{(1,0)} (a,b) = F^{(1,0)}(a,b)$
+\item $L^{(0,1)} (a,b) = F^{(0,1)}(a,b)$
+\end{itemize}
+Said in words, the tangent plane at $\vec{a}$ touches the surface at
+$\vec{a}$ and the first partial derivatives of $L$ and $F$ agree
+at $\vec{a}$.
+
+%% Saying the tangent plane has the same partial derivatives as the
+%% function is another way of saying that tangent plane has to contain
+%% the tangent lines we can find using the partial derivatives.
 
 
 \paragraph{Second, think about geometry}
 
 
-Finally, let's look at some of the geometry of the equation we just found.  We know 
-that $F^{(1,0)}(a,b)$ is the rate of change of $F$ at $(a,b)$ in the direction of $x$, 
-and again we can think of $(x-a)$ as a distance we have moved from the point $a$, 
-but just in the $x$-direction.  Similarly, we know that $F^{(0,1)}(a,b)$ is the rate of 
-change of $F$ at $(a,b)$ in the direction of $y$, and we can think about $(y-b)$ as a 
-distance we have moved from $b$, but just in the $y$-direction.  Adding these two 
-together, we see that we have moved away from the point $(a,b)$, and we are 
-combining these rates of change to get an approximate change in the value of $F$.  
-Adding this to our original function value $F(a,b)$ gives us our new approximate 
-function value.  In other words, $L(x,y)$ approximates $F(x,y)$ near $(a,b)$.
+Finally, let's look at some of the geometry of the equation we just
+found.  We know that $F^{(1,0)}(a,b)$ is the rate of change of $F$ at
+$(a,b)$ in the direction of $x$, and again we can think of $(x-a)$ as
+a distance we have moved from the point $a$, but just in the
+$x$-direction.  Similarly, we know that $F^{(0,1)}(a,b)$ is the rate
+of change of $F$ at $(a,b)$ in the direction of $y$, and we can think
+about $(y-b)$ as a distance we have moved from $b$, but just in the
+$y$-direction.  Adding these two together, we see that we have moved
+away from the point $(a,b)$, and we are combining these rates of
+change to get an approximate change in the value of $F$.  Adding this
+to our original function value $F(a,b)$ gives us our new approximate
+function value.  In other words, $L(x,y)$ approximates $F(x,y)$ near
+$(a,b)$.
 
 \begin{image}
   \begin{tikzpicture}
@@ -305,21 +320,21 @@ function value.  In other words, $L(x,y)$ approximates $F(x,y)$ near $(a,b)$.
 	%extra y tick labels={$a$},
 	%extra z ticks={1},
 	%extra z tick labels={$h$},
-	ymin=-.5,ymax=4.9,
-	xmin=-.5,xmax=4.9,
-	zmin=-.5, zmax=2.9,
+	ymin=-4.9,ymax=4.9,
+	xmin=-4.9,xmax=4.9,
+	zmin=-4, zmax=4,
 	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
 	xlabel={\scriptsize $x$},
 	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
 	ylabel={\scriptsize $y$},
 	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
 	zlabel={\scriptsize $z$},
-        colormap/cool
+        colormap/cool,
       ]      
-      \addplot3[domain=0:4,,y domain=0:4,surf,opacity=.5,samples=15,samples y=15,very thin,z buffer=sort] {-.2*(x-1)^2-.05*y^2+2};
-      \addplot3[domain=0:4,,y domain=0:4,surf,red,opacity=.5,samples=15,samples y=15,very thin,z buffer=sort] {2.8-.4*x-.2*y};
-      \filldraw [penColor] (axis cs:2,2,1.6) circle (2.5pt);
-      \filldraw [penColor2] (axis cs:3,3,1) circle (2.5pt); 
+      \addplot3[domain=-4:4,,y domain=-4:4,surf,opacity=.5,samples=15,samples y=15,very thin,z buffer=sort] {-.2*(x+1)^2-.05*y^2+2};
+      \addplot3[domain=-4:4,,y domain=-4:4,surf,red,opacity=.5,samples=15,samples y=15,very thin,z buffer=sort] {2.8+.4*x+.2*y};
+      \filldraw [penColor] (axis cs:-2,-2,1.6) circle (2.5pt);
+      \filldraw [penColor2] (axis cs:3,3,4.6) circle (2.5pt); 
     \end{axis}
   \end{tikzpicture}
 \end{image}

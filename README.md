@@ -1,3 +1,26 @@
+# Compiling the textbooks using Xake (and LaTeX)
+
+Compiling these documents is a bit tricky. 
+
+First install SAGE: http://www.sagemath.org/
+This should install SageTeX.
+
+Now if you are planning to use Xake to compile this repository, you
+first need to compile:
+
+frontCover.tex
+spine.tex
+backCover.tex
+
+for every subdirectory of coverArt, for example:
+~~~~
+pdflatex coverArt/calculus1Cover/frontCover.tex
+pdflatex coverArt/calculus1Cover/spine.tex
+pdflatex coverArt/calculus1Cover/backCover.tex
+~~~~
+
+After this, you should be able to compile the .tex files and PDFlatex.
+
 This work is licensed under the Creative Commons
 Attribution-NonCommercial-ShareAlike License. To view a copy of this
 license, visit

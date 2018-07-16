@@ -381,8 +381,29 @@ false, there are surfaces that \textbf{cannot be oriented}. Consider
 \end{bmatrix}
 \]
 For your viewing pleasure, we've included a graph:
-\begin{image}
-  \includegraphics{mobius.png}
+\begin{image}%% From: http://pgfplots.net/tikz/examples/moebius-strip/
+  \begin{tikzpicture}
+  \begin{axis}[
+    hide axis,
+    view = {40}{40}
+  ]
+  \addplot3 [
+    surf,
+    colormap/cool,
+    shader     = faceted interp,
+    point meta = x,
+    samples    = 40,
+    samples y  = 5,
+    z buffer   = sort,
+    domain     = 0:360,
+    y domain   =-0.5:0.5
+  ] (
+    {(1+0.5*y*cos(x/2)))*cos(x)},
+    {(1+0.5*y*cos(x/2)))*sin(x)},
+    {0.5*y*sin(x/2)}
+  );
+  \end{axis}
+\end{tikzpicture}
 \end{image}
 This surface is called a \link[M\"{o}bius
   strip]{https://en.wikipedia.org/wiki/Mobius_strip}. It is a

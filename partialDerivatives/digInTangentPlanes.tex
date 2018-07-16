@@ -2,7 +2,7 @@
 
 \input{../preamble.tex}
 
-\author{Bart Snapp}
+\author{Bart Snapp \and Elizabeth Miller \and Jenny Sheldon}
 
 \outcome{Compute tangent planes.}
 \outcome{}
@@ -15,72 +15,487 @@
 \end{abstract}
 \maketitle
 
+\section{Finding tangent planes}
 
 
-\subsection{Finding tangent planes}
+As we are hoping is becoming a habit, let's start by looking again at
+the case of functions of one variable, and use what we know from our
+previous calculus courses to answer our questions in higher
+dimensions.  As usual with this strategy, we proceed with care.  In
+the past you may have learned:
+\begin{quote}\index{tangent line}
+Given a function $f$ and a number $a$ in the domain of $f$, if one can
+``zoom in'' on the graph at $(a, f(a))$ sufficiently so that it
+appears to be a straight line, then the function is
+\dfn{differentiable}, and that line is the \dfn{tangent line} to
+$f$ at the point $(a,f(a))$.
+\end{quote}
+We illustrate this informal definition with the following diagram:
+\begin{image}
+\begin{tikzpicture}
+ \begin{axis}[
+           domain=0:6, range=0:7,
+           ymin=-.2,ymax=7,
+           width=6in,
+           height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+           axis lines=none,
+         ]   
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
 
-In your earlier calculus courses, you often found tangent lines to
-curves. To do this, you were given a function $f$, a point $x=a$, and
-then you produced
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+         
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+         \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+         
+
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+         \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+
+         \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+         \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+         %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+         \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+         
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+         \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+
+         \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+         \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+         
+         \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+         \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+         \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+         \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+         
+         \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+         \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+         \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+         \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+
+         \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+         \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+         \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+         \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+
+         \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+         \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+         \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+         \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+
+         \node at (axis cs:2.2,0) [anchor=east] {$x$};
+         \node at (axis cs:0,6.6) [anchor=north] {$y$};
+       \end{axis}
+\end{tikzpicture}
+%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+%%   sufficiently so that the graph seems to be a line, then that line is
+%%   the \textbf{tangent line} to $f$ at the point determined by $(a,
+%%   f(a))$.}
+%% \label{figure:informal-tangent}
+\end{image}
+
+We can give a similar informal definition for functions of two
+variables.
+\begin{quote}\index{tangent plane}
+  Given a function $F:\R^2\to\R$ and a vector $\vec{a}$ in the domain
+  of $F$, if one can ``zoom in'' on the graph at $(\vec{a},
+  F(\vec{a}))$ sufficiently so that it appears to be a plane, then the
+  function is \dfn{differentiable}, and that plane is the \dfn{tangent
+    plane} to $F$ at the point $(\vec{a},F(\vec{a}))$.
+\end{quote}
+
+Let's turn our attention to finding an equation for this tangent
+plane.
+
+
+\subsection{The single variable case}
+
+Given a function $f : \R \to \R$ and a point of interest $x=a$ in the
+domain of $f$, we have previously found an equation for the tangent
+line to $f$ at $x=a$, which we also called the linear approximation to
+$f$ at $x=a$.
 \[
-y = f'(a)\cdot (x-a) + f(a)
+\l(x) = f(a) + f'(a) \cdot (x-a)
 \]
-as your tangent line. Using our new notation, we would write this same equation as
+
+There are twothings we should notice about this linear approximation.
+
+\paragraph{First, think about geometry}  We know that:
+\begin{itemize}
+\item $f(a)$ is the ``height'' of $f$ at $x=a$.
+\item $f'(a)$ is the rate of change of $f$ at $a$.
+\item $(x-a)$ is the distance we have moved from the point $a$.
+\end{itemize}
+
+Multiplying $f'(a)$ and $(x-a)$ gives us an approximate change in the
+value of the function, so to find the new approximate function value,
+we need to add on our original height, or $f(a)$.
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+            domain=0:2, range=0:2.5,ymax=2.5,ymin=0,
+            axis lines =left, xlabel=$x$, ylabel=$y$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            xtick={1,1.5}, ytick={1,1.5},
+            xticklabels={$a$,$x$}, yticklabels={$f(a)$,$\l(x)$},
+            axis on top,clip=false
+          ]         
+      	  \addplot [textColor,dashed] plot coordinates {(1,0) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,1) (1,1)};
+          \addplot [textColor,dashed] plot coordinates {(0,1.5) (1.5,1.5)};
+          \addplot [textColor,dashed] plot coordinates {(1,1) (1.5,1)};
+          \addplot [textColor,dashed] plot coordinates {(1.5,0) (1.5,1.5)};
+          \addplot [ultra thick,penColor, smooth,domain=(0:1.6)] {-1/(x-2)};
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1.5,1.5)};  %% closed hole          
+          \addplot [very thick,penColor2, smooth,domain=(0:2)] {x};
+
+          \addplot[decoration={brace,mirror,raise=.1cm},decorate,thin] plot coordinates {(1.05,1) (1.45,1)};
+          \node[below] at (axis cs: 1.25,.9) {$(x-a)$};
+
+          \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates {(1.5,1) (1.5,1.5)};
+          \node[right] at (axis cs: 1.6,1.25) {$f'(a)\cdot(x-a)$};
+
+          \addplot[decoration={brace,mirror,raise=.2cm},decorate,thin] plot coordinates {(1.5,.1) (1.5,.9)};
+          \node[right] at (axis cs: 1.6,.5) {$f(a)$};
+        \end{axis}
+\end{tikzpicture}
+    \end{image}
+    So we see that:
+    \[
+    \l(x) = \underbrace{f(a)}_{\text{height}} + \overbrace{f'(a)}^{\text{rate}} \cdot \underbrace{(x-a)}_{\text{change}} 
+    \]
+
+    
+\paragraph{Second, this is an approximation}
+
+Specifically the tangent line $\l$ to a function $f$ is a line
+constructed so that:
+\begin{itemize}
+\item $\l(a) = f(a)$
+\item $\l'(a) = f'(a)$
+\end{itemize}
+When the values of $\l$ and $f$ are equal at $x=a$, and they are
+changing at the same rates at $x=a$, then it is only reasonable that
+$\l$ is a good approximation of $f$.  Moreover, $\l$ is also the
+first-order Taylor approximation to $f$.
+
+
+
+\subsection{The two variable case}
+
+Now consider a differentiable function $F : \R^2 \to \R$. Here the
+formula for the tangent plane at $\vec{a} =\vector{a,b}$ is given by:
 \[
-T_a(x)=f(a)+f^{(1)}(a)\cdot (x-a)
+L(x,y) =F(\vec{a})+ F^{(1,0)}(\vec{a}) (x-a)+ F^{(0,1)}(\vec{a}) (y-b)
+\]
+We will work as we did above.
+
+
+
+\paragraph{First, think about geometry}
+
+
+Finally, let's look at some of the geometry of the equation we just
+found.  Working in an entirelly similar way as before, we know that:
+
+\begin{itemize}
+\item $F(\vec{a})$ is the ``height'' of $F$ at $\vector{x,y} = \vec{a}$.
+\item $F^{(1,0)}(\vec{a})$ is the rate of change of $F$ at
+  $\vector{x,y} = \vec{a}$ in the $x$-direction.
+\item $F^{(0,1)}(\vec{a})$ is the rate of change of $F$ at
+  $\vector{x,y} = \vec{a}$ in the $y$-direction.
+\item $(x-a)$ is the distance we have moved from the point $a$ in the $x$-direction.
+\item $(y-b)$ is the distance we have moved from the point $a$ in the $y$-direction.
+\end{itemize}
+
+Multiplying $F^{(1,0)}(\vec{a})$ and $(x-a)$ gives us an approximate
+change in the value of the function when moving in the
+$x$-direction. Multiplying $F^{(0,1)}(\vec{a})$ and $(y-b)$ gives us
+an approximate change in the value of the function when moving in the
+$y$-direction. Adding these two together, we see that we have moved
+away from the point $\vec{a}$, and we are combining these rates of
+change to get an approximate change in the value of $F$.  Adding this
+to our original function value $F(\vec{a})$ gives us our new
+approximate function value.  In other words, $L$ approximates
+$F$ near $\vector{x,y} = \vec{a}$.
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [
+        tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={145}{35},
+	name=myplot,
+	xtick={-2},
+        xticklabels={$a$},
+        ytick={-2},
+        yticklabels={$b$},
+	%ytick={1,2,3,4,5,6},
+	ztick={},
+        width=6in,
+        zticklabels={},
+	ymin=-4.9,ymax=4.9,
+	xmin=-4.9,xmax=4.9,
+	zmin=-1, zmax=4,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},
+        colormap/cool,
+      ]      
+      \addplot3[domain=-4:2,,y domain=-4:4,surf,opacity=.5,samples=15,samples y=15,very thin,z buffer=sort] {-.2*(x+1)^2-.05*y^2+2};
+      
+      
+      \draw[dashed] (axis cs:-2,0,0) -- (axis cs:-2,-2,0);
+      \draw[dashed] (axis cs:0,-2,0) -- (axis cs:-2,-2,0);
+      \draw[dashed] (axis cs:-2,-2,0) -- (axis cs:-2,-2,1.6);
+
+      \draw[dashed] (axis cs:-2,-2,1.6) -- (axis cs:3,-2,1.6);
+      \draw[penColor4,ultra thick] (axis cs:3,-2,1.6) -- (axis cs:3,-2,3.6);
+      
+      \draw[dashed] (axis cs:-2,-2,1.6) -- (axis cs:-2,3,1.6);
+      \draw[penColor5,ultra thick] (axis cs:-2,3,1.6) -- (axis cs:-2,3,2.6);
+
+      \draw[dashed] (axis cs:-2,3,1.6) -- (axis cs:3,3,1.6);
+      \draw[dashed] (axis cs:3,-2,1.6) -- (axis cs:3,3,1.6);
+
+
+      \filldraw [penColor] (axis cs:-2,-2,1.6) circle (2pt);
+
+      \filldraw [penColor2] (axis cs:3,3,4.6) circle (2pt);
+
+      \addplot3[domain=-4:4,,y domain=-4:4,surf,red,opacity=.5,samples=15,samples y=15,very thin,z buffer=sort] {2.8+.4*x+.2*y};
+      
+      
+      \draw[penColor4,ultra thick] (axis cs:3,3,1.6) -- (axis cs:3,3,3.6);
+      \draw[penColor5,ultra thick] (axis cs:3,3,3.6) -- (axis cs:3,3,4.6);
+      
+
+      \node[right] at (axis cs: -2,-2,1.6) {$F(\vec{a})$};
+
+      \node[left,penColor4] at (axis cs: 3,-2,2.6) {$F^{(1,0)}(\vec{a})(x-a)$};
+      \node[right,penColor5] at (axis cs: -2,3,2.1) {$F^{(0,1)}(\vec{a})(x-b)$};
+      \node[above right,penColor2] at (axis cs: 3,3,4.6) {$F(\vec{a}) + F^{(1,0)}(\vec{a})(x-a) + F^{(0,1)}(\vec{a})(x-b)$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+So we see that:
+\[
+L(x,y) = \underbrace{F(\vec{a})}_{\text{height}} + \overbrace{F^{(1,0)}(\vec{a})}^{\text{rate}} \cdot \underbrace{(x-a)}_{\text{change}} + \overbrace{F^{(0,1)}(\vec{a})}^{\text{rate}} \cdot \underbrace{(y-b)}_{\text{change}} 
 \]
 
 
-Now, for a function $F:\R^2\to\R$ which is differentiable at a vector $\vec{a}=\vector{a_1, a_2}$ we would like to use partial derivatives to find the tangent
-  plane. 
+\paragraph{Second, this is an approximation}
 
-We know from the definition above that our tangent plane is of the form:
+Note, first that $z=L (x,y)$ is a plane. To be a bit pedantic, we can write
+\begin{align*}
+z &= L(x,y)\\
+z &= F(\vec{a})+ F^{(1,0)}(\vec{a}) \answer[given]{(x-a)}+ F^{(0,1)}(\vec{a}) \answer[given]{(y-b)}
+\end{align*}
+and rearranging, we find:
 \[
-T_a(\vec{x})=c_0+ c_1 (x_1-a_1)+ c_2 (x_2-a_2)
+a\cdot F^{(1,0)}(\vec{a}) + b\cdot F^{(0,1)}(\vec{a})- F(\vec{a}) = F^{(1,0)}(\vec{a}) \answer[given]{x}+ F^{(0,1)}(\vec{a}) \answer[given]{y} -z 
 \]
+and this is the equation of a plane, as it is:
+\[
+\text{number} = \text{number}\cdot x + \text{number}\cdot y + \text{number}\cdot z
+\]
+Let's see if you get this.
+\begin{question}
+  Given a differentiable function $F:\R^2\to\R$, find a vector normal
+  to the plane $z= L (x,y)$.
+  \begin{prompt}
+    \[
+    \vec{n} = \vector{F^{(1,0)}(\vec{a}), F^{(0,1)}(\vec{a}), \answer[given]{-1}}.
+    \]
+  \end{prompt}
+\end{question}
 
-To find the constants, we use the following criteria about the tangent plane:
-
-\[
-F(\vec{a}) =T_a(\vec{a})
-\]
-\[
- F^{(1,0)}(\vec{a})=T_a^{(1,0)}(\vec{a})
-\]
-\[
-F^{(0,1)}(\vec{a})= T_a^{(0,1)}(\vec{a})
-\]
- That is, the tangent plane at $\vec{a}$ touches the surface at $\vec{a}$ and the partial derivatives all agree at $\vec{a}$.  Saying the tangent plane has the same partial derivatives as the function is another way of saying that tangent plane has to contain the tangent lines we can find using the partial derivatives.
-
-**INSERT IMAGE**\\
-It is now an easy computation to find the constants $c_0, c_1,$ and $c_2$.
-\[
-F(\vec{a})=T_a(\vec{a})=c_0+ c_1 (a_1-a_1)+ c_2 (a_2-a_2) =\answer[given]{c_0}
-\]
-\[
-F^{(1,0)}(\vec{a})= T_a^{(1,0)}(\vec{a})=\answer[given]{c_1}
-\]
-\[
-F^{(0,1)}(\vec{a})= T_a^{(0,1)}(\vec{a})=\answer[given]{c_2}
-\]
-
-Therefore, we now have the equation of the tangent plane 
-\[
-T_a(\vec{x})=F(\vec{a})+ F^{(1,0)}(\vec{a}) (x_1-a_1)+ F^{(0,1)}(\vec{a}) (x_2-a_2)
-\]
-We can rewrite this equation to look more like the equation from single variable calculus if we use the dot product.
-\[
-T_a(\vec{x})=F(\vec{a})+ \vector{F^{(1,0)}(\vec{a}), F^{(0,1)}(\vec{a})} \cdot (\vec{x}-\vec{a})
-\]
+Now note that the function $L$ is cooked-up so that:
+\begin{itemize}
+\item $L(a,b) = F(a,b)$
+\item $L^{(1,0)} (a,b) = F^{(1,0)}(a,b)$
+\item $L^{(0,1)} (a,b) = F^{(0,1)}(a,b)$
+\end{itemize}
+So, $z=L(x,y)$ is a plane that approximates $z=F(x,y)$  near
+the point $(a,b,F(a,b)$.
 
 \begin{question}
-  Find a tangent plane to $F(x,y) = 3\cos(x)\sin(y)$ at $(x,y) =
+  Let $F(x,y) = 5-2(x-3)^2 -3(y-2)^2$. Find a tangent plane at $(x,y) = (2,1)$.
+  \begin{prompt}
+    \[
+    L(x,y) = \answer{4x+6y-14}
+    \]
+  \end{prompt}
+  \begin{question}
+    Find a vector normal to the plane you found above.
+    \[
+    \vec{n} = \vector{\answer{-4},\answer{-6},1}
+    \]
+    \begin{hint}
+      From above you see:
+      \[
+      z=4x+6y-14
+      \]
+      So now write:
+      \[
+      z-4x-6y = -14
+      \]
+    \end{hint}
+  \end{question}
+\end{question}
+
+Foreshadwoing a bit, our formula for our linear approximation is:
+\[
+L(x,y) = F(\vec{a})+ F^{(1,0)}(\vec{a}) (x-a)+ F^{(0,1)}(\vec{a}) (y-b)
+\]
+
+This look like what we might want from a first-order Taylor
+approximation to our function $F$ as:
+\begin{itemize}
+\item $L(a,b) = F(a,b)$
+\item $L^{(1,0)} (a,b) = F^{(1,0)}(a,b)$
+\item $L^{(0,1)} (a,b) = F^{(0,1)}(a,b)$
+\end{itemize}
+Said in words, the tangent plane at $\vec{a}$ touches the surface at
+$\vec{a}$ and the first partial derivatives of $L$ and $F$ agree
+at $\vec{a}$.
+
+%% Saying the tangent plane has the same partial derivatives as the
+%% function is another way of saying that tangent plane has to contain
+%% the tangent lines we can find using the partial derivatives.
+
+
+
+Try your hand at this question:
+
+
+\begin{question}
+  Find an equation for the tangent plane to $F(x,y) = 3\cos(x)\sin(y)$ at $(x,y) =
   (\pi/3,\pi/6)$.
   \begin{prompt}
     \[
     z = \answer{(-3\sqrt{3}/4)\cdot (x-\pi/3) + (3\sqrt{3}/4)\cdot (y-\pi/6) + 3/4}
     \]
   \end{prompt}
+\end{question}
+
+Our next example brings together several important concepts.
+\begin{question}
+Let $F(x,y) = x^2 + 3xy + 4$.  Answer the following questions about this function.
+\begin{question}
+Find an equation for the tangent plane to $F$ at $(x,y) = (1,2)$.
+     \begin{prompt}
+     \[
+          z = \answer{11 + 8(x-1) + 3(y-2)}
+     \]
+     \end{prompt}
+\end{question}
+
+\begin{question}
+Show that the line $y = 3x - 1$ passes through the point $(1,2)$.
+     \begin{explanation}
+          We are working here in \wordChoice{\choice[correct]{the $xy$-plane} \choice{$xyz$-space}}.  We would like to see that the point $(1,2)$ lies on the line 
+          given.  To do this, we plug in $x = \answer[given]{1}$ to the equation $y = 3x - 1$.  We see that
+          \[
+          y = 3(\answer[given]{1}) - 1 = \answer[given]{3} - 1 = \answer[given]{2}.
+          \]
+          Since we got $y = 2$ when $x = 1$, the point $(1, 2)$ \wordChoice{\choice[correct]{is} \choice{is not}} on the line $y = 3x-1$.
+     \end{explanation}
+\end{question}
+
+\begin{question}
+Find a parametric description for the curve lying above $y = 3x-1$ on the surface $z = L(x,y) = x^2 + 3xy + 4$.
+     \begin{explanation}
+          First, we would like a parametric description $\vec{p}(t)$ of the curve $y = 
+          3x-1$ on the $xy$-plane.  Since this curve is already expressed in terms of 
+          $x$, the simplest choice is to take $x = \answer[given]{t}$.  We find
+          \[
+          \vec{p}(t) = \vector{\answer[given]{t}, \answer[given]{3t-1}}.
+          \]
+          The curve lying on the surface is the collection of all of the images of the 
+          points on the line $y = 3x-1$, so we would like to evaluate $F$ on all of these 
+          points.  Since we already have a parametric description $\vec{p}(t) = \vector{x(t), y(t)}$, we plug these coordinates in for $x$ and $y$ to find our $z$-
+          coordinate.  We find
+          \[
+          \vec{r}(t) = F\left( \vec{p}(t) \right ) = \vector{\answer[given]{t}, \answer[given]{3t-1}, \answer[given]{10t^2-3t+4}}
+          \]
+     \end{explanation}
+     
+     \begin{question}
+     Find an equation for the line tangent to the curve $\vec{r}(t)$ at the point $(1, 2, F(1,2))$.
+     \begin{explanation}
+          Since our tangent line is in $xyz$-space, we will need to find a parametric 
+          equation for this line.  Recall that the most straightforward way to write such 
+          an equation is 
+          \[
+          \vecl(t) = \vec{p} + t\vec{v},
+          \]
+          where $\vec{p}$ is a point on the line and $\vec{v}$ is a direction vector for the 
+          line.  The direction of $\vecl(t)$ is tangent to the curve.  We first find the 
+          tangent vector for any value of $t$.
+          \[
+          \vec{r}'(t) = \vector{\answer[given]{1}, \answer[given]{3}, \answer[given]{20t-3}}
+          \]
+          To find the tangent vector at $(1,2, F(1,2))$, we plug in $t = \answer[given]{1}$ 
+          and find $\vec{r}'(1) = \vector{1, 3, 17}$.  We know that the line goes through 
+          the point $\vector{1, 2, \answer[given]{11}}$, and so now we can write the 
+          equation of our tangent line.
+          \begin{align*}
+          \vecl(t) &= \vector{1, 2, \answer[given]{11}} + t \vector{\answer[given]{1}, \answer[given]{3}, \answer[given]{17}} \\
+          &= \vector{\answer[given]{1+t}, \answer[given]{2+3t}, \answer[given]{11+17t}}
+          \end{align*}
+     \end{explanation}     
+          \begin{question}
+          Does the tangent line $\vecl(t)$ lie in the tangent plane to $F$ at $(1,2)$?
+          \begin{explanation}
+              We could solve this problem by simply plugging in the coordinate functions 
+              of $\vecl(t)$ to the equation $z = L(x,y)$ to see if the two sides of the equals 
+              sign agree.  Instead, let's use a little geometry!
+              
+              We know that both the tangent plane $L(x,y)$ and the line $\vecl(t)$ pass 
+              through the point $(1, 2, 11)$.  Since $\vecl(t)$ is a line, its tangent vector 
+              $\vec{v}$ tells us everything we need to know about its direction.  Since 
+              $L(x,y)$ is a plane, its normal vector $\vec{n}$ tells us everything we need 
+              to know about its direction.   Then, if $\vec{v} \dotp \vec{n} = \answer[given]{0}$, 
+              we know that the vector $\vec{v}$ must lie in the plane --- and thus the 
+              entire line $\vecl(t)$ must line in the plane as well!  First, find $\vec{v}$.
+              \[
+              \vec{v} = \vector{\answer{1}, \answer{3}, \answer{17}}
+              \]
+              Next, find $\vec{n}$.
+              \[
+              \vec{n} = \vector{\answer{8}, \answer{3}, \answer{-1}}
+              \]
+              Finally, compute their dot product.
+              \[
+              \vec{v} \dotp \vec{n} = \answer{0}
+              \]                  
+         \end{explanation}
+          \end{question}
+     \end{question}
+\end{question}
+
+
+
+
+
+
 \end{question}
 
 
@@ -127,6 +542,16 @@ Find a plane tangent to the sphere when $\theta = \pi/4$ and $\phi =
   \]
 \end{explanation}
 \end{example}
+
+
+
+Because it is beneficial to recognize the dot product when it arises, notice that we 
+can rewrite the equation of the tangent plane to look more like the equation from 
+single variable calculus by using the dot product.
+\[
+T_{\vec{a}}(\vec{x})=F(\vec{a})+ \vector{F^{(1,0)}(\vec{a}), F^{(0,1)}(\vec{a})} \dotp (\vec{x}-\vec{a})
+\]
+
 
 
 

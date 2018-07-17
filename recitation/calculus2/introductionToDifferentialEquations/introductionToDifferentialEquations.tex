@@ -1,0 +1,232 @@
+\documentclass[]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../../../preamble.tex}
+
+\author{Jim Talamo}
+
+\outcome{Understand terminology associated with ODEs.}
+\outcome{Classify ODE as linear or nonlinear.}
+\outcome{Determine the order of an ODE.}
+\outcome{Verify if a given function is a solution to an ODE.}
+\outcome{Verify if a given function is a solution to an IVP.}
+\outcome{Find parameters so a function satisfies an ODE/IVP or explain why no such parameters exist.}
+
+\title{Introduction To Differential Equations}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.9in}
+
+\section{Discussion Questions}
+
+\begin{problem} 
+
+Give the order of the following ordinary differential equations (ODEs). Then, determine if they are linear or nonlinear.
+
+\begin{tabular}{lll}
+I. $\frac{d^2y}{dx^2}+3x \left(\frac{dy}{dx}\right)^4  = y^3$ \qquad & II. $\frac{d^3y}{dx^3} + 2xy\frac{dy}{dx} = x^2$  \qquad & III. $\frac{d^4y}{dx^4}+\frac{dy}{dx} -x^2y=e^{3x}$
+\end{tabular}
+
+\begin{solution}
+I. Writing 
+$$
+\frac{d^2y}{dx^2}  =  y^3 - 3x \left(\frac{dy}{dx}\right)^4,
+$$
+we see that this is a second-order differential equation. Since the right-hand side is not linear in $y$ or $\frac{\d y}{\d x}$ due to the exponents on the terms $y^3$ and $\left(\frac{dy}{dx}\right)^4$, this differential equation is nonlinear.
+
+II. The equation
+$$
+\frac{d^3y}{dx^3} = - 2xy\frac{dy}{dx} + x^2
+$$
+is third-order and nonlinear, due to the presence of the product $y \frac{\d y}{\d x}$. 
+
+III. Rewriting the equation as 
+$$
+\frac{d^4y}{dx^4} = -\frac{dy}{dx} + x^2y + e^{3x},
+$$
+we see that it is fourth-order and linear, since it is linear in $y$ and $\frac{\d y}{\d x}$. 
+\end{solution}
+\end{problem}
+
+
+\begin{problem} 
+For which of the following differential equations is $y=5e^{2x}$ a solution?
+
+\begin{tabular}{lll}
+I. $y'=5e^{2x}$ \qquad \qquad \qquad & II. $y''-3y'-y =0$ \qquad \qquad \qquad & III. $y^2\frac{dy}{dx}=50e^{2x}$
+\end{tabular}
+
+\begin{solution}
+First note that 
+$$
+y' = 10 e^{2x}
+$$
+and
+$$
+y'' = 20 e^{2x}.
+$$
+
+I. Since 
+$$
+y' = 10 e^{2x} \neq 5 e^{2x},
+$$
+$y$ is not a solution of this equation.
+
+II. Substituting $y$ and its derivatives into the equation, we have
+$$
+y''-3y'-y = 20e^{2x}-3 \cdot 10e^{2x} - 5e^{2x} = -15 e^{2x} \neq 0,
+$$
+so $y$ is not a solution.
+
+III. We have 
+$$
+y^2 \frac{dy}{dx} = \left(5e^{2x}\right)^2 \cdot 10e^{2x} = 250 e^{6x} \neq 50 e^{2x},
+$$
+so $y$ is not a solution of the equation.
+\end{solution}
+\end{problem}
+
+\section{Group Work}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+Explain whether $y= \sqrt{1-x^2}$ is a solution to the initial value problem (IVP)  below. $$\frac{dy}{dx} +\frac{2x}{y} =0, \quad y(0)=1$$
+
+\begin{solution}
+We first calculate
+$$
+\frac{dy}{dx} = \frac{1}{2} (1-x^2)^{-1/2} \cdot (-2x) = -\frac{x}{\sqrt{1-x^2}}.
+$$
+Substituting this into the equation, we have
+$$
+\frac{dy}{dx} +\frac{2x}{y} = -\frac{x}{\sqrt{1-x^2}} + \frac{2x}{\sqrt{1-x^2}} = \frac{x}{\sqrt{1-x^2}} \neq 0.
+$$
+Therefore $y$ is not a solution of the IVP.
+\end{solution}
+\end{problem}
+
+\begin{problem} 
+Consider the IVP: $$\frac{dy}{dx} +xy =0, \quad y(0)=1.$$  
+
+\begin{itemize}
+\item[I.]  Let $y=f(x)$ be a solution of the initial value problem.  Find the equation of the tangent line to $y=f(x)$ at $x=0$.
+\item[II.] Find  $y''(0)$.
+%Jim's Note: They WILL forget product rule.  please emphasize they do not have to solve the ODE to to this and point out PR is necessary.
+\end{itemize}
+
+\begin{solution}
+One approach to solving these types of problems would be to solve the IVP for $f(x)$, then answer the questions directly using the function. On the other hand, we can use the IVP to derive the necessary properties of $f(x)$ without solving for it explicitly. This is the approach we will take.
+
+I. We have $f(0) = y(0) = 1$ and 
+$$
+f'(0) = \left.\frac{dy}{dx}\right|_{x=0} = \left.-xy\right|_{x=0} = 0.
+$$
+Therefore the tangent line to $y=f(x)$ at $x=0$ is the horizontal line $y=1$. 
+
+II. From the differential equation, we have
+$$
+y' = -xy,
+$$
+and it follows that
+$$
+y'' = \frac{d}{dx}(-xy) = -y - xy'
+$$
+(remember that the product rule must be applied to take the derivative). Evaluating at $x=0$, we have
+$$
+y''(0) = -y(0)-0 \cdot y'(0) = -1.
+$$
+\end{solution}
+\end{problem}
+
+
+\begin{problem} 
+Find a function $f(x)$ so $y=\sin(x^2)$ is a solution to the ODE $\frac{dy}{dx}+4xy = f(x)$.
+
+\begin{solution}
+The derivative of $y$ is 
+$$
+\frac{dy}{dx} = \cos(x^2)\cdot 2x.
+$$
+Substituting this into the left hand side of the ODE, we have
+$$
+2x \cos(x^2)  + 4x \sin(x^2) = f(x).
+$$
+\end{solution}
+\end{problem}
+
+
+\begin{problem} 
+Consider the differential equation $y''-4y'-5y = 0$.  Find all real values for the parameter $a$ such that $y=Ce^{ax}$ is a solution to the differential equation or explain why no such values exist.
+
+\begin{solution}
+The derivatives of $y$ are 
+$$
+y' = aC e^{ax}
+$$
+and 
+$$
+y'' = a^2 C e^{ax}.
+$$
+Substituting this into the differential equation, we have
+$$
+y'' - 4y' -5y = a^2 C e^{ax} - 4 aC e^{ax} - 5Ce^{ax} = C e^{ax}\left(a^2 - 4a - 5\right) = 0.
+$$
+Therefore it must be that $C e^{ax} = 0$ or $a^2 - 4a - 5 = 0$. The first equation holds if and only if $C = 0$. We solve the second equation by factoring
+$$
+(a-5)(a+1) = 0,
+$$ 
+so that $a=-1$ or $a=5$. We conclude that if $C=0$ then all values of $a$ give a solution (but in this case $y=Ce^{ax} = 0$), and if $C \neq 0$, then $a=-1$ or $5$. 
+\end{solution}
+\end{problem}
+
+
+\begin{problem} 
+Find values of $a_1$ and $a_2$ for which $y(x) = a _1 e^{-3x}+a_2$ is a solution to the initial value problem below or explain why no such values of $a_1$ and $a_2$ exist.  $$y'(x) +3y(x) = 9  , \qquad y(0) = -1 $$
+
+\begin{solution}
+The derivative of $y$ is 
+$$
+y' = -3 a_1 e^{-3x}.
+$$
+For $y$ to solve the IVP, we need
+$$
+y' + 3y = -3a_1 e^{-3x} + 3a_1 e^{-3x} + 3 a_2 = 3 a_2 = 9.
+$$
+Therefore $a_2 = 3$. The IVP also requires 
+$$
+y(0) = a_1 e^{-3 \cdot 0} + a_2 = a_1 + 3 = -1.
+$$
+Therefore $a_1 = -4$. 
+\end{solution}
+\end{problem}
+
+
+
+\end{document}

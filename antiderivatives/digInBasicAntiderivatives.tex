@@ -576,104 +576,101 @@ When a mathematician solves a differential equation, they are finding
   \end{selectAll}
 \end{question}
 \begin{remark}
-    It turns out that the complete solution to this differential equation
-    is $Ce^x$, i.e., all the solutions of this differential equation have this form. 
+    We can directly check that any function $f(x)=Ce^x$ is a solution to our differential equation $f'(x)=f(x)$. Could there be any others? It turns out that these are the \textit{only} solutions. But how do we know that we didn't miss any?
     
-    Showing that any function $y=Ce^x$ is a solution of this  differential equation is easy, but showing that \textbf{all} of the solutions have this form is beyond the scope of this course.  
+    Well, suppose we have some mysterious function $f$ and all we know is that $f'(x)=f(x)$. Let's define a new function $g(x)=f(x)/e^x$. Since our denominator is never 0, the quotient rule tells us that
+    \[
+	    g'(x)= \frac{e^x f'(x)- f(x) e^x}{(e^x)^2} = \frac{e^x[f'(x)- f(x)]}{(e^x)^2} = \frac{e^x[0]}{(e^x)^2}=0.
+    \]
+    But we know that a function with a 0 derivative is constant, so $g(x)=C$. Plugging this back into our formula for $g(x)$ tells us that $C=f(x)/e^x$. Now we rearrange to get $f(x)=Ce^x$.
     
-      A function $Ce^x$ is called a \dfn{general solution} of the differential equation. 
-      
-   Since there are infinitely many solutions to a differential equation, we can impose additional condition, called an \dfn{initial condition}, e.g. $f(0)=1$.
-   
-   
-   The problem now is to find a function $f$ that satisfies both the differential equation (DE) and the initial condition (IC).
-     \[
-  f'(x) = f(x) \hspace{0.3in}(DE)  
-   \]  
-  \[
-  f(0) =1   \hspace{0.46in}(IC)  
-  \]
-   This is called an \dfn{initial value problem} (IVP). 
-      
-   The figure below shows several solutions of the differential equation. 
-     \begin{image}
-          \begin{tikzpicture}
-	    \begin{axis}[
-            domain=-3:3,
-            xmin=-3, xmax=3,
-            ymin=-6
-           , ymax=6,
-            axis lines =middle, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-	  \addplot [very thick, penColor, smooth] {e^x};
-         \addplot [very thick, penColor2, smooth] {2*e^x};
-    \addplot [very thick, penColor2, smooth] {-2*e^x};
-        \addplot [very thick, penColor2, smooth] {-e^x};
-          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,1)};  %% closed hole 
-          \node at (axis cs:1.6,2.3) [penColor] {$f(x)=e^x$};
-          \node at (axis cs:2.25,-5) [penColor2] {$y=-e^x$};
-          \node at (axis cs:0.25,-5) [penColor2] {$y=-2e^x$};
-            \node at (axis cs:0.54,5.5) [penColor2] {$y=2e^x$};
-        \end{axis}
-\end{tikzpicture}
+    This shows us that any solution to our differential equation \textit{has} to be one of the functions we've already found. Our argument relies on some features that are special to this problem; proving that we've found all the possible solutions to an arbitrary differential equation is a very difficult task!    
+\end{remark}
+	
+A function $Ce^x$ is called a \dfn{general solution} of the differential equation. Since there are infinitely many solutions to a differential equation, we can impose an additional condition (say $f(0)=1$), called an \dfn{initial condition}. When we are asked to find a function $f$ that satisfies both the differential equation (DE) and the initial condition (IC), this is called an \dfn{initial value problem} (IVP). Let's try one out.
+\begin{example}
+Solve the initial value problem (IVP):
+\begin{align*}
+	f'(x) & = f(x) && \text{(DE)}  \\
+	f(0) & = 0 && \text{(IC)} 
+\end{align*}
+\begin{explanation}
+The figure below shows several solutions of the differential equation. 
+\begin{image}
+	\begin{tikzpicture}
+	\begin{axis}[
+	domain=-3:3,
+	xmin=-3, xmax=3,
+	ymin=-6
+	, ymax=6,
+	axis lines =middle, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	]
+	\addplot [very thick, penColor, smooth] {e^x};
+	\addplot [very thick, penColor2, smooth] {2*e^x};
+	\addplot [very thick, penColor2, smooth] {-2*e^x};
+	\addplot [very thick, penColor2, smooth] {-e^x};
+	\addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,1)};  %% closed hole 
+	\node at (axis cs:1.6,2.3) [penColor] {$f(x)=e^x$};
+	\node at (axis cs:2.25,-5) [penColor2] {$y=-e^x$};
+	\node at (axis cs:0.25,-5) [penColor2] {$y=-2e^x$};
+	\node at (axis cs:0.54,5.5) [penColor2] {$y=2e^x$};
+	\end{axis}
+	\end{tikzpicture}
 \end{image}
 The figure suggests that the only solution to the initial value problem is the function $f(x)=e^x$.
 We can verify this result.
 
 Since all solutions of the differential equation have the form $f(x)=Ce^x$ and $f(0)=1$, it follows that 
-  \[
-  Ce^0 = 1.
-  \]
+\[
+Ce^0 = 1.
+\]
 Therefore,
- \[
-  C = \answer[given]{1}.
-  \]
-  So, the \textbf{unique} solution of the given initial value problem is the function $f(x)=e^x$.
-\end{remark}
+\[
+C = \answer[given]{1}.
+\]
+So, the \textbf{unique} solution to the given initial value problem is the function $f(x)=e^x$.
+\end{explanation}
+\end{example}
+
 \begin{example}
 Solve the initial value problem (IVP):
-\[
-f'(x)=\sin{x}
-\]
-\[
-f(0)=-1
-\]
+\begin{align*}
+f'(x) & = \sin{x}  \\
+f(0) & = -1 
+\end{align*}
 \begin{explanation}
 First, we have to solve the differential equation. The solution is clearly an antiderivative of $\sin{x}$.
 \[
 f(x)=-\answer[given]{\cos{x}}+C,
 \]
 where $C$ is an arbitrary constant. We have found the general solution of the DE  and this family of solutions is illustrated by the figure below. 
-   \begin{image}
-          \begin{tikzpicture}
-	    \begin{axis}[
-            domain=-3:3,
-            xmin=-3, xmax=3,
-            ymin=-3
-           , ymax=3,
-            axis lines =middle, xlabel=$x$, ylabel=$y$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-	  \addplot [very thick, penColor, smooth] {-cos(deg(x))};
-         \addplot [very thick, penColor2, smooth] {1-cos(deg(x))};
+\begin{image}
+	\begin{tikzpicture}
+	\begin{axis}[
+	domain=-3:3,
+	xmin=-3, xmax=3,
+	ymin=-3, ymax=3,
+	axis lines =middle, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},]
+	\addplot [very thick, penColor, smooth] {-cos(deg(x))};
+	\addplot [very thick, penColor2, smooth] {1-cos(deg(x))};
     \addplot [very thick, penColor2, smooth] {3-cos(deg(x))};
-     \addplot [very thick, penColor2, smooth] {2-cos(deg(x))};
-        \addplot [very thick, penColor2, smooth] {-1-cos(deg(x))};
-          \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-1)};  %% closed hole 
-          \node at (axis cs:0,-1.1) [penColor] {$f(x)=-\cos{x}$};
-          \node at (axis cs:0,-2.2) [penColor2] {$y=-\cos{x}-1$};
-         \node at (axis cs:0.2,-0.1) [penColor2] {$y=-\cos{x}+1$};
-            \node at (axis cs:0,0.9) [penColor2] {$y=-\cos{x}+2$};
-             \node at (axis cs:0,1.8) [penColor2] {$y=-\cos{x}+3$};
-            \node at (axis cs:0.54,5.5) [penColor2] {$y=2e^x$};
-        \end{axis}
-\end{tikzpicture}
+    \addplot [very thick, penColor2, smooth] {2-cos(deg(x))};
+    \addplot [very thick, penColor2, smooth] {-1-cos(deg(x))};
+    \addplot [color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,-1)};  %% closed hole 
+    \node at (axis cs:0,-1.1) [penColor] {$f(x)=-\cos{x}$};
+    \node at (axis cs:0,-2.2) [penColor2] {$y=-\cos{x}-1$};
+    \node at (axis cs:0.2,-0.1) [penColor2] {$y=-\cos{x}+1$};
+    \node at (axis cs:0,0.9) [penColor2] {$y=-\cos{x}+2$};
+    \node at (axis cs:0,1.8) [penColor2] {$y=-\cos{x}+3$};
+    \node at (axis cs:0.54,5.5) [penColor2] {$y=2e^x$};
+    \end{axis}
+	\end{tikzpicture}
 \end{image}
-Now, we have to find the solution that also satisfies the initial condition 
-
+Now we must find the solution that also satisfies the initial condition 
 $f(0)=-1$.
 
 Since

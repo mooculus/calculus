@@ -34,7 +34,7 @@ for something you already know:
 \end{quote}
 This tangent line is the graph of a linear function, called  the \textbf{linear approximation}.
 \begin{example}
-The graph of a function $f$  and the line tangent to the curve
+Let $f$ be a function that is differentiable on some interval I that contains the point $a$. The graph of a function $f$  and the line tangent to the curve
 
  $y=f(x)$ at the point where $x=a$ are given in the figure below.
 Find the equation of the tangent line.
@@ -113,7 +113,7 @@ Approximate $\sqrt[3]{50}$, using $L$,  a linear approximation to the function $
 \begin{explanation}
 To start, write
 \[
-\ddx f(x) = \ddx x^{1/3} = \frac{1}{\answer[given]{3x^{2/3}}}.
+\ddx f(x) = \ddx x^{1/3} = \frac{1}{3x^{\answer[given]{2/3}}}.
 \]
 \begin{align*}
 L(x) &= \answer[given]{4}+ \frac{1}{3\cdot 64^{2/3}} (x-64)  \\
@@ -153,7 +153,9 @@ $\sqrt[3]{50}\approx 3.68$.  From this we see that the linear
 approximation, while perhaps inexact, is computationally \textbf{easier}
 than computing the cube root.
 \end{explanation}
+
 What would happen if we chose $a=27$ instead?
+
 Then we would use $L_{27}$, the linear approximation to the function $f$ at $a=27$.
 In that case, $L_{27}=f(27)+f'(27)(x-27)=3+\frac{1}{27}(x-27)$.
 The graph of  $L_{27}$, together with the graphs of $f$ and $L=L_{64}$ is given in the figure below.
@@ -191,7 +193,7 @@ From the picture we can see that
  
  So, our choice, $a=64$, was better!
 \end{example}
-With modern calculators and computing software it may not appear
+With modern calculators and computing software, it may not appear
 necessary to use linear approximations. In fact they are quite
 useful. In cases requiring an explicit numerical approximation, they
 allow us to get a quick rough estimate which can be used as a
@@ -219,8 +221,8 @@ L(x) &= 0+\answer[given]{\cos(0)}\cdot(x-0)\\
 	\begin{axis}[
             xmin=-1.6,xmax=1.6,ymin=-1.5,ymax=1.5,
             axis lines=center,
-            xtick={-1.57, 0, 1.57},
-            xticklabels={$-\pi/2$, $0$, $\pi/2$},
+            xtick={-1.57, 0,0.3, 1.57},
+            xticklabels={$-\pi/2$, $0$, 0.3, $\pi/2$},
             ytick={-1,1},
             %ticks=none,
             %width=3in,
@@ -232,16 +234,18 @@ L(x) &= 0+\answer[given]{\cos(0)}\cdot(x-0)\\
           ]        
           \addplot [very thick, penColor, samples=100,smooth, domain=(-1.6:1.6)] {sin(deg(x))};
           \addplot [very thick, penColor2, samples=100,smooth] {x};
-          \node at (axis cs:1,.6) [penColor] {$f$};
-          \node at (axis cs:-1,-1.2) [penColor2] {$L$};
-          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole          
+          \addplot [textColor,dashed] plot coordinates {(0.3,0) (0.3,0.295)};
+          \node at (axis cs:1,.7) [penColor] {$f$};
+          \node at (axis cs:1,1.18) [penColor2] {$L$};
+          \addplot[color=penColor3,fill=penColor3,only marks,mark=*] coordinates{(0,0)};  %% closed hole   
+            \addplot[color=penColor3,fill=penColor,only marks,mark=*] coordinates{(0.3,0)};  %% closed hole           
         \end{axis}
 \end{tikzpicture}
 %\caption{A linear approximation of $f(x) = \sin(x)$ at $x=0$.}
 %\label{figure:la sin}
 %\end{marginfigure}
 \end{image}
-Hence, a linear approximation for $\sin(x)$ at $a=0$ is $\l(x) = x$,
+Hence, a linear approximation for $\sin(x)$ at $a=0$ is $L(x) = x$,
 and so $L(0.3) = 0.3$.  Comparing this to $\sin(.3) \approx 0.295$,
 we see that the approximation is quite good. For this reason, it is common
 to approximate $\sin(x)$ with its linear approximation $L(x) = x$
@@ -336,16 +340,15 @@ Based on  the figure and the expression for $L(x)$, select all the correct expre
       \end{selectAll}
   \end{question}
   
- So, we can write $\d f=f'(a)\d x$ and call it a \textbf{differential} of $f$ at $a$. Notice, that $f'(a)$ is a constant, therefore $\d f$ is a linear function of a variable $\d x$.
-Notice that we can define a differential at any point $x$ of the domain of $f$, provided that $f'(x)$ exists.
+ So, we can write $\d f=f'(a)\d x$ and call it a \textbf{differential} of $f$ at $a$. Notice that we can define a differential at any point $x$ of the domain of $f$, provided that $f'(x)$ exists.
 We will  do that in our next definition.
 \begin{definition}
-Let $f$ be a differentiable function. 
+Let $f$ be a differentiable function, let $x$ be a point in the domain of $f$, and let  $\d x$ be some quantity, called a \textbf{differential of $x$}.
 We define  $\d f$, a differential of $f$,  at a point $x$ by 
 \[
 \d f=f'(x)\cdot \d x
 \] 
-where $\d x$ is an independent variable that  is called a \textbf{differential of $x$}.
+
  Geometrically, differentials can be interpreted via the diagram below.
 \begin{image}
 %\begin{marginfigure}[0in]
@@ -387,32 +390,20 @@ Note, it is now the case (by definition!) that
 \]
 \end{definition}
 We should not be surprised, since the slope of the tangent line in the figure is $f'(x)$,  and this slope is also given by $\frac{\d f }{\d x}$.
-\begin{question}
-  The differential $\d x$ is:
-  \begin{multipleChoice}
-    \choice{$d$ times $x$.}
-    \choice[correct]{A single variable.}
-  \end{multipleChoice}
-  \begin{question}
-    The differential $\d f$ is:
-    \begin{multipleChoice}
-      \choice{$d$ times $f$.}
-      \choice[correct]{A single variable that is dependent on $\d x$.} 
-    \end{multipleChoice}
-  \end{question}
-\end{question}
+
+
 
 Essentially, differentials allow us to solve the problems presented in
 the previous examples from a slightly different point of view. Recall,
 when $h$ is near but not equal zero,
 \[
-f'(x) \approx \frac{f(x+h)-f(x)}{h}
+f'(x) \approx \frac{f(x+h)-f(x)}{h}.
 \]
-hence, 
+Hence, 
 \[
 f'(x)h \approx f(x+h)-f(x).
 \]
-Since $h$ is simply a variable, and $\d x$ is simply a variable, we can replace $h$ with $\d x$ to write
+We can replace a quantity $h$ with a quantity $\d x$ to write
 \begin{align*}
 f'(x)\cdot \d x &\approx f(x+\d x)-f(x)\\
 \d f &\approx f(x+\d x)-f(x).
@@ -425,7 +416,7 @@ or, equivalently
 \[
 f(x+\d x)\approx f(x) + \d f .
 \]
-While this is something of a ``sleight of hand'' with variables, there
+There
 are contexts where the language of differentials is common. Here is
 the basic strategy:
 \begin{image}
@@ -586,7 +577,7 @@ Differentials also help us estimate error in real life settings.
   Note: If you persist in your quest to learn calculus, you will be
   able to derive the formula above like it's no-big-deal.
   \begin{explanation}
-    We want to know what a small change in the height, $y$ does to the
+    We want to know what a small change in the height, $y$, does to the
     volume $V$.  These small changes can be modeled by the
     differentials $\d V$ and $\d y$. Since
     \[

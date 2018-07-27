@@ -65,7 +65,7 @@ the cylinder that minimizes the cost of making the containers.
   Letting $c$ represent the cost of the lateral side, we can write an
   expression for the cost of materials:
   \[
-  C = 2\pi crh+\answer[given]{2\pi r^2Nc}.
+  C = 2\pi c r h+2\pi r^{2}\answer[given]{Nc}.
   \]
   Since we know that $V=\pi r^2h$, we can use this relationship to
   eliminate $h$ (we could eliminate $r$, but it's a little easier if we
@@ -75,15 +75,24 @@ the cylinder that minimizes the cost of making the containers.
   C(r)&=2c\pi r\frac{V}{\pi r^2}+2Nc\pi r^2\\
   &=\frac{2cV}{r}+2Nc\pi r^2.
 \end{align*}
-We want to know the minimum value of this function when $r$ is in
-$(0,\infty)$. Setting
+Since we have expressed the cost as a function of a single variable, the problem becomes a``calculus problem": Find the minimum of the function $C$ on the interval 
+$(0,\infty)$.
+
+ Although the function $C$ is continuous on its domain, its domain is an open, unbounded interval and the Extreme Value Theorem does not apply; there is no guarantee that the minimum even exists. But we don't give up! Our strategy will be to search for a critical point and check if the minimum is attained there. By solving the equation
 \[
-C'(r)=\answer[given]{-2cV/r^2+4Nc\pi r} =0
+C'(r)=-2cV/r^2+4Nc\pi \answer[given]{r} =0
 \]
-we find $r=\sqrt[3]{V/(2N\pi)}$.  Since $C''(r)=\answer[given]{4cV/r^3+4Nc\pi}$ is
+we find that the point where $r=\sqrt[3]{V/(2N\pi)}$ is the only critical point of $C$.  Since $C''(r)=4cV/r^3+4Nc\pi$ is
 positive when $r$ is positive, there is a local minimum at the
-critical value, and hence a global minimum since there is only one
-critical value.
+critical point, and hence a global minimum since there is only one
+critical point.
+
+Another way to reach this conclusion is to examine the sign of the derivative $C'(r)$ on the interval $(0,\infty)$:
+\[
+C'(r)=-2cV/r^2+4Nc\pi r=\frac{4Nc\pi (r^3-\frac{V}{2N\pi})}{r^2}. 
+\]
+From this factorization it is clear that $C'(r)<0$ on $(0,\sqrt[3]{V/(2N\pi)})$, and $C'(r)>0$ on $(\sqrt[3]{V/(2N\pi)}, \infty)$.
+This means that  the function $C$ is decreasing on $(0,\sqrt[3]{V/(2N\pi)})$ and increasing on $(\sqrt[3]{V/(2N\pi)}, \infty)$, and, therefore, has a global minimum at the critical point.
 
 Finally, since $h=V/(\pi r^2)$, 
 \begin{align*}
@@ -116,11 +125,11 @@ materials, the height is twice the radius.
 The first step is to convert the problem into a function maximization
 problem. The revenue for selling $n$ items at $x$ dollars is given by
 \[
-r(x) = nx
+r(x) = n(x)x
 \]
 and the cost of producing $n$ items is given by
 \[
-c(x) = 2000+0.5 n. 
+c(x) = 2000+0.5 n(x). 
 \]
 However, from the problem we see that the number of items sold is
 itself a function of $x$,
@@ -133,18 +142,28 @@ P(x) &= r(x) - c(x)\\
 &= nx - (2000+0.5 n)\\
 &=-10000x^2+25000x-12000. 
 \end{align*}
-We want to know the maximum value of this function when $x$ is between
-0 and $1.5$. The derivative is
+We want to know the maximum value of the function $P$ on the interval $[0,1.5]$.
+The Extreme Value Theorem now guarantees that the maximum is attained, since the function $P$ is continuous on the closed interval, $[0,1.5]$. 
+We have to find the critical points:
 \[
-P'(x)=\answer[given]{-20000x+25000},
+P'(x)=0,
 \]
-which is zero when $x=1.25$. Since $P''(x)=-20000<0$, there must be a
-local maximum at $x=1.25$, and since this is the only critical value
-it must be a global maximum as well. Alternately, we could compute
-$P(0)=-12000$, $P(1.25)=3625$, and $P(1.5)=3000$ and note that
+or
+\[
+-20000x+25000=0,
+\]
+which implies that the only critical point occurs at $x=1.25$.
+Now we have to evaluate the function at the critical point and both endpoints, and compare the values:
+
+$P(0)=-12000$, $P(1.25)=3625$, and $P(1.5)=3000$.
+ Note that
 $P(1.25)$ is the maximum of these. Thus the maximum profit is
-\$$3625$, attained when we set the price at \$$1.25$ and sell $7500$
-items.
+\$$3625$, attained when we set the price at \$$1.25$ and sell $7500$ items.
+
+Alternately, we could apply the Second Derivative Test at the critical point and conclude that
+there must be a
+local maximum there, since $P''(x)=-20000<0$. Since this is the only critical point,
+it must be a global maximum as well. 
 \begin{onlineOnly} 
    We can confirm our results by looking at the graph of $y=P(x)$:
    \[
@@ -156,11 +175,8 @@ items.
 
 
 \begin{example}
-If you fit the largest possible cone inside a sphere, what fraction of the
-volume of the sphere is occupied by the cone?  (Here by ``cone'' we mean a
-right circular cone, i.e., a cone for which the base is perpendicular to
-the axis of symmetry, and for which the cross-section cut perpendicular to
-the axis of symmetry at any point is a circle.)
+If you fit the largest possible right circular cone inside a sphere, what fraction of the
+volume of the sphere is occupied by the cone?  
 \begin{image}
 \begin{tikzpicture}
 \draw[very thick,penColor2!20!background] (2,0) arc (0:180:2 and .7);% top half of ellipse
@@ -179,7 +195,6 @@ the axis of symmetry at any point is a circle.)
 \node [below,penColor2] at (1.5,0) {$R$};
 \node [above,penColor] at (.85,1) {$r$};
 \node [left,penColor] at (0,-.33) {$h$};
-
 \node [penColor,left] at (-1.5,1.42) {$V_{\text{c}} = \frac{\pi r^2h}{3}$};
 \node [penColor2, right] at (1.5,-1.42) {$V_{s} = \frac{4\pi R^3}{3}$};
 \end{tikzpicture}
@@ -194,37 +209,68 @@ Notice that the function we want to maximize, $\pi r^2h/3$, depends on
 \textit{two} variables.  Our next step is to find the relationship between $r$ and $h$ and
 use it to solve for one of the variables in terms of the other, so as
 to have a function of only one variable to maximize.  In this problem,
-the condition is apparent in the figure, as the upper corner of the
-triangle, whose coordinates are $(r,h-R)$, must be on the circle of
-radius $R$. Write
+the condition is apparent in the figure below.
+
+\begin{image}
+\begin{tikzpicture}
+%\draw[very thick,penColor2!20!background] (2,0) arc (0:180:2 and .7);% top half of ellipse
+\draw [penColor, very thin] (0,1) ellipse (1.7 and .5);
+\draw[penColor, very thin] (1.7,.95) -- (0,-2);
+\draw[penColor, very thin] (-1.7,.95) -- (0,-2);
+%\draw[very thick,penColor2] (-2,0) arc (180:360:2 and .7);% bottom half of ellipse
+\draw [penColor2, very thick] (0,0) circle [radius=2];
+\draw[penColor2, dashed, very thick] (0,0) --(1.7,1);
+\draw[penColor2, dashed] (0,0) --(0,-2);
+\draw[penColor, dashed, very thick] (0,1) -- (1.7,1);
+\draw[penColor5, dashed, very thick] (0,0) -- (0,1);
+\node [below,penColor2] at (0.8,0.53) {$R$};
+\node [below,penColor2] at (0.2,-0.6) {$R$};
+\node [above,penColor] at (.85,1) {$r$};
+\node [left,penColor] at (0,-.33) {$h$};
+\node [left,penColor5] at (0,.53){$h-R$};
+\node [left,penColor2] at (-3,1){$R^2=r^2+(h-R)^2$};
+ %\draw[decoration={brace,raise=.02cm},decorate,thick] (0,0)--(0,1);
+   % \draw[decoration={brace,mirror,raise=.02cm},decorate,thin] (0,-2)--(0,0);
+%\node [penColor,left] at (-1.5,1.42) {$V_{\text{c}} = \frac{\pi r^2h}{3}$};
+%\node [penColor2, right] at (1.5,-1.42) {$V_{s} = \frac{4\pi R^3}{3}$};
+\end{tikzpicture}
+\end{image}
+
+Apply the Pythagorean Theorem to the right triangle to obtain
+
 \[
 r^2 + (h-R)^2=R^2.
 \] 
-Solving for $r^2$, since $r^2$ is found in the formula for the volume
-of the cone, we find 
+Solve for $r^2$, since $r^2$ is found in the formula for the volume
+of the cone, and find that
 \[
 r^2=R^2-(h-R)^2.
 \]  
-Substitute this into the formula for the volume of the cone to find
-\begin{align*}
- V_{\text{c}}(h)&=\pi(R^2-(h-R)^2)h/3 \\
-&=-{\pi\over3}h^3+{2\over3}\pi h^2R
-\end{align*}
+Substitute this into the formula for the volume of the cone to find that 
+\[
+ V_{\text{c}}(h)=\pi(R^2-(h-R)^2)h/3. 
+ \]
+By simplifying, we were able to express the volume of the cone as a function of a single variable, $h$,
+\[
+ V_{\text{c}}(h)=-{\pi\over3}h^3+{2\over3}\pi h^2R.
+ \]
 
-We want to maximize $V_{\text{c}}(h)$ when $h$ is between $0$ and $2R$.  We
-solve 
+We want to maximize the function $V_{\text{c}}$ on the interval $[0,2R]$.
+Since this is a continuous function on a closed interval, the maximum is attained either at a critical point or an end point.
+By solving the equation 
 \[
-V_{\text{c}}'(h)=\answer[given]{-\pi h^2+(4/3)\pi h R}=0,
+V_{\text{c}}'(h)=-\pi h^2+(4/3)\pi h R=0,
 \] 
-finding $h=0$ or $h=4R/3$.  We compute
+we find that the function has critical points at $h=0$ and $h=4R/3$.  We evaluate the function at all the critical and end points
 \[
-V_{\text{c}}(0)=V_{\text{c}}(2R)=0
+V_{\text{c}}(0)=V_{\text{c}}(2R)=0,
 \]
-and
+
 \[
 V_{\text{c}}(4R/3)=(32/81)\pi R^3.
 \] 
-The maximum is the latter. Since the volume of the sphere is $(4/3)\pi
+
+The maximum is obviously attained at $h=4R/3$ . Since the volume of the sphere is $(4/3)\pi
 R^3$, the fraction of the sphere occupied by the cone is
 \[
 \frac{(32/81)\pi R^3}{(4/3)\pi R^3}=\frac{8}{27}\approx 30\%.

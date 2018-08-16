@@ -1,4 +1,4 @@
-\documentclass[handout]{ximera}
+\documentclass[]{ximera}
 %handout:  for handout version with no solutions or instructor notes
 %handout,instructornotes:  for instructor version with just problems and notes, no solutions
 %noinstructornotes:  shows only problem and solutions
@@ -51,7 +51,7 @@ $$
 $$
 A student claims that, since all of the coordinates are distinct, the points represented by the coordinates must all be distinct. Is the student correct?
 \begin{solution}
-solution
+The student is not correct. The same point has (infinitely) many polar coordinate representations. In particular, polar coordinates $(1,\pi/2)$ represent the point with Cartesian coordinates $(0,1)$ and the remaining polar coordinates all represent the point with Cartesian coordinates $(0,-1)$.
 \end{solution}
 \end{problem}
 
@@ -61,6 +61,28 @@ solution
 
 \item[II.] A point has Cartesian coordinates $(x,y)=(-2,4)$. Give two distinct polar coordinate representations of the point.
 \end{itemize}
+
+\begin{solution}
+I. The Cartesian coordinates of the point are 
+\begin{align*}
+x&= r \cos \theta = -10 \cos (13\pi/4) = -10 \cdot -\frac{\sqrt{2}}{2} = 5 \sqrt{2}, \\
+y &= r \sin \theta = -10 \sin (13 \pi/ 4) = -10 \cdot -\frac{\sqrt{2}}{2} = 5 \sqrt{2}.
+\end{align*}
+
+II. One polar coordinate representation is given by
+\begin{align*}
+r = \sqrt{x^2 + y^2} = \sqrt{4 + 16} = \sqrt{20}, \\
+\theta = \arctan (y/x) = \arctan (-2).
+\end{align*}
+To obtain other polar coordinate representations, we can add an even multiple of $\pi$ to $\theta$ without changing $r$; e.g.
+$$
+\left(\sqrt{20},\arctan(-2) + 10 \pi \right).
+$$
+Alternatively, we can add an even multiple of $\pi$ to $\theta$ and change the sign of $r$; e.g.
+$$
+\left(-\sqrt{20},\arctan(-2)-17 \pi\right).
+$$
+\end{solution}
 \end{problem}
 
 
@@ -71,15 +93,100 @@ solution
 \item[I.] Find an equation in polar coordinates $(r,\theta)$ whose graph agrees with the graph of the the equation $y=2x+5$ in Cartesian coordinates.
 \item[II.] Find an equation in Cartesian coordinates $(x,y)$ whose graph agrees with the graph of the equation $r=3 \cos \theta$ in polar coordinates.
 \end{itemize}
+
+\begin{solution}
+I. The polar equation 
+$$
+r \sin \theta = 2 r \cos \theta + 5
+$$
+has the same graph as the Cartesian equation $y=2x+5$.
+
+II. Multiplying both sides of the equation by $r$, we have
+$$
+r^2 = 3 r \cos \theta.
+$$
+In Cartesian coordinates, this becomes
+$$
+x^2 + y^2 = 3 x.
+$$
+\end{solution}
 \end{problem}
 
 
 \begin{problem}
 Find all Cartesian coordinates of the points where the graphs of the polar equations $r=\cos \theta$ and $r=1-\cos \theta$ intersect.
+
+\begin{solution}
+We begin by solving the equation
+$$
+\cos \theta = 1- \cos \theta.
+$$
+After some algebra, the equation becomes
+$$
+\cos \theta = \frac{1}{2},
+$$
+which has solutions in the range $[0,2\pi)$ given by $\theta = \frac{\pi}{3}$ and $\frac{5 \pi}{3}$. The corresponding value of $r$ is 
+$$
+r = \cos \frac{\pi}{3} = \frac{1}{2}.
+$$
+The Cartesian coordinates for these points are
+$$
+(1/2 \cos \pi/3, 1/2 \sin \pi/3) = (1/4,\sqrt{3}/4)
+$$
+and 
+$$
+(1/2 \cos 5\pi/3, 1/2 \sin 5\pi/3) = (1/4,-\sqrt{3}/4).
+$$
+
+One must be careful when solving problems like this in polar coordinates, since points in the plane do not have unique polar representatives. Indeed, the points that we found above do not give all possible solutions. Plots of the two curves are shown below. 
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-2.25,  
+        xmax=2.25,  
+        ymin=-2,  
+        ymax=2,  
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  axis on top
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  axis on top
+      ]  
+
+      \addplot[data cs=polar,blue,domain=0:360,samples=360,smooth, thick] (x,{cos(x)});
+            \addplot[data cs=polar,blue,domain=0:360,samples=360,smooth, thick] (x,{1-cos(x)});
+      
+            \end{axis}  
+  \end{tikzpicture}  
+\end{image} 
+
+We see that the curves also intersect at the origin. This is verified by checking algebraically that both curves pass through the origin:
+$$
+0 = \cos \theta
+$$
+for $\theta = \pi/2$ and 
+$$
+0 = 1 - \cos \theta 
+$$
+for $\theta = 0$. The fact that the $\theta$ values are distinct explains why these solutions were not found by our first approach to the problem.
+\end{solution}
 \end{problem}
 
 \begin{problem}
 Find all values of $a$ so that the graph of the polar equation $r = 2 + a \sin \theta$ passes through the origin.
+
+\begin{solution}
+The graph passes through the origin whenever there is some value of $\theta$ such that 
+$$
+0 = 2 + a \sin \theta,
+$$
+or 
+$$
+a \sin \theta = -2.
+$$
+Since the range of $\sin \theta$ is $[-1,1]$, this equation has a solution if and only if $a \geq 2$ or $a \leq -2$. 
+\end{solution}
 \end{problem}
 
 

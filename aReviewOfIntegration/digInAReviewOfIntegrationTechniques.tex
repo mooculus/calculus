@@ -1,5 +1,5 @@
 \documentclass[nooutcomes]{ximera}
-\author{Jim Talamo and Bart Snapp}
+\author{Jim Talamo}
 \input{../preamble.tex}
 
 \outcome{Use algebra to manipulate the integrand.}
@@ -59,7 +59,7 @@ A good first step in attempting to compute antiderivatives involves simplifying 
 \begin{example}
 Consider the indefinite integral $\int \frac{2x^2-3}{2x^2} \d x$.  
 
-While it may be tempting, note that $\frac{2x^2-3}{2x^2} \neq \frac{\cancel{2x^2}-3}{\cancel{2x^2}}$.  We can never simplify by cancelling terms over addition or subtraction in the denominator.  Instead, we can split the fraction up then simplify: 
+While it may be tempting, note that $\frac{2x^2-3}{2x^2} \neq \frac{\cancel{2x^2}-3}{\cancel{2x^2}}$.  We can never simplify by cancelling terms over addition or subtraction in the denominator.  Instead, we can split the fraction up then simplify.
 \begin{align*}
 \int \frac{2x^2-3}{2x^2} \d x &=\int \frac{2x^2}{2x^2}-\frac{3}{2x^2} \d x \\
 &=  \int 1+\frac{3}{2}x^{-2} \d x \\
@@ -78,17 +78,29 @@ Consider $\int 2x e^{x^2+1} \d x$.
 
 Note that no algebra will help us simplify the expression.  The only antidifferentiation formula we have regarding the exponential is $\int e^x \d x = e^x +C$.  Let's start by letting the exponent in the original integral be a new variable $u$:
 
-Let $u= x^2+1$.  We now need to write everything in the integral in terms of this new variable.  Recalling that if $u = f(x)$, the differentials are related by $\d u = f'(x) \d x$, we can write $\d u = \answer[given]{2x} \d x$, or solving for $\d x$, we find $\d x = \answer[given]{\frac{1}{2x}} \d u$.
+Let $u= x^2+1$.  We now need to write everything in the integral in terms of this new variable.  Recalling that if $u = f(x)$, the differentials are related by $\d u = f'(x) \d x$, we can write $\d u = \answer[given]{2x} \d x$.
 
-Thus, $\int 2x e^{x^2+1} \d x = \int 2x e^{u} \frac{1}{2x} \d u = \int e^u \d u$.
+We thus find
 
-The antiderivative in $u$ is now easy to compute.  Indeed:
+\begin{image}
+  \begin{tikzpicture}
+        \node at (0,0) {
+          $\int 2x e^{x^2+1} \d x = \int e^{\overbrace{x^2+1}} \underbrace {2x \d x} = \int e^u \d u$.};
+        \node at (1.4,-.8) {\small{This is $\d u$.}};
+        
+        \node at (.1,.8) {\small{This is $u$.}};
+     
+      \end{tikzpicture}
+  \end{image}
+
+
+
+
+The antiderivative in $u$ is now easy to compute.  
 
 \[ \int e^u \d u = \answer[given]{e^u}+C \]
 
-Reversing the substitution by setting $u=x^2+1$ above  now gives:
-
-\[\int 2xe^{x^2+1} \d x = e^{\answer[given]{x^2+1}}+C \]
+Reversing the substitution by setting $u=x^2+1$ above  now gives $\int 2xe^{x^2+1} \d x = e^{x^2+1}+C$.
 
 \end{example}
 
@@ -96,7 +108,7 @@ Reversing the substitution by setting $u=x^2+1$ above  now gives:
 Note that when we change the variable of integration, it is necessary to replace both the original variable and the differential.  That is, in the above example, we need to replace all $x$ terms with $u$ \emph{and} write $\d x$ in terms of $u$ and $\d u$. 
 \end{remark}
 
-In the last example, after letting $u$ be the exponent and transforming $\d x$, there were no $x$ terms left.  This does not always happen, but it does not mean that substitution does not aid in computing the indefinite integral:
+In the last example, after letting $u$ be the exponent and transforming $\d x$, there were no $x$ terms left.  This does not always happen, but it does not mean that substitution does not aid in computing the indefinite integral.
 
 \begin{example}
 Compute $\int 4x \sqrt{2x+1} \d x$.
@@ -116,15 +128,15 @@ Since $u= 2x+1$, we find that $x = \answer[given]{\frac{1}{2}(u-1)}$, so we can 
 \int 4x \sqrt{2x+1} \d x =  \int 2x \sqrt{u} \d u = \int 2 \cdot \frac{1}{2}(u-1) \sqrt{u} \d u = \int (u-1)\sqrt{u} \d u
 \]
 
-We can now perform some algebra, then integrate:
+We can now perform some algebra, then integrate.
 
 \[
  \int (u-1)\sqrt{u} \d u = \int \left(u^{3/2} - u^{1/2} \right) \d u = \answer[given]{\frac{2}{5} u^{5/2} - \frac{2}{3} u^{3/2}} +C
 \]
-Substituting $u=2x+1$ to obtain the antiderivatives in terms of $x$, we find:
+Substituting $u=2x+1$ to obtain the antiderivatives in terms of $x$, we find that
 
 \[
-\int 4x \sqrt{2x+1} \d x =  \frac{2}{5} (2x+1)^{5/2} - \frac{2}{3} (2x+1)^{3/2} +C
+\int 4x \sqrt{2x+1} \d x =  \frac{2}{5} (2x+1)^{5/2} - \frac{2}{3} (2x+1)^{3/2} +C.
 \]
 \end{explanation}
 \end{example}
@@ -198,14 +210,14 @@ Substituting $u=2x+1$ to obtain the antiderivatives in terms of $x$, we find:
 Let's see another example involving a trickier substitution and a definite integral.  First, recall the substitution theorem for definite integrals:
 
 \begin{theorem}[Integral Substitution Formula] 
-If $g$ is differentiable on the interval $[a,b]$ and $f$ is
-differentiable on the interval $[g(a),g(b)]$, then
+If $u$ is differentiable on the interval $[a,b]$ and $f$ is
+differentiable on the interval $[u(a),u(b)]$, then
 \[
-\int_a^b f'(g(x)) g'(x) \d x =\int_{g(a)}^{g(b)} f'(g) \d g.
+\int_a^b f'(u(x)) u'(x) \d x =\int_{u(a)}^{u(b)} f'(u) \d u.
 \]
 \end{theorem}
 
-This reminds us that to work with definite integrals, we need to write the integrand, the differential, and the limits of integration in terms of the new variable.  
+This may look difficult to read, but it really just reminds us that to work with definite integrals, we need to write the integrand, the differential, and the limits of integration in terms of the new variable.  
 
 \begin{example}
 Compute $\int_0^2 \frac{6x^2}{(x^3+1)^2} \d x$
@@ -231,48 +243,48 @@ We can now evaluate the integral:
 \end{explanation}
 \end{example}
 
-Of course, sometimes the substitutions can be more complicated.
-
-\begin{example}
-Compute:
-\[
-\int_0^{16} \sqrt{4 - \sqrt{x}} \d x
-\]
-\begin{explanation}
-To make the integral appear a little nicer, let us try the substitution
-\[
-u = \sqrt{x}.
-\]
-Then:
-\begin{align*}
-\d u &= \answer[given]{\frac{1}{2 \sqrt{x}}} \d x,\\
-\d x &= 2 \sqrt{x} \d u = 2u \d u,
-\end{align*}
-where we used the fact that $u=\sqrt{x}$ in the last equality.  So:
-\begin{align*}
-\int_{x=0}^{x=16} \sqrt{4 - \sqrt{x}} \d x &=  \int_{u=\answer[given]{0}}^{u=\answer[given]{4}} \answer[given]{2u \sqrt{4-u}} \d u.
-\end{align*}
-From here we now make the second (and more obvious) substitution
-\[
-v = 4-u.
-\]
-Then $u = 4-v$, and: 
-\begin{align*}
-\d v &= - \d u,\\
-\d u &= - \d v.
-\end{align*}
-So:
-\begin{align*}
-\int_{x=0}^{x=16} \sqrt{4 - \sqrt{x}} \d x &= \int_{u=0}^{u=4} 2u \sqrt{4-u} \d u  \\
-&= \int_{v=\answer[given]{4}}^{v=\answer[given]{0}} 2 (4-v) \sqrt{v} (-1) \d v  \\
-&= \int_{v=\answer[given]{4}}^{v=\answer[given]{0}} 2v^{\frac{3}{2}} - 8v^{\frac{1}{2}}  \d v  \\
-&= \eval{ \answer[given]{  \frac{4}{5} v^{\frac{5}{2}} -  \frac{16}{3} v^{\frac{3}{2}} }}_{4}^{0}  \\
-&=  \left( 0 - 0 \right) - \left(\frac{4}{5} (4)^{\frac{5}{2}} - \frac{16}{3} (4)^{\frac{3}{2}}  \right)   \\
-&= \frac{128}{3} - \frac{128}{5}   \\
-&= \frac{256}{15}.
-\end{align*}
-\end{explanation}
-\end{example}
+%Of course, sometimes the substitutions can be more complicated.
+%
+%\begin{example}
+%Compute:
+%\[
+%\int_0^{16} \sqrt{4 - \sqrt{x}} \d x
+%\]
+%\begin{explanation}
+%To make the integral appear a little nicer, let us try the substitution
+%\[
+%u = \sqrt{x}.
+%\]
+%Then:
+%\begin{align*}
+%\d u &= \answer[given]{\frac{1}{2 \sqrt{x}}} \d x,\\
+%\d x &= 2 \sqrt{x} \d u = 2u \d u,
+%\end{align*}
+%where we used the fact that $u=\sqrt{x}$ in the last equality.  So:
+%\begin{align*}
+%\int_{x=0}^{x=16} \sqrt{4 - \sqrt{x}} \d x &=  \int_{u=\answer[given]{0}}^{u=\answer[given]{4}} \answer[given]{2u \sqrt{4-u}} \d u.
+%\end{align*}
+%From here we now make the second (and more obvious) substitution
+%\[
+%v = 4-u.
+%\]
+%Then $u = 4-v$, and: 
+%\begin{align*}
+%\d v &= - \d u,\\
+%\d u &= - \d v.
+%\end{align*}
+%So:
+%\begin{align*}
+%\int_{x=0}^{x=16} \sqrt{4 - \sqrt{x}} \d x &= \int_{u=0}^{u=4} 2u \sqrt{4-u} \d u  \\
+%&= \int_{v=\answer[given]{4}}^{v=\answer[given]{0}} 2 (4-v) \sqrt{v} (-1) \d v  \\
+%&= \int_{v=\answer[given]{4}}^{v=\answer[given]{0}} 2v^{\frac{3}{2}} - 8v^{\frac{1}{2}}  \d v  \\
+%&= \eval{ \answer[given]{  \frac{4}{5} v^{\frac{5}{2}} -  \frac{16}{3} v^{\frac{3}{2}} }}_{4}^{0}  \\
+%&=  \left( 0 - 0 \right) - \left(\frac{4}{5} (4)^{\frac{5}{2}} - \frac{16}{3} (4)^{\frac{3}{2}}  \right)   \\
+%&= \frac{128}{3} - \frac{128}{5}   \\
+%&= \frac{256}{15}.
+%\end{align*}
+%\end{explanation}
+%\end{example}
 
 
 %\section{Algebra to the rescue} <-----MOVE TO ANOTHER SECTION
@@ -330,32 +342,32 @@ So:
 %  \end{explanation}
 %\end{example}
 
-\begin{comment}
-Let's see one more example with trigonometric functions:
-
-\begin{example}
-  Compute:
-  \[
-  \int \frac{\sin(x) + \cos^2(x)}{\csc(x)} \d x
-  \]
-  \begin{explanation}
-    To start, let's express everything in terms of sine and cosine:
-    \begin{align*}
-      \int \frac{\sin(x) + \cos^2(x)}{\csc(x)} \d x &= \int \frac{\sin(x) + \cos^2(x)}{\frac{1}{\sin(x)}} \d x\\
-      &= \int \sin^2(x) + \sin(x)\cos^2(x) \d x
-    \end{align*}
-    if we use our power-reduction formula above, we find
-    \[
-    \int \answer[given]{\frac{1-\cos(2x)}{2}}+ \sin(x)\cos^2(x) \d x
-    \]
-    Splitting this integral up we now have
-    \begin{align*}
-      \int &\answer[given]{\frac{1}{2}} \d x - \int \frac{\cos(2x)}{2}\d x + \int \sin(x)\cos^2(x) \d x  \\
-      &= \answer[given]{\frac{x}{2} - \frac{\sin(2x)}{4} - \frac{\cos^3(x)}{3}}+C.
-    \end{align*}
-  \end{explanation}
-\end{example}
-\end{comment}
+%\begin{comment}
+%Let's see one more example with trigonometric functions:
+%
+%\begin{example}
+%  Compute:
+%  \[
+%  \int \frac{\sin(x) + \cos^2(x)}{\csc(x)} \d x
+%  \]
+%  \begin{explanation}
+%    To start, let's express everything in terms of sine and cosine:
+%    \begin{align*}
+%      \int \frac{\sin(x) + \cos^2(x)}{\csc(x)} \d x &= \int \frac{\sin(x) + \cos^2(x)}{\frac{1}{\sin(x)}} \d x\\
+%      &= \int \sin^2(x) + \sin(x)\cos^2(x) \d x
+%    \end{align*}
+%    if we use our power-reduction formula above, we find
+%    \[
+%    \int \answer[given]{\frac{1-\cos(2x)}{2}}+ \sin(x)\cos^2(x) \d x
+%    \]
+%    Splitting this integral up we now have
+%    \begin{align*}
+%      \int &\answer[given]{\frac{1}{2}} \d x - \int \frac{\cos(2x)}{2}\d x + \int \sin(x)\cos^2(x) \d x  \\
+%      &= \answer[given]{\frac{x}{2} - \frac{\sin(2x)}{4} - \frac{\cos^3(x)}{3}}+C.
+%    \end{align*}
+%  \end{explanation}
+%\end{example}
+%\end{comment}
 
 \section{Splitting Up Fractions}
 
@@ -385,7 +397,8 @@ Hence, $\int \frac{6x-8}{1+x^2}\d x =  \answer[given]{3 \ln(1+x^2)- 8 \arctan(x)
   \]
  
   \begin{explanation}
-    Write with me:
+It may be tempting to try to cancel just the expressions involving $\cos^2(x)$, but we have to split up the entire numerator over the denominator.
+
     \begin{align*}
     \int \frac{\cos^2(x)+1}{3 \cos^2(x)}\d x &=  \int \frac{\cos^2(x)}{3 \cos^2(x)} +  \frac{1}{3 \cos^2(x)}\d x \\
     &= \int \frac{1}{3} + \frac{1}{3} \sec^2(x) \d x \\

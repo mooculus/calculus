@@ -16,6 +16,7 @@
 \end{abstract}
 \maketitle
 
+<<<<<<< HEAD
 
 For functions of several variables, we can ask how changing only one of the inputs changes the outputs of the function.  We've seen that the partial derivatives measure this rate of change.  For functions of two variables, we've also seen that there is a geometric interpretation of this if we consider the surface $z=F(x,y)$ and the partial derivatives at a point $(a,b)$ in the domain of the function.  
 Let's imagine that our surface is a hill and consider $F_y(a,b)$.  This tell us we should hold \wordChoice{\choice[correct]{$x$}\choice{$y$}} constant.  The goal is the same as before; we consider the path \wordChoice{\choice[correct]{$x=a$}\choice{$y=b$}} in the domain and wish to consider the curve on the surface $z=F(x,y)$ that lies above it.  A picture is shown below.
@@ -226,11 +227,29 @@ These are shown in the image below.
 
 To find the instantaneous rate of change, we take the limit $h \to 0$ (since $F$ is differentiable, it can be shown this limit must exist).  We call the result the \emph{directional derivative of $F$ at $\vec{a}$ in the direction $\uvec{u}$} and will henceforth denote this by $D_{\uvec{u}}F(\vec{a})$.  
 
+=======
+One way to think about partial derivatives is as follows: Given a
+differentiable function $F:\R^2\to\R$,
+\begin{itemize}
+  \item $\pp[F]{x}$ gives the rate of change of $F$ in the $\veci$
+    direction.
+  \item $\pp[F]{y}$ gives the rate of change of $F$ in the $\vecj$
+    direction.
+\end{itemize}
+
+Thus if we want to know the rate of change in \textit{any} direction, we could use the scalar projection:
+\[
+\scal_\uvec{u} \vector{\pp[F]{x},\pp[F]{y}} = \grad F(x,y) \dotp \uvec{u}
+\]
+this will give the rate of change of $F$ in the direction $\uvec{u}$.
+This is a new type of derivative called the directional derivative.
+>>>>>>> b7dfc1aec8f1a24ec5acb1c56659c37ee990e8ba
 \begin{definition}
   Suppose that $F: \R^2 \to \R$ is a differentiable function.  Given a \emph{unit} vector $\uvec{u}$ and a point $\vec{a}$ in the domain of $F$, we define the \dfn{directional derivative} \emph{ of $F$ at $\vec{a}$ in the direction $\uvec{u}$}, denoted by $D_{\uvec{u}} F(\vec{a})$ is
   \[
   D_\uvec{u}F(\vec{a}) = \lim_{h \to 0} \frac{F(\vec{a}+h\uvec{u})-F(\vec{a})}{h},
   \]
+<<<<<<< HEAD
   
 which is the instantaneous rate of change of $F$ at $\vec{a}$ as we approach $\vec{a}$ in the direction of $\uvec{u}$.
   \end{definition}
@@ -411,6 +430,16 @@ In order to answer these questions, we have to consider \emph{every} possible di
 
 \[
 \vec{v} \dotp \vec{w} = v_1w_1+\ldots + v_nw_n = |\vec{v}||\vec{w}|\cos(\theta),
+=======
+  where $\uvec{u}$ is a unit vector.
+\end{definition}
+The directional derivative tells us how $F$ changes if we move some
+direction. If we want to make $D_\uvec{u}(F)$ as large as possible, it
+makes sense to let $\uvec{u}$ be the direction of gradient since the
+dot product
+\[
+\grad F(\vec{x})\dotp \uvec{u}
+>>>>>>> b7dfc1aec8f1a24ec5acb1c56659c37ee990e8ba
 \]
 
 where $\theta$ is the interior angle between the vectors. Using the second expression with $\vec{v} = \grad{F}(a,b)$ and $\vec{w} = \uvec{u}$ gives
@@ -462,6 +491,7 @@ We talk about an ``initial'' direction because, as we head along the hill, this 
 \end{remark}
 
 \begin{example}
+<<<<<<< HEAD
 
 Suppose that $F(x,y) = \sin(xy)+y^2$. Give a unit vector in the initial direction of maximum increase, decrease, and no change at $(0,1)$. What are the corresponding maximum and minimum rates of change at $(0,1)$?
 
@@ -503,6 +533,55 @@ Let's consider a visual example now that ties together some concepts that have b
 
 Level curve - TO BE ADDED
 
+=======
+  Let
+  \[
+  F(x,y) = -x^2+2x-y^2+2y+1.
+  \]
+  Compute and interpret $\grad F(1,1)$.
+  \begin{explanation}
+    Write with me
+    \[
+    \grad F(x,y) = \vector{\answer[given]{-2x+2},\answer[given]{-2y+2}}.
+    \]
+    However, we see $\grad F(1,1) =
+    \vector{\answer[given]{0},\answer[given]{0}}$. Since there is no
+    initial direction of greatest increase, we must be at a local
+    maximum for the function. Indeed we are, behold:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    view={100}{25},
+	    name=myplot,
+	    %xtick=\empty,
+	    %ytick={5},
+	    %ztick={.7,-.7},
+	    minor xtick=1,
+	    minor ytick=1,
+	    ymin=-.1,ymax=2.1,
+	    xmin=-.1,xmax=2.1,
+	    zmin=-.5, zmax=3.5,
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-5pt,yshift=-1pt},
+	    xlabel={\scriptsize $x$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=-4pt},
+	    ylabel={\scriptsize $y$},
+	    every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	    zlabel={\scriptsize $z$},
+            colormap/cool
+	  ]
+          
+          \addplot3[domain=0:2,,y domain=0:2,
+            mesh,samples=25,samples y=25,very thin,z buffer=sort] {-x^2-y^2+2*x+2*y+1};
+          \filldraw [black,] (axis cs:1,1,3) circle (1pt);
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    Ah! The point $(1,1)$ lies at the top of a paraboloid. In all
+    directions, the instantaneous rate of change is $0$.
+  \end{explanation}
+>>>>>>> b7dfc1aec8f1a24ec5acb1c56659c37ee990e8ba
 \end{example}
 
 \section{The formula for $D_{\uvec{u}}F(\vec{a})$}

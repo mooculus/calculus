@@ -4,15 +4,13 @@
 \author{Jim Talamo}
 
 %%I like to capitalize Washer Method and Shell Method.  As a result, reference to these methods appears with that convention in those section titles
-\outcome{Compute volumes using the shell method.}
-\outcome{Know when to use the shell method.}
-\outcome{Set up integrals for the computing volume using the shell method.}
+\outcome{Understand what a solid of revolution is and the two ways to generate one.}
 
-\title[Dig-In:]{What Is A Solid Of Revolution?}
+\title[Dig-In:]{What is a solid of revolution?}
 
 \begin{document}
 \begin{abstract}
-  We define a solid of revolution and show how there are two was to generate it.
+  We define a solid of revolution and discuss how to find the volume of one in two different ways.
 \end{abstract}
 \maketitle
 
@@ -20,7 +18,7 @@
 \section{Solids of revolution}\index{solid of revolution}
 \index{volume of a solid of revolution}
 
-Given a region $R$ in the $xy$-plane, we built solids by stacking ``slabs" with given cross sections on top of $R$.  Another way to generate a solid from the region $R$ is to revolve it about a vertical or horizontal axis of rotation.  A solid generated this way is often called a \emph{solid of revolution}.  We will be interested in computing the volume of such solids.  Before we dive into the details, we first study two ways we can generate such a solid. 
+Given a region $R$ in the $xy$-plane, we built solids by stacking ``slabs" with given cross sections on top of $R$.  Another way to generate a solid from the region $R$ is to revolve it about a vertical or horizontal axis of revolution.  A solid generated this way is often called a \emph{solid of revolution}.  We will be interested in computing the volume of such solids.  Before we dive into the details, we first study two ways we can generate such a solid. 
 
 
 
@@ -43,13 +41,13 @@ Consider a cone with a height of $4$ units and a base radius of $2$ units.  We c
 		%shades outer part	
 		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
 		\addplot [name path=B,domain=-2:-0,draw=none] {4+2*x};
-            	\addplot [name path=C,domain=-2:2,draw=none,samples=200] {-sqrt(.25- .25/4*x^2)};
+            	\addplot [name path=C,domain=-1.99:1.99,draw=none,samples=75, smooth] {-sqrt(.25- .25/4*x^2)};
 	       	\addplot [fillp] fill between[of=A and C];
 		\addplot [fillp] fill between[of=B and C];
 		
                  %outer ellipses
-                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300,dashed] {sqrt(.25- .25/4*x^2)};
-                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300] {-sqrt(.25- .25/4*x^2)};
+                   \addplot [draw=penColor,domain=-1.99:1.99,very thick,smooth,samples=100,dashed] {sqrt(.25- .25/4*x^2)};
+                  \addplot [draw=penColor,domain=-1.99:1.99,very thick,smooth,samples=100] {-sqrt(.25- .25/4*x^2)};
                   
                   %%%%%%%%%%%%%%%%%%%%                 
 %            	\node at (axis cs:11,1.55) [penColor] {$x=4y^2$};
@@ -67,7 +65,7 @@ y - 0 & = -2(x-2) \\
 2x+y &= 4 
 \end{align*}
 
-We can now consider the region $R$ in the $xy$-plane bounded by $2x+y=4$, $y=0$, and $x=0$.  
+Now, consider the region $R$ in the $xy$-plane bounded by $2x+y=4$, $y=0$, and $x=0$.  
 
  \begin{image}
             \begin{tikzpicture}
@@ -85,7 +83,7 @@ We can now consider the region $R$ in the $xy$-plane bounded by $2x+y=4$, $y=0$,
 		
 		%shades outer part	
 		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
-            	\addplot [name path=C,domain=0:2,draw=none,samples=200] {0};
+            	\addplot [name path=C,domain=0:2,draw=none] {0};
 	       	\addplot [fillp] fill between[of=A and C];
 		
                  
@@ -98,15 +96,15 @@ We can now consider the region $R$ in the $xy$-plane bounded by $2x+y=4$, $y=0$,
             \end{image}
 
 
-Note that when we revolve $R$ about the \wordChoice{\choice{$x$-axis}\choice[correct]{$y$-axis}}, we obtain the cone in question.  Since revolving this region about the axis of rotation produced the solid of revolution, we call $R$ in teh $xy$-plane the \emph{region of revolution}. 
+Note that when we revolve $R$ about the \wordChoice{\choice{$x$-axis}\choice[correct]{$y$-axis}}, we obtain the cone in question.  Since revolving this region about the axis of revolution produced the solid of revolution, we call $R$ in the $xy$-plane the \emph{region of revolution}. 
 
-There are now two ways that we can slice the solid.
+There are two ways that we can imagine the solid.
 
 \end{model}
 
-\section{Slicing Perpendicular to the Axis of Rotation}
+\section{Slicing Perpendicular to the axis of revolution}
 
-One way we can slice the solid of revolution is by slicing perpendicular to the axis of rotation.  The axis of rotation is the $y$-axis, so perpendicular slices are horizontal.  A representative slice is shown on the solid below.
+We can slice the solid perpendicular to the axis of revolution.  The axis of revolution is the $y$-axis, so perpendicular slices are horizontal.  A representative slice is shown on the solid below.
 
  \begin{image}
             \begin{tikzpicture}
@@ -122,26 +120,24 @@ One way we can slice the solid of revolution is by slicing perpendicular to the 
 		\addplot [draw=penColor,domain=-2:0,very thick,smooth] {4+2*x};
 		
 		%shades outer part	
-		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
-		\addplot [name path=B,domain=-2:-0,draw=none] {4+2*x};
-            	\addplot [name path=C,domain=-2:2,draw=none,samples=200] {-sqrt(.25- .25/4*x^2)};
+		\addplot [name path=A,domain=0:1.99,draw=none] {4-2*x};
+		\addplot [name path=B,domain=-1.99:-0,draw=none] {4+2*x};
+            	\addplot [name path=C,domain=-1.99:1.99,draw=none,samples=100] {-sqrt(.25- .25/4*x^2)};
 	       	\addplot [fillp] fill between[of=A and C];
 		\addplot [fillp] fill between[of=B and C];
 		
                  %outer ellipses
-                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300,dashed] {sqrt(.25- .25/4*x^2)};
-                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300] {-sqrt(.25- .25/4*x^2)};
+                   \addplot [draw=penColor,domain=-1.99:1.99,very thick,smooth,samples=100,dashed] {sqrt(.25- .25/4*x^2)};
+                  \addplot [draw=penColor,domain=-1.99:1.99,very thick,smooth,samples=100] {-sqrt(.25- .25/4*x^2)};
                   
                  %Slice
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.5+ sqrt(.1- .1/1.5*x^2)};
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.5- sqrt(.1- .1/1.5*x^2)};
-                        \addplot [draw=penColor,domain=-1.6:-1.5,very thick,smooth,samples=300] {1.5- sqrt(.1- .1/1.6*x^2)};
-                        \addplot [draw=penColor,domain=1.5:1.6,very thick,smooth,samples=300] {1.5- sqrt(.1- .1/1.6*x^2)};
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.3- sqrt(.1- .1/1.8*x^2)};
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {1.5+ sqrt(.1- .1/1.5*x^2)};
+                  \addplot [draw=penColor,domain=-1.2649:1.2649,very thick,smooth,samples=100] {1.5- sqrt(.1- .1/1.6*x^2)};
+                  \addplot [draw=penColor,domain=-1.341:1.341,very thick,smooth,samples=100] {1.3- sqrt(.1- .1/1.8*x^2)};
                   
                   %Shading
-                	\addplot [name path=D,domain=-1.34:1.34,draw=none] {1.5- sqrt(.1- .1/1.6*x^2)};
-            	\addplot [name path=E,domain=-1.34:1.34,draw=none,samples=200] {1.3- sqrt(.1- .1/1.8*x^2)};
+                	\addplot [name path=D,domain=-1.264:1.264,draw=none] {1.5- sqrt(.1- .1/1.6*x^2)};
+            	\addplot [name path=E,domain=-1.34:1.34,draw=none,samples=100] {1.3- sqrt(.1- .1/1.8*x^2)};
                 	\addplot [name path=F,domain=-1.4:-1.2,draw=none] {4+2*x};	
                 	\addplot [name path=G,domain=1.2:1.4,draw=none] {4-2*x};
 		
@@ -150,7 +146,7 @@ One way we can slice the solid of revolution is by slicing perpendicular to the 
 	       	\addplot [gray] fill between[of=D and G];
 		                  
                 	\addplot [name path=F,domain=-1.22:1.22,draw=none] {1.5+ sqrt(.1- .1/1.5*x^2)};
-            	\addplot [name path=G,domain=-1.22:1.22,draw=none,samples=200] {1.5- sqrt(.1- .1/1.5*x^2)};
+            	\addplot [name path=G,domain=-1.22:1.22,draw=none,samples=100] {1.5- sqrt(.1- .1/1.5*x^2)};
 	       	\addplot [gray!50] fill between[of=F and G];
                   %%%%%%%%%%%%%%%%%%%%                 
 %            	\node at (axis cs:11,1.55) [penColor] {$x=4y^2$};
@@ -178,7 +174,7 @@ The region in the $xy$-plane that generates the slice once rotated about the $y$
 		
 		%shades outer part	
 		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
-            	\addplot [name path=C,domain=0:2,draw=none,samples=200] {0};
+            	\addplot [name path=C,domain=0:2,draw=none] {0};
 	       	\addplot [fillp] fill between[of=A and C];
 		
 		\addplot [draw=penColor,very thick] coordinates {(0,1)(1.5,1)(1.4,1.2)(0,1.2)(0,1)};
@@ -194,7 +190,7 @@ The region in the $xy$-plane that generates the slice once rotated about the $y$
             \end{tikzpicture}
             \end{image}
             
-Note that we can approximate the slice on the solid by a \emph{disk}.
+Ultimately, we need to approximate the slices by a shape whose volume we can compute.  Note that the slice on the solid here can be approximated by a \emph{disk}.
             
             \begin{image}
             \begin{tikzpicture}
@@ -212,29 +208,29 @@ Note that we can approximate the slice on the solid by a \emph{disk}.
 		%shades outer part	
 		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
 		\addplot [name path=B,domain=-2:-0,draw=none] {4+2*x};
-            	\addplot [name path=C,domain=-2:2,draw=none,samples=200] {-sqrt(.25- .25/4*x^2)};
+            	\addplot [name path=C,domain=-2:2,draw=none,samples=100] {-sqrt(.25- .25/4*x^2)};
 	       	\addplot [fillp] fill between[of=A and C];
 		\addplot [fillp] fill between[of=B and C];
 		
                  %outer ellipses
-                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300,dashed] {sqrt(.25- .25/4*x^2)};
-                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300] {-sqrt(.25- .25/4*x^2)};
+                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=100,dashed] {sqrt(.25- .25/4*x^2)};
+                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=100] {-sqrt(.25- .25/4*x^2)};
                   
                  %Slice
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.5+ sqrt(.1- .1/1.5*x^2)};
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.5- sqrt(.1- .1/1.5*x^2)};
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.3- sqrt(.1- .1/1.5*x^2)};
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {1.5+ sqrt(.1- .1/1.5*x^2)};
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {1.5- sqrt(.1- .1/1.5*x^2)};
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {1.3- sqrt(.1- .1/1.5*x^2)};
                   
        		\addplot [draw=penColor,very thick,smooth] coordinates {(-1.22,1.25)(-1.22,1.55)};
 		\addplot [draw=penColor,very thick,smooth] coordinates {(1.22,1.25)(1.22,1.55)};
                   
                   %Shading
-                	\addplot [name path=D,domain=-1.22:1.22,draw=none] {1.5- sqrt(.1- .1/1.5*x^2)};
-            	\addplot [name path=E,domain=-1.22:1.22,draw=none,samples=200] {1.3- sqrt(.1- .1/1.5*x^2)};
+                	\addplot [name path=D,domain=-1.224:1.224,draw=none] {1.5- sqrt(.1- .1/1.5*x^2)};
+            	\addplot [name path=E,domain=-1.224:1.224,draw=none,samples=100] {1.3- sqrt(.1- .1/1.5*x^2)};
 	       	\addplot [gray] fill between[of=D and E];
                   
-                	\addplot [name path=F,domain=-1.22:1.22,draw=none] {1.5+ sqrt(.1- .1/1.5*x^2)};
-            	\addplot [name path=G,domain=-1.22:1.22,draw=none,samples=200] {1.5- sqrt(.1- .1/1.5*x^2)};
+                	\addplot [name path=F,domain=-1.224:1.224,draw=none] {1.5+ sqrt(.1- .1/1.5*x^2)};
+            	\addplot [name path=G,domain=-1.224:1.224,draw=none,samples=100] {1.5- sqrt(.1- .1/1.5*x^2)};
 	       	\addplot [gray!50] fill between[of=F and G];
                   %%%%%%%%%%%%%%%%%%%%                 
 %            	\node at (axis cs:11,1.55) [penColor] {$x=4y^2$};
@@ -244,8 +240,7 @@ Note that we can approximate the slice on the solid by a \emph{disk}.
             \end{tikzpicture}
             \end{image}
             
-                       
-This in turn allows us to approximate the region in the $xy$-plane that generates the slice once rotated by a \emph{rectangle}.            
+Note that if we approximate the slice in the region of revolution by a \emph{rectangle}, the disk on the solid is generated by revolving this rectangle about the axis of revolution.            
             
  \begin{image}
             \begin{tikzpicture}
@@ -263,7 +258,7 @@ This in turn allows us to approximate the region in the $xy$-plane that generate
 		
 		%shades outer part	
 		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
-            	\addplot [name path=C,domain=0:2,draw=none,samples=200] {0};
+            	\addplot [name path=C,domain=0:2,draw=none] {0};
 	       	\addplot [fillp] fill between[of=A and C];
 		
 		\addplot [draw=penColor,very thick] coordinates {(0,1)(1.4,1)(1.4,1.2)(0,1.2)(0,1)};
@@ -279,17 +274,16 @@ This in turn allows us to approximate the region in the $xy$-plane that generate
             \end{tikzpicture}
             \end{image}
             
-Since we can find the volume of a disk, this seems like a fruitful approach!  
-
-Here are a few important points.
+Since we can find the volume of a disk, this seems like a fruitful approach.  Before continuing, there are a few important points to summarize.
 
 \begin{itemize}
-\item We slice the solid into many pieces, and we can view each slice as being generated by revolving a certain region in the $xy$-plane about the axis of rotation.
+\item We slice the solid into many pieces, and we can view each slice as being generated by revolving a certain region in the $xy$-plane about the axis of revolution.
 \item We can approximate each slice on the solid by a disk, and we can generate this disk by approximating the corresponding slice in the $xy$-plane by a rectangle.  
+\item Thus, we can work with the solid of revolution by analyzing the slices in the $xy$-plane.  
 \end{itemize}
 
 \begin{remark}
-Note here that since one of the sides of the solid lies on the axis of rotation, we obtain a solid disk, but if the axis of rotation does not coincide with the boundary of the region, we instead obtain a disk with a hole in it.
+Note here that since one of the sides of the solid lies on the axis of revolution, we obtain a solid disk, but if the axis of revolution does not coincide with the boundary of the region, we instead obtain a disk with a hole in it.
 
  %ADD PICTURE% 
 
@@ -298,9 +292,9 @@ Note here that since one of the sides of the solid lies on the axis of rotation,
  We'll explore the details in a bit, but let's first explore another way to generate the solid.
 
 
-\section{Slicing Parallel to the Axis of Rotation}            
+\section{Slicing Parallel to the axis of revolution}            
             
-We instead can choose to slice the region in the $xy$-plane by using slices that are \emph{parallel} to the axis of rotation, and approximate each of those slices by a rectangle.        
+We instead can choose to slice the region of revolution in the $xy$-plane by using slices that are \emph{parallel} to the axis of revolution.  we can approximate each of those slices by a rectangle.        
             
  \begin{image}
             \begin{tikzpicture}
@@ -318,7 +312,7 @@ We instead can choose to slice the region in the $xy$-plane by using slices that
 		
 		%shades outer part	
 		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
-            	\addplot [name path=C,domain=0:2,draw=none,samples=200] {0};
+            	\addplot [name path=C,domain=0:2,draw=none] {0};
 	       	\addplot [fillp] fill between[of=A and C];
 		
 		\addplot [draw=penColor,very thick] coordinates {(.6,0)(.8,0)(.8,2.4)(.6,2.4)(.6,0)};
@@ -334,8 +328,7 @@ We instead can choose to slice the region in the $xy$-plane by using slices that
             \end{tikzpicture}
             \end{image}
 
-
-Revolving these about the axis of rotation gives very thin, hollow cylinders.
+Revolving these about the axis of revolution gives very thin, hollow cylinders.
 
             \begin{image}
             \begin{tikzpicture}
@@ -351,45 +344,45 @@ Revolving these about the axis of rotation gives very thin, hollow cylinders.
 		\addplot [draw=penColor,domain=-2:0,very thick,smooth] {4+2*x};
 		
 		%shades outer part	
-		\addplot [name path=A,domain=0:2,draw=none] {4-2*x};
-		\addplot [name path=B,domain=-2:-0,draw=none] {4+2*x};
-            	\addplot [name path=C,domain=-2:2,draw=none,samples=200] {-sqrt(.25- .25/4*x^2)};
+		\addplot [name path=A,domain=0:1.99,draw=none] {4-2*x};
+		\addplot [name path=B,domain=-1.99:-0,draw=none] {4+2*x};
+            	\addplot [name path=C,domain=-1.99:1.99,draw=none,samples=100] {-sqrt(.25- .25/4*x^2)};
 	       	\addplot [fillp] fill between[of=A and C];
 		\addplot [fillp] fill between[of=B and C];
 		
                  %outer ellipses
-                   \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300,dashed] {sqrt(.25- .25/4*x^2)};
-                  \addplot [draw=penColor,domain=-2:2,very thick,smooth,samples=300] {-sqrt(.25- .25/4*x^2)};
+                   \addplot [draw=penColor,domain=-1.99:1.99,very thick,smooth,samples=100,dashed] {sqrt(.25- .25/4*x^2)};
+                  \addplot [draw=penColor,domain=-1.99:1.99,very thick,smooth,samples=100] {-sqrt(.25- .25/4*x^2)};
                               
                  %Slice
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.5+ sqrt(.1- .1/1.5*x^2)};
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {1.5- sqrt(.1- .1/1.5*x^2)};
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {1.5+ sqrt(.1- .1/1.5*x^2)};
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {1.5- sqrt(.1- .1/1.5*x^2)};
                   
-                  \addplot [draw=penColor,domain=-1.05:1.05,very thick,smooth,samples=300] {1.5+ sqrt(.05- .05/1.2*x^2)};
-                  \addplot [draw=penColor,domain=-1.05:1.05,very thick,smooth,samples=300] {1.5- sqrt(.05- .05/1.2*x^2)};
+                  \addplot [draw=penColor,domain=-1.05:1.05,very thick,smooth,samples=100] {1.5+ sqrt(.05- .05/1.2*x^2)};
+                  \addplot [draw=penColor,domain=-1.05:1.05,very thick,smooth,samples=100] {1.5- sqrt(.05- .05/1.2*x^2)};
                   
-                  \addplot [draw=penColor,domain=-1.0954:-1.05,very thick,smooth,samples=300] {1.5+ sqrt(.05- .05/1.2*x^2)};
-                  \addplot [draw=penColor,domain=-1.0954:-1.05,very thick,smooth,samples=300] {1.5- sqrt(.05- .05/1.2*x^2)};                  
+                  \addplot [draw=penColor,domain=-1.0954:-1.05,very thick,smooth,samples=100] {1.5+ sqrt(.05- .05/1.2*x^2)};
+                  \addplot [draw=penColor,domain=-1.0954:-1.05,very thick,smooth,samples=100] {1.5- sqrt(.05- .05/1.2*x^2)};                  
                                    
-                  \addplot [draw=penColor,domain=1.05:1.0954,very thick,smooth,samples=300] {1.5+ sqrt(.05- .05/1.2*x^2)};
-                  \addplot [draw=penColor,domain=1.05:1.0954,very thick,smooth,samples=300] {1.5 - sqrt(.05- .05/1.2*x^2)};   
+                  \addplot [draw=penColor,domain=1.05:1.0954,very thick,smooth,samples=100] {1.5+ sqrt(.05- .05/1.2*x^2)};
+                  \addplot [draw=penColor,domain=1.05:1.0954,very thick,smooth,samples=100] {1.5 - sqrt(.05- .05/1.2*x^2)};   
                   
-                  \addplot [draw=penColor,domain=-1.5:1.5,very thick,smooth,samples=300] {- sqrt(.1- .1/1.5*x^2)}; 
+                  \addplot [draw=penColor,domain=-1.224:1.224,very thick,smooth,samples=100] {- sqrt(.1- .1/1.5*x^2)}; 
                                     
                   \addplot [draw=penColor,very thick,smooth] coordinates {(-1.22,-.05)(-1.22,1.55)};
 		 \addplot [draw=penColor,very thick,smooth] coordinates {(1.22,-.05)(1.22,1.55)};
                   
                   %Shading
-                	\addplot [name path=D,domain=-1.22:1.22,draw=none] {1.5- sqrt(.1- .1/1.5*x^2)};
-            	\addplot [name path=E,domain=-1.22:1.22,draw=none,samples=200] {- sqrt(.1- .1/1.5*x^2)};
+                	\addplot [name path=D,domain=-1.224:1.224,draw=none] {1.5- sqrt(.1- .1/1.5*x^2)};
+            	\addplot [name path=E,domain=-1.224:1.224,draw=none,samples=100] {- sqrt(.1- .1/1.5*x^2)};
 	       	\addplot [gray] fill between[of=D and E];
                   
-                	\addplot [name path=F,domain=-1.22:1.22,draw=none] {1.5+ sqrt(.1- .1/1.5*x^2)};
-            	\addplot [name path=G,domain=-1.22:1.22,draw=none,samples=200] {1.5- sqrt(.1- .1/1.5*x^2)};
+                	\addplot [name path=F,domain=-1.224:1.224,draw=none] {1.5+ sqrt(.1- .1/1.5*x^2)};
+            	\addplot [name path=G,domain=-1.224:1.224,draw=none,samples=100] {1.5- sqrt(.1- .1/1.5*x^2)};
 	       	\addplot [gray!75] fill between[of=F and G];
 		
-                	\addplot [name path=H,domain=-1.22:1.22,draw=none] {1.5+ sqrt(.05- .05/1.2*x^2)};
-            	\addplot [name path=I,domain=-1.22:1.22,draw=none,samples=200] {1.5- sqrt(.05- .05/1.2*x^2)};
+                	\addplot [name path=H,domain=-1.095:1.095,draw=none] {1.5+ sqrt(.05- .05/1.2*x^2)};
+            	\addplot [name path=I,domain=-1.095:1.095,draw=none,samples=100] {1.5- sqrt(.05- .05/1.2*x^2)};
 	       	\addplot [fillp] fill between[of=H and I];
 		
                   %%%%%%%%%%%%%%%%%%%%                 
@@ -400,13 +393,11 @@ Revolving these about the axis of rotation gives very thin, hollow cylinders.
             \end{tikzpicture}
             \end{image}
             
-\begin{remark}
-Note that in this case, the volume is built by nesting these hollow cylinders inside of each other, whereas when the slices were taken perpendicular to the axis of rotation, we built the solid by stacking the disks on top of each other.   
-\end{remark}
+Now, the solid is built by nesting these hollow cylinders inside of each other, whereas before, when the slices were taken perpendicular to the axis of revolution, we built the solid by stacking the disks on top of each other.   
    
 \section{Volumes of Hollow Cylinders}   
 
-We have seen that we can slice the region of revolution perpendicular or parallel to the axis of rotation.  We can then approximate each slice by a rectangle and revolve them about the axis of revolution.  In each case, we obtain a (potentially) hollow cylinder. Let's turn our attention to studying the volume of a hollow cylinder with outer radius $R$, inner radius $r$, and height $h$.  A picture is shown below.
+We have seen that we can slice the region of revolution perpendicular or parallel to the axis of revolution.  We can then approximate each slice by a rectangle and revolve them about the axis of revolution.  In each case, we obtain a (potentially) hollow cylinder. Let's turn our attention to studying the volume of a hollow cylinder with outer radius $R$, inner radius $r$, and height $h$.  A picture is shown below.
 
 \begin{image} %%%Thanks to Hans Parshall
 \begin{tikzpicture}
@@ -443,7 +434,7 @@ To find the volume of the hollow cylinder, note that:
 \left< \textrm{Volume of the hollow cylinder} \right> = \pi R^2h-\pi r^2h=\pi(R^2-r^2)h 
 \]
 
-Note that this requires only three geometric quantities of interest - an outer radius, and inner radius, and a thickness.  It does not require that we work with a coordinate system.  To use calculus, however, we must work with functions described using a coordinate system.  We thus will continue to imagine solids of revolution by revolving regions in the $xy$-plane about an axis of rotation.  One of the essential skills to find the resulting volumes will be a familiar one; we must express $R$, $r$, and $h$ in terms of our variable of integration.  We explore this in detail in the coming sections.
+Note that this requires only three geometric quantities of interest - an outer radius, and inner radius, and a thickness.  It does not require that we work with a coordinate system.  To use calculus, however, we must work with functions described using a coordinate system.  We thus will continue to imagine solids of revolution by revolving regions in the $xy$-plane about an axis of revolution.  One of the essential skills to find the resulting volumes will be a familiar one; we must express $R$, $r$, and $h$ in terms of our variable of integration.  We explore this in detail in the coming sections.
 
 \end{document}
 

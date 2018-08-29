@@ -1,0 +1,117 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+\author{Jim Talamo}
+
+%%I like to capitalize Washer Method and Shell Method.  As a result, reference to these methods appears with that convention in those section titles
+\outcome{Determine whether to use washer or shell method given the variable of integration.}
+\outcome{Determine the variable of integration given the method.}
+\outcome{Determine if washer method or shell method is more convenient to set up a volume.}
+
+\title[Dig-In:]{Comparing washer and shell method}
+
+\begin{document}
+\begin{abstract}
+ We compare and contrast the washer and shell method.
+ \end{abstract}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Bringing it all together}
+We have seen two different techniques that can be used to find the volume of a solid of revolution.  We summarize the washer and shell method side by side.
+
+\begin{tabular}{l|l|l}
+& \qquad Washer Method & \qquad Shell Method \\
+\hline \hline
+Orientation of slices: & perpendicular to the axis & parallel to the axis \\
+For vertical slices: &$V=\int_{x=a}^{x=b} \pi(R^2-r^2) \d x$ & $V=\int_{x=a}^{x=b} 2\pi \rho h \d x$ \\
+For horizontal slices: &$V=\int_{y=c}^{y=d} \pi(R^2-r^2) \d y$ & $V=\int_{y=c}^{y=d} 2\pi \rho h \d y$ \\
+Geometric quantities: & $R$ - outer radius & $\rho$ - shell radius \\
+&\,$r$ - inner radius & $h$ - length of slice \\
+\end{tabular}
+
+We find the geometric quantities by noting the following.
+
+\begin{itemize}
+\item The outer radius $R$ is the distance from the axis of revolution to the outer curve.
+\item The inner radius $r$ is the distance from the axis of revolution to the inner curve.
+\item The shell radius $\rho$ is the distance from the axis of rotation to the representative slice.
+\item The length $h$ is the height of a vertical slice or the width of a horizontal slice.
+\end{itemize}
+
+
+Given a region of revolution and an axis of revolution there are three important pieces of information that ultimately must be considered to set up an integral or sum of integrals that gives the volume of the corresponding solid of revolution.
+
+\begin{itemize}
+\item The variable of integration ($x$ or $y$)
+\item The method (washer or shell)
+\item The type of slice (vertical or horizontal)
+\end{itemize}
+
+An important observation is that given any one of these three pieces of information, the others immediately follow.  Here are a few examples.
+
+\begin{example}
+The region bounded by $x=\frac{2}{y}$, $x=4$ and $x=9$ is revolved about the $y$-axis.  If an integral or sum of integrals with respect to $y$ is used to compute the volume of the solid, should we use the washer or the shell method?
+
+\begin{explanation}  To answer this, note that since we integrate with respect to $y$, we use \wordChoice{\choice[correct]{horizontal}\choice{vertical}} slices.  These slices are \wordChoice{\choice{parallel}\choice[correct]{perpendicular}} to the axis of rotation.  Thus, we should use the \wordChoice{\choice[correct]{washer}\choice{shell}} method.
+\end{explanation}
+\end{example}
+
+Here is an example in which we are given the method. 
+
+\begin{example}
+The region bounded by $y=1-x$, $x=0$, and $y=0$ is revolved about the line $x=2$.  If the washer method is used to calculate the volume or the resulting solid, should we integrate with respect to $x$ or $y$?  
+
+\begin{explanation}
+Since we use the washer method, the slices must be \wordChoice{\choice{parallel}\choice[correct]{perpendicular}} to the axis of rotation. These slices are \wordChoice{\choice{vertical}\choice[correct]{horizontal}}, so we should integrate with respect to \wordChoice{\choice{$x$}\choice[correct]{$y$}}.
+
+\end{explanation}
+\end{example}
+
+Sometimes, we only want to find the volume of a solid of revolution and we are not given the method nor the variable of integration.  In this case, choosing the type of slice that is more convenient to use in the region of revolution is a good idea.
+
+\begin{example}
+The region in the $xy$-plane bounded between $x=1$, $y=2x-3$, and $y=5+\frac{8}{x-4}$ is shown below. 
+	
+            \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-4:9, ymax=5.5,xmax=4.6, ymin=-1.8, xmin=-.8,
+            		axis lines =center, xlabel=$x$, ylabel=$y$,
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth] {2*x-3};
+            	\addplot [draw=penColor2,very thick,smooth,samples=75,domain=-2:3] {5+8/(x-4)};
+		\addplot [draw=penColor3,very thick,smooth] {0};
+		\addplot [draw=penColor4,very thick,smooth] coordinates {(1,-4)(1,12)};
+		\addplot [draw=penColor5,very thick,dashed] {3};
+                       
+            	\addplot [name path=A,domain=1:2,draw=none] {2*x-3};   
+            	\addplot [name path=B,domain=1:2,draw=none] {5+8/(x-4)};
+            	\addplot [fillp] fill between[of=A and B];
+	                      
+            	\node at (axis cs:1.5,4.5) [penColor4] {$x=1$};
+		\node at (axis cs:2,3.4) [penColor5] {$y=3$};
+		\node at (axis cs:3.4,2) [penColor] {$y=2x-3$};
+       		\node at (axis cs:3.3,.7) [penColor2] {$y=5+\frac{8}{x-4}$};
+            	\end{axis}
+            \end{tikzpicture}
+            \end{image}
+
+A solid of revolution is formed by revolving this region about $y=3$.  What is the variable of integration and which method should be used to find the volume?
+
+\begin{explanation}
+If we use horizontal slices, we will need two integrals but if we use vertical slices, we will only need one.  We thus choose to use vertical slices.  This means that our variable of integration is \wordChoice{\choice[correct]{$x$}\choice{$y$}}.  Now, notice that vertical slices are \wordChoice{\choice[correct]{perpendicular}\choice{parallel}} to the axis of rotation $y=3$.  Thus, we should use the \wordChoice{\choice[correct]{washer}\choice{shell}} method. 
+\end{explanation}
+
+\end{example}
+
+\begin{quote}
+``Education is not the leaning of facts, but the training of the mind to think'' - Albert Einstein
+\end{quote}
+
+\end{document}
+

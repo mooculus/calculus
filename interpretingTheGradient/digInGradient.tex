@@ -22,29 +22,30 @@ We have now learned much about the gradient vector. However,
 \textbf{there are three things you must know about the gradient
   vector:}
 
-\paragraph{First: You must know how to compute the gradient vector}
-Remember given a function $F:\R^n\to\R$,
+\paragraph{First: You must know how to compute the gradient vector.}
+Remember given a function $F:\R^n\to\R$:
 \[
 \grad F  = \vector{\pp[F]{x_1},\pp[F]{x_2},\dots,\pp[F]{x_n}}
 \]
-This is a vector-valued function of $n$ variable. This means when you
+This is a vector-valued function of $n$ variables. This means when you
 compute the gradient, you should express it as a vector!
 
-\paragraph{Second: The gradient vector points in the initial direction of greatest increase for a function}
-Remember, the gradient vector of a function of $n$ variables lives in
-$\R^n$. The gradient vector tells you how to immediately change the
-values of the inputs of a function, to find the initial greatest
-increase in the output of the function. 
+\paragraph{Second: The gradient vector points in the initial direction of greatest increase for a function.}
+Remember, the gradient vector of a function of $n$ variables is a
+vector that lives in $\R^n$. The gradient vector tells you how to
+immediately change the values of the inputs of a function to find the
+initial greatest increase in the output of the function.
 \begin{onlineOnly}
   We can see this in the interactive below. 
   \begin{center}
     \geogebra{wd5mrudh}{800}{600} %https://ggbm.at/wd5mrudh
   \end{center}
-  The gradient at each point shows you which way to change the $(x,y)$-value to get the greatest initial change in the $z$-value.
+  The gradient at each point shows you which direction to change the
+  $(x,y)$-values to get the greatest initial change in the $z$-value.
 \end{onlineOnly}
 
 
-\paragraph{Third: The gradient vector is orthogonal to level sets}
+\paragraph{Third: The gradient vector is orthogonal to level sets.}
 
 In particular, given $F:\R^2\to\R$, the gradient vector $\grad
 F\in\R^2$ is always orthogonal to the level curves $c =
@@ -130,18 +131,18 @@ try your hand at these puzzlers:
 \section{The initial greatest increase}
 
 Given a function $F:\R^n\to\R$ and point in $\R^n$, the gradient
-vector tells you which initial direction to leave the point, in order
+vector tells you which initial direction to leave the point in order
 to get the greatest increase in $F$. Why is this so? Well, to compute
-the change in the function given a direction, we should use the
-directional derivative. Recall:
+the change in the output of a function when changing the inputs in a
+specific direction, we should use the directional derivative. Recall:
 \[
 D_\uvec{u}(F) = \grad{F} \dotp \uvec{u}
 \]
-To make this change as large as possible, $\uvec{u}$ had better be the
+To make this change as large as possible, $\uvec{u}$ must be the
 same direction as $\grad F$. Hence, it is the gradient vector that
 points in the initial direction of greatest increase for the function.
 
-We can directly witness that the gradient points in the initial
+We can directly witness that the gradient vector points in the initial
 direction of greatest increase by looking at a differentiable function
 $F:\R^2\to\R$ that is described by a table of values.
 
@@ -267,7 +268,8 @@ $F:\R^2\to\R$ that is described by a table of values.
       \end{axis}
     \end{tikzpicture}
   \end{image}
-  True or false: The vector above could be the gradient vector for $G$ at the point.
+  True or false: The vector above could be the gradient vector for $G$
+  at the given point.
   \begin{prompt}
   \begin{multipleChoice}
     \choice{True}
@@ -467,10 +469,13 @@ in the $(x,y)$-plane.
     \choice{I've thought about this.}
     \choice{I've not thought about this.}
   \end{multipleChoice}
-  The key take-away from the example above is that the negative of the
-  gradient points in the initial direction of greatest decrease. The
-  other take-away from the example above is just to observe how the
-  problem combines many aspects of calculus.
+  There are two key take-aways from the example above:
+  \begin{itemize}
+    \item First, that the negative of the gradient points in the
+      initial direction of greatest decrease.
+    \item Second, is just to observe how the problem combines
+      many aspects of calculus.
+  \end{itemize}
   \end{prompt}
 \end{question}
 
@@ -483,163 +488,169 @@ in the $(x,y)$-plane.
 \section{Orthogonality and the gradient}
 
 
-
-
-    LEVEL CURVES MAXIMUM AND ORTHOGONALITY
-
-    IMPLICIT SURFACE GRAPH and VECTORS
-
-Now that we know gradient vectors point in the direction of the
-greatest initial increase of the function, let's learn about their
-geometry. Consider again a plane. This time we'll think about
+Now that we know gradient vectors point in the initial direction of
+the greatest increase of the function, let's think about the geometry
+of the gradient vector. Previously we used the chain rule to show that
+the gradient vector is always orthogonal to level sets. The argument
+went like this: Suppose that a vector-valued function
+$\vec{c}(t)=\vector{x(t),y(t)}$ runs along a level surface for the
+surface $F(x,y)$.  If we ask ourselves: ``What is the change in $F$ as
+$t$ varies?'' We must conclude that 
 \[
-z = F(x,y) = x+y
+\dd{t} F(\vec{c}(t)) = 0 
 \]
-This plane increase with both the $x$-values and $y$-values and passes
-through the line $y=-x$ in the $(x,y)$-plane.
-\begin{onlineOnly}
-\begin{sageCell}
-f(x,y) = x+y
-plot3d(f, (x,-3,3), (y,-3,3))
-\end{sageCell}
-\end{onlineOnly}
-Let's look at a contour plot:
-    \begin{image}
-      \begin{tikzpicture}
-        \begin{axis}%
-          [tick label style={font=\scriptsize},axis on top,
-	    axis lines=center,
-            width=3in,
-            height=3in,
-	    xtick={-3,-2,...,3},
-            ytick={-3,-2,...,3},
-	    %ytick={5},
-	    %ztick={.7,-.7},
-	    ymin=-1.2,ymax=1.2,
-	    xmin=-1.2,xmax=1.2,
-            grid=major,%width=3in,height=3in,
-            grid style={dashed, gridColor},
-	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
-	    xlabel={\scriptsize $x$},
-	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=2pt},
-	    ylabel={\scriptsize $y$},
-	  ]
-          \addplot[very thick, penColor,smooth] {-x};
-          \addplot[very thick, penColor,smooth] {-x+1};
-          \addplot[very thick, penColor,smooth] {-x+2};
-          \addplot[very thick, penColor,smooth] {-x+3};
-          \addplot[very thick, penColor,smooth] {-x-1};
-          \addplot[very thick, penColor,smooth] {-x-2};
-          
-          \node[penColor,fill=white] at (axis cs:.5,-.5) {$0$};
-          \node[penColor,fill=white] at (axis cs:0.8,.2) {$1$};
-          \node[penColor,fill=white] at (axis cs:1,1) {$2$};
-          \node[penColor,fill=white] at (axis cs:-.2,-.8) {$-1$};
-          \node[penColor,fill=white] at (axis cs:-1,-1) {$-2$};
+since the value of $F$ doesn't change on the curve drawn by $\vec{c}$ (remember, $\vec{c}$ draws a level curve).
+On the other hand, by the chain rule:
+\[
+\dd{t} F(\vec{c}(t)) = \grad F(\vec{c}(t)) \dotp \vec{c}'(t)
+\]
+The vector $\vec{c}'$ is tangent to the curve drawn by $\vec{c}$, and
+putting the two equations above together we see
+\[
+0 = \grad F(\vec{c}(t)) \dotp \vec{c}'(t)
+\]
+so $\grad F(\vec{c}(t))$ must be orthogonal to $\vec{c}'$, and hence
+orthogonal to the curve drawn by $\vec{c}$.
 
-          \addplot[color=black,fill=black,only marks,mark=*] coordinates{(4,2)};  %% closed hole          
-        \end{axis}
-      \end{tikzpicture}
-    \end{image}
-    Computing the gradient we find
-    \[
-    \grad F(x,y) = \vector{1,1}
-    \]
-    This vector is perpendicular to all the level curves.
-        \begin{image}
-      \begin{tikzpicture}
-        \begin{axis}%
-          [tick label style={font=\scriptsize},axis on top,
-	    axis lines=center,
-	    %view={30}{30},
-	    %name=myplot,
-            width=3in,
-            height=3in,
-	    xtick={-3,-2,...,3},
-            ytick={-3,-2,...,3},
-	    %ytick={5},
-	    %ztick={.7,-.7},
-	    ymin=-1.2,ymax=1.2,
-	    xmin=-1.2,xmax=1.2,
-            grid=major,%width=3in,height=3in,
-            grid style={dashed, gridColor},
-	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
-	    xlabel={\scriptsize $x$},
-	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=2pt},
-	    ylabel={\scriptsize $y$},
-	  ]
-          \addplot[very thick, penColor,smooth] {-x};
-          \addplot[very thick, penColor,smooth] {-x+1};
-          \addplot[very thick, penColor,smooth] {-x+2};
-          \addplot[very thick, penColor,smooth] {-x+3};
-          \addplot[very thick, penColor,smooth] {-x-1};
-          \addplot[very thick, penColor,smooth] {-x-2};
-          
-          \node[penColor,fill=white] at (axis cs:.5,-.5) {$0$};
-          \node[penColor,fill=white] at (axis cs:0.8,.2) {$1$};
-          \node[penColor,fill=white] at (axis cs:1,1) {$2$};
-          \node[penColor,fill=white] at (axis cs:-.2,-.8) {$-1$};
-          \node[penColor,fill=white] at (axis cs:-1,-1) {$-2$};
 
-          \addplot[penColor2,ultra thick, ->] coordinates{(0,0) (1,1)};
-
-          \addplot[color=black,fill=black,only marks,mark=*] coordinates{(4,2)};  %% closed hole          
-        \end{axis}
-      \end{tikzpicture}
-    \end{image}
-    This is \textbf{not} an accident, rather it is a general
-    rule. Gradient vectors point in the initial direction of greatest
-    increase. \textbf{Every} point on the level curve $1 = x+y$ gives
-    the same $z$-value. Because of this if the gradient pointed any
-    direction other than, ``directly away,'' and hence
-    perpendicularly, from the level curve, it would not be pointing
-    in the initial direction of greatest increase. The up-shot?
-    \begin{quote}
-      \textbf{Gradient vectors are always orthogonal to level
-        sets.}
-    \end{quote}
-
-    The fact that the gradient is always orthogonal to level surfaces
-    is very powerful.  In fact it gives new (easier!) solutions to old
-    problems. Let's use this fact to find a plane tangent to a
-    surface.
-    
-    \begin{example}
-      Find an implicit equation for the tangent plane to the elliptic
-      paraboloid $z = x^2 + y^2$
-      \begin{image}
-        \begin{tikzpicture}
-          \begin{axis}%
-            [width=175pt,tick label style={font=\scriptsize},axis on top,
-	      axis lines=center,
-	      view={145}{20},
-	      name=myplot,
-	      xtick=\empty,
-	      ytick=\empty,
-	      ztick=\empty,
-	      ymin=-2.5,ymax=2.5,
-	      xmin=-3.5,xmax=3.5,
-	zmin=-.1, zmax=5.5,
-	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+The explanation we just gave is a good one, but let's give one more.
+In this book, we are always thinking about differentiable
+functions. Remember, a function $F:\R^2\to\R$ is differentiable if one
+can ``zoom-in'' and eventually the function will look like a plane. So
+let's imagine that we've ``zoomed-in'' on a differentiable function
+and it looks like a plane.  The contour plot of a plane looks like a
+bunch of parallel lines:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+        width=3in,
+        height=3in,
+	xtick={-3,-2,...,3},
+        ytick={-3,-2,...,3},
+	%ytick={5},
+	%ztick={.7,-.7},
+	ymin=-1.2,ymax=1.2,
+	xmin=-1.2,xmax=1.2,
+        grid=major,%width=3in,height=3in,
+        grid style={dashed, gridColor},
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
 	xlabel={\scriptsize $x$},
-	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-2pt},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=2pt},
 	ylabel={\scriptsize $y$},
-	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
-	zlabel={\scriptsize $z$},
-        colormap/cool
       ]
-            
-            \addplot3[domain=0:360,y domain=0:2,color=black!40,mesh,samples=40,samples y=10,very thin,z buffer=sort] ({2*cos(x)*y},{sin(x)*y},{y^2});
-          \end{axis}
-        \end{tikzpicture}
-      \end{image}
-      at $\vec{p} = \vector{2,3,13}$.
-      \begin{explanation}
-        Consider
+      \addplot[very thick, penColor,smooth] {-x};
+      \addplot[very thick, penColor,smooth] {-x+1};
+      \addplot[very thick, penColor,smooth] {-x+2};
+      \addplot[very thick, penColor,smooth] {-x+3};
+      \addplot[very thick, penColor,smooth] {-x-1};
+      \addplot[very thick, penColor,smooth] {-x-2};
+      \foreach \i in {-2.5,-2.4,...,2.5}
+               {
+                 \addplot[penColor!50!white,thin,smooth] {-x+\i};
+               }
+               \node[penColor,fill=white] at (axis cs:.5,-.5) {$0$};
+               \node[penColor,fill=white] at (axis cs:0.8,.2) {$1$};
+               \node[penColor,fill=white] at (axis cs:1,1) {$2$};
+               \node[penColor,fill=white] at (axis cs:-.2,-.8) {$-1$};
+               \node[penColor,fill=white] at (axis cs:-1,-1) {$-2$};
+
+               \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(-.5,.5)};  %% closed hole          
+    \end{axis}
+  \end{tikzpicture}
+    \end{image}
+If we wish to leave the point above in the direction of the initial
+greatest increase, then we should move in a direction perpendicular to
+the level curves:
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	%view={30}{30},
+	%name=myplot,
+        width=3in,
+        height=3in,
+	xtick={-3,-2,...,3},
+        ytick={-3,-2,...,3},
+	    %ytick={5},
+	%ztick={.7,-.7},
+	ymin=-1.2,ymax=1.2,
+	xmin=-1.2,xmax=1.2,
+        grid=major,%width=3in,height=3in,
+        grid style={dashed, gridColor},
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=2pt},
+	ylabel={\scriptsize $y$},
+      ]
+      \addplot[very thick, penColor,smooth] {-x};
+      \addplot[very thick, penColor,smooth] {-x+1};
+      \addplot[very thick, penColor,smooth] {-x+2};
+      \addplot[very thick, penColor,smooth] {-x+3};
+      \addplot[very thick, penColor,smooth] {-x-1};
+      \addplot[very thick, penColor,smooth] {-x-2};
+      \foreach \i in {-2.5,-2.4,...,2.5}
+               {
+                 \addplot[penColor!50!white,thin,smooth] {-x+\i};
+               }
+               
+               \node[penColor,fill=white] at (axis cs:.5,-.5) {$0$};
+               \node[penColor,fill=white] at (axis cs:0.8,.2) {$1$};
+               \node[penColor,fill=white] at (axis cs:1,1) {$2$};
+               \node[penColor,fill=white] at (axis cs:-.2,-.8) {$-1$};
+               \node[penColor,fill=white] at (axis cs:-1,-1) {$-2$};
+
+               \addplot[penColor2,ultra thick, ->] coordinates{(-.5,.5) (0,1)};
+               
+          \addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(-.5,.5)};  %% closed hole          
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+Gradient vectors point in the initial direction of greatest
+increase and the fastest way to leave a line is perpendicular to that line.
+
+The fact that the gradient is always orthogonal to level surfaces is
+very powerful.  In fact it gives new (easier!) solutions to old
+problems. Let's use this fact to find a plane tangent to a surface.
+
+\begin{example}
+  Find an implicit equation for the tangent plane to the elliptic
+  paraboloid $z = x^2 + y^2$
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [width=175pt,tick label style={font=\scriptsize},axis on top,
+	  axis lines=center,
+	  view={145}{20},
+	  name=myplot,
+	  xtick=\empty,
+	  ytick=\empty,
+	  ztick=\empty,
+	  ymin=-2.5,ymax=2.5,
+	  xmin=-3.5,xmax=3.5,
+	  zmin=-.1, zmax=5.5,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-3pt,yshift=-3pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-2pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$},
+          colormap/cool
+        ]
+        
+        \addplot3[domain=0:360,y domain=0:2,color=black!40,mesh,samples=40,samples y=10,very thin,z buffer=sort] ({2*cos(x)*y},{sin(x)*y},{y^2});
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  at $\vec{p} = \vector{2,3,13}$.
+  \begin{explanation}
+    Consider
         \[
         F(x,y,z) =x^2 +y^2 -z
         \]
-        and imagine the elliptic parabolid as the level surface
+        and imagine the elliptic paraboloid as the level surface
         \[
         F(x,y,z) = \answer[given]{0}
         \]
@@ -665,18 +676,74 @@ Let's look at a contour plot:
         Thus the equation of the plane tangent to the ellipsoid at
         $\vec{p}$ is:
         \[
-        \answer[given]{4}(x-2) + 6(y-3) - (z-\answer[given]{13}) = \answer[given]{0}
+        \answer[given]{4}(x-2) + 6(y-3) - \left(z-\answer[given]{13}\right) = \answer[given]{0}
         \]
-      \end{explanation}
+  \end{explanation}
 \end{example}
 
+Now let's see a more in-depth problem.
+
+\begin{example}
+  A plane perpendicular to the $(x,y)$-plane contains the point
+  $(-8,3,-8)$ on the hyperbolic paraboloid $z = x^2-8y^2$. The line
+  tangent to the intersection of the paraboloid and the plane is
+  parallel to the $(x,y)$-plane at this point. Find an equation of the
+  plane.
+  \begin{explanation}
+    Planes are determined by a point and their normal vector
+    $\vec{n}$.  Since this plane is perpendicular to the
+    $(x,y)$-plane, we know that:
+    \[
+    \vec{n} = \vector{a,b,\answer[given]{0}}
+    \]
+    Moreover the hyperbolic paraboloid
+    \[
+    z = x^2-8y^2
+    \]
+    can be thought of as a level surface of
+    \[
+    G(x,y,z) = x^2-8y^2 -z,
+    \]
+    in particular, $G(x,y,z) = 0$. Since gradient vectors are normal
+    to level surfaces, we compute $\grad G$ to find:
+    \[
+    \grad G (x,y,z) = \vector{2x -16y,-1}
+    \]
+    Now if we compute:
+    \begin{align*}
+      \vec{n} \cross \grad G(-8,3,-8) &= \vector{a,b,0}\cross\vector{-16,-48,-1}\\
+      &=\vector{\answer[given]{-b},\answer[given]{a},\answer[given]{16b-48a}}
+    \end{align*}
+    But we know that the $z$-component of the vector above must be
+    $\answer[given]{0}$. So, write with me:
+    \begin{align*}
+      16b-48a &= 0\\
+      b &= \answer[given]{3a}
+    \end{align*}
+    So $\vec{n}$ is parallel to $\vector{a,3a,0}$. Hence one formula for the plane is
+    \[
+    (x+8)+3(y-3) = 0
+    \]
+  \end{explanation}
+\end{example}
+
+\section{Summary}
+
+To conclude, we will repeat ourselves: \textbf{There are three things
+  you must know about the gradient vector:}
+
+\paragraph{First: You must know how to compute the gradient vector.}
 
 
-    
-Finally, sometimes we are given discrete data that can be
-adequately described and approximated by differentiable
-functions. In this case, the \textbf{concept} of the gradient will
-lead you to success.
+
+\paragraph{Second: The gradient vector points in the initial direction of greatest increase for a function.}
+
+
+\paragraph{Third: The gradient vector is orthogonal to level sets.}
+
+
+
+
 
 
 \end{document}

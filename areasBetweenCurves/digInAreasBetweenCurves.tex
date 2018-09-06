@@ -3,7 +3,7 @@
 \pgfplotsset{compat=1.13}
 \author{Jim Talamo}
 
-\outcome{Introduce the method of "Slice, Approximate, Integrate" to set up Riemann integrals}
+\outcome{Introduce the method of ``Slice, Approximate, Integrate" to set up Riemann integrals}
 \outcome{Find the bounded area between two curves.}
 \outcome{Express the area between curves as an integral or sum of integrals with respect to $x$ or $y$.}
 \outcome{Decide whether to integrate with respect to $x$ or $y$.}
@@ -17,17 +17,13 @@
 \end{abstract}
 \maketitle
 
-We have seen previously that for continuous functions defined on closed intervals, the Fundamental Theorem of Calculus relates the process of finding antiderivatives to calculating certain areas.  As it turns out the process used to transcribe Riemann sums that \emph{approximate} such areas to definite integrals that give an \emph{exact} answer is a fundamental procedure that applies to numerous examples in both mathematics and other STEM fields.  The rest of this chapter will be devoted to applying this process to many different cases of interest! 
-
-As an opening remark, we deal only with piecewise continuously differentiable functions, for which the quantities we will describe have a natural conceptually visual meaning.
-
+We have seen previously that for continuous functions defined on closed intervals, the Fundamental Theorem of Calculus relates the process of finding antiderivatives to calculating certain areas.  As it turns out the process used to transcribe Riemann sums that \emph{approximate} such areas to definite integrals that give an \emph{exact} answer is a fundamental procedure that applies to numerous examples in both mathematics and other STEM fields.  In the upcoming sections, we will apply this process to many different cases of interest.  As an opening remark, we deal only with piecewise continuously differentiable functions unless otherwise noted.  
 %%%%FINISH THIS
 
 \section{The Fundamental Theorem of Calculus and Areas}
 
-We begin the section with a motivating reminder:
+We begin the section with an example that illustrates the concepts that are fundamental in setting up definite integrals.  Consider a continuous function $f(x)$ that is positive on a closed interval $[a,b]$ in its domain.   Suppose that we are interested in finding the area bounded by the graph of $y=f(x)$ and the $x$-axis between $x=a$ and $x=b$.  Below is an example of such an example.
 
-\paragraph{Motivating Reminder:} The area between a continuous function $y=f(x)$ and the $x$-axis between $x=a$ and $x=b$ for the function shown below:
 
 \begin{image}
 \begin{tikzpicture}
@@ -60,13 +56,15 @@ We begin the section with a motivating reminder:
 \end{tikzpicture}
 \end{image}
 
-When this question arises at this stage in calculus, we may use the Fundamental Theorem of Calculus to write this area as a definite integral: $$\displaystyle A = \int_{x=a}^{x=b} f(x) \, dx .$$
+We can write this area as the definite integral 
 
-However, recalling how this result was obtained in the first place is instructive and understanding the logic behind it is essential in order to apply a similar method to set up integrals to model other types of situations.  We thus give a detailed conceptual outline of the argument here:
+\[A = \int_{x=a}^{x=b} f(x) \d x , \]
+
+and we may use the Fundamental Theorem of Calculus to evaluate this definite integral.  However, recalling how this result was obtained in the first place is instructive.  Understanding the logic behind it is essential in order to apply a similar method to set up integrals to model other types of situations.  We thus give a detailed conceptual outline of the argument here.
 
 \paragraph{Step 1: Slice}
 
-Since we have expressed $y$ as an function of $x$, we slice with respect to the independent variable (input), that is we divide the area up into $n$ pieces of uniform width $\Delta x$.
+Since we have expressed $y$ as an function of $x$, we divide the interval $[a,b]$ into $n$ pieces of uniform width $\Delta x$. 
 
 \begin{image}
 \begin{tikzpicture}
@@ -106,13 +104,13 @@ Since we have expressed $y$ as an function of $x$, we slice with respect to the 
 \end{tikzpicture}
 \end{image}
 
-\begin{remark}
-The uniformity of the slices is not sufficient, but this is beyond the scope of this text.  However, this does allow for us to make our examples more conceptually tractable.  As such, we adopt this convention throughout this chapter. 
-\end{remark}
+
+As a note, using rectangles of equal width is not is not a requirement.  In a more theoretical treatment, this can be treated, but it suffices for us to use uniform widths in order to present more conceptually tractable examples.  As such, we adopt this convention here as well as in the coming sections. 
+
 
 \paragraph{Step 2: Approximate}
 
-We cannot determine the exact area of the slice, but we can approximate that each slice is a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle. 
+We cannot determine the exact area of the slice, but we can approximate each slice by a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle.  Here, we use the righthand endpoint to determine the height of each rectangle.
 
 \begin{image}
 \begin{tikzpicture}
@@ -152,12 +150,12 @@ We cannot determine the exact area of the slice, but we can approximate that eac
 \end{tikzpicture}
 \end{image}
 
-The area $\Delta A_k$ of one the $k$th rectangles is given by: 
+We can now find the area $\Delta A_k$ of the $k$-th rectangle. 
 \begin{align}
 \Delta A_k & = (height) \times (width) \nonumber \\
 \Delta A_k &= f\left(x_k^*\right)\Delta x 
 \end{align}
-where $x_k^*$ is the $x$-value in the chosen rectangle that determines its height $f(x_k^*)$. 
+where $x_k^*$ here is the $x$-value of the righthand endpoint of each rectangle.  The height of the rectangle is thus $f(x_k^*)$. 
 
 Let $S_n$ denote the total area obtained by adding the areas of the $n$ rectangles together.   Then, we can compute $S_n$ easily by adding up the areas of all of the rectangles: $$S_n = \Delta A_1 + \Delta A_2 + \ldots \Delta A_n$$
 or if you prefer using sigma notation: 
@@ -174,17 +172,24 @@ Note that as we use more rectangles, the following occur \emph{simultaneously}:
 
 The actual area is then $A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right]$.
 
+%%%INTERACTIVE FIGURE%%%%%%%
 
 \paragraph{Step 3: Integrate}
 
-While this infinite limit can be quite cumbersome to work out in even the simplest cases, the Fundamental Theorem of Calculus comes to the rescue; it guarantees that since $y=f(x)$ is continuous on $[a,b]$, this area is also computed via: $$A = \int_{x=a}^{x=b} f(x) \, dx$$
+While this infinite limit can be quite cumbersome to work out in even the simplest cases, the Fundamental Theorem of Calculus comes to the rescue.  It guarantees that since $y=f(x)$ is continuous on $[a,b]$, we may find the area by finding antiderivatives and evaluating the difference of an antiderivative of $f(x)$ at the endpoints.
+
+\[A = \int_{x=a}^{x=b} f(x) \d x = F(b)-F(a) ,\]
+
+where $F(x)$ is an antiderivative of $f(x)$.
+
 This can now be interpreted conceptually as follows:
 \begin{itemize}
-\item[1.] The integrand $f(x) \, dx$ is the area of an \emph{infinitesimal} rectangle of height $f(x)$ and thickness $dx$.\footnote{The notation ``$\Delta x$" represents the \emph{finite} but small width of a rectangle.  The notation ``$dx$" represents the \emph{infinitesimal} width of a rectangle and cannot be thought of strictly as 0!  This results from the area procedure the number of rectangles whose areas we must add increases \emph{simultaneously} without bound as the widths of each rectangle becomes arbitrarily close to 0!}
-\item[2.] The procedure of definite integration can be thought of conceptually as \emph{simultaneously} shrinking the widths of the rectangles while adding them all together!
+\item[1.] The notation ``$\Delta x$" represents the \emph{finite} but small width of a rectangle.  The notation ``$\d x$" represents the \emph{infinitesimal} width of a rectangle.
+\item[2.] The procedure of definite integration can be thought of conceptually as follows.  We \emph{simultaneously} shrink the widths of the rectangles while adding all of the areas together.  
+\item[3.] The integrand $f(x) \d x$ can be thought of as the area of an \emph{infinitesimal} rectangle of height $f(x)$ and thickness $\d x$.  As such, we cannot think of a rectangle of width $\d x$ as having width zero since we must add infinitely many such rectangles together. 
 \end{itemize}
 
-This same procedure can be used to model many other situations, which will be the subject of the rest of this chapter!  It is highly advisable that you understand the logic behind it for every instance that we explore! 
+This same procedure can be used to model many other situations, which will be the subject of the coming sections.  It is therefore important to understand the logic behind it.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -192,18 +197,14 @@ This same procedure can be used to model many other situations, which will be th
 
 \section{The Area Between Two Curves}
 
-We have seen how integration can be used to find signed area between a curve and the $x$-axis. The above procedure also can be used to find areas between curves as well.  Before we begin, note that we will interpret ``area'' as a positive quantity; all of the area bounded by the curves should be taken to be positive regardless of which the quadrant it appears! Let's see how the logic behind the above procedure works in a slightly different context.
-
-\paragraph{Motivating Example:} Suppose now that we have two functions, $y=4x^3+17$ and $y=3x^2$ and suppose we want to find the area between the two curves on $-1 \leq x \leq 1$.  The area is shown below:
-
-%%%%%%%%PICTURE%%%%%%%%%%%
+The above procedure also can be used to find areas between two curves as well.  Henceforth, by ``area'', we will mean ``total area''; the area bounded by the curves should be taken to be positive.  For example, the area bounded by $y=-x$ and $y=0$ from $x=0$ and $x=-1$ is shown below.  
 
 \begin{image}
 \begin{tikzpicture}
 
 \begin{axis}
 	[
-	domain=-1.5:1.5, ymax=25,xmax=1.75, ymin=0, xmin=-1.75,
+	domain=-.5:1.3, ymax=.5,xmax=1.3, ymin=-1.3, xmin=-.5,
 	axis lines=center, xlabel=$x$, ylabel=$y$,
 	xtick={-1,1},
 	ymajorticks=false,
@@ -212,18 +213,58 @@ We have seen how integration can be used to find signed area between a curve and
 	axis on top,
 	]
 
-	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 17};	
-	\addplot [draw=penColor2,very thick, smooth] {3*x^2};
+	\addplot [draw=penColor,very thick, smooth] {-x};	
+	\addplot [draw=penColor2,very thick, smooth] {0};
 	
-	\draw [penColor,thick] (-1,3) -- (-1,13);
-	\draw [penColor,thick] (1,3) -- (1,21);
+	\draw [penColor,thick] (1,-1) -- (1,0);
 	
-	\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 17};	
-	\addplot [name path=B,domain=-1:1,draw=none] {3*x^2};
+	\addplot [name path=A,domain=0:1,draw=none] {-x};	
+	\addplot [name path=B,domain=0:1,draw=none] {0};
 	\addplot [fillp] fill between[of=A and B];
 	
-	\node at (axis cs:.6,24) [penColor] {$y=4x^3 + 17$};
-	\node at (axis cs:1.4,2.5) [penColor2] {$y = 3x^2$};
+	\node at (axis cs:.6,24) [penColor] {$y=-x$};
+	\node at (axis cs:1.4,2.5) [penColor2] {$y = 0$};
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+By noticing that this is the area of a triangle whose base and height have length 1, the total area should be $+\frac{1}{2}$.
+
+As it turns out, the previous procedure can be used to find the total area between two curves.  We explore this in the context of another motivating example.
+
+%\paragraph{Motivating Example:}
+\begin{model}
+Suppose now that we have two functions, $y=4x^3+15$ and $y=3x^2-2$ and suppose we want to find the area between the two curves over the interval $-1 \leq x \leq 1$.  The area is shown below.
+
+%%%%%%%%PICTURE%%%%%%%%%%%
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-1.2:1.2, ymax=25,xmax=2.2, ymin=-4, xmin=-1.2,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={-1,1},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 15};	
+	\addplot [draw=penColor2,very thick, smooth] {3*x^2-2};
+	
+	\draw [penColor,thick] (-1,1) -- (-1,11);
+	\draw [penColor,thick] (1,1) -- (1,19);
+	
+	\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 15};	
+	\addplot [name path=B,domain=-1:1,draw=none] {3*x^2-2};
+	\addplot [fillp] fill between[of=A and B];
+	
+	\node at (axis cs:.6,22) [penColor] {$y=4x^3 + 15$};
+	\node at (axis cs:1.7,4) [penColor2] {$y = 3x^2-2$};
 \end{axis}
 
 \end{tikzpicture}
@@ -233,11 +274,11 @@ We have seen how integration can be used to find signed area between a curve and
 
 
 
-So should we do this? Let's apply the procedure of ``Slice, Approximate, Integrate".
+So how should we do this? Let's apply the procedure of ``Slice, Approximate, Integrate".
 
 \paragraph{Step 1: Slice}
 
-We divide the area up into $n$ pieces of uniform width $\Delta x$.
+We divide $[-1,1]$ up into $n$ pieces of equal width $\Delta x$.
 
 %%%%%%%%PICTURE%%%%%%%%%%%
 \begin{image}
@@ -245,7 +286,7 @@ We divide the area up into $n$ pieces of uniform width $\Delta x$.
 
 \begin{axis}
 	[
-	domain=-1.5:1.5, ymax=25,xmax=1.75, ymin=-3, xmin=-1.75,
+	domain=-1.2:1.2, ymax=25,xmax=2.2, ymin=-6, xmin=-1.2,
 	axis lines=center, xlabel=$x$, ylabel=$y$,
 	xtick={-1,1},
 	ymajorticks=false,
@@ -254,28 +295,28 @@ We divide the area up into $n$ pieces of uniform width $\Delta x$.
 	axis on top,
 	]
 
-	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 17};	
-	\addplot [draw=penColor2,very thick, smooth] {3*x^2};
+	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 15};	
+	\addplot [draw=penColor2,very thick, smooth] {3*x^2-2};
 	
 	\pgfplotsinvokeforeach{-1,-.75,-.5,-.25,0,.25,.5,.75,1}
 	{
-		\draw[penColor,thick] (#1, {3*(#1)^2}) -- (#1, {4*(#1)^3 + 17});
+		\draw[penColor,thick] (#1, {3*(#1)^2-2}) -- (#1, {4*(#1)^3 + 15});
 	}
 	
-	\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 17};	
-	\addplot [name path=B,domain=-1:1,draw=none] {3*x^2};
+	\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 15};	
+	\addplot [name path=B,domain=-1:1,draw=none] {3*x^2-2};
 	\addplot [fillp] fill between[of=A and B];
 	
-	\addplot [name path=darkerA,domain=.5:.75,draw=none] {4*x^3 + 17};
-	\addplot [name path=darkerB,domain=.5:.75,draw=none] {3*x^2};
+	\addplot [name path=darkerA,domain=.5:.75,draw=none] {4*x^3 + 15};
+	\addplot [name path=darkerB,domain=.5:.75,draw=none] {3*x^2-2};
 	\addplot [blue!50!black!50] fill between[of=darkerA and darkerB];
 	
-	\node at (axis cs:.6,24) [penColor] {$y=4x^3 + 17$};
-	\node at (axis cs:1.4,2.5) [penColor2] {$y = 3x^2$};
+	\node at (axis cs:.6,22) [penColor] {$y=4x^3 + 15$};
+	\node at (axis cs:1.7,4) [penColor2] {$y = 3x^2-2$};
 	
-	\node at (axis cs:.625,-2) [penColor] {$\Delta x$};
+	\node at (axis cs:.625,-4) [penColor] {$\Delta x$};
 	
-	\draw[penColor, |-|] (axis cs:.5,-.75) -- (axis cs:.75,-.75);
+	\draw[penColor, |-|] (axis cs:.5,-2.75) -- (axis cs:.75,-2.75);
 \end{axis}
 
 \end{tikzpicture}
@@ -285,7 +326,7 @@ We divide the area up into $n$ pieces of uniform width $\Delta x$.
 
 \paragraph{Step 2: Approximate}
 
-We cannot determine the exact area of the slice, but just as before, we can approximate that each slice is a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on the base of the rectangle: 
+We cannot determine the exact area of the slice, but just as before, we can approximate that each slice by a rectangle whose heights are determined by the value of the function $y = f(x)$ at some $x$-value on its base.  Here, we choose to use lefthand endpoints.
 
 %%%%%%%%PICTURE%%%%%%%%%%%
 
@@ -294,7 +335,7 @@ We cannot determine the exact area of the slice, but just as before, we can appr
 
 \begin{axis}
 	[
-	domain=-1.5:1.5, ymax=25,xmax=1.75, ymin=-3, xmin=-1.75,
+	domain=-1.2:1.2, ymax=25,xmax=2.2, ymin=-6, xmin=-1.2,
 	axis lines=center, xlabel=$x$, ylabel=$y$,
 	xtick={-1,1},
 	ymajorticks=false,
@@ -305,29 +346,29 @@ We cannot determine the exact area of the slice, but just as before, we can appr
 
 	\pgfplotsinvokeforeach{-1,-.75,-.5,-.25,0,.25,.75}
 	{
-		\draw[penColor,thick,fill=fillp] (#1, {3*(#1)^2}) -- (#1, {4*(#1)^3 + 17}) -- ({#1 + .25}, {4*(#1)^3 + 17}) -- ({#1 + .25}, {3*(#1)^2}) -- (#1, {3*(#1)^2});
+		\draw[penColor,thick,fill=fillp] (#1, {3*(#1)^2-2}) -- (#1, {4*(#1)^3 + 15}) -- ({#1 + .25}, {4*(#1)^3 + 15}) -- ({#1 + .25}, {3*(#1)^2-2}) -- (#1, {3*(#1)^2-2});
 	}
 	\pgfplotsinvokeforeach{.5}
 	{
-		\draw[penColor,thick,fill=blue!50!black!50] (#1, {3*(#1)^2}) -- (#1, {4*(#1)^3 + 17}) -- ({#1 + .25}, {4*(#1)^3 + 17}) -- ({#1 + .25}, {3*(#1)^2}) -- (#1, {3*(#1)^2});
+		\draw[penColor,thick,fill=blue!50!black!50] (#1, {3*(#1)^2-2}) -- (#1, {4*(#1)^3 + 15}) -- ({#1 + .25}, {4*(#1)^3 + 15}) -- ({#1 + .25}, {3*(#1)^2-2}) -- (#1, {3*(#1)^2-2});
 	}
 	
-	\draw[red, thick, |-|] (axis cs:.82,{3*(.5)^2}) -- (axis cs:.82,{4*(.5)^3 + 17});
-	\node at (axis cs:.91,9) [red] {$h$};
+	\draw[black, thick, |-|] (axis cs:.82,{3*(.5)^2-2}) -- (axis cs:.82,{4*(.5)^3 + 15});
+	\node at (axis cs:.91,9) [black] {$h$};
 
-	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 17};	
-	\addplot [draw=penColor2,very thick, smooth] {3*x^2};
+	\addplot [draw=penColor,very thick, smooth] {4*x^3 + 15};	
+	\addplot [draw=penColor2,very thick, smooth] {3*x^2-2};
 	
-	%\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 17};	
-	%\addplot [name path=B,domain=-1:1,draw=none] {3*x^2};
+	%\addplot [name path=A,domain=-1:1,draw=none] {4*x^3 + 15};	
+	%\addplot [name path=B,domain=-1:1,draw=none] {3*x^2-2};
 	%\addplot [fillp] fill between[of=A and B];
 	
-	\node at (axis cs:.6,24) [penColor] {$y=4x^3 + 17$};
-	\node at (axis cs:1.4,2.5) [penColor2] {$y = 3x^2$};
+	\node at (axis cs:.6,22) [penColor] {$y=4x^3 + 15$};
+	\node at (axis cs:1.7,4) [penColor2] {$y = 3x^2-2$};
 	
-	\node at (axis cs:.625,-2) [penColor] {$\Delta x$};
+	\node at (axis cs:.625,-4) [penColor] {$\Delta x$};
 	
-	\draw[penColor, |-|] (axis cs:.5,-.75) -- (axis cs:.75,-.75);
+	\draw[penColor, |-|] (axis cs:.5,-2.75) -- (axis cs:.75,-2.75);
 \end{axis}
 
 \end{tikzpicture}
@@ -335,33 +376,18 @@ We cannot determine the exact area of the slice, but just as before, we can appr
 
 %%%%%%%%PICTURE%%%%%%%%%%%
 
-The area $\Delta A_k$ of one the $k$th rectangles is given by: 
+The area $\Delta A_k$ of one the $k$th rectangles is given by 
 \begin{align*}
-\Delta A_k & = (height) \times (width) \nonumber \\
+\Delta A_k & = (height) \times (width), \nonumber \\
 \end{align*}
-where $x_k^*$ is the $x$-value in the chosen rectangle that determines its height $f(x_k^*)$. 
+where $x_k^*$ is the $x$-value of the lefthand endpoint of the $k$-th rectangle. 
 
-The height of the darkly shaded rectangle can be found by realizing that it is the change of $y$-values on the individual curves. In fact, if we consider a specific $x$-value in $[-1,1]$:
+To find the height of the darkly shaded rectangle, notice that this height is just the vertical distance between the curves.  Vertical distances can always be found by taking the top $y$-value minus the bottom $y$-value.  Since these $y$-values lie on the graphs of the given functions, at a given $x$-value, we have \wordChoice{\choice[correct]{$y_{top}=4x^3+15$}\choice{$y_{bot}=3x^2-2$}} and \wordChoice{
+\choice{$y_{top}=4x^3+15$}\choice[correct]{$y_{bot}=3x^2-2$}}.
 
-\begin{question}
-The function used to determine the top $y$-value, $y_{top}$ is:
-\begin{multipleChoice}
-\choice[correct]{$y_{top}=4x^3+17$}
-\choice{$y_{bot}=3x^2$}
-\end{multipleChoice}
-\end{question}
+Thus, the height $h$ of the rectangle is $h=y_{top}-y_{bot} = \answer[given]{(4x^3+15)-(3x^2-2)}$.
 
-\begin{question}
-The function used to determine the bottom $y$-value, $y_{bot}$ is:
-\begin{multipleChoice}
-\choice{$y_{top}=4x^3+17$}
-\choice[correct]{$y_{bot}=3x^2$}
-\end{multipleChoice}
-\end{question}
-
-Thus, the height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{(4x^3+17)-(3x^2)}$.
-
-The approximate total area obtained by adding the areas of the $n$ rectangles between $x=-1$ and $x=1$ together.  Note that as we use more rectangles, the following occur \emph{simultaneously}:
+The approximate total area obtained by adding the areas of the $n$ rectangles between $x=-1$ and $x=1$ together.  Note that as we use more rectangles, the following occur \emph{simultaneously}.
 
 \begin{itemize}
 \item[1.] The width $\Delta x$ of each rectangle decreases.
@@ -369,17 +395,24 @@ The approximate total area obtained by adding the areas of the $n$ rectangles be
 \item[3.] The sum of the areas of the rectangles becomes closer to the actual area.
 \end{itemize}
 
-The actual area $A$ is indeed what we expect it should be: $$A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right].$$ 
+The approximate area $A$ is given by the finite sum $A = \sum_{k=1}^n f(x_k^*) \Delta x $. 
 
 
 \paragraph{Step 3: Integrate}
 
-The same logic behind the Fundamental Theorem of Calculus allows us to write the above limit as a definite integral!  In fact:
+The actual area $A$ is found by taking the limit of the above sum, that is
 
 \[
-A = \int_{x=-1}^{x=1} (4x^3+17)-(3x^2) \d x
+A = \lim_{n \rightarrow \infty} \left[ \sum_{k=1}^n f(x_k^*) \Delta x \right],
 \]
-By evaluating this, we can find the actual area.  Write with me:
+
+and we can write this as the definite integral
+
+\[
+A = \int_{x=-1}^{x=1} (4x^3+15)-(3x^2-2) \d x
+\]
+
+Once again the Fundamental Theorem of Calculus allows us to find the area using antiderivatives.
 
 \begin{align*}
 A &= \int_{x=-1}^{x=1} 4x^3-3x^2+17 \d x \\
@@ -389,45 +422,49 @@ A &= \int_{x=-1}^{x=1} 4x^3-3x^2+17 \d x \\
 \end{align*}
 
 
-Note that $A = \int_{x=-1}^{x=1} (4x^3+17)-(3x^2) \d x$ can be interpreted as follows:
+Note that $A = \int_{x=-1}^{x=1} (4x^3+15)-(3x^2-2) \d x$ can be interpreted as follows:
 \begin{itemize}
-\item[1.] The integrand is the area of an \emph{infinitesimal} rectangle, whose height is determined as the difference between the top and bottom $y$-values of the bounding curves, and whose thickness $dx$. 
-\item[2.] Since we integrate with respect to $x$, the limits of integration tell us the range of $x$-values the rectangles to be added are:
+\item[1.] The integrand is the area of a rectangle, whose height is determined as the difference between the top and bottom $y$-values of the bounding curves, and whose thickness $\d x$ is \emph{infinitesimal}. 
+\item[2.] Since we integrate with respect to $x$, the limits of integration tell us the range of the $x$-values of the rectangles to be added.
 \begin{itemize}
-\item The lower limit gives the $x$-value of the first slice.
-\item The upper limit gives the $x$-value of the last slice.
+\item The lower limit gives the $x$-position of the first rectangle.
+\item The upper limit gives the $x$-position of the last rectangle.
 \end{itemize}
 \end{itemize}
 
 
-A similar procedure can be taken in many other examples for the rest of the chapter! The major point here is that once we find the approximate area for a \emph{single} rectangle, we can immediately write down the integral that gives the \emph{exact} area of the region!
+A similar procedure can be used in many other examples for the rest of the chapter.  The major point here is that once we find the approximate area for a \emph{single} rectangle, we can immediately write down the integral that gives the \emph{exact} area of the region.
+\end{model}
 
-\textbf{Remark:} Since the thickness is $\d x$, we must express the curves as functions of $x$; that is, we must write $y_{top}$ and $y_{bot}$ in terms of $x$!
- 
-A common theme that runs throughout this chapter is that once we choose a variable of integration, \emph{every} quantity (limits of integration, functions in the integrand) \emph{must} be written in terms of that variable!
-
-To emphasize this, we explicitly write $\int_{x=-1}^{x=1} (\ldots) \d x $ instead of $\int_{-1}^1(\ldots) \d x $ to point out that these limits correspond to $x$. 
+\begin{remark} Since the thickness is $\d x$, we must express the curves as functions of $x$; that is, we must write $y_{top}$ and $y_{bot}$ in terms of $x$.  This is a common theme that runs throughout this chapter.  Once we choose a variable of integration, \emph{every} quantity (limits of integration, functions in the integrand) \emph{must} be written in terms of that variable!
+\end{remark}
 
 
 \section{Integrating with respect to \textit{x}}
 
-We can summarize the above procedure neatly with a simple formula that respects the geometrical reasoning used to generate the area of a region:
+We can summarize the above procedure with a formula that respects the geometrical reasoning described previously.
 
 \begin{formula}
 The area of a region bounded by continuous functions on $a \le x \le b$ is given by: 
 
-\[A=\int_{x=a}^{x=b} h \d x \]
-where $h$ is the height of a slice, $x=a$ gives the $x$-value of the first slice, and $x=b$ gives the $x$-value of the last slice.
+\[A=\int_{x=a}^{x=b} h(x) \d x \]
+where $h(x)$ is the height of each rectangle as a function of $x$, $x=a$ gives the $x$-value of the first slice, and $x=b$ gives the $x$-value of the last slice.
 
+By using vertical rectangles, we have 
+\[
+h(x) = y_{top}-y_{bot}
+\] 
+where $y_{top}$ is found from the top curve, expressed as a function of $x$, and $y_{bot}$ is found form the bottom curve.
 \end{formula}
 
-Let's look at a few more examples:
+Let's look at a few more examples that demonstrate how to apply the formula.
 
 
 \begin{example}
 Find the area bounded by the curves $y=\frac{9}{x}$, $y=2x-3$, and $x=1$.
 
-As usual, the best way to start is to draw a picture of the region, and draw a representative rectangle that will be used to build the area of the region:  
+\begin{explanation}
+The best way to start is to draw a picture of the region, and draw a representative rectangle that will be used to build the area of the region.  
 
 %%%%%%%%PICTURE%%%%%%%%%%%
 \begin{image}
@@ -466,7 +503,7 @@ As usual, the best way to start is to draw a picture of the region, and draw a r
 
 %%%%%%%%PICTURE%%%%%%%%%%%
 
-Note that there is a ``natural" righthand boundary here; it's the $x$-value where the curves intersect!  Write with me:
+Note that there is a ``natural" righthand boundary here given by the $x$-value where the curves intersect.
 
    \begin{align*}
     \frac{9}{x} &= 2x-3\\
@@ -475,37 +512,22 @@ Note that there is a ``natural" righthand boundary here; it's the $x$-value wher
    (2x+\answer[given]{3})(x+\answer[given]{-3})  &= 0 \\
    x   &= -\frac{3}{2} \text{ or }\answer[given]{3}.
   \end{align*}
-  From the picture, note that $x=-\frac{3}{2}$ is not relevant for this problem!
+  From the picture, note that the other intersection point $x=-\frac{3}{2}$ is not relevant.
 
-We must now express $h$ in terms of the variable of integration!  Since $h$ is a vertical distance, $h=y_{top}-y_{bot}$
+We must now express $h$ in terms of the variable of integration.  Since $h$ is a vertical distance, $h(x)=y_{top}-y_{bot}$.  The function used to determine the upper $y$-value is \wordChoice{\choice{$y_{top}=2x-3$}\choice[correct]{$y_{top}=\frac{9}{x}$}\choice{$y_{top}=1$}}.  The function used to determine the lower $y$-value is \wordChoice{\choice[correct]{$y_{bot}=2x-3$}\choice{$y_{bot}=\frac{9}{x}$}\choice{$y_{bot}=1$}}
 
-The function used to determine the upper $y$-value, $y_{top}$ is:
-\begin{multipleChoice}
-\choice{$y_{top}=2x-3$}
-\choice[correct]{$y_{top}=\frac{9}{x}$}
-\choice{$y_{top}=1$}
-\end{multipleChoice}
-
-The function used to determine the lower $y$-value, $y_{bot}$ is:
-\begin{multipleChoice}
-\choice[correct]{$y_{bot}=2x-3$}
-\choice{$y_{bot}=\frac{9}{x}$}
-\choice{$y_{bot}=1$}
-\end{multipleChoice}
-
-The height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{\frac{9}{x}-(2x-3)}$.
-
-Thus, the area is given by:
+The height $h$ of the rectangle is thus $h=y_{top}-y_{bot} = \answer[given]{\frac{9}{x}-(2x-3)}$, and the area is given by:
   \[
- \int_{x=a}^{x=b} h \d x =  \int_{x=\answer[given]{1}}^{x=\answer[given]{3}} \answer[given]{\frac{9}{x}-(2x-3)} \d x = \answer[given]{-2+9 \ln(3)}.
-  \]
+ \int_{x=a}^{x=b} h \d x =  \int_{x=\answer[given]{1}}^{x=\answer[given]{3}} \answer[given]{\frac{9}{x}-(2x-3)} \d x .  \]
+  
+ Evaluating the integral, we find that the area is $A= \answer[given]{-2+9 \ln(3)}$.
   \begin{hint}
     \begin{align*}
       \int_1^3 \frac{9}{x}-(2x-3) \d x &= \int_1^3 \frac{9}{x}-2x+3 \d x\\
       &=\eval{\answer[given]{9\ln(x)-x^2+3x}}_1^3\\
     \end{align*}
   \end{hint}
-
+\end{explanation}
 \end{example}
 
 \begin{example} Set up, but do not evaluate, an integral or sum of integrals that expresses the area bounded by $y=\sqrt{2x}$, $x+2y=6$ and $y=0$.
@@ -547,7 +569,7 @@ As usual, we begin by drawing a picture and indicating the type of rectangle tha
             \end{image}
             
             
-As you can see, something interesting happens here; the curve used to determine the height of the top rectangle changes.  In order to express this area by integrating with respect to $x$, we have to split it into two pieces:
+As you can see, something interesting happens here; the curve used to determine the height of the top rectangle changes.  In order to express this area by integrating with respect to $x$, we have to split it into two pieces.
 
 %%%%PICTURE%%%%%%%%%%
 
@@ -573,7 +595,7 @@ Thus, we use $x=\answer[given]{2}$.
 
 For the second region, we find the rightmost $x$-value is $x=6$ (set $3-\frac{1}{2}x=0$).
 
-We thus think of the original region in two separate parts:
+We can now think of the original region in two separate parts and write down an integral that gives the area of each.
 
    \begin{image}
             \begin{tikzpicture}
@@ -622,7 +644,7 @@ A_I = \int_{x= \answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\sqrt{2x}
 \end{array}
 \]
 
-Putting this together, we can write down a sum of integrals that gives the area:
+Putting this together, we can write down a sum of integrals that gives the area.
 
 \[A= \int_{x= \answer[given]{0}}^{x=\answer[given]{2}} \answer[given]{\sqrt{2x}} \d x + \int_{x= \answer[given]{2}}^{x=\answer[given]{6}}\answer[given]{3-\frac{1}{2}x} \d x\]
 
@@ -631,7 +653,7 @@ Putting this together, we can write down a sum of integrals that gives the area:
 
 \section{Integrating with respect to \textit{y}}
 
-Whew!  The last example involved a lot of work!  We needed to use two integrals to find the area because we used vertical slices to build up the area of the region and the top curve changed.  Instead of using vertical slices to build the area, we could instead use horizontal ones:
+We needed to use two integrals to find the area because we used vertical slices to build up the area of the region and the top curve changed.  Mercifully, there is an easier way to find this area. Instead of using vertical slices to build the area, we could instead use horizontal ones.
 
   \begin{image}
             \begin{tikzpicture}
@@ -670,13 +692,22 @@ Whew!  The last example involved a lot of work!  We needed to use two integrals 
             \end{tikzpicture}
             \end{image}
 
-So what are we doing?  Instead of making slices with respect to $x$ as we did before, we are slicing with respect to $y$!  The area of one of these rectangles is $\Delta A = h \Delta y$.  To find the exact area, we simultaneous need to shrink the widths of the rectangles and add all of them together.  The same procedure as before produces:
+So what are we doing?  Instead of making slices with respect to $x$ as we did before, we are slicing with respect to $y$.  The area of one of these rectangles is $\Delta A = h \Delta y$.  To find the exact area, we simultaneous need to shrink the widths of the rectangles and add all of them together.  The same procedure as before produces a convenient result.
 
 \begin{formula}
-The area of a region bounded by continuous functions on $c \le y \le d$ is given by: 
+The area of a region bounded by continuous functions on $c \le y \le d$ is given by
 
-\[A=\int_{y=c}^{y=d} h \d y \]
-where $h$ is the length of a slice, $y=c$ gives the $y$-value of the lowest slice, and $y=d$ gives the $y$-value of the highest slice.
+\[A=\int_{y=c}^{y=d} h(y) \d y \]
+where $h(y)$ is the height of each rectangle as a function of $y$ , $y=c$ gives the $y$-position of the lowest rectangle, and $y=d$ gives the $y$-position of the highest rectangle.
+
+By using horizontal rectangles, we have 
+\[
+h(y) = x_{right}-x_{left}
+\] 
+where $x_{right}$ is found from the right curve, described as a function of $y$,  and $x_{left}$ is found form the left curve.
+
+
+
 
 \end{formula}
 
@@ -734,49 +765,24 @@ Now that we have our limits of integration, we must express $h$ in terms of the 
             \end{image}
             
             
-The function used to determine the rightmost $x$-value, $x_{right}$ is:
-\begin{multipleChoice}
-\choice{$x_{right}=\frac{1}{2}y^2$}
-\choice[correct]{$x_{right}=6-2y$}
-\end{multipleChoice}
+The function used to determine the rightmost $x$-value is \wordChoice{\choice{$x_{right}=\frac{1}{2}y^2$}\choice[correct]{$x_{right}=6-2y$}} and the function used to determine the leftmost $x$-value is \wordChoice{\choice[correct]{$x_{left}=\frac{1}{2}y^2$}\choice{$x_{left}=6-2y$}}.
 
-The function used to determine the leftmost $x$-value, $x_{left}$ is:
-\begin{multipleChoice}
-\choice[correct]{$x_{left}=\frac{1}{2}y^2$}
-\choice{$x_{left}=6-2y$}
-\end{multipleChoice}
-
-The length $h$ of the rectangle is thus $h=x_{right}-x_{left} = \answer[given]{(6-2y)-\left(\frac{1}{2}y^2\right)}$.
-
-Thus, the area is given by the integral:
+The length $h$ of the rectangle is thus $h=x_{right}-x_{left} = \answer[given]{(6-2y)-\left(\frac{1}{2}y^2\right)}$ and the area is given by the integral
   \[
- \int_{y=c}^{y=d} h \d y =  \int_{y=\answer[given]{0}}^{y=\answer[given]{2}} \answer[given]{(6-2y)-\left(\frac{1}{2}y^2\right)} \d y .
+ \int_{y=c}^{y=d} h \d y =  \int_{y=0}^{y=2} 6-2y-\frac{1}{2}y^2 \d y .
   \]
-  Evaluating this gives $A= \answer[given]{\frac{20}{3}}.$
+  Evaluating this (which you should work out yourself and confirm) gives $A= \frac{20}{3}.$
  \end{explanation}
  
 \end{example}
 
 \section{Choosing a variable of integration}
-As we have seen, choosing a particular type of slice may be more advantageous than another.  To make this more explicit, after you choose the type of slice (vertical or horizontal) you'll use to build the area:
+As we have seen, choosing a particular type of slice may be more advantageous than another.  To make this more explicit, draw a vertical rectangle or horizontal rectangle in the region. 
 
-\begin{fact}
-If the top or bottom curve of the region depends on where you draw the slice, you'll need 
-
-\begin{multipleChoice}
-\choice{one}
-\choice[correct]{more than one} 
-\end{multipleChoice}
-integral with respect to $x$ to find the area.
-
-If the left or right curve of the region depends on where you draw the slice, you'll need 
-\begin{multipleChoice}
-\choice{one} 
-\choice[correct]{more than one} 
-\end{multipleChoice}
-integral with respect to $y$ to find the area.
-
-\end{fact}
+\begin{itemize}
+\item If the top or bottom curve of the region depends on where you draw the slice, you'll need more than one integral with respect to $x$ to find the area.
+\item If the left or right curve of the region depends on where you draw the slice, you'll need more than one integral with respect to $y$ to find the area.
+\end{itemize}
 
 \begin{example} Consider the region bounded by $y=\sin(x)$, $y=x$, and the $y$-axis.
 
@@ -857,31 +863,16 @@ How many integrals with respect to $y$ are needed to compute this area? $\answer
 
 \end{example}
 
-\begin{remark}
-If given the choice, you should always choose to integrate with respect to the variable that makes the area easier to compute!  However, if you are told to set up the area as an integral with respect to a specific variable, you should know how to do it, even if it is the less efficient one  (you'll be asked to do this in the exercises!) 
-\end{remark}
+We conclude the section by summarizing a few important facts.
 
-\section{Putting it all together}
- To summarize some important ideas we have seen we have seen:
+\begin{itemize}
+\item To find vertical distances, we always take $y_{top} - y_{bot}$.  To find horizontal distances, we always take $x_{right}-x_{left}$.
 
+\item When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$.  When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
 
-\begin{fact}
-To find vertical distances, we always take $y_{top} - y_{bot}$.
+\item Once we choose a variable of integration, everything in the integrand must be expressed in terms of that variable!  This includes both the limits of integration and any functions that arise in the integrand.
+\end{itemize}
 
-To find horizontal distances, we always take $x_{right}-x_{left}$.
-\end{fact}
-
-\begin{fact}
-When we integrate with respect to $x$, we use vertical slices and when we use vertical slices, we integrate with respect to $x$.
-
-When we integrate with respect to $y$, we use horizontal slices and when we use horizontal slices, we integrate with respect to $y$.
-\end{fact}
-
-\begin{fact}
-Once we choose a variable of integration, everything in the integrand must be expressed in terms of that variable!  This includes both the limits of integration and any functions that arise in the integrand.
-\end{fact}
-
-These facts will arise again in the coming sections!  Please make sure you understand them and keep them in mind as you are working through the exercises!
 
 \begin{quote}
 ``Mathematics is not about numbers, equations, computations, or algorithms; it is about understanding." - William Paul Thurston

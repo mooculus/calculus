@@ -1,0 +1,254 @@
+\documentclass[handout,hints,noauthor,nooutcomes]{ximera}
+
+\input{../../../preamble.tex}
+
+\author{Bart Snapp}
+
+\title[Collaborate:]{Derivatives of vector-valued functions}
+
+\begin{document}
+\begin{abstract}
+  We think about the derivative of vector-valued functions.
+\end{abstract}
+\maketitle
+
+\textbf{Work in groups of 3--4, writing your answers on a separate
+  sheet of paper.}
+
+
+Previously in calculus course you learned the following metaphor for
+the derivatives:
+\begin{quote}
+  Given a function $f:\R\to\R$, the derivative of $f$ is the slope of
+  the tangent line at any point on the graph $y = f(x)$.
+\end{quote}
+
+This is really a great metaphor for functions that map from $\R$ to
+$\R$. However, now we are studying vector-valued functions. A new
+metaphor is needed:
+\begin{quote}
+  Given a vector-valued function $\vec{f}:\R^n\to\R$, the derivative
+  of $\vec{f}$ is a tangent vector at any point on the graph of
+  $\vec{f}$.
+\end{quote}
+Let's see if we can figure what this is saying.
+
+\section{Lines}
+
+Suppose you have a line given by the vector valued function $\vecl$.
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [
+	xmin=-4,xmax=5,
+        ymin=-2,ymax=3,
+        xlabel=$x$,ylabel=$y$,
+        axis lines=center,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        clip=false,
+	grid =major,
+        width=9cm,
+        height=5cm,
+        xtick={-4,-3,...,5},
+        ytick={-2,-1,...,3},
+      ]
+      \addplot[penColor,ultra thick,domain=-4:5] {
+        -x/3+1
+      };
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,0)};  %% closed hole
+        \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-3,2)};  %% closed hole
+        \node[penColor,above] at (axis cs: 3,0) {$\vecl(0)$};
+        \node[penColor,above right] at (axis cs: -3,2) {$\vecl(2)$};
+      \end{axis}
+    \end{tikzpicture}
+\end{image}
+
+
+\begin{problem}
+  Pencil-in some tangent vectors for $\vecl$ above. 
+\end{problem}
+
+\begin{problem}
+  Someone has plotted $\vecl'$ below:
+  \begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [
+	xmin=-4,xmax=5,
+        ymin=-2,ymax=3,
+        xlabel=$x$,ylabel=$y$,
+        axis lines=center,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        clip=false,
+	grid =major,
+        width=9cm,
+        height=5cm,
+        xtick={-4,-3,...,5},
+        ytick={-2,-1,...,3},
+      ]
+      \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(-3,1)};  %% closed hole
+      \node[penColor,above] at (axis cs: -3,1) {$\vecl'$};
+    \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Make sense of this plot. Explain what is going on to someone else.
+\end{problem}
+
+
+\section{Circles}
+
+The a circle of radius $2$ centered at $(3,1$ is given by
+\[
+\vec{c}(t) = \vector{3 + 2 \cos(t), 1+2\sin(t)}
+\]
+and here is a plot:
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [
+	xmin=-4,xmax=6,
+        ymin=-2,ymax=4,
+        xlabel=$x$,ylabel=$y$,
+        axis lines=center,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        clip=false,
+	grid =major,
+        width=10cm,
+        height=6.7cm,
+        xtick={-4,-3,...,6},
+        ytick={-2,-1,...,4},
+      ]
+      \addplot[penColor,smooth,ultra thick,domain=0:360] (
+       {3+2*cos(x)},{1+2*sin(x)}
+      );
+    \end{axis}
+    \end{tikzpicture}
+\end{image}
+
+\begin{problem}
+  Pencil-in some tangent vectors for $\vec{c}$ above. 
+\end{problem}
+
+
+
+\begin{problem}
+  Someone has plotted $\vec{c}'$ below:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	xmin=-4,xmax=6,
+        ymin=-3,ymax=3,
+        xlabel=$x$,ylabel=$y$,
+        axis lines=center,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        clip=false,
+	grid =major,
+        width=10cm,
+        height=6.7cm,
+        xtick={-4,-3,...,6},
+        ytick={-3,-2,...,3},
+      ]
+      \addplot[penColor,smooth,ultra thick,domain=0:360] (
+       {-2*sin(x)},{2*cos(x)}
+      );
+    \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Make sense of this plot. Explain what is going on to someone else.
+\end{problem}
+
+\section{Projectile motion}
+
+Vector-valued functions are excellent for modeling projectile
+motion. The function below models the path of a calculus book being
+thrown from an initial height of $1\unit{m}$ at an initial velocity of
+$5\unit{m}/{s}$ at a $45^\circ$ angle:
+\[
+\vec{p}(t)=\vector{\frac{5t}{\sqrt{2}}, 1+ \frac{5t}{\sqrt{2}}-5t^2}
+\]
+For your viewing pleasure here is a plot:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	xmin=-.5,xmax=4,
+        ymin=-.5,ymax=2,
+        xlabel=$x$,ylabel=$y$,
+        axis lines=center,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        clip=false,
+	grid =major,
+        width=10cm,
+        height=6.7cm,
+        xtick={0,1,...,4},
+        ytick={0,1,...,2},
+      ]
+      \addplot[penColor,smooth,ultra thick,domain=0:1] (
+       {5*x/sqrt(2)},{1+ 5*x/sqrt(2)-5*x^2}
+      );
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+
+\begin{problem}
+  Pencil-in some tangent vectors for $\vec{p}$ above. 
+\end{problem}
+
+
+
+\begin{problem}
+  Someone has plotted $\vec{p}'$ below:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+	xmin=-.5,xmax=4,
+        ymin=-.5,ymax=2,
+        xlabel=$x$,ylabel=$y$,
+        axis lines=center,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        clip=false,
+	grid =major,
+        width=10cm,
+        height=6.7cm,
+        xtick={0,1,...,4},
+        ytick={0,1,...,2},
+      ]
+      \addplot[penColor,smooth,ultra thick,domain=.1:.4] (
+              {5/sqrt(2)},{5/sqrt(2)-10*x}
+      );
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Make sense of this plot (note, this is not a complete plot). Explain
+  what is going on to someone else.
+\end{problem}
+
+\begin{problem}
+  If we were to plot $\vec{p}''$ what would it look like?
+\end{problem}
+
+\begin{problem}
+  Rather than plotting $\vec{p}''$, what should you do?
+\end{problem}
+
+
+\section{The moral of the story}
+
+
+The moral of the story is this: When studying, functions from $\R$ to
+$\R$, it makes a lot of sense to plot their derivatives. When dealing
+with vector-valued functions, plotting their derivatives might not be
+the best idea. Instead you should be plotting tangent vectors.
+
+
+\end{document}

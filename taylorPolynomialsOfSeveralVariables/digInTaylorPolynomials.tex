@@ -53,127 +53,9 @@ Recall the definition of a \textit{Taylor polynomial}:
 \end{question}
 \end{question}
 
-We have a similar formula for functions $F:\R^n\to \R$:
-\begin{definition}
-  Let $F:\R^n\to\R$ be a function whose first $d$ derivatives exist at
-  $\vec{x}=\vec{c}$.  The \dfn{Taylor polynomial} of degree $d$ of $F$
-  centered at $\vec{x}=\vec{c}$ is
-  \[
-  P_d(\vec{x}) = \sum_{k=0}^d \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
-  \]
-\end{definition}
-Don't panic! This formula is complex and will take some
-unpacking. We'll walk you through this.
-
-\subsection{The degree zero Taylor polynomial}
-First note that
-\begin{align*}
-  P_0(\vec{x}) &= \sum_{k=0}^0 \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
-  &=\eval{\eval{\frac{(\vec{a}\dotp \grad)^0 F(\vec{x})}{0!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
-  &=\eval{\eval{F(\vec{x})}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
-  &=F(\vec{c}).
-\end{align*}
-This means for any function $F:\R^n\to\R$, the $0$th degree Taylor
-polynomial for $F$ at $\vec{x}=\vec{c}$ is just
-\[
-P_0(\vec{x})=F(\vec{c}).
-\]
-\begin{question}
-  Consider $F(x,y)= \sin(x+y)$. Compute the $0$th degree Taylor
-  polynomial for $F$ at $\vector{x,y} =\vector{\pi/4,\pi/4}$.
-  \begin{prompt}
-    \[
-    P_0(x,y) = \answer{1}
-    \]
-  \end{prompt}
-\end{question}
-
-\subsection{The  degree one Taylor polynomial}
-Now let's look at the $1$st degree Taylor polynomial:
-\begin{align*}
-  P_1(\vec{x})&= \sum_{k=0}^1 \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
-  &=P_0(\vec{x}) + \eval{\eval{\frac{(\vec{a}\dotp \grad)^1 F(\vec{x})}{1!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
-  &=F(\vec{c}) + \eval{\eval{(\vec{a}\dotp \grad) F(\vec{x})}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
-\end{align*}
-Now we ask, what is $(\vec{a}\dotp\grad)F$?  Well, computing the dot
-product,
-\[
-(\vec{a}\dotp\grad) = a_1 \pp{x} + a_2 \pp{y}
-\]
-and to find $(\vec{a}\dotp\grad)F$, we distribute $F$ to obtain
-\begin{align*}
-  (\vec{a}\dotp\grad)F &= a_1 \pp[F]{x} + a_2 \pp[F]{y}\\
-  &= \grad F(\vec{x})\dotp \vec{a}
-\end{align*}
-So
-\begin{align*}
-  P_1(\vec{x})&=F(\vec{c}) + \eval{\eval{\grad F(\vec{x})\dotp\vec{a}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
-  &=F(\vec{c}) +\grad F(\vec{c})\dotp (\vec{x}-\vec{c}).
-\end{align*}
-This means for any function $F:\R^n\to\R$, the $1$st degree Taylor
-polynomial for $F$ at $\vec{x}=\vec{c}$ is just the tangent ``plane''
-for $F$ at $\vec{x}= \vec{c}$.
-
-
-\begin{question}
-  Consider $F(x,y)= 3+4x-5y$. Compute the $1$st degree Taylor
-  polynomial for $F$ at $\vector{x,y} =\vector{0,0}$.
-  \begin{prompt}
-    \[
-    P_1(x,y) = \answer{3+4x-5y}
-    \]
-  \end{prompt}
-\end{question}
-
-\subsection{The  degree two Taylor polynomial}
-To get our hands on the $2$nd degree Taylor polynomial, we will
-specialize to functions $F:\R^2\to\R$. Let $\vec{c}=\vector{c_1,c_2}$
-and let $\vec{x} = \vector{x,y}$.  Write with me:
-\[
-P_2(\vec{x}) = P_1(\vec{x}) + \eval{\eval{\frac{(\vec{a}\dotp \grad)^2 F(\vec{x})}{2!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
-\]
-\begin{align*}
-  = F(\vec{c})
-  &+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
-  &+(1/2)\eval{\eval{(\vec{a}\dotp \grad)^2 F(\vec{x})}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
-\end{align*}
-Now we ask ourselves, what is $(\vec{a}\dotp \grad)^2 F(\vec{x})$?
-Well, we know that
-\[
-(\vec{a}\dotp\grad)F = a_1 \pp[F]{x} + a_2 \pp[F]{y}
-\]
-and 
-\begin{align*}
-(\vec{a}\dotp\grad)^2F &=(\vec{a}\dotp\grad)(\vec{a}\dotp\grad)F\\
-  &= (\vec{a}\dotp\grad)\left(a_1 \pp[F]{x} + a_2 \pp[F]{y}\right)\\
-  &= \left(a_1 \pp[F]{x} + a_2 \pp[F]{y}\right)\left(a_1 \pp[F]{x} + a_2 \pp[F]{y}\right)
-\end{align*}
-Now we use the distributively property and (since we are assuming that
-all derivatives of $F$ exist) we have that
-\[
-\frac{\partial^2F}{\partial x\partial y}  = \frac{\partial^2F}{\partial y\partial x}
-\]
-so
-\[
-(\vec{a}\dotp\grad)^2F = a_1^2\frac{\partial^2F}{\partial x^2} + 2a_1
-a_2\frac{\partial^2F}{\partial x\partial y} +
-a_2^2\frac{\partial^2F}{\partial y^2}.
-\]
-We can now unpack our second degree Taylor polynomial:
-\begin{align*}
-  P_2(\vec{x})= F(\vec{c})
-&+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
-&+(1/2)\eval{\eval{(\vec{a}\dotp\grad)^2F}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}},
-\end{align*}
-as
-\begin{align*}
-P_2(\vec{x})=F(\vec{c})
-&+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
-&+(1/2)\eval{\eval{a_1^2\frac{\partial^2F}{\partial x^2} + 2a_1 
-a_2\frac{\partial^2F}{\partial x\partial y} +
-a_2^2\frac{\partial^2F}{\partial y^2}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}.
-\end{align*}
-and finally we see:
+We have a similar formula for functions $F:\R^2\to \R$.
+We will actually only compute the degree two polynomial for functions
+of two variables. In this case $P_2$ is:
 \begin{align*}
 P_2(\vec{x})=F(\vec{c})
 &+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
@@ -182,10 +64,26 @@ P_2(\vec{x})=F(\vec{c})
 &+ \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(y-c_2)^2.
 \end{align*}
 
+Basically, given a function $F:\R^2\to\R$, the second degree Taylor
+polynomial $P_2$ at a point $\vec{c}$ is a polynomial ``cooked-up'' so that
+\begin{itemize}
+\item The values are equal: $P_2(\vec{c}) = F(\vec{c})$.
+\item The first partial derivatives are equal: $P_2^{(1,0)}(\vec{c}) =
+  F^{(1,0)}(\vec{c})$ and $P_2^{(0,1)}(\vec{c}) = F^{(0,1)}(\vec{c})$.
+\item The second partial derivatives are equal: $P_2^{(2,0)}(\vec{c})
+  = F^{(2,0)}(\vec{c})$, $P_2^{(0,2)}(\vec{c}) = F^{(0,2)}(\vec{c})$,
+  and $P_2^{(1,1)}(\vec{c}) = F^{(1,1)}(\vec{c})$.
+\end{itemize}
+
+Here's the plan. Soon we will be trying to find maximums and minimums
+for functions of two variables. The second degree Taylor polynomial
+will be the key to developing a ``second derivative test'' for
+identifying these extrema. 
 
 \section{Try it, you might like it}
 
-Computing the Taylor polynomial is not so bad, you just need to get the hang of it. 
+Computing the Taylor polynomial is not so bad, you just need to get
+the hang of it.
 
 \begin{example}
   Compute the degree $2$ Taylor polynomial for:
@@ -373,5 +271,142 @@ P_2(x,y) &= P_1(x,y) \\
 The interested reader can (repeatedly) differentiate $P_2(x,y)$ to see
 that its value at $\vec{x}=\vec{c}$ and the values of the first two
 derivatives of $P_2(x,y)$ do indeed match those of $F(x,y)$.
+
+
+
+\section{Unpacking the general formula}
+
+The general formula for the Taylor polynomial is given by:
+
+
+\begin{definition}
+  Let $F:\R^n\to\R$ be a function whose first $d$ derivatives exist at
+  $\vec{x}=\vec{c}$.  The \dfn{Taylor polynomial} of degree $d$ of $F$
+  centered at $\vec{x}=\vec{c}$ is
+  \[
+  P_d(\vec{x}) = \sum_{k=0}^d \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
+  \]
+\end{definition}
+This formula is complex and will take some unpacking. We'll walk you
+through this.
+
+\subsection{The degree zero Taylor polynomial}
+First note that
+\begin{align*}
+  P_0(\vec{x}) &= \sum_{k=0}^0 \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
+  &=\eval{\eval{\frac{(\vec{a}\dotp \grad)^0 F(\vec{x})}{0!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
+  &=\eval{\eval{F(\vec{x})}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
+  &=F(\vec{c}).
+\end{align*}
+This means for any function $F:\R^n\to\R$, the $0$th degree Taylor
+polynomial for $F$ at $\vec{x}=\vec{c}$ is just
+\[
+P_0(\vec{x})=F(\vec{c}).
+\]
+\begin{question}
+  Consider $F(x,y)= \sin(x+y)$. Compute the $0$th degree Taylor
+  polynomial for $F$ at $\vector{x,y} =\vector{\pi/4,\pi/4}$.
+  \begin{prompt}
+    \[
+    P_0(x,y) = \answer{1}
+    \]
+  \end{prompt}
+\end{question}
+
+\subsection{The  degree one Taylor polynomial}
+Now let's look at the $1$st degree Taylor polynomial:
+\begin{align*}
+  P_1(\vec{x})&= \sum_{k=0}^1 \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
+  &=P_0(\vec{x}) + \eval{\eval{\frac{(\vec{a}\dotp \grad)^1 F(\vec{x})}{1!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
+  &=F(\vec{c}) + \eval{\eval{(\vec{a}\dotp \grad) F(\vec{x})}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
+\end{align*}
+Now we ask, what is $(\vec{a}\dotp\grad)F$?  Well, computing the dot
+product,
+\[
+(\vec{a}\dotp\grad) = a_1 \pp{x} + a_2 \pp{y}
+\]
+and to find $(\vec{a}\dotp\grad)F$, we distribute $F$ to obtain
+\begin{align*}
+  (\vec{a}\dotp\grad)F &= a_1 \pp[F]{x} + a_2 \pp[F]{y}\\
+  &= \grad F(\vec{x})\dotp \vec{a}
+\end{align*}
+So
+\begin{align*}
+  P_1(\vec{x})&=F(\vec{c}) + \eval{\eval{\grad F(\vec{x})\dotp\vec{a}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}\\
+  &=F(\vec{c}) +\grad F(\vec{c})\dotp (\vec{x}-\vec{c}).
+\end{align*}
+This means for any function $F:\R^n\to\R$, the $1$st degree Taylor
+polynomial for $F$ at $\vec{x}=\vec{c}$ is just the tangent ``plane''
+for $F$ at $\vec{x}= \vec{c}$.
+
+
+\begin{question}
+  Consider $F(x,y)= 3+4x-5y$. Compute the $1$st degree Taylor
+  polynomial for $F$ at $\vector{x,y} =\vector{0,0}$.
+  \begin{prompt}
+    \[
+    P_1(x,y) = \answer{3+4x-5y}
+    \]
+  \end{prompt}
+\end{question}
+
+\subsection{The  degree two Taylor polynomial}
+To get our hands on the $2$nd degree Taylor polynomial, we will
+specialize to functions $F:\R^2\to\R$. Let $\vec{c}=\vector{c_1,c_2}$
+and let $\vec{x} = \vector{x,y}$.  Write with me:
+\[
+P_2(\vec{x}) = P_1(\vec{x}) + \eval{\eval{\frac{(\vec{a}\dotp \grad)^2 F(\vec{x})}{2!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
+\]
+\begin{align*}
+  = F(\vec{c})
+  &+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
+  &+(1/2)\eval{\eval{(\vec{a}\dotp \grad)^2 F(\vec{x})}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
+\end{align*}
+Now we ask ourselves, what is $(\vec{a}\dotp \grad)^2 F(\vec{x})$?
+Well, we know that
+\[
+(\vec{a}\dotp\grad)F = a_1 \pp[F]{x} + a_2 \pp[F]{y}
+\]
+and 
+\begin{align*}
+(\vec{a}\dotp\grad)^2F &=(\vec{a}\dotp\grad)(\vec{a}\dotp\grad)F\\
+  &= (\vec{a}\dotp\grad)\left(a_1 \pp[F]{x} + a_2 \pp[F]{y}\right)\\
+  &= \left(a_1 \pp[F]{x} + a_2 \pp[F]{y}\right)\left(a_1 \pp[F]{x} + a_2 \pp[F]{y}\right)
+\end{align*}
+Now we use the distributively property and (since we are assuming that
+all derivatives of $F$ exist) we have that
+\[
+\frac{\partial^2F}{\partial x\partial y}  = \frac{\partial^2F}{\partial y\partial x}
+\]
+so
+\[
+(\vec{a}\dotp\grad)^2F = a_1^2\frac{\partial^2F}{\partial x^2} + 2a_1
+a_2\frac{\partial^2F}{\partial x\partial y} +
+a_2^2\frac{\partial^2F}{\partial y^2}.
+\]
+We can now unpack our second degree Taylor polynomial:
+\begin{align*}
+  P_2(\vec{x})= F(\vec{c})
+&+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
+&+(1/2)\eval{\eval{(\vec{a}\dotp\grad)^2F}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}},
+\end{align*}
+as
+\begin{align*}
+P_2(\vec{x})=F(\vec{c})
+&+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
+&+(1/2)\eval{\eval{a_1^2\frac{\partial^2F}{\partial x^2} + 2a_1 
+a_2\frac{\partial^2F}{\partial x\partial y} +
+a_2^2\frac{\partial^2F}{\partial y^2}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}.
+\end{align*}
+and finally we see:
+\begin{align*}
+P_2(\vec{x})=F(\vec{c})
+&+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
+&+\left(\frac{1}{2}\right)F^{(2,0)}(\vec{c}) (x-c_1)^2 \\
+&+ F^{(1,1)}(\vec{c})(x-c_1)(y-c_2) \\
+&+ \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(y-c_2)^2.
+\end{align*}
+
+
 
 \end{document}

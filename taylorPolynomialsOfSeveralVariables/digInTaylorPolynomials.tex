@@ -2,6 +2,7 @@
 
 \input{../preamble.tex}
 
+\author{Bart Snapp}
 
 \title[Dig-In:]{Taylor polynomials}
 
@@ -53,9 +54,19 @@ Recall the definition of a \textit{Taylor polynomial}:
 \end{question}
 \end{question}
 
-We have a similar formula for functions $F:\R^2\to \R$.
-We will actually only compute the degree two polynomial for functions
-of two variables. In this case $P_2$ is:
+We have a similar formula for functions $F:\R^n\to \R$.
+\begin{definition}
+  Let $F:\R^n\to\R$ be a function whose first $d$ derivatives exist at
+  $\vec{x}=\vec{c}$.  The \dfn{Taylor polynomial} of degree $d$ of $F$
+  centered at $\vec{x}=\vec{c}$ is
+  \[
+  P_d(\vec{x}) = \sum_{k=0}^d \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
+  \]
+\end{definition}
+As you can see, it is more complex than the formula for a single
+variable. Good news everyone: \textbf{In this class, we will only compute
+the degree two polynomial for functions of two variables.} In this case
+$P_2$ is:
 \begin{align*}
 P_2(\vec{x})=F(\vec{c})
 &+ \grad F(\vec{c})\dotp (\vec{x}-\vec{c})\\
@@ -65,7 +76,7 @@ P_2(\vec{x})=F(\vec{c})
 \end{align*}
 
 Basically, given a function $F:\R^2\to\R$, the second degree Taylor
-polynomial $P_2$ at a point $\vec{c}$ is a polynomial ``cooked-up'' so that
+polynomial $P_2$ at a point $\vec{c}$ is a polynomial ``cooked-up'' so that:
 \begin{itemize}
 \item The values are equal: $P_2(\vec{c}) = F(\vec{c})$.
 \item The first partial derivatives are equal: $P_2^{(1,0)}(\vec{c}) =
@@ -134,7 +145,7 @@ the hang of it.
     \]
     We see our polynomial is
     \begin{align*}
-      P_2(x,y) &= (1/2)\left(\answer[given]{2}\cdot (y-0)^2 + 2 (\answer[given]{-1})(x-(-1))(y-0) \right)\\
+      P_2(x,y) &= (1/2)\left(\answer[given]{2}\cdot (y-0)^2 + 2 \left(\answer[given]{-1}\right)(x-(-1))(y-0) \right)\\
       &= \answer[given]{y^2-(x+1)y}.
     \end{align*}
   \end{explanation}
@@ -162,7 +173,7 @@ the hang of it.
     \]
     We see our polynomial is
     \begin{align*}
-      P_2(x,y) &= 6 + (1/2)\left(\answer[given]{-6}\cdot (x-(-1))^2 +  (\answer[given]{-2})(y-2)^2 \right)\\
+      P_2(x,y) &= 6 + (1/2)\left(\answer[given]{-6}\cdot (x-(-1))^2 +  \left(\answer[given]{-2}\right)(y-2)^2 \right)\\
       &= \answer[given]{6-3(x+1)^2-(y-2)^2}.
     \end{align*}
   \end{explanation}
@@ -276,17 +287,17 @@ derivatives of $P_2(x,y)$ do indeed match those of $F(x,y)$.
 
 \section{Unpacking the general formula}
 
-The general formula for the Taylor polynomial is given by:
+This final section is for the interested student, and is not required
+for this course.
+
+Recall that if $F:\R^n\to\R$ is a function whose first $d$ derivatives
+exist at $\vec{x}=\vec{c}$.  The \dfn{Taylor polynomial} of degree $d$
+of $F$ centered at $\vec{x}=\vec{c}$ is
+\[
+P_d(\vec{x}) = \sum_{k=0}^d \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
+\]
 
 
-\begin{definition}
-  Let $F:\R^n\to\R$ be a function whose first $d$ derivatives exist at
-  $\vec{x}=\vec{c}$.  The \dfn{Taylor polynomial} of degree $d$ of $F$
-  centered at $\vec{x}=\vec{c}$ is
-  \[
-  P_d(\vec{x}) = \sum_{k=0}^d \eval{\eval{\frac{(\vec{a}\dotp \grad)^k F(\vec{x})}{k!}}_{\vec{x}=\vec{c}}}_{\vec{a}=\vec{x}-\vec{c}}
-  \]
-\end{definition}
 This formula is complex and will take some unpacking. We'll walk you
 through this.
 
@@ -303,15 +314,15 @@ polynomial for $F$ at $\vec{x}=\vec{c}$ is just
 \[
 P_0(\vec{x})=F(\vec{c}).
 \]
-\begin{question}
-  Consider $F(x,y)= \sin(x+y)$. Compute the $0$th degree Taylor
-  polynomial for $F$ at $\vector{x,y} =\vector{\pi/4,\pi/4}$.
-  \begin{prompt}
-    \[
-    P_0(x,y) = \answer{1}
-    \]
-  \end{prompt}
-\end{question}
+%% \begin{question}
+%%   Consider $F(x,y)= \sin(x+y)$. Compute the $0$th degree Taylor
+%%   polynomial for $F$ at $\vector{x,y} =\vector{\pi/4,\pi/4}$.
+%%   \begin{prompt}
+%%     \[
+%%     P_0(x,y) = \answer{1}
+%%     \]
+%%   \end{prompt}
+%% \end{question}
 
 \subsection{The  degree one Taylor polynomial}
 Now let's look at the $1$st degree Taylor polynomial:
@@ -340,15 +351,15 @@ polynomial for $F$ at $\vec{x}=\vec{c}$ is just the tangent ``plane''
 for $F$ at $\vec{x}= \vec{c}$.
 
 
-\begin{question}
-  Consider $F(x,y)= 3+4x-5y$. Compute the $1$st degree Taylor
-  polynomial for $F$ at $\vector{x,y} =\vector{0,0}$.
-  \begin{prompt}
-    \[
-    P_1(x,y) = \answer{3+4x-5y}
-    \]
-  \end{prompt}
-\end{question}
+%% \begin{question}
+%%   Consider $F(x,y)= 3+4x-5y$. Compute the $1$st degree Taylor
+%%   polynomial for $F$ at $\vector{x,y} =\vector{0,0}$.
+%%   \begin{prompt}
+%%     \[
+%%     P_1(x,y) = \answer{3+4x-5y}
+%%     \]
+%%   \end{prompt}
+%% \end{question}
 
 \subsection{The  degree two Taylor polynomial}
 To get our hands on the $2$nd degree Taylor polynomial, we will
@@ -406,6 +417,10 @@ P_2(\vec{x})=F(\vec{c})
 &+ F^{(1,1)}(\vec{c})(x-c_1)(y-c_2) \\
 &+ \left(\frac{1}{2}\right)F^{(0,2)}(\vec{c})(y-c_2)^2.
 \end{align*}
+
+Whew. That was a lot of work. However, as we have said before, all you
+need to know right now, is how to compute the degree two Taylor
+polynomial for functions of two variables.
 
 
 

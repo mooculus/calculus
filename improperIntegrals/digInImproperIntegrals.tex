@@ -4,7 +4,7 @@
 \outcome{Determine if an improper integral converges or diverges.}
 \outcome{Compute integrals over infinite intervals.}
 \outcome{Compute integrals of functions with vertical asymptotes.}
-
+\author{Jason Miller and Jim Talamo}
 \input{../preamble.tex}
 
 \title[Dig-In:]{Improper Integrals}
@@ -22,9 +22,61 @@ Recall that we introduced the definite integral
 \int_a^b f(x) \d x,
 \]
 
-as a limit of Riemann Sums. This limit need not always exist, as it depended on the properties of the
-function $f$ on the given interval $[a, b]$. In particular, in order for the construction of the integral to work 
-we needed both of the following to be true: 
+as a limit of Riemann sums.  This limit need not always exist, as it depended on the properties of the
+function $f$ on the given interval $[a, b]$.  When the function $f$ is \emph{continuous} on $[a,b]$, this 
+definite integral represented the net between the graph of $y=f(x)$ and the $x$-axis on $a \leq x \leq b$. 
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=0:6, ymax=1.75,xmax=6, ymin=0, xmin=0,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={1.5,4.5},
+	xticklabels={$a$,$b$},
+	ymajorticks=false,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {.4*sin(deg(x)) + 1};
+	
+	\addplot [name path=A,domain=1.5:4.5,draw=none] {.4*sin(deg(x)) + 1};   
+	\addplot [name path=B,domain=1.5:4.5,draw=none] {0};
+	\addplot [fillp] fill between[of=A and B];
+	
+	\draw[penColor,thick] (1.5,0) -- (1.5,{.4*sin(deg(1.5)) + 1});
+	\draw[penColor,thick] (4.5,0) -- (4.5,{.4*sin(deg(4.5)) + 1});
+	
+	\node at (axis cs:3,1.5) [penColor] {$y=f(x)$};
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+
+Actually computing the limit of Riemann sums is an arduous task, but in the case when $f$ is continuous on the finite interval $[a,b]$, the Fundamental Theorem of Calculus comes to the rescue and assures us that 
+
+\begin{image}
+  \begin{tikzpicture}
+        \node at (0,0) {
+          $\underbrace{\int_a^b f(x) \d x} = \underbrace{F(b)-F(a),}$};
+         \node at (-1.2,-.9)   {\footnotesize{The limit of a}};
+        \node at (-1.2,-1.2)  {\footnotesize{Riemann sum}};
+        
+       \node at (1.8,-.7){\footnotesize{Found by computing }};
+        \node at (1.8,-1) {\footnotesize{an antiderivative of $f$}};    
+        
+        
+      \end{tikzpicture}
+  \end{image}
+
+where $F(x)$ is an antiderivative of $f(x)$.
+
+Note that in order to apply the Fundamental Theorem of Calculus, there are two requirements.
 
 \begin{itemize}
 \item The interval over which we integrated, $[a,b]$, must be a finite length
@@ -49,14 +101,11 @@ It turns out that there are many instances where these limitations are a problem
 
 
 \begin{definition}
-  An integral
-  \[
-  \int_a^b f(x) \d x,
-  \]
+  An integral $\int_a^b f(x) \d x $
   is called an \dfn{improper integral} if one of, or both, of the conditions hold:
   \begin{itemize}
-  \item The region you are integrating over is infinite.
-  \item The function $f$ is unbounded on the interval $[a,b]$.
+  \item The interval of integration is infinite.
+  \item The function $f$ is unbounded on the interval of integration.
   \end{itemize}
 \end{definition}
 
@@ -66,10 +115,19 @@ It turns out that there are many instances where these limitations are a problem
     \choice{$\int_{-1}^{100} \frac{1}{1+x^2} \d x$}
     \choice[correct]{$\int_{1}^{\infty}\frac{1}{1+x^2}\d x$}
     \choice[correct]{$\int_0^1 \ln(x) \d x$}
-    \choice{$\int_0^1 x\ln(x) \d x$}
+    \choice{$\int_0^1 \frac{\sin(x)}{x} \d x$}
     \choice[correct]{$\int_{-\infty}^{\infty} \sin(x) \d x$}
-    \choice[correct]{$\int_{\frac{-\pi}{2}}^{\frac{\pi}{2}} \tan(x) \d x$}
+    \choice[correct]{$\int_{0}^{\pi} \tan(x) \d x$}
   \end{selectAll}
+
+\begin{feedback}
+\begin{itemize}
+\item Note that $\frac{1}{1+x^2}$ is continuous everywhere, so it is bounded on any finite interval. 
+\item $\lim_{x \to 0^+} \ln(x) = -\infty$, so $\ln(x)$ is unbounded on $[0,1]$.
+\item $\lim_{x \to 0^+} \frac{\sin(x)}{x} = 1$, so even though $\frac{\sin(x)}{x}$ is not continuous at $x=0$, it is bounded on $[0,1]$.  Hence $\int_0^1 \frac{\sin(x)}{x} \d x$ is proper.
+\item $\tan(x)$ has a vertical asymptote at $x=\frac{\pi}{2}$, so it is unbounded on $[0,\pi]$.
+\end{itemize}
+\end{feedback}
 \end{question}
 
 
@@ -94,10 +152,10 @@ Evaluate the improper integral
 
 We interpret definite integrals as giving us the net area underneath the graph of the function over the given interval. If we used this interpretation here, this notation should mean that we want to find the area under $\frac{1}{x}$ from $1$ to $\infty$.  This idea needs to be more precisely defined.  Let's consider the definite integral
 \[
-\int_{1}^{N} \frac{1}{x} \d x=\eval{\ln|x|}_{1}^{N}=\ln(N)
+\int_{1}^{b} \frac{1}{x} \d x=\eval{\ln|x|}_{1}^{b}=\ln(b)
 \]
 
-where $N \geq 1$ is some fixed number. 
+where $b \geq 1$ is some fixed number. 
 
 \begin{image}
   \begin{tikzpicture}
@@ -125,13 +183,13 @@ where $N \geq 1$ is some fixed number.
 \end{image}
 
 
- This integral gives us the area underneath $1/x$ from $1$ to $N$. If we wanted to make sense of the integral to $\infty$, we could think of letting $N$ 
+ This integral gives us the area underneath $1/x$ from $1$ to $b$. If we wanted to make sense of the integral to $\infty$, we could think of letting $b$ 
 get larger and larger and seeing how this affects the area. 
 
 That is, we interpret the integral from 1 to $\infty$ as a limit of a definite integral:
 
 \[
-\int_{1}^{\infty} \frac{1}{x} \d x= \lim_{N \to \infty} \int_{1}^{N} \frac{1}{x} \d x= \lim_{N \to \infty} \ln(N) = \infty
+\int_{1}^{\infty} \frac{1}{x} \d x= \lim_{b \to \infty} \int_{1}^{b} \frac{1}{x} \d x= \lim_{b \to \infty} \ln(b) = \infty
 \]
 
 We can interpret this result to mean that the area under $\frac{1}{x}$ from $1$ to $\infty$ is infinite.
@@ -143,7 +201,7 @@ It might seem like we should always get an answer of infinity or negative infini
 \begin{example}
 Compute 
 \[
-\int_{1}^{\infty} \frac{1}{x^{2}} \d x
+\int_{1}^{\infty} \frac{1}{x^2} \d x
 \]
 
 \begin{explanation}
@@ -151,15 +209,15 @@ The previous example shows us we should consider this expression to be the limit
 in the following manner:
 
 \[
-\int_{1}^{\infty} \frac{1}{x^{2}} \d x=\lim_{N \to \infty} \int_{1}^{N} \frac{1}{x^{2}} \d x
+\int_{1}^{\infty} \frac{1}{x^2} \d x=\lim_{b \to \infty} \int_{1}^{b} \frac{1}{x^2} \d x
 \]
 
 We calculate the definite integral 
 \[
-\int_{1}^{N} \frac{1}{x^{2}} \d x= \eval{\frac{-1}{x}}_{1}^{N}=1-\frac{1}{N}
+\int_{1}^{b} \frac{1}{x^2} \d x= \eval{\frac{-1}{x}}_{1}^{b}=1-\frac{1}{b}
 \]
 
-This gives the area under $1/x^{2}$ on the interval $[1, N]$. 
+This gives the area under $\frac{1}{x^2}$ on the interval $[1, b]$. 
 
 \begin{image}
   \begin{tikzpicture}
@@ -177,7 +235,7 @@ This gives the area under $1/x^{2}$ on the interval $[1, N]$.
     \addplot [penColor,very thick, smooth,domain=.5:10,samples=100] {1/x^2};
     \addplot [penColor, smooth,domain=0:.071] (3.75,x); 
     \addplot [penColor, smooth,domain=0:1] (1,x);
-    \node at (axis cs:3.75,-.075) {$N$};
+    \node at (axis cs:3.75,-.075) {$b$};
     \node at (axis cs:2,.75) [penColor] {$y = \frac{1}{x^2}$};
     \draw[thick,->] (axis cs:3.75,.035) -- (axis cs:4,.035);
    \end{axis}
@@ -185,14 +243,14 @@ This gives the area under $1/x^{2}$ on the interval $[1, N]$.
 \end{tikzpicture}
 \end{image}
 
-Now we take the limit of this area as $N \to \infty$. 
+Now we take the limit of this area as $b \to \infty$. 
 
 \[
-\int_{1}^{N} \frac{1}{x^{2}} \d x= \lim_{N \to \infty} 1-\frac{1}{N}=1
+\int_{1}^{b} \frac{1}{x^2} \d x= \lim_{b \to \infty} 1-\frac{1}{b}=1
 \]
   
 In this case, when we take the limit, we get a finite number, namely $1$. This suggests that we can consider the 
-area under $1/x^{2}$ from $1$ to $\infty$ to be equal to $1$ despite the fact that the region is unbounded. 
+area under $1/x^2$ from $1$ to $\infty$ to be equal to $1$ despite the fact that the region is unbounded. 
 
 
 
@@ -248,7 +306,7 @@ Thus in the two examples we have studied so far we have
 and 
 
 \[
-\int_{1}^{\infty} \frac{1}{x^{2}} \d x =1
+\int_{1}^{\infty} \frac{1}{x^2} \d x =1
 \]
 
 
@@ -274,8 +332,8 @@ and
 \end{tikzpicture}
 \end{image}
 
-Why do we get such different answer in these two cases?  The difference lies in the speed with which each function approaches $0$ as $x \to \infty$. Although both functions approach $0$ as $x \to \infty$, the function $\frac{1}{x^{2}}$ becomes smaller much more rapidly than $\frac{1}{x}$. 
-We can see in the graphs above that $\frac{1}{x^{2}}$ shrinks down to zero much more quickly. The key idea is that the area that we are accumulating as $x\to \infty$ is shrinking rapidly enough that the total area stays bounded. This is a theme we will see again when we study convergence of series. 
+Why do we get such different answer in these two cases?  The difference lies in the speed with which each function approaches $0$ as $x \to \infty$. Although both functions approach $0$ as $x \to \infty$, the function $\frac{1}{x^2}$ becomes smaller much more rapidly than $\frac{1}{x}$. 
+We can see in the graphs above that $\frac{1}{x^2}$ shrinks down to zero much more quickly. The key idea is that the area that we are accumulating as $x\to \infty$ is shrinking rapidly enough that the total area stays bounded. This is a theme we will see again when we study convergence of series. 
 
 We now give a precise definition for integrals over unbounded regions.
 
@@ -306,31 +364,15 @@ integral is said to \dfn{diverge}.
 \end{definition}
 
 \begin{warning}
-  The improper integral
-  \[
-  \int_{-\infty}^\infty f(x) \d x
-  \]
-  converges if and only if \textbf{both}
-  \[
-  \lim_{a\to-\infty}\int_a^c f(x) \d x
-  \]
-  and
-  \[
-  \lim_{b\to\infty}\int_c^b
-  f(x) \d x
-  \]
-  converge to real numbers.
+  The improper integral $  \int_{-\infty}^\infty f(x) \d x$ converges if and only if \textbf{both}  $ \lim_{a\to-\infty}\int_a^c f(x) \d x$
+and $  \lim_{b\to\infty}\int_c^b f(x) \d x$
+independently converge.
 \end{warning}
-
-A question for the young mathematician: Suppose that the improper
-integral $\int_{-\infty}^\infty f(x) \d x$ exists.  Why does it not
-matter which $c$ you choose to split the integral up at?
-
 
 \begin{example}
 Determine whether the integral
 \[
-\int_{-\infty}^{\infty} \frac{1}{1+x^{2}} \d x 
+\int_{-\infty}^{\infty} \frac{1}{1+x^2} \d x 
 \]
 converges or diverges. If it converges, determine the value of the integral. 
 \begin{explanation}
@@ -338,21 +380,21 @@ Here both of the bounds of integration involve $\infty$ so to reinterpret the in
 we must first break up the integral into two pieces.
 
 \begin{align*}
-\int_{-\infty}^{\infty} \frac{1}{1+x^{2}} \d x&= \int_{-\infty}^{0} \frac{1}{1+x^{2}} \d x + \int_{0}^{\infty} \frac{1}{1+x^{2}} \d x \\
-& =\lim_{M \to -\infty} \int_{M}^{0} \frac{1}{1+x^{2}} \d x + \lim_{N \to \infty} \int_{0}^{\infty} \frac{1}{1+x^{2}} \d x 
+\int_{-\infty}^{\infty} \frac{1}{1+x^2} \d x&= \int_{-\infty}^{0} \frac{1}{1+x^2} \d x + \int_{0}^{\infty} \frac{1}{1+x^2} \d x \\
+& =\lim_{a \to -\infty} \int_{a}^{0} \frac{1}{1+x^2} \d x + \lim_{b \to \infty} \int_{0}^{\infty} \frac{1}{1+x^2} \d x 
 \end{align*}
  
 Now we must look at each integral separately. 
 
 \[
-\int_{0}^{N} \frac{1}{1+x^2} \d x =  \answer{\arctan(N)}
+\int_{0}^{b} \frac{1}{1+x^2} \d x =  \answer{\arctan(b)}
 \]
 
 
 Similarly we obtain
 
 \[
-\int_{M}^{0} \frac{1}{1+x^{2}} \d x= \answer{-\arctan(M)}
+\int_{a}^{0} \frac{1}{1+x^2} \d x= \answer{-\arctan(a)}
 \]
  
 %\begin{hint}
@@ -369,7 +411,7 @@ Determine the following limits:
 
  \begin{prompt}
    \[
-    \lim_{N\to\infty} \arctan(N) = \answer{\pi/2}
+    \lim_{b\to\infty} \arctan(b) = \answer{\pi/2}
     \]
 
 \[
@@ -381,7 +423,7 @@ Determine the following limits:
 Hence we have
 
 \[
-\int_{-\infty}^{\infty} \frac{1}{1+x^{2}} \d x=\lim_{M \to -\infty} \int_{M}^{0} \frac{1}{1+x^{2}} \d x + \lim_{N \to \infty} \int_{0}^{\infty} \frac{1}{1+x^{2}} \d x =\answer{ \pi}
+\int_{-\infty}^{\infty} \frac{1}{1+x^2} \d x=\lim_{M \to -\infty} \int_{M}^{0} \frac{1}{1+x^2} \d x + \lim_{b \to \infty} \int_{0}^{\infty} \frac{1}{1+x^2} \d x =\answer{ \pi}
 \]
 In this example, both integrals converge and therefore the entire integral converges. 
 \end{explanation}
@@ -563,7 +605,7 @@ Now we look at another example:
 occurs in the middle of the interval we need to break the integral into two pieces.
   We have
 \begin{align*}
-  \int_{-1}^1 \frac{1}{x^{2}} \d x =&= \int_{-1}^{0} \frac{1}{x^{2}} \d x + \int_{0}^{1} \frac{1}{x^{2}} \d x \\
+  \int_{-1}^1 \frac{1}{x^2} \d x =&= \int_{-1}^{0} \frac{1}{x^2} \d x + \int_{0}^{1} \frac{1}{x^2} \d x \\
 &= \lim_{a \to 0^+} \int_{a}^1 \frac{1}{x^2} \d x  + \lim_{b \to 0^-} \int_{-1}^{b} \frac{1}{x^2} \d x.
  \end{align*}
   Let us evaluate these limits one at a time.
@@ -580,7 +622,7 @@ occurs in the middle of the interval we need to break the integral into two piec
 \begin{remark}
 We encountered the integral
 \[
-\int_{1}^{\infty} \frac{1}{x^{2}} \d x 
+\int_{1}^{\infty} \frac{1}{x^2} \d x 
 \]
 
 earlier and saw that this integral converges. We remarked at the time this was due to how rapidly the function approached $0$ as $x \to \infty$. 
@@ -588,10 +630,10 @@ earlier and saw that this integral converges. We remarked at the time this was d
 However the integral
 
 \[
-\int_{0}^{1} \frac{1}{x^{2}} \d x 
+\int_{0}^{1} \frac{1}{x^2} \d x 
 \]
 
-diverges. The issue is that the integral is approaching the vertical asymptote $x=0$ too slowly and thus the area builds up too quickly. This is due to the fact that the manner in which $\frac{1}{x^{2}}$ approaches the horizontal asymptote $y=0$ is different from the manner in which 
+diverges. The issue is that the integral is approaching the vertical asymptote $x=0$ too slowly and thus the area builds up too quickly. This is due to the fact that the manner in which $\frac{1}{x^2}$ approaches the horizontal asymptote $y=0$ is different from the manner in which 
 it approaches the vertical asymptote $x=0$. 
 \end{remark}
 
@@ -600,7 +642,7 @@ it approaches the vertical asymptote $x=0$.
 In the previous example,
 
 \[
-\int_{-1}^{1} \frac{1}{x^{2}} \d x
+\int_{-1}^{1} \frac{1}{x^2} \d x
 \]
 
  what would have happened if had we \textbf{not
@@ -617,7 +659,7 @@ But the integrand is always positive, so this answer of $-2$ is
 complete nonsense! The reason this error occurs is because this expression is not a definite integral. It only has meaning if we
 interpret it as a limit of definite integrals 
 \[
- \int_{-1}^1 \frac{1}{x^{2}} \d x = \lim_{a \to 0^+} \int_{a}^1 \frac{1}{x^2} \d x  + \lim_{b \to 0^-} \int_{-1}^{b} \frac{1}{x^2} \d x.
+ \int_{-1}^1 \frac{1}{x^2} \d x = \lim_{a \to 0^+} \int_{a}^1 \frac{1}{x^2} \d x  + \lim_{b \to 0^-} \int_{-1}^{b} \frac{1}{x^2} \d x.
 \]
 
 
@@ -629,10 +671,10 @@ We can now generalize the previous two examples to give a definition for such
 improper integrals of unbounded functions.
 
 \begin{definition}
-Let $f(x)$ be a continuous function on $[a,b]$ except at $c$, $a\leq
-c\leq b$, where $x=c$ is a vertical asymptote of $f$. Define
+Let $f(x)$ be a continuous function on $[a,b]$ except at an $x$-value $c$, with $a\leq
+c\leq b$ and suppose that $f(x)$ has a vertical asymptote at $x=c$. Define
 \[
-\int_a^b f(x)\d x = \lim_{M\to c^-}\int_a^M f(x)\d x + \lim_{N\to c^+}\int_N^b f(x)\d x
+\int_a^b f(x)\d x = \lim_{M\to c^-}\int_a^M f(x)\d x + \lim_{b\to c^+}\int_N^b f(x)\d x
 \]
 \end{definition}
 
@@ -660,6 +702,10 @@ The limit
 \]
 was the form $0\cdot -\infty$. By rewriting it in the appropriate way, we can apply L'Hopital's Rule to 
 determine the limit. 
+
+\[
+\lim_{t \to 0^{+}} t\ln(t) =\lim_{t \to 0^{+}} \frac{\ln(t)}{1/t}
+\]
 \end{hint}
   \end{explanation}
 \end{example}
@@ -668,20 +714,20 @@ determine the limit.
 \begin{example}
 Determine the integral
 \[
-\int_{1}^{\infty} \frac{5x}{x^{2}+x-6} \d x 
+\int_{1}^{\infty} \frac{5x}{x^2+x-6} \d x 
 \]
 
 
 \begin{explanation}
 This is clearly an improper integral because one of the bounds is infinite, but we need to be cautious about the integrand as well. The integrand is a rational function so we check whether the denominator has a root in $[1,4]$. 
-Factoring the denominator $x^{2}+x-6=(x-2)(x+3)$ so we see that $x=2$ makes the denominator zero 
+Factoring the denominator $x^2+x-6=(x-2)(x+3)$ so we see that $x=2$ makes the denominator zero 
 and lies in the interval of integration. 
 
 Since $2$ lies in the middle of the interval and the upper limit of integration is infinity, we need to break the integral into three pieces
 \begin{align*}
-& \int_{1}^{\infty} \frac{5x}{x^{2}+x-6} \d x \\
-&= \int_{1}^{2} \frac{5x}{(x-2)(x+3)} \d x  + \int_{2}^{4} \frac{5x}{x^{2}+x-6} \d x + \int_{4}^{\infty} \frac{5x}{x^{2}+x-6} \d x\\
-      &=\lim_{a \to 2^{-}} \int_{1}^a \frac{5x}{(x-2)(x+3)} \d x + \lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x +\lim_{c \to \infty} \int_{4}^{c} \frac{5x}{x^{2}+x-6} \d x
+& \int_{1}^{\infty} \frac{5x}{x^2+x-6} \d x \\
+&= \int_{1}^{2} \frac{5x}{(x-2)(x+3)} \d x  + \int_{2}^{4} \frac{5x}{x^2+x-6} \d x + \int_{4}^{\infty} \frac{5x}{x^2+x-6} \d x\\
+      &=\lim_{a \to 2^{-}} \int_{1}^a \frac{5x}{(x-2)(x+3)} \d x + \lim_{b \to 2^{+}} \int_{b}^{4} \frac{5x}{(x-2)(x+3)} \d x +\lim_{c \to \infty} \int_{4}^{c} \frac{5x}{x^2+x-6} \d x
 \end{align*}
 
 Since the integrand is a rational function, where the denominator is reducible, we could apply partial fractions decomposition to get

@@ -30,9 +30,10 @@ we can ask two important questions about it.
 \item[2.] Can I sum all of the numbers in the list and obtain a finite result?
 \end{itemize}
 
-The first question is really whether the \emph{limit} $\lim_{n \to \infty} a_n$ exists and we studied several ways to determine this previously.  Before diving into the second question, let's study an example.
+The first question is really whether the \emph{limit} $\lim_{n \to \infty} a_n$ exists and we studied several ways to determine this previously.  As it turns out, the second question is closely related to the first one.  We motivate this through an example.
 
-\example{Shading A Square}
+\begin{example} Shading A Square
+
 Suppose that we want to study the infinite sum below.
 
 \[
@@ -99,7 +100,7 @@ Visually, notice that we can find $S_2$ by noting
 $$(area ~ shaded ~ after ~ Step ~ 2) = (area ~ from ~ Step ~ 1) + (area ~ from ~ Step ~ 2)$$
 and writing down the total shaded are of the square.
 
-Analytically, we can write: $$S_2=A_1+A_2.$$
+Analytically, we can write $S_2=A_1+A_2.$
 
 \paragraph{Step 3:} Shade the left half of the unshaded region.  \begin{image}[1in]
   \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
@@ -131,8 +132,8 @@ Analytically, we can write: $$S_2=A_1+A_2.$$
 \end{image}
 
 \begin{itemize}
-\item Call the area shaded this step $A_3$.  Then, we have $A_3=[given]{1/8}$.
-\item Call and the total shaded area  of the square $S_3$.  Then, we have $S_3=[given]{7/8}$.
+\item Call the area shaded this step $A_3$.  Then, we have $A_3=\answer[given]{1/8}$.
+\item Call and the total shaded area  of the square $S_3$.  Then, we have $S_3=\answer[given]{7/8}$.
 \end{itemize}
 
 We can think of $S_3$ visually or analytically. 
@@ -172,92 +173,59 @@ We can think of $S_3$ visually or analytically.
 
 \vspace{3mm}
 
-Hopefully, the pattern used to shade the square is clear.  We can define the area  shaded during the $n$-th step to be $A_n$.  From the procedure, we can write $A_n(1/2)^n$.
+Hopefully, the pattern used to shade the square is becoming clear.  We can define the area  shaded during the $n$-th step to be $A_n$, and can observe that $A_n=(1/2)^n$.
 
-We can also let $s_n$ denote the total shaded area after the $n$-th step.  Analytically, we have $s_n = A_1+A_2 + \ldots A_n$, or by using summation notation, we can write $\displaystyle s_n = \sum_{k=1}^n A_k$.
+We can also let $s_n$ denote the total shaded area after the $n$-th step.  Analytically, we have $S_n = A_1+A_2 + \ldots A_n$, or by using summation notation, we can write $\displaystyle S_n = \sum_{k=1}^n A_k$.
 
 Looking at the pictures drawn so far, notice that the only unshaded area after the $n$-th step is a rectangle of area $A_n$, so we can write a formula for $s_n$.   
 
 \[
-s_n = \left<(\textrm{total area of the square})\right>-A_n = 1-\left(\frac{1}{2^n}\right)
+S_n = \left<\textrm{area of the square}\right>-A_n = 1-\left(\frac{1}{2}\right)^n
 \]
 
 We can now evaluate the limit and find that $\lim_{n \to \infty} s_n =\answer[given]{1}$.
 
 We also have another method of thinking about this limit; after we continue shading the square indefinitely, there will be no portion of it that has not been shaded.  Thus, the total shaded area should be $1$.
 
-We would thus like to conclude:
+We would thus like to conclude that
 
 \[
 \frac{1}{2} + \left(\frac{1}{2}\right)^2+ \left(\frac{1}{2}\right)^3+ \ldots = \sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^n =1.
 \]
+\end{example}
 
 \section{Infinite series}
-The above question can be thought of in the context of sequences.  Note that we can write down an ordered list where each successive term denotes the area shaded in the subsequent step.
+The above scenario can be modeled using sequences.  We have $\{A_n\}_{n=1}$ whose $n$-th term is given by the explicit formula $A_n=\left(\frac{1}{2}\right)^n$, and we represent the sequence by the ordered list below.
 
 \[
-A_1, A_2,A_3, \ldots = \frac{1}{2},\left(\frac{1}{2}\right)^2,\left(\frac{1}{2}\right)^3,\ldots
+\frac{1}{2},\left(\frac{1}{2}\right)^2,\left(\frac{1}{2}\right)^3,\ldots
 \]
-and we can interpret the series $$\frac{1}{2} + \left(\frac{1}{2}\right)^2+ \left(\frac{1}{2}\right)^3+ \ldots$$ as the symbolic attempt to add up all of the terms in the above sequence.  In fact, during the last example, we found a new sequence that was created from the original sequence sequence that track of a finite portion of the addition.
+and we can interpret the series $$\frac{1}{2} + \left(\frac{1}{2}\right)^2+ \left(\frac{1}{2}\right)^3+ \ldots$$ as the attempt to add up all of the terms in the above sequence.  In order to determine if this can be done, we found a new sequence $\{S_n\}_{n=1}$ that was created from the original sequence.  It is represented by the list below.
 
 \[
-S_1, S_2,S_3, \ldots = \frac{1}{2},\frac{3}{4},\frac{7}{8},\ldots
+\frac{1}{2},\frac{3}{4},\frac{7}{8},\ldots
 \]
-We saw that since we could find the limit $\lim_{n \to \infty} s_n$, we could \emph{add} up all of the terms in the sequence $\{A_n\}$.  
 
-While it's not always easy (or possible!) to generalize the procedure from the last example, we can generalize the ideas that led us to study whether it was possible to find the desired sum in the first place.
+Note that the \emph{limit} of this new sequence is exactly the \emph{sum} of all of the terms in the old sequence!  Let's formalize the ideas in the last example with a definition.
 
 \begin{definition}
-Let $\{a_n\}_{n=n_0}$ be a sequence.  Let $s_n = \sum_{k=k_0}^n a_k$; the sequence $\{s_n\}_{n=n_0}$ is the called the
+Let $\{a_n\}_{n=n_0}$ be a sequence.  Let $s_n = \sum_{k=k_0}^n a_k$; the sequence $\{s_n\}_{n=k_0}$ is the called the
   \dfn{sequence of partial sums} of $\{a_n\}$.  
-\end{definition}
-
-Note that both the original sequence and the sequence of partial sums have the same lower index!
-
-Just as in our example, we can use this \emph{new} sequence $\{s_n\}$ to study whether we can sum all of the terms in the sequence $\{a_n\}$.
-
-
-
-\begin{definition}
-Let $\{a_n\}_{n=n_0}$ be a sequence and $\{s_n\}_{n=n_0}$ be its sequence of partial sums.
 
 \begin{enumerate}
-\item If $\lim_{n\to\infty} s_n$ exists, we say the series
-  $\sum_{k=k_0}^\infty a_k$ \dfn{converges}.  Furthermore, if $\lim_{n\to\infty} s_n =L$, we say the series
-  $\sum_{k=k_0}^\infty a_k$ converges to $L$. 
-\item If $\lim_{n\to\infty} s_n = \infty, \lim_{n\to\infty} s_n = -\infty$ or $\lim_{n\to\infty} s_n $ otherwise does not exist, we say the series
-  $\sum_{k=k_0}^\infty a_k$ \dfn{diverges}.  
+\item The series $\sum_{k=k_0}^\infty a_k$ \dfn{converges} if and only if $\lim_{n\to\infty} s_n$ exists.  Furthermore, if $\lim_{n\to\infty} s_n =L$, we say the series $\sum_{k=k_0}^\infty a_k$ converges to $L$. 
+\item The series $\sum_{k=k_0}^\infty a_k$ \dfn{diverges} if and only if $\lim_{n\to\infty} s_n = \infty, \lim_{n\to\infty} s_n = -\infty$ or $\lim_{n\to\infty} s_n $ otherwise does not exist.  
 \end{enumerate}
 \end{definition}
 
-In most cases of interest, we will usually have $k_0=0$ or $1$.  A few remarks are in order before we continue.
-
-\begin{quote}
-The symbols ``$\lim_{n \to \infty} s_n$'' and ``$\sum_{k=k_0}^{\infty} a_k$'' should be thought of as analogous; if the first is defined, so is the second and vice-versa.  If the first is found to be a constant $L$, then the second is $L$ and vice-versa.
-\end{quote}
+The above definition really is assuring us that the symbols $\sum_{k=k_0} a_k$ and $\lim_{n \to \infty} s_n$ are exactly the same! However, this definition makes the content of the previous example more precise.  The major idea here is that we have techniques that we can use to determine whether limits exist and can even find what those limits are sometimes.  Since we are now able to recast the new question ``Can I sum all of the terms in a sequence?'' into the old question ``Does a sequence have a limit?", we can now utilize all of our previous techniques to analyze the sequence of partial sums.
 
 \begin{remark}
-This definition makes the content of the previous example more precise.  The major idea here is that we have techniques that we can use to determine whether limits exist and can even find what those limits are sometimes.  Since we are now able to recast the new question ``Can I sum all of the terms in a sequence?'' into the old question ``Does a sequence have a limit?", we can now utilize all of our previous techniques.  
+Some texts take the $n$-th term in the sequence of partial sums to be found by summing the first $n$ terms in the original sequence.  With our convention, the lower index for both the original sequence and the sequence of partial sums will always be the same; that is, both sequences share a common domain.  In the case when the lower index is $k_0=1$, both conventions are equivalent.
 \end{remark}
 
-\begin{warning}
-Note that the sequences $\{a_n\}_{n=1}$ and $\{s_n\}_{n=1}$ are very different sequences.  Each term in the sequence $\{s_n\}$ is the result of adding terms in the sequence $\{a_n\}$.  The limit $\lim_{n \to \infty} s_n$ represents the attempt to perform the addition of terms in the original sequence.
-\end{warning}
-
-%Look back at the definition again. Previously, we've been using 
-%notation like $(a_n)$ to define our sequences.  Suddenly, we've switched 
-%the index to a $k$ instead of an $n$ in some places. This notation is to 
-%help you keep in mind the differences between the two at work, here: $(a_k)$ and $\{s_n\}$.  The first 
-%sequence gives us the terms of our series; we are not usually concerned 
-%about its limit.  We do want to consider the limit of the sequence of 
-%partial sums $\{s_n\}$, since this will give us the sum of the series.
-
 \begin{question}
-  Using our new terminology, what is the behavior of the series we 
-  considered above?
-  \begin{prompt}
-    The series $\sum_{n=1}^\infty \left(\frac{1}{2}\right)^n$
-    \wordChoice{\choice[correct]{converges}\choice{diverges}}, and
+  Using our new terminology, what can we say about the series $\sum_{k=1}^\infty \left(\frac{1}{2}\right)^k$ from the previous example?  The series     \wordChoice{\choice[correct]{converges}\choice{diverges}}, and
       $\sum_{n=1}^\infty \left(\frac{1}{2}\right)^n = \answer[given]{1}$.
   \end{prompt}
 \end{question}

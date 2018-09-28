@@ -16,6 +16,7 @@
 \end{abstract}
 \maketitle
 
+
 Given a function $z=F(x,y)$, we are often interested in points where
 $z$ takes on the largest or smallest values. For instance, if $z$
 represents a cost function, we would likely want to know what $(x,y)$
@@ -43,6 +44,11 @@ point $\vec{c}$ in $\R^n$.
 \end{itemize}
 \end{definition}
 
+
+\section{Critical points}
+
+
+
 If $F$ has a local or absolute maximum at $\vec{c}$, it means the
 gradient will point ``nowhere'' since the gradient points in the
 initial direction of greatest increase. This means it is pointing in a
@@ -66,9 +72,9 @@ $\vec{c}$. If $F$ has a local extrema at $\vec{c}$, then $\vec{c}$ is a
 critical point of $F$.
 \end{theorem}
 
-Therefore, to find local extrema, we find the critical points of
-$F$ and determine which correspond to local maxima, local
-minima, or neither. The following examples demonstrate this process.
+Therefore, to find local extrema, we find the critical points of $F$
+and determine which correspond to local maxima, local minima, or
+neither. We'll use examples to demonstrate this process.
 
 \begin{example}
   Let $F(x,y) = x^2+y^2-xy-x-2$. Find the local extrema of $F$.
@@ -120,14 +126,13 @@ minima, or neither. The following examples demonstrate this process.
 
           \addplot3 [ultra thick,penColor, smooth,domain=-1.:3,samples=20,samples y=0,opacity=.3] ({3},{x},{x^2+3^2-x*3-3-2});
 
-          \filldraw [black,opacity=.7] (axis cs:.666,.333,-2.333) circle (3pt);        
+          \filldraw [black,opacity=.7] (axis cs:.666,.333,-2.333) circle (3pt);
+          \node[right] at (axis cs:2/3,1/3,-7/3) {$(2/3,1/3,-7/3)$};
         \end{axis}
       \end{tikzpicture}
     \end{image}
     The graph above shows $F$ along with this critical point. It is
-    clear from the graph that this is a local minimum; further
-    consideration of the function shows that this is actually the
-    absolute minimum.
+    clear from the graph that this is a local minimum.
   \end{explanation}
 \end{example}
 
@@ -138,11 +143,8 @@ minima, or neither. The following examples demonstrate this process.
     \[
     \grad F(x,y) = \vector{\frac{-x}{\sqrt{x^2+y^2}},\frac{-y}{\sqrt{x^2+y^2}}}
     \]
-    It is clear that $\grad F(x,y) = \vec{0}$ when $x=0$ or
-    $y=0$. However, at $\vector{0,0}$, $\grad F$ is \textit{not}
-    $\vec{0}$, but rather undefined. Regardless, the point $\vector{0,0}$ is
-    still a critical point, because the partial derivatives are
-    undefined.
+    Here the only critical point is at $\vector{0,0}$ because $\grad
+    F$ is undefined at $\vector{0,0}$. 
     \begin{image}
       \begin{tikzpicture}
         \begin{axis}%
@@ -259,13 +261,47 @@ that sheds more light on the issues our test needs to consider.
   that $F(\vec{c})>F(\vec{a}_1)$ and $F(\vec{c})<F(\vec{a}_2)$.
 \end{definition}
 
+The most obvious example of a saddle point is a the point determined
+by $\vector{0,0}$ on a hyperbolic paraboloid of the form $z = \pm x^2 \mp y^2$. 
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [tick label style={font=\scriptsize},axis on top,
+	axis lines=center,
+	view={165}{35},
+	name=myplot,
+	%xtick=\empty,
+	%ytick={5},
+	%ztick={.7,-.7},
+	minor xtick=1,
+	minor ytick=1,
+	ymin=-2.1,ymax=2.1,
+	xmin=-2.1,xmax=2.1,
+	zmin=-4, zmax=4,
+	every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-5pt,yshift=-1pt},
+	xlabel={\scriptsize $x$},
+	every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=-4pt},
+	ylabel={\scriptsize $y$},
+	every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	zlabel={\scriptsize $z$},colormap/cool,clip=false
+      ]
+      \addplot3[mesh,samples=25,samples y=25,very thin,z buffer=sort] {x^2-y^2};
+    \end{axis}
+      \end{tikzpicture}
+\end{image}
+
 When thinking about a graph of $z= F(x,y)$ at a saddle point, the
 instantaneous rate of change in all directions is $0$ and there are
 points nearby with $z$-values both less than and greater than the
-$z$-value of the saddle point.  In theory to identify local extrema
-verses saddle points, we could compute the Taylor polynomial of degree
-$2$ at the critical point in question, and then identify the Taylor as
-either:
+$z$-value of the saddle point.
+
+
+
+\section{The second derivative test}
+
+In theory to identify local extrema verses saddle points, we could
+compute the Taylor polynomial of degree $2$ at the critical point in
+question, and then identify the Taylor polynomial as either:
 \begin{description}
 \item[Elliptic paraboloid] Indicating we have found local extrema.
 \item[Hyperbolic paraboloid] Indicating that we are at a saddle point.
@@ -308,10 +344,13 @@ saddle point.
     D(x,y) = \answer[given]{-12x}
     \]
     Since $D(-1,2) = \answer[given]{12}>0$, and $F^{(2,0)}(-1,2) =
-    \answer[given]{-6}$, by the second derivative test, $F$ has a
+    \answer[given]{-6}$, by the second derivative test, locally looks
+    like \wordChoice{\choice[correct]{an elliptic paraboloid}\choice{a hyperbolic paraboloid}} at $\vector{-1,2}$, meaning $F$ has a
     local maximum at $\vector{-1,2}$.
     
-    Since $D(1,2) = \answer[given]{-12} <0$, by the second derivative test, $F$ has a saddle point at $\vector{1,2}$.
+    Since $D(1,2) = \answer[given]{-12} <0$, by the second derivative
+    test, $F$ locally looks like \wordChoice{\choice{an elliptic paraboloid}\choice[correct]{a hyperbolic paraboloid}} at
+    $\vector{-1,2}$ meaning $F$ has a saddle point at $\vector{1,2}$.
     
     The second derivative test has confirmed the visual evidence we
     found before.
@@ -330,8 +369,8 @@ saddle point.
       F^{(1,1)}(x,y) &= 2x+1 
     \end{align*}
     We find the critical points by finding where $\grad F(x,y) =
-    \vec{0}$, since the partial derivatives are both never
-    undefined. With a bit of algebra we can show that there are three
+    \vec{0}$, since the partial derivatives are defined everywhere on
+    $\R^2$. With a bit of algebra we can show that there are three
     critical points
     \begin{itemize}
     \item $\vector{0,0}$,

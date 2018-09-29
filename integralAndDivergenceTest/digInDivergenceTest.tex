@@ -15,39 +15,10 @@ If an infinite sum converges, then its terms must tend to zero.
 \end{abstract}
 \maketitle
 
-Given a sequence $\{a_n\}_{n=n_0}$, we've seen that we can represent it as an ordered list of numbers.  If $n_0=1$, the representation of the sequence is the list below.
-
-\[
-a_1, a_2, a_3, \ldots
-\]
-
-There are two fundamental questions we can ask of \emph{any} sequence.
+In order to determine if a \emph{series} $\sum_{k=1}^{\infty} a_k$ converges, we took the following approach.
 
 \begin{itemize}
-\item[1.] Do the numbers in the list approach a finite value?
-\item[2.] Can I sum all of the numbers in the list and obtain a finite result?
-\end{itemize}
-
-We saw that we can create a \emph{new} sequence, called the sequence of partial sums, from this original sequence by letting $s_n = \sum_{k=1}^n$ and we can compute its terms without much difficulty.  For instance, we have
-
-\begin{align*}
-s_1 &= a_1\\
-s_2&=a_1+a_2\\
-s_3&=a_1+a_2+a_3\\
-& ~ ~ \vdots \\
-s_n &= a_1+a_2+a_3 +\ldots + a_n,
-\end{align*}
-
-and we can arrange these terms in a new list to represent the sequence $\{s_n\}$.
-
-\[
-s_1, s_2, s_3, \ldots
-\]
-
-In this new list, the question ``Does $\lim_{n \to \infty} s_n$ exist?'' is analogous to the question ``Does $\sum_{k=1}^{\infty} a_k$ converge?''  Once we have a \emph{series} $\sum_{k=1}^{\infty} a_k$, we  took the following approach.
-
-\begin{itemize}
-\item[1.] Consider the associated sequence $\{s_n\}$ of partial sums.
+\item[1.] Consider the associated sequence $\{s_n\}$ of partial sums, where $s_n=\sum_{k=1}^n a_k$.
 \item[2.] Try to find an explicit formula for the term $s_n$.  If you can find such a formula, analyze $\lim_{n \to \infty s_n}$.  
 \begin{itemize}
 \item If the limit exists, $\sum_{k=k_0} a_k$ converges, and if we can determine that $\lim_{n \to \infty} s_n =L$, then $\sum_{k=k_0} a_k=L$.  \item If  $\lim_{n \to \infty} s_n$ does not exist, then $\sum_{k=k_0} a_k$ diverges.
@@ -55,59 +26,48 @@ In this new list, the question ``Does $\lim_{n \to \infty} s_n$ exist?'' is anal
 \item[3.] If an explicit formula for $s_n$ cannot be found, further analysis is needed.  
 \end{itemize}
 
-In the previous section, we studied two types of series where we could find an explicit formula for $s_n$, but unfortunately, this is not always easy or possible.
-
-\section{A recursive formula for $s_n$.}
-
-Suppose that we have a series $\sum_{k=k_0}^{\infty} a_k$.  While we do not always have an explicit formula for $s_n$, but we do have a recursive one.  Consider the following examples.
+In the previous section, we studied two types of series where we could find an explicit formula for $s_n$, but unfortunately, this is not always easy or possible.  Fortunately, it is not always necessary to do this in order to determine whether $\lim_{n \to \infty} s_n$ exists.  Consider the example below.
 
 \begin{example}
-Consider the geometric series $\sum_{k=0}^{\infty} \left(\frac{1}{2}\right)^k$, and let $s_n = \sum_{k=1}^{n}$.  We have an explicit formula for $s_n$ for all $n \geq 0$.  Recalling that, regardless of the value of $r$, the \emph{finite} geometric sum formula is: 
+Determine if the series $\sum_{k=1}^{\infty} \frac{k+2}{2k+1}$ converges or diverges.  
+
+\begin{explanation}
+Let's think about what we are trying to do here heuristically.  If we set $a_k =  \frac{k+2}{2k+1}$, we can write out the first several terms in the sequence $\{a_n\}_{n=1}$.
 
 \[
-\sum_{k=0}^n ar^k = \frac{a-ar^{n+1}}{1-r}.
+\frac{3}{5}, \frac{4}{7}, \frac{5}{9}, \frac{6}{11},\frac{7}{13}, \ldots
 \]
+We can observe also that $\lim_{n \to \infty} a_n = \answer[given]{\frac{1}{2}}$, so eventually, the terms in this list become as close to $\frac{1}{2}$ as we want.  So, eventually, we are trying to add together infinitely many numbers together that are very close to $\frac{1}{2}$.  Such an attempt cannot produce a finite result, so we expect the series to diverge.
 
-Applying this to the formula for $s_n$ gives the formula below.
-
-\[
-s_n = \frac{\left(1-(1/2)^{n+1}\right)}{1-1/2} = 2-(1/2)^{n}.
-\]
-From this, we can determine that $\lim_{n \to \infty} s_n =\answer[given]{2}$.
-
-Note that we also have a recursive formula since: 
+Of course, this is not a formal proof or an acceptable mathematical argument, but it is good intuition.  In order to formalize the argument, recall that we have to set $s_n = \sum_{k=1}^n a_k$ and study whether $\lim_{n \to \infty} s_n$ exists.  While we do not have an explicit formula for $s_n$, we do have a recursive formula, which we recall below. 
 
 \begin{image}
   \begin{tikzpicture}
         \node at (0,0) {
-          $s_n=\sum_{k=0}^n \left(\frac{1}{2}\right)^k=\underbrace{1+\frac{1}{2} +\left(\frac{1}{2}\right)^2 +\ldots + \left(\frac{1}{2}\right)^{n-1}}+\left(\frac{1}{2}\right)^n$,};
-        \node at (.8,-.8) {This is $s_{n-1}$};
-  \end{tikzpicture}
+          $s_n = \underbrace{a_1+a_2+a_3 + \ldots + a_{n-1}}+ a_n$};
+        \node at (.1,-.65) {\small{This is $s_{n-1}$}};
+      
+      \end{tikzpicture}
   \end{image}
-  
-and we have that the recursive formula for $s_n$ is $s_n = s_{n-1}+\left(\frac{1}{2}\right)^{n}, s_0 = 1$.  
-\end{example}
 
-There was nothing special about the previous example.  In fact, we have a similar recursive description for $s_n$ regardless of what type of series $\sum_{k=k_0}^{\infty} a_k$ is.
-
-\begin{fact}
-Given a \emph{series} $\sum_{k=k_0}^{\infty} a_k$, define $s_n = \sum_{k=k_0}^{n} a_k$ for all $n\geq k_0$.  Then, the terms in the sequence $\{s_n\}_{n=n_0}$ can be found by the recursive formula
+Since $a_n = \frac{n+2}{2n+1}$, we can write
 
 \[
-s_n=s_{n-1}+a_n, \qquad s_{n_0} = a_{n_0}
-\]
-\end{fact}
+s_n = s_{n-1}+\frac{n+2}{2n+1}.
+\] 
 
-Notice that while we can always write down a recursive formula for the sequence of partial sums, it does not tell us too much for the convergent geometric series from the previous example. In general, \emph{if} $\lim_{n \to \infty} s_n$ exists, we can take the limit of both sides of the equation in the recursive formula.  If this limit is $L$, notice that $\lim_{n \to \infty} s_{n-1} = \answer[given]{L}$ as well, so:
+Now, if $\lim_{n \to \infty} s_n$ exists and is equal to $L$, we have that $\lim_{n \to \infty} s_{n-1}=L$ as well, so taking the limit of both sides of the above equation gives
 
 \begin{align*}
-\lim_{n \to \infty} s_n &= \lim_{n \to \infty} s_{n-1} +\lim_{n \to \infty} \left(\frac{1}{2}\right)^n \\
-L &= L + 0 
-\end{align*}
+\lim_{n \to \infty} s_n &= \lim_{n \to \infty} s_{n-1}+ \lim_{n \to \infty} \frac{n+2}{2n+1} \\
+L &= L +\frac{1}{2}.
+\end{align*} 
 
+This statement is blatantly false, so our underlying assumption that $\lim_{n \to \infty} s_n$ exists is false as well.  Since $\lim_{n \to \infty} s_n$ therefore does not exist,  $\sum_{k=1}^{\infty} \frac{k+2}{2k+1}$ must diverge.
+\end{explanation}
+\end{example}
 
-
-As it turns out, the above argument can be used to determine that if $\{a_n\}$ is a sequence for which $\sum_{k=k_0}^{\infty} a_k$ converges, then $\lim_{n \to \infty} a_n =0$.  This result is fundamentally important, so we capture it in a theorem.
+As it turns out, the above argument can be used to make a very important observation; if $\{a_n\}$ is a sequence for which $\sum_{k=k_0}^{\infty} a_k$ converges, then $\lim_{n \to \infty} a_n =0$.  This result is fundamentally important, so we capture it in a theorem.
 
 \begin{theorem}
 Suppose that $\{a_n\}_{n=n_0}$ is a sequence and the \emph{series} $\sum_{n=n_0}^{\infty} a_n$ converges.  Then, $\lim_{n \to \infty} a_n =0$.   
@@ -118,32 +78,32 @@ Note that the convergence of the \emph{series} $\sum_{n=n_0}^{\infty} a_n$ tells
 \end{remark}
 
 \section{The divergence test}
-The recursive formula does not aid us in finding what the limit of $s_n$ is (and hence does not give the value of $\sum_{k=0}^{\infty} a_k$).  So why would we go to all of the trouble to explore the recursive formula for $s_n$?  As it turns out, it may not tell us much for a convergent series, but let's look at another example.
-
-
-\begin{example}
-Consider the series $\sum_{k=1}^{\infty} \frac{2^k}{k^2+2^k}$.  Note that this is \wordChoice{\choice{a telescoping series}\choice{a geometric series}\choice[correct]{neither a geometric series and it doesn't seem to be a telescoping series}}.  In order to determine whether the series converges, we need to analyze the sequence of partial sums.  
-
-It won't be easy (or maybe even possible) to find an explicit formula for $s_n$, but we can immediately write down a recursive one.
-
-\begin{align*}
-s_n &= s_{n-1}+a_n, \qquad s_1 = a_1 \\
-s_n &= s_{n-1} + \answer[given]{\frac{2^n}{n^2+2^n}}, \qquad s_1 = \answer[given]{\frac{2}{3}}
-\end{align*}
-
-Now, let's assume that $\lim_{n \to \infty} s_n$ exists and $\lim_{n \to \infty} s_n =L$.  Taking limits, we notice something interesting.
-
-\begin{align*}
-\lim_{n \to \infty} s_n &= \lim_{n \to \infty} s_{n-1}+ \lim_{n \to \infty} a_n \\
-\lim_{n \to \infty} s_n &= \lim_{n \to \infty} s_{n-1} +\lim_{n \to \infty} \frac{2^n}{n^2+2^n} \\
-L = L + \answer[given]{1}
-\end{align*}
-where $\lim_{n \to \infty} \frac{2^n}{n^2+2^n}$ is computed using our growth rates results.
-
-This statement gives a contradiction; there is no constant $L$ for which $L=L+1$.  We are thus able to conclude that the assumption that $\lim_{n \to \infty} s_n$ exists is a false one.  This tells us that $\sum_{k=1}^{\infty} \frac{2^k}{k^2+2^k}$ \wordChoice{\choice{converges}\choice[correct]{diverges}} since $\lim_{n \to \infty} s_n$ does not exist.
-\end{example}
-
-As it turns out, the above argument can be used to determine that if $\{a_n\}$ is a sequence whose terms do not tend to zero, the series $\sum_{k=k_0}^{\infty}$ must diverge.  As such, we can write this down as a new criteria.
+%The recursive formula does not aid us in finding what the limit of $s_n$ is (and hence does not give the value of $\sum_{k=0}^{\infty} a_k$).  So why would we go to all of the trouble to explore the recursive formula for $s_n$?  As it turns out, it may not tell us much for a convergent series, but let's look at another example.
+%
+%
+%\begin{example}
+%Consider the series $\sum_{k=1}^{\infty} \frac{2^k}{k^2+2^k}$.  Note that this is \wordChoice{\choice{a telescoping series}\choice{a geometric series}\choice[correct]{neither a geometric series and it doesn't seem to be a telescoping series}}.  In order to determine whether the series converges, we need to analyze the sequence of partial sums.  
+%
+%It won't be easy (or maybe even possible) to find an explicit formula for $s_n$, but we can immediately write down a recursive one.
+%
+%\begin{align*}
+%s_n &= s_{n-1}+a_n, \qquad s_1 = a_1 \\
+%s_n &= s_{n-1} + \answer[given]{\frac{2^n}{n^2+2^n}}, \qquad s_1 = \answer[given]{\frac{2}{3}}
+%\end{align*}
+%
+%Now, let's assume that $\lim_{n \to \infty} s_n$ exists and $\lim_{n \to \infty} s_n =L$.  Taking limits, we notice something interesting.
+%
+%\begin{align*}
+%\lim_{n \to \infty} s_n &= \lim_{n \to \infty} s_{n-1}+ \lim_{n \to \infty} a_n \\
+%\lim_{n \to \infty} s_n &= \lim_{n \to \infty} s_{n-1} +\lim_{n \to \infty} \frac{2^n}{n^2+2^n} \\
+%L = L + \answer[given]{1}
+%\end{align*}
+%where $\lim_{n \to \infty} \frac{2^n}{n^2+2^n}$ is computed using our growth rates results.
+%
+%This statement gives a contradiction; there is no constant $L$ for which $L=L+1$.  We are thus able to conclude that the assumption that $\lim_{n \to \infty} s_n$ exists is a false one.  This tells us that $\sum_{k=1}^{\infty} \frac{2^k}{k^2+2^k}$ \wordChoice{\choice{converges}\choice[correct]{diverges}} since $\lim_{n \to \infty} s_n$ does not exist.
+%\end{example}
+%
+%As it turns out, the above argument can be used to determine that if $\{a_n\}$ is a sequence whose terms do not tend to zero, the series $\sum_{k=k_0}^{\infty}$ must diverge.  As such, we can write this down as a new criteria.
 
 
 %As one contemplates the behavior of series, a few facts become clear.
@@ -184,14 +144,14 @@ The result of this theorem can be established using a similar argument as in the
 
 This test gives us a quick way to determine if some series diverge.
 
-\begin{example}
-Determine if the series $\sum_{k=1}^{\infty} \frac{2+3k}{1-4k}$ converges or diverges.
-
-\begin{explanation}
-Here, the sequence whose terms are being summed is given by the formula $a_n = \frac{2+3n}{1-4n}$.  Let's try to apply the divergence test.  Notice that the limit of the \emph{sequence} $\{a_n\}$ is $\lim_{n \to \infty} \frac{2+3n}{1-4n} = \answer[given]{-\frac{3}{4}} \neq 0$.  Hence, the \emph{series} $\sum_{k=1}^{\infty} \frac{2+3k}{1-4k}$ diverges by the divergence test.
-
-\end{explanation}
-\end{example}
+%\begin{example}
+%Determine if the series $\sum_{k=1}^{\infty} \frac{2+3k}{1-4k}$ converges or diverges.
+%
+%\begin{explanation}
+%Here, the sequence whose terms are being summed is given by the formula $a_n = \frac{2+3n}{1-4n}$.  Let's try to apply the divergence test.  Notice that the limit of the \emph{sequence} $\{a_n\}$ is $\lim_{n \to \infty} \frac{2+3n}{1-4n} = \answer[given]{-\frac{3}{4}} \neq 0$.  Hence, the \emph{series} $\sum_{k=1}^{\infty} \frac{2+3k}{1-4k}$ diverges by the divergence test.
+%
+%\end{explanation}
+%\end{example}
 
 
 \begin{example}
@@ -220,9 +180,9 @@ Here, the sequence whose terms are being summed is given by the formula $a_n =\s
 \end{example}
 
 \begin{remark}
-While the divergence test provides a quick way to determine that the series in the previous examples diverge, there is valuable intuition that can be gained by taking a step back and thinking about what the limits of the \emph{sequences} whose terms we are trying to sum tells us.  
-
-In the first example, we found $\lim_{n \to \infty} a_n = -\frac{3}{4}$.  This tells us that the terms in the \emph{sequence} we are trying to sum eventually become and stay as close as we want to $-\frac{3}{4}$.  Hence, the infinite \emph{series} $\sum_{k=1}^{\infty} \frac{2+3k}{1-4k}$ requires that we eventually must sum numbers that are arbitrarily close to $-\frac{3}{4}$ indefinitely.  How could this produce a finite result? 
+%While the divergence test provides a quick way to determine that the series in the previous examples diverge, there is valuable intuition that can be gained by taking a step back and thinking about what the limits of the \emph{sequences} whose terms we are trying to sum tells us.  
+%
+%In the first example, we found $\lim_{n \to \infty} a_n = -\frac{3}{4}$.  This tells us that the terms in the \emph{sequence} we are trying to sum eventually become and stay as close as we want to $-\frac{3}{4}$.  Hence, the infinite \emph{series} $\sum_{k=1}^{\infty} \frac{2+3k}{1-4k}$ requires that we eventually must sum numbers that are arbitrarily close to $-\frac{3}{4}$ indefinitely.  How could this produce a finite result? 
 
 In the last example, perhaps the fact that the terms in $a_n = \sin(n)$ fluctuate in sign will ensure that the series cannot be infinite.  To think about this, let's turn to the sequence of partial sums. To gain a bit of visual perspective about what is happening, note that the $n$-th term in the sequence of partial sums here is 
 
@@ -272,9 +232,9 @@ While we will not show it here, the sequence $\{s_n\}$ is bounded; the reason th
 
 
 
-\begin{warning}
-Notice that the divergence test allows us to determine that the \emph{series} $\sum_{k=1}^{\infty} a_k$ diverges in the above examples by analyzing the limit of the \emph{sequence} $\{a_n\}$.  The divergence test is an actual theorem; it is a result that allows us to use information about $\lim_{n \to \infty} a_n$ to determine if $\sum_{k=1}^{\infty}$ diverges rather than having to analyze $\lim_{n \to \infty} s_n$ explicitly.  While it may be difficult to digest, it is important to understand the logic behind this  \textbf{<---Jim: I can't think of exactly what I want to say here...something along the lines of emphasizing they must be aware of what notation is, what concepts the notation represents, etc...let's discuss}
-\end{warning}
+%\begin{warning}
+%Notice that the divergence test allows us to determine that the \emph{series} $\sum_{k=1}^{\infty} a_k$ diverges in the above examples by analyzing the limit of the \emph{sequence} $\{a_n\}$.  The divergence test is an actual theorem; it is a result that allows us to use information about $\lim_{n \to \infty} a_n$ to determine if $\sum_{k=1}^{\infty}$ diverges rather than having to analyze $\lim_{n \to \infty} s_n$ explicitly.  While it may be difficult to digest, it is important to understand the logic behind this  \textbf{<---Jim: I can't think of exactly what I want to say here...something along the lines of emphasizing they must be aware of what notation is, what concepts the notation represents, etc...let's discuss}
+%\end{warning}
 
 \section{Implications of the divergence test}
 
@@ -285,7 +245,7 @@ Let's summarize the important points from the previous discussion.
 \item If $\lim_{n \to \infty} a_n \neq 0$ (including the case where the limit does not exist), then $\sum_{k=k_0}^{\infty} a_k$ diverges.
 \end{itemize}
 
-\textbf{Jim: do we use the word contrapositive here and explain to those unfamiliar with it why one statement follows from each other?} 
+%\textbf{Jim: do we use the word contrapositive here and explain to those unfamiliar with it why one statement follows from each other?} 
 
 While divergence test was straightforward to apply in the previous examples, there is a major point to address about what it does \emph{not} say.
 
@@ -344,18 +304,18 @@ Restating this point again (because it is very important): passing the divergenc
 means that a series has a chance to converge.  The divergence test cannot tell us 
 whether a series converges.
 
-\begin{question}
-Which of the following statements are true?  Mark all that apply.
-\begin{selectAll}
-  \choice[correct]{If $\sum_{k=0}^\infty a_k$ is convergent, then $\lim_{k \to \infty} a_k = 0$. }
-  \choice{If $a_k \to 0$ as $k \to \infty$, then $\sum_{k=0}^\infty a_k$ is convergent.}
-  \choice{If $\sum_{k=0}^\infty a_k$ is divergent, then $\lim_{k \to \infty} a_k \neq 0$. }
-  \choice[correct]{If $\lim_{k \to \infty} a_k \neq 0$, then $\sum_{k=0}^\infty a_k$ is divergent.}
-\end{selectAll}
-\end{question}
-
-
-\section{Conceptual questions}
+%\begin{question}
+%Which of the following statements are true?  Mark all that apply.
+%\begin{selectAll}
+%  \choice[correct]{If $\sum_{k=0}^\infty a_k$ is convergent, then $\lim_{k \to \infty} a_k = 0$. }
+%  \choice{If $a_k \to 0$ as $k \to \infty$, then $\sum_{k=0}^\infty a_k$ is convergent.}
+%  \choice{If $\sum_{k=0}^\infty a_k$ is divergent, then $\lim_{k \to \infty} a_k \neq 0$. }
+%  \choice[correct]{If $\lim_{k \to \infty} a_k \neq 0$, then $\sum_{k=0}^\infty a_k$ is divergent.}
+%\end{selectAll}
+%\end{question}
+%
+%
+%\section{Conceptual questions}
 There are many questions that require that you now have a firm grasp on the concepts presented thus far.  We summarize the important points made thus far, then give many examples that require you to synthesize them.
 
 \begin{itemize}
@@ -367,7 +327,7 @@ There are many questions that require that you now have a firm grasp on the conc
 These questions can be asked of a given sequence $\{a_n\}$ and can also be asked about $\{s_n\}$ or any sequence constructed from it.
 \item Given a sequence $\{a_n\}_{n=n_0}$, we construct the sequence of partial sum $\{s_n\}_{n=n_0}$ whose $n$-th term is given by the formula $s_n = \sum_{k=k_0}^n a_k$.
 \begin{itemize}
-\item The symbols $\sum_{k=k_0}^{\infty} a_k$ and $\lim_{n \to \infty} s_n$ are analogous. <-\textbf{Jim's note: is this clear?  I hesitate to say  $\sum_{k=k_0}^{\infty} a_k = \lim_{n \to \infty} s_n$ because this is meaningless in the case both do not exist}
+\item The symbols $\sum_{k=k_0}^{\infty} a_k$ and $\lim_{n \to \infty} s_n$ are the same.
 \item By definition $\sum_{k=k_0} a_k$ converges if $\lim_{n \to \infty} s_n$ exists and in this case, the value of each is the same.
 \item By definition $\sum_{k=k_0} a_k$ diverges if $\lim_{n \to \infty} s_n$ does not exist (which includes if the limit is infinte). 
 \end{itemize}

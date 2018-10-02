@@ -73,9 +73,117 @@ A similar theorem applies to functions of several variables.
   $S$. Then $F$ has a maximum and minimum value on $S$.
 \end{theorem}
 
-We can find these values by evaluating the function at the critical
-values in the set and over the boundary of the set. Let's see some
-examples.
+When finding extrema of functions in your first calculus course, you
+had to check inside an interval and at the end-points. Now we need to
+check the interior of a region and the boundary curve. To check the
+interior of a region, one finds where the gradient vector is zero or
+undefined. Hence in this section, we will focus on how one finds
+extrema on the boundary.  Let's see some examples, we start with a classic problem.
+
+
+
+\begin{example}
+  The \link[U.S.\ Postal Service states that the girth plus the length of
+  Standard Post Package must not exceed $108\unit{in}$]{https://pe.usps.com/text/qsg300/Q201e.htm\#1009536}. Given a
+  rectangular box, the ``length'' is the longest side, and the
+  ``girth'' is the perimeter of the base.
+
+  Given a rectangular box where the width and height are equal, what
+  are the dimensions of the box that give the maximum volume subject
+  to the constraint of the size of a Standard Post Package?
+  \begin{explanation}
+    Let $w$, $h$ and $\l$ denote the width, height and length of a
+    rectangular box. We assume here that $w=h$, so now the girth is
+    $4w$. Hence the volume of the box is
+    \[
+    V(w,\l) = w^2\cdot \l
+    \]
+    We wish to maximize this volume subject to the constraint
+    $4w+\l\leq 108$. Note, common sense tells us that the volume will
+    be maximized when
+    \[
+    4w + \l = \answer[given]{108}
+    \]
+    and that both $w$ and $\l$ are nonnegative. We may now rewrite our
+    constraint as:
+    \[
+    \l = \answer[given]{108 - 4w}
+    \]
+    and this is applicable on the $w$-interval
+    $\left[\answer[given]{0},\answer[given]{27}\right]$.
+
+    We now consider the volume along the constraint $\l=108-4w$. Along
+    this line, we have:
+    \begin{align*}
+      V(w,\l) &= V(w,108-4w)\\
+      &= \answer[given]{108w^2-4w^3} 
+    \end{align*}
+    Set $v(w) = \answer[given]{108w^2-4w^3}$ and find the critical
+    points. Write with me:
+    \[
+    v'(w) = \answer[given]{216w-12w^2}
+    \]
+    $v'(w)= 0$ when $w = 0$ and $w= \answer[given]{18}$.
+
+    We found two critical values: when $w=0$ and when $w=18$. We
+    ignore the $w=0$ solution. Thus the maximum volume, subject to the
+    constraint, comes at $w=h=18$, $\l = 108-4(18) =36$.  This gives a
+    volume of $V(18,36) = \answer[given]{11664}\unit{in}^3$.
+    
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    view={15}{25},
+	    name=myplot,
+	    %xtick=\empty,
+	    %ytick={5},
+	    ztick=\empty,
+	    minor xtick=1,
+	    minor ytick=1,
+	    ymin=-5,ymax=135,
+	    xmin=-5,xmax=35,
+	    %zmin=-1, zmax=8,
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
+	    xlabel={\scriptsize $w$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=3pt},
+	    ylabel={\scriptsize $l$},
+	    every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	    zlabel={\scriptsize $V$},colormap/cool
+	  ]
+          
+          \addplot3[domain=0:33,,y domain=0:135,mesh,samples=25,samples y=25,very thin,z buffer=sort] {x^2*y};
+          
+          \addplot3 [ultra thick,penColor, smooth,domain=0:32.5,samples=10,samples y=0] ({x},{108-4*x},{x^2*(108-4*x)});
+          \addplot3 [ultra thick,penColor, smooth,dashed,opacity=.5,domain=0:32.5,samples=10,samples y=0] ({x},{108-4*x},{0});
+
+          \filldraw [black,] (axis cs:18,36,11664) circle (3pt);
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    The volume function $V(w,\l)$ is shown above
+    along with the constraint $\l = 108-4w$. As done previously, the
+    constraint is drawn dashed in the $(w,\l)$-plane and also along the
+    surface of the function. The point where the volume is maximized
+    is indicated.
+  \end{explanation}
+\end{example}
+
+
+
+This portion of the text is entitled ``Constrained optimization''
+because we want to find extrema of a function subject to a
+\textit{constraint}, meaning there are limitations to what values the
+function can attain.
+
+Constrained optimization problems are an important topic in applied
+mathematics. The techniques developed here are the basis for solving
+larger problems, where the constraints are either more complex or more
+than two variables are involved.
+
+
+
 
 \begin{example}
   Let $F(x,y) = x^2-y^2+5$ and let $S$ be the triangle with vertices
@@ -165,9 +273,9 @@ examples.
 
     Start with the bottom edge of the triangle, along the line
     $y=\answer[given]{-2}$ while $x$ runs from
-    $[\answer[given]{-1},\answer[given]{2}]$:
+    $\left[\answer[given]{-1},\answer[given]{2}\right]$:
     \[
-    F(x,\answer[given]{-2}) = \answer[given]{x^2+1}
+    F\left(x,\answer[given]{-2}\right) = \answer[given]{x^2+1}
     \]
     Now set
     \[
@@ -298,110 +406,245 @@ examples.
   \end{explanation}
 \end{example}
 
-This portion of the text is entitled ``Constrained optimization''
-because we want to find extrema of a function subject to a
-\textit{constraint}, meaning there are limitations to what values the
-function can attain. In the previous example, we restricted ourselves
+When working constrained optimization problems, there is often more
+than one way to proceed. Let's do the previous problem again, but this
+time we will use vector-valued functions and the chain rule.
+
+
+
+\begin{example}
+  Let $F(x,y) = x^2-y^2+5$ and let $S$ be the triangle with vertices
+  $(-1,-2)$, $(0,1)$, and $(2,-2)$.
+  \begin{image}  
+    \begin{tikzpicture}
+      \begin{axis}[,tick label style={font=\scriptsize},axis y line=middle,axis x line=middle,name=myplot,%
+	  xtick={-2,2},% 
+	  minor x tick num=1,
+	  extra x ticks={-1,1},%
+	  ymin=-2.5,ymax=1.5,%
+	  xmin=-2.1,xmax=2.1%
+        ]
+
+        \draw [thick,penColor] (axis cs:-1,-2)-- node
+              [black,pos=.5,above,sloped] {\scriptsize $\vecl_\mathrm{L}(t) = \vector{0,1}+t\vector{-1,-3}$} (axis
+              cs:0,1)--node [black,pos=.5,below,sloped] {\scriptsize
+                $\vecl_{\mathrm{R}}(t) = \vector{0,1}+t\vector{2,-3}$} (axis cs:2,-2)--node
+              [black,pos=.5,below,sloped] {\scriptsize $\vecl_{\mathrm{B}}(t) = \vector{-1,-2} + t\vector{3,0}$}(axis
+              cs:-1,-2);
+              
+        \fill[black,draw=black] (axis cs:-1,-2) circle (1.5pt);
+        \fill[black,draw=black] (axis cs:2,-2) circle (1.5pt);
+        \fill[black,draw=black] (axis cs:0,1) circle (1.5pt);
+        
+      \end{axis}
+      \node [right] at (myplot.right of origin) {\scriptsize $x$};
+      \node [above] at (myplot.above origin) {\scriptsize $y$};
+    \end{tikzpicture}
+  \end{image}
+  Find the maximum and minimum values of $F$ on $S$.
+  \begin{explanation}
+    Let's see a graph of $F$ along with the set $S$:
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [width=175pt,tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    view={55}{45},
+	    name=myplot,
+	    %xtick=\empty,
+	    %ytick={5},
+	    %ztick={.7,-.7},
+	    minor xtick=1,
+	    minor ytick=1,
+	    ymin=-2.5,ymax=2,
+	    xmin=-1.5,xmax=2.5,
+	    zmin=-1, zmax=8,
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
+	    xlabel={\scriptsize $x$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=3pt},
+	    ylabel={\scriptsize $y$},
+	    every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	    zlabel={\scriptsize $z$},colormap/cool
+	  ]
+          
+          \addplot3[domain=-1.4:2.4,,y domain=-2.5:2,mesh,samples=25,samples y=25,very thin,z buffer=sort] {x^2-y^2+5};
+          
+          \addplot3 [ultra thick,penColor, smooth,domain=-1:0,samples=10,samples y=0] ({x},{3*x+1},{x^2-(3*x+1)^2+5});
+          \addplot3 [ultra thick,penColor, smooth,domain=0:2,samples=10,samples y=0] ({x},{-1.5*x+1},{x^2-(-1.5*x+1)^2+5});
+          \addplot3 [ultra thick,penColor, smooth,domain=-1:2,samples=10,samples y=0] ({x},{-2},{x^2-4+5});
+          
+          \addplot3 [ultra thick,penColor, smooth,dashed,domain=-1:0,samples=10,samples y=0] ({x},{3*x+1},{0});
+          \addplot3 [ultra thick,penColor, smooth,dashed,domain=0:2,samples=10,samples y=0] ({x},{-1.5*x+1},{0});
+          \addplot3 [ultra thick,penColor, smooth,dashed,domain=-1:2,samples=10,samples y=0] ({x},{-2},{0});
+          
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    The triangle defining $S$ in the $(x,y)$-plane is drawn with a
+    dashed line. Above it is the surface described by $F$.  We are
+    interested in the portion of $F$ enclosed by the ``triangle'' on
+    the surface. Start by computing:
+    \[
+    \grad F (x,y) =\vector{\answer[given]{2x}, \answer[given]{-2y}}
+    \]
+    It is not hard to see that there is only one critical point:
+    \[
+    \vector{\answer[given]{0},\answer[given]{0}}
+    \]
+    We can compute $F(0,0) = \answer[given]{5}$.
+
+    Since we are working within a closed and bounded set $S$, we now
+    find the maximum and minimum values that $F$ attains along the
+    boundary of $S$. This means we find the extrema of $F$ along the
+    edges of the triangle.
+
+    Start with the bottom edge of the triangle, along the line
+    $y=\answer[given]{-2}$ while $x$ runs from
+    $\left[\answer[given]{-1},\answer[given]{2}\right]$:
+    \[
+    F\left(x,\answer[given]{-2}\right) = \answer[given]{x^2+1}
+    \]
+    Now set
+    \[
+    f_{\mathrm{bottom}}(x) = x^2+1,
+    \]
+    as this represents the bottom edge of the triangular boundary. We
+    want to maximize/minimize $f_{\mathrm{bottom}}$ on the interval
+    $[-1,2]$. To do so, we evaluate $f_1(x)$ at its critical points
+    and at the endpoints.  First find the critical points of
+    $f_{\mathrm{bottom}}$:
+    \[
+    f_{\mathrm{bottom}}'(x)= \answer[given]{2x}
+    \]
+    We see that $x= \answer[given]{0}$ is the only critical point of
+    $f_{\mathrm{bottom}}$. Evaluating $f_{\mathrm{bottom}}$ at its
+    critical point and at the endpoints of
+    $[\answer[given]{-1},\answer[given]{2}]$ gives:
+    \[
+    \begin{array}{lcl}
+      f_{\mathrm{bottom}}(-1) = \answer[given]{2} &\Rightarrow & F(-1,-2) = \answer[given]{2}\\
+      f_{\mathrm{bottom}}(0)  = \answer[given]{1} &\Rightarrow & F(0,-2)  = \answer[given]{1}\\
+      f_{\mathrm{bottom}}(2)  = \answer[given]{5} &\Rightarrow & F(2,-2)  = \answer[given]{5}.
+    \end{array}
+    \]
+    We need to do this process twice more, for the other two edges of
+    the triangle.  Along the left edge, along the line $y=3x+1$, we
+    substitute $3x+1$ in for $y$ in $F(x,y)$:
+    \begin{align*}
+    f_{\mathrm{left}} &= F(x,3x+1)\\
+    &= -8x^2-6x+4
+    \end{align*}
+    We want the maximum and minimum values of $f_{\mathrm{left}}$ on
+    the interval $[\answer[given]{-1},\answer[given]{0}]$, so we
+    evaluate $f_{\mathrm{left}}$ at its critical points and the
+    endpoints of the interval. First find the critical points of
+    $f_{\mathrm{left}}$:
+    \[
+    f'_{\mathrm{left}}(x) = \answer[given]{-16x-6}
+    \]
+    We see that $x = \answer[given]{-3/8}$ is the only critical point
+    of $f_{\mathrm{left}}$.  Evaluating $f_{\mathrm{left}}$ at its
+    critical point and the endpoints of $[-1,0]$ gives:
+    \[
+    \begin{array}{lcl}
+      f_{\mathrm{left}}(-1) = \answer[given]{2} &\Rightarrow& F(-1,-2) = \answer[given]{2}\\
+      f_{\mathrm{left}}(-3/8) = \answer[given]{41/8}  &\Rightarrow & F(-3/8,-1/8) = \answer[given]{41/8} \\
+      f_{\mathrm{left}}(0) = \answer[given]{4} &\Rightarrow & F(0,1) = \answer[given]{4}.
+    \end{array}
+    \]
+    Finally, we evaluate $F$ along the right edge of the triangle,
+    where $y = (-3/2)x+1$:
+    \begin{align*}
+      f_{\mathrm{right}} &= F(x,(-3/2)x+1)\\
+      &= \answer[given]{\frac{-5x^2}{4}+3x+4}
+    \end{align*}
+    We want the maximum and minimum values of $f_{\mathrm{right}}$ on
+    the interval $[\answer[given]{0},\answer[given]{2}]$, so we
+    evaluate $f_{\mathrm{right}}$ at its critical points and the
+    endpoints of the interval. First find the critical points of
+    $f_{\mathrm{right}}$:
+    \[
+    f'_{\mathrm{right}}(x) = \answer[given]{\frac{-5x}{2}+3}
+    \]
+    We see that $x = \answer[given]{6/5}$ is the only critical point.
+    Evaluating $f_{\mathrm{right}}$ at this critical point and at the
+    endpoints of the interval $[0,2]$:
+    \[
+    \begin{array}{lcl}
+      f_{\mathrm{right}}(0) = \answer[given]{4} &\Rightarrow & F(0,1) = \answer[given]{4}\\
+      f_{\mathrm{right}}(1.2) = \answer[given]{5.8} &\Rightarrow &  F(1.2,-0.8) = \answer[given]{5.8}\\
+      f_{\mathrm{right}}(2) = \answer[given]{5} &\Rightarrow&  F(2,-2) = 5.
+    \end{array}
+    \]
+    Check out the following graph:
+    \begin{image}
+      \begin{tikzpicture}[>=stealth]
+        \begin{axis}%
+          [tick label style={font=\scriptsize},axis on top,
+	    axis lines=center,
+	    view={15}{45},
+	    name=myplot,
+	    %xtick=\empty,
+	    %ytick={5},
+	    %ztick={.7,-.7},
+	    minor xtick=1,
+	    minor ytick=1,
+	    ymin=-2.5,ymax=2,
+	    xmin=-1.5,xmax=2.5,
+	    zmin=-1, zmax=8,
+	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
+	    xlabel={\scriptsize $x$},
+	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=3pt},
+	    ylabel={\scriptsize $y$},
+	    every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	    zlabel={\scriptsize $z$},colormap/cool
+	  ]
+          
+          \addplot3[domain=-1.4:2.4,,y domain=-2.5:2,mesh,samples=25,samples y=25,very thin,z buffer=sort] {x^2-y^2+5};
+          
+          \addplot3 [ultra thick,penColor, smooth,domain=-1:0,samples=10,samples y=0] ({x},{3*x+1},{x^2-(3*x+1)^2+5});
+          \addplot3 [ultra thick,penColor, smooth,domain=0:2,samples=10,samples y=0] ({x},{-1.5*x+1},{x^2-(-1.5*x+1)^2+5});
+          \addplot3 [ultra thick,penColor, smooth,domain=-1:2,samples=10,samples y=0] ({x},{-2},{x^2-4+5});
+          
+          \addplot3 [ultra thick,penColor, smooth,dashed,domain=-1:0,samples=10,samples y=0] ({x},{3*x+1},{0});
+          \addplot3 [ultra thick,penColor, smooth,dashed,domain=0:2,samples=10,samples y=0] ({x},{-1.5*x+1},{0});
+          \addplot3 [ultra thick,penColor, smooth,dashed,domain=-1:2,samples=10,samples y=0] ({x},{-2},{0});
+          
+          
+          \filldraw [black,] (axis cs:0,0,5) circle (3pt);
+          \filldraw [black,] (axis cs:-1,-2,2) circle (3pt);
+          \filldraw [black,] (axis cs:-.375,-0.125,5.125) circle (3pt);
+          \filldraw [black,] (axis cs:0,-2,1) circle (3pt);
+          \filldraw [black,] (axis cs:2,-2,5) circle (3pt);
+          \filldraw [black,] (axis cs:0,1,4) circle (3pt);
+          \filldraw [black,] (axis cs:1.2,-0.8,5.8) circle (3pt);
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    Above we see the surface described by $F$ along with important
+    points along the boundary of $S$ and the interior.  We have
+    evaluated $F$ at a total of $7$ different places, all shown
+    above. We checked each vertex of the triangle twice, as each
+    showed up as the endpoint of an interval twice. Of all the
+    $z$-values found, the maximum is $\answer[given]{5.8}$, found at
+    $\left(\answer[given]{1.2},\answer[given]{-0.8}\right)$; the
+    minimum is $\answer[given]{1}$, found at
+    $(\answer[given]{0},\answer[given]{-2})$.
+  \end{explanation}
+\end{example}
+
+
+
+
+
+
+In the previous example, we restricted ourselves
 to considering a function only within the boundary of a triangle; here
 the boundary of the triangle was the ``constraint.''
 
 
-Constrained optimization problems are an important topic in applied
-mathematics. The techniques developed here are the basis for solving
-larger problems, where more than two variables are involved.  We
-illustrate the technique once more with a classic problem.
 
 
-\begin{example}
-  The U.S. Postal Service states that the girth plus the length of
-  Standard Post Package must not exceed $130\unit{in}$. Given a
-  rectangular box, the ``length'' is the longest side, and the
-  ``girth'' is the perimeter of the base.
-
-  Given a rectangular box where the width and height are equal, what
-  are the dimensions of the box that give the maximum volume subject
-  to the constraint of the size of a Standard Post Package?
-  \begin{explanation}
-    Let $w$, $h$ and $l$ denote the width, height and length of a
-    rectangular box; we assume here that $w=h$. The girth is then
-    $2(w+h) = 4w$. The volume of the box is
-    \[
-    V(w,l) = w\cdot h\cdot l
-    \]
-    since $w=h$, we may express volume entirely in terms of $w$ and $l$, we may write
-    \[
-    V(w,l)= \answer[given]{w^2\cdot l}.
-    \]
-    We wish to maximize this volume subject to the constraint
-    $4w+l\leq 130$, or $l\leq 130-4w$. Note, common sense also
-    indicates that $l>0, w>0$. We begin by finding the critical points
-    of $V$. Write with me
-    \[
-    \grad V(w,l) = \vector{\answer[given]{2wl},\answer[given]{w^2}}
-    \]
-    The gradient vector is $\vec{0}$ when $w=\answer[given]{0}$ and
-    $l=\answer[given]{0}$. Since this corresponds to a volume of
-    $\answer[given]{0}$, this critical point cannot be a maximum, and
-    so we ignore this critical point.
-    
-    We now consider the volume along the constraint $l=130-4w.$ Along this line, we have:
-    \[
-    V(w,l) = \answer[given]{130w^2-4w^3} 
-    \]
-    Set $v(w) = \answer[given]{130w^2-4w^3}$ and find the critical points. Write with me:
-    \[
-    v'(w) = \answer[given]{260w-12w^2}
-    \]
-    $v'(w)= 0$ when $w = \answer[given]{0}$ and $w= \frac{260}{12}$.
-    The constraint is applicable on the $w$-interval
-    $[\answer[given]{0},\answer[given]{32.5}]$.
-
-
-
-    We found two critical values: when $w=0$ and when $w=21.67$. We
-    again ignore the $w=0$ solution. Thus the maximum volume, subject to
-    the constraint, comes at $w=h=21.67$, $l = 130-4(21.6) =43.33$.
-    This gives a volume of $V(21.67,43.33) \approx 19408\unit{in}^3$.
-    
-    \begin{image}
-      \begin{tikzpicture}
-        \begin{axis}%
-          [tick label style={font=\scriptsize},axis on top,
-	    axis lines=center,
-	    view={15}{25},
-	    name=myplot,
-	    %xtick=\empty,
-	    %ytick={5},
-	    ztick=\empty,
-	    minor xtick=1,
-	    minor ytick=1,
-	    ymin=-5,ymax=135,
-	    xmin=-5,xmax=35,
-	    %zmin=-1, zmax=8,
-	    every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=5pt,yshift=0pt},
-	    xlabel={\scriptsize $w$},
-	    every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=4pt,yshift=3pt},
-	    ylabel={\scriptsize $l$},
-	    every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
-	    zlabel={\scriptsize $V$},colormap/cool
-	  ]
-          
-          \addplot3[domain=0:33,,y domain=0:135,mesh,samples=25,samples y=25,very thin,z buffer=sort] {x^2*y};
-          
-          \addplot3 [ultra thick,penColor, smooth,domain=0:32.5,samples=10,samples y=0] ({x},{130-4*x},{x^2*(130-4*x)});
-          \addplot3 [ultra thick,penColor, smooth,dashed,opacity=.5,domain=0:32.5,samples=10,samples y=0] ({x},{130-4*x},{0});
-
-          \filldraw [black,] (axis cs:21.67,43.33,19408) circle (3pt);
-        \end{axis}
-      \end{tikzpicture}
-    \end{image}
-    The volume function $V(w,l)$ is shown above
-    along with the constraint $l = 130-4w$. As done previously, the
-    constraint is drawn dashed in the $(l,y)$-plane and also along the
-    surface of the function. The point where the volume is maximized
-    is indicated.
-  \end{explanation}
-\end{example}
       
 It is hard to overemphasize the importance of optimization. In ``the
 real world,'' we routinely seek to make \textit{something} better. By

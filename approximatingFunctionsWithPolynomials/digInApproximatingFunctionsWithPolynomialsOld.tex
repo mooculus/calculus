@@ -1,0 +1,643 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+\author{Bart Snapp}
+\outcome{Compute Taylor polynomials.}
+\outcome{Use Taylor's theorem to estimate the error of a Taylor polynomial.}
+\outcome{Determine the maximum error between a function and a given
+  Taylor polynomial.}
+
+\title[Dig-In:]{Approximating functions with polynomials}
+
+\begin{document}
+\begin{abstract}
+We can approximate smooth functions with polynomials.
+\end{abstract}
+\maketitle
+
+
+\section{Polynomials can approximate some functions}
+
+In our study of mathematics, we've found that some functions are
+easier to work with than others. For instance, if you are doing
+calculus, typically polynomials are ``easy'' to work with because they
+are easy to differentiate and integrate. Other functions, like
+\[
+f(x) =
+\begin{cases}
+  \frac{\sin(x)}{x} &\text{if $x\ne 0$}\\
+  1 &\text{if $x=0$}
+\end{cases}
+\]
+are more difficult to work with. However, there are
+polynomials that mimic the behavior of $f$ near zero.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-6.75,xmax=6.75,ymin=-1.5,ymax=1.5,
+        axis lines=center,
+        xtick={-6.28, -4.71, -3.14, -1.57, 0, 1.57, 3.142, 4.71, 6.28},
+        xticklabels={$-2\pi$,$-3\pi/2$,$-\pi$, $-\pi/2$, $0$, $\pi/2$, $\pi$, $3\pi/2$, $2\pi$},
+        ytick={-1,1},
+        %ticks=none,
+        width=6in,
+        height=3in,
+        unit vector ratio*=1 1 1,
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]        
+      \addplot [very thick, penColor, samples=100,smooth, domain=(-6.75:6.75)] {sin(deg(x))/x};
+      \addplot [very thick, penColor2, samples=100,smooth, domain=(-6.75:6.75)] {1-x^2/6 + x^4/120};
+      %\addplot[color=penColor,fill=white,only marks,mark=*] coordinates{(0,1)};  %% open hole          
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+Above we see a graph of $f$ along with the polynomial
+\[
+1-\frac{x^2}{6}+\frac{x^4}{120}.
+\]
+As we see, this polynomial approximates $f$ very well near zero.  There are times 
+when we would much rather work with a polynomial than any other type of function. 
+Many of the ideas we discuss in this section should remind you of our work with 
+linear approximation.  In the case of linear approximation, we replaced a difficult 
+function with a line, and used this line to approximate the function.  Now, we want to 
+replace our complicated function with a polynomial. This leads us to a question.
+
+
+\subsection{How do we produce approximating polynomials?}
+
+Cutting straight to the point, the approximating polynomials we'll
+discuss are called \textit{Taylor polynomials} and \textit{Maclaurin
+  polynomials}.
+
+\begin{definition}
+  Let $f$ be a function whose first $n$ derivatives exist at $x=c$.
+  \begin{itemize}
+  \item The \dfn{Taylor polynomial} of degree $n$ of $f$ at $x=c$ is
+    \begin{align*}
+      p_n(x) = f(c) &+ f'(c)(x-c) \\
+      &+ \frac{f''(c)}{2!}(x-c)^2 \\
+      &+\frac{f'''(c)}{3!}(x-c)^3 \\
+      &\ \vdots \\
+      &+\frac{f^{(n)}(c)}{n!}(x-c)^n.
+    \end{align*}
+  \item A special case of the Taylor polynomial is the Maclaurin
+    polynomial, where $c=0$. That is, the \dfn{Maclaurin polynomial}
+    of degree $n$ of $f$ is
+    \begin{align*}
+      p_n(x) = f(0) &+ f'(0)x \\
+      &+\frac{f''(0)}{2!}x^2\\
+      &+\frac{f'''(0)}{3!}x^3\\
+      &\ \vdots\\
+      &+\frac{f^{(n)}(0)}{n!}x^n.
+    \end{align*}
+  \end{itemize}
+  We say these polynomials have a \dfn{center} of $x=c$, and so
+  Maclaurin polynomials are Taylor polynomials centered at
+  zero.
+\end{definition}
+
+\begin{question}
+  Consider $f(x) = e^x$. Which of the following is a Maclaurin
+  polynomial for $e^x$?
+  \begin{selectAll}
+    \choice{$1+x+x^2+x^3+x^4$}
+    \choice[correct]{$1+x$}
+    \choice[correct]{$1+x+\frac{x^2}{2!} + \frac{x^3}{3!}+ \frac{x^4}{4!}$}
+    \choice{$1-\frac{x^2}{2!} +\frac{x^4}{4!}$}
+    \choice{$x-\frac{x^3}{3!}$}
+    \choice[correct]{$1$}
+  \end{selectAll}
+  Check out a plot of $e^x$ along with the plots of the correct answers above:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-5,xmax=4,ymin=-1,ymax=10,
+          axis lines=center,
+          %ticks=none,
+          width=6in,
+          height=3in,
+          %unit vector ratio*=1 1 1,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, samples=100,smooth] {e^x};
+        \addplot [very thick, penColor2, samples=100,smooth] {1};
+        \addplot [very thick, penColor3, samples=100,smooth] {1+x};
+        \addplot [very thick, penColor4, samples=100,smooth] {1+x+x^2/2+x^3/6+x^4/24};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+\end{question}
+
+\begin{question}
+  Consider $f(x) = \ln(x)$. Which of the following is a Taylor
+  polynomial centered at $1$ for $f$?
+    \begin{selectAll}
+    \choice[correct]{$x-1$}
+    \choice{$1+x$}
+    \choice{$1+x+\frac{x^2}{2!} + \frac{x^3}{3!}+ \frac{x^4}{4!}$}
+    \choice[correct]{$(x-1)-\frac{(x-1)^2}{2}+\frac{(x-1)^3}{3}$}
+    \choice[correct]{$(x-1)-\frac{(x-1)^2}{2}+\frac{(x-1)^3}{3}-\frac{(x-1)^4}{4}$}
+    \choice{$1$}
+  \end{selectAll}
+  Check out a plot of $\ln(x)$ along with the plots of the correct answers above.
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-1,xmax=4,ymin=-5,ymax=5,
+          axis lines=center,
+          %ticks=none,
+          width=6in,
+          height=3in,
+          %unit vector ratio*=1 1 1,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, samples=100,smooth,domain=.01:4] {ln(x)};
+        \addplot [very thick, penColor2, samples=100,smooth] {(x-1)};
+        \addplot [very thick, penColor3, samples=100,smooth] {(x-1)-(1/2) *(x-1)^2+1/3* (x-1)^3};
+        \addplot [very thick, penColor4, samples=100,smooth] {(x-1)-(1/2) *(x-1)^2+(1/3) * (x-1)^3-(1/4) * (x-1)^4};  
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+\end{question}
+
+\begin{example}
+  Compute the Maclaurin polynomial of degree $4$ for $f(x) =
+  \frac{1}{1-x}$.
+  \begin{explanation}
+    To do this, we set $f(x) =\frac{1}{1-x}$ and use the following formula.
+    \[
+    p_n(x) = f(0) + f'(0)x +\frac{f''(0)}{2!}x^2+\frac{f'''(0)}{3!}x^3+\frac{f^{(4)}(0)}{4!}x^4
+    \]
+    So we must compute the first four derivatives of $f$
+    \begin{align*}
+      f(x) &= \answer[given]{\frac{1}{1-x}},\\
+      f'(x) &= \answer[given]{\frac{1}{(1-x)^2}},\\
+      f''(x) &= \answer[given]{\frac{2}{(1-x)^3}},\\
+      f'''(x) &= \answer[given]{\frac{2\cdot 3}{(1-x)^4}},\\
+      f^{(4)}(x) &= \answer[given]{\frac{2\cdot 3\cdot 4}{(1-x)^5}},
+    \end{align*}
+    and evaluate each of these at $x=0$. Write with me.
+    \begin{align*}
+      f(0) &= \answer[given]{1},\\
+      f'(0) &= \answer[given]{1},\\
+      f''(0) &= \answer[given]{2},\\
+      f'''(0) &=\answer[given]{2\cdot 3},\\
+      f^{(4)}(0) &= \answer[given]{2\cdot 3\cdot 4}.
+    \end{align*}
+    Now, plugging this into our formula above we see
+    \[
+    p_4 = \answer[given]{1 + x + x^2 + x^3 + x^4}.
+    \]
+    (Notice that the factorials have canceled, here.)  Finally, let's see a graph of $p_4$ and $f$.
+      \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-1.5,xmax=1.5,ymin=-1,ymax=5,
+          axis lines=center,
+          %ticks=none,
+          width=6in,
+          height=3in,
+          %unit vector ratio*=1 1 1,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, samples=100,smooth,domain=-1.5:.99] {1/(1-x)};
+        \addplot [very thick, penColor2, smooth,domain=-1.5:.99] {1+x+x^2+x^3+x^4};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+Find the $n$th Taylor polynomial of $y=\ln(x)$ centered at $x=1$.
+\begin{explanation}
+  To do this, we set $f(x) =\ln(x)$ and use the following formula:
+    \[
+    p_n(x) = f(0) + f'(0)x +\frac{f''(0)}{2!}x^2+\frac{f'''(0)}{3!}x^3+\cdots+\frac{f^{(n)}(0)}{n!}x^n
+    \]
+    So we must compute the first several derivatives of $f$, then look for a pattern 
+    to tell us about the $n$-th derivative of $f$.
+    \begin{align*}
+      f(x) &= \answer[given]{\ln(x)},\\
+      f'(x) &= \answer[given]{\frac{1}{x}},\\
+      f''(x) &= \answer[given]{\frac{-1}{x^2}},\\
+      f'''(x) &= \answer[given]{\frac{2}{x^3}},\\
+      f^{(4)}(x) &= \answer[given]{\frac{-2\cdot 3}{x^4}},\\
+      f^{(5)}(x) &= \answer[given]{\frac{2\cdot 3\cdot 4}{x^5}},\\
+      &\vdots\\
+      f^{(n)}(x) &= \frac{(-1)^{n-1}\cdot (n-1)!}{x^n},
+    \end{align*}
+    As usual, it's a good idea to check and make sure that the formula we found 
+    for the $n$-th derivative works for $n=1$ through $n=5$.  Now, we evaluate 
+    each of these derivatives at $x=1$. Write with me.
+    \begin{align*}
+      f(1) &= \answer[given]{0},\\
+      f'(1) &= \answer[given]{1},\\
+      f''(1) &= \answer[given]{-1},\\
+      f'''(1) &= \answer[given]{2},\\
+      f^{(4)}(1) &= \answer[given]{-6},\\
+      f^{(5)}(1) &= \answer[given]{24},\\
+      &\vdots\\
+      f^{(n)}(1) &= (-1)^{n-1}\cdot (n-1)!
+    \end{align*}
+    Finally, plugging this into our formula above we see
+    \[
+    p_n = (x-1) -\frac{(x-1)^2}{2}+\cdots+(-1)^{n-1}\frac{(x-1)^n}{n}.
+    \]
+\end{explanation}
+\end{example}
+
+In the previous example, why did we choose to use $x=1$ for the center? 
+There are several reasons.  We often like to use $x=0$ for the center of a 
+Taylor polynomial (which is why such polynomials have a special name).  In 
+the case of $f(x) = \ln(x)$, however, $f(0)$ is undefined.  So, we must choose 
+a different center.  Since we have to evaluate the function at the center, any 
+center point we choose should be a value for which we know and can easily 
+compute the function value.  In the case of $f(x) = \ln(x)$, the value we know 
+best is $f(1) = 0$, so $x=1$ is a good choice for the center.  Of course, in general we 
+can choose any center we like, but this will give us a different polynomial (and 
+may make our calculations more difficult.)
+
+\begin{question}
+  Using $p_6(x)$, what is the approximate value of $\ln(1.5)$?
+  \begin{prompt}
+    \[
+    p_6(1.5) = \answer{.404688}
+    \]
+  \end{prompt}
+  \begin{hint}
+    Since $p_n(x)$ approximates $\ln(x)$ well near $x=1$, we approximate
+    $\ln(1.5) \approx p_6(1.5)$:
+    \begin{align*}
+      p_6(1.5) &= (1.5-1)-\frac12(1.5-1)^2+\frac13(1.5-1)^3-\frac14(1.5-1)^4+\cdots \\
+      &\cdots +\frac15(1.5-1)^5-\frac16(1.5-1)^6\\
+      &=\frac{259}{640}\\
+      &\approx 0.404688.
+    \end{align*}
+    This is a good approximation as a calculator shows that $\ln(1.5)
+    \approx 0.4055.$
+  \end{hint}
+  \begin{question}
+    Using $p_6(x)$, what is approximate value of $\ln(2)$?
+    \begin{prompt} 
+      \[
+      p_6(2) = \answer{0.616667}
+      \]
+    \end{prompt}
+    \begin{hint}
+      We approximate $\ln(2)$ with $ p_6(2)$:
+      \begin{align*}
+        p_6(2) &= (2-1)-\frac12(2-1)^2+\frac13(2-1)^3-\frac14(2-1)^4+\cdots \\
+        &\cdots +\frac15(2-1)^5-\frac16(2-1)^6\\
+        &=	1-\frac12+\frac13-\frac14+\frac15-\frac16 \\
+        &= \frac{37}{60}\\ 
+        &\approx 0.616667.
+      \end{align*}
+      This approximation is not terribly impressive: a hand held
+      calculator shows that $\ln(2) \approx 0.693147$. Surprisingly
+      enough, even the $20$th degree Taylor polynomial fails to
+      approximate $\ln(x)$ for $x>2$. We'll soon discuss why this is.
+    \end{hint}
+  \end{question}
+\end{question}
+
+
+You may be wondering, \textit{how} exactly Taylor polynomials and
+Maclaurin polynomials approximate these functions. Here's the idea:
+Suppose you have two functions $f$ and $g$ which are each as 
+differentiable as we need them to be. If for some specific value
+$x=c$ we have that
+\begin{align*}
+  f(c) &= g(c)\\
+  f'(c) &= g'(c)\\
+  f''(c) &= g''(c)\\
+  f'''(c) &= g'''(c)\\
+          &\vdots
+\end{align*}
+then it makes sense that 
+\[
+f(x) = g(x)
+\]
+for all $x$. The more derivatives we use, the better 
+our approximation (usually) is.  In that sense, we are just working with a
+better version of linear approximation -- we could call this polynomial approximation!  
+The Taylor and Maclaurin polynomials are ``cooked up'' so
+that their value and the value of their derivatives equals the value
+of the related function at $x=c$.  Check it out: here we see the third
+Maclaurin polynomial for $f(x) = \sin(x)$:
+\[
+p_3(x) = x - \frac{x^3}{3!} 
+\]
+we see
+\begin{align*}
+  p_3(0) = 0 &= f(0) = \sin(0)\\
+  p_3'(0) = 1 &= f'(1) = \cos(0)\\
+  p_3''(0) = 0 &= f''(0) = -\sin(0)\\
+  p_3'''(0) = -1 &= f'''(0) = -\cos(0)\\
+  p_3^{(4)}(0) = 0 &= f^{(4)}(0) = \sin(0)\\
+  p_3^{(5)}(0) = 0 &\ne f^{(5)}(0) = \cos(0)
+\end{align*}
+Note that in the case of sine,
+\[
+p_3(x) = x - \frac{x^3}{3!} 
+\]
+shares the function's value at $x=0$ and shares the first $4$
+derivatives, though the $5$th derivative is different. Let's see a
+graph to help us understand what is going on.
+      \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-6.28,xmax=6.28,ymin=-1.5,ymax=1.5,
+          axis lines=center,
+          %ticks=none,
+          width=6in,
+          height=3in,
+          %unit vector ratio*=1 1 1,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor,smooth] {sin(deg(x))};
+        \addplot [very thick, penColor2, smooth] {x-x^3/6};
+      \end{axis}
+    \end{tikzpicture}
+      \end{image}
+      We can see that $p_3$ is a good approximation for $\sin(x)$ near
+      $x=0$. Next, we quantify exactly how good our approximation is.
+
+\section{Taylor's theorem}
+
+Again, let's get to the point by stating Taylor's theorem (which is a
+generalization of the mean value theorem):
+
+\begin{theorem}[Taylor's Theorem]\index{Taylor's Theorem}
+Let $f$ be a function whose $(n+1)$th derivative exists on an interval
+$I$, let $c$ be in $I$, and let $p_n$ be the $n$th Taylor polynomial
+for $f$ centered at $x=c$. Then, for each $x$ in $I$, there exists $b$
+between $x$ and $c$ such that
+\[
+f(x) = p_n(x) + R_n(x),
+\]
+where $R_n(x) = \frac{f^{(n+1)}(b)}{(n+1)!}(x-c)^{(n+1)}$.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=5.28,xmax=9.42,ymin=-.5,ymax=2.5,
+        domain=5.28:9.42,
+        axis lines=center,
+        %ticks=none,
+        xtick={6.28,6.73,8.75},
+        xticklabels={$c$,$b$,},
+        ytickmin=1, ytickmax=0,
+        width=6in,
+        height=3in,
+        %unit vector ratio*=1 1 1,
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]        
+      \addplot [very thick, penColor,smooth] {1+sin(deg(x))};
+      \addplot [very thick, penColor2, smooth] {1+(x-2*pi)-(x-2*pi)^3/6};
+      \addplot [textColor,dashed] plot coordinates {(6.28,0) (6.28,1)};
+      \addplot [textColor,dashed] plot coordinates {(8.75,0) (8.75,1.63)};
+      \addplot [decoration={brace,mirror, raise=.1cm},decorate,thin]
+      plot coordinates {(8.75,.97) (8.75,1.63)};
+      \node at (axis cs: 8.97,1.25) {$R_n(x)$};
+      \node at (axis cs: 8.5,2) {$f$};
+      \node at (axis cs: 8.5,1.2) {$p_n$};
+      
+    \end{axis}
+  \end{tikzpicture}   
+\end{image}
+Moreover,
+\[
+\left|R_n(x)\right| \leq \frac{M}{(n+1)!}|x-c|^{(n+1)}
+\]
+where $M$ is the maximum value of $|f^{(n+1)}|$ on $[c,x]$.
+\end{theorem}
+
+The first part of Taylor's theorem states that $f(x) = p_n(x) +
+R_n(x)$, where $p_n(x)$ is the $n$th order Taylor polynomial and
+$R_n(x)$ is the remainder, or error, in the Taylor approximation. The
+second part gives bounds on how big that error can be. If the
+$(n+1)$th derivative is large, the error may be large; if $x$ is far
+from $c$, the error may also be large. However, the $(n+1)!$ term in
+the denominator tends to ensure that the error gets smaller as $n$
+increases. 
+
+
+\begin{example}
+  Approximate $f(x) = e^x$ with a $5$th degree Maclaurin polynomial at
+  $x = 0$.  What is the maximum error of your approximation at $x=2$?
+  Note, the answer to this question may not be unique.
+  \begin{explanation}
+    To do this, we set $f(x) =e^x$ and use the following formula.
+    \[
+    p_n(x) = f(0) + f'(0)x +\frac{f''(0)}{2!}x^2+\cdots +\frac{f^{(5)}(0)}{5!}x^5
+    \]
+    So, we must compute the first five derivatives of $f$
+    \[
+      f(x) = f'(x) = f''(x) = f'''(x) = f^{(4)}(x)  = f^{(5)}(x) = \answer[given]{e^x}
+    \]
+    and evaluate each of these at $x=0$. Write with me.
+    \[
+    f(0) = f'(0) = f''(0) = f'''(0) = f^{(4)}(0)  = f^{(5)}(0) = e^0 = \answer[given]{1}
+    \]
+    Now, plugging this into our formula above we see
+    \[
+    p_5 = \answer[given]{1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!}}.
+    \]
+    Finally, let's see a graph of $p_5$ and $f$:
+      \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-5,xmax=4,ymin=-1,ymax=10,
+          axis lines=center,
+          %ticks=none,
+          width=6in,
+          height=3in,
+          %unit vector ratio*=1 1 1,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, samples=100,smooth] {e^x};
+        \addplot [very thick, penColor2, smooth] {1+x+x^2/2+x^3/6+x^4/24+x^5/120};
+      \end{axis}
+    \end{tikzpicture}
+      \end{image}
+      To estimate the error, we need to find a bound $M$ such that
+      \[
+      M >|f^{(6)}(x)|
+      \]
+      on the interval $[0,2]$. Since $f^{(6)}(x) = e^x$, the largest
+      value will be $e^2$. Instead of computing this directly, note
+      \[
+      e^2 < 3^2< 9.
+      \]
+      Hence we can say for certainty that
+      \[
+      |p_n(2) - e^2| < \frac{9}{6!}\cdot(2)^6 = \frac{4}{5}.
+      \]
+      In other words, we know that the maximum error we can have when using 
+      $p_5(x)$ to approximate $f(2)$ is $\frac{4}{5} = 0.8$.
+  \end{explanation}
+\end{example}
+
+
+The following example computes error estimates for the approximations
+of $\ln(1.5)$ and $\ln(2)$ made earlier.
+
+\begin{example}
+Find error bounds when approximating $\ln(1.5)$ with $p_6(x)$, the
+Taylor polynomial of degree $6$ of $f(x)=\ln(x)$ centered at $x=1$.
+\begin{explanation}
+We start with the approximation of $\ln(1.5)$ with $p_6(1.5)$. Taylor's
+theorem references an open interval $I$ that contains both $x$ and
+$c$. The smaller the interval we use the better; it will give us a
+more accurate (and smaller!) approximation of the error. We let
+\[
+I =(0.9,1.6),
+\]
+as this interval contains both $c=\answer[given]{1}$ and
+$x=\answer[given]{1.5}$.  Now we ask ``How big can the $7$th
+derivative of $y=\ln(x)$ be on the interval $(0.9,1.6)$?'' The seventh
+derivative is $\answer[given]{720/x^7}$. The largest value it attains on $I$ is about
+$1506$. Thus we can bound the error as:
+\begin{align*}
+|R_6(1.5)| &\leq \frac{1506}{7!}|1.5-1|^7\\
+&\leq \frac{1506}{5040}\cdot\frac1{2^7}\\
+&\approx 0.0023.
+\end{align*}
+Remember, of course, that this bound on the error is only accurate on our 
+interval $I$.
+\end{explanation}
+\end{example}
+
+  
+We practice again. This time, we use Taylor's theorem to find $n$ that
+guarantees our approximation is within a certain amount.
+
+\begin{example}
+  Find $n$ such that the $n$th Taylor polynomial of $f(x)=\cos(x)$ at
+  $x=0$ approximates $\cos(2)$ to within $0.001$ of the actual
+  answer.
+\begin{explanation}
+  Following Taylor's theorem, we need bounds on the size of the
+  derivatives of $f(x)=\cos(x)$. In the case of this trigonometric
+  function, this is easy. All derivatives of cosine are $\pm \sin(x)$
+  or $\pm \cos(x)$. In all cases, these functions are never greater
+  than $\answer[given]{1}$ in absolute value. We want the error to be
+  less than $0.001$. To find the appropriate $n$, consider the
+  following inequality:
+  \[
+  \frac{1}{(n+1)!}\cdot2^{(n+1)} \leq 0.001
+  \]
+We find an $n$ that satisfies this last inequality with trial-and-error. When $n=8$, we have
+\[
+\answer[given]{\frac{2^{8+1}}{(8+1)!}} \approx 0.0014;
+\]
+when $n=9$, we have
+\[
+\answer[given]{\frac{2^{9+1}}{(9+1)!}} \approx 0.000282 <0.001.
+\]
+Thus we want to approximate $\cos(2)$ with $p_9(2)$ in order to have 
+the desired accuracy.
+\end{explanation}
+\end{example}
+
+
+\section{Connections to differential equations}
+
+Our final example gives a brief introduction for using Taylor
+polynomials to solve differential equations.
+
+\begin{example}
+  A function $y=f(x)$ is unknown save for the following two facts.
+  \begin{itemize}
+  \item	$y(0) = f(0) = 1$, and
+  \item	$y'= y^2$.
+  \end{itemize}
+  Find the degree $3$ Maclaurin polynomial $p_3(x)$ of $y=f(x)$.
+  \begin{explanation}
+    One might initially think that not enough information is given to
+    find $p_3(x)$. However, note how the second fact above actually
+    lets us know what $y'(0)$ is:
+    \[
+    y' = y^2 \Rightarrow y'(0) = y^2(0).
+    \]
+    Since $y(0) = 1$, we conclude that $y'(0) = 1$.
+    
+    Now we find information about $y''$. Starting with $y'=y^2$, take
+    derivatives of both sides, \emph{with respect to $x$}. That means
+    we must use implicit differentiation.
+    \begin{align*}
+      y' &= \answer[given]{y^2}\\
+      \ddx(y') &= \ddx(y^2)\\
+      y'' &= \answer[given]{2y}\cdot y'.
+    \end{align*}
+    Now evaluate both sides at $x=0$:
+    \begin{align*}
+      y''(0) &= 2y(0)\cdot y'(0)\\
+      y''(0) &= \answer[given]{2}
+    \end{align*}
+    We repeat this once more to find $y'''(0)$. We again use implicit
+    differentiation; this time the Product Rule is also required.
+    \begin{align*}
+      \ddx(y'') &= \ddx (2yy')\\
+      y''' &= 2y'\cdot y' + 2y\cdot y''.
+    \end{align*}
+    Now evaluate both sides at $x=0$:
+    \begin{align*}
+      y'''(0) &= 2y'(0)^2 + 2y(0)y''(0)\\
+      y'''(0) &= \answer[given]{6}
+    \end{align*}
+    In summary, we have:
+    \[
+    y(0) = \answer[given]{1}, \qquad y'(0) = \answer[given]{1},  \qquad y''(0) = \answer[given]{2}, \qquad y'''(0) = \answer[given]{6}.
+    \]
+    We can now form $p_3(x)$:
+    \[
+      p_3(x) = \answer[given]{1+x+x^2+x^3}.
+    \]
+    It turns out that the differential equation we started with,
+    $y'=y^2$, where $y(0)=1$, can be solved without too much
+    difficulty: $y = \frac{1}{1-x}$. This makes sense in regard to
+    the previous examples.
+  \end{explanation}
+\end{example}
+
+
+Taylor polynomials are very useful approximation in two basic
+situations:
+\begin{enumerate}
+\item When $f$ is known, but perhaps ``hard'' to compute directly. For
+  instance, we can define $y=\cos(x)$ as either the ratio of sides of a
+  right triangle (``adjacent over hypotenuse'') or with the unit
+  circle. However, neither of these provides a convenient way of
+  computing $\cos(2)$. A Taylor polynomial of sufficiently high degree
+  can provide a reasonable method of computing such values using only
+  operations usually hard-wired into a computer ($+$, $-$, $\times$
+  and $\div$). However, even though Taylor polynomials \emph{could} be
+  used in calculators and computers to calculate values of
+  trigonometric functions, in practice they generally aren't. Other
+  more efficient and accurate methods have been developed, such as the
+  CORDIC algorithm.
+\item When $f$ is not known, but information about its derivatives
+  is known. This occurs more often than one might think, especially in
+  the study of differential equations.
+\end{enumerate}
+
+
+
+
+\end{document}

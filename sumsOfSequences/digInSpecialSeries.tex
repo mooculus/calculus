@@ -13,198 +13,62 @@
 
 \begin{document}
 \begin{abstract}
-A series is an infinite summation of the terms of sequence.
+We discuss convergence results for geometric series and telescoping series.
 \end{abstract}
 \maketitle
 
-In the previous sections, we've seen several examples of sequence.  If we have a sequence $\{a_n\}_{n=1}$, and represent it as an ordered list below: 
-
-\[
-a_1, a_2, a_3 , \ldots
-\]
-
-we can ask two important questions about it.
-
-\begin{itemize}
-\item[1.] Do the numbers in the list approach a finite value?
-\item[2.] Can I sum all of the numbers in the list and obtain a finite result?
+Suppose that we have a \emph{series} $\sum_{k=k_0}^{\infty} a_k$ and have to determine whether it converges or diverges.  To answer this question, we define a new \emph{sequence} $\{s_n\}_{n=k_0}$ where $s_n = \sum_{k=k_0}^{n}$ for all $n \geq k_0$.  We saw previously that
+ 
+ \begin{itemize}
+\item the series $\sum_{k=k_0}^\infty a_k$ \dfn{converges} if and only if $\lim_{n\to\infty} s_n$ exists.  
+\item the series $\sum_{k=k_0}^\infty a_k$ \dfn{diverges} if and only if $\lim_{n\to\infty} s_n$ does not exist.  
 \end{itemize}
 
-The first question is really whether the \emph{limit} $\lim_{n \to \infty} a_n$ exists and we studied several ways to determine this previously.  As it turns out, the second question is closely related to the first one.  We motivate this through an example.
+The most straightforward way to determine whether $\lim_{n \to \infty} s_n$ exists is to have an explicit formula for the $n$-th term $s_n$.  Note that this is not an easy task; for example, can you find a formula for $s_n$ for the series $\sum_{k=1}^{\infty} \frac{1}{k}$? It's not too hard to write out the first several terms in the sequence $\{s_n\}_{n=1}$, but try to find an explicit formula that describes the next term in the list.
 
-\begin{example} Shading A Square
-
-Suppose that we want to study the infinite sum below.
-
-\[
-\frac{1}{2} + \left(\frac{1}{2}\right)^2+ \left(\frac{1}{2}\right)^3+ \ldots
-\]
-
-A student, feeling quite clever, decides to illustrate the sum by drawing a square with side length one unit and shading it in a special way.  In order to understand the concepts here more fully, it is recommended that you draw and shade as you read.
-
-\paragraph{Step 1:} Shade the left half of the square.  
-
-\begin{image}[1in]
-  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
-    \tkzDefPoint(0,0){A1} 
-    \tkzDefPoint(1,0){A2}
-    \tkzDefPoint(1,1){A3}
-    \tkzDefPoint(0,1){A4}
-    \draw[penColor,very thick] (A1)--(A2)--(A3)--(A4)--cycle;
-
-    \tkzDefPoint(0,0){B1} 
-    \tkzDefPoint(.5,0){B2}
-    \tkzDefPoint(.5,1){B3}
-    \tkzDefPoint(0,1){B4}
-    \draw[penColor,fill=fill2,very thick] (B1)--(B2)--(B3)--(B4)--cycle;
-  \end{tikzpicture}
-
-\end{image}
-There are two quantities of which we can keep track now.
-\begin{itemize}
-\item Call the area shaded this step $A_1$.  Then, we have $A_1=\answer[given]{1/2}$.
-\item Call and the total shaded area  of the square $S_1$.  Then, we have $S_1=\answer[given]{1/2}$.
-\end{itemize}
-
-\paragraph{Step 2:} Shade the bottom half of the unshaded region.  
-
-\begin{image}[1in]
-  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
-    \tkzDefPoint(0,0){A1} 
-    \tkzDefPoint(1,0){A2}
-    \tkzDefPoint(1,1){A3}
-    \tkzDefPoint(0,1){A4}
-    \draw[penColor,very thick] (A1)--(A2)--(A3)--(A4)--cycle;
-
-    \tkzDefPoint(0,0){B1} 
-    \tkzDefPoint(.5,0){B2}
-    \tkzDefPoint(.5,1){B3}
-    \tkzDefPoint(0,1){B4}
-    \draw[penColor,fill=fill1,very thick] (B1)--(B2)--(B3)--(B4)--cycle;
-    
-    \tkzDefPoint(.5,0){C1} 
-    \tkzDefPoint(1,0){C2}
-    \tkzDefPoint(1,.5){C3}
-    \tkzDefPoint(.5,.5){C4}
-    \draw[penColor,fill=fill2,very thick] (C1)--(C2)--(C3)--(C4)--cycle;
-    
-  \end{tikzpicture}
-\end{image}
-
-\begin{itemize}
-\item Call the area shaded this step $A_2$.  Then, we have $A_2=\answer[given]{1/4}$.
-\item Call and the total shaded area  of the square $S_2$.  Then, we have $S_2=\answer[given]{3/4}$.
-\end{itemize}
-
-Visually, notice that we can find $S_2$ by noting
-$$(area ~ shaded ~ after ~ Step ~ 2) = (area ~ from ~ Step ~ 1) + (area ~ from ~ Step ~ 2)$$
-and writing down the total shaded are of the square.
-
-Analytically, we can write $S_2=A_1+A_2.$
-
-\paragraph{Step 3:} Shade the left half of the unshaded region.  \begin{image}[1in]
-  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
-    \tkzDefPoint(0,0){A1} 
-    \tkzDefPoint(1,0){A2}
-    \tkzDefPoint(1,1){A3}
-    \tkzDefPoint(0,1){A4}
-    \draw[penColor,very thick] (A1)--(A2)--(A3)--(A4)--cycle;
-
-    \tkzDefPoint(0,0){B1} 
-    \tkzDefPoint(.5,0){B2}
-    \tkzDefPoint(.5,1){B3}
-    \tkzDefPoint(0,1){B4}
-    \draw[penColor,fill=fill1,very thick] (B1)--(B2)--(B3)--(B4)--cycle;
-    
-    \tkzDefPoint(.5,0){C1} 
-    \tkzDefPoint(1,0){C2}
-    \tkzDefPoint(1,.5){C3}
-    \tkzDefPoint(.5,.5){C4}
-    \draw[penColor,fill=fill1,very thick] (C1)--(C2)--(C3)--(C4)--cycle;
-    
-    \tkzDefPoint(.5,.5){D1} 
-    \tkzDefPoint(.75,.5){D2}
-    \tkzDefPoint(.75,1){D3}
-    \tkzDefPoint(.5,1){D4}
-    \draw[penColor,fill=fill2,very thick] (D1)--(D2)--(D3)--(D4)--cycle;
-    
-  \end{tikzpicture}
-\end{image}
-
-\begin{itemize}
-\item Call the area shaded this step $A_3$.  Then, we have $A_3=\answer[given]{1/8}$.
-\item Call and the total shaded area  of the square $S_3$.  Then, we have $S_3=\answer[given]{7/8}$.
-\end{itemize}
-
-We can think of $S_3$ visually or analytically. 
-
-%\begin{image}[1in]
-%  \begin{tikzpicture}[scale=3,rounded corners=.5pt]      
-%    \tkzDefPoint(0,1){A1} 
-%    \tkzDefPoint(-.58,0){A2}
-%    \tkzDefPoint(.58,0){A3}
-%    \draw[penColor,very thick] (A1)--(A2)--(A3)--cycle;
-%  \end{tikzpicture}
-%\end{image}
-
-
-%\begin{figure}[!htb]
-%\minipage{0.32\textwidth}
-%  \includegraphics[width=\linewidth]{SquareA1}
-% \phantom{n}  \hspace{17mm} Step 1 
-% 
-%  \hspace{19mm}  $S_1 = A_1$
-%  \endminipage\hfill
-%\minipage{0.32\textwidth}
-%  \includegraphics[width=\linewidth]{SquareA2}
-%   \phantom{n}  \hspace{17mm} Step 2
-% 
-% \hspace{15mm}  $S_2=A_1+A_2$
-%\endminipage\hfill
-%\minipage{0.32\textwidth}%
-%  \includegraphics[width=\linewidth]{SquareA4}
-%   \phantom{n}  \hspace{17mm} Step 4
-%   
-%  \hspace{5mm}    $S_4=A_1+A_2+A_3+A_4$
-%\endminipage
-%
-%\caption{\small The area $A_n$ shaded in the $n$-th step is shown in blue.  The total shaded area $s_n$ is the sum of the all of the areas shaded in each previous step as well as the current one.}
-%\end{figure}
-
-\vspace{3mm}
-
-Hopefully, the pattern used to shade the square is becoming clear.  We can define the area  shaded during the $n$-th step to be $A_n$, and can observe that $A_n=(1/2)^n$.
-
-We can also let $s_n$ denote the total shaded area after the $n$-th step.  Analytically, we have $S_n = A_1+A_2 + \ldots A_n$, or by using summation notation, we can write $\displaystyle S_n = \sum_{k=1}^n A_k$.
-
-Looking at the pictures drawn so far, notice that the only unshaded area after the $n$-th step is a rectangle of area $A_n$, so we can write a formula for $s_n$.   
+\section{A recursive formula for $s_n$}
+As it turns out, there is always a recursive formula for $s_n$.  For the sake of example, suppose that we want to consider $\sum_{k=1}^{\infty} a_k$.  Let's write out the formula for $s_n$.
 
 \[
-S_n = \left<\textrm{area of the square}\right>-A_n = 1-\left(\frac{1}{2}\right)^n
+s_n = a_1+a_2+a_3+\ldots+a_{n-1}+a_n
 \]
 
-We can now evaluate the limit and find that $\lim_{n \to \infty} s_n =\answer[given]{1}$.
 
-We also have another method of thinking about this limit; after we continue shading the square indefinitely, there will be no portion of it that has not been shaded.  Thus, the total shaded area should be $1$.
-
-We would thus like to conclude that
+We can make an observation by considering $s_{n-1}$ in a similar way.
 
 \[
-\frac{1}{2} + \left(\frac{1}{2}\right)^2+ \left(\frac{1}{2}\right)^3+ \ldots = \sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^n =1.
+s_{n-1} = a_1+a_2+a_3+\ldots+a_{n-1}
 \]
-\end{example}
 
-\section{Infinite series}
-The above scenario can be modeled using sequences.  We have $\{A_n\}_{n=1}$ whose $n$-th term is given by the explicit formula $A_n=\left(\frac{1}{2}\right)^n$, and we represent the sequence by the ordered list below.
+Now returning to our expression for $s_n$, we can make an observation. 
+\begin{image}
+  \begin{tikzpicture}
+        \node at (0,0) {
+          $s_n = \underbrace{a_1+a_2+a_3 + \ldots + a_{n-1}}+ a_n$};
+        \node at (.1,-.65) {\small{This is $s_{n-1}$}};
+      
+      \end{tikzpicture}
+  \end{image}
+
+We thus have the formula 
 
 \[
-\frac{1}{2},\left(\frac{1}{2}\right)^2,\left(\frac{1}{2}\right)^3,\ldots
+s_n = s_{n-1}+a_n.
 \]
-and we can interpret the series $$\frac{1}{2} + \left(\frac{1}{2}\right)^2+ \left(\frac{1}{2}\right)^3+ \ldots$$ as the attempt to add up all of the terms in the above sequence.  In order to determine if this can be done, we found a new sequence $\{S_n\}_{n=1}$ that was created from the original sequence.  It is represented by the list below.
+
+If we apply this to the series $\sum_{k=1}^{\infty} \frac{1}{k}$, where $a_n = \frac{1}{n}$, the result read $s_n = s_{n-1} + \frac{1}{n}$.  This does not help us analyze whether $\lim_{n \to \infty} s_n$ actually exists.  Sometimes, however, we can find an \emph{explicit} formula for $s_n$, and we study two special types of series for which this is possible.
+
+\section{Geometric series}
+Recall that a \emph{geometric sequence} is a sequence for which the ratio of successive terms is constant.  If $\{a_n\}_{n=n_0}$ is such a sequence, then there are constants $a \ne 0$ and $r$ for which $a_n = a\cdot r^n$.  
+
+This generates the ordered list
 
 \[
-\frac{1}{2},\frac{3}{4},\frac{7}{8},\ldots
+ar^{n_0} , ar^{n_0+1}, ar^{n_0+2}, \ldots
 \]
+
+
+and we have a result for the limits of these types of sequences, which we now recall.
 
 Note that the \emph{limit} of this new sequence is exactly the \emph{sum} of all of the terms in the old sequence!  Let's formalize the ideas in the last example with a definition.
 
@@ -394,7 +258,7 @@ Some texts take the $n$-th term in the sequence of partial sums to be found by s
 %To make this precise, we need some definitions. 
 
 \section{Two special types of series}
-The definitions above give us a way to determine whether a given series converges.  In fact, to determine whether $\sum_{k=k_0} a_k$ converges, we can do the following.
+The definitions above give us a way to determine whether a given series converges.  In fact, to determine whether $\sum_{k=k_0}^{\infty} a_k$ converges, we can do the following.
 
 \begin{itemize}
 \item[1.] Consider the associated sequence $\{s_n\}$ of partial sums.
@@ -405,17 +269,27 @@ The definitions above give us a way to determine whether a given series converge
 \item[3.] If an explicit formula for $s_n$ cannot be found, further analysis is needed.  We'll expound on this in later sections.
 \end{itemize}
 
-For now, we will consider two special types of series for which an explicit formula for $s_n$ can be found.
 
-\section{Geometric series}
-Recall that a \emph{geometric sequence} is a sequence for which the ratio of successive terms is constant.  If $\{a_n\}$ is such a sequence, then there are constants $a \ne 0$ and $r$ for which $a_n = a\cdot r^n$.  We can now try to determine when adding together the terms in such a series is possible.
+\begin{theorem}
+  Given a geometric sequence $\{a_n\}_{n=n_0}$ where $a_n = a \cdot r^{n}$,
+  \[
+  \lim_{n\to\infty} a_n =
+  \begin{cases}
+    0 &\text{if $|r|<1$,}\\
+    1 &\text{if $r=1$,}\\
+    \text{DNE} &\text{if $|r|>1$ or $r=-1$.}
+  \end{cases}
+  \]
+\end{theorem}
+
+We can now think of adding together the terms of a geometric sequence.
 
 \begin{definition}
-  A \dfn{geometric series} is a series of the form $\sum_{k=0}^\infty ar^k$
+  A \dfn{geometric series} is a series of the form $\sum_{k=k_0}^\infty ar^k$
   for some real numbers $a \ne 0$ and $r$.
 \end{definition}
 
-Thus, we can think of a geometric series as the infinite sum of the terms of a geometric sequence.  
+Before exploring when such a series converges, note that sometimes, some preliminary algebra is necessary to recognize a series as geometric.
 
 \begin{example}
 The series $\sum_{k=4}^\infty \frac{2^{2k+1}}{3^k}$ \wordChoice{\choice[correct]{is}\choice{is not}} geometric since $a_k =\frac{2^{2k+1}}{3^k}$ \wordChoice{\choice[correct]{can}\choice{cannot}} be brought into the form $a \cdot r^k$.  
@@ -432,37 +306,24 @@ Indeed, $a= \answer[given]{2}$ and $r = \answer[given]{\frac{4}{3}}$.
 The series $\sum_{k=0}^\infty k^2 \left(\frac{1}{2}\right)^k$ \wordChoice{\choice{is}\choice[correct]{is not}} geometric since $a_k = \answer[given]{k^2 \cdot \frac{1}{2}^k}$ \wordChoice{\choice{can}\choice[correct]{cannot}} be brought into the form $a \cdot r^k$.  Indeed, the coefficient, $k^2$, is not the same for each term in the series.
 \end{example}
 
-As it turns out, we can find an explicit formula for the $n$-th term in the sequence of partial sums.
+We can now try to determine when adding together the terms in such a series is possible; that is, we can explore for which values of $a$ and $r$ the \emph{series} $\sum_{k=n_0}^{\infty} a_k$ converges.  
 
-%We started this section with two different geometric series that sum
-%to the same value. One reason geometric series are important is that
-%they have nice convergence properties.
-
-\begin{example}
+\begin{model}
  Let $r \neq 1$ and consider the geometric series $\sum_{k=0}^\infty a r^k$, and let $s_n = \sum_{k=0}^{\infty} a r^k $.  We find an explicit formula for the term $s_n$.
   
   \begin{explanation}
-First, note that the sum above represents the attempt to add all of the terms in the sequence $\{a_n\}_{n=0}$, where $a_n =  r^n$.  Let's start by writing out the first several terms in the sequence $\{a_n\}$.  
+First, note that the sum above represents the attempt to add all of the terms in the sequence $\{a_n\}_{n=0}$, where $a_n =  r^n$.  Let's start by writing out $s_n$.  
 
-\[
-a_0 = 1 , \qquad a_1 = r, \qquad a_2 = r^2 , \qquad \ldots ,
-\]
     \begin{align*}
-      s_0 &= a_0 = 1 \\
-      s_1 &= 1 + 1r\\
-      s_2 &= 1 + r + r^2\\
-      &\vdots\\
-      s_n &= 1 + r + r^2 + \dots + r^n
+      s_n   &= 1 + r + r^2 + \dots + r^n\\
     \end{align*}
-The general difficulty for finding a closed formula for $s_n$ arises because, without specifying what $n$ is, we cannot actually perform the indicated addition.  However, there's a nice trick we can exploit here.
 
-We start by multiplying $s_n$ by the common ratio $r$.
+The issue with finding a formula for $s_n$ arises from the fact that we cannot perform the above for an unspecified value $n$.  However, to go from one term in the sum to the next, we multiply by $r$, so let's multiply both sides of the above equation by $r$.
     \begin{align*}
       s_n   &= 1 + r + r^2 + \dots + r^n\\
       r s_n &= ~ \phantom{ 1 + } r + r^2 + \dots + r^n + r^{n+1}
     \end{align*}
 Now, we can subtract away the middle terms.
-
  \[     \begin{array}{rl}
       s_n   &= 1 + \cancel{ r + r^2 + \dots + r^n}\\
  -\left(  \phantom{ r^{n+1}} r s_n \right.&=~ \left. \phantom{  1 +  } \cancel{r + r^2 + \dots + r^n} + r^{n+1}\right) \\
@@ -470,9 +331,7 @@ Now, we can subtract away the middle terms.
      s_n - r s_n &= 1 \phantom{  +  r + r^2 + \dots + r^n } ~ - r^{n+1}\\
     \end{array}
  \]   
- 
  We can now solve for $s_n$.
- 
      \begin{align*}
       s_n - r s_n &= 1 - r^{n+1}\\
       s_n(1-r)    &= 1 - r^{n+1}\\
@@ -481,7 +340,7 @@ Now, we can subtract away the middle terms.
     Since $s_n$ is \textbf{always} a finite sum, and $r \ne 1$, there is no issue
     with manipulating it the way we did.
   \end{explanation}
-\end{example}
+\end{model}
 
 From our work above, we see that the $n$-th partial sum of the
 geometric series $a_n = r^n$ is
@@ -514,36 +373,6 @@ By noting that $\sum_{k=0}^n ar^k = a \sum_{k=0}^n r^k$, we can combine this obs
   \end{itemize}
   \end{theorem}
 
-\begin{example}
-Let's take another look at the series that started off the section, $\sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^k$.  Here, $a=0$ and $r=1/2$, but $\frac{a}{1-r} = \frac{1}{1-1/2} =2$.  What is happening?
-
-The starting index for a sequence and series is very important.  When $|r|<1$, the above result only gives us a formula to add together the terms of a sequence whose lower index is $0$.  Let's write out a few terms and see what's happening.
-
-\begin{image}
-  \begin{tikzpicture}
-        \node at (0,0) {
-          $\underbrace{\sum_{k=0}^{\infty} \left(\frac{1}{2}\right)^k}= \left(\frac{1}{2}\right)^0+ \underbrace{\left(\frac{1}{2}\right)^1+ \left(\frac{1}{2}\right)^2 + \ldots}$};
-        \node at (1.6,-.8) {\small{This is the sum from}};
-        \node at (1.6,-1.1) {\small{the original example.}};
-        
-        \node at (-2.5,-.9) {\small{By the formula,}};
-        \node at (-2.5,-1.2) {\small{this is $2$.}};        
-      \end{tikzpicture}
-  \end{image}
-  
-Thus, we can write 
-
-\[2 = \left(\frac{1}{2}\right)^0 +\sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^k.\]
-
-and confirm that $\sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^k =1$ after some quick algebra.
-\end{example}
-
-The above example illustrate an important fact.
-
-\begin{quote}
-The lower index in a series does not affect whether the series converges or diverges, but if the series converges, it can affect the value to which the series converges.
-\end{quote}
-
 There is a useful trick that allows us to find the sum of a convergent geometric series when the lower index does not start at $0$.  
 
 \begin{example}
@@ -573,25 +402,24 @@ We can easily generalize this example and doing so allows us to write down a mor
   \item diverges if $|r| \geq 1$.  
   \end{itemize}
   \end{theorem}
-  
-  
-%According to the theorem above the series
-%\[
-%\sum_{k=0}^\infty \left(\frac{1}{4}\right)^k = 1 + \frac{1}{4} + \left(\frac{1}{4}\right)^2 + \left(\frac{1}{4}\right)^3 + \cdots
-%\]
-%converges, and
-%\[
-%\sum_{k=0}^\infty  \left(\frac{1}{4}\right)^k = \frac{1}{1-1/4} = 4/3.
-%\]
-%This concurs with our introductory example; while there we got a sum
-%of $1/3$, we skipped the first term of $1$.
-%
-%\begin{warning}
-%  You must pay close attention to how the series is indexed, since
-%  \[
-%  \sum_{k=0}^n r^k \ne \sum_{k=1}^n r^k.
-%  \]
-%\end{warning}
+ 
+\begin{example}
+Let's take another look at the series that started off the section, $\sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^k$.  Here, $a=\answer[given]{1}$, $r=\answer[given]{1/2}$ and $k_0 = \answer[given]{1}$.  Since $|r|<a$, the series \wordChoice{\choice[correct]{converges}\choice{diverges}}, and using the formula above, we have that
+
+\[ \sum_{k=1}^{\infty} \left(\frac{1}{2}\right)^k = \frac{ar^{k_0}}{1-r} = \frac{1\cdot \frac{1}{2}}{1-1/2} =1.\]
+
+This matches the earlier result!  
+\end{example}
+
+\begin{remark} 
+Although we have mentioned it before, we mention it again here:
+
+\begin{quote}
+The lower index in a series does not affect whether the series converges or diverges, but if the series converges, it can affect the value to which the series converges.
+\end{quote}
+The formula listed above very explicitly shows exactly how the lower index $k_0$ affects the value to which a convergent geometric series converges.
+
+\end{remark}
 
 Now, try some questions to check your understanding of the above material.
 
@@ -628,117 +456,7 @@ The series is geometric with $r = \answer[given]{1/4}$, and using the result $\s
 \]
 \end{explanation}
 
-\end{question}
-
-%Let's use our new tools to find the sums of some geometric series.
-%
-%\begin{example}
-%If the series 
-%\[
-%\sum_{n=-2}^\infty \left(\frac{3}{4}\right)^n
-%\]
-%converges, find its sum.
-%\begin{explanation}
-%Since the common ratio between the terms of this series is
-%$\answer[given]{3/4}$, we see that this series
-%\wordChoice{\choice[correct]{converges}\choice{diverges}}. Write with me.
-%\begin{align*}
-%  S &= \left(\frac{3}{4}\right)^{-2} + \left(\frac{3}{4}\right)^{-1} + \left(\frac{3}{4}\right)^{0} + \cdots\\
-%  \left(\frac{3}{4}\right) S &= \left(\frac{3}{4}\right)^{-1} + \left(\frac{3}{4}\right)^{0} + \left(\frac{3}{4}\right)^{1} + \cdots
-%\end{align*}
-%Subtracting these two lines we find
-%\begin{align*}
-%  S -  \left(\frac{3}{4}\right) S  &= \left(\frac{3}{4}\right)^{-2}\\
-%  S\left(1-\frac{3}{4}\right) &= \left(\frac{3}{4}\right)^{-2}\\
-%  S &= \frac{(3/4)^{-2}}{1-3/4}.
-%\end{align*}
-%\end{explanation}
-%\end{example}
-%
-%
-%
-%
-%\begin{example}
-%If the series 
-%\[
-%\sum_{n=8}^\infty \left(\frac{-1}{2}\right)^n
-%\]
-%converges, find its sum.
-%\begin{explanation}
-%  Since the common ratio between the terms of this series is
-%$\answer[given]{-1/2}$, we see that this series
-%\wordChoice{\choice[correct]{converges}\choice{diverges}}. Write with me.
-%\begin{align*}
-%  S &= \left(\frac{-1}{2}\right)^{8} + \left(\frac{-1}{2}\right)^{9} + \left(\frac{-1}{2}\right)^{10} + \cdots\\
-%  \left(\frac{-1}{2}\right) S &= \left(\frac{-1}{2}\right)^{9} + \left(\frac{-1}{2}\right)^{10} + \left(\frac{-1}{2}\right)^{11} + \cdots
-%\end{align*}
-%Subtracting these two lines we find
-%\begin{align*}
-%  S -  \left(\frac{-1}{2}\right) S  &= \left(\frac{-1}{2}\right)^{8}\\
-%  S\left(1-\frac{-1}{2}\right) &= \left(\frac{-1}{2}\right)^{8}\\
-%  S &= \frac{(-1/2)^{8}}{1+1/2}.
-%\end{align*}
-%\end{explanation}
-%\end{example}
-
-%%%%%%%MOVE BELOW TO EXERCISES%%%%%%%%%%%%%%%%%
-%\subsection{Connections to decimals}
-%
-%Remember how we pointed out that 
-%\[
-%\frac{1}{3} = 0.3333333333\dots
-%\]
-%is a geometric series? We can use our techniques for summing geometric
-%series to find fractions equal to given decimals.
-%
-%\begin{example}
-%  Find a fraction equal to
-%  \[
-%  0.47474747474747\dots
-%  \]
-%  \begin{explanation}
-%    Do this exactly the same way as the examples we've done
-%    before. Write
-%    \begin{align*}
-%    N &=      0.47474747474747\dots\\
-%    100 N &= 47.47474747474747\dots
-%    \end{align*}
-%    Now subtract the top line from the bottom line, to find
-%    \begin{align*}
-%      100N - N &= 47\\
-%      N(100-1) &= 47\\
-%      N &= \frac{47}{99}
-%    \end{align*}
-%  \end{explanation}
-%\end{example}
-%
-%
-%\begin{example}
-%  Find a fraction equal to
-%  \[
-%  9.42764864864864864864\dots
-%  \]
-%  \begin{explanation}
-%    Do this exactly the same way as the examples we've done
-%    before. Write
-%    \begin{align*}
-%    N &=         9.42764864864864864864\dots\\
-%    1000 N &= 9427.64864864864864864\dots
-%    \end{align*}
-%    Now subtract the top line from the bottom line, to find
-%    \begin{align*}
-%      1000N - N &= \\
-%      N(1000-1) &= 9418.221\\
-%      N &= \frac{9418.221}{999}.
-%    \end{align*}
-%    Multiplying the numerator and denominator of this fraction by $1000$, 
-%     our fraction will be
-%    \[
-%    \frac{9418221}{999000}.
-%    \]
-%  \end{explanation}
-%\end{example}
-    
+\end{question}    
 
 \section{Telescoping series}
 \index{series!telescoping}\index{telescoping series}
@@ -780,44 +498,44 @@ finite sum of terms. In the last example, the partial sum $s_n$ only was the sum
 s_n = 1 - \frac{1}{n-1}.
 \]
 
-\begin{example}
-Determine if the series $\sum_{n=1}^\infty \frac{2}{n^2+2n}$ converges or diverges.  If it converges, find the value to which it converges.
-
-\begin{explanation}
-All of the terms in the above sum are positive, so there is no convenient cancellation that will occur if we try to find a formula for $s_n$ yet.  However, we can use partial fractions to write
-  \[
-  \frac{2}{n^2+2n} = \frac{1}{n}-\frac{1}{n+2}.
-  \]  
-  Expressing the terms of $\{s_n\}$ now produces a pattern.  
-  \begin{image}
-    \begin{tikzpicture}
-      \node at (0,0) {
-        $\begin{aligned}
-          s_1 &= 1-\frac13 &&= 1-\frac13\\
-          s_2 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right) &&= 1+\frac12-\frac13-\frac14\\
-          s_3 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right) &&= 1+\frac12-\frac14-\frac15\\
-          s_4 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right)+\left(\frac14-\frac16\right) &&= 1+\frac12-\frac15-\frac16\\
-          s_5 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right)+\left(\frac14-\frac16\right)+\left(\frac15-\frac17\right) &&= 1+\frac12-\frac16-\frac17\\
-        \end{aligned}$};
-    \end{tikzpicture}
-  \end{image}
-\textbf{I WANT TO WRITE SOMETHING ABOUT THE DENOMINATORS BEING 2 APART, WHICH IS WHYIT TAKES WRITING OUT 3 TERMS UNTIL TO EXHIBIT THE EVENTUAL PATTERN.  CAN ANYONE HELP ME WORD THIS?}
-
-We again have a telescoping series. In each partial sum, most of the intermediate 
-  terms cancel and we obtain the formula
-  \[
-  s_n =1+\frac12-\frac1{n+1}-\frac1{n+2}.
-  \]
-  Taking limits allows us to determine the convergence of the series. Since
-  \[
-  \lim_{n\to\infty}s_n = \lim_{n\to\infty} \left(1+\frac12-\frac1{n+1}-\frac1{n+2}\right) = \frac32,
-  \]
-we conclude that
-  \[
-  \sum_{n=1}^\infty \frac1{n^2+2n} = \frac32.
-  \]
-\end{explanation}
-\end{example}
+%\begin{example}
+%Determine if the series $\sum_{n=1}^\infty \frac{2}{n^2+2n}$ converges or diverges.  If it converges, find the value to which it converges.
+%
+%\begin{explanation}
+%All of the terms in the above sum are positive, so there is no convenient cancellation that will occur if we try to find a formula for $s_n$ yet.  However, we can use partial fractions to write
+%  \[
+%  \frac{2}{n^2+2n} = \frac{1}{n}-\frac{1}{n+2}.
+%  \]  
+%  Expressing the terms of $\{s_n\}$ now produces a pattern.  
+%  \begin{image}
+%    \begin{tikzpicture}
+%      \node at (0,0) {
+%        $\begin{aligned}
+%          s_1 &= 1-\frac13 &&= 1-\frac13\\
+%          s_2 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right) &&= 1+\frac12-\frac13-\frac14\\
+%          s_3 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right) &&= 1+\frac12-\frac14-\frac15\\
+%          s_4 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right)+\left(\frac14-\frac16\right) &&= 1+\frac12-\frac15-\frac16\\
+%          s_5 &= \left(1-\frac13\right) + \left(\frac12-\frac14\right)+\left(\frac13-\frac15\right)+\left(\frac14-\frac16\right)+\left(\frac15-\frac17\right) &&= 1+\frac12-\frac16-\frac17\\
+%        \end{aligned}$};
+%    \end{tikzpicture}
+%  \end{image}
+%\textbf{I WANT TO WRITE SOMETHING ABOUT THE DENOMINATORS BEING 2 APART, WHICH IS WHYIT TAKES WRITING OUT 3 TERMS UNTIL TO EXHIBIT THE EVENTUAL PATTERN.  CAN ANYONE HELP ME WORD THIS?}
+%
+%We again have a telescoping series. In each partial sum, most of the intermediate 
+%  terms cancel and we obtain the formula
+%  \[
+%  s_n =1+\frac12-\frac1{n+1}-\frac1{n+2}.
+%  \]
+%  Taking limits allows us to determine the convergence of the series. Since
+%  \[
+%  \lim_{n\to\infty}s_n = \lim_{n\to\infty} \left(1+\frac12-\frac1{n+1}-\frac1{n+2}\right) = \frac32,
+%  \]
+%we conclude that
+%  \[
+%  \sum_{n=1}^\infty \frac1{n^2+2n} = \frac32.
+%  \]
+%\end{explanation}
+%\end{example}
 
 
 
@@ -862,194 +580,17 @@ Since $\lim_{n\to\infty}s_n=\answer[given]{\infty}$, $\sum_{k=1}^\infty \ln\left
 \end{example}
 
 
-\section{Properties of sums}
-\textbf{WHAT ROLE DO WE WANT THESE TO PLAY? I'LL LEAVE THEM FOR NOW.}
-
-
-We are learning about a new mathematical object, the series. As done
-before, we apply ``old'' mathematics to this new topic.
-
-\begin{theorem}[Properties of Infinite Series]
-  Let
-  \[
-  \sum_{n=1}^\infty a_n = L,\quad \sum_{n=1}^\infty b_n =K, 
-  \]
-  and let $c$ be a constant.
-\begin{enumerate}
-\item Constant Multiple Rule: $\sum_{n=1}^\infty c\cdot a_n =
-  c\cdot\sum_{n=1}^\infty a_n = c\cdot L.$\index{series!Constant Multiple
-    Rule}
-\item Sum/Difference Rule: $\sum_{n=1}^\infty \big(a_n\pm b_n\big) =
-  \sum_{n=1}^\infty a_n \pm \sum_{n=1}^\infty b_n = L \pm K.$
-  \index{series!properties}\index{series!Sum/Difference Rule}
-\end{enumerate} 
-\end{theorem}
-
-Notice, of course, that we're working with convergent series in this 
-theorem.  The results don't necessarily hold if $\sum_{n=1}^\infty a_n$ 
-or $\sum_{n=1}^\infty b_n$ are divergent!
-
-\section{Understanding the relationship between sequences and series.}
-
-For a given series $\sum_{k=k_0}^{\infty} a_k$, we've previously defined the associated sequence of partial sums and worked several examples that illustrate how this sequence can be used to determine whether the original series converges or diverges.  The sequence of partial sums will play a pivotal role in the coming sections, and it will become increasingly important that you are mindful of notation and have a clear picture of what each object we define is and the role it plays in determining convergence.  
-
-\textbf{Not sure I captured what I wanted to in this last sentence.  Trying to encourage they pay attention and start classifying what things are and the roles they play.  Let's discuss at the meeting}
-
-The following examples are designed to increase your understanding of the terminology and concepts presented so far.  They also require that you read what information is given very carefully and understand how it relates to what you are trying to determine.
-
-\begin{example}
-Suppose that $\{a_k\}_{k=1}$ is a sequence and let $s_n = \sum_{k=1}^{\infty} a_k$.  Suppose that it is known that $s_n = \left(\frac{2}{3}\right)^n.$
-
-\begin{question}
-Determine if $\sum_{k=1}^{\infty} a_k$ converges or diverges. If it converges, give the value to which it converges.
-
-\begin{explanation}
-We are given information about $\{s_n\}$, not the original sequence $\{a_n\}$.  In order to determine whether $\sum_{k=1}^{\infty} a_k$ converges or diverges, we should study $\lim_{n \to \infty} s_n$.  By noting that
-
-\[
-\lim_{n \to \infty} s_n = \lim_{n \to \infty} \left(\frac{2}{3}\right)^n = \answer[given]{0},
-\]
-we know that $\sum_{k=1}^{\infty} a_k$  converges since $\lim_{n \to \infty} s_n$ exists.  
-
-Furthermore, since $\lim_{n \to \infty} s_n = \answer[given]{0}$, $\sum_{k=1}^{\infty} a_k$ converges to $\answer[given]{0}$.
-\end{explanation}
-\end{question}
-
-\begin{question}
-Determine if $\sum_{k=1}^{\infty} s_k$ converges or diverges. If it converges, give the value to which it converges.
-
-\begin{explanation}
-Note that we are now being asked to sum the terms of a sequence whose $n$-th term is given in the problem statement.  That is, we are asked to determine whether
-
-\[
-\sum_{k=1}^{\infty} s_k = \sum_{k=1}^{\infty} \left(\frac{2}{3}\right)^k
-\]
-converges or diverges.  This is simply a geometric \emph{series} with $r = 2/3 <1$, so it converges, and using the result that for $|r|<1$, $\sum_{k=k_0}^{\infty} ar^k = \frac{ar^{k_0}}{1-r}$, we find:
-
-\[
-\sum_{k=1}^{\infty} s_k = \sum_{k=1}^{\infty} \left(\frac{2}{3}\right)^k = \frac{2/3}{1-2/3} = 2.
-\]
-
-\begin{remark}
-Thinking about summing the terms in a sequence of partial sums may seem daunting at first, but notice here that we actually know what all of the terms are since we are given an explicit formula for $s_n$.  Even though the terms in $s_n$ represent something, the sequence $\{s_n\}_{n=1}$ is a sequence in its own right and we the question as to whether we can sum up all of the terms in this list. 
-
-At the risk of being repetitive, we expound further.  The sequence $\{s_n\}_{n=1}$ is represented by the list below:
-
-\[
-\left(\frac{2}{3}\right)^1 , \left(\frac{2}{3}\right)^2 ,  \left(\frac{2}{3}\right)^3 , \ldots  ~, 
-\]
-and the actual sum is simply:
-
-\[
-\frac{2}{3} + \left(\frac{2}{3}\right)^2 +  \left(\frac{2}{3}\right)^3 + \ldots    = \sum_{k=1}^{\infty} \left(\frac{2}{3}\right)^k
-\]
-\end{remark}
-
-\end{explanation}
-
-\end{question}
-\end{example}
-
-\begin{remark}
-The above example is one of many that we will see of the principle that began this section.
-
-\begin{quote}
-Suppose that we have a sequence.  Perhaps the terms in the sequence carry some information about other sequences, and perhaps the sequence was constructed from other sequences.  Regardless, we can ask two fundamental questions of our sequence.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+Now that we have seen two special types of series for which we can find an explicit formula for the $n$-th term in the sequence of partial sums, it helps to summarize the logic that we employed.
 
 \begin{itemize}
-\item[1.] Do the numbers in the list approach a finite value?
-\item[2.] Can I sum all of the numbers in the list and obtain a finite result?
+\item[1.] Consider the associated sequence $\{s_n\}$ of partial sums.
+\item[2.] Try to find an explicit formula for the term $s_n$.  If you can find such a formula, analyze $\lim_{n \to \infty s_n}$.  
+\begin{itemize}
+\item If the limit exists, $\sum_{k=k_0}^{\infty} a_k$ converges, and if we can determine that $\lim_{n \to \infty} s_n =L$, then $\sum_{k=k_0} a_k=L$.  \item If  $\lim_{n \to \infty} s_n$ does not exist, then $\sum_{k=k_0} a_k$ diverges.
 \end{itemize}
-\end{quote}
-\end{remark}
-
-
-
-
-\begin{example}
-Suppose that $\{a_n\}_{n=1}$ is a sequence and define its sequence of partial sums $\{s_n\}_{n=1}$ by the usual rule $s_n = \sum_{k=1}^n a_k$.  Suppose it is known that:
-
-\[
-s_n = \frac{8n^2}{n^4-9}
-\]
-
-\begin{question}
-What is $a_1+a_2+a_3$?  \wordChoice{\choice{$-1$}\choice{$\frac{18}{7}$}\choice{It is not defined.}}
-
-\begin{explanation}
-Note that we are given the formula for the terms $s_n$ in the sequence $\{s_n\}$.  By definition, we have $s_3 = a_1+a_2+a_3$, so all we have to do to find $a_1+a_2+a_3$ is to evaluate the formula for $s_n$ when $n=3$.
-
-\begin{align*}
-a_1+a_2+a_3 &= s_3 \\
-& = \frac{8(3)^2}{(3)^4-9} \\
-&= 1
-\end{align*}
-\end{explanation}
-\end{question}
-
-\begin{question}
-What is $a_2+a_3$?
-
-\begin{explanation}
-Note that $s_3 = a_1+a_2+a_3$ and $s_1 = a_1$.  Thus, 
-
-\begin{tabular}{rl}
-$s_3$ &= $\cancel{a_1}+a_2+a_3$\\
-$-(~ s_1$ &= $\cancel{a_1} ~)$\\
-\hline
-$s_3-s_1$ &= $a_2+a_3$\\
-\end{tabular}
-
-Using the formula for $s_n$ gives $s_3 = \answer[given]{1}$ and $s_1=\answer[given]{-1}$, so $a_1+a_2 =  \answer[given]{2}$.
-\end{explanation}
-\end{question}
-
-\begin{question}
-Determine whether $\sum_{k=1}^{\infty} a_k$ converges or diverges.  If it converges, can you find its value?
-
-\begin{explanation}
-We can determine whether $\sum_{k=1}^{\infty} a_k$ converges or diverges by analyzing $\lim_{n \to \infty} s_n = \lim_{n \to \infty} \frac{8n^2}{n^4-9}$.  Since this limit is zero, we know that $\sum_{k=1}^{\infty} a_k$ converges to $0$.
-\end{explanation}
-\end{question}
-
-\begin{question}
-Determine whether $\sum_{k=4}^{\infty} a_k$ converges or diverges.  If it converges, can you find its value?
-
-\begin{explanation}
-The lower index $k=4$ \wordChoice{\choice{will}\choice[correct]{will not}}  affect whether the series converges.  Since we found that $\sum_{k=1}^{\infty} a_k$ converges, so too will $\sum_{k=4}^{\infty} a_k$.  The fact that $k=4$ is our lower index here \wordChoice{\choice[correct]{will}\choice{will not}} potentially affect the value of the series.
-
-Let's write out the series and make a few observations.
-
-\begin{image}
-  \begin{tikzpicture}
-        \node at (0,0) {
-          $\underbrace{\sum_{k=1}^{\infty} a_k}=\overbrace{a_1+a_2+a_3}+ \underbrace{a_4+a_5 + \ldots}$};
-        \node at (1.8,-.7) {\small{This is the series}};
-        \node at (1.8,-1) {\small{we want to find.}};
-        
-        \node at (-2.5,-.9) {\small{This is $0$ from }};
-        \node at (-2.5,-1.2) {\small{the last part.}};    
-        
-        \node at (-.6,.9) {\small{This is $s_3$. }};
-        
-      \end{tikzpicture}
-  \end{image}
-  
- Putting this together, we have:
- 
- \[
- 0 = s_3 + \sum_{k=4}^{\infty} a_k,
- \] 
- and we find that $ \sum_{k=4}^{\infty} a_k = -1$. 
-
-We can determine whether $\sum_{k=1}^{\infty} a_k$ converges or diverges by analyzing $\lim_{n \to \infty} s_n = \lim_{n \to \infty} \frac{8n^2}{n^4-9}$.  Since this limit is zero, we know that $\sum_{k=1}^{\infty} a_k$ converges to $0$.
-\end{explanation}
-\end{question}
-
-\end{example}
-
-
-
+\end{itemize}
 
 
 \end{document}

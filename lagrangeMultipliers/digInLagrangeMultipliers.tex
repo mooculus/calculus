@@ -24,57 +24,41 @@ a problem:
 \begin{quote}
   \textbf{There is more than one way to solve it.}
 \end{quote}
-Previously, we were finding extrema of functions $F:\R^n\to\R$ when
-constrained to some set $S$.
+The method of Lagrange multipliers tells us that to maximize a
+function constrained to a curve, we need to find where the gradient of
+the function is perpendicular to the curve.
+
+Previously, when we were finding extrema of functions $F:\R^n\to\R$
+when constrained to some curve, we had to find an explicit formula for
+the curve. Consider this example from the previous section:
 
 \begin{example}
-  Let $F(x,y) = x^2+3y^2-4x-6y+7$ and let $S$ the set
-  \[
-  S = \{(x,y):x^2 + y^2 \le 1\}
-  \]
-  Discuss how to find the maximum and minimum values of $F$ on $S$.
-  \begin{explanation}
-    To do this we first find the critical points of $F$, that is where
-    the components of $\grad F(x,y)$ are zero or do not exist. If
-    these points are in $S$, they become candidates for the maxima and
-    minima.
-
-    Next we investigate the boundary of $S$. To do this we must
-    parameterize the boundary of $S$, or express the boundary either in
-    terms of $x$ or $y$. In this case, we can express the boundary
-    parametrically as
-    \[
-    \vec{p}(t) = \vector{\cos(t),\sin(t)},
-    \]
-    or we could set
-    \[
-    y = \pm \answer[given]{\sqrt{1-x^2}},
-    \]
-    or even
-    \[
-    x = \pm \answer[given]{\sqrt{1-y^2}}.
-    \]
-    At this point we look for critical points on the boundary. These
-    are also candidates for the extrema. Finally if the set has
-    ``corners,'' we must also consider these as candidates for the
-    extrema.
-  \end{explanation}
+Let $F(x,y) = 4x^3+4y^2-4x$ and let $C$ the set
+\[
+C = \{(x,y):x^2 + y^2 =1\}
+\]
+Find the maximum and minimum values of $F$ on $C$.
 \end{example}
 
-Above we see that a crucial step in computing extrema when constrained
-to a set is finding an \textbf{explicit formula} for the boundary. This
-could be very difficult or even impossible! If our constraining set had been
+The first step for solving this problem was to find an explicit
+formula that drew the curve $C$. In the case above, we choose:
+\[
+\vec{c}(t) = \vector{\answer[given]{\cos(t)},\answer[given]{\sin(t)}}
+\]
+However, finding a function that draws the constraining set could be
+very difficult or even impossible! If our constraining set had been
 \[
 S = \{(x,y): x+y+\sin(xy) =0\}
 \]
 our previous method will not work, as we (at least this author!)
-cannot find an explicit formula describing the boundary (which in this
-case is the set) of the set above. Nevertheless, there is another
-way. It is called the method of \textit{Lagrange multipliers}. This
-method is named after the mathematician \link[Joesph-Louis
-  Lagrange]{http://en.wikipedia.org/wiki/Joseph-Louis_Lagrange}, which
-he first employed. This method relies on the \textit{gradient
-  vector}. Recall facts about the gradient vector:
+cannot find an explicit formula describing the set
+above. Nevertheless, there is another way. It is called the method of
+\textit{Lagrange multipliers}. This method is named after the
+mathematician \link[Joseph-Louis
+  Lagrange]{http://en.wikipedia.org/wiki/Joseph-Louis_Lagrange}. This
+method relies on the geometric properties of the \textit{gradient
+  vector}. Recall: There are three things you must know about the
+gradient vector:
 \begin{itemize}
 \item $\grad F = \vector{\pp[F]{x_1},\pp[F]{x_2},\dots,\pp[F]{x_n}}$.
 \item $\grad F(\vec{x})$ points in the direction that one must leave
@@ -83,9 +67,9 @@ he first employed. This method relies on the \textit{gradient
   to any level surface of $F$.
 \end{itemize}
 
-It is this last fact that we will look at now.  Below we see level
-curves for some function $F:\R^2\to\R$ along with a constraining curve
-that we will call $S$:
+It is the last two facts that we will think about now.  Below we see
+level curves for some function $F:\R^2\to\R$ along with a constraining
+curve that we will call $S$:
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}%
@@ -115,9 +99,8 @@ that we will call $S$:
 \end{image}
 
 Let's add vectors to our graph that point in the direction of $\grad
-F(x,y)$. We can do this \textit{without} computation, since we
-understand the geometry of the gradient vector, the gradient vector is
-perpendicular to level curves:
+F(x,y)$.  Since we know that the gradient vector is perpendicular to
+level curves, we can do this \textit{without} computation.
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}%
@@ -156,12 +139,10 @@ perpendicular to level curves:
     \end{axis}
   \end{tikzpicture}
 \end{image}
-
-Now we can observe something interesting: If for some point $(x,y)$
-the gradient $\grad F(x,y)$ points in the ``general'' direction of the
-tangent vectors of $S$, then $(x,y)$ \textbf{cannot} give an extremal
-value of $F$, as moving along $S$ will either increase or decrease the
-value of $F$. Here's the upshot:
+If for some point $(x,y)$ on $S$ the gradient $\grad F(x,y)$ points in
+the ``general'' direction of the tangent vectors of $S$, then $(x,y)$
+\textbf{cannot} give an extremal value of $F$, as moving along $S$
+will either increase or decrease the value of $F$. Here's the upshot:
 \begin{quote}
   \textbf{The only candidates for local extrema occur when the
     gradient of $F$ is perpendicular to $S$.}
@@ -182,7 +163,7 @@ is the essence of the method of Lagrange multipliers.
 
 \begin{theorem}[Lagrange Multipliers]
   Let $F:\R^n\to\R$, $G:\R^n\to\R$, $\grad G(\vec{x}) \ne \vec{0}$,
-  and let $S$ be the level set
+  and let $S$ be the constraint, or level set,
   \[
   S = \{\vec{x}: G(\vec{x}) = c\}
   \]
@@ -193,6 +174,38 @@ is the essence of the method of Lagrange multipliers.
   for some number $\lambda$.
 \end{theorem}
 
+The first step for solving a constrained optimization problem using
+the method of Lagrange multipliers is to write down the equations
+needed to solve the problem.
+
+\begin{example}
+  Let $F(x,y) = xy$ and let $M$ the set
+  \[
+  L = \{(x,y):(x^2+y^2)^2 = x^2-y^2\}
+  \]
+  Write down the three equations one must solve to find the extrema of
+  $F$ when constrained to $L$.
+  \begin{explanation}
+    First set $G(x,y)= (x^2+y^2)^2 - x^2 +y^2$. Now $L$ is the level
+    curve $G(x,y) =\answer[given]{0}$.  We must write down:
+    \begin{align*}
+      \grad F(x,y) &= \lambda \cdot \grad G(x,y)\\
+      (x^2+y^2)^2 &= x^2-y^2
+    \end{align*}
+    Unpacking these formulas we find:
+    \begin{align*}
+      y &= \lambda \cdot \left(\answer[given]{4x(x^2+y^2)-2x}\right)\\
+      x &= \lambda \cdot \left(\answer[given]{4y(x^2+y^2)+2y}\right)\\
+      (x^2+y^2)^2 &= \answer[given]{x^2-y^2}
+    \end{align*}
+    Solving these equations for $x$ and $y$ will give us our
+    candidates for the extrema of $F$ on the set $L$.
+  \end{explanation}
+\end{example}
+
+\begin{remark}
+  The constraint curve used in the example above is called the \link[lemniscate of Bernoulli]{https://en.wikipedia.org/wiki/Lemniscate_of_Bernoulli}.
+\end{remark}
 
   
 
@@ -217,13 +230,21 @@ behavior using the tools of calculus.
     \wordChoice{\choice{parallel}\choice[correct]{perpendicular}} to
     the curve $G(x,y) = c$. Hence we see that the points
     \[
-    (x,y)\approx(\answer[given,tolerance=.3]{2.5},\answer[given,tolerance=.5]{.9})
+    (x,y)\approx\left(\answer[given,tolerance=.3]{2.6},\answer[given,tolerance=.3]{1}\right)
     \]
     and
     \[
-    (x,y)\approx (-2.3,\answer[given,tolerance=.3]{-1.7})
+    (x,y)\approx \left(-2.3,\answer[given,tolerance=.3]{-1.6}\right)
     \]
     are our candidates for extrema.
+    \begin{feedback}[correct]
+      At these points,
+      \begin{image}
+        \includegraphics{curveVectors2Feedback.jpg}
+      \end{image}
+      the gradient vector for $G$ are parallel to the gradient vectors
+      for $F$.
+    \end{feedback}
   \end{explanation}
 \end{example}
 
@@ -241,135 +262,193 @@ behavior using the tools of calculus.
     the curve $G(x,y) = c$. Hence we
     see that the points
     \begin{align*}
-      (x,y) &= (\answer[given]{2},2)\\
-      (x,y) &= (-2,\answer[given]{-2})\\
-      (x,y) &\approx (\answer[given,tolerance=.3]{0.8},-2.7)\\
-      (x,y) &\approx (-2.7,\answer[given,tolerance=.3]{0.8})
+      (x,y) &= \left(\answer[given]{2},2\right)\\
+      (x,y) &= \left(-2,\answer[given]{-2}\right)\\
+      (x,y) &\approx \left(\answer[given,tolerance=.3]{0.7},-2.7\right)\\
+      (x,y) &\approx \left(-2.7,\answer[given,tolerance=.3]{0.7}\right)
     \end{align*}
     are our candidates for extrema.
+        \begin{feedback}[correct]
+      At these points,
+      \begin{image}
+        \includegraphics{curveVectors1Feedback.jpg}
+      \end{image}
+      the gradient vector for $G$ are parallel to the gradient vectors
+      for $F$.
+    \end{feedback}
   \end{explanation}
 \end{example}
 
 
 \section{Working with algebra}
 
-Let's work an example.
+We'll start with an example we did in our last section.
 
 \begin{example}
-  Let $F(x,y,z) = (1+x^2)(1+y^2)(1+z^2)$ and let $S$ the set:
+Let $F(x,y) = 4x^3+4y^2-4x$ and let $C$ the set
+\[
+C = \{(x,y):x^2 + y^2 =1\}
+\]
+Find the maximum and minimum values of $F$ on $C$.
+\begin{explanation}
+  Start by setting $G(x,y) = x^2 + y^2$. The set $C$ is now the level
+  curve $G(x,y) = \answer[given]{1}$. Now compute:
   \[
-  S = \{(x,y):x+y+z=1,\text{ where }x\ge 0, y\ge 0,z\ge 0\}
+  \grad F(x,y) = \lambda \cdot \grad G(x,y)
   \]
-  Find the absolute maximum and minimum values of $F$ on $S$. This
-  problem was a problem posed in the April $2004$ issue of \textit{Math
-    Horizons}:
-  \begin{explanation}
-    We'll check the critical points of $F$. First compute $\grad F$:
-    \[
-    \grad F(x,y,z) = \begin{bmatrix}
-      \answer[given]{2x(1+y^2)(1+z^2)}\\
-      \answer[given]{2y(1+x^2)(1+z^2)}\\
-      \answer[given]{2z(1+x^2)(1+y^2)}
-    \end{bmatrix}
-    \]
-    From this we see $\grad F = \vec{0}$ when
-    \begin{align*}
-      x &= \answer[given]{0}\\
-      y &= \answer[given]{0}\\
-      z &= \answer[given]{0}.
-    \end{align*}
-    Now we need to check along the boundary of $S$. Note that $S$ is a
-    tetrahedron with vertices at $(1,0,0)$, $(0,1,0)$ and $(0,0,1)$.
-    In particular, since the boundary is not differentiable at the
-    vertices of $S$, we must check the point $(1,0,0)$, $(0,1,0)$, and
-    $(0,0,1)$. At each of these points, the value of $F$ is
-    $\answer[given]{2}$.
-
-    Using Lagrange multipliers, we will check all other points on $S$
-    by setting $G(x,y,z) = x+y+z$ and computing $\grad G$:
-    \[
-    \grad G(x,y,z) = \vector{\answer[given]{1},\answer[given]{1},\answer[given]{1}}
-    \]
-    We need to find points $(x,y,z)$ such that
-    \[
-    \grad F(x,y,z) = \lambda \cdot \grad G(x,y,z)
-    \]
-    for some number $\lambda$. Write with me
-    \begin{align*}
-      2x(1+y^2)(1+z^2) &=\lambda \cdot 1\\
-      2y(1+x^2)(1+z^2) &=\lambda \cdot 1\\
-      2z(1+x^2)(1+y^2) &=\lambda \cdot 1
-    \end{align*}
-    and
-    \[
-    x+y+z=1.
-    \]
-    Note the symmetry of the components of $\grad F$. From this we see that
-    \[
-    x = y = z.
-    \]
-    Hence
-    \begin{align*}
-    x+y+z&=1\\
-    \answer[given]{3}x &= 1\\
-    x &= \answer[given]{1/3}.
-    \end{align*}
-    Thus to find extrema for $F$ when restricted to $S$, we check the
-    value of $F$ at the points above.  Write with me
-    \begin{align*}
-      F(1,0,0) &= \answer[given]{2}\\
-      F(0,1,0) &= \answer[given]{2}\\
-      F(0,0,1) &= \answer[given]{2}\\
-      F(1/3,1/3,1/3) &= \answer[given]{1000/729}
-    \end{align*}
-    We now see, via the Extreme Value Theorem, that the absolute
-    minimum of $F$ when restricted to $S$ is given by
-    \[
-    (x,y,z) = (\answer[given]{1/3},\answer[given]{1/3},\answer[given]{1/3})
-    \]
-    and the absolute maximums are at the points $(1,0,0)$, $(0,1,0)$, and $(0,0,1)$.
-  \end{explanation}
+  Write with me:
+  \[
+  \vector{\answer[given]{12x^2-4},\answer[given]{8y}} = \lambda \cdot \vector{\answer[given]{2x},\answer[given]{2y}}
+  \]
+  Breaking this vector equation into components, and adding in the constraint
+  equation, the method of Lagrange multipliers gives us three
+  equations and three unknowns:
+  \begin{align*}
+    \answer[given]{12x^2-4} &= \lambda 2x\\
+    \answer[given]{8y} &= \lambda 2y\\
+    \answer[given]{x^2 + y^2} &= 1
+  \end{align*}
+  To solve this system of equations, first note that if $y = 0$, then
+  $x=\pm \answer[given]{1}$. This gives us two candidates for extrema:
+  \[
+  \left(1,\answer[given]{0}\right) \quad \text{and}\quad \left(-1,\answer[given]{0}\right)
+  \]
+  Now proceed assuming that $y\ne 0$. Looking at the second equation
+  \[
+  8y = \lambda 2y
+  \]
+  we can divide both sides by $2y$ to see that $\lambda = \answer[given]{4}$. Now we see that:
+  \begin{align*}
+    12x^2-4 &= \answer[given]{8x}\\
+    3x^2-2x-1 &=0
+  \end{align*}
+  Solving this quadratic equation for $x$ we find
+  \[
+  x = \answer[given]{-1/3} \quad\text{and}\quad x = 1
+  \]
+  Now use the constraint equation $x^2 + y^2 =1$ to find $y$-values.
+  From this we gain two more candidate for an extrema:
+  \[
+  \left(\frac{-1}{3},\answer[given]{\frac{-\sqrt{8}}{3}}\right) \quad\text{and}\quad\left(\answer[given]{\frac{-1}{3}},\frac{\sqrt{8}}{3}\right)
+  \]
+  Plugging these points back into $F$, we find that the minimum value of $F$ on $C$
+  is $\answer[given]{0}$ and the maximum value is
+  $\answer[given]{128/27}$.
+\end{explanation}
 \end{example}
 
 
+Lagrange multipliers help out when when constraint set is given by an
+implicit function. Let's see this in an example.
 
-\section{The Lagrangian}
 
-Finally, we should point our that there are other ways to view
-Lagrange multipliers.
-
-\begin{definition}
-  Given functions $F:\R^n\to\R$ and $G:\R^n\to\R$ the \dfn{Lagrangian} is the function
+\begin{example}
+Let $F(x,y) = x^2+2y^2-28x+51$ and let $M$ the set
+\[
+M = \{(x,y):y^2=x^3+1\}
+\]
+Find the maximum and minimum values of $F$ on $M$.
+\begin{explanation}
+  Start by setting $G(x,y) = x^3+1-y^2$. The set $M$ is now the level
+  curve $G(x,y) = 0$. Now compute:
   \[
-  \mathcal{L}(\vec{x},\lambda) = F(\vec{x}) - \lambda \cdot G(\vec{x}).
+  \grad F(x,y) = \lambda \cdot \grad G(x,y)
   \]
-\end{definition}
+  Write with me:
+  \[
+  \vector{\answer[given]{2x-28},\answer[given]{4y}} = \lambda \cdot \vector{\answer[given]{3x^2},\answer[given]{-2y}}
+  \]
+  Breaking this vector equation into components, and adding in the constraint
+  equation, the method of Lagrange multipliers gives us three
+  unknowns:
+  \begin{align*}
+    2x-28 &= \lambda 3x^2\\
+    4y &= -\lambda 2y\\
+    \answer[given]{x^3 + 1} &= y^2
+  \end{align*}
+  To solve this system of equations, first note that if $y = 0$, then
+  $x=\answer[given]{-1}$. This gives us our first candidate for an extrema:
+  \[
+  \left(\answer[given]{-1},\answer[given]{0}\right)
+  \]
+  Now proceed assuming that $y\ne 0$. Looking at the second equation
+  \[
+  4y = -\lambda 2y
+  \]
+  we can divide both sides by $-2y$ to see that $\lambda = \answer[given]{-2}$. Now we see that:
+  \begin{align*}
+    2x-28&= -6x^2\\
+    3x^2+x-14 &=0
+  \end{align*}
+  Solving this quadratic equation for $x$ we find
+  \[
+  x = \answer[given]{-7/3} \quad\text{and}\quad x = 2
+  \]
+  Now use the constraint equation $x^3+1=y^2$ to find $y$-values. If
+  $x$ is $\answer[given]{-7/3}$, then $y$ is not a real number, so we will discard
+  this solution. If $x=\answer[given]{2}$, then $y=\pm \answer[given]{3}$.  From this we gain two more
+  candidate for an extrema:
+  \[
+  \left(\answer[given]{2},\answer[given]{-3}\right) \quad\text\quad\left(2,3\right)
+  \]
+  Plugging these points back into $F$, we find that the minimum value
+  of $F$ on $M$ is $\answer[given]{17}$ and the maximum value is
+  $\answer[given]{80}$.
+\end{explanation}
+\end{example}
 
-Thus to check whether
-\[
-\grad F(\vec{x}) = \lambda \cdot \grad G(\vec{x})
-\]
-is equivalent to checking where
-\[
-\grad \mathcal{L}(\vec{x},\lambda) = \vec{0}
-\]
-or has undefined components. When working with constrained
-optimization problems by hand, the Lagrangian doesn't help much, since
-your next step is to look at 
-\[
-\grad \mathcal{L}(\vec{x},\lambda) = \vec{0}.
-\]
-However, there are certain advantages to working with the Lagrangian:
-\begin{itemize}
-\item If you are working with a computer, it might be better to work
-  in terms of the Lagrangian, as there are efficient algorithms for
-  checking when the gradient of the function is zero.
-\item Working with the Lagrangian gives a method for changing
-  ``constrained'' optimization to ``unconstrained'' optimization, as
-  we are simply finding the critical points of
-  $\mathcal{L}(\vec{x},\lambda)$.
-\item The Lagrangian shows us a symmetry between $F$ and $G$.
-\end{itemize}
+\begin{remark}
+  The constraint curve used in the example above is called a \link[Mordell curve]{https://en.wikipedia.org/wiki/Mordell_curve}. The Mordell curve is a type of \link[elliptic curve]{https://en.wikipedia.org/wiki/Elliptic_curve}, a central object of study in number theory and cryptography. For much more information on the Mordell curve, see \link[this paper by Keith Conrad]{http://www.math.uconn.edu/~kconrad/blurbs/gradnumthy/mordelleqn1.pdf}. 
+\end{remark}
+
+
+
+%% Another good example:
+%% E is defined by the ellipic curve x^3-x=y^2
+%% F is F(x,y) = x^2-y^2-2x
+
+The method of Lagrange multipliers gives a unified method for solving a
+large class of constrained optimization problems, and hence is used in
+many areas of applied mathematics.
+
+
+%% \section{The Lagrangian}
+
+%% Finally, we should point our that there are other ways to view
+%% Lagrange multipliers.
+
+%% \begin{definition}
+%%   Given functions $F:\R^n\to\R$ and $G:\R^n\to\R$ the \dfn{Lagrangian} is the function
+%%   \[
+%%   \mathcal{L}(\vec{x},\lambda) = F(\vec{x}) - \lambda \cdot G(\vec{x}).
+%%   \]
+%% \end{definition}
+
+%% Thus to check whether
+%% \[
+%% \grad F(\vec{x}) = \lambda \cdot \grad G(\vec{x})
+%% \]
+%% is equivalent to checking where
+%% \[
+%% \grad \mathcal{L}(\vec{x},\lambda) = \vec{0}
+%% \]
+%% or has undefined components. When working with constrained
+%% optimization problems by hand, the Lagrangian doesn't help much, since
+%% your next step is to look at 
+%% \[
+%% \grad \mathcal{L}(\vec{x},\lambda) = \vec{0}.
+%% \]
+%% However, there are certain advantages to working with the Lagrangian:
+%% \begin{itemize}
+%% \item If you are working with a computer, it might be better to work
+%%   in terms of the Lagrangian, as there are efficient algorithms for
+%%   checking when the gradient of the function is zero.
+%% \item Working with the Lagrangian gives a method for changing
+%%   ``constrained'' optimization to ``unconstrained'' optimization, as
+%%   we are simply finding the critical points of
+%%   $\mathcal{L}(\vec{x},\lambda)$.
+%% \item The Lagrangian shows us a symmetry between $F$ and $G$.
+%% \end{itemize}
 
 For some interesting extra reading check out:
 \begin{itemize}

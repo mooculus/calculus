@@ -1,7 +1,7 @@
 \documentclass{ximera}
 
 \input{../preamble.tex}
-\author{Jim Talamo}
+\author{Bart Snapp}
 \outcome{Compute Taylor polynomials.}
 \outcome{Use Taylor's theorem to estimate the error of a Taylor polynomial.}
 \outcome{Determine the maximum error between a function and a given
@@ -11,172 +11,9 @@
 
 \begin{document}
 \begin{abstract}
-We can approximate functions with polynomials.
+We can approximate smooth functions with polynomials.
 \end{abstract}
 \maketitle
-
-Previously, we have seen that if a function is differentiable on an open interval containing a point $x=c$, we can approximate the function near $x=c$ by using the tangent line at $x=c$.  The inherent idea behind approximating the function with the tangent line is that  
-if we ``zoom in" on the graph around $x=c$, it becomes less distinguishable from a line.
-
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-            domain=0:6, range=0:7,
-            ymin=-.2,ymax=7,
-            width=6in,
-            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
-            axis lines=none,
-          ]   
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
-
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
-          
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
-          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
-          
-
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
-
-          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
-          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
-          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
-          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
-
-          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
-          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
-          
-          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
-          
-          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
-
-          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
-
-          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
-
-          \node at (axis cs:2.2,0) [anchor=east] {$x$};
-          \node at (axis cs:0,6.6) [anchor=north] {$y$};
-        \end{axis}
-\end{tikzpicture}
-
-\end{image}
-
-One common approach used to find the equation of the tangent line to $y=f(x)$ is to take advantage of the point-slope form of a line
-
-\[
-y-y_0=m\left(x-x_0\right).
-\]
-where $(x_0,y_0)$ is a point on the line and $m$ is the slope.
-
-Typically in calculus courses, when $y$ is given by an explicit formula in terms of $x$, the point $(x_0,y_0)$ is found by evaluating the $y=f(x)$ at $x_0$, and the slope is found by evaluating the derivative $f'(x)$ at $x=x_0$.
-
-\begin{example}
-The equation of the tangent line to $y=e^{2x}$ at $x=0$ can be found by noting that
-\begin{itemize}
-\item $y_0=f(0) = \answer[given]{1}$, so the point $(0,1)$ is on the line.
-\item $f'(x) = \answer[given]{2e^{2x}}$, so the slope is found by noting $m_{tan} = f'(0) = 2$.
-\end{itemize}
-Thus, the equation of the tangent line is
-
-\begin{align*}
-y- 1 &=2(x-0) \\
-y&=2x+1
-\end{align*}
-
-If we ``zoom in'' on the point of tangency, $(0,1)$, the graph of the function $y=e^{2x}$ and its tangent line at $x=0$, denoted by $l_0(x)=2x+1$, are very close.
-
-\begin{image}
-\begin{tikzpicture}
-
-\begin{axis}
-	[
-	domain=-.5:.5, ymax=2.2,xmax=.25, ymin=-.25, xmin=-.25,
-	axis lines=center, xlabel=$x$, ylabel=$y$,
-	xtick={-.2,-.1,.1,.2}, ytick={1,2}, 
-	every axis y label/.style={at=(current axis.above origin),anchor=south},
-	every axis x label/.style={at=(current axis.right of origin),anchor=west},
-	axis on top,
-	typeset ticklabels with strut,
-	]
-
-	\addplot [draw=penColor,very thick, smooth] {exp(2*x)};
-	\addplot [draw=penColor2,very thick, smooth] {2*x+1};	
-	\node at (axis cs:.15,1.6) [penColor] {$y=e^{2x}$};
-	\node at (axis cs:-.1,.5) [penColor2] {$l_0(x)=2x+1$};	
-\end{axis}
-
-\end{tikzpicture}
-\end{image}
-
-However, as we ``zoom out'' to a larger viewing window, the graphs start to become quite different.
-
-\begin{image}
-\begin{tikzpicture}
-
-\begin{axis}
-	[
-	domain=-2.25:2.25, ymax=9.5,xmax=2.25, ymin=-5.25, xmin=-2.25,
-	axis lines=center, xlabel=$x$, ylabel=$y$,
-	xtick={-2,-1,1,2}, ytick={-4,-2,2,4,6,8}, 
-	every axis y label/.style={at=(current axis.above origin),anchor=south},
-	every axis x label/.style={at=(current axis.right of origin),anchor=west},
-	axis on top,
-	typeset ticklabels with strut,
-	]
-
-	\addplot [draw=penColor,very thick, smooth] {exp(2*x)};
-	\addplot [draw=penColor2,very thick, smooth] {2*x+1};	
-	\node at (axis cs:1.5,7) [penColor] {$y=e^{2x}$};
-	\node at (axis cs:1.5,1.5) [penColor2] {$l_0(x)=2x+1$};	
-\end{axis}
-
-\end{tikzpicture}
-\end{image}
-
-
-\end{example}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 
 
 \section{Polynomials can approximate some functions}
@@ -537,186 +374,270 @@ graph to help us understand what is going on.
       We can see that $p_3$ is a good approximation for $\sin(x)$ near
       $x=0$. Next, we quantify exactly how good our approximation is.
 
-%\section{Taylor's theorem}
-%
-%Again, let's get to the point by stating Taylor's theorem (which is a
-%generalization of the mean value theorem):
-%
-%\begin{theorem}[Taylor's Theorem]\index{Taylor's Theorem}
-%Let $f$ be a function whose $(n+1)$th derivative exists on an interval
-%$I$, let $c$ be in $I$, and let $p_n$ be the $n$th Taylor polynomial
-%for $f$ centered at $x=c$. Then, for each $x$ in $I$, there exists $b$
-%between $x$ and $c$ such that
-%\[
-%f(x) = p_n(x) + R_n(x),
-%\]
-%where $R_n(x) = \frac{f^{(n+1)}(b)}{(n+1)!}(x-c)^{(n+1)}$.
-%\begin{image}
-%  \begin{tikzpicture}
-%    \begin{axis}[
-%        xmin=5.28,xmax=9.42,ymin=-.5,ymax=2.5,
-%        domain=5.28:9.42,
-%        axis lines=center,
-%        %ticks=none,
-%        xtick={6.28,6.73,8.75},
-%        xticklabels={$c$,$b$,},
-%        ytickmin=1, ytickmax=0,
-%        width=6in,
-%        height=3in,
-%        %unit vector ratio*=1 1 1,
-%        xlabel=$x$, ylabel=$y$,
-%        every axis y label/.style={at=(current axis.above origin),anchor=south},
-%        every axis x label/.style={at=(current axis.right of origin),anchor=west},
-%      ]        
-%      \addplot [very thick, penColor,smooth] {1+sin(deg(x))};
-%      \addplot [very thick, penColor2, smooth] {1+(x-2*pi)-(x-2*pi)^3/6};
-%      \addplot [textColor,dashed] plot coordinates {(6.28,0) (6.28,1)};
-%      \addplot [textColor,dashed] plot coordinates {(8.75,0) (8.75,1.63)};
-%      \addplot [decoration={brace,mirror, raise=.1cm},decorate,thin]
-%      plot coordinates {(8.75,.97) (8.75,1.63)};
-%      \node at (axis cs: 8.97,1.25) {$R_n(x)$};
-%      \node at (axis cs: 8.5,2) {$f$};
-%      \node at (axis cs: 8.5,1.2) {$p_n$};
-%      
-%    \end{axis}
-%  \end{tikzpicture}   
-%\end{image}
-%Moreover,
-%\[
-%\left|R_n(x)\right| \leq \frac{M}{(n+1)!}|x-c|^{(n+1)}
-%\]
-%where $M$ is the maximum value of $|f^{(n+1)}|$ on $[c,x]$.
-%\end{theorem}
-%
-%The first part of Taylor's theorem states that $f(x) = p_n(x) +
-%R_n(x)$, where $p_n(x)$ is the $n$th order Taylor polynomial and
-%$R_n(x)$ is the remainder, or error, in the Taylor approximation. The
-%second part gives bounds on how big that error can be. If the
-%$(n+1)$th derivative is large, the error may be large; if $x$ is far
-%from $c$, the error may also be large. However, the $(n+1)!$ term in
-%the denominator tends to ensure that the error gets smaller as $n$
-%increases. 
-%
-%
-%\begin{example}
-%  Approximate $f(x) = e^x$ with a $5$th degree Maclaurin polynomial at
-%  $x = 0$.  What is the maximum error of your approximation at $x=2$?
-%  Note, the answer to this question may not be unique.
-%  \begin{explanation}
-%    To do this, we set $f(x) =e^x$ and use the following formula.
-%    \[
-%    p_n(x) = f(0) + f'(0)x +\frac{f''(0)}{2!}x^2+\cdots +\frac{f^{(5)}(0)}{5!}x^5
-%    \]
-%    So, we must compute the first five derivatives of $f$
-%    \[
-%      f(x) = f'(x) = f''(x) = f'''(x) = f^{(4)}(x)  = f^{(5)}(x) = \answer[given]{e^x}
-%    \]
-%    and evaluate each of these at $x=0$. Write with me.
-%    \[
-%    f(0) = f'(0) = f''(0) = f'''(0) = f^{(4)}(0)  = f^{(5)}(0) = e^0 = \answer[given]{1}
-%    \]
-%    Now, plugging this into our formula above we see
-%    \[
-%    p_5 = \answer[given]{1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!}}.
-%    \]
-%    Finally, let's see a graph of $p_5$ and $f$:
-%      \begin{image}
-%    \begin{tikzpicture}
-%      \begin{axis}[
-%          xmin=-5,xmax=4,ymin=-1,ymax=10,
-%          axis lines=center,
-%          %ticks=none,
-%          width=6in,
-%          height=3in,
-%          %unit vector ratio*=1 1 1,
-%          xlabel=$x$, ylabel=$y$,
-%          every axis y label/.style={at=(current axis.above origin),anchor=south},
-%          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-%        ]        
-%        \addplot [very thick, penColor, samples=100,smooth] {e^x};
-%        \addplot [very thick, penColor2, smooth] {1+x+x^2/2+x^3/6+x^4/24+x^5/120};
-%      \end{axis}
-%    \end{tikzpicture}
-%      \end{image}
-%      To estimate the error, we need to find a bound $M$ such that
-%      \[
-%      M >|f^{(6)}(x)|
-%      \]
-%      on the interval $[0,2]$. Since $f^{(6)}(x) = e^x$, the largest
-%      value will be $e^2$. Instead of computing this directly, note
-%      \[
-%      e^2 < 3^2< 9.
-%      \]
-%      Hence we can say for certainty that
-%      \[
-%      |p_n(2) - e^2| < \frac{9}{6!}\cdot(2)^6 = \frac{4}{5}.
-%      \]
-%      In other words, we know that the maximum error we can have when using 
-%      $p_5(x)$ to approximate $f(2)$ is $\frac{4}{5} = 0.8$.
-%  \end{explanation}
-%\end{example}
-%
-%
-%The following example computes error estimates for the approximations
-%of $\ln(1.5)$ and $\ln(2)$ made earlier.
-%
-%\begin{example}
-%Find error bounds when approximating $\ln(1.5)$ with $p_6(x)$, the
-%Taylor polynomial of degree $6$ of $f(x)=\ln(x)$ centered at $x=1$.
-%\begin{explanation}
-%We start with the approximation of $\ln(1.5)$ with $p_6(1.5)$. Taylor's
-%theorem references an open interval $I$ that contains both $x$ and
-%$c$. The smaller the interval we use the better; it will give us a
-%more accurate (and smaller!) approximation of the error. We let
-%\[
-%I =(0.9,1.6),
-%\]
-%as this interval contains both $c=\answer[given]{1}$ and
-%$x=\answer[given]{1.5}$.  Now we ask ``How big can the $7$th
-%derivative of $y=\ln(x)$ be on the interval $(0.9,1.6)$?'' The seventh
-%derivative is $\answer[given]{720/x^7}$. The largest value it attains on $I$ is about
-%$1506$. Thus we can bound the error as:
-%\begin{align*}
-%|R_6(1.5)| &\leq \frac{1506}{7!}|1.5-1|^7\\
-%&\leq \frac{1506}{5040}\cdot\frac1{2^7}\\
-%&\approx 0.0023.
-%\end{align*}
-%Remember, of course, that this bound on the error is only accurate on our 
-%interval $I$.
-%\end{explanation}
-%\end{example}
-%
-%  
-%We practice again. This time, we use Taylor's theorem to find $n$ that
-%guarantees our approximation is within a certain amount.
-%
-%\begin{example}
-%  Find $n$ such that the $n$th Taylor polynomial of $f(x)=\cos(x)$ at
-%  $x=0$ approximates $\cos(2)$ to within $0.001$ of the actual
-%  answer.
-%\begin{explanation}
-%  Following Taylor's theorem, we need bounds on the size of the
-%  derivatives of $f(x)=\cos(x)$. In the case of this trigonometric
-%  function, this is easy. All derivatives of cosine are $\pm \sin(x)$
-%  or $\pm \cos(x)$. In all cases, these functions are never greater
-%  than $\answer[given]{1}$ in absolute value. We want the error to be
-%  less than $0.001$. To find the appropriate $n$, consider the
-%  following inequality:
-%  \[
-%  \frac{1}{(n+1)!}\cdot2^{(n+1)} \leq 0.001
-%  \]
-%We find an $n$ that satisfies this last inequality with trial-and-error. When $n=8$, we have
-%\[
-%\answer[given]{\frac{2^{8+1}}{(8+1)!}} \approx 0.0014;
-%\]
-%when $n=9$, we have
-%\[
-%\answer[given]{\frac{2^{9+1}}{(9+1)!}} \approx 0.000282 <0.001.
-%\]
-%Thus we want to approximate $\cos(2)$ with $p_9(2)$ in order to have 
-%the desired accuracy.
-%\end{explanation}
-%\end{example}
+\section{Taylor's theorem}
+
+Again, let's get to the point by stating Taylor's theorem (which is a
+generalization of the mean value theorem):
+
+\begin{theorem}[Taylor's Theorem]\index{Taylor's Theorem}
+Let $f$ be a function whose $(n+1)$th derivative exists on an interval
+$I$, let $c$ be in $I$, and let $p_n$ be the $n$th Taylor polynomial
+for $f$ centered at $x=c$. Then, for each $x$ in $I$, there exists $b$
+between $x$ and $c$ such that
+\[
+f(x) = p_n(x) + R_n(x),
+\]
+where $R_n(x) = \frac{f^{(n+1)}(b)}{(n+1)!}(x-c)^{(n+1)}$.
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        xmin=5.28,xmax=9.42,ymin=-.5,ymax=2.5,
+        domain=5.28:9.42,
+        axis lines=center,
+        %ticks=none,
+        xtick={6.28,6.73,8.75},
+        xticklabels={$c$,$b$,},
+        ytickmin=1, ytickmax=0,
+        width=6in,
+        height=3in,
+        %unit vector ratio*=1 1 1,
+        xlabel=$x$, ylabel=$y$,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]        
+      \addplot [very thick, penColor,smooth] {1+sin(deg(x))};
+      \addplot [very thick, penColor2, smooth] {1+(x-2*pi)-(x-2*pi)^3/6};
+      \addplot [textColor,dashed] plot coordinates {(6.28,0) (6.28,1)};
+      \addplot [textColor,dashed] plot coordinates {(8.75,0) (8.75,1.63)};
+      \addplot [decoration={brace,mirror, raise=.1cm},decorate,thin]
+      plot coordinates {(8.75,.97) (8.75,1.63)};
+      \node at (axis cs: 8.97,1.25) {$R_n(x)$};
+      \node at (axis cs: 8.5,2) {$f$};
+      \node at (axis cs: 8.5,1.2) {$p_n$};
+      
+    \end{axis}
+  \end{tikzpicture}   
+\end{image}
+Moreover,
+\[
+\left|R_n(x)\right| \leq \frac{M}{(n+1)!}|x-c|^{(n+1)}
+\]
+where $M$ is the maximum value of $|f^{(n+1)}|$ on $[c,x]$.
+\end{theorem}
+
+The first part of Taylor's theorem states that $f(x) = p_n(x) +
+R_n(x)$, where $p_n(x)$ is the $n$th order Taylor polynomial and
+$R_n(x)$ is the remainder, or error, in the Taylor approximation. The
+second part gives bounds on how big that error can be. If the
+$(n+1)$th derivative is large, the error may be large; if $x$ is far
+from $c$, the error may also be large. However, the $(n+1)!$ term in
+the denominator tends to ensure that the error gets smaller as $n$
+increases. 
+
+
+\begin{example}
+  Approximate $f(x) = e^x$ with a $5$th degree Maclaurin polynomial at
+  $x = 0$.  What is the maximum error of your approximation at $x=2$?
+  Note, the answer to this question may not be unique.
+  \begin{explanation}
+    To do this, we set $f(x) =e^x$ and use the following formula.
+    \[
+    p_n(x) = f(0) + f'(0)x +\frac{f''(0)}{2!}x^2+\cdots +\frac{f^{(5)}(0)}{5!}x^5
+    \]
+    So, we must compute the first five derivatives of $f$
+    \[
+      f(x) = f'(x) = f''(x) = f'''(x) = f^{(4)}(x)  = f^{(5)}(x) = \answer[given]{e^x}
+    \]
+    and evaluate each of these at $x=0$. Write with me.
+    \[
+    f(0) = f'(0) = f''(0) = f'''(0) = f^{(4)}(0)  = f^{(5)}(0) = e^0 = \answer[given]{1}
+    \]
+    Now, plugging this into our formula above we see
+    \[
+    p_5 = \answer[given]{1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!}}.
+    \]
+    Finally, let's see a graph of $p_5$ and $f$:
+      \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          xmin=-5,xmax=4,ymin=-1,ymax=10,
+          axis lines=center,
+          %ticks=none,
+          width=6in,
+          height=3in,
+          %unit vector ratio*=1 1 1,
+          xlabel=$x$, ylabel=$y$,
+          every axis y label/.style={at=(current axis.above origin),anchor=south},
+          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+        ]        
+        \addplot [very thick, penColor, samples=100,smooth] {e^x};
+        \addplot [very thick, penColor2, smooth] {1+x+x^2/2+x^3/6+x^4/24+x^5/120};
+      \end{axis}
+    \end{tikzpicture}
+      \end{image}
+      To estimate the error, we need to find a bound $M$ such that
+      \[
+      M >|f^{(6)}(x)|
+      \]
+      on the interval $[0,2]$. Since $f^{(6)}(x) = e^x$, the largest
+      value will be $e^2$. Instead of computing this directly, note
+      \[
+      e^2 < 3^2< 9.
+      \]
+      Hence we can say for certainty that
+      \[
+      |p_n(2) - e^2| < \frac{9}{6!}\cdot(2)^6 = \frac{4}{5}.
+      \]
+      In other words, we know that the maximum error we can have when using 
+      $p_5(x)$ to approximate $f(2)$ is $\frac{4}{5} = 0.8$.
+  \end{explanation}
+\end{example}
+
+
+The following example computes error estimates for the approximations
+of $\ln(1.5)$ and $\ln(2)$ made earlier.
+
+\begin{example}
+Find error bounds when approximating $\ln(1.5)$ with $p_6(x)$, the
+Taylor polynomial of degree $6$ of $f(x)=\ln(x)$ centered at $x=1$.
+\begin{explanation}
+We start with the approximation of $\ln(1.5)$ with $p_6(1.5)$. Taylor's
+theorem references an open interval $I$ that contains both $x$ and
+$c$. The smaller the interval we use the better; it will give us a
+more accurate (and smaller!) approximation of the error. We let
+\[
+I =(0.9,1.6),
+\]
+as this interval contains both $c=\answer[given]{1}$ and
+$x=\answer[given]{1.5}$.  Now we ask ``How big can the $7$th
+derivative of $y=\ln(x)$ be on the interval $(0.9,1.6)$?'' The seventh
+derivative is $\answer[given]{720/x^7}$. The largest value it attains on $I$ is about
+$1506$. Thus we can bound the error as:
+\begin{align*}
+|R_6(1.5)| &\leq \frac{1506}{7!}|1.5-1|^7\\
+&\leq \frac{1506}{5040}\cdot\frac1{2^7}\\
+&\approx 0.0023.
+\end{align*}
+Remember, of course, that this bound on the error is only accurate on our 
+interval $I$.
+\end{explanation}
+\end{example}
+
+  
+We practice again. This time, we use Taylor's theorem to find $n$ that
+guarantees our approximation is within a certain amount.
+
+\begin{example}
+  Find $n$ such that the $n$th Taylor polynomial of $f(x)=\cos(x)$ at
+  $x=0$ approximates $\cos(2)$ to within $0.001$ of the actual
+  answer.
+\begin{explanation}
+  Following Taylor's theorem, we need bounds on the size of the
+  derivatives of $f(x)=\cos(x)$. In the case of this trigonometric
+  function, this is easy. All derivatives of cosine are $\pm \sin(x)$
+  or $\pm \cos(x)$. In all cases, these functions are never greater
+  than $\answer[given]{1}$ in absolute value. We want the error to be
+  less than $0.001$. To find the appropriate $n$, consider the
+  following inequality:
+  \[
+  \frac{1}{(n+1)!}\cdot2^{(n+1)} \leq 0.001
+  \]
+We find an $n$ that satisfies this last inequality with trial-and-error. When $n=8$, we have
+\[
+\answer[given]{\frac{2^{8+1}}{(8+1)!}} \approx 0.0014;
+\]
+when $n=9$, we have
+\[
+\answer[given]{\frac{2^{9+1}}{(9+1)!}} \approx 0.000282 <0.001.
+\]
+Thus we want to approximate $\cos(2)$ with $p_9(2)$ in order to have 
+the desired accuracy.
+\end{explanation}
+\end{example}
+
+
+\section{Connections to differential equations}
+
+Our final example gives a brief introduction for using Taylor
+polynomials to solve differential equations.
+
+\begin{example}
+  A function $y=f(x)$ is unknown save for the following two facts.
+  \begin{itemize}
+  \item	$y(0) = f(0) = 1$, and
+  \item	$y'= y^2$.
+  \end{itemize}
+  Find the degree $3$ Maclaurin polynomial $p_3(x)$ of $y=f(x)$.
+  \begin{explanation}
+    One might initially think that not enough information is given to
+    find $p_3(x)$. However, note how the second fact above actually
+    lets us know what $y'(0)$ is:
+    \[
+    y' = y^2 \Rightarrow y'(0) = y^2(0).
+    \]
+    Since $y(0) = 1$, we conclude that $y'(0) = 1$.
+    
+    Now we find information about $y''$. Starting with $y'=y^2$, take
+    derivatives of both sides, \emph{with respect to $x$}. That means
+    we must use implicit differentiation.
+    \begin{align*}
+      y' &= \answer[given]{y^2}\\
+      \ddx(y') &= \ddx(y^2)\\
+      y'' &= \answer[given]{2y}\cdot y'.
+    \end{align*}
+    Now evaluate both sides at $x=0$:
+    \begin{align*}
+      y''(0) &= 2y(0)\cdot y'(0)\\
+      y''(0) &= \answer[given]{2}
+    \end{align*}
+    We repeat this once more to find $y'''(0)$. We again use implicit
+    differentiation; this time the Product Rule is also required.
+    \begin{align*}
+      \ddx(y'') &= \ddx (2yy')\\
+      y''' &= 2y'\cdot y' + 2y\cdot y''.
+    \end{align*}
+    Now evaluate both sides at $x=0$:
+    \begin{align*}
+      y'''(0) &= 2y'(0)^2 + 2y(0)y''(0)\\
+      y'''(0) &= \answer[given]{6}
+    \end{align*}
+    In summary, we have:
+    \[
+    y(0) = \answer[given]{1}, \qquad y'(0) = \answer[given]{1},  \qquad y''(0) = \answer[given]{2}, \qquad y'''(0) = \answer[given]{6}.
+    \]
+    We can now form $p_3(x)$:
+    \[
+      p_3(x) = \answer[given]{1+x+x^2+x^3}.
+    \]
+    It turns out that the differential equation we started with,
+    $y'=y^2$, where $y(0)=1$, can be solved without too much
+    difficulty: $y = \frac{1}{1-x}$. This makes sense in regard to
+    the previous examples.
+  \end{explanation}
+\end{example}
+
+
+Taylor polynomials are very useful approximation in two basic
+situations:
+\begin{enumerate}
+\item When $f$ is known, but perhaps ``hard'' to compute directly. For
+  instance, we can define $y=\cos(x)$ as either the ratio of sides of a
+  right triangle (``adjacent over hypotenuse'') or with the unit
+  circle. However, neither of these provides a convenient way of
+  computing $\cos(2)$. A Taylor polynomial of sufficiently high degree
+  can provide a reasonable method of computing such values using only
+  operations usually hard-wired into a computer ($+$, $-$, $\times$
+  and $\div$). However, even though Taylor polynomials \emph{could} be
+  used in calculators and computers to calculate values of
+  trigonometric functions, in practice they generally aren't. Other
+  more efficient and accurate methods have been developed, such as the
+  CORDIC algorithm.
+\item When $f$ is not known, but information about its derivatives
+  is known. This occurs more often than one might think, especially in
+  the study of differential equations.
+\end{enumerate}
+
+
 
 
 \end{document}

@@ -2,8 +2,13 @@
 \usepackage{multicol}
 \usepackage{stix}
 \usepackage{gillius}
+\usepackage[T1]{fontenc} %%Clobbers \d!!!
+\renewcommand{\d}{\mathop{}\!d} %% unclobbers \d
+\renewcommand{\l}{\ell} %% unclobbers \l
+
 \usepackage{fancyhdr}
 \usepackage{marginnote}
+\usepackage{microtype}
 
 \usepackage{etoolbox}
 %% fixes left margin note
@@ -23,10 +28,27 @@
 \renewcommand{\maketitle}{%
   \begin{center}%
     {\Large\textsf{\textbf{\@title\hfill\@course}}\vspace{0.5ex}\hrule\vspace{0.5ex}}
-    {\large\textsf{\null\hfill\@date}}
+    {\large\textsf{Autumn 2018\hfill\texttt{\@date}}}
   \end{center}
   \vfill
 }
+
+%% modified from https://tex.stackexchange.com/questions/192393/how-to-reduce-the-space-between-the-hat-of-overset-and-the-symbol
+\renewcommand{\vec}[1]{{\mathpalette\harpoonvec{\mathbf{#1}}}}
+\newcommand{\harpvecsign}{\scriptscriptstyle{\boldsymbol{\rightharpoonup}}}
+\newcommand{\harpoonvec}[2]{%
+  \ifx\displaystyle#1\doalign{$\harpvecsign$}{#1#2}\fi
+  \ifx\textstyle#1\doalign{$\harpvecsign$}{#1#2}\fi
+  \ifx\scriptstyle#1\doalign{\scalebox{.6}[.9]{$\harpvecsign$}}{#1#2}\fi
+  \ifx\scriptscriptstyle#1\doalign{\scalebox{.5}[.8]{$\harpvecsign$}}{#1#2}\fi
+}
+\newcommand{\doalign}[2]{%
+ {\vbox{\offinterlineskip\ialign{\hfil##\hfil\cr#1\cr$#2$\cr}}}%
+}
+
+\newcommand{\harpvecsignlight}{\scriptscriptstyle{\rightharpoonup}}
+
+
 
 
 
@@ -41,21 +63,14 @@
 \renewenvironment{multipleChoice}[1][]
 {\setkeys{multipleChoice}{#1}%
 \recordvariable{\mc@id}%
-\begin{trivlist}\item[\hskip \labelsep\small\bfseries Circle one.]\hfil\begin{enumerate}}
-{\end{enumerate}\end{trivlist}}
+{\bfseries Circle one.}\hfil\begin{enumerate}}
+{\end{enumerate}}
 
 
 
 \renewenvironment{selectAll}[1][]
-{\begin{trivlist}\item[\hskip \labelsep\small\bfseries Circle true statements. Cross-out false statements.]\hfil\begin{enumerate}}
-{\end{enumerate}\end{trivlist}}
-
-
-
-
-\renewcommand{\answer}[2][]{\raisebox{-8pt}[0pt][0pt]{\framebox(40,15)[l]{}} \ \ }
-
-
+{{\bfseries Circle true statements. Cross-out false statements.}\hfil\begin{enumerate}}
+{\end{enumerate}}
 
 %\setcounter{page}{1}
 %\pagenumbering{arabic}
@@ -66,3 +81,5 @@
 %\renewcommand{\headrulewidth}{0pt}
 % Set the right side of the footer to be the page number
 \fancyhead[LE,RO]{\thepage}
+\fancyhead[CO,CE]{\texttt{\@date}}
+

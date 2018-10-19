@@ -16,19 +16,23 @@
 \end{abstract}
 \maketitle
 
-
-Now we move on to \textit{double integrals}, and next discuss
-\textit{triple integrals}. Instead of integrating over an interval
-like
-\[
-[a,b]
-\]
-we now integrate over regions like this
+As we journey through calculus again, we are now ready for integrals.
+Instead of integrating over an interval like $[a,b]$ we now integrate
+over regions like this
 \[
 R = \{(x,y):\text{$x$ and $y$ satisfy some property}\}
 \]
-in particular, in this section we will only considering simple
-regions, by this we mean rectangles and boxes.
+in particular, in this section we will only consider rectangles and
+boxes, and this is what we mean by ``trivial'' regions. Here a
+rectangle is defined as:
+\[
+R = \{(x,y):\text{$a\le x\le b$ and $c\le y\le d$}\}
+\]
+A box is defined as:
+\[
+R = \{(x,y):\text{$a\le x\le b$, $c\le y\le d$, and $p\le q$}\}
+\]
+Let's get to work!
 
 
 \section{Double integrals}
@@ -62,13 +66,13 @@ a surface in $\R^3$. For example:
   \end{tikzpicture}
 \end{image}
 
-We are interested in the ``signed volume'' between this surface and
-the $(x,y)$-plane. This means that the space above the $(x,y)$ plane
-under $F$, will have a positive volume.  Space above $F$ and under the
-$(x,y)$-plane will have a ``negative'' volume. This is similar to the
-notion of ``signed area'' used before.  If we want to compute the
-signed volume of a surface defined by $F$ over a rectangular region,
-say the rectangle defined by
+We are interested in the ``signed volume'' or ``net volume'' between
+this surface and the $(x,y)$-plane. This means that the space above
+the $(x,y)$ plane under $F$ will have a positive volume.  Space above
+$F$ and under the $(x,y)$-plane will have a ``negative'' volume. This
+is similar to the notion of ``signed area'' used before.  If we want
+to compute the signed volume of a surface defined by $F$ over a
+rectangular region, say the rectangle defined by
 \[
 R = \{(x,y):\text{$a\le x\le b$ and $c\le y\le d$}\}
 \]
@@ -76,7 +80,7 @@ we break $R$ into $n$ slices parallel to the $x$-axis, and $m$ slices
 parallel to the $y$-axis. This allows us to consider boxes of
 dimension
 \[
-F(x_i^*,y_j^*)\times\underbrace{\left(\frac{b-a}{m}\right)}_{\Delta x}\times \underbrace{\left(\frac{d-c}{n}\right)}_{\Delta y}
+\underbrace{F(x_i^*,y_j^*)}_{\text{height}}\times\underbrace{\left(\frac{b-a}{m}\right)}_{\Delta x}\times \underbrace{\left(\frac{d-c}{n}\right)}_{\Delta y}
 \]
 where $(x_i^*,y_j^*)$ is a point in $(i,j)$-rectangle:
 \begin{image}
@@ -202,7 +206,11 @@ where $(x_i^*,y_j^*)$ is a point in $(i,j)$-rectangle:
   \end{tikzpicture}
 \end{image}
 
-Computing the volume of each of these boxes approximates the signed volume enclosed by the surface: 
+Computing the volume of each of these boxes approximates and summing them together
+\[
+\sum_{j=1}^n\sum_{i=1}^m F(x^*_i,y^*_j)\Delta x\Delta y
+\]
+approximates the signed volume enclosed by the surface: 
 
 \begin{image}
 \begin{tikzpicture}
@@ -239,12 +247,10 @@ Computing the volume of each of these boxes approximates the signed volume enclo
 \end{image}
 
 Letting the number of rectangles in the $x$-direction and
-$y$-direction go to infinity, we will have that
-\[
-\Delta x \cdot \Delta y
-\]
-goes to zero, and we will find the exact volume enclosed by our surface when
-bounded by the region $R$. This leads to our definition of a \textit{double integral}:
+$y$-direction go to infinity, we will have that $\Delta x \cdot \Delta
+y$ goes to zero, and we will find the exact volume enclosed by our
+surface when bounded by the region $R$. This leads to our definition
+of a \textit{double integral}:
 
 \begin{definition}
   Given a function $F:\R^2\to\R$, a \dfn{double integral}
@@ -253,7 +259,7 @@ bounded by the region $R$. This leads to our definition of a \textit{double inte
   \]
   of a function $F$ over a rectangular region $R$, is given by:
   \[
-  \iint_R F(x,y) \d A = \lim_{\substack{m\to\infty\\ n\to\infty}}\sum_{i=1}^m\sum_{j=1}^n F(x^*_i,y^*_j)\Delta x\Delta y
+  \iint_R F(x,y) \d A = \lim_{\substack{m\to\infty\\ n\to\infty}}\sum_{j=1}^n\sum_{i=1}^m F(x^*_i,y^*_j)\Delta x\Delta y
   \]
 \end{definition}
 
@@ -267,16 +273,17 @@ bounded by the region $R$. This leads to our definition of a \textit{double inte
           xmax=4.2,
           ymin=-0.2,
           ymax=6.2,
-          axis lines=center,
+          axis x line=bottom,
+          axis y line=left,
           xlabel=$x$,ylabel=$y$,
           every axis y label/.style={at=(current axis.above origin),anchor=south},
           every axis x label/.style={at=(current axis.right of origin),anchor=west},
 	  domain=-1:2,
           clip=false,
-	  ytick={2,4,6},
-	  yticklabels={$2$,$4$,$6$},
-	  xtick={1,2,3,4},
-	  xticklabels={$1$,$2$,$3$,$4$},
+	  ytick={0,2,4,6},
+	  yticklabels={$0$,$2$,$4$,$6$},
+	  xtick={0,1,2,3,4},
+	  xticklabels={$0$,$1$,$2$,$3$,$4$},
 	  grid = major
 	]
 	\node at (axis cs: .5,1) {$1$};
@@ -307,6 +314,10 @@ bounded by the region $R$. This leads to our definition of a \textit{double inte
       \Delta y &= \answer{2}
     \end{align*}
   \end{prompt}
+  \begin{prompt}
+    Now, simply add up the $z$-values found in the rectangles that are
+    within our region and multiply by $\answer{2}$.
+  \end{prompt}
   Compute $\iint_R F(x,y)\d A$.
   \begin{prompt}
     \[
@@ -316,7 +327,24 @@ bounded by the region $R$. This leads to our definition of a \textit{double inte
 \end{question}
 
 
-How do we compute a double integral with calculus? We use an \textit{iterated integral}.
+How do we compute a double integral with calculus? We use an
+\textit{iterated integral}. At this point we will introduce something
+called \textit{Fubini's Theorem}.
+
+
+\subsection{Fubini's Theorem}
+
+Fubini's Theorem gives us a recipe for computing double integrals. In
+this class, we are going to have many different versions of Fubini's
+Theorem. The common factor between all of these theorems is that with
+each, the ``punch-line'' will be:
+\[
+\underbrace{\iint_R F(x,y) \d A}_{\text{a double integral}} = \underbrace{\int_?^? \int_?^? F(x,y) \d A}_{\text{an iterated integral}}
+\]
+where an \textit{iterated integral}\index{iterated integral} is
+nothing more than two applications of our familiar friend/foe: the
+single integral.
+
 
 \begin{theorem}[Fubini's Theorem]\index{Fubini's Theorem}
   Let $F$ be continuous on the region
@@ -396,16 +424,24 @@ Now let's work some examples:
     \end{tikzpicture}
   \end{image}
   \begin{explanation}
-    We will compute this integral two different ways. Write with me,
+    We will compute this integral two different ways. First apply Fubini's Theorem:
+    \[
+    \iint_R \big(xy+e^y\big) \d A = \int_3^{\answer[given]{4}}\int_{\answer[given]{1}}^{\answer[given]{2}}\big(xy+e^y\big) \d \answer[given]{y} \d \answer[given]{x}
+    \]
+    Now integrate with respect to $y$, treating $x$ as a constant:
     \begin{align*}
-      \iint_R \big(xy+e^y\big) \d A &= \int_3^{\answer[given]{4}}\int_{\answer[given]{1}}^{\answer[given]{2}}\big(xy+e^y\big) \d \answer[given]{y} \d \answer[given]{x}\\
-      &= \int_{\answer[given]{3}}^{\answer[given]{4}} \eval{\answer[given]{\frac{1}{2}xy^2+e^y}}_{\answer[given]{1}}^{\answer[given]{2}} \d \answer[given]{x} \\
-      &= \int_{\answer[given]{3}}^{\answer[given]{4}}\left(\answer[given]{\frac{3}{2}x + e^2-e}\right)\d \answer[given]{x} \\
+    = \int_{\answer[given]{3}}^{\answer[given]{4}} \eval{\answer[given]{\frac{1}{2}xy^2+e^y}}_{\answer[given]{1}}^{\answer[given]{2}} \d \answer[given]{x} \\
+    &= \int_{\answer[given]{3}}^{\answer[given]{4}}\left(\answer[given]{\frac{3}{2}x + e^2-e}\right)\d \answer[given]{x}
+    \end{align*}
+    Now integrate with respect to $x$, treating $y$ as a constant:
+    \begin{align*}
       &= \eval{\answer[given]{\frac{3}{4}x^2 + (e^2-e)x}}_{\answer[given]{3}}^{\answer[given]{4}} \\
       &= \answer[given]{\frac{21}{4}+ e^2-e}.
     \end{align*}
-  Now let's compute this integral using a different order of
-  integration. Write with me,
+
+    
+  Now let's compute this integral using a \textbf{different order of
+  integration.} Write with me,
   \begin{align*}
     \iint_R\big(xy+e^y\big) \d A &= \int_1^{\answer[given]{2}}\int_{\answer[given]{3}}^{\answer[given]{4}}\big(xy+e^y\big)\d \answer[given]{x} \d \answer[given]{y} \\
     &= \int_{\answer[given]{1}}^{\answer[given]{2}}\eval{\answer[given]{\frac{1}{2}x^2y+xe^y}}_{\answer[given]{3}}^{\answer[given]{4}}\d \answer[given]{y}\\
@@ -413,12 +449,14 @@ Now let's work some examples:
     &= \eval{\answer[given]{\frac{7}{4}y^2+e^y}}_{\answer[given]{1}}^{\answer[given]{2}}\\
     &=\answer[given]{\frac{21}{4}+e^2-e}.
   \end{align*}
+  Note our answers are \textbf{the same} regardless of the order of
+  integration.
   \end{explanation}
 \end{example}
 
 In our next example, we will see that it is sometimes easier to apply
-Fubini's Theorem and integrate with respect to one variable or the
-other.
+Fubini's Theorem and integrate with respect to one variable instead of
+the other.
 
 \begin{example}
   Let $F(x,y) = xe^{xy}$. Find the signed volume under $F$ on the region
@@ -469,8 +507,8 @@ other.
     \[
     \int_0^1 \int_0^1 x e^{xy} \d x \d y
     \]
-    As we will see, the difficulty is three-fold. To integrate with
-    respect to $x$, you can use our first trick, integration by parts:
+    As we will see, this integral will require three tricks. To
+    integrate with respect to $x$, you can use integration by parts:
     \begin{align*}
       \int_0^1 \int_0^1 x e^{xy} \d x \d y &= \int_0^1 \eval{\answer[given]{\frac{xe^{xy}}{y}-\frac{e^{xy}}{y^2}}}_0^1\d y\\
       &= \int_0^1 \left(\frac{e^{y}}{y}-\frac{e^y}{y^2} + \frac{1}{y^2}\right)\d y
@@ -483,7 +521,7 @@ other.
     Now we must integrate with respect to $y$. This is also
     tricky. Our second trick is to rewrite our current integrand as
     \[
-    \frac{y e^y - \answer[given]{(e^y -1)}}{y^2}
+    \frac{y e^y - \left(\answer[given]{e^y -1}\right)}{y^2}
     \]
     and now ``see'' that this results from the quotient rule being
     applied to
@@ -506,8 +544,11 @@ other.
     \[
     \int_0^1 \int_0^1 x e^{xy} \d x \d y = \answer[given]{e-2}
     \]
-    Whew. This was hard! But there is an easier way. Use Fubini's
-    Theorem and integrate with respect to $y$ first! Fubini's theorem says:
+    Whew. This was hard!
+
+
+    Now use Fubini's Theorem and integrate with respect to $y$ first!
+    Fubini's theorem says:
     \[
     \int_0^1 \int_0^1 x e^{xy} \d x \d y =  \int_0^1 \int_0^1 x e^{xy} \d y \d x
     \]
@@ -520,7 +561,8 @@ other.
       &= \eval{\answer[given]{e^x - x}}_0^1\\
       &= \answer[given]{e-2}
     \end{align*}
-    Man alive! That was easy!
+    Man alive! That was easy! Note, we get the same final answer
+    regardless of the order of integration. Thank-you Fubini!
   \end{explanation}
 \end{example}
 
@@ -536,9 +578,18 @@ bounded by a
 \link[hypersurface]{http://en.wikipedia.org/wiki/Four-dimensional_space}
 and a three-dimensional region.
 \[
-\iiint_R F(x,y,z) \d V = \lim_{\substack{\l\to\infty\\ m\to\infty\\ n\to\infty}}\sum_{i=1}^\l\sum_{j=1}^m \sum_{k=1}^n F(x^*_i,y^*_j,z_k^*)\Delta x\Delta y\Delta z
+\iiint_R F(x,y,z) \d V = \lim_{\substack{\l\to\infty\\ m\to\infty\\ n\to\infty}}
+\sum_{k=1}^n
+\sum_{j=1}^m
+\sum_{i=1}^\l
+F(x^*_i,y^*_j,z_k^*)\Delta x\Delta y\Delta z
 \]
-How do we compute a triple integral with calculus? We use Fubini's theorem again, along with iterated integrals.
+How do we compute a triple integral with calculus? We use our second
+version of Fubini's Theorem. This time, it will say something like:
+
+\[
+\underbrace{\iiint_R F(x,y) \d A}_{\text{a triple integral}} = \underbrace{\int_?^? \int_?^? \int_?^? F(x,y) \d A}_{\text{an iterated integral}}
+\]
 
 \begin{theorem}[Fubini's Theorem]\index{Fubini's Theorem}
   Let $F$ be continuous on the region
@@ -549,9 +600,21 @@ How do we compute a triple integral with calculus? We use Fubini's theorem again
   \[
   \iiint_R F(x,y,z) \d V  = \int_a^b\int_c^d\int_p^q F(x,y,z)\d z \d y\d x.
   \]
-  As before, all \textit{six} combinations of orders of integration
-  will work, provided that the bounds are changed appropriately. 
+  Here, all \textit{six} combinations of orders of integration will
+  work, and be equal, provided that the bounds are changed
+  appropriately.
 \end{theorem}
+
+\begin{remark}
+  Note that when computing a triple iterated integral, after the
+  innermost integral is evaluated, you are now working with a double
+  iterated integral.
+\end{remark}
+
+
+
+
+
 
 \begin{question}
   Let $F$ be a continuous function on the region $R$.
@@ -584,20 +647,29 @@ Let's do an example.
   R = \{(x,y):\text{$0\le x\le \pi$, $0\le y\le \pi$, and $0\le z\le \pi$}\}.
   \]
   \begin{explanation}
-    Write with me:
+    First apply Fubini's Theorem to convert the triple integral into an iterated integral:
+    \[
+    \iiint_R F(x,y,z) \d V =\int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}} \answer[given]{\cos(x-y)\sin(z)} \d x \d y \d z
+    \]
+    Now integrate with respect to $x$:
     \begin{align*}
-      \iiint_R F(x,y,z) \d V &=\int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}} \answer[given]{\cos(x-y)\sin(z)} \d x \d y \d z \\
       &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}}\eval{\answer[given]{\sin(x-y)\sin(z)}}_{\answer[given]{0}}^{\answer[given]{\pi}}\d y \d z \\
-      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}}\left(\answer[given]{\sin(\pi-y)\sin(z) + \sin(y)\sin(z)}\right)\d y \d z \\
-      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\eval{\answer[given]{\cos(\pi-y)\sin(z) -\cos(y)\sin(z)}}_{\answer[given]{0}}^{\answer[given]{\pi}} \d z \\
-      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\left(\answer[given]{4\sin(z)}\right) \d z \\
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\int_{\answer[given]{0}}^{\answer[given]{\pi}}\left(\answer[given]{\sin(\pi-y)\sin(z) + \sin(y)\sin(z)}\right)\d y \d z 
+    \end{align*}
+    Now integrate with respect to $y$:
+    \begin{align*}
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\eval{\answer[given]{\cos(\pi-y)\sin(z) -\cos(y)\sin(z)}}_{\answer[given]{0}}^{\answer[given]{\pi}} \d z\\
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi}}\answer[given]{4\sin(z)} \d z
+    \end{align*}
+    Finally integrate with respect to $z$:
+    \begin{align*}
       &= \eval{\answer[given]{-4\cos(z)}}_{\answer[given]{0}}^{\answer[given]{\pi}} \\
       &= \answer[given]{8}
     \end{align*}
   \end{explanation}
 \end{example}
 
-We've just begun our journey with integrals. Next, we'll think about
+We've just begun our journey with multiple integrals. Next, we'll think about
 more complex regions! For some interesting extra reading check out:
 \begin{itemize}
 \item \link[\textit{Three Aspects of Fubini's Theorem}, J.\ C.\ Fisher and

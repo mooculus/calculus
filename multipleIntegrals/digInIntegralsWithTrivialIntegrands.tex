@@ -12,7 +12,7 @@
 
 \begin{document}
 \begin{abstract}
-  We study integrals over general regions with and integrand equaling one.
+  We study integrals over general regions by integrating $1$.
 \end{abstract}
 \maketitle
 
@@ -20,29 +20,108 @@
 Now we will integrate over regions that are more complex than
 rectangles and boxes. In particular we will find areas of regions
 bounded by curves in $\R^2$, and volumes of regions bounded by
-surfaces in $\R^3$.
+surfaces in $\R^3$. To do this we will use integrals whose integrand
+is $1$. The \dfn{integrand} is the ``thing'' you are integrating:
+\[
+\iint_R \underbrace{F(x,y)}_{\text{integrand}} \d A
+\]
+Think about this: The integral
+\[
+\int_a^b \d x = \int_a^b 1 \d x = b-a
+\]
+computes the length between $a$ and $b$. This is because the area
+between the constant curve of height one and the $x$-axis is just the
+length of the curve! In a similar way:
+\[
+\iint_R \d A = \iint_R 1 \d A = \text{Area of $R$}
+\]
+Here you imagine a surface of constant height $1$ above a region $R$:
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [
+          tick label style={font=\scriptsize},%axis on top,
+	  axis lines=center,
+	  view={135}{25},
+	  name=myplot,
+	  %% xtick=\empty,
+	  %% ytick=\empty,
+	  %% ztick=\empty,
+	  %% extra x ticks={1},
+	  %% extra x tick labels={$a$},
+	  %% extra y ticks={1},
+	  %% extra y tick labels={$a$},
+	  %% extra z ticks={1},
+	  %% extra z tick labels={$h$},
+	  ymin=-8,ymax=8,
+	  xmin=-8,xmax=8,
+	  zmin=-.1, zmax=8,
+	  every axis x label/.style={at={(axis cs:\pgfkeysvalueof{/pgfplots/xmax},0,0)},xshift=-1pt,yshift=-4pt},
+	  xlabel={\scriptsize $x$},
+	  every axis y label/.style={at={(axis cs:0,\pgfkeysvalueof{/pgfplots/ymax},0)},xshift=5pt,yshift=-3pt},
+	  ylabel={\scriptsize $y$},
+	  every axis z label/.style={at={(axis cs:0,0,\pgfkeysvalueof{/pgfplots/zmax})},xshift=0pt,yshift=4pt},
+	  zlabel={\scriptsize $z$},colormap/cool
+	]
+        
+        \addplot3[smooth cycle,ultra thick, penColor] coordinates{
+          (-4,6,0) (-7,4,0) (-5,1,0) (-6,-3,0) (1,-5,0) (7,1,0) (4,6,0) (0,5,0)};
+        \addplot3[smooth cycle,ultra thick, penColor,fill=fill1] coordinates{
+          (-4,6,1) (-7,4,1) (-5,1,1) (-6,-3,1) (1,-5,1) (7,1,1) (4,6,1) (0,5,1)};
+        \node at (axis cs: 0,0,1.2) {$R$};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+The volume under the plane of constant height $1$ above the region $R$
+is numerically equal to the area of $R$. In an entirely similar way, if $R$ is a subset of $\R^3$, then 
+\[
+\iiint_R \d V = \iiint_R 1 \d V= \text{Volume of $R$}
+\]
+In this section we will focus on integrals with a trivial integrand,
+meaning it is $1$, and hence the section is called ``Integrals with
+trivial integrand.''
+
+
+
 
 \section{Double integrals and area}
 
-We start with Fubini's Theorem. While we will state it generally, in
-this section the integrand, $F$, will always be $1$.
+We start with a third version of Fubini's Theorem. 
 
 \begin{theorem}[Fubini's Theorem]\index{Fubini's Theorem}
   Let $R$ be a closed, bounded region in the $(x,y)$-plane and let
   $F(x,y)$ be a continuous function on $R$.
   \begin{itemize}
-  \item If
-    \[
-    R=\{(x,y):\text{$a\leq x\leq b$ and $g_1(x)\leq y\leq g_2(x)$}\}
-    \]
+  \item If $R=\{(x,y):\text{$a\leq x\leq b$ and $g_1(x)\leq y\leq g_2(x)$}\}$ 
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+          tick label style={font=\scriptsize},
+          axis y line=middle,axis x line=middle,
+          name=myplot,
+	  xtick={1,2},
+	  ytick={1,2},
+          grid=major,
+          grid style={dashed, gridColor},
+	  ymin=-.5,ymax=2.5,%
+	  xmin=-.5,xmax=3.5,
+          rounded corners=.5pt
+          ]
+          \addplot [ultra thick,penColor, smooth] coordinates{(1,1) (1.2,1.4) (1.4,1.3) (1.6,.7) (1.8,1) (2,1.4)};
+          
+          \draw (axis cs: 1.5,1.3) node {$R$};
+        \end{axis}
+        
+      \node [right] at (myplot.right of origin) {\scriptsize $x$};
+      \node [above] at (myplot.above origin) {\scriptsize $y$};
+      \end{tikzpicture}
+    \end{image}    
     where $g_1$ and $g_2$ are continuous functions on $[a,b]$, then
     \[
     \iint_R F(x,y) \d A = \int_a^b\int_{g_1(x)}^{g_2(x)} F(x,y)\d y\d x.
     \]
-  \item If
-    \[
-    R=\{(x,y):\text{$c\leq y\leq d$ and $g_3(y)\leq x\leq g_4(y)$}\}
-    \]
+  \item If $R=\{(x,y):\text{$c\leq y\leq d$ and $g_3(y)\leq x\leq g_4(y)$}\}$
+    
     where $g_3$ and $g_4$ are continuous functions on $[c,d]$, then
     \[
     \iint_R F(x,y)\d A = \int_c^d\int_{g_3(y)}^{g_4(y)} F(x,y)\d x\d y.
@@ -50,17 +129,16 @@ this section the integrand, $F$, will always be $1$.
 \end{itemize}
 \end{theorem}
 
-When the integrand of a double integral is $1$, like this
+It is important to note that when using Fubini's Theorem, we must
+always have numbers as the limits of the outer-most integral and
+curves (note constant curves are numbers) as the limits of the inner-most integral:
 \[
-\iint_R\d A
+\int_{\text{number}}^{\text{number}}\int_{\text{curve}}^{\text{curve}} F(x,y) \d A
 \]
-this integral computes the \textbf{area} of the region. This is
-because you are finding the ``signed volume'' between the curve and
-the plane $z=1$. In our first example, we will use this ``hammer to
-swat a fly,'' meaning, we are essentially using a much more difficult
-method than necessary! We apologize in advance, and include the
-example because it is illustrative of the method of using double
-integrals to compute areas.
+
+Whenever you learn a new technique, you should always ``try it out''
+on a computation where you know the answer through a different
+method. So let's used an integral to find the area of a triangle.
 
 \begin{example}
   Set-up and evaluate an iterated integral that will compute the area
@@ -126,11 +204,6 @@ integrals to compute areas.
   \end{prompt}
 \end{question}
 
-In our example above, we used an integral to find the area of a
-triangle. Whenever you learn a new technique, you should always ``try
-it out'' on a computation where you know the answer through a
-different method. With our next two examples, we'll work with regions
-where calculus really helps out.
 
 \begin{example}
   Set-up and evaluate an iterated integral that will compute the area
@@ -282,6 +355,16 @@ We start by again(!) introducing another version of Fubini's Theorem.
     the young mathematician the details, and trust that you will sort
     it out.
 \end{theorem}
+
+Again note that when using Fubini's Theorem, we must always have
+numbers as the limits of the outer-most integral, curves as the limits
+of the middle integral, and surfaces as the limits of the inner-most
+integral:
+\[
+\int_{\text{number}}^{\text{number}}\int_{\text{curve}}^{\text{curve}}\int_{\text{surface}}^{\text{surface}}
+F(x,y,z) \d V
+\]
+
 
 Now with Fubini's help, we will use triple integrals to compute
 volumes.

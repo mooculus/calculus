@@ -264,7 +264,7 @@ method. So let's used an integral to find the area of a triangle.
 We can change the order of integration. This can make a big difference
 in the difficulty of the integral in question. This can be somewhat
 challenging. If you have a graph of the region in question, this can
-help quite a bit. If not, then a stragety is to
+help quite a bit. If not, then a strategy is to
 \begin{itemize}
 \item Find absolute bounds for each variable.
 \item Solve inequalities that will allow you to integrate:
@@ -304,7 +304,7 @@ Let's see an example.
 Let's see another example.
 
 
-\begin{question}
+\begin{example}
   Consider:
   \[
   \int_{-6}^6 \int_{y^2/3}^12 \d x \d y 
@@ -327,84 +327,144 @@ Let's see another example.
     \iint_R \d A = \int_{\answer{0}}^{\answer{12}}\int_{\answer{-\sqrt{3x}}}^{\answer{\sqrt{3x}}} \d y \d x
     \]
   \end{explanation}
-\end{question}
+\end{example}
 
 Sometimes when you switch the order of integration, you will need to
 write the sum of iterated integrals. You can recognize this by the
-fact that you won't be able to express 
-
-
-
-
-
-
-And now for one more example of using a double integral to compute the
-area of a region.
+fact that you won't be able to find a single curve to bound your inner
+integral. This will be more clear with an example.
 
 \begin{example}
-  Set-up and evaluate an iterated integral that will compute the area
-  of the region below via a double integral:
+  Consider the region:
   \begin{image}
     \begin{tikzpicture}
       \begin{axis}[
-          tick label style={font=\scriptsize},axis y line=middle,axis x line=middle,name=myplot,axis on top,%
-	  ymin=-.5,ymax=1.1,%
-	  xmin=-.5,xmax=1.1%
+          tick label style={font=\scriptsize},
+          axis y line=middle,axis x line=middle,
+          name=myplot,
+	  xtick={1,2,...,5},
+	  ytick={1,2,...,4},
+          grid=major,
+          grid style={dashed, gridColor},
+	  ymin=-.5,ymax=4.5,%
+	  xmin=-.5,xmax=5.5,
+          rounded corners=.5pt
         ]
-        \draw (axis cs: .5,.4) node {$R$}
-	(axis cs: .5,.8) node [rotate=26] {\scriptsize $y=\sqrt{x}$}
-	(axis cs: .75,.16) node [rotate=29] {\scriptsize $y=x^4$};
+        \draw [ultra thick,penColor] (axis cs:1,1) -- (axis cs: 1,4)-- (axis cs: 5,2)  -- cycle;
         
-        \addplot [penColor,ultra thick, smooth,domain=0:1.05,samples=20] ({x},{x^4});
-        \addplot [penColor,ultra thick, smooth,domain=0:1.05,samples=20] ({x^2},{x});
+        \draw (axis cs: 2.5,2.5) node {$R$};
       \end{axis}
       
       \node [right] at (myplot.right of origin) {\scriptsize $x$};
       \node [above] at (myplot.above origin) {\scriptsize $y$};
     \end{tikzpicture}
   \end{image}
+  Set-up iterated integrals that compute the area of $R$.
   \begin{explanation}
-    Our region above can be defined by:
+    First we'll integrate with respect to $y$ and then $x$. Here
     \[
-    R=\{(x,y):\text{$0\leq x\leq 1$ and $x^4\leq y\leq \sqrt{x}$}\}
+    \answer[given]{1}\le x \le \answer[given]{5}
     \]
-    The area of this region is given by, write with me, 
+    and
+    \[
+    \answer[given]{(x+3)/4}\le y \le \answer[given]{(9-x)/2}
+    \]
+    so our integral is:
+    \[
+    \int_{\answer[given]{1}}^{\answer[given]{5}} \int_{\answer[given]{(x+3)/4}}^{\answer[given]{(9-x)/2}}\d y \d x
+    \]
+  
+    Now let's integrate with respect to $x$ and then $y$.  If we give
+    absolute bounds to our inequalites above, we see something
+    strange:
+    \[
+    1 \le \answer[given]{(x+3)/4}\le y \le \answer[given]{(9-x)/2} \le 4 
+    \]
+    This is actually \textbf{two} inequalities (note we can see this
+    from the graph):
     \begin{align*}
-      \int_{\answer[given]{0}}^{\answer[given]{1}}\int_{\answer[given]{x^4}}^{\answer[given]{\sqrt{x}}}\d y \d x &= \int_{\answer[given]{0}}^{\answer[given]{1}} \eval{\answer[given]{y}}_{\answer[given]{x^4}}^{\answer[given]{\sqrt{x}}} \d x\\
-      &=  \int_{\answer[given]{0}}^{\answer[given]{1}} \left(\answer[given]{\sqrt{x}-x^4}\right) \d x\\
-      &=  \eval{\answer[given]{2x^{3/2}/3 - x^5/5}}_{\answer[given]{0}}^{\answer[given]{1}}\\
-      &= \answer[given]{7/15}. 
+      1 &\le \answer[given]{(x+3)/4}\le y && \text{and}\\
+      y &\le \answer[given]{(9-x)/2} \le 4 
+    \end{align*}
+    Solving for $x$ in these inequalities we find:
+    \begin{align*}
+      1 &\le x \le 4y-3 && \text{and}\\
+      1 &\le x \le 9-2y
+    \end{align*}
+    Here $x$ is bounded by two \textbf{different} curves! When this
+    happens, it is probably best to look at the graph of the
+    situation:
+    \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}[
+          tick label style={font=\scriptsize},
+          axis y line=middle,axis x line=middle,
+          name=myplot,
+	  xtick={1,2,...,5},
+	  ytick={1,2,...,4},
+          grid=major,
+          grid style={dashed, gridColor},
+	  ymin=-.5,ymax=4.5,%
+	  xmin=-.5,xmax=5.5,
+          rounded corners=.5pt
+        ]
+        \draw [ultra thick,penColor] (axis cs:1,1) -- (axis cs: 1,4)-- (axis cs: 5,2)  -- cycle;
+        
+        \draw (axis cs: 2.5,2.5) node {$R$};
+        \node [above right,penColor] at (axis cs: 3,3) {$x=9-2y$};
+        \node [below right, penColor] at (axis cs: 3,1.5) {$x=4y-3$};
+      \end{axis} 
+      \node [right] at (myplot.right of origin) {\scriptsize $x$};
+      \node [above] at (myplot.above origin) {\scriptsize $y$};
+    \end{tikzpicture}
+    \end{image}
+    Thus we see that the area can be found by the sum:
+    \[
+    \int_1^2 \int_{\answer[given]{1}}^{\answer[given]{4y-3}}\d x \d y +\int_2^4 \int_{\answer[given]{1}}^{\answer[given]{9-2y}}\d x \d y
+    \]
+  \end{explanation}
+\end{example}
+
+
+
+
+\subsection{Why change the order of integration?}
+
+You may ask yourself, ``Why change the order of integration?''
+Sometimes changing the region can make a difficult (impossible)
+antiderivative easier (not impossible). Let's see an example.
+
+\begin{example}
+  Compute:
+  \[
+  \int_0^{\pi/2}\int_y^{\pi/2} \frac{\sin(x)}{x} \d x \d y
+  \]
+  \begin{explanation}
+    Here you don't stand a chance if you try to antidifferentiate with
+    respect to $x$. So the trick is to immediately swap the order of
+    antidifferentation. Starting by writing absolute bounds for $x$
+    and $y$:
+    \[
+    0\le \answer[given]{y}\le \answer[given]{x}\le\pi/2
+    \]
+    Now we see that:
+    \begin{align*}
+      \int_0^{\pi/2}\int_y^{\pi/2} \frac{\sin(x)}{x} \d x \d y &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}}\int_{\answer[given]{0}}^{\answer[given]{x}} \frac{\sin(x)}{x} \d y \d x\\
+      &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}} \answer[given]{\sin(x)} \d x\\
+      &=\answer[given]{1}
     \end{align*}
   \end{explanation}
 \end{example}
 
-\begin{question}
-  In the previous example, we integrated with respect to $y$
-  first. Set-up an integral that computes the area of $R$ that
-  integrates with respect to $x$ first.
-  \begin{prompt}
-    Start by finding overall bounds for our variables. In this case:
-    \begin{align*}
-      0\le &x \le 1\\
-      \answer{0}\le x^4\le &y \le \sqrt{x}\le \answer{1}
-    \end{align*}
-    Now, write $x$ in terms of $y$. Since $y$ is bounded by $x$ on
-    both sides, we'll do this in two steps. Write with me:
-    \begin{align*}
-      \answer{0}\le &x^4\le y\\
-      0 \le &x \le \answer{y^{1/4}}
-    \end{align*}
-    and
-    \begin{align*}
-      y\le &\sqrt{x}\le \answer{1}\\
-      \answer{y^2} \le &x \le 1
-    \end{align*}
-    We may now write our desired integral:
-    \[
-    \iint_R \d A = \int_{\answer{0}}^{\answer{1}}\int_{\answer{y^2}}^{\answer{y^{1/4}}} \d x \d y
-    \]
-  \end{prompt}
-\end{question}
+This author does not know how to solve the problem above without
+changing the order of integration.
+
+
+
+
+
+
+
 
 
 \section{Triple integrals and volume}
@@ -583,36 +643,6 @@ volumes.
   \end{prompt}
 \end{question}
 
-\section{When the integrand isn't one}
 
-What if the integrand isn't $1$? Computationally, you just do what you
-did before, but you have an additional antiderivative to
-compute. However, sometimes the nontrivial region can make a difficult antiderivative quite ease. Let's see one more example.
-
-\begin{example}
-  Compute:
-  \[
-  \int_0^{\pi/2}\int_y^{\pi/2} \frac{\sin(x)}{x} \d x \d y
-  \]
-  \begin{explanation}
-    Here you don't stand a chance if you try to antidifferentiate with
-    respect to $x$. So the trick is to immediately swap the order of
-    antidifferentation. Starting by writing absolute bounds for $x$
-    and $y$:
-    \[
-    0\le \answer[given]{y}\le \answer[given]{x}\le\pi/2
-    \]
-    Now we see that:
-    \begin{align*}
-      \int_0^{\pi/2}\int_y^{\pi/2} \frac{\sin(x)}{x} \d x \d y &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}}\int_{\answer[given]{0}}^{\answer[given]{x}} \frac{\sin(x)}{x} \d y \d x\\
-      &= \int_{\answer[given]{0}}^{\answer[given]{\pi/2}} \answer[given]{\sin(x)} \d x\\
-      &=\answer[given]{1}
-    \end{align*}
-  \end{explanation}
-\end{example}
-
-
-You may be wondering, what do multiple integrals mean when the
-integrand is not $1$? Read on! 
 
 \end{document}

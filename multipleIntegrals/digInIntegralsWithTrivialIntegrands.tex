@@ -79,7 +79,7 @@ is numerically equal to the area of $R$. In an entirely similar way, if $R$ is a
 \]
 In this section we will focus on integrals with a trivial integrand,
 meaning it is $1$, and hence the section is called ``Integrals with
-trivial integrand.''
+trivial integrands.''
 
 
 
@@ -99,17 +99,25 @@ We start with a third version of Fubini's Theorem.
           tick label style={font=\scriptsize},
           axis y line=middle,axis x line=middle,
           name=myplot,
-	  xtick={1,2},
-	  ytick={1,2},
-          grid=major,
-          grid style={dashed, gridColor},
-	  ymin=-.5,ymax=2.5,%
-	  xmin=-.5,xmax=3.5,
+          width=3in,
+          height=2in,
+	  xtick={1,4},
+          xticklabels={$a$,$b$},
+          ytick = \empty,
+          %ytick={1,3},
+          %yticklabels={$g$,$d$},
+          ymin=-.2,ymax=4.2,%
+	  xmin=-.2,xmax=5.2,
           rounded corners=.5pt
           ]
-          \addplot [ultra thick,penColor, smooth] coordinates{(1,1) (1.2,1.4) (1.4,1.3) (1.6,.7) (1.8,1) (2,1.4)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(1,1) (2.5,2) (4,1.4)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(1,3) (2,4) (4,2.5)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(1,3) (1,1)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(4,1.4) (4,2.5)};
           
-          \draw (axis cs: 1.5,1.3) node {$R$};
+          \draw (axis cs: 2,3) node {$R$};
+          \draw (axis cs: 2,1.2) node {$g_1(x)$};
+          \draw (axis cs: 3,4) node {$g_2(x)$};
         \end{axis}
         
       \node [right] at (myplot.right of origin) {\scriptsize $x$};
@@ -121,7 +129,36 @@ We start with a third version of Fubini's Theorem.
     \iint_R F(x,y) \d A = \int_a^b\int_{g_1(x)}^{g_2(x)} F(x,y)\d y\d x.
     \]
   \item If $R=\{(x,y):\text{$c\leq y\leq d$ and $g_3(y)\leq x\leq g_4(y)$}\}$
-    
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}[
+          tick label style={font=\scriptsize},
+          axis y line=middle,axis x line=middle,
+          name=myplot,
+          width=3in,
+          height=2in,
+	  xtick=\empty,
+          ytick={1,3},
+          yticklabels={$c$,$d$},
+          ymin=-.2,ymax=4.2,%
+	  xmin=-.2,xmax=5.2,
+          rounded corners=.5pt,
+          clip=false,
+          ]
+          \addplot [ultra thick,penColor, smooth] coordinates{(1,1) (2.5,2.5) (2,3)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(4,1) (4.5,2) (4,3)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(1,1) (4,1)};
+          \addplot [ultra thick,penColor, smooth] coordinates{(2,3) (4,3)};
+          
+          \draw (axis cs: 3,2) node {$R$};
+          \draw (axis cs: 1.3,2) node {$g_3(y)$};
+          \draw (axis cs: 5,2) node {$g_4(y)$};
+        \end{axis}
+        
+      \node [right] at (myplot.right of origin) {\scriptsize $x$};
+      \node [above] at (myplot.above origin) {\scriptsize $y$};
+      \end{tikzpicture}
+    \end{image}    
     where $g_3$ and $g_4$ are continuous functions on $[c,d]$, then
     \[
     \iint_R F(x,y)\d A = \int_c^d\int_{g_3(y)}^{g_4(y)} F(x,y)\d x\d y.
@@ -135,6 +172,9 @@ curves (note constant curves are numbers) as the limits of the inner-most integr
 \[
 \int_{\text{number}}^{\text{number}}\int_{\text{curve}}^{\text{curve}} F(x,y) \d A
 \]
+Note, if we set $g_1$ and $g_2$ (or $g_3$ and $g_4$) to be constant
+functions, we recover the version of Fubini's Theorem from the
+previous section.
 
 Whenever you learn a new technique, you should always ``try it out''
 on a computation where you know the answer through a different
@@ -149,14 +189,16 @@ method. So let's used an integral to find the area of a triangle.
           tick label style={font=\scriptsize},
           axis y line=middle,axis x line=middle,
           name=myplot,
-	  xtick={1,2,3},
-	  ytick={1,2,3},
+          xtick={1,2,3},
+          ytick={1,2,3},
           grid=major,
           grid style={dashed, gridColor},
 	  ymin=-.5,ymax=2.5,%
 	  xmin=-.5,xmax=3.5,
           rounded corners=.5pt
         ]
+        \draw [ultra thick,penColor] (axis cs:1,1) -- (axis cs: 3,1)-- (axis cs: 1,2)  -- cycle;
+
         \draw [ultra thick,penColor] (axis cs:1,1) -- (axis cs: 3,1)-- (axis cs: 1,2)  -- cycle;
         
         \draw (axis cs: 1.5,1.3) node {$R$};
@@ -169,7 +211,7 @@ method. So let's used an integral to find the area of a triangle.
   \begin{explanation}
     Our region above can be defined by:
     \[
-    R=\{(x,y):\text{$1\leq x\leq 3$ and $1\leq y\leq -x/2+5/2$}\}
+    R=\left\{(x,y):\text{$1\leq x\leq \answer[given]{3}$ and $1\leq y\leq \answer[given]{-x/2+5/2}$}\right\}
     \]
     The area of this region is given by, write with me, 
     \begin{align*}
@@ -180,30 +222,6 @@ method. So let's used an integral to find the area of a triangle.
     \end{align*}
   \end{explanation}
 \end{example}
-
-\begin{question}
-  In the previous example, we integrated with respect to $y$
-  first. Set-up an integral that computes the area of $R$ that
-  integrates with respect to $x$ first.
-  \begin{prompt}
-    Start by finding overall bounds for our variables. In this case:
-    \begin{align*}
-      1\le &x \le 3\\
-      1\le &y \le -x/2 + 5/2 \le \answer{2}
-    \end{align*}
-    Now, write $x$ in terms of $y$. Write with me:
-    \begin{align*}
-      \answer{-3/2}\le &y -5/2 \le -x/2  \le \answer{-1/2}\\
-      \answer{1/2}\le &x/2 \le 5/2-y  \le \answer{3/2}\\
-      1\le & x\le \answer{5-2y}  \le 3
-    \end{align*}
-    We may now write our desired integral:
-    \[
-    \iint_R \d A = \int_{\answer{1}}^{\answer{2}}\int_{\answer{1}}^{\answer{5-2y}} \d x \d y
-    \]
-  \end{prompt}
-\end{question}
-
 
 \begin{example}
   Set-up and evaluate an iterated integral that will compute the area
@@ -241,12 +259,60 @@ method. So let's used an integral to find the area of a triangle.
   \end{explanation}
 \end{example}
 
+\subsection{Changing the order of integration}
+
+We can change the order of integration. This can make a big difference
+in the difficulty of the integral in question. This can be somewhat
+challenging. If you have a graph of the region in question, this can
+help quite a bit. If not, then a stragety is to
+\begin{itemize}
+\item Find absolute bounds for each variable.
+\item Solve inequalities that will allow you to integrate:
+  \[
+  \int_{\text{number}}^{\text{number}}\int_{\text{curve}}^{\text{curve}} F(x,y) \d A
+  \]
+\end{itemize}
+
+Let's see an example.
+
+\begin{example}
+  Consider:
+  \[
+  \int_1^3 \int_1^{-x/2 +5/2}\d y \d x
+  \]
+  Set-up an iterated integral that integrates with respect to $x$ and
+  then integrates with respect to $y$.
+  \begin{explanation}
+    Start by finding absolute bounds for our variables. In this case:
+    \begin{align*}
+      1\le &x \le 3\\
+      1\le &y \le -x/2 + 5/2 \le \answer{2}
+    \end{align*}
+    Now, write $x$ in terms of $y$. Write with me:
+    \begin{align*}
+      \answer{-3/2}\le &y -5/2 \le -x/2  \le \answer{-1/2}\\
+      \answer{1/2}\le &x/2 \le 5/2-y  \le \answer{3/2}\\
+      1\le & x\le \answer{5-2y}  \le 3
+    \end{align*}
+    We may now write our desired integral:
+    \[
+    \iint_R \d A = \int_{\answer{1}}^{\answer{2}}\int_{\answer{1}}^{\answer{5-2y}} \d x \d y
+    \]
+  \end{explanation}
+\end{example}
+
+Let's see another example.
+
+
 \begin{question}
-  In the previous example, we integrated with respect to $x$
-  first. Set-up an integral that computes the area of $R$ that
-  integrates with respect to $y$ first.
-  \begin{prompt}
-    Start by finding overall bounds for our variables. In this case:
+  Consider:
+  \[
+  \int_{-6}^6 \int_{y^2/3}^12 \d x \d y 
+  \]
+  Set-up an iterated integral that computes the area of $R$ that
+  integrates with respect to $y$ and then with respect to $x$.
+  \begin{explanation}
+    Start by finding absolute bounds for our variables. In this case:
     \begin{align*}
       \answer{0}\le y^2/3\le &x \le 12\\
       -6\le &y \le 6
@@ -260,8 +326,17 @@ method. So let's used an integral to find the area of a triangle.
     \[
     \iint_R \d A = \int_{\answer{0}}^{\answer{12}}\int_{\answer{-\sqrt{3x}}}^{\answer{\sqrt{3x}}} \d y \d x
     \]
-  \end{prompt}
+  \end{explanation}
 \end{question}
+
+Sometimes when you switch the order of integration, you will need to
+write the sum of iterated integrals. You can recognize this by the
+fact that you won't be able to express 
+
+
+
+
+
 
 And now for one more example of using a double integral to compute the
 area of a region.
@@ -334,7 +409,7 @@ area of a region.
 
 \section{Triple integrals and volume}
 
-We start by again(!) introducing another version of Fubini's Theorem.
+We start by introducing a fourth version of Fubini's Theorem.
 
 \begin{theorem}[Fubini]\index{Fubini's Theorem}
   Let $R$ be a closed, bounded region in $\R^3$ and let $F(x,y,z)$ be

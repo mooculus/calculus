@@ -279,8 +279,7 @@ Those vectors are all pointing away from the central point!
 \end{example}
 
 \begin{example}
-  Here we see $\vec{H}(x,y,z) =
-  \vector{\frac{x}{(x^2+y^2+z^2)^2},\frac{y}{(x^2+y^2+z^2)^2},\frac{z}{(x^2+y^2+z^2)^2}}$.
+  Here we see $\vec{H}(x,y,z) = \vector{x,y,z}$.
   \begin{image}
     \includegraphics{radField3.png}
   \end{image}
@@ -288,7 +287,8 @@ Those vectors are all pointing away from the central point!
   pointing away from the central point.
 \end{example}
 
-Each of the vector fields above is a \textit{radial} vector field.
+Each of the vector fields above is a \textit{radial} vector
+field. Let's give an explicit definition.
 
 \begin{definition}
   A \dfn{radial vector field} is a field of the form
@@ -319,6 +319,12 @@ Fun fact: Newton's law of gravitation defines a radial vector field.
   \end{prompt}
 \end{question}
 
+Some fields look like they are expanding and are. Other fields look
+like the are expanding but they aren't. In the sections to come, we're
+going to use calculus to precisely defined what we mean by a field
+``expanding.'' This property will be called \textit{divergence}.
+
+
 
 
 \subsection{Rotational fields}
@@ -347,15 +353,29 @@ human eye. Let's show you a few examples.
 At this point, we're going to give some ``spoilers.'' It turns out
 that from a local perspective, meaning looking at points very very
 close to each other, only the first example exhibits ``rotation.''
-While the second example does look like it is ``rotating,'' as we will
-see, it does not exhibit ``local rotation.'' Explaining all of this
-will take some time. In this section, we are just introducing you to
-the ideas.
+While the second example looks like it is ``rotating,'' as we will
+see, it does not exhibit ``local rotation.''  Moreover, in future
+sections we will see that rotation (even local rotation) in
+three-dimensional space must always happen around some ``axis'' like
+this:
+  \begin{image}
+    \includegraphics{rotField3.png}
+  \end{image}
+In the sections to come, we will use calculus to precisely explain
+what we mean by ``local rotation.'' This property will be called
+\textit{curl}.
+
+
+
 
 
 \section{Gradient fields}
 
-We're going to start with the definition.
+In this final section, we will talk about fields that arise as the
+gradient of some differentiable function.  As we will see in future
+sections, these are some of the nicest vector fields to work with
+mathematically.
+
 
 \begin{definition}
   Consider any differentiable function $F:\R^n\to \R$.
@@ -363,11 +383,12 @@ We're going to start with the definition.
   \[
   \vec{G} = \grad F.
   \]
+  Note, since we are assuming $F$ is differentiable, we are also
+  assuming that $\vec{G}$ is defined for all points in $\R^n$.
 \end{definition}
 
-Since we are assuming $F$ is differentiable, we are also assuming that
-$\vec{G}$ is defined for all points in $\R^n$. This is important to
-note, as we will see.
+Let's take a look at a gradient field.
+
 
 \begin{example}
   Consider $F(x,y) = \frac{\sin(3x)+\sin(2y)}{1+x^2+y^2}$. A plot of
@@ -386,13 +407,15 @@ note, as we will see.
   \end{image}
 \end{example}
 
+
+
 \begin{question}
-  What is the connection between gradient vectors and level curves?
+  Remind me, what direction do gradient vectors point?
   \begin{prompt}
     \begin{multipleChoice}
-      \choice[correct]{Gradient vectors are orthogonal to level curves.}
-      \choice{Gradient vectors point in the direction of level curves.}
-      \choice{Gradient vectors are independent of level curves.}
+      \choice{Gradient vectors point to the maximum.}
+      \choice{Gradient vectors point up.}
+      \choice[correct]{Gradient vectors point in the initial direction of greatest increase.}
     \end{multipleChoice}
   \end{prompt}
 \end{question}
@@ -425,14 +448,40 @@ note, as we will see.
 
 Now we give a method to determine if a field is a gradient field. 
 
+
 \begin{theorem}[Clairaut]
-  A vector field $\vec{F}(x,y) = \vector{M(x,y),N(x,y)}$, where $M$ and
+  A vector field $\vec{G}(x,y) = \vector{M(x,y),N(x,y)}$, where $M$ and
   $N$ have continuous partial derivatives, is a gradient field if and
   only if
   \[
   \pp[N]{x} -\pp[M]{y} = 0  
   \]
   for all $x$ and $y$.
+  \begin{explanation}
+    Let's take a second and think about the gradient as a function on
+    functions. Let $C^\infty(A,B)$ be the set of all function from $A$
+    to $B$ whose $i$th-derivatives are continuous for all values of
+    $i$. The gradient takes functions of several variables and maps
+    them to vector fields:
+\begin{image}
+  \begin{tikzpicture}
+    \node at (0,0) {$\underbrace{C^\infty(\R^n,\R)}_{\text{functions of several variables}}$};
+    \draw[->] (1,.25) -- (3,.25);
+    \node at (2,.6) {$\grad$};
+    \node at (4,0) {$\underbrace{C^\infty(\R^n,\R^n)}_{\text{vector fields}}$};
+  \end{tikzpicture}
+\end{image}
+So $\vec{G}(x,y) = \vector{M(x,y),N(x,y)}$ if and only if there is
+some function $F:\R^2\to\R$ where
+\[
+\pp[F]{x} = M \quad \text{and}\quad \pp[F]{y} = N
+\]
+but if all the partial derivatives are continuous, then:
+\[
+\pp[M]{y} = \frac{\partial^2 F}{\partial y\partial x} =  \frac{\partial^2 F}{\partial x\partial y} = \pp[N]{x}
+\]
+This is true if and only if $\pp[N]{x} -\pp[M]{y} = 0$.  
+  \end{explanation}
 \end{theorem}
 
 

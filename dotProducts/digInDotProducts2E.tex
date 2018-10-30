@@ -1,0 +1,451 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+\author{Jim Talamo}
+
+\outcome{Define dot products two ways.}
+\outcome{Explore the utility of both the magnitude-angle and component formulation of the dot product.}
+\outcome{Use dot products to compute the angle between vectors.}
+\outcome{Use the dot product to define orthogonality.}
+
+\title[Dig-In:]{Projections}
+
+\begin{document}
+\begin{abstract}
+The dot product is an important operation between vectors that captures geometric information. 
+\end{abstract}
+\maketitle
+
+
+\section{The dot product}
+
+We have already seen how to add vectors and how to multiply vectors by
+scalars.  As it turns out, there is not a single useful way to define ``multiplication'' of vectors, but there are several types of products defined for two vectors that have intrinsic meaning.  One such example is the \emph{dot product}, which we motivate using the example below.
+
+\begin{model}
+Imagine the following scenario.
+
+A person is trying to drag a table from one side of a room to the other across a carpeted floor.  While moving, the table is dragged only, not lifted.  In order to cause the table to move, the person applies a force, which is directed along the person's arms. We can consider two scenarios - one in which the force applied is mostly in the direction that the table moves, and one in which only a small part of the force is in the direction of motion.  
+ \begin{image}
+    \begin{tikzpicture}
+        \begin{axis}[ymax=1.5,xmax=2.8, ymin=-.8, xmin=-2.8,
+            unit vector ratio*=1 1 1,
+            axis lines=none
+          ]
+                      \addplot[very thick,penColor] plot coordinates {(0,0)(0,.5)(2,.5)(2,0)(0,0)};
+          \addplot[very thick,penColor2,->] plot coordinates {(0,.5) (-2,1)};
+          \addplot[very thick,penColor5,->] plot coordinates {(0,.5) (-2,.5)};
+          \node[above] at (axis cs:-.8, .8) [penColor2] {force};
+                    \node[left] at (axis cs:-.5, .3) [penColor5] {direction};
+                    \node[left] at (axis cs:1.4, .25) [penColor] {Table};
+         \node[left] at (axis cs:2.8, -.5) [black] {\footnotesize Most of the force is in the direction of motion.};
+                      \addplot[very thin,penColor] plot coordinates {(0,-1)};
+        \end{axis}
+    \end{tikzpicture}
+  \end{image}
+
+ \begin{image}
+    \begin{tikzpicture}
+        \begin{axis}[ymax=1.8,xmax=2.8, ymin=-.8, xmin=-2.8,
+            unit vector ratio*=1 1 1,
+            axis lines=none
+          ]
+                      \addplot[very thick,penColor] plot coordinates {(0,0)(0,.5)(2,.5)(2,0)(0,0)};
+          \addplot[very thick,penColor2,->] plot coordinates {(0,.5) (-1.5,1.8)};
+          \addplot[very thick,penColor5,->] plot coordinates {(0,.5) (-2,.5)};
+          \node[above] at (axis cs:-.5, 1.2) [penColor2] {force};
+                    \node[left] at (axis cs:-.5, .3) [penColor5] {direction};
+                    \node[left] at (axis cs:1.4, .25) [penColor] {Table};
+         \node[left] at (axis cs:2.8, -.5) [black] {\footnotesize Some of the force is in the direction of motion.};
+                      \addplot[very thin,penColor] plot coordinates {(0,-1)};
+        \end{axis}
+    \end{tikzpicture}
+  \end{image}
+
+Since there is frictional force to overcome in order to move the table, work is done when the table is moved.  The person trying to move the table will notice that much more force is necessary to apply in the scenario when less of the applied force is in the direction of motion.  In fact, a result from physics ensures that the work done is given by
+
+\[
+\textrm{Work} = \left<\textrm{ component of force in the direction of motion }\right> \cdot \left<\textrm{ distance }\right>.
+\]
+
+By denoting the force by $\vec{F}$ and the displacement vector by $\vec{d}$, and letting $\theta$ be the angle between them, we note that the component of $\vec{F}$ in the direction of motion is $|\vec{F}|\cos(\theta)$, so 
+
+\[
+W = |\vec{F}| \cos(\theta) \cdot |\vec{d}| = |\vec{F}||\vec{d}|\cos(\theta)
+\]
+
+Let's now return to our original scenarios.  The same amount of work in both scenarios is done when dragging the table across the room and in both scenarios, the angle lies between $0$ and $90^{\circ}$.  Letting $\theta_1$ be the angle in the first scenario and $\theta_2$ be the angle in the second one, note $\theta_1 <\theta_2$.  Letting $F_1$ and $F_2$ be the force required to apply in each scenario, we now have 
+
+\[
+|\vec{F_1}|\cancel{|\vec{d}|}\cos(\theta_1) = |\vec{F_2}|\cancel{|\vec{d}|}\cos(\theta_2)
+\]
+Since $\cos(\theta)$ is \wordChoice{\choice{increasing}\choice[correct]{decreasing}} for $0\leq \theta\leq \frac{\pi}{2}$, in order for the above equality to hold,  we must have $|\vec{F_1}|$ \wordChoice{\choice[correct]{$<$}\choice{$=$}\choice{$>$}} $|\vec{F_2}|$.
+\end{model}
+
+\section{Two definitions of the dot product}
+The above scenario illustrates a quantity that is fundamentally important in physics, but it is useful in other instances as well.  We can extract the mathematical essence of the above example as follows.  
+
+\begin{quote}
+Given two vectors $\vec{u}$ and $\vec{v}$, the quantity $|\vec{u}||\vec{v}|\cos(\theta)$ is important.
+\end{quote}
+
+Since this quantity is important, we dignify it with a definition.
+
+\begin{definition} (Magnitude-Angle Formulation of the Dot Product)
+
+Let $\vec{u}$ and $\vec{v}$ be nonzero vectors and let $\theta$ be the angle between them.  We define the \dfn{dot product} of $\vec{u}$ and $\vec{v}$, denoted by $\vec{u} \dotp \vec{v}$ by
+
+\[
+\vec{u} \dotp \vec{v} = |\vec{u}||\vec{v}|\cos(\theta).
+\]
+
+In the instance when one of the vectors is $\vec{0}$, we define $\vec{u} \dotp \vec{v} = 0$.
+\end{definition}
+
+
+Given the magnitude and angles made by two vectors in $\R^2$, it is straightforward to compute, but we want to work vectors in higher dimensions, and we therefore want to find a quick way to compute this quantity using the components of $\vec{u}$ and $\vec{v}$.  Thankfully, there's a good way to do this.
+
+\begin{theorem} (Component Formulation of the Dot Product)
+
+Suppose that $\vec{u} = \vector{u_1,u_2,\ldots,u_n}$ and $\vec{v} = \vector{v_1,v_2,\ldots,v_n}$ are vectors in $\R^n$.  We define the \dfn{dot product} of $\vec{u}$ and $\vec{v}$, denoted by $\vec{u} \dotp \vec{v}$ by
+
+\[
+\vec{u} \dotp \vec{v} = u_1v_1 +u_2v_2+ \ldots + u_nv_n = \sum_{k=1}^n u_kv_k.
+\]
+
+That is, to compute the dot product, we multiply the corresponding components together and add them, and we do this for as many components as we have.
+\end{theorem}
+
+While this may seem intimidating at first, we usually have in mind that $n=2$ or $3$, and we can unpack the formula in these cases.  
+
+\begin{itemize}
+\item In $\R^2$, we have $\vec{u} \dotp \vec{v} = u_1v_1+u_2v_2$.
+\item In $\R^3$, we have $\vec{u} \dotp \vec{v} = u_1v_1+u_2v_2+u_3v_3$.
+\end{itemize}
+
+Some texts start with the above theorem as the definition of the dot product, and show that our definition can be derived from it.  What is really important is that we have two equivalent ways to express the dot product.  Both can be useful, as we will see in many examples to follow.
+
+\begin{remark}
+An interesting observation is that the dot product gives information about how ``aligned'' two vectors are.  Intuitively, vectors that are more closely aligned with each other have an interior angle $\theta$ closer to $0$ than two vectors that are not aligned.  This means that $\cos(\theta)$ will be closer to $1$. From the first definition, this means that the more aligned $\vec{u}$ and $\vec{v}$ are, the closer the quantity $\vec{u} \dotp \vec{v}$ will be to $|\vec{u}||\vec{v}|$.
+\end{remark}
+
+%\begin{definition}
+%  The \dfn{dot product} of two vectors is given by the following.
+%  \begin{align*}
+%  \begin{bmatrix}
+%    a_1\\
+%    a_2\\
+%    \vdots\\
+%    a_n
+%  \end{bmatrix}
+%  \dotp
+%  \begin{bmatrix}
+%    b_1\\
+%    b_2\\
+%    \vdots\\
+%    b_n
+%  \end{bmatrix}
+%  &= \sum_{i=1}^n a_ib_i\\
+%  &= a_1b_1 + a_2b_2 +\dots+a_nb_n
+%  \end{align*}
+%\end{definition}
+
+It might (and likely \emph{should}) be entirely unclear at this point why the above definition and theorem are consistent with each other.  The appendix to this section establishes this in more detail, but here's an example that demonstrates their equivalence in the context of a specific pair of vectors.
+
+\begin{example}
+Suppose that $\vec{u}$ and $\vec{v}$ are two dimensional vectors.  $\vec{u}$ has magnitude $1$ and makes an angle of $\frac{\pi}{6}$ with the positive $x$-axis, and  $\vec{v}$ has magnitude $2$ and makes an angle of $\frac{\pi}{3}$ with the positive $x$-axis. The vectors are shown below.
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=0:6, ymax=1.9,xmax=1.9, ymin=-.4, xmin=-.4,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={.866,1.1},
+	xticklabels={$u_1$,$v_1$},
+	ytick={.5,1.732},
+	yticklabels={$u_2$,$v_2$},
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+          \addplot[very thick,penColor,->] plot coordinates {(0,0) (.866,.5)};
+          \addplot[very thick,penColor2,->] plot coordinates {(0,0) (1.1,1.732)}; %x-comp exaggerated to produce a better image
+	
+	\node at (axis cs:.533,.15) [penColor] {$\vec{u}$};
+	\node at (axis cs:.433,1.1) [penColor2] {$\vec{v}$};
+	\node at (axis cs:.3,.3) [penColor] {$\theta$};
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+\begin{itemize}
+\item The magnitude-angle definition requires that we find the angle $\theta$ between the two vectors.  Since  $\vec{u}$  makes an angle of $\frac{\pi}{6}$ with the positive $x$-axis, and  $\vec{v}$ makes an angle of $\frac{\pi}{3}$ with the positive $x$-axis, we find that 
+
+\[
+\theta = \frac{\pi}{3}-\frac{\pi}{6} = \frac{\pi}{6}.
+\]
+
+Thus, $\vec{u} \dotp \vec{v} = |\vec{u}||\vec{v}| \cos(\theta) = \answer[given]{\sqrt{3}}$.
+
+\item The component definition requires that we find the components $u_1$, $v_1$, $u_2$, and $v_2$.  We can use trigonometry to find  $u_1$ and $u_2$.
+\begin{align*}
+u_1 &= |\vec{u}|\cos\left(\frac{\pi}{6}\right) =\frac{\sqrt{3}}{2} \\
+u_2 &= |\vec{u}|\sin\left(\frac{\pi}{6}\right) =\frac{1}{2} \\
+\end{align*}
+
+Similarly, we find $v_1$ and $v_2$.
+\[
+v_1 = \answer[given]{1} \qquad \textrm{ and } \qquad v_2 = \answer[given]{\sqrt{3}}
+\]
+
+We now have that 
+\[
+\vec{u} \dotp \vec{v} = \vector{\frac{\sqrt{3}}{2},\frac{1}{2}} \dotp \vector{1,\sqrt{3}} = \answer[given]{\sqrt{3}}.
+\]
+
+\begin{hint}
+Since $\vec{u_1,u_2} \dotp \vector{v_1,v_2} = u_1v_1+u_2v_2$, we have
+
+\[
+\vector{\frac{\sqrt{3}}{2},\frac{1}{2}} = \frac{\sqrt{3}}{2} \cdot 1 +  \frac{1}{2}  \cdot \sqrt{3} = \frac{\sqrt{3}}{2}+\frac{\sqrt{3}}{2} = \sqrt{3}
+\]
+\end{hint}
+\end{itemize}
+
+Both methods agree in the context of this example.
+\end{example}
+
+
+
+
+
+
+\section{Observations and applications of the dot product}
+
+We have two different ways to find dot products.  We can now make several observations about this type of product between vectors and explore some applications.
+
+\subsection{Nature of the dot product}
+While it may be easy to miss, notice that in both definitions, the dot product is defined between two \emph{vectors} of the \emph{same} dimension (this is most readily visible in the component description of the dot product, which requires that we pair each component in $\vec{u}$ with one in $\vec{v}$).  In both definitions, when we compute the dot product, the result is a \emph{scalar}.
+
+\begin{quote}
+The dot product is defined for \emph{vectors} with the \emph{same} dimension.  When it is defined, 
+
+\[
+ \mathbf{vector}\dotp \mathbf{vector} = \mathbf{scalar}.
+\]
+\end{quote}
+
+\begin{question}
+  Let $\vec{u},\vec{v},\vec{w}$ be nonzero vectors in $\R^3$.  Determine whether the following expressions are vectors, scalars, or undefined.
+  
+\begin{itemize} 
+\item $(\vec{w} \dotp \vec{u} ) \vec{u}$ is \wordChoice{\choice[correct]{a vector}\choice{a scalar}\choice{undefined}}.
+\item $5(\vec{u} +\vec{w}) \dotp {\vec{u}}$ is \wordChoice{\choice{a vector}\choice[correct]{a scalar}\choice{undefined}}.
+\item $\vec{w} / \vec{u}$ is \wordChoice{\choice{a vector}\choice{a scalar}\choice[correct]{undefined}}.
+\item $\vector{2,3} \dotp \vector{4,2} + 7$ is \wordChoice{\choice{a vector}\choice[correct]{a scalar}\choice{undefined}}.
+\item $\vector{1,3} \dotp \vector{-1,2,5}$ is \wordChoice{\choice{a vector}\choice{a scalar}\choice[correct]{undefined}}.
+\item $\vec{w} / ( \vec{u} \dotp \vec{u})$ is \wordChoice{\choice[correct]{a vector}\choice{a scalar}\choice{undefined}}.
+\item $\vec{u}\dotp \vec{v}+\vec{w}$ is \wordChoice{\choice{a vector}\choice{a scalar}\choice[correct]{undefined}}.
+\end{itemize}
+\end{question}
+ 
+\subsection{Relation to Magnitude} 
+The dot product allows us to write some complicated formulas more simply.
+
+\begin{theorem}
+  The magnitude of vector $\vec{v}$ is given by
+  \[
+  |\vec{v}|=\sqrt{\vec{v}\dotp\vec{v}}
+  \]
+  \begin{explanation}
+    We already know that if $\vec{v} = \vector{v_1,v_2,\dots,v_n}$,
+    then
+    \[
+    |\vec{v}| = \sqrt{v_1^2+v_2^2+v_3^2+\dots+v_n^2}
+    \]
+    but
+    \[
+    \vec{v} \dotp \vec{v} = v_1^2+v_2^2+v_3^2+\dots+v_n^2,
+    \]
+    so
+    \[
+    |\vec{v}|^2= v_1^2+v_2^2+v_3^2+\dots+v_n^2 = \vec{v}\dotp\vec{v},
+    \]
+    and thus, we have 
+      \[
+  |\vec{v}|=\sqrt{\vec{v}\dotp\vec{v}}.
+  \]
+  \end{explanation}
+\end{theorem}
+
+\begin{question}
+  Compute the magnitude of the vector $\vec{v} = \vector{-1,0,2,5}$ using the above formula.
+  \begin{prompt}
+    \[
+    |\vec{v}| = \answer{\sqrt{30}}
+    \]
+  \end{prompt}
+\end{question}
+
+\subsection{Angle between vectors}
+
+Note that the notion of defining an angle in a general context in $\R^3$ (or higher dimensions) is problematic, but the angle between two vectors does make sense.  For instance, we can imagine laying a protractor on two vectors in $\R^3$ and aligning one end with one of the vectors.  We can then measure the angle formed between them.
+
+While actually figuring out how to compute this might seem daunting, the two definitions of the dot product allow us to find this angle without too much work. 
+
+\begin{example}
+Find the angle $\theta$ between the vectors $\vec{v} = 3\veci+0\vecj-2\veck$ and $ \vec{w} = 2\veci-4\vecj+\veck$.
+
+\begin{explanation}
+We can compute the dot product $\vec{v} \dotp \vec{w}$ immediately form the component definition of the dot product and find that 
+\[
+\vec{v} \dotp \vec{w} = \answer[given]{4}.
+\]
+\begin{hint}
+$\vec{v} \dotp \vec{w} = 3\cdot2+0\cdot (-4) + (-2) \cdot 1 =4$
+\end{hint}
+We can use the magnitude-angle description $\vec{v} \dotp \vec{w} = |\vec{v}||\vec{w}|\cos(\theta)$ as well.
+
+First, we compute that $|\vec{v}| = \answer[given]{\sqrt{13}}$ and $|\vec{w}| = \answer[given]{\sqrt{21}}$.  Since we also found $\vec{v} \dotp \vec{w} = \answer[given]{4}$, 
+
+\begin{align*}
+\vec{v} \dotp \vec{w} &= |\vec{v}||\vec{w}|\cos(\theta) \\
+4 &= \sqrt{13} \cdot \sqrt{21} \cos(\theta) \\
+\cos(\theta) &= \frac{4}{\sqrt{13} \cdot \sqrt{21}} \\
+\theta ~ &= \arccos\left(\frac{4}{\sqrt{13} \cdot \sqrt{21}} \right).
+\end{align*}
+
+\end{explanation}
+\end{example}
+
+One remark is in order; we take by convention that the angle between two vectors be between $0$ and $\pi$, inclusive.  Since the range of $\arccos(\theta)$ is $[0,\pi]$, the the angle found above must be the correct angle.
+
+Note that the logic in the above example can be generalized to produce a formula for the angle, which is listed below.
+\[
+\theta = \arccos\left(\frac{\vec{v} \dotp \vec{w}
+}{|\vec{v}|\cdot|\vec{w}|}\right),
+\]
+Although there is a formula, the logic required to obtain it is contained in the previous example.  It is therefore recommended that you are able to reproduce the logic, and not just memorize the formula.
+
+\subsection{Orthogonality}
+Given two nonzero vectors in $\R^2$ or $\R^3$, we say that the vectors are perpendicular if the angle between them is a right angle.  Since we can use the dot product to capture information about the angle between vectors, it should not be surprising that it can be used to find perpendicular vectors.
+
+\begin{theorem}
+  If $\vec{v}$ and $\vec{w}$ are two nonzero vectors in $\R^2$ or $\R^3$, and $\theta$ is
+  the angle between them, then
+  \[
+  \vec{v}\dotp \vec{w} = 0 \text{ if and only if } \theta=
+  \frac{\pi}{2}.
+  \]
+\end{theorem}
+
+
+\begin{explanation}
+Why should this work?  Let's explore it using our definitions.  First, note that we have to establish two results for this ``if and only if'' statement.
+
+\begin{itemize}
+\item We must show if  $\vec{v}\dotp \vec{w} = 0$, then $\theta$ must be $\frac{\pi}{2}$.
+\item We must show if $\theta = \frac{\pi}{2}$ , then $\vec{v}\dotp \vec{w}$ must be $0$.
+\end{itemize}
+
+To show the first part, assume that note that $\vec{v}\dotp \vec{w} = 0$.  We must show that $\theta$ must be $\frac{\pi}{2}$.  By using the magnitude-angle formulation of the dot product, 
+\[
+\vec{v}\dotp \vec{w} = |\vec{v}||\vec{w}|\cos(\theta) 
+\]
+note that since $\vec{v}\dotp \vec{w} = 0$, we must have that $|\vec{v}||\vec{w}|\cos(\theta)  = 0$.  Since $\vec{v}$ and $\vec{w}$ are nonzero, their magnitudes are not $0$, so we must have that $\cos(\theta) = 0$, and hence $\theta = \pi/2$.
+
+To show the second result, assume that $\theta = \frac{\pi}{2}$.  We must show that $\vec{v}\dotp \vec{w}$ must be $0$.  Since $\theta = \pi/2$, we have that $\cos(\theta) = 0$, and using the magnitude-angle formulation
+
+\[
+\vec{v}\dotp \vec{w} = |\vec{v}||\vec{w}|\cos(\theta) = 0.
+\]
+\end{explanation}
+
+This allows us to define and generalize our notion of ``perpendicularity'' when it is more difficult to visualize, and we introduce a special buzz-word to do so.
+
+\begin{definition}
+  Two vectors $\vec{u}$ and $\vec{v}$ are \dfn{orthogonal} if and only if their dot product is zero. 
+\end{definition}
+
+A subtle point that could be overlooked easily here is that given our definition, the zero vector in $\R^n$ is orthogonal to every vector in $\R^n$.  While our notion of ``perpendicularity'' required us to think of the angle between vectors, this is not a well-defined concept when we discuss the zero vector.  however, both formulations of the dot product allow us to handle the zero vector.
+
+\begin{example}
+Determine whether the vectors $\vec{v} = \vector{2,-1,3,2}$ and $\vec{w} = \vector{1,4,2,-2}$ are orthogonal.
+
+\begin{explanation}
+We compute $\vec{v} \dotp \vec{w} = \answer[given]{0}$, so $\vec{v}$ and $\vec{w}$ \wordChoice{\choice[correct]{are}\choice{are not}} orthogonal.
+\end{explanation}
+\end{example}
+
+\section{Algebraic properties of the dot product}
+We summarize the arithmetic and algebraic properties of the dot
+product below.
+\begin{theorem}
+  The following are true for all scalars $s$ and vectors
+  $\vec{u}$, $\vec{v}$, and $\vec{w}$ in $\R^n$.
+  \begin{description}
+  \item[Symmetry:] $\vec{v} \dotp \vec{w} = \vec{w} \dotp
+    \vec{v}$
+  \item[Linear in first argument:] $(\vec{u}+\vec{v})\dotp \vec{w} = \vec{u}\dotp \vec{w} +
+    \vec{v}\dotp \vec{w}$ and $(s\vec{v})\dotp \vec{w} = s(\vec{v}
+    \dotp \vec{w})$
+  \item[Linear in second argument:] $\vec{u} \dotp (\vec{v}+\vec{w}) = \vec{u}\dotp \vec{v}+
+    \vec{u}\dotp \vec{w}$ and $\vec{v} \dotp (s\vec{w}) = s(\vec{v}
+    \dotp \vec{w})$
+  \item[Relation to magnitude:] $\vec{v} \dotp \vec{v} = |\vec{v}|^2$
+  \item[Relation to orthogonality:]  Let $\uvec{e}_j =$ denote the vector whose $j$-th component is $1$, and whose other components are $0$. Then, \[\uvec{e}_i \dotp \uvec{e}_j = \left\{ \begin{array}{ll} 0, & i \neq j \\ 1, & i=j \end{array}\right. . \]
+  \end{description}
+\end{theorem}
+ The results above can all be established from the component formulation of the dot product.  For instance, to show the symmetry property, note that if $\vec{v} = \vector{v_1,v_2}$ and $\vec{w} = \vector{w_1,w_2}$, we have
+ 
+ \begin{align*}
+ \vec{v} \dotp \vec{w} &= v_1w_1+v_2w_2\\
+ &= w_1v_1+w_2v_2 \\
+ &= \vec{w} \dotp \vec{v}.
+ \end{align*}
+ 
+Note that the item ``Notion of Orthogonality'' might sound formal here, but if we are working in $\R^3$, 
+
+\[
+\uvec{e}_1 = \vector{1,0,0}, \qquad \uvec{e}_2 = \vector{0,1,0}, \qquad \uvec{e}_3 = \vector{0,0,1}.
+\]
+The condition $\uvec{e}_i \dotp \uvec{e}_j = \left\{ \begin{array}{ll} 0, & i \neq j \\ 1, & i=j \end{array} \right.$ will require that we take $i=1,2,3$ and $j=1,2,3$ and tells us the following. 
+
+\[
+\begin{array}{lll}
+\uvec{e}_1 \dotp \uvec{e}_1 = 1 \qquad \qquad & \uvec{e}_1 \dotp \uvec{e}_2 = 0 \qquad \qquad & \uvec{e}_1 \dotp \uvec{e}_3 = 0 \\
+\uvec{e}_2 \dotp \uvec{e}_1 = 0 & \uvec{e}_2 \dotp \uvec{e}_2 = 0 & \uvec{e}_2 \dotp \uvec{e}_3 = 0 \\
+\uvec{e}_3 \dotp \uvec{e}_1 = 0 & \uvec{e}_3 \dotp \uvec{e}_2 = 0 & \uvec{e}_3 \dotp \uvec{e}_3 = 1
+\end{array}
+\]
+
+Note that this precisely agrees with our intuition that the unit vectors that are parallel to the $x$, $y$, and $z$ axes are orthogonal to each other.
+
+As an interesting remark, instead of defining the dot product by a formula, we could have
+defined it by the properties above, and we could actually derive the formula from these!  While this is common practice in
+mathematics, the process is a bit abstract and is better left as the subject of a more advanced course.
+
+%\begin{question}
+%  Find all unit vectors orthogonal to:
+%  \begin{align*}
+%    \vec{v} &= \veci + \vecj\\
+%    \vec{w} &= \veci + \veck .
+%  \end{align*}
+%  \begin{prompt}
+%    Write your vectors in the order of increasing $x$-components.
+%    \[
+%    \vector{\answer{-1/\sqrt{3}},\answer{1/\sqrt{3}},\answer{1/\sqrt{3}}}\quad\text{and}\quad \vector{\answer{1/\sqrt{3}},\answer{-1/\sqrt{3}},\answer{-1/\sqrt{3}}}
+%    \]
+%  \end{prompt}
+%\end{question}%GOOD QUESTION.  I'm going to write a guided exercise; seems hard for the text with no explanation.
+
+
+
+
+
+\end{document}

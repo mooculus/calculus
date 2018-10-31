@@ -1,0 +1,229 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+\author{Bart Snapp and Jim Talamo}
+
+\outcome{Compute dot products.}
+\outcome{Use dot products to compute the angle between vectors.}
+\outcome{Find orthogonal projections.}
+\outcome{Use the dot product in applied settings.}
+
+\title[Dig-In:]{The dot product}
+
+\begin{document}
+\begin{abstract}
+  The dot product measures how aligned two vectors are with each
+  other.
+\end{abstract}
+\maketitle
+
+\section{Appendix}
+
+In the dot products section, we saw that there was a way to find the dot product using magnitudes and angles and components.  We also saw that there were several algebraic properties of the dot product.  As it turns out, we can start with either the magnitude-angle formulation (as we did), the component description, or the list of properties as our definition of the dot product, and derive the others from them.  For the curious reader, we have included this appendix in which we show some of the details.
+  
+\section{Equivalence of the magnitude-angle and component formulations of the dot product}
+
+Both arguments we give shortly rely on the \emph{Law of Cosines}.
+
+\begin{theorem}[Law of Cosines]
+  Given a triangle with sides of length $a$, $b$, and $c$, and with
+  $0\le\theta\le\pi$ being the measure of the angle between the sides
+  of length $a$ and $b$,
+  \begin{image}
+    \begin{tikzpicture}
+    \draw (.5,.1) arc[radius=.5cm,start angle=11.3,end angle=56.3];
+    \draw[ultra thick,penColor] (0,0) -- (5,1) -- (2,3)--(0,0)--cycle;
+    \node[below,penColor] at (2.5,.5) {$a$}; %% <a,b>
+    \node[above left,penColor] at (1,1.5) {$b$}; %% <c,d>
+    \node[above right,penColor] at (3.5,2) {$c$}; %% <c,d>
+    \node[above right] at (.4,.2) {$\theta$}; %% <c,d>
+\end{tikzpicture}
+  \end{image}
+  we have
+  \[
+  c^2 = a^2+b^2-2ab\cos(\theta).
+  \]
+\end{theorem}
+
+Note that when $\theta = \pi/2$ the law of cosines reduces to the Pythagorean theorem. 
+
+We can rephrase the Law of Cosines in the language of vectors.  The
+vectors $\vec{v}$, $\vec{w}$, and $\vec{v} - \vec{w}$ form a triangle
+\begin{image}
+  \begin{tikzpicture}
+    \draw (.5,.1) arc[radius=.5cm,start angle=11.3,end angle=56.3];
+    \draw[->,ultra thick,penColor] (0,0) -- (5,1);
+    \draw[->,ultra thick,penColor2] (0,0) -- (2,3);
+    \draw[->,ultra thick,penColor3] (2,3) -- (5,1);
+    \node[below,penColor] at (2.5,.5) {$\vec{v}$}; %% <a,b>
+    \node[above left,penColor2] at (1,1.5) {$\vec{w}$}; %% <c,d>
+    \node[above right,penColor3] at (3.5,2) {$\vec{v}-\vec{w}$}; %% <c,d>
+    \node[above right] at (.4,.2) {$\theta$}; %% <c,d>
+\end{tikzpicture}
+\end{image}
+so if $\theta$ is the angle between $\vec{v}$ and $\vec{w}$ we must
+have
+\[
+|\vec{v} - \vec{w}|^2=|\vec{v}|^2+|\vec{w}|^2-2|\vec{w}||\vec{v}|\cos(\theta).
+\]
+
+This triangle will give be important in both arguments that follow.
+
+\subsection{From magnitudes and angles to components}
+Let $\vec{u}$ and $\vec{v}$ be nonzero vectors and let $\theta$ be the angle between them.  We take the defintion of the \dfn{dot product} to be $\vec{u} \dotp \vec{v} = |\vec{u}||\vec{v}|\cos(\theta)$ and show that, if $\vec{v} =  \vector{v_1,v_2,\ldots,v_n}$ and $\vec{w} =  \vector{w_1,w_2,\ldots,w_n}$, we have
+ 
+  \[
+  \vec{v} \dotp \vec{w} = \sum_{k=1}^n u_kv_k
+  \]
+
+  \begin{explanation}
+    We will show the result in $\R^2$.  The general result is shown analogously, but is more tedious to write out.  First note that
+    \[
+    |\vec{v} - \vec{w}|^2 =  (\vec{v} - \vec{w})\dotp(\vec{v} - \vec{w})
+    \]
+    Now use the law of cosines to write
+    \begin{align*}
+      |\vec{v} - \vec{w}|^2&=|\vec{v}|^2+|\vec{w}|^2-2|\vec{v}||\vec{w}|\cos(\theta)\\
+      \end{align*}
+      
+      We can now write out the magnitudes and do some algebra.
+      \begin{align*}
+  (v_1-w_1)^2 + (v_2-w_2)^2 &=v_1^2+v_2^2+w_1^2+w_2^2 -2\left(\vec{v} \dotp \vec{w}\right)\\
+v_1^2-2v_1w_1+w_1^2 + v_2^2-2v_2w_2+w_2^2  &= v_1^2+v_2^2+w_1^2+w_2^2 -2\left(\vec{v} \dotp \vec{w}\right)\\
+    \end{align*}
+    
+    We can now simplify to obtain our desired result.
+    
+         \begin{align*}
+-2v_1w_1-2v_2w_2  &= -2\left(\vec{v} \dotp \vec{w}\right)\\
+\vec{v} \dotp \vec{w} & = v_1w_1+v_2w_2
+    \end{align*}
+
+Note that had we worked in $\R^3$ or more dimensions, we would simply have more terms to write out when expanding the magnitudes in terms of the components of the vectors.     
+  \end{explanation}
+
+
+\subsection{From components to magnitudes and angles}
+
+We can instead take the component formulation as our definition and show how we can derive the magnitude-angle formulation from it.  That is, we take as a definition that for any two vectors $\vec{v}$ and $\vec{w}$ in $\R^n$,
+  \[
+  \vec{v} \dotp \vec{w} = \sum_{k=1}^n u_kv_k,
+  \]
+ and we derive that $   \vec{v} \dotp \vec{w} = |\vec{v}||\vec{w}| \cos(\theta)$.
+  
+    \begin{explanation}
+ We begin again with the observation from the triangle given at the start of the section:
+    \[
+    |\vec{v} - \vec{w}|^2 =  (\vec{v} - \vec{w})\dotp(\vec{v} - \vec{w})
+    \]
+    and use the law of cosines and the properties of dot products to obtain our desired result.
+    \begin{align*}
+      |\vec{v} - \vec{w}|^2&=|\vec{v}|^2+|\vec{w}|^2-2|\vec{v}||\vec{w}|\cos(\theta)\\
+      (\vec{v} - \vec{w})\dotp(\vec{v} - \vec{w}) &=|\vec{v}|^2+|\vec{w}|^2-2|\vec{v}||\vec{w}|\cos(\theta)\\
+      \vec{v}\dotp\vec{v} -2\vec{v}\dotp\vec{w}+\vec{w}\dotp\vec{w}&=|\vec{v}|^2+|\vec{w}|^2-2|\vec{v}||\vec{w}|\cos(\theta)\\
+      |\vec{v}|^2+|\vec{w}|^2 -2\vec{v}\dotp\vec{w} &=|\vec{v}|^2+|\vec{w}|^2-2|\vec{v}||\vec{w}|\cos(\theta)\\
+      \vec{v} \dotp \vec{w} &= |\vec{v}||\vec{w}|\cos(\theta).
+    \end{align*}
+  \end{explanation}
+
+
+\section{The algebra of the dot product}
+
+Recall the arithmetic and algebraic properties of the dot product. 
+
+  For all scalars $s$ and vectors  $\vec{u}$, $\vec{v}$, and $\vec{w}$ in $\R^n$.
+  \begin{description}
+  \item[Commutativity:] $\vec{v} \dotp \vec{w} = \vec{w} \dotp
+    \vec{v}$
+  \item[Linear in first argument:] $(\vec{u}+\vec{v})\dotp \vec{w} = \vec{u}\dotp \vec{w} +
+    \vec{v}\dotp \vec{w}$ and $(s\vec{v})\dotp \vec{w} = s(\vec{v}
+    \dotp \vec{w})$
+  \item[Linear in second argument:] $\vec{u} \dotp (\vec{v}+\vec{w}) = \vec{u}\dotp \vec{v}+
+    \vec{u}\dotp \vec{w}$ and $\vec{v} \dotp (s\vec{w}) = s(\vec{v}
+    \dotp \vec{w})$
+  \item[Defintion of magnitude:] $\vec{v} \dotp \vec{v} = |\vec{v}|^2$
+   \item[Definition of orthogonality:]  Let $\uvec{e}_j =$ denote the vector whose $j$-th component is $1$, and whose other components are $0$. Then, \[\uvec{e}_i \dotp \uvec{e}_j = \left\{ \begin{array}{ll} 0, & i \neq j \\ 1, & i=j \end{array}\right. . \]
+  \end{description}
+
+
+We will now use the above properties to show that there is only one formula which gives us all of these properties, and it
+will be our component formula for the dot product.  As a warning, this argument is quite abstract, but it is reflective of the style of many arguments in more theoretically-oriented courses.
+
+\begin{theorem}
+  Let $\vec{v} =\vector{v_1,v_2,\ldots,v_n}$ and $\vec{w} =\vector{w_1,w_2,\ldots,w_n}$.  Then, 
+  
+  \[
+  \vec{v} \dotp \vec{w} = \sum_{k=1}^n u_kv_k.
+  \]
+\begin{explanation}
+We first show the result for two dimensional vectors, then give the general result.  Remember that we are taking the properties of the dot product above as our starting point; we must establish that the magnitude-angle and component description follow only from these and nothing else.
+
+Let $\vec{v}=\vector{v_1,v_2}$ and $\vec{w} = \vector{w_1,w_2}$.  Our important vectors for orthogonality are $\uvec{e}_1=\vector{1,0}$ and $\uvec{e}_2=\vector{0,1}$.  With these, we can write
+
+\begin{align*}
+\vec{v} &=  v_1\uvec{e}_1 +v_2\uvec{e}_2 \\
+\vec{w} &= w_1\uvec{e}_1 +w_2\uvec{e}_2 \\
+\end{align*}
+
+Then, 
+
+\[
+\vec{v} \dotp \vec{w} = \left(v_1\uvec{e}_1 +v_2\uvec{e}_2\right) \dotp  \left(w_1\uvec{e}_1 +w_2\uvec{e}_2\right).
+\]
+Using the linearity properties lets us proceed.
+
+\begin{align*}
+\vec{v} \dotp \vec{w} &= \left(v_1\uvec{e}_1\right) \dotp  \left(w_1\uvec{e}_1 +w_2\uvec{e}_2\right) +v_2\uvec{e}_2 \dotp  \left(w_1\uvec{e}_1 +w_2\uvec{e}_2\right). \\
+&= \left(v_1\uvec{e}_1\right) \dotp  \left(w_1\uvec{e}_1\right) +  \left(v_1\uvec{e}_1\right) \dotp  \left(w_2\uvec{e}_2\right)+ \left(v_2\uvec{e}_2\right) \dotp  \left(w_1\uvec{e}_1\right)+ \left(v_2\uvec{e}_2\right) \dotp  \left(w_2\uvec{e}_2\right) \\
+&= v_1w_1 \left(\uvec{e}_1 \dotp \uvec{e}_1\right) + v_1w_2 \left(\uvec{e}_1 \dotp \uvec{e}_2\right) + v_2w_1 \left(\uvec{e}_2 \dotp \uvec{e}_1 \right)+ v_2w_2 \left(\uvec{e}_2 \dotp \uvec{e}_2\right)
+\end{align*}
+
+Now, note that by the definition of orthogonality we can compute the dot products above.
+
+\[
+\begin{array}{ll}
+\uvec{e}_1 \dotp \uvec{e}_1 = 1 \qquad \qquad \qquad & \uvec{e}_1 \dotp \uvec{e}_2 = 0 \\
+\uvec{e}_2 \dotp \uvec{e}_1 = 0 \qquad \qquad & \uvec{e}_2 \dotp \uvec{e}_2 = 1 \\
+\end{array}
+\]
+
+Substituting and simplifying gives us the component formula for the dot product.
+
+\begin{align*}
+\vec{v} \dotp \vec{w} &= v_1w_1 \left(\uvec{e}_1 \dotp \uvec{e}_1\right) + v_1w_2 \left(\uvec{e}_1 \dotp \uvec{e}_2\right) + v_2w_1 \left(\uvec{e}_2 \dotp \uvec{e}_1 \right)+ v_2w_2 \left(\uvec{e}_2 \dotp \uvec{e}_2\right) \\
+&= v_1w_1 \left(1\right) + v_1w_2 \left(0\right) + v_2w_1 \left(0 \right)+ v_2w_2 \left(1\right)\\
+&=v_1w_1+v_2w_2
+\end{align*}
+
+To see how to proceed in the general case, note that we can use the vectors $\uvec{e}_k$ to write
+  \[ 
+  \vector{v_1,v_2, \dots,v_n} = \sum_{i=1}^n v_i \uvec{e}_i
+  \]
+  and
+  \[ 
+  \vector{w_1,w_2, \dots,w_n} = \sum_{j=1}^n w_j \uvec{e}_j.
+  \]	 
+    We now compute
+
+\[
+\vec{v} \dotp \vec{w} = \sum_{i=1}^n v_i \uvec{e}_i \dotp \sum_{j=1}^n w_j \uvec{e}_j.
+\]
+    By the linearity properties of the dot product, the above is equal to
+    \[
+   \vec{v} \dotp \vec{w} =    \sum_{i,j =1}^n v_iw_j(\uvec{e}_i \dotp \uvec{e}_j).
+    \]
+    Finally, since $\uvec{e}_i \dotp \uvec{e}_j = 1$ if $i=j$ and $0$ otherwise, our expression becomes
+    \begin{align*}
+   \vec{v} \dotp \vec{w} &= \sum_{i=1}^n v_iw_i \\
+    \end{align*}
+    
+Since we have previously established that the component and magnitude-angle formulation are equivalent, and we just established that the properties of the dot product lead to the component formulation, the magnitude-angle formulation can be derived from the properties of the dot product. 
+
+As a final note, we can start with the component formulation of the dot product and use it to establish all of the properties listed above.  We leave it to the curious reader to work this out.
+\end{explanation}
+\end{theorem}
+
+\section{Summary}
+In this section, we have established how to take either the magnitude-angle formulation, the component formulation, or the algebraic properties as our definition for how to define the dot product.  From any one of these three starting points, the other two formulations follow.  As a bit of commentary, this author feels that the magnitude-angle formulation of the dot product is the most logical starting point for students who are familiar with the concept of work from physics, but many mathematicians or people who enjoy a more ``pure'' approach like to begin with the list of properties and establish the other results from it.  The latter approach though trades a definition that is motivated from physical or geometric intuition for one that is more axiomatic from which the geometry is derived.  
+
+\end{document}

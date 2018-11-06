@@ -1,0 +1,109 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\title[Refresh:]{Trigonometric Substitution}
+\author{Jim Talamo}
+\outcome{Practice trigonometric substitution.}
+\begin{document}
+\begin{abstract}
+ Refresh on trigonometric substitution.
+\end{abstract}
+\maketitle
+
+
+\begin{exercise}
+The technique of trigonometric substitution allows us to replace sums or differences of squares with a single perfect square by utilizing the Pythagorean trigonometric identities.  
+
+\begin{itemize}
+\item For $a^2x^2+b^2$, use $x= \frac{b}{a} \tan(\theta)$.
+\item For $a^2x^2-b^2$, use $x= \frac{b}{a} \sec(\theta)$.
+\item For $b^2-a^2x^2$, use $x= \frac{b}{a} \sin(\theta)$.
+\end{itemize}
+ 
+\begin{example}
+Use trig substitution to determine the integral.
+\[
+\int \frac{1}{(1+x^2)^2} \d x
+\]
+
+First we must determine the appropriate substitution.  Since we have a $1+x^2$ term, we should use $x=\tan(\theta)$.  This means that $\d x= \answer{ \sec^{2}(\theta)} \d \theta$. 
+
+Using the trig identity $1+\tan^2(\theta)=\sec^{2}(\theta)$, we can rewrite $1+x^2$ as $\answer{\sec^{2}(\theta)}$ and we can express our original integral as a trigonometric integral in terms of the variable $\theta$. 
+
+\begin{image}
+  \begin{tikzpicture}
+        \node at (0,0) {
+          $\int \frac{1}{(1+x^2)^2} \d x   = \int \underbrace{\frac{1}{(\sec^2(\theta))^2}}\left(  \overbrace{ \sec^{2}(\theta) \d \theta } \right)$};
+        \node at (.4,-.8) {\small{The integrand in}};
+        \node at (.4,-1.1) {\small{terms of $\theta$.}};
+        
+        \node at (2.5,1.2) {\small{This is $\d x$ in terms}};
+        \node at (2.5,.9) {\small{of $\theta$ and $\d \theta$.}};        
+      \end{tikzpicture}
+  \end{image}
+
+Simplifying the integrand gives
+
+\[
+\int \frac{1}{(1+x^2)^2} \d x  = \int \cos^2(\theta) \d \theta.
+\]
+
+We now evaluate the trigonometric integral with the aid of the identity $\cos^{2}(\theta)=\frac{1}{2}+\frac{1}{2}\cos(2\theta)$ to find
+
+\[
+\int \cos^2(\theta) \d \theta =  \frac{1}{2}\theta + \frac{1}{4}\sin(2\theta) + C .
+\]
+
+Since we really want the antiderivative in terms of $x$, we use the original substitution $x=\tan(\theta)$ to draw the right triangle below.
+
+    \begin{image}
+      \begin{tikzpicture}
+        \coordinate (C) at (0,2);
+        \coordinate (D) at (4,2);
+        \coordinate (E) at (4,4);
+        \tkzMarkRightAngle(C,D,E)
+        \tkzMarkAngle(D,C,E)
+        \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (0,2)--(4,2);
+        \draw[decoration={brace,mirror,raise=.2cm},decorate,thin] (4,2)--(4,4);
+        \draw[decoration={brace,raise=.2cm},decorate,thin] (0,2)--(4,4);
+        \draw[very thick] (D)--(E)--(C)--cycle;
+        \node at (2,2-.7) {$1$}; %% adj
+        \node[anchor=west] at (4+.3,3) {$x$}; %% opp 
+        \node at (2-.3,3+.8) {$\sqrt{1+x^2}$}; %% hyp
+        \node at (1.2,2.3) {$\theta$};
+      \end{tikzpicture}
+    \end{image}
+
+Using the triangle, we now convert each of the expressions in our antiderivative that was in terms of $\theta$ to be in terms of $x$.  Notice that $\sin(2 \theta)$ cannot be found directly from the triangle yet.  Using the identity
+
+\[
+\sin(2\theta)=2\sin(\theta)\cos(\theta),
+\]
+
+we find that 
+
+\[ \int \frac{1}{ (1+x^2)^2} \d x = \frac{1}{2}\theta + \frac{1}{2} \sin(\theta) \cos(\theta) + C.\]  
+
+Using the triangle, note that: 
+\begin{align}
+\theta&=\arctan(x) \\
+\sin(\theta)&=\frac{x}{\sqrt{1+x^2}} \\
+ \cos(\theta)&=\frac{1}{\sqrt{1+x^2}} 
+\end{align}
+
+We can now write the antiderivatives of the original function in terms of $x$.
+
+\[
+\int \frac{1}{ (1+x^2)^2} \d x=\frac{1}{2}\arctan(x) + \frac{x}{2(1+x^{2})} + C 
+\]
+\end{example}
+
+Now, compute $\int \frac{18}{(9-x^2)^{3/2}} \d x$ for $x>0$
+
+\[
+\int \frac{18}{(9-x^2)^{3/2}} \d x = \answer{\frac{2x}{\sqrt{9-x^2}}+C}.
+\]
+(Use $C$ for the constant of integration)
+\end{exercise}
+\end{document}

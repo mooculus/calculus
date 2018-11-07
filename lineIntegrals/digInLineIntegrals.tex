@@ -22,10 +22,10 @@ In this section we introduce a new type of integrals, \textit{line
   integrals} also known as \textit{path integrals}. Let's start with a
 mental model for what a line integral is.
 
-\section{The idea of line integrals}
+\section{The flow of a vector field along a curve}
 
 Suppose you are flying to \link[Olinda Brazil]{https://en.wikipedia.org/wiki/Olinda} for a mathematics
-conference. Flying out of Columbus Ohio, you have a layover in Atlanta. Because
+conference. Flying out of \link[John Glenn Columbus International Airport]{https://en.wikipedia.org/wiki/John_Glenn_Columbus_International_Airport}, you have a layover in \link[Hartsfield-Jackson Atlanta International Airport]{https://en.wikipedia.org/wiki/Hartsfield-Jackson_Atlanta_International_Airport}. Because
 you bought your tickets as cheaply as possible, you have very little
 time to catch your plane in Atlanta. Hence, your flight time is of crucial
 interest to you. Fortunately or unfortunately, hurricane
@@ -41,8 +41,8 @@ If the flow of the air is with the path and direction of your plane,
 you will pick up a tailwind and get to Atlanta in plenty of time to
 catch your next flight. If flow of the wind is against the path and
 direction of your plane, you might miss your connecting flight and be
-forced to spend days in the Atlanta airport reading science fiction
-novels.
+forced to spend days in the Atlanta airport reading \link[science fiction
+novels]{https://en.wikipedia.org/wiki/The_Accidental_Time_Machine}.
 
 Let $\vec{W}(x,y)$ be a vector field that represents \link[wind
   currents]{https://www.windy.com/}. Let $\vec{p}(t)$ be a
@@ -55,7 +55,7 @@ time, you compute:
 \underbrace{\vec{W}(\vec{p}(t))}_{\text{wind currents}}\dotp \underbrace{\vec{p}'(t)}_{\text{velocity of the plane}}
 \]
 Here the dot product measures ``how aligned'' these two vectors are.
-If the dot product is postive, the wind is pushing with the plane and
+If the dot product is positive, the wind is pushing with the plane and
 speeding-up your flight. If the dot product is negative, the wind is
 pushing against the plane and is slowing your flight.
 
@@ -68,57 +68,29 @@ should hence integrate with respect to time:
 This integral will measure the accumulated contribution of the wind to
 the flight of the plane. If the integral is positive, you will arrive
 in Atlanta early, if the integral is negative you will arrive late.
-
-
-
-Let's start with
-the definition of a \textit{line integral}:
-
+This sort of integral is called a \textit{line integral} or
+\textit{path integral}.
 
 \begin{definition}
-Let $\vec{F}:\R^2\to\R^2$ be a vector field, $\vec{p}:\R\to\R^2$ be a
-smooth vector valued function tracing a curve $C$ exactly once as $t$
-runs from $a$ to $b$,
-\begin{align*}
-  \vec{F}(x,y) &= \vector{M(x,y), N(x,y)}\\
-  \vec{p}(t) &= \vector{x(t),y(t)}.
-\end{align*}
-A \dfn{line integral} is an integral of the form:
-\begin{align*}
-\int_C \vec{F}\dotp \d \vec{p} &= \int_C \vector{M,N}\dotp\vector{\d x,\d y}\\
-&= \int_C M(x,y)\d x + N(x,y)\d y
-\end{align*}
-Since $\d x = x'(t)\d t$ and $\d y = y'(t)\d t$, we may write
-\begin{align*}
-&= \int_a^b \left(M(x(t),y(t))\cdot x'(t) + N(x(t),y(t))\cdot  y'(t)\right) \d t\\
-&= \int_a^b \vector{M(x(t),y(t)),N(x(t),y(t))}\dotp\vector{x'(t), y'(t)} \d t
-\end{align*}
+  Let $\vec{F}:\R^n\to\R^n$ be a vector field, $C$ be a directed curve
+  in $\R^n$, and $\vec{p}:\R\to\R^n$ be a vector-valued function that
+  draws $C$.  A \textbf{line integral}
+  \[
+  \int_C \vec{F}\dotp \d \vec{p}
+  \]
+  measures the flow of the field $\vec{F}$ along the directed curve $C$.
 \end{definition}
 
-If the path $C$ is closed, then sometimes people write a ``circle'' on the
-integral sign:
-\[
-\oint_C \vec{F}\dotp \d \vec{p}
-\]
-This notation is not critical, but it can sometimes help us from
-making silly mistakes.
-
-\begin{question}
-  Which of the following are line integrals?
-  \begin{selectAll}
-    \choice{$\int_R (x^2+y^2) \d A$}
-    \choice[correct]{$\int_C \left( -y\d x + x\d y \right)$}
-    \choice{$\int_3^4\int_2^3 \ln(xy) \d x \d y$}
-    \choice[correct]{$\int_0^{2\pi} \vector{-\sin(t),\cos(t)}\dotp\vector{-\sin(t),\cos(t)}\d t$}
-  \end{selectAll}
-\end{question}
+Now, there is some stuff to unpack here. First of all, whenever you
+are computing a line integral, you have two parts:
+\begin{itemize}
+\item A vector field.
+\item A vector-valued function that draws a path.
+\end{itemize}
 
 
 
-Read on to learn the meaning of this new integral.
 
-
-\section{What do line integrals measure?}
 
 A line integral measures the flow of a vector field along a path. The
 basic idea is that there is some vector field given by $\vec{F}$:
@@ -169,10 +141,9 @@ basic idea is that there is some vector field given by $\vec{F}$:
 \end{image}
 
 
-Now we add an oriented path $C$ that is parameterized by $\vec{p}(t) =
+Now we add directed path $C$ that is parameterized by $\vec{p}(t) =
 \vector{x(t),y(t)}$. This can be thought of as a path that an object
-takes through the field. To reason via a specific example, we'll add a
-path below:
+takes through the field:
 \begin{image}
   \begin{tikzpicture}
     \begin{axis}%
@@ -213,21 +184,89 @@ path below:
       \addplot[penColor,thick, ->] coordinates{(5,-2) (5.5,-2)};
         
       \addplot[penColor2,ultra thick] coordinates{
-        (-3,2.3) (3,2.3)
-        (3,-2.3) (-3,-2.3)
+        (-5,-2.3) (5,2.3)
       };
-      \addplot[penColor2,ultra thick, ->] coordinates{(-3,2.3) (0,2.3)};
-      \addplot[penColor2,ultra thick, ->] coordinates{(3,2.3) (3,0)};
-      \addplot[penColor2,ultra thick, ->] coordinates{(3,-2.3) (0,-2.3)};
+      \addplot[penColor2,ultra thick, ->] coordinates{(-5,-2.3) (0,0)};
     \end{axis}
   \end{tikzpicture}
 \end{image}
-
 To figure out if the flow of the vector field is ``with'' the
 direction of the path, we use the dot product:
 \[
-\underbrace{\vec{F}(x(t),y(t))}_{\text{direction of field}} \dotp \underbrace{\vector{x'(t) \d t,y'(t) \d t}}_{\text{direction of path}}
+\underbrace{\vec{F}(x(t),y(t))}_{\text{direction of field}} \dotp \underbrace{\vector{x'(t),y'(t)}}_{\text{direction of path}}
 \]
+In the case above, the field is ``with'' the directed curve drawn by
+$\vec{p}(t) = \vector{x(t),y(t)}$. Since $\d \vec{p} =
+\vector{x'(t),y'(t)}\d t$, hence the line integral
+\[
+\int_C \vec{F}\dotp\d \vec{p}
+\]
+is positive.
+\begin{remark}
+  It can be shown that the value of the line integral is independent
+  of the speed that the curve is drawn by the parameterization. 
+\end{remark}
+
+Now, if we travel the opposite direction through the field,
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}%
+      [hide axis,
+	ymin=-3,ymax=2.5,
+	xmin=-6,xmax=5.5,
+	]
+      \addplot[penColor,thick, ->] coordinates{(-6,2) (-.5,2)};
+      \addplot[penColor,thick, ->] coordinates{(0,2) (5.5,2)};
+      
+      \addplot[penColor,thick, ->] coordinates{(-6,1) (-2.5,1)};
+      \addplot[penColor,thick, ->] coordinates{(-2,1) (1.5,1)};
+      \addplot[penColor,thick, ->] coordinates{(2,1) (5.5,1)};
+      
+      \addplot[penColor,thick, ->] coordinates{(-6,0) (-3.5,0)};
+      \addplot[penColor,thick, ->] coordinates{(-3,0) (-.5,0)};
+      \addplot[penColor,thick, ->] coordinates{(0,0) (2.5,0)};
+      \addplot[penColor,thick, ->] coordinates{(3,0) (5.5,0)};
+      
+      \addplot[penColor,thick, ->] coordinates{(-6,-1) (-4.5,-1)};
+      \addplot[penColor,thick, ->] coordinates{(-4,-1) (-2.5,-1)};
+      \addplot[penColor,thick, ->] coordinates{(-2,-1) (-.5,-1)};
+      \addplot[penColor,thick, ->] coordinates{(0,-1) (1.5,-1)};
+      \addplot[penColor,thick, ->] coordinates{(2,-1) (3.5,-1)};
+      \addplot[penColor,thick, ->] coordinates{(4,-1) (5.5,-1)};
+      
+      \addplot[penColor,thick, ->] coordinates{(-6,-2) (-5.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(-5,-2) (-4.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(-4,-2) (-3.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(-3,-2) (-2.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(-2,-2) (-1.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(-1,-2) (-.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(0,-2) (.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(1,-2) (1.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(2,-2) (2.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(3,-2) (3.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(4,-2) (4.5,-2)};
+      \addplot[penColor,thick, ->] coordinates{(5,-2) (5.5,-2)};
+        
+      \addplot[penColor2,ultra thick] coordinates{
+        (5,2.3) (-5,-2.3) 
+      };
+      \addplot[penColor2,ultra thick, ->] coordinates{(5,2.3) (0,0)};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+the line integral
+\[
+\int_C \vec{F}\dotp\d\vec{p}
+\]
+is negative.  Try your hand at this sort of analysis.
+
+
+
+
+
+
+
+
 \begin{question}
 When the direction of the field and the direction of the path are in
 alignment, the dot product is\dots
@@ -261,17 +300,151 @@ alignment, the dot product is\dots
 \end{question}
 \end{question}
 \end{question}
-Integrating over the path sums these infinitesimal measurements:
-\[
-\vec{F}(x(t),y(t))\dotp \vector{x'(t),y'(t)} \d t = \vec{F} \dotp\d\vec{p}
-\]
-Thus the line integral
-\[
-\int_C \vec{F}\dotp \d \vec{p}
-\]
-measures the flow of a field along a path. In particular, if the value
-of the line integral is positive, then the flow is with the path; if
-the value is negative, then the flow is against the path.
+
+
+
+\begin{question}
+  Consider the following vector field along with a (directed) curve
+  $C$.
+  \begin{image}
+    \begin{tikzpicture}
+      \begin{axis}%
+        [hide axis,
+	  ymin=-3,ymax=2.5,
+	  xmin=-6,xmax=5.5,
+	]
+        \addplot[penColor,thick, ->] coordinates{(-4,0) (-4,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(-3,0) (-3,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(-2,0) (-2,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(-1,0) (-1,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(0,0) (0,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(1,0) (1,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(2,0) (2,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(3,0) (3,2.5)};
+        \addplot[penColor,thick, ->] coordinates{(4,0) (4,2.5)};
+
+        \addplot[penColor,thick, ->] coordinates{(-4,-2) (-4,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(-3,-2) (-3,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(-2,-2) (-2,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(-1,-2) (-1,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(0,-2) (0,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(1,-2) (1,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(2,-2) (2,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(3,-2) (3,-.25)};
+        \addplot[penColor,thick, ->] coordinates{(4,-2) (4,-.25)};
+
+        \addplot[penColor,thick, ->] coordinates{(-4,-3) (-4,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(-3,-3) (-3,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(-2,-3) (-2,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(-1,-3) (-1,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(0,-3) (0,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(1,-3) (1,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(2,-3) (2,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(3,-3) (3,-2.2)};
+        \addplot[penColor,thick, ->] coordinates{(4,-3) (4,-2.2)};
+
+        
+        
+        
+        \addplot[penColor2,ultra thick] coordinates{
+          (-3,1.7) (3.5,1.7)
+          (3.5,-2.5) (-3,-2.5)
+        };
+        \addplot[penColor2,ultra thick, ->] coordinates{(-3,1.7) (0,1.7)};
+        \addplot[penColor2,ultra thick, ->] coordinates{(3.5,1.7) (3.5,0)};
+        \addplot[penColor2,ultra thick, ->] coordinates{(3.5,-2.5) (0,-2.5)};
+      \end{axis}
+    \end{tikzpicture}
+  \end{image}
+  Do you expect 
+  \[
+  \int_C \vec{F}\dotp \d \vec{p} 
+  \]
+  to be positive, zero, or negative?
+  \begin{prompt}
+  \begin{multipleChoice}
+    \choice{positive}
+    \choice{zero}
+    \choice[correct]{negative}
+  \end{multipleChoice}
+  \begin{hint}
+    We can think about this better if we break the path into pieces:
+    $C_1$, $C_2$, $C_3$.
+    \begin{image}
+      \begin{tikzpicture}
+        \begin{axis}%
+          [hide axis,
+	    ymin=-3,ymax=2.5,
+	    xmin=-6,xmax=5.5,
+	  ]
+          \addplot[penColor,thick, ->] coordinates{(-4,0) (-4,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(-3,0) (-3,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(-2,0) (-2,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(-1,0) (-1,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(0,0) (0,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(1,0) (1,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(2,0) (2,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(3,0) (3,2.5)};
+          \addplot[penColor,thick, ->] coordinates{(4,0) (4,2.5)};
+          
+          \addplot[penColor,thick, ->] coordinates{(-4,-2) (-4,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(-3,-2) (-3,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(-2,-2) (-2,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(-1,-2) (-1,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(0,-2) (0,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(1,-2) (1,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(2,-2) (2,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(3,-2) (3,-.25)};
+          \addplot[penColor,thick, ->] coordinates{(4,-2) (4,-.25)};
+          
+          \addplot[penColor,thick, ->] coordinates{(-4,-3) (-4,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(-3,-3) (-3,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(-2,-3) (-2,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(-1,-3) (-1,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(0,-3) (0,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(1,-3) (1,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(2,-3) (2,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(3,-3) (3,-2.2)};
+          \addplot[penColor,thick, ->] coordinates{(4,-3) (4,-2.2)};
+          
+          \addplot[penColor2,ultra thick] coordinates{
+            (-3,1.7) (3.5,1.7)
+          };
+
+          \addplot[penColor4,ultra thick] coordinates{
+            (3.5,1.7)
+            (3.5,-2.5) 
+          };
+
+          \addplot[penColor5,ultra thick] coordinates{
+            (3.5,-2.5) (-3,-2.5)
+          };
+         
+          \addplot[penColor2,ultra thick, ->] coordinates{(-3,1.7) (0,1.7)};
+          \addplot[penColor4,ultra thick, ->] coordinates{(3.5,1.7) (3.5,0)};
+          \addplot[penColor5,ultra thick, ->] coordinates{(3.5,-2.5) (0,-2.5)};
+
+          \node[above left,penColor2] at (axis cs: 0,1.7) {$C_1$};
+          \node[above right,penColor4] at (axis cs: 2,0) {$C_2$};
+          \node[above left,penColor5] at (axis cs: 0,-2.3) {$C_3$};
+        \end{axis}
+      \end{tikzpicture}
+    \end{image}
+    The field vectors are orthogonal to the direction of the path
+    $C_1$. So this part contributes nothing to the integral.
+
+    The field vectors are flowing against the direction of $C_2$. This
+    contributes a negative value to our integral.
+
+    The field vectors are again orthogonal to the direction of the
+    path $C_3$. So this part contributes nothing to the integral.
+  \end{hint}
+  \end{prompt}
+\end{question}
+
+
+
+
 
 
 
@@ -430,148 +603,6 @@ the value is negative, then the flow is against the path.
 	  ymin=-3,ymax=2.5,
 	  xmin=-6,xmax=5.5,
 	]
-        \addplot[penColor,thick, ->] coordinates{(-4,0) (-4,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(-3,0) (-3,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(-2,0) (-2,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(-1,0) (-1,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(0,0) (0,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(1,0) (1,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(2,0) (2,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(3,0) (3,2.5)};
-        \addplot[penColor,thick, ->] coordinates{(4,0) (4,2.5)};
-
-        \addplot[penColor,thick, ->] coordinates{(-4,-2) (-4,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(-3,-2) (-3,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(-2,-2) (-2,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(-1,-2) (-1,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(0,-2) (0,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(1,-2) (1,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(2,-2) (2,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(3,-2) (3,-.25)};
-        \addplot[penColor,thick, ->] coordinates{(4,-2) (4,-.25)};
-
-        \addplot[penColor,thick, ->] coordinates{(-4,-3) (-4,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(-3,-3) (-3,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(-2,-3) (-2,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(-1,-3) (-1,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(0,-3) (0,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(1,-3) (1,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(2,-3) (2,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(3,-3) (3,-2.2)};
-        \addplot[penColor,thick, ->] coordinates{(4,-3) (4,-2.2)};
-
-        
-        
-        
-        \addplot[penColor2,ultra thick] coordinates{
-          (-3,1.7) (3.5,1.7)
-          (3.5,-2.5) (-3,-2.5)
-        };
-        \addplot[penColor2,ultra thick, ->] coordinates{(-3,1.7) (0,1.7)};
-        \addplot[penColor2,ultra thick, ->] coordinates{(3.5,1.7) (3.5,0)};
-        \addplot[penColor2,ultra thick, ->] coordinates{(3.5,-2.5) (0,-2.5)};
-      \end{axis}
-    \end{tikzpicture}
-  \end{image}
-  Do you expect 
-  \[
-  \int_C \vec{F}\dotp \d \vec{p} 
-  \]
-  to be positive, zero, or negative?
-  \begin{prompt}
-  \begin{multipleChoice}
-    \choice{positive}
-    \choice{zero}
-    \choice[correct]{negative}
-  \end{multipleChoice}
-  \begin{hint}
-    We can think about this better if we break the path into pieces:
-    $C_1$, $C_2$, $C_3$.
-    \begin{image}
-      \begin{tikzpicture}
-        \begin{axis}%
-          [hide axis,
-	    ymin=-3,ymax=2.5,
-	    xmin=-6,xmax=5.5,
-	  ]
-          \addplot[penColor,thick, ->] coordinates{(-4,0) (-4,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(-3,0) (-3,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(-2,0) (-2,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(-1,0) (-1,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(0,0) (0,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(1,0) (1,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(2,0) (2,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(3,0) (3,2.5)};
-          \addplot[penColor,thick, ->] coordinates{(4,0) (4,2.5)};
-          
-          \addplot[penColor,thick, ->] coordinates{(-4,-2) (-4,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(-3,-2) (-3,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(-2,-2) (-2,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(-1,-2) (-1,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(0,-2) (0,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(1,-2) (1,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(2,-2) (2,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(3,-2) (3,-.25)};
-          \addplot[penColor,thick, ->] coordinates{(4,-2) (4,-.25)};
-          
-          \addplot[penColor,thick, ->] coordinates{(-4,-3) (-4,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(-3,-3) (-3,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(-2,-3) (-2,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(-1,-3) (-1,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(0,-3) (0,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(1,-3) (1,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(2,-3) (2,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(3,-3) (3,-2.2)};
-          \addplot[penColor,thick, ->] coordinates{(4,-3) (4,-2.2)};
-          
-          \addplot[penColor2,ultra thick] coordinates{
-            (-3,1.7) (3.5,1.7)
-          };
-
-          \addplot[penColor4,ultra thick] coordinates{
-            (3.5,1.7)
-            (3.5,-2.5) 
-          };
-
-          \addplot[penColor5,ultra thick] coordinates{
-            (3.5,-2.5) (-3,-2.5)
-          };
-         
-          \addplot[penColor2,ultra thick, ->] coordinates{(-3,1.7) (0,1.7)};
-          \addplot[penColor4,ultra thick, ->] coordinates{(3.5,1.7) (3.5,0)};
-          \addplot[penColor5,ultra thick, ->] coordinates{(3.5,-2.5) (0,-2.5)};
-
-          \node[above left,penColor2] at (axis cs: 0,1.7) {$C_1$};
-          \node[above right,penColor4] at (axis cs: 2,0) {$C_2$};
-          \node[above left,penColor5] at (axis cs: 0,-2.3) {$C_3$};
-        \end{axis}
-      \end{tikzpicture}
-    \end{image}
-    The field vectors are orthogonal to the direction of the path
-    $C_1$. So this part contributes nothing to the integral.
-
-    The field vectors are flowing against the direction of $C_2$. This
-    contributes a negative value to our integral.
-
-    The field vectors are again orthogonal to the direction of the
-    path $C_3$. So this part contributes nothing to the integral.
-  \end{hint}
-  \end{prompt}
-\end{question}
-
-
-
-
-\begin{question}
-  Consider the following vector field along with a (directed) curve
-  $C$.
-  \begin{image}
-    \begin{tikzpicture}
-      \begin{axis}%
-        [hide axis,
-	  ymin=-3,ymax=2.5,
-	  xmin=-6,xmax=5.5,
-	]
         \addplot[penColor,thick, ->] coordinates{(-6,2) (-.5,2)};
         \addplot[penColor,thick, ->] coordinates{(0,2) (5.5,2)};
 
@@ -698,6 +729,51 @@ the value is negative, then the flow is against the path.
   \end{hint}
   \end{prompt}
 \end{question}
+
+
+
+\subsection{The notation of line integrals}
+
+
+HERE HERE HERE HERE
+
+
+\begin{align*}
+  \vec{F}(x,y) &= \vector{M(x,y), N(x,y)}\\
+  \vec{p}(t) &= \vector{x(t),y(t)}.
+\end{align*}
+A \dfn{line integral} is an integral of the form:
+\begin{align*}
+\int_C \vec{F}\dotp \d \vec{p} &= \int_C \vector{M,N}\dotp\vector{\d x,\d y}\\
+&= \int_C M(x,y)\d x + N(x,y)\d y
+\end{align*}
+Since $\d x = x'(t)\d t$ and $\d y = y'(t)\d t$, we may write
+\begin{align*}
+&= \int_a^b \left(M(x(t),y(t))\cdot x'(t) + N(x(t),y(t))\cdot  y'(t)\right) \d t\\
+&= \int_a^b \vector{M(x(t),y(t)),N(x(t),y(t))}\dotp\vector{x'(t), y'(t)} \d t
+\end{align*}
+
+
+
+
+If the path $C$ is closed, then sometimes people write a ``circle'' on the
+integral sign:
+\[
+\oint_C \vec{F}\dotp \d \vec{p}
+\]
+This notation is not critical, but it can sometimes help us from
+making silly mistakes.
+
+\begin{question}
+  Which of the following are line integrals?
+  \begin{selectAll}
+    \choice{$\int_R (x^2+y^2) \d A$}
+    \choice[correct]{$\int_C \left( -y\d x + x\d y \right)$}
+    \choice{$\int_3^4\int_2^3 \ln(xy) \d x \d y$}
+    \choice[correct]{$\int_0^{2\pi} \vector{-\sin(t),\cos(t)}\dotp\vector{-\sin(t),\cos(t)}\d t$}
+  \end{selectAll}
+\end{question}
+
 
 Let's attempt to solve a discrete problem.
 
@@ -937,11 +1013,11 @@ be quite easy to integrate. Check out our next example.
 
 
 
-\section{The fundamental theorems of calculus}
+\section{The Fundamental Theorems of Calculus}
 
 
 We will soon see that there are many ``Fundamental Theorems of
-calculus.'' What makes them similar is that they all share the
+Calculus.'' What makes them similar is that they all share the
 following rather vague description:
 \begin{quote}
   To compute a certain sort of integral over a region, we may do a
@@ -949,7 +1025,7 @@ following rather vague description:
   integrations.
 \end{quote}
 
-Each version of the Fundamental Theorem of calculus makes the
+Each version of the Fundamental Theorem of Calculus makes the
 ``vague'' statement above precise. For example, when working with a
 single variable, the Fundamental Theorem concludes:
 \[

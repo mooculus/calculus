@@ -1,0 +1,90 @@
+\usepackage[margin=1in,headheight=13.6pt]{geometry}
+\usepackage{multicol}
+\usepackage{stix}
+\usepackage{gillius}
+\usepackage[T1]{fontenc} %%Clobbers \d!!!
+\renewcommand{\d}{\mathop{}\!d} %% unclobbers \d
+\renewcommand{\l}{\ell} %% unclobbers \l
+
+\usepackage{fancyhdr}
+\usepackage{marginnote}
+\usepackage{microtype}
+
+\usepackage{etoolbox}
+%% fixes left margin note
+\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
+\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
+\reversemarginpar 
+
+
+\renewcommand*{\marginfont}{\ttfamily}
+\newcommand{\points}[1]{\marginnote{[#1~pts]}}
+
+
+\newcommand{\@course}{Mathematics}
+\newcommand{\course}[1]{\renewcommand{\@course}{#1}}
+
+\renewcommand{\phi}{\varphi}
+
+
+\renewcommand{\maketitle}{%
+  \begin{center}%
+    {\Large\textsf{\textbf{\@title\hfill\@course}}\vspace{0.5ex}\hrule\vspace{0.5ex}}
+    {\large\textsf{Autumn 2018\hfill\texttt{\@date}}}
+  \end{center}
+  \vfill
+}
+
+%% modified from https://tex.stackexchange.com/questions/192393/how-to-reduce-the-space-between-the-hat-of-overset-and-the-symbol
+\renewcommand{\vec}[1]{{\mathpalette\harpoonvec{\mathbf{#1}}}}
+\newcommand{\harpvecsign}{\scriptscriptstyle{\boldsymbol{\rightharpoonup}}}
+\newcommand{\harpoonvec}[2]{%
+  \ifx\displaystyle#1\doalign{$\harpvecsign$}{#1#2}\fi
+  \ifx\textstyle#1\doalign{$\harpvecsign$}{#1#2}\fi
+  \ifx\scriptstyle#1\doalign{\scalebox{.6}[.9]{$\harpvecsign$}}{#1#2}\fi
+  \ifx\scriptscriptstyle#1\doalign{\scalebox{.5}[.8]{$\harpvecsign$}}{#1#2}\fi
+}
+\newcommand{\doalign}[2]{%
+ {\vbox{\offinterlineskip\ialign{\hfil##\hfil\cr#1\cr$#2$\cr}}}%
+}
+
+\newcommand{\harpvecsignlight}{\scriptscriptstyle{\rightharpoonup}}
+
+
+
+
+
+\let\problem\relax
+\let\endproblem\relax
+\let\c@problem\relax 
+\newtheoremstyle{problem}
+{\topsep}{\topsep}{}{}{\bfseries}{)}{ }{}
+\theoremstyle{problem}
+\newtheorem{problem}{}
+
+\renewenvironment{multipleChoice}[1][]
+{\setkeys{multipleChoice}{#1}%
+\recordvariable{\mc@id}%
+{\bfseries Circle one.}\hfil\begin{enumerate}}
+{\end{enumerate}}
+
+
+
+\renewenvironment{selectAll}[1][]
+{{\bfseries Circle true statements. Cross-out false statements.}\hfil\begin{enumerate}}
+{\end{enumerate}}
+
+%\setcounter{page}{1}
+%\pagenumbering{arabic}
+% Turn on the style
+\pagestyle{fancy}
+% Clear the header and footer
+\fancyhf{}
+%\renewcommand{\headrulewidth}{0pt}
+% Set the right side of the footer to be the page number
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[CO,CE]{\texttt{\@date}}
+
+
+\pdfOnly{\renewcommand{\answer}[2][]{\qquad}}
+

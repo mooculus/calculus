@@ -83,7 +83,61 @@ Let's state the definition:
 \subsection{What does divergence measure?}
 
 As we've already said, divergence measures the rate field vectors are
-expanding at a point. The most obvious example of a vector field with
+expanding at a point. To be more explicit, the divergence measures how
+the magnitude of the field vectors change as you move in the direction
+of the field vectors:
+\begin{image}
+  \begin{tikzpicture}%[framed]
+    \begin{axis}[
+        hide axis,
+        width=8cm,
+        height=8cm,
+        xmin=0,xmax=14,
+        ymin=-12,ymax=14,
+      ]
+      \pgfplotsinvokeforeach{1,2,...,13}{
+        \addplot[penColor,thick,->] coordinates{ (1,#1) (2,#1) };
+        \addplot[penColor,thick,->] coordinates{ (3,#1) (5,#1) };
+        \addplot[penColor,thick,->] coordinates{ (6,#1) (9,#1) };
+        \addplot[penColor,thick,->] coordinates{ (10,#1) (14,#1) };
+      }
+       
+       \node[inner sep=0pt,text width=7cm,scale=.9] at (axis cs: 7.5,-3)
+            {\footnotesize Since the magnitude of the field vectors
+              \textbf{increases} as we move in the direction of the
+              field, the divergence is positive.};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+And:
+\begin{image}
+  \begin{tikzpicture}%[framed]
+    \begin{axis}[
+        hide axis,
+        width=8cm,
+        height=8cm,
+        xmin=0,xmax=14,
+        ymin=-12,ymax=14,
+      ]
+      \pgfplotsinvokeforeach{1,2,...,13}{
+        \addplot[penColor,thick,->] coordinates{ (1,#1) (5,#1) };
+        \addplot[penColor,thick,->] coordinates{ (6,#1) (9,#1) };
+        \addplot[penColor,thick,->] coordinates{ (10,#1) (12,#1) };
+        \addplot[penColor,thick,->] coordinates{ (13,#1) (14,#1) };
+      }
+       
+       \node[inner sep=0pt,text width=7cm,scale=.9] at (axis cs: 7.5,-3)
+            {\footnotesize Since the magnitude of the field vectors
+              \textbf{decreases} as we move in the direction of the
+              field, the divergence is negative.};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
+The most obvious example of a vector field with
 nonzero divergence is $\vec{F}(x,y)= \vector{x,y}$:
 \begin{image}
   \includegraphics{divField.png}
@@ -255,7 +309,7 @@ are with vectors orthogonal to the direction of the path, the integral
 \oint_C \vec{F}\dotp \d \vec{n} &= \oint_C \vector{M,N}\dotp\vector{\d y,-\d x}\\
 &= \oint_C - N(x,y)\d x + M(x,y)\d y 
 \end{align*}
-measures the flow of a vector field across a curve. Some folkes call
+measures the flow of a vector field across a curve. Some folks call
 this a \dfn{flux integral}.  Since $\d x = x'(t)\d t$ and $\d y =
 y'(t)\d t$, we may write $\oint_C \vec{F}\dotp \d \vec{n}$ as
 \begin{align*}

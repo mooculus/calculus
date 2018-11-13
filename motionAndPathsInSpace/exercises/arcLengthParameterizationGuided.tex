@@ -1,0 +1,100 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+
+\outcome{Compute the length of a parametric curve.}
+
+\begin{document}
+\begin{exercise}
+ 
+Suppose that the curve $C$ in the $xy$-plane is traced out by the vector-valued function 
+
+\[
+\vec{r}(t) = \vector{2t^{3/2},4t+1}, 0 \leq t \leq 4.
+\] 
+
+In order to determine if the curve is parameterized by arclength, we could check either if
+
+\begin{itemize}
+\item $\int_0^s \left|\vec{r}'(t)\right| \d s = s$
+\item $\left|\vec{r}'(t)\right|=1$ for all $t$.
+\end{itemize}
+
+If either of these holds, then the curve uses arclength as a parameter.  Furthermore, in order to establish the first result, we would have to compute $\left|\vec{r}'(t)\right|$ anyways, so let's take this approach.
+
+We calculate that $\vec{r}'(t) = \vector{\answer{3t^{1/2}},\answer{4}}$, and hence $\left|\vec{r}'(t)\right| = \answer{\sqrt{9t+16}}$.
+
+Since $\left|\vec{r}'(t)\right| \neq 1$ for all $t$, the curve \wordChoice{\choice{does}\choice[correct]{does not}} use arclength as a parameter.
+
+\begin{exercise}
+In order to find a description $\vec{p}(s)$ that does use arclength as a parameter, we can take the following steps.
+
+\begin{itemize}
+\item[1.] Find $s$ in terms of $t$ by computing $s = \int_0^t \left|\vec{r}'(\tau)\right| \d \tau$.
+
+Since $\left|\vec{r}'(t)\right| = \sqrt{9t+16}$, $\left|\vec{r}'(\tau)\right| = \sqrt{9\tau+16}$, and thus
+
+\begin{align*}
+s &= \int_0^t \left|\vec{r}'(\tau)\right| \d \tau \\
+&= \int_0^t \sqrt{9\tau+16} \d \tau
+\end{align*}
+
+Note that we need to find the antiderivative $\int \sqrt{9x+16} \d x$ to proceed, and 
+
+\[
+\int \sqrt{9x+16} \d x = \answer{\frac{2}{27} (9x+16)^{3/2}} +C.
+\] 
+
+Thus, we find that $s = \answer{\frac{2}{27} (9t+16)^{3/2} - \frac{128}{27}}$.
+
+\begin{hint}
+We can calculate $\int \sqrt{9x+16} \d x$ with the substitution $u=9x+16$.  Don't forget to evaluate the antiderivative at $t=0$ when you find $s$.
+
+\end{hint}
+
+\item[2.] Solve for $t$ in terms of $s$.
+
+This requires some careful algebra, after which we find
+
+\[
+t = \answer{\frac{\left(\frac{27}{2}s+64\right)^{2/3}-16}{9}}
+\]
+
+\begin{hint}
+Let's work through the start of the algebra one step at a time.
+
+\begin{align*}
+s &= \frac{2}{27} (9t+16)^{3/2} - \frac{128}{27} \\
+s +\frac{128}{27} &=  \frac{2}{27} (9t+16)^{3/2} \\
+\frac{27}{2}s +64 &= (9t+16)^{3/2}& (\textrm{ multiply both sides by } \frac{27}{2} \textrm{ and simplify. } ) \\
+\left(\frac{27}{2}s +64\right)^{\answer{2/3}} &= 9t+16 \\
+\end{align*}
+
+From here, there's not too much more work necessary to solve for $t$.
+\end{hint}
+
+\item[3.] We can now find the parameterization $\vec{p}(s)$ by substituting the expression above for $t$ in the original parameterization. 
+
+\begin{align*}
+\vec{r}(t) &= \vector{2t^{3/2},4t+1} , 0 \leq t \leq 4 \\
+\vec{p}(s) &= \vector{2\left(\answer{\frac{\left(\frac{27}{2}s+64\right)^{2/3}-16}{9} } \right)^{3/2},4\left( \answer{\frac{\left(\frac{27}{2}s+64\right)^{2/3}-16}{9}} \right)+1}
+\end{align*} 
+
+Note that we also need to transform the domain as well.  Since the original domain is $0 \leq t \leq 4$, we have $0 \leq \frac{\left(\frac{27}{2}s+64\right)^{2/3}-16}{9} \leq 4$, or 
+
+\[
+\textrm{ Domain in } s: ~ 0 \leq s \leq \answer{\frac{2}{27}\left((52)^{3/2}-64\right)}
+\]
+\end{itemize}
+
+\begin{feedback}[correct]
+Note that the arclength parameterization here is quite painful.  In practice, the best we can hope for is that this parameterization is painful, but possible.  Since finding $s$ in terms of $t$ in general requires that we evaluate an integral that has a square root, we often will not be able to compute the necessary antiderivative explicitly.  Even if we can, we still have to solve for $t$ in terms of $s$.  
+
+In general, arclength is not generally a useful parameter to use explicitly, but it is a fundamentally important one to use when formulating definitions that have physical meaning, as a later exercise will explore.  A common theme in results that require this is to take the definition in terms of arclength and establish a computational result in terms of the parameter you want to use.  This will be the subject of a later problem in this assignment.
+
+\end{feedback}
+\end{exercise}
+ \end{exercise}
+\end{document}

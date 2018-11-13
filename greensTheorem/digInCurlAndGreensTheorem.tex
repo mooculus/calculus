@@ -23,6 +23,7 @@ vector fields, as well as a new fundamental theorem of calculus.
 
 \section{The curl of a vector field}
 
+
 Calculus has taught us that knowing the derivative of a function
 $f:\R\to\R$ can tell us important information about the function.  In
 a similar way we have that seen that if we wish to understand a
@@ -249,15 +250,111 @@ combines $\pp[N]{x}$ and $-\pp[M]{y}$
 \[
 \curl\vec{F} = \pp[N]{x} - \pp[M]{y}
 \]
-to obtain the infinitesimal rotation of the field. The most obvious
+to obtain the local rotation of the field. The most obvious
 example of a vector field with nonzero curl is $\vec{F}(x,y) =
 \vector{-y,x}$.
 \begin{image}
   \includegraphics{rotField.png}
 \end{image}
-Unfortunately, while we can sometimes identify nonzero curl from a
-graph, it can be difficult. In our next example, we see a field that
-does not have global rotation but does have local rotation.
+
+In essence, the scalar curl measures how the magnitude of the field
+vectors change as you move to the right, in a direction perpendicular
+to the direction of the field vectors:
+\begin{image}
+  \begin{tikzpicture}%[framed]
+    \begin{axis}[
+        hide axis,
+        width=8cm,
+        height=8cm,
+        xmin=0,xmax=26,
+        ymin=-12,ymax=24,
+      ]
+      \pgfplotsinvokeforeach{1,3,...,23}{
+        \addplot[penColor,thick,->] coordinates{ (1,#1) (1,#1+1) };
+      }
+
+      \pgfplotsinvokeforeach{1,4,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (5,#1) (5,#1+2) };
+      }
+
+      \pgfplotsinvokeforeach{1,5,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (9,#1) (9,#1+3) };
+      }
+
+      \pgfplotsinvokeforeach{1,7,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (13,#1) (13,#1+5) };
+      }
+
+      \pgfplotsinvokeforeach{1,9,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (17,#1) (17,#1+7) };
+      }
+
+      \pgfplotsinvokeforeach{1,13,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (21,#1) (21,#1+11) };
+      }
+            
+      \addplot[penColor,thick,->] coordinates{ (25,1) (25,24) };
+ 
+       
+       \node[inner sep=0pt,text width=7cm,scale=.9] at (axis cs:
+       13,-6) {\footnotesize Since the magnitude of the field vectors
+         \textbf{increases} as we move to the right, perpendicularly
+         to the direction of the field vectors, the scalar curl is
+         positive.};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+And:
+\begin{image}
+  \begin{tikzpicture}%[framed]
+    \begin{axis}[
+        hide axis,
+        width=8cm,
+        height=8cm,
+        xmin=0,xmax=26,
+        ymin=-12,ymax=24,
+      ]
+      \pgfplotsinvokeforeach{1,3,...,23}{
+        \addplot[penColor,thick,->] coordinates{ (25,#1) (25,#1+1) };
+      }
+
+      \pgfplotsinvokeforeach{1,4,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (21,#1) (21,#1+2) };
+      }
+
+      \pgfplotsinvokeforeach{1,5,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (17,#1) (17,#1+3) };
+      }
+
+      \pgfplotsinvokeforeach{1,7,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (13,#1) (13,#1+5) };
+      }
+
+      \pgfplotsinvokeforeach{1,9,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (9,#1) (9,#1+7) };
+      }
+
+      \pgfplotsinvokeforeach{1,13,...,24}{
+        \addplot[penColor,thick,->] coordinates{ (5,#1) (5,#1+11) };
+      }
+            
+      \addplot[penColor,thick,->] coordinates{ (1,1) (1,24) };
+ 
+       
+       \node[inner sep=0pt,text width=7cm,scale=.9] at (axis cs:
+       13,-6) {\footnotesize Since the magnitude of the field vectors
+         \textbf{decreases} as we move to the right, perpendicularly
+         to the direction of the field vectors, the scalar curl is
+         positive.};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
+In our next example, we see a field that has local rotation (nonzero
+curl) but does not have global rotation.
 
 \begin{example}
   Consider the following vector field $\vec{F}$:
@@ -414,10 +511,42 @@ rotation in the \textit{opposite} direction!
   \end{explanation}
 \end{example}
 
+
+\subsection{Curl in three dimensions}
+
+In this section we introduce curl in three dimensions. You already know how to compute it:
+\begin{align*}
+  \curl \vec F &= \det
+  \begin{bmatrix}
+    \veci & \vecj & \veck \\
+    \pp{x} & \pp{y} & \pp{z}\\
+    U & V & W
+  \end{bmatrix}\\
+  &= \veci\left(\pp[W]{y}-\pp[V]{z}\right)-
+  \vecj\left(\pp[W]{x}-\pp[U]{z}\right)+
+  \veck\left(\pp[V]{x}-\pp[U]{y}\right).
+\end{align*}
+What does it mean? Well first of all, in three dimensions, curl is a \textit{vector}. It points along the axis of rotation for a vector field. You should think of a tornado:
+\begin{image}%% https://commons.wikimedia.org/wiki/File:Occluded_mesocyclone_tornado5_-_NOAA.jpg
+  \includegraphics{tornado.png}
+\end{image}
+Here the vector pointing up is supposed to be the curl of the tornado.
+
+
+
+
+
+
 At this point we only know how to take the derivative (via the curl)
 of a vector field of two or three dimensions.  You can take another
 course to learn more about derivatives of $n$-dimensional vector
 fields.
+
+
+
+
+
+
 
 \section{A new fundamental theorem of calculus}
 
@@ -575,9 +704,6 @@ curl. It's called \textit{Green's Theorem}:
 How is Green's Theorem a fundamental theorem of calculus? Well
 consider this:
 \begin{image}
-  \includegraphics{circulation.png}
-\end{image}
-\begin{image}
   \begin{tikzpicture}
     \node[inner sep=0pt] at (0,0) {$\iint_R \curl\vec{F}\d A\quad =\quad \oint_C \vec{F}\dotp\d\vec{p}$};
 
@@ -592,9 +718,81 @@ consider this:
     \node[below,inner sep=0pt,text width=4cm,scale=.5] at (1.8,-1) {we can compute the accumulation of $\vec{F}$ along a boundary curve $C$.};
   \end{tikzpicture}
 \end{image}
+The ``hand-wavey'' reason this works is given by the picture below:
+\begin{image}
+  \includegraphics{circulation.png}
+\end{image}
+Basically, $\curl \vec{F}\d A$ measures the circulation (local
+rotation) in every little triangle above. Lining each of these little
+triangles up, we see that the accumulation of this circulation is
+measured by the flow of the vector field along the boundary, and this
+is measured by:
+\[
+\oint_C \vec{F}\dotp\d\vec{p}
+\]
+Green's Theorem is our shiny new fundamental theorem of calculus. We'll be talking about it in the next two sections too!
+
+\subsection{Strategy for evaluating line integrals}
+
+At this point we have three ways to evaluating two-dimensional line
+integrals:
+\begin{itemize}
+\item Direct computation.
+\item The Fundamental Theorem of Line Integrals.
+\item Green's Theorem.
+\end{itemize}
+How do you know which method to use? Here are some rules of thumb.
+
+\paragraph{Identify the field}
+With line integrals, we must have a vector field. You must identify this vector field. 
 
 
-Are there more fundamental theorems of calculus? Absolutely, read on young mathematician!
+\paragraph{Compute the scalar curl of the field}
+If the scalar curl is zero, then the field is a gradient field and you
+should use the Fundamental theorem of line integrals. If the scalar
+curl is ``simple'' and $R$ is easy to deal with, then use Green's
+Theorem. If the scalar curl isn't simple, but you have a nice
+parameterization for the boundary of $R$, then perhaps you should
+attempt a direct evaluation.
+
+
+\subsection{The shape of things to come}
+
+Recalling that $C^\infty(A,B)$ is the set of differentiable functions
+from $A$ to $B$ where \textbf{all} of the derivatives are continuous,
+we can make the following ``chain'' of derivatives:
+
+\[
+\underbrace{C^{\infty}(\R^2,\R)}_{\text{surfaces}} \overset{\grad}{\to}\underbrace{C^\infty(\R^2,\R^2)}_{\text{vector fields}} \overset{\curl}{\to}\underbrace{C^\infty(\R^2,\R)}_{\text{surfaces}} 
+\]
+Moreover, by the Clairaut gradient test, the scalar curl of the
+gradient vector is zero. Given a function $F:\R^2\to\R$, we can follow
+$F$ through the chain to see what happens:
+\begin{image}
+  \begin{tikzpicture}
+    \node{
+    \begin{tikzcd}[ampersand replacement=\&,row sep=-.5em]
+     C^{\infty}(\R^2,\R) \arrow[r,"\grad"] \& C^{\infty}(\R^2,\R^2) \arrow[r,"\curl"] \& C^{\infty}(\R^2,\R)\\
+     F \arrow[r,mapsto] \& \grad F  \arrow[r,mapsto] \& 0
+    \end{tikzcd}};
+  \end{tikzpicture}
+\end{image}
+This is nothing more than a fancy way to say that $\curl\grad F =
+0$. However, we also have our two new fundamental theorems of
+calculus: The Fundamental Theorem of Line Integrals (FTLI), and
+Green's Theorem. These theorems also fit on this sort of diagram:
+\begin{image}
+  \begin{tikzpicture}
+    \node{
+    \begin{tikzcd}[ampersand replacement=\&,row sep=-.5em]
+     C^{\infty}(\R^2,\R) \arrow[r,"\grad"] \& \arrow[l,"\text{FTLI}",bend left=20 ]C^{\infty}(\R^2,\R^2) \arrow[r,"\curl"] \& \arrow[l,"\text{Green's Theorem}", bend left =20]C^{\infty}(\R^2,\R)
+    \end{tikzcd}};
+  \end{tikzpicture}
+\end{image}
+ The Fundamental Theorem of Line Integrals is in some sense about
+ ``undoing'' the gradient. Green's Theorem is in some sense about
+ ``undoing'' the scalar curl. Are there more fundamental theorems of
+ calculus? Absolutely, read on young mathematician!
 
 
 

@@ -127,7 +127,7 @@ Working in a similar way to how we worked above, let us recall the fundamental t
   \[
   \int_C \grad F \dotp\d\vec{p} = F(\vec{b}) - F(\vec{a}) 
   \]
-\item Stokes' theorem:
+\item Stokes' Theorem:
   \begin{image}
     \begin{tikzpicture}
       \draw[gray,ultra thick] plot[smooth] coordinates {(-1.5,1.5) (-1,3) (0,3.3)  (1.5,1.5)};
@@ -139,7 +139,7 @@ Working in a similar way to how we worked above, let us recall the fundamental t
   \[
   \iint_R \curl\vec{F}\dotp \uvec{n} \d S = \oint_{\partial R} \vec{F} \dotp \d \vec{p}
   \]
-\item The divergence theorem:
+\item The Divergence Theorem:
   \begin{image}
   \begin{tikzpicture}
     \draw[ultra thick, gray!50!black] plot [smooth cycle] coordinates {(-1.5,2) (.5,1) (1.5,2) (.5,3) (-1.5,3)};
@@ -151,7 +151,7 @@ Working in a similar way to how we worked above, let us recall the fundamental t
   \iiint_R \divergence\vec{F} \d V = \oiint_{\partial R} \vec{F}\dotp\uvec{n} \d S
   \]
 \end{itemize}
-Putting Stokes' theorem and the divergence theorem together, we find the beautiful expression:
+Putting Stokes' Theorem and the Divergence Theorem together, we find the beautiful expression:
 \[
 \iiint_R \divergence\left(\curl\vec{F}\right)\d V = \oiint_{\partial R} \left(\curl \vec{F}\right)\dotp \uvec{n} \d S = \oint_{\partial\partial R} \vec{F}\dotp \d \vec{p}
 \]
@@ -176,10 +176,44 @@ Are all equal to to zero!  We thus conclude:
   $\divergence\left(\curl\vec{F}\right)=0$.
 \end{itemize}
 
+Let's see what you can do now.
 
 
-\section{Grad, Curl, Div}
+\begin{question}
+  Let $F:\R^3\to \R$ be a function with continuous second derivatives
+  and let $\vec{G}:\R^3\to\R^3$ be a vector field. Which of the
+  following make sense?
+  \begin{selectAll}
+    \choice{$\curl F$}
+    \choice[correct]{$\curl \vec{G}$}
+    \choice{$\divergence F$}
+    \choice[correct]{$\curl\grad F$}
+    \choice{$\curl \divergence F$}
+    \choice{$\curl \divergence \vec{G}$}
+    \choice[correct]{$\divergence \grad F$}
+    \choice[correct]{$\divergence\left(\curl \vec{G}\right)$}
+  \end{selectAll}
+  \begin{question}
+    Of the choices above that make sense, which must be equal to $0$
+    or $\vec{0}$?
+    \begin{prompt}
+      \begin{selectAll}
+        \choice{$\curl \vec{G}$}
+        \choice[correct]{$\curl\grad F$}
+        \choice{$\divergence \grad F$}
+        \choice[correct]{$\divergence\left(\curl \vec{G}\right)$}
+    \end{selectAll}
+    \end{prompt}
+    \end{question}
+\end{question}
 
+
+
+\section{The shape of things to come}
+
+Recalling that $C^\infty(A,B)$ is the set of differentiable functions
+from $A$ to $B$ where \textbf{all} of the derivatives are continuous,
+we can make the following ``chain'' of derivatives:
 \begin{image}
   \begin{tikzpicture}
     \node{
@@ -189,20 +223,50 @@ Are all equal to to zero!  We thus conclude:
     \end{tikzcd}};
   \end{tikzpicture}
 \end{image}
+From our work above (and from previous parts of this course) we will
+always have that $\curl\grad F = 0$.
 
 
+Since the Fundamental Theorem of Line Integrals (FTLI) is in some
+sense about ``undoing'' the gradient and Green's Theorem is in some
+sense about ``undoing'' the scalar curl, we can also place these in
+the diagram:
+\begin{image}
+  \begin{tikzpicture}
+    \node{
+    \begin{tikzcd}[ampersand replacement=\&,row sep=-.5em]
+     C^{\infty}(\R^2,\R) \arrow[r,"\grad"] \& \arrow[l,"\text{FTLI}",bend left=20 ]C^{\infty}(\R^2,\R^2) \arrow[r,"\curl"] \& \arrow[l,"\text{Green's Theorem}", bend left =20]C^{\infty}(\R^2,\R)
+    \end{tikzcd}};
+  \end{tikzpicture}
+\end{image}
+
+Working in a similar way, we can make a chain of derivatives in three-dimensions as well:
 \begin{image}
   \begin{tikzpicture}
     \node{
   \begin{tikzcd}[ampersand replacement=\&, row sep=-.5em,column sep=4ex]
     C^{\infty}(\R^3,\R) \arrow[r,"\grad"] \& C^{\infty}(\R^3,\R^3) \arrow[r,"\curl"] \& C^{\infty}(\R^3,\R^3) \arrow[r,"\divergence"] \& C^{\infty}(\R^3,\R)\\
     F \arrow[r,mapsto] \& \grad F  \arrow[r,mapsto] \& \vec{0}   \&\\
-                       \& \vec{F}  \arrow[r,mapsto] \& \curl\vec{F} \arrow[r,mapsto]   \& 0
+                       \& \vec{G}  \arrow[r,mapsto] \& \curl\vec{G} \arrow[r,mapsto]   \& 0
     \end{tikzcd}};
   \end{tikzpicture}
 \end{image}
-  
+From our work above, we always will have that $\curl\grad F = \vec{0}$
+and $\divergence\left(\curl \vec{G}\right) = 0$.
 
+Since Stokes' Theorem is in some sense about ``undoing'' the curl and
+the Divergence Theorem is in some sense about ``undoing'' the
+divergence, we can place these theorems into the diagram as well:
+\begin{image}
+  \begin{tikzpicture}
+    \node{
+  \begin{tikzcd}[ampersand replacement=\&, row sep=-.5em,column sep=4ex]
+    C^{\infty}(\R^3,\R) \arrow[r,"\grad"] \& \arrow[l,"\text{FTLI}",bend left = 20]C^{\infty}(\R^3,\R^3) \arrow[r,"\curl"] \& \arrow[l,"\text{Stokes' Theorem}",bend left = 20] C^{\infty}(\R^3,\R^3) \arrow[r,"\divergence"] \&  \arrow[l,"\text{Divergence Theorem}",bend left = 20]C^{\infty}(\R^3,\R)
+    \end{tikzcd}};
+  \end{tikzpicture}
+\end{image}
+
+Now let's get crazy. Let's put all of our diagrams together into one big diagram: 
 \begin{image}
   \begin{tikzpicture}
     \node{
@@ -213,8 +277,51 @@ Are all equal to to zero!  We thus conclude:
     \end{tikzcd}};
   \end{tikzpicture}
 \end{image}
-  
-There is so much more to know. 
+
+Checkout the values for $n$ in each of the $C^\infty(\R^m,\R^n)$:
+
+\begin{image}
+  \begin{tikzpicture}
+    \node{
+      \begin{tikzcd}[ampersand replacement=\&, row sep=tiny, column sep=-5ex]
+        \& \& C^{\infty}(\R,\R^{\mathbf{1}}) \arrow[rr,"\ddx"] \& \& C^{\infty}(\R,\R^{\mathbf{1}}) \& \& \\
+        \& C^{\infty}(\R^2,\R^{\mathbf{1}}) \arrow[rr,"\grad"] \& \& C^{\infty}(\R^2,\R^{\mathbf{2}}) \arrow[rr,"\curl"] \& \& C^{\infty}(\R^2,\R^{\mathbf{1}}) \&\\
+        C^{\infty}(\R^3,\R^{\mathbf{1}}) \arrow[rr,"\grad"] \& \& C^{\infty}(\R^3,\R^{\mathbf{3}}) \arrow[rr,"\curl"] \& \& C^{\infty}(\R^3,\R^{\mathbf{3}}) \arrow[rr,"\divergence"] \& \& C^{\infty}(\R^3,\R^{\mathbf{1}})
+    \end{tikzcd}};
+  \end{tikzpicture}
+\end{image}
+Here they are by themselves:
+\[
+\begin{array}{ccccccc}
+    &   & 1 &   & 1 &   &   \\
+    & 1 &   & 2 &   & 1 &   \\
+  1 &   & 3 &   & 3 &   & 1
+\end{array}
+\]
+These are rows of \link[Pascal's
+  Triangle]{https://en.wikipedia.org/wiki/Pascal_triangle}! For each
+row we find more fundamental theorems of calculus. Moreover, the
+triangle can be extended, for example:
+\begin{image}
+  \begin{tikzpicture}
+    \node{
+      \begin{tikzcd}[ampersand replacement=\&, row sep=tiny, column sep=-5ex]
+        \& \& \& C^{\infty}(\R,\R^{{1}}) \arrow[rr,"\ddx"] \& \& C^{\infty}(\R,\R^{{1}}) \& \& \&  \\
+        \& \& C^{\infty}(\R^2,\R^{{1}}) \arrow[rr,"\grad"] \& \& C^{\infty}(\R^2,\R^{{2}}) \arrow[rr,"\curl"] \& \& C^{\infty}(\R^2,\R^{{1}}) \& \&\\
+        \& C^{\infty}(\R^3,\R^{{1}}) \arrow[rr,"\grad"] \& \& C^{\infty}(\R^3,\R^{{3}}) \arrow[rr,"\curl"] \& \& C^{\infty}(\R^3,\R^{{3}}) \arrow[rr,"\divergence"] \& \& C^{\infty}(\R^3,\R^{{1}}) \& \\
+        C^\infty(\R^4,\R) \arrow[rr] \&  \& C^\infty(\R^4,\R^4) \arrow[rr] \&  \& C^\infty(\R^4,\R^6) \arrow[rr] \&  \& C^\infty(\R^4,\R^4) \arrow[rr] \&  \& C^\infty(\R^4,\R) 
+    \end{tikzcd}};
+  \end{tikzpicture}
+\end{image}
+In the fourth row, there are four(!) fundamental theorems of calculus. Moreover, this triangle can be extended \textit{infinitely!} The details of this are beyond the scope of this course. Math folks who know this eventually start calling all of these fundamental theorems ``\link[Stokes' Theorem]{https://en.wikipedia.org/wiki/Stokes_theorem}.''
+
+Alas, our course has come to an end. However, it is really much more of a \textbf{beginning,} as there is \textbf{so much more to know.} 
+
+
+
+
+
+
 
 
 \end{document}

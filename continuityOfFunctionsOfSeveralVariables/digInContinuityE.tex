@@ -1,0 +1,206 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\author{Bart Snapp and Jim Talamo}
+
+\outcome{Determine whether functions of several variables are continuous.}
+
+\title[Dig-In:]{Continuity}
+\newcommand{\point}[1]{\left(#1\right)} %this allows \point{ to be changed to \vector{ with a quick find and replace
+\newcommand{\pt}[1]{\mathbf{#1}} %this allows \pt{ to be changed to \vec{ with a quick find and replace
+
+\begin{document}
+\begin{abstract}
+We investigate what continuity means for functions of several variables.
+\end{abstract}
+\maketitle
+
+Now that we have defined limits, we can define continuity.
+
+\begin{definition}
+  Let $F:\R^n\to \R$ and $\pt{a}$ be an interior point of the domain of $F$. We say $F$ is \dfn{continuous} at $\pt{x}=\pt{a}$, if
+  \begin{itemize}
+  \item $F(\pt{a})$ exists.
+  \item $\lim_{\pt{x}\to\pt{a}} F(\pt{x})$ exists.
+  \item $\lim_{\pt{x}\to\pt{a}} F(\pt{x}) = F(\pt{a}).$
+  \end{itemize}
+  $F$ is \dfn{continuous on an open set} $S$ if $F$ is continuous at
+  all $\pt{x} \in S$.
+\end{definition}
+
+The \textit{limit laws} can be used to write corresponding \textit{continuity laws}.
+
+\begin{theorem}[Limit Laws]
+  Let $F:\R^n\to \R$ and $G:\R^n\to \R$ be continuous functions of several
+  variables, and $b$ be a real number.
+  \begin{align*}
+    \pt{x} &= \point{x_1,x_2,\dots,x_n}\\ \pt{a} &=
+    \point{a_1,a_2,\dots,a_n},
+  \end{align*}
+  where
+  \[
+  \lim_{\pt{x}\to\pt{a}}F(\pt{x}) = L \quad \text{and}\quad \lim_{\pt{x}\to\pt{a}} G(\pt{x}) = M.
+  \]
+\begin{description}
+\item[Constant Law] $F(\pt{x}) = b$ is continuous.
+\item[Identity Law] $F(\pt{x}) = x_i$ is continuous.
+\item[Sum/Difference Law] $F(\pt{x})\pm G(\pt{x})$ is continuous.
+\item[Scalar Multiple Law] $b\cdot F(\pt{x})$ is continuous.
+\item[Product Law] $F(\pt{x})\cdot G(\pt{x})$ is continuous.
+\item[Quotient Law] $\frac{F(\pt{x})}{G(\pt{x})}$ is continuous where  $G(\pt{x}) \neq 0$.
+\end{description}
+\end{theorem}
+
+\begin{question}
+  True or false: If $F:\R^2\to\R$ and $G:\R^2\to\R$ are continuous
+  functions on an open disk $B$, then $F\pm G$ is continuous on $B$.
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice[correct]{True}
+      \choice{False}
+  \end{multipleChoice}
+  \end{prompt}
+\end{question}
+
+\begin{question}
+  True or false: If $F:\R^2\to\R$ and $G:\R^2\to\R$ are continuous
+  functions on an open disk $B$, then $F/G$ is continuous on $B$.
+  \begin{prompt}
+    \begin{multipleChoice}
+      \choice{True}
+      \choice[correct]{False}
+    \end{multipleChoice}
+    \begin{feedback}
+      The function $F/G$ may or may not be continuous, it depends on
+      whether $G(x,y)=0$. If $G(x,y)=0$, then $F/G$ not continuous at that point.
+    \end{feedback}
+  \end{prompt}
+\end{question}
+
+
+\begin{theorem}[Composition Limit Law]
+  Let $f:\R\to\R$ be a continuous function on an interval $I$. Let
+  $G:\R^n\to \R$ be a function whose range is contained in (or equal
+  to) $I$, Then
+  \[
+  \lim_{\pt{x}\to\pt{a}} f( G(\pt{x})) = f(\lim_{\pt{x}\to\pt{a}}G(\pt{x}))
+  \]
+\end{theorem}
+
+
+\begin{corollary}[Composition of Composite Functions]
+  Let $G:\R^n\to \R$ be continuous on an open disk $B$, where the
+  range of $G$ on $B$ is $I$, and let $f$ be a single variable
+  function that is continuous on $I$. Then
+  \[
+  f\circ G(\pt{x}) =f(G(\pt{x})),
+  \]
+  is continuous on $B$.
+\end{corollary}
+
+
+
+\begin{example}
+  Show that the function
+  \[
+  F(x,y) = \sin(x^2\cos(y))
+  \]
+  is continuous for all points in $\R^2$.
+  \begin{explanation}
+    Let
+    \[
+    F_1(x,y) = x^2.
+    \]
+    Since $y$ is not actually used in the function, and polynomials
+    \wordChoice{\choice[correct]{are continuous}\choice{are not
+        continuous}}, we conclude $F_1$ is continuous everywhere. A
+    similar statement can be made about
+    \[
+    F_2(x,y) = \cos(y).
+    \]
+    Setting
+    \[
+    F_3=F_1\cdot F_2
+    \]
+    we obtain a continuous function from $\R^2\to \R$. Since sine \wordChoice{\choice[correct]{is
+    continuous}\choice{is not continuous}} for all real values, the composition of sine with $F_3$
+    is continuous. Hence, $\sin (F_3(x,y)) = \sin(x^2\cos y)$ is
+    continuous everywhere.
+    \begin{onlineOnly}
+      We finish by presenting you with a plot of $F$:
+      \begin{center}
+        \geogebra{TNETssA9}{800}{600} %https://ggbm.at/TNETssA9
+      \end{center}
+    \end{onlineOnly}
+  \end{explanation}
+\end{example}
+
+
+\begin{example}
+  Let
+  \[
+  F(x,y) = \begin{cases}
+    \frac{\cos(y)\sin(x)}{x} & x\neq 0 \\
+    \cos(y) & x=0
+  \end{cases}
+  \]
+  Is $F$ continuous at $(0,0)$? Is $F$ continuous everywhere?
+  \begin{explanation}
+    To determine if $F$ is continuous at $(0,0)$, we need to compare
+    \[
+    \lim_{\point{x,y}\to\point{0,0}} F(x,y)\quad\text{to}\quad F(0,0).
+    \]
+    Applying the definition of $F$, we see that:
+    \[
+    F(0,0) = \answer[given]{1}
+    \]
+    We now consider the limit
+    \[
+    \lim_{\point{x,y}\to\point{0,0}}F(x,y).
+    \]
+    Substituting $0$ for $x$ and $y$ in $(\cos(y)\sin(x))/x$ returns the
+    indeterminate form \zeroOverZero, so we need to do more work to
+    evaluate this limit.
+    
+    Consider two related limits:
+    \begin{align*}
+      \lim_{\point{x,y}\to\point{0,0}} \cos(y)\\
+      \lim_{\point{x,y}\to\point{0,0}} \frac{\sin(x)}{x}.
+    \end{align*}
+    The first limit does not contain $x$, and since $\cos(y)$ is
+    continuous,
+    \begin{align*}
+    \lim_{\point{x,y}\to\point{0,0}} \cos(y) &=\lim_{y\to 0} \cos(y) \\
+    &=\answer[given]{1}
+    \end{align*}
+    The second limit does not contain $y$. But we know
+    \begin{align*}
+      \lim_{\point{x,y}\to\point{0,0}} \frac{\sin(x)}{x} &= \lim_{x\to 0} \frac{\sin(x)}{x} \\
+      &= \answer[given]{1}.
+    \end{align*}
+    Finally, we know that we can combine these two limits so that 
+    $\lim_{\point{x,y}\to\point{0,0}} \frac{\cos(y)\sin(x)}{x}$
+    \begin{align*}
+      &= \lim_{\point{x,y}\to\point{0,0}} (\cos(y))\left(\frac{\sin(x)}{x}\right) \\ 
+      &=\left(\lim_{\point{x,y}\to\point{0,0}} \cos(y)\right)\left(\lim_{\point{x,y}\to\point{0,0}} \frac{\sin(x)}{x}\right) \\
+            &=\answer[given]{1}\cdot \answer[given]{1}.
+    \end{align*}
+    We have found that $\lim_{\point{x,y}\to\point{0,0}} \frac{\cos(y)\sin(x)}{x} =
+    F(0,0)$, so $F$ is continuous at $(0,0)$.
+
+    A similar analysis shows that $F$ is continuous at all points in
+    $\mathbb{R}^2$. As long as $x\neq0$, we can evaluate the limit
+    directly; when $x=0$, a similar analysis shows that the limit is $\cos
+    y$. Thus we can say that $F$ is continuous everywhere.
+    \begin{onlineOnly}
+      We finish by presenting you with a plot of $F$:
+      \begin{center}
+        \geogebra{VK6thpMa}{800}{600} %https://ggbm.at/VK6thpMa
+      \end{center}
+    \end{onlineOnly}
+  \end{explanation}
+\end{example}
+
+
+\end{document}

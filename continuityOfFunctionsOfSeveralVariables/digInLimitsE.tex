@@ -1,0 +1,383 @@
+\documentclass{ximera}
+
+\input{../preamble.tex}
+
+\author{Bart Snapp and Jim Talamo}
+
+\outcome{Evaluate limits of functions of several variables.}
+\outcome{Determine continuity of functions of several variables.}
+\outcome{Use different paths to show that a limit does not exist.}
+
+\title[Dig-In:]{Limits}
+\newcommand{\point}[1]{\left(#1\right)} %this allows \point{ to be changed to \vector{ with a quick find and replace
+\newcommand{\pt}[1]{\mathbf{#1}} %this allows \pt{ to be changed to \vec{ with a quick find and replace
+\newcommand{\Lim}[2]{\lim_{#1 \to #2}}
+
+\begin{document}
+\begin{abstract}
+We investigate limits of functions of several variables.
+\end{abstract}
+\maketitle
+
+Recall that for functions of a single variable, our intuitive definition of a limit is that $\Lim{x}{a} f(x) = L$ of the value of $f(x)$ can be made arbitrarily close to $L$ for \emph{all} $x$ sufficiently close, but not equal to, $x=a$.
+
+This easily allows us to make a similar definition for functions of several variables.
+
+\begin{definition}
+ Suppose that $F:\R^n\to\R$.  The \dfn{limit} of $F$ as $\pt{x}$ approaches $\pt{a}$ is $L$ if the value of $F(\pt{x})$ can be made as close as one wishes to $L$ for all $\pt{x}$ sufficiently close, but not equal to, $\pt{a}$.
+ 
+ When this occurs, we write $\lim_{\pt{x}\to \pt{a}} F(\pt{x}) = L$.  
+\end{definition}
+
+\begin{question}
+  Suppose that $F:\R^2\to\R$, $\pt{x} = \point{x,y}$, and $\pt{a} =
+  \point{a,b}$. What do we write for $\lim_{\pt{x}\to \pt{a}}
+  F(\pt{x}) = L$?
+  \begin{prompt}
+    \[
+    \lim_{\point{\answer{x},\answer{y}}\to \point{\answer{a},\answer{b}}} F\left(\answer{x},\answer{y}\right) = L
+    \]
+  \end{prompt}
+  \begin{question}
+    Suppose that $F:\R^3\to\R$, $\pt{x} = \point{x,y,z}$, and
+    $\pt{a} = \point{a,b,c}$. What do we write for $\lim_{\pt{x}\to
+      \pt{a}} F(\pt{x}) = L$?
+    \begin{prompt}
+      \[
+      \lim_{\point{\answer{x},\answer{y},\answer{z}}\to \point{\answer{a},\answer{b},\answer{c}}} F\left(\answer{x},\answer{y},\answer{z}\right) = L
+      \]
+    \end{prompt}
+  \end{question}
+\end{question}
+
+We now specialize to functions $F:\R^2 \to \R$ although it is not difficult to state similar results in the more general setting.  For the rest of what follows, we will often denote points $\point{x,y}$ by $\pt{x}$.
+
+
+While the intuitive idea behind limits seems to remain unchanged, something interesting is worth observing.  One of the most important ideas for limits of a function of a single variable is the notion of a sided limit.  For functions of a single variable, there were really only two natural ways for $x$ to become close to $a$; we could take $x$ to approach from the left or the right.  For instance,
+\[
+\Lim{x}{a^-}f(x) 
+\]
+tells us to consider the values to which $f(x)$ approaches as we consider inputs $x<a$ only.  In fact, there's a theorem that guarantees that $\Lim{x}{a} f(x) = L$ if and only if $\Lim{x}{a^-}f(x) =L$ and $\Lim{x}{a^+}f(x) =L$, meaning that the function must approach the same value as the input approaches $a$ from both the left and the right.
+
+On the other hand, there are now \emph{infinitely many} ways for $\point{x,y} \to \point{a,b}$; we can approach along a straight line path parallel to the $x$-axis or $y$-axis, other straight line paths, or even other types of curves.  To generalize the theorem for functions of a single variable requires that the function approach the same value along \emph{every} path leading to $\point{a,b}$.
+
+\begin{theorem}
+Given a function $F:\R^2\to\R$, $\Lim{\pt{x}}{\pt{a}}F(\pt{x}) = L$ if and only if for every curve $C$ in the domain of $F$, $F(\pt{x}) \to L$ as $\pt{x} \to \pt{a}$ along $C$.
+\end{theorem}
+
+Thus, to check that a limit exists, we have to verify that the function tends to the same value along infinitely many different paths!  While this may seem problematic, there is some good news; many of the limit laws from before still do hold now.
+
+\begin{theorem}[Limit Laws]
+  Let $F:\R^2\to \R$ and $G:\R^2\to \R$ be functions of several
+  variables, and $b$, $L$ and $M$ be real numbers, where
+  \[
+  \lim_{\pt{x}\to\pt{a}}F(\pt{x}) = L \quad \text{and}\quad \lim_{\pt{x}\to\pt{a}} G(\pt{x}) = M.
+  \]
+\begin{description}
+\item[Constant Law] $\lim_{\pt{x}\to \pt{a}} b = b$.
+\item[Identity Law] $\lim_{\pt{x}\to \pt{a}} x_i = a_i$.
+\item[Sum/Difference Law] $\lim_{\pt{x}\to \pt{a}}\big(F(\pt{x})\pm G(\pt{x})\big) = L\pm M$.
+\item[Scalar Multiple Law] $\lim_{\pt{x}\to \pt{a}} b\cdot F(\pt{x}) = bL$.
+\item[Product Law] $\lim_{\pt{x}\to \pt{a}} \left(F(\pt{x})\cdot G(\pt{x})\right) = LM$.
+\item[Quotient Law] $\lim_{\pt{x}\to \pt{a}} \frac{F(\pt{x})}{G(\pt{x})} = \frac{L}{M}$, if $M\neq 0$.
+\end{description}
+\end{theorem}
+
+In practice, this allows us to compute many limits in a similar fashion as before.
+
+\begin{example}
+Compute $\Lim{\point{x,y}}{\point{1,2}} \frac{2x+4y}{x-3y}$.  
+
+\begin{explanation}
+We show how the above properties are used quite explicitly.
+
+\begin{align*}
+\Lim{\point{x,y}}{\point{1,2}} \frac{2x+4y}{x-3y} & = \frac{\Lim{\point{x,y}}{\point{1,2}}(2x+4y)}{\Lim{\point{x,y}}{\point{1,2}}(x-3y)} \textrm{ by the quotient law. } \\
+&=  \frac{\Lim{\point{x,y}}{\point{1,2}}2x+\Lim{\point{x,y}}{\point{1,2}} 4y}{\Lim{\point{x,y}}{\point{1,2}}x-\Lim{\point{x,y}}{\point{1,2}}3y}  \textrm{ by the sum/difference law. } \\
+&=  \frac{2\Lim{\point{x,y}}{\point{1,2}}x+4\Lim{\point{x,y}}{\point{1,2}} y}{\Lim{\point{x,y}}{\point{1,2}}x-3\Lim{\point{x,y}}{\point{1,2}}y}  \textrm{ by the scalar multiple law. } \\
+&= \frac{2(1)+4(2)}{1-3(2)} \textrm{ by the identity law. } \\
+&= -2
+\end{align*}
+\end{explanation}
+\end{example}
+
+Essentially, the above laws allow us to evaluate limits by directly substituting values into the given function, provided the end result is a constant.  Henceforth, when a limit can be evaluated by direct substitution, we will not show the details.  
+
+As it turns out, another old technique works well too.
+
+\begin{example}
+  Compute $\lim_{\point{x,y}\to\point{9,3}} \frac{x^2y-xy^3}{x^2-y^4}$. 
+  \begin{explanation}
+   To compute this limit, note that direct substitution leads us to the indeterminate form $\frac{0}{0}$.  Also, note that the domain of $ \frac{x^2y-xy^3}{x^2-y^4}$ is $\left\{\point{x,y} \in \R^2 \big| x^2-y^4 \neq 0 \right\}$, so all of our analysis is done away from this curve.  We proceed by factoring.
+    
+    \begin{align*}
+      \lim_{\point{x,y}\to\point{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
+      &=\lim_{\point{x,y}\to\point{9,3}} \frac{xy\left(\answer[given]{x-y^2}\right)}{(x+y^2)\left(\answer[given]{x-y^2}\right)}\\
+      &=\lim_{\point{x,y}\to\point{9,3}} \frac{xy}{(x+y^2)}\\
+      &=\answer[given]{\frac{3}{2}}
+    \end{align*}
+    
+    What allows us to perform the cancellation of the common factors of $x-y^2$?  Note that when determining whether a limit exists or not, we must look near, but not at, $\point{x,y}$ near $\point{9,3}$.  No matter how close a $\point{x,y}$ in the domain is to $\point{9,3}$, if $\point{x,y} \neq \point{9,3}$, $x-y^2 \neq 0$, so this cancellation is valid.
+  \end{explanation}
+\end{example}
+
+
+\section{When limits don't exist}
+Unfortunately, there are difficulties that arise now that did not before when we have to handle indeterminate forms.  Since limits exist only when the function tends to the same value along \emph{every} path, we can use this to show that some limits do not exist.  
+
+\begin{quote}
+  \textbf{If it is possible to arrive at different limiting values by
+    approaching along different paths, the limit does not exist.}
+\end{quote}
+
+This is analogous to the left and right hand limits of single variable
+functions not being equal, implying that the limit does not exist.
+ 
+
+\begin{example}
+Suppose that $F(x,y) = \begin{cases}  2x+2y , & x \geq 3 \\ 3x-y, & x<3 \end{cases}$.  
+
+\begin{example} 
+Determine whether $\Lim{\point{x,y}}{\point{2,2}} F(x,y)$ exists.
+
+\begin{explanation} We need to determine which piece of the function should be used for each limit.
+
+
+For $\Lim{\point{x,y}}{\point{2,2}} F(x,y)$, note that \emph{any} path that approaches $\point{2,2}$ must eventually lie in the portion of the domain of $F(x,y)$ where $F(x,y) = 3x-y$.  The image below shows the domain of $F(x,y)$ and the formulas used to evaluate it for each $(x,y)$ in the $(x,y)$-plane.
+
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-2:8, ymax=2.9,xmax=6.9, ymin=-2.9, xmin=-.5,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, dashed] coordinates {(2.95,-10)(2.95,10)};
+\addplot [draw=penColor2,very thick, smooth] coordinates {(3,-10)(3,10)};
+	
+	\addplot [name path=A,domain=-3:3,draw=none] {10};   
+	\addplot [name path=B,domain=3:8,draw=none] {10};
+	\addplot [name path=C,domain=-3:3,draw=none] {-10};
+	\addplot [name path=D,domain=3:8,draw=none] {-10};
+	\addplot [fill=penColor!40] fill between[of=A and C];
+	\addplot [fill=penColor2!40] fill between[of=B and D];
+	
+	\node at (axis cs:5,1.6) [penColor2] {\footnotesize $F(x,y) = 2x+2y$};
+
+	\node at (axis cs:1.5,-1.2) [penColor] {\footnotesize $F(x,y) = 3x-y$};
+
+	
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,2)};
+	\node at (axis cs:2,1.6) [penColor] {\footnotesize $(2,2)$};	
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+We see that for any point $(x,y)$ sufficiently close to $(2,2)$, so 
+
+\[
+\Lim{\point{x,y}}{\point{2,2}} F(x,y) = \Lim{\point{x,y}}{\point{2,2}} 3x-y = 4.
+\]
+
+\end{explanation}
+\end{example}
+
+\begin{example} Determine whether $\Lim{\point{x,y}}{\point{2,2}} F(x,y)$ exists.
+
+\begin{explanation}
+For $\Lim{\point{x,y}}{\point{3,2}} F(x,y)$, note that it is possible to approach $\point{3,2}$ along a path for which $F(x,y) = 3x-y$ by taking $x \to 3^-$ or $F(x,y) = x+2y$ by taking $x \to 3^+$.  
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-2:8, ymax=2.9,xmax=6.9, ymin=-2.9, xmin=-.5,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor, thick, dashed] coordinates {(2.97,-10)(2.97,10)};
+\addplot [draw=penColor2, thick, smooth] coordinates {(3,-10)(3,10)};
+	
+	\addplot [name path=A,domain=-3:3,draw=none] {10};   
+	\addplot [name path=B,domain=3:8,draw=none] {10};
+	\addplot [name path=C,domain=-3:3,draw=none] {-10};
+	\addplot [name path=D,domain=3:8,draw=none] {-10};
+	\addplot [fill=penColor!40] fill between[of=A and C];
+	\addplot [fill=penColor2!40] fill between[of=B and D];
+	
+	\node at (axis cs:5,1.4) [penColor2] {\footnotesize $F(x,y) = 2x+2y$};
+
+	\node at (axis cs:1.5,-1.2) [penColor] {\footnotesize $F(x,y) = 3x-y$};
+
+	
+	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(3,2)};
+	\node at (axis cs:3.4,2.4) [penColor2] {\footnotesize $(3,2)$};	
+	
+	\addplot [draw=penColor,very thick, smooth,->] coordinates {(2,2)(2.9,2)};
+	\addplot [draw=penColor2,very thick, smooth,->] coordinates {(4,2)(3.1,2)};
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
+\begin{itemize}
+\item Along the path $x>3, y=2$, we have $F(x,y) = 2x+2y$, so if $\Lim{\point{x,y}}{\point{3,2}} F(x,y)$ exists, we must have $\Lim{\point{x,y}}{\point{3,2}} F(x,y) = 10$.
+\item Along the path $x<3, y=2$, we have $F(x,y) = 3x-y$, so if $\Lim{\point{x,y}}{\point{3,2}} F(x,y)$ exists, we must have $\Lim{\point{x,y}}{\point{3,2}} F(x,y) = 7$.
+\end{itemize}
+Thus, $\Lim{\point{x,y}}{\point{2,2}} F(x,y)$ does not exist.
+\end{explanation}
+\end{example}
+\end{example}
+
+Now, let's consider an example in which we do not have a piecewise function.
+
+\begin{example}
+  Determine whether $\lim_{\point{x,y}\to\point{0,0}} \frac{3xy}{x^2+y^2}$ exists.
+  
+  \begin{explanation}
+  Let's find two different paths in the domain along which $F(x,y)=\frac{3xy}{x^2+y^2}$ approaches different values as $\point{x,y} \to \point{0,0}$.
+  
+  \begin{itemize}
+  \item If we approach $\point{0,0}$ along the line $y=0$ in the $xy$-plane, we have 
+    \[
+  F(x,y) = F(x,0) =  \frac{3x(0)}{x^2+(0)^2} = 0, x \neq 0.
+  \]
+  Note that this tells us that \emph{if} the limit exists, it \emph{must} be $0$.
+  
+ \item If we approach $\point{0,0}$ along the line $y=x$ in the $xy$-plane, we have 
+   \[
+  F(x,y) = F(x,x) =  \frac{3x(x)}{x^2+(x)^2} = \frac{3x^2}{2x^2} = \frac{3}{2}, x \neq 0.
+  \]
+  Note that this tells us that \emph{if} the limit exists, it \emph{must} be $\frac{3}{2}$.
+  
+ \end{itemize}
+ 
+ Since $F(x,y)=\frac{3xy}{x^2+y^2}$ approaches different values along different paths,
+ 
+  $\lim_{\point{x,y}\to\point{0,0}} \frac{3xy}{x^2+y^2}$ does not exist.
+ \end{explanation}
+ \end{example}
+ 
+ As it turns out, there are nice ways to think about the above result both geometrically and analytically.
+ 
+ \textbf{A geometric viewpoint of analyzing along level curves}
+
+\begin{explanation}
+Note that for the curve $x=0$ in the domain of the function $F(x,y)$, we found $F(x,y) = 0$ for every $(x,y)$.  This means that the curve $x=0$ is part of the level curve associated to $z=0$ of $F(x,y)$.  Similarly, for the curve $y=x$ in the domain of the function $F(x,y)$, we found $F(x,y) = \frac{3}{2}$ for every $(x,y)$.  This means that the curve $y=x$ is part of the level curve associated to $z= \frac{3}{2}$ of $F(x,y)$.
+
+These level curves share $(0,0)$ as a boundary point; had either been defined there, they would intersect.  Since there are different $z$-values associated to each level curve, it is impossible that $\Lim{(x,y)}{(0,0)} F(x,y)$ exists.  This notion can be generalized.
+\end{explanation}
+
+\begin{quote}
+\textbf{If two different level curves of a function share a common boundary point, then the limit at that boundary point does not exist.}
+\end{quote} 
+ 
+\textbf{An analytic viewpoint of analyzing along level curves}
+\begin{explanation}
+In the first approach to this problem, along the path $y=x$, we saw that there was convenient cancellation that occurred near, but not at $x=0$.  We note that this is not the only path along which this happens; evaluating $\lim_{\point{x,y}\to\point{0,0}} \frac{3xy}{x^2+y^2}$ along the lines $y=mx$ produces a similar result.
+
+    \begin{align*}
+    F(x,y) = F(x,mx) &= \frac{3x\left(\answer[given]{m x}\right)}{x^2+\left(\answer[given]{mx}\right)^2}  \\
+    &= \frac{3mx^2}{x^2(m^2+1)}\\
+      &= \frac{3m}{m^2+1}, \qquad x \neq 0\\
+    \end{align*}
+    
+    Note that this ``cancellation'' is the algebraic consequence of analyzing along a level curve; in order for the function to be constant, there can be no explicit dependence on $x$ and $y$.   However, the function $F(x,y)$ tends to a \textit{different} value as $(x,y) \to (0,0)$ along $y=mx$ for each choice of $m$, so the limit $\lim_{\point{x,y}\to\point{0,0}} \frac{3xy}{x^2+y^2}$ cannot exist.
+    
+ \begin{remark}   
+    Note that we can recover our previous results from this exercise.  Along $y=0$, we have $m=0$, and
+       \[
+    \lim_{x\to 0}\frac{3m}{m^2+1} = \answer[given]{0}.
+    \]
+    Now along $y=x$, $m=1$, and
+    \[
+    \lim_{x\to 0}\frac{3m}{m^2+1} = \answer[given]{3/2}.
+    \]
+    Since we find differing limiting values when computing the limit
+    along different paths, we must conclude that the limit does not
+    exist.  The advantage here is that we've found a whole \emph{class} of paths along which the function tends to different values.  This occurs because the lines $y=mx$ are all parts of different level curves of $F(x,y)$.
+    \end{remark}
+        
+    \begin{onlineOnly}
+      We finish by presenting you with a plot of $F$:
+      \begin{center}
+        \geogebra{e2pAxbeP}{800}{600} %https://ggbm.at/e2pAxbeP
+      \end{center}
+    \end{onlineOnly}
+    
+  \end{explanation}
+
+We conclude this section with an example that illustrates the necessity to analyze a function along \emph{every} path in its domain in order to conclude that a limit exists.
+
+\begin{example} 
+  Show
+  \[
+  \lim_{\point{x,y}\to\point{0,0}} \frac{\sin(xy)}{x+y}
+  \]
+  does not exist by finding the limit along the path $y=-\sin(x)$.
+  \begin{explanation}
+    Let
+    \[
+    F\point{x,y} = \frac{\sin(xy)}{x+y}.
+    \]
+    We will show that
+    \[
+    \lim_{\point{x,y}\to\point{0,0}} F\point{x,y}
+    \]
+    does not exist by finding the limit along the path
+    $y=-\sin(x)$. First, however, let's try the same trick that worked
+    before and see what happens. Consider the limits found along the
+    lines $y=mx$ as done above.
+    \begin{align*}
+      \lim_{\point{x,mx}\to\point{0,0}} \frac{\sin\big(x(\answer[given]{mx})\big)}{x+\answer[given]{mx}} &= \lim_{x\to 0} \frac{\sin (mx^2)}{x(m+1)} \\
+      &= \lim_{x\to 0} \frac{\sin(mx^2)}{x}\cdot\answer[given]{\frac{1}{m+1}}.
+    \end{align*}
+    By applying L'H\^opital's Rule, we can show this limit is $0$
+    \emph{except} when $m=-1$, that is, along the line $y=-x$. This
+    line is not in the domain of $F$, so we have found the following
+    fact: along every line $y=mx$ in the domain of $F$,
+    \[
+    \lim_{\point{x,y}\to\point{0,0}} F\point{x,y}=0.
+    \]
+    Now consider the limit along the path $y=-\sin(x)$:
+    \begin{align*}
+      \lim_{\point{x,-\sin(x)}\to\point{0,0}} \frac{\sin\big(-x\sin(x)\big)}{x-\sin(x)} &= \lim_{x\to0} \frac{\sin\big(-x\sin(x)\big)}{x-\sin(x)}
+    \end{align*}
+    Now apply L'H\^opital's Rule twice to find a limit is of the form
+    \numOverZero.  Hence the limit does not exist.  Step back and
+    consider what we have just discovered.
+    \begin{itemize}
+    \item Along any line $y=mx$ in the domain of the $F\point{x,y}$, the
+      limit is $0$.
+    \item However, along the path $y=-\sin(x)$, which lies in the
+      domain of the $F\point{x,y}$ for all $x\neq 0$, the limit does not
+      exist.
+    \end{itemize}
+    Since the limit is not the same along every path to $(0,0)$, we say
+    $\lim_{\point{x,y}\to\point{0,0}}\frac{\sin(xy)}{x+y}$ does not exist.
+    \begin{onlineOnly}
+      We finish by presenting you with a plot of $F$:
+      \begin{center}
+        \geogebra{vBrjrPkN}{800}{600} %https://ggbm.at/vBrjrPkN
+      \end{center}
+    \end{onlineOnly}
+  \end{explanation}
+\end{example}
+
+
+
+\end{document}

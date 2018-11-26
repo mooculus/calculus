@@ -1,0 +1,176 @@
+\documentclass{ximera}
+
+\author{Jim Talamo}
+
+\input{../../preamble.tex}
+
+\outcome{Evaluate limits of functions of several variables.}
+
+\begin{document}
+\begin{exercise}
+
+Suppose that $F(x,y) = \begin{cases}  4x^2y , & x+y > 1 \\ 2x, & x+y \leq 1 \end{cases}$.  
+
+Answer the following questions.
+
+\begin{exercise}
+True or False:  
+
+$\Lim{x,y}{-1,1} F(x,y)= \Lim{x,y}{-1,1} 2x = -2$.   \wordChoice{\choice[correct]{True}\choice{False}}
+
+\begin{feedback}[correct]
+Near the point $(-1,1)$, the function $F(x,y)$ is defined by $F(x,y) = 2x$ for all $(x,y)$.  
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-3:5, ymax=2.9,xmax=3.9, ymin=-2.9, xmin=-2.9,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, dashed] {1.05-x};
+\addplot [draw=penColor2,very thick, smooth] {1-x};
+	
+	\addplot [name path=A,domain=-3:4,draw=none] {1-x};   
+	\addplot [name path=B,domain=-3:4,draw=none] {10};
+	\addplot [name path=C,domain=-3:4,draw=none] {-10};
+	\addplot [fill=penColor!40] fill between[of=A and B];
+	\addplot [fill=penColor2!40] fill between[of=A and C];
+	
+	\node at (axis cs:2,1.6) [penColor] {\small $F(x,y) = 4x^2y$};
+	\node at (axis cs:2,1.2) [penColor] {\small for all $(x,y)$ here.};
+	\node at (axis cs:-1.5,-1.2) [penColor2] {\small $F(x,y) = 2x$};
+	\node at (axis cs:-1.5,-1.6) [penColor2] {\small for all $(x,y)$ here.};
+	
+	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(-1,1)};
+\end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{center}
+The domain of the function, $\R^2$, is shown as well as the 
+
+formula used to find $F(x,y)$ for each $(x,y)$ in the domain.
+\end{center}
+
+More precisely, this means that we can squeeze an entire open ball centered at $(-1,1)$ in which $F(x,y) = 2x$ for any $(x,y)$ in the open ball.  To construct the open ball, we just need to use a radius so the ball does not intersect the line $x+y=1$.  From the image provided, it is clear that we can find such a ball.
+\end{feedback}
+
+\end{exercise}
+
+\begin{exercise}
+True or False:  
+
+$F(-1,2) = 2(-1)+2$, so $\Lim{x,y}{-1,2} F(x,y)= \Lim{x,y}{-1,2} 2x = -2$.   \wordChoice{\choice{True}\choice[correct]{False}}
+
+\begin{feedback}[correct]
+Near the point $(-1,2)$, the function $F(x,y)$ is not defined by $F(x,y) = 2x$ for all $(x,y)$; at any point lower than and/or left of $(-1,2)$, we have $F(x,y) = 2x$, but for any point higher than and/or right of $(-1,2)$, we have that $F(x,y) =4x^2y$.    
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-3:5, ymax=2.9,xmax=3.9, ymin=-2.9, xmin=-2.9,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor, thick, dashed] {1.03-x};
+\addplot [draw=penColor2, thick, smooth] {1-x};
+	
+	\addplot [name path=A,domain=-3:4,draw=none] {1-x};   
+	\addplot [name path=B,domain=-3:4,draw=none] {10};
+	\addplot [name path=C,domain=-3:4,draw=none] {-10};
+	\addplot [fill=penColor!40] fill between[of=A and B];
+	\addplot [fill=penColor2!40] fill between[of=A and C];
+	
+	\node at (axis cs:2,1.6) [penColor] {\small $F(x,y) = 4x^2y$};
+	\node at (axis cs:2,1.2) [penColor] {\small for all $(x,y)$ here.};
+	\node at (axis cs:-1.5,-1.2) [penColor2] {\small $F(x,y) = 2x$};
+	\node at (axis cs:-1.5,-1.6) [penColor2] {\small for all $(x,y)$ here.};
+	
+	\addplot[color=black,fill=black,only marks,mark=*] coordinates{(-1,2)};
+\end{axis}
+\end{tikzpicture}
+\end{image}
+\begin{center}
+The domain of the function, $\R^2$, is shown as well as the 
+
+formula used to find $F(x,y)$ for each $(x,y)$ in the domain.
+\end{center}
+
+More precisely, this means that no open ball centered at $(-1,2)$ contains points for $F(x,y) = 2x$ for any $(x,y)$ in the open ball. From the image provided, it is clear that no matter how small the radius of a ball centered at $(-1,2)$ may be, it will always contain points in both the blue and red regions.
+\end{feedback}
+
+\begin{exercise}
+Compute $\Lim{x,y}{-1,2} F(x,y)$ or conclude that it does not exist by following the steps below.
+
+\begin{itemize}
+\item If we approach $(-1,2)$ along the line $x=-1$ and take $y<2$, $F(x,y) = \answer{2x}$.  Thus $F(x,y) \to \answer{-2}$ as $\vector{x,y} \to \vector{-1,2}$ along this path.
+\item If we approach $(-1,2)$ along the line $x=-1$ and take $y>2$, $F(x,y) = \answer{4x^2y}$.  Thus $F(x,y) \to \answer{8}$ as $\vector{x,y} \to \vector{-1,2}$ along this path.
+\end{itemize}
+
+Does $\Lim{x,y}{-1,2} F(x,y)$ exist? \wordChoice{\choice{Yes}\choice[correct]{No}}
+\end{exercise}
+\end{exercise}
+
+\begin{exercise}
+Is the function continuous at any point $(x,y)$ for which $x+y \neq 1$? \wordChoice{\choice[correct]{Yes}\choice{No}}
+
+Is the function discontinuous at any point for which $x+y =1$? \wordChoice{\choice{Yes}\choice[correct]{No}}
+
+\begin{feedback}[correct]
+As long as $x+y \neq 1$, the function is defined by the same formula for all $(x,y)$ in a suitable open ball centered at $(x,y)$, so $\Lim{x,y}{a,b}F(x,y) = F(a,b)$.  Since each piece is continuous, this means $F(x,y)$ is continuous at all $(a,b)$ for which $a+b \neq 1$.
+
+Along the line $x+y=1$, we have to check whether the pieces ``line up'' to give the same $z$-value.
+\end{feedback}
+\begin{exercise}
+If $x+y=1$, how many ordered pair $(x,y)$ are there for which $F(x,y)$ is continuous?
+
+\begin{multipleChoice}
+\choice{None}
+\choice[correct]{One}
+\choice{Two}
+\choice{Three}
+\choice{More than three, but finitely many}
+\choice{Infinitely many}
+\end{multipleChoice}
+
+To find these points, we must have 
+
+\[
+4x^2y=2x.
+\]
+and noting that along the line $x+y=1$, we have $y=1-x$ and thus must find all $x$ so
+
+\[
+4x^2(1-x)=2x.
+\]
+
+Simplifying and rearranging this gives
+
+\[
+\answer{-4}x^3+\answer{4}x^2-\answer{2}x = 0.
+\]
+(don't just cancel out the $x$ on each side; doing so eliminates one of the solutions!)
+
+This means either $x=0$ or $\answer{-4x^2+4x}-2=0$. 
+
+\begin{itemize}
+\item For $x=0$, we find that $y=\answer{1}$, so the function is continuous at $\left(0,\answer{1}\right)$.
+\item The quadratic equation can be used to show that there are \wordChoice{\choice[correct]{no}\choice{one}\choice{two}} real solutions to the quadratic equation $-4x^2+4x-2=0$.
+\end{itemize}
+
+\end{exercise}
+\end{exercise}
+ \end{exercise}
+\end{document}

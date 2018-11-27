@@ -1,0 +1,595 @@
+\documentclass[]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../preamble.tex}
+
+\author{Jim Talamo}
+
+\outcome{Use definite integrals to find lengths of curves.}
+
+
+\title[]{Length of Curves}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.9in}
+
+\section{Discussion Questions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+The curve $C$ is the segment of the parabola $x=y^2$ from $y=-1$ to $y=2$.  
+
+\begin{enumerate}
+\item[I.] Sketch the curve. 
+\item[II.] What is the minimum number of integrals needed to calculate the length of this curve if we integrate with respect to $x$?  
+\item[III.] What is the minimum number of integrals needed to calculate the length of this curve if we integrate with respect to $y$? 
+\end{enumerate}
+\end{problem}
+
+\begin{freeResponse}
+
+We first sketch the curve, then use the sketch to answer the other questions.
+
+\begin{itemize}
+\item[I.]  The curve is a parabola. that opens either right of left.  Since the coefficient of $y^2$ is positive, the parabola opens to the right:
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-4.5:4.5, ymax=2.6,xmax=4.6, ymin=-2.6, xmin=-.4,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,thick, smooth,domain=0:.5,samples=100] {sqrt(x)};
+	\addplot [draw=penColor,thick, smooth,domain=0:.5,samples=100] {-sqrt(x)};
+	\addplot [draw=penColor,thick, smooth,domain=.5:4.6] {sqrt(x)};
+	\addplot [draw=penColor,thick, smooth,domain=.5:4.6] {-sqrt(x)};
+	\addplot [draw=penColor5,thick, smooth,domain=0:4,samples=100] {sqrt(x)};
+	\addplot [draw=penColor5,thick, smooth,domain=0:1,samples=100] {-sqrt(x)};
+	
+	\addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(1,-1)};
+	 \addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(4,2)};
+	
+	     
+	\node at (axis cs:1.5,1.8) [penColor5] {$x=y^2$};
+	
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+\item[II.] Note that the curve here does not pass the vertical line test; any vertical line drawn between $x=0$ and $x=1$ intersects the graph in two places, so we need two functions of $x$ to describe the curve.  Algebraically, this results from solving for $y$ in the equation $x=y^2$, since we need to take both the positive and negative square root.  Since we need 2 functions to describe the curve, we need 2 integrals to compute its length.
+
+\item[III.] We can describe the curve using a single function of $y$, so we will only need 1 integral with respect to $y$ to find the length of the curve segment.
+
+\begin{tabular}{ll}
+\resizebox {4.5cm} {!} { \begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-4.5:4.5, ymax=2.6,xmax=4.6, ymin=-2.6, xmin=-.4,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+
+	\addplot [draw=penColor,thick, smooth,domain=0:4,samples=100] {sqrt(x)};
+	\addplot [draw=penColor2,thick, smooth,domain=0:1,samples=100] {-sqrt(x)};
+	
+	\addplot[color=penColor2,fill=penColor2,only marks,mark=*] coordinates{(1,-1)};
+	 \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,2)};
+	  \addplot[color=penColor!50!penColor2!50,fill=penColor,only marks,mark=*] coordinates{(0,0)};
+	
+	     
+	\node at (axis cs:1.5,1.8) [penColor] {$y=\sqrt{x}$};
+	\node at (axis cs:1,-1.4) [penColor2] {$y=-\sqrt{x}$};
+	
+\end{axis}
+
+\end{tikzpicture}} \qquad \qquad \qquad 
+
+&
+
+\resizebox {4.5cm} {!} {\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-4.5:4.5, ymax=2.6,xmax=4.6, ymin=-2.6, xmin=-.4,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor5,thick, smooth,domain=0:4,samples=100] {sqrt(x)};
+	\addplot [draw=penColor5,thick, smooth,domain=0:1,samples=100] {-sqrt(x)};
+	
+	\addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(1,-1)};
+	 \addplot[color=penColor5,fill=penColor5,only marks,mark=*] coordinates{(4,2)};
+	
+	     
+	\node at (axis cs:1.5,1.8) [penColor5] {$x=y^2$};
+	
+\end{axis}
+
+\end{tikzpicture}}
+
+\end{tabular}
+
+
+\end{itemize}
+\end{freeResponse}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Let $I_1 = \int_0^1 \sqrt{1+4x^2} \d x$ and $I_2 = \int_0^1 \sqrt{1+9x^4} \d x$.  
+
+By thinking of these integrals as expressing the lengths of curves, which integral should be larger?
+\end{problem}
+
+\begin{freeResponse}
+For each integral, we should think of finding a function $f(x)$ so that the integral represents the length of the curve $y=f(x)$ from $x=0$ to $x=1$.  This length in general is given by:
+
+\[
+s = \int_0^1 \sqrt{1+[f'(x)]^2} \d x
+\]
+By comparing $I_1$ and $I_2$ to this expression, and letting $f_1(x)$ and $f_2(x)$ denote the respective functions, we find:
+\begin{align*}
+[f_1'(x)]^2 &= 4x^2 & [f_2'(x)]^2 &= 9x^4 \\
+f_1'(x) &= 2x & f_2'(x) &= 3x^2 \\
+f_1(x) &=x^2+C_1 & f_2(x) &=x^3+C 
+\end{align*}
+where we've chosen the positive square root here since we only need a function whose length is given by the given integrals.  We also will choose $C_1=C_2=0$ since we only need one example for $f_1(x)$ and $f_2(x)$.
+
+We can now graph these:
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-4.5:4.5, ymax=1.4,xmax=1.19, ymin=-.2, xmin=-.19,
+	axis lines=center, xlabel=$x$, xtick=1,ylabel=$y$, ytick=1,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,thick, smooth,domain=0:1,samples=100] {x^2};
+	\addplot [draw=penColor2,thick, smooth,domain=0:1,samples=100] {x^3};
+	
+	\addplot[color=penColor!50!penColor2!50,fill=penColor,only marks,mark=*] coordinates{(0,0)};
+	 \addplot[color=penColor!50!penColor2!50,fill=penColor,only marks,mark=*] coordinates{(1,1)};
+	
+	     
+	\node at (axis cs:.5,.6) [penColor] {$y=x^2$};
+	\node at (axis cs:.9,.3) [penColor2] {$y=x^3$};
+	
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
+
+From the picture, we can see that the graph of $y=x^3$ is ``longer'' than the graph of $y=x^2$ on the segment $[0,1]$, so the the corresponding integral expressing the length should be larger, that is:
+
+\[
+ \int_0^1 \sqrt{1+4x^2} \d x < \int_0^1 \sqrt{1+9x^4} \d x.  
+\]
+
+
+\end{freeResponse}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Group Work}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+The curve $C$ is the segment of the parabola $y=4x^{3/2}$ from $x=0$ to $x=1$. 
+\begin{enumerate}
+\item[I.] Set up an integral with respect to $x$ that gives the length of this curve.
+
+\begin{freeResponse}
+We want to use:
+
+\[
+s = \int_{x=a}^{x=b} \sqrt{1+\left(\frac{dy}{dx}\right)^2} \d x
+\]
+
+Here, the limits of integration are given in the problem; $a=0$ and $b=1$.  Since $y=4x^{3/2}$, $\frac{dy}{dx} = 6x^{1/2}$ and:
+
+\begin{align*}
+s &=  \int_{x=0}^{x=1} \sqrt{1+\left(6x^{1/2}\right)^2} \d x \\
+&=  \int_{x=0}^{x=1} \sqrt{1+36x} \d x \\
+\end{align*}
+\end{freeResponse}
+
+\item[II.] Set up an integral with respect to $y$ that gives the length of this curve.
+
+\begin{freeResponse}
+We want to use:
+
+\[
+s = \int_{y=c}^{y=d} \sqrt{1+\left(\frac{dx}{dy}\right)^2} \d x
+\]
+
+To find the limits of integration are given in the problem, note when $x=0$, $y=0$ and when $x=1$, $y=4$.  Since $y=4x^{3/2}$, we can solve for $x$:
+
+\begin{align*}
+y&=4x^{3/2} \\
+x^{3/2} &= \frac{1}{4} y  \\
+x &= \left(\frac{1}{4}y\right)^{2/3} \\
+x& = \left(\frac{1}{4}\right)^{2/3} y^{2/3}
+\end{align*}
+
+Thus, $\frac{dx}{dy} = \left(\frac{1}{4}\right)^{2/3} \cdot \frac{2}{3} y^{-1/3}$  and:
+
+\begin{align*}
+s &=  \int_{y=0}^{y=4} \sqrt{1+\left(\left(\frac{1}{4}\right)^{2/3} \frac{2}{3} y^{-1/3}\right)^2} \d y \\
+&=  \int_{y=0}^{y=4} \sqrt{1+\left(\frac{1}{4}\right)^{4/3} \cdot  \frac{4}{9} y^{-2/3}} \d y \\
+\end{align*}
+
+This can be simplified further by noting that $\left(\frac{1}{4}\right)^{4/3} = \frac{1^{4/3}}{4^{4/3}} = \frac{1}{4 \cdot 4^{1/3}}$, so:
+
+\begin{align*}
+s &=  \int_{y=0}^{y=4} \sqrt{1+ \frac{1}{4 \cdot 4^{1/3}} \cdot  \frac{4}{9} y^{-2/3}}  \d y \\
+&= \int_{y=0}^{y=4} \sqrt{1+ \frac{1}{9\cdot 4^{1/3}} \cdot y^{-2/3}} \d y \\
+\end{align*}
+
+\end{freeResponse}
+
+
+\item[III.] Evaluate the integral of your choice to find the length of the curve.  Should the result depend on the variable of integration?
+
+\begin{freeResponse}
+The length of the curve is an intrinsic property of the curve and should not depend on the way we choose to calculate it.  Thus, either integral should produce the same result.  The integral with respect to $x$ is far easier to work with, so we will evaluate it:
+
+To evaluate $\int_{x=0}^{x=1} \sqrt{1+36x} \d x$, we let $u=1+36x$ so $\d u = 36 \d x$.  To change the limits of integration, we see that when $x=0$, $u=1$ and when $x=1$, $u=37$.  Thus, we have:
+
+\begin{align*}
+\int_{x=0}^{x=1} \sqrt{1+36x} \d x = \int_{u=1}^{u=37} \sqrt{u} \frac{\d u}{36} \\
+&= \frac{1}{36} \int_{u=1}^{u=37} u^{1/2} \d u \\
+&=  \frac{1}{36} \cdot \eval{\frac{2}{3} u^{3/2}}_1^37 \\
+& = \frac{1}{54} \left[(37)^{3/2}-(1)^{3/2}\right] \\
+&= \frac{1}{54} \left[(37)^{3/2}-1\right] 
+\end{align*}
+
+
+\end{freeResponse}
+\end{enumerate} 
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+Find the length of the segment of $y= \frac{1}{6}x^3 + \frac{1}{2x}+7$ from $x=1$ to $x=2$.
+\end{problem}
+
+\begin{freeResponse}
+We want to use:
+
+\[
+s = \int_{x=a}^{x=b} \sqrt{1+\left(\frac{dy}{dx}\right)^2} \d x
+\]
+
+Here, the limits of integration are given in the problem; $a=1$ and $b=2$.  
+
+Since $y=\frac{1}{6}x^3 + \frac{1}{2}\cdot\frac{1}{x}+7$, $\frac{dy}{dx} = \frac{1}{2}x^2 -\frac{1}{2}x^{-2}$ and:
+
+\[
+\left(\frac{dy}{dx}\right)^2 = \left(\frac{1}{2}x^2 -\frac{1}{2}x^{-2}\right)^2 = \frac{1}{4} x^4 -\frac{1}{2} + \frac{1}{4}x^{-4}
+\]
+
+Note that when we compute $1+\left(\frac{dy}{dx}\right)^2$:
+
+\[
+1+\left(\frac{dy}{dx}\right)^2 = 1+ \frac{1}{4} x^4 -\frac{1}{2} + \frac{1}{4}x^{-4} = \frac{1}{4} x^4 + \frac{1}{2} + \frac{1}{4}x^{-4}
+\]
+the $-\frac{1}{2}$ becomes a $+\frac{1}{2}$, so we can run the factor pattern in reverse to conclude that:
+
+\[
+1+\left(\frac{dy}{dx}\right)^2 = \left(\frac{1}{2}x^2 +\frac{1}{2}x^{-2}\right)^2
+\]
+
+Thus, the length is given by:
+
+\begin{align*}
+s = \int_{x=a}^{x=b} \sqrt{1+\left(\frac{dy}{dx}\right)^2} \d x &=  \int_{x=1}^{x=2} \sqrt{  \left(\frac{1}{2}x^2 +\frac{1}{2}x^{-2}\right)^2  } \d x\\
+&=  \int_{x=1}^{x=2} \frac{1}{2}x^2 +\frac{1}{2}x^{-2} \d x\\
+&=  \eval{\frac{1}{6}x^3 -\frac{1}{2}x^{-1}}_1^2 \d x\\
+&= \frac{17}{12}
+\end{align*}
+
+
+\end{freeResponse}
+
+
+
+
+\begin{problem}
+The length $L$ of a certain curve described by $y=f(x)$ from $x=0$ to $x=5$ is given by:
+\[
+L = \int_0^5 \sqrt{1+9e^{6x}} \d x
+\]
+If it is also known that $f(0)=3$, find a formula for $f(x)$ or explain why there is no such function. 
+\end{problem}
+
+\begin{freeResponse}
+This length of $y=f(x)$ from $x=0$ to $x=5$ in general is given by:
+
+\[
+s = \int_0^5 \sqrt{1+[f'(x)]^2} \d x
+\]
+By comparing this to the given integral, we find:
+\begin{align*}
+[f'(x)]^2 &= 9e^{6x} \\
+f'(x) &= \pm 3e^{3x}  \\
+f(x) &= \pm e^{3x}+C  
+\end{align*}
+Since we only need to find a function, we can use the positive square root and apply the initial condition to find the constant of integration:
+
+Since $f(x) = +e^{3x}+C$ and $f(0)=3$, we find: $3=e^{3(0)}+C$ or $C=2$.  Thus:
+
+\[
+f(x) = e^{3x} + 2
+\]
+
+
+\end{freeResponse}
+
+\begin{problem}
+
+The region $R$ is bounded by the curves $x=y^2-4$ and $y=2x-2$, which intersect at the points $(0,-2)$ and $(9/4,5/2)$:
+
+\begin{center}
+\resizebox {6cm} {!} {
+ \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=3.9,xmax=2.9, ymin=-3.4, xmin=-4.8,
+            		axis lines =center, 
+		         xlabel=$x$, 
+		         xtick={10},
+		         ylabel=$y$,
+		         ytick={10},
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth,samples=200,domain=-4:3] {sqrt(x+4)};
+		\addplot [draw=penColor,very thick,smooth,samples=200,domain=-4:3] {-sqrt(x+4)};
+            	\addplot [draw=penColor2,very thick,smooth,domain=-4:3] {2*x-2};
+                       
+            	\addplot [name path=A,draw=none,samples=200,domain=-4:0] {sqrt(x+4)};   
+            	\addplot [name path=B,draw=none,samples=200,domain=-4:0] {-sqrt(x+4)};
+		\addplot [name path=C,draw=none,samples=200,domain=0:1.75] {sqrt(x+4)}; 
+		\addplot [name path=D,draw=none,domain=0:2.25] {2*x-2};   
+            	\addplot [fill1] fill between[of=A and B];
+		\addplot [fill1] fill between[of=C and D];
+		
+            	\node at (axis cs:1.8,-1.1) [penColor2] {$y=2x-2$};
+		\node at (axis cs:-2.4,2) [penColor] {$x=y^2-4$};
+		
+		%Points
+		\addplot[color=black,fill=black,only marks,mark=*] coordinates{(0,-2)};
+	 	\addplot[color=black,fill=black,only marks,mark=*] coordinates{(9/4,5/2)};
+		\node at (axis cs:.7,-2.8) [black] {$(0,-2)$};
+		\node at (axis cs:1.4,3.1) [black] {$\left(\frac{9}{4},\frac{5}{2}\right)$};
+		
+            	\end{axis}
+            \end{tikzpicture}}
+\end{center}
+
+
+\begin{enumerate}
+\item[I.] Set up but do not evaluate an integral or sum of integrals that would give the area of $R$.
+
+\begin{freeResponse}
+
+Since there are no restrictions given, we may choose the more convenient type of slice.  Here, we can set up the area using a single integral with respect to $y$ but would need two integrals to express the area if $x$ is the variable of integration.
+
+Note that since we want to integrate with respect to $y$, it's a good idea to describe all curves as functions of $y$.
+
+\begin{itemize}
+\item For the line $y=2x-2$, solving for $x$ gives $x = \frac{1}{2}y+1$.
+\item The parabola $x=y^2-4$ is already described by a function of $y$.  
+\end{itemize}
+\begin{center}
+
+\resizebox {6cm} {!} {
+ \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=3.9,xmax=2.9, ymin=-3.4, xmin=-4.8,
+            		axis lines =center, 
+		         xlabel=$x$, 
+		         xtick={10},
+		         ylabel=$y$,
+		         ytick={10},
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth,samples=200,domain=-4:3] {sqrt(x+4)};
+		\addplot [draw=penColor,very thick,smooth,samples=200,domain=-4:3] {-sqrt(x+4)};
+            	\addplot [draw=penColor2,very thick,smooth,domain=-4:3] {2*x-2};
+                       
+            	\addplot [name path=A,draw=none,samples=200,domain=-4:0] {sqrt(x+4)};   
+            	\addplot [name path=B,draw=none,samples=200,domain=-4:0] {-sqrt(x+4)};
+		\addplot [name path=C,draw=none,samples=200,domain=0:1.75] {sqrt(x+4)}; 
+		\addplot [name path=D,draw=none,domain=0:2.25] {2*x-2};   
+            	\addplot [fill1] fill between[of=A and B];
+		\addplot [fill1] fill between[of=C and D];
+		
+            	\node at (axis cs:1.8,-1.1) [penColor2] {$x=\frac{1}{2}y+1$};
+		\node at (axis cs:-2.4,2) [penColor] {$x=y^2-4$};
+		\addplot [draw=penColor,very thick,fill=gray] coordinates {(-3,1)(1.4,1)(1.4,.8)(-3,.8)(-3,1)};		
+		%Points
+		\addplot[color=black,fill=black,only marks,mark=*] coordinates{(0,-2)};
+	 	\addplot[color=black,fill=black,only marks,mark=*] coordinates{(9/4,5/2)};
+		\node at (axis cs:.7,-2.8) [black] {$(0,-2)$};
+		\node at (axis cs:1.4,3.1) [black] {$\left(\frac{9}{4},\frac{5}{2}\right)$};
+
+		\addplot [|-|,draw=red,thick] coordinates {(-3,.6)(1.4,.6)};
+            	\node at (axis cs:-.8,.35) [red] {$h$};
+					
+            	\end{axis}
+            \end{tikzpicture}}
+\end{center}
+
+The quantity $h$ is found by recognizing it is a horizontal distance, so 
+
+\[h=x_{right}-x_{left} = \left(\frac{1}{2}y+1\right)-(y^2-4) = -y^2+\frac{1}{2}y+5.\]
+
+The area is then
+
+\[
+A = \int_{y=c}^{y=d} h(y) \d y = \int_{y=0}^{y=5/2} \left(-y^2+\frac{1}{2}y+5 \right) \d y.
+\]
+\end{freeResponse}
+
+\item[II.] Set up but do not evaluate  an integral or sum of integrals that would give the perimeter of $R$. 
+
+\begin{freeResponse}
+There are several ways to set this up.  At minimum, we will need two integrals since the boundary of $R$ must be described by two functions.  We do not have to choose the same variable of integration for each though.
+
+\begin{itemize}
+\item For the part of the boundary formed by the line, if we use $y=2x-2$, $\dd[y]x = 2$, so the length of this part is 
+
+\[
+s_1 = \int_{x=0}^{x=9/4} \sqrt{1+\left(\dd[y]x\right)^2 } \d x =  \int_{x=0}^{x=9/4} \sqrt{5} \d x .
+\]
+
+\item For the part of the boundary formed by the parabola, we need two functions of $x$ to describe it but only one function of $y$.  Using $x=y^2-4$, $\dd[x]y = 2y$, so the length of this part is 
+
+\[
+s_2 = \int_{y=-2}^{y=5/2} \sqrt{1+\left(\dd[x]y\right)^2 } \d x =  \int_{y=-2}^{y=5/2} \sqrt{1+4y^2} \d y. 
+\]
+
+\end{itemize}
+
+The perimeter $s$ is then found using $s = s_1+s_2$.
+
+
+\end{freeResponse} 
+
+\item[III.] Suppose now that a solid of revolution is formed by revolving $R$ about the line $y=-2$.  Set up, but do not evaluate an integral or sum of integrals that would give the volume of this solid.
+\end{enumerate}
+
+\end{problem}
+
+
+
+\begin{freeResponse}
+
+The region $R$ is most efficiently described using horizontal slices, so we will integrate with respect to $y$.  Since horizontal slices are parallel to the axis of rotation, we should use the shell method. 
+
+
+\begin{center}
+\resizebox {6cm} {!} {
+ \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=3.9,xmax=2.9, ymin=-3.4, xmin=-4.8,
+            		axis lines =center, 
+		         xlabel=$x$, 
+		         xtick={10},
+		         ylabel=$y$,
+		         ytick={10},
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+            	\addplot [draw=penColor,very thick,smooth,samples=200,domain=-4:3] {sqrt(x+4)};
+		\addplot [draw=penColor,very thick,smooth,samples=200,domain=-4:3] {-sqrt(x+4)};
+            	\addplot [draw=penColor2,very thick,smooth,domain=-4:3] {2*x-2};
+                       
+            	\addplot [name path=A,draw=none,samples=200,domain=-4:0] {sqrt(x+4)};   
+            	\addplot [name path=B,draw=none,samples=200,domain=-4:0] {-sqrt(x+4)};
+		\addplot [name path=C,draw=none,samples=200,domain=0:1.75] {sqrt(x+4)}; 
+		\addplot [name path=D,draw=none,domain=0:2.25] {2*x-2};   
+            	\addplot [fill1] fill between[of=A and B];
+		\addplot [fill1] fill between[of=C and D];
+		
+            	\node at (axis cs:1.8,-1.1) [penColor2] {$x=\frac{1}{2}y+1$};
+		\node at (axis cs:-2.4,2) [penColor] {$x=y^2-4$};
+		\addplot [draw=penColor,very thick,fill=gray] coordinates {(-3,1)(1.4,1)(1.4,.8)(-3,.8)(-3,1)};		
+		%Points
+		\addplot[color=black,fill=black,only marks,mark=*] coordinates{(0,-2)};
+	 	\addplot[color=black,fill=black,only marks,mark=*] coordinates{(9/4,5/2)};
+		\node at (axis cs:.7,-2.8) [black] {$(0,-2)$};
+		\node at (axis cs:1.4,3.1) [black] {$\left(\frac{9}{4},\frac{5}{2}\right)$};
+
+
+%Shell stuff
+		\addplot [|-|,draw=red,thick] coordinates {(-2,-2)(-2,.8)};
+            	\node at (axis cs:-1.8,-.5) [red] {$\rho$};
+
+		\addplot [|-|,draw=red,thick] coordinates {(-3,1.2)(1.4,1.2)};
+            	\node at (axis cs:-.8,1.5) [red] {$h$};
+		
+		\addplot [draw=penColor,very thick,fill=gray] coordinates {(-3,1)(1.4,1)(1.4,.8)(-3,.8)(-3,1)};	
+		
+		\addplot [draw=penColor4 ,ultra thick, dotted] coordinates {(-10,-2)(10,-2)};							
+            	\node at (axis cs:-3.5,-2.5)[penColor4] {$y=-2$};
+	
+	            	\end{axis}
+            \end{tikzpicture}}
+\end{center}
+
+We have $V = \int_{y=-2}^{y=5/2} 2\pi \rho h \d y$.  To find the geometric quantities of interest, we recognize them as vertical or horizontal distances and proceed accordingly.
+
+\begin{itemize}
+\item For $\rho$, note this is a vertical distance, so \[\rho = y_{top}-y_{bot} = y-(-2) = y+2\]
+\item For $h$, note this is a horizontal distance, so \[h = x_{right}-x_{left} = \left(\frac{1}{2}y+1\right) - \left(y^2-4\right) = -y^2+
+\frac{1}{2} y +5.\]
+\end{itemize}
+
+Thus, the volume is given by
+
+\[
+V = \int_{y=-2}^{y=5/2} 2\pi \rho h \d y = = \int_{y=-2}^{y=5/2} 2\pi (y+2)\left(-y^2+\frac{1}{2} y +5 \right) \d y .
+\]
+\end{freeResponse}
+
+\end{document}

@@ -1,0 +1,451 @@
+\documentclass[noauthor,handout]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+%\input{../../preamble.tex}
+\input{../preamble.tex}
+
+
+
+\author{Tom Needham and Jim Talamo}
+
+\outcome{Find slopes of tangent lines to polar curves.}
+\outcome{Determine areas of regions using integrals in polar coordinates.}
+
+\title[Collaborate:]{Calculus in Polar Coordinates}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\section{Discussion Questions}
+
+\begin{problem}
+
+On the axes below, plot the point on the polar curve $r = \cos (4 \theta)$ corresponding to $\theta = 3\pi/4$. 
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-1.5,  
+        xmax=1.5,  
+        ymin=-1.2,  
+        ymax=1.2,  
+        xtick={-1,1},
+        ytick={-1,1},
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+      \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, thick] (x,{cos(4*x)});
+      
+            \end{axis}  
+  \end{tikzpicture}  
+\end{image} 
+
+
+\begin{freeResponse}
+Plugging $\theta = 3\pi/4$ into the equation, we have
+$$
+r = \cos (4 \cdot 3 \pi/4)  = \cos (3\pi) = -1. 
+$$
+It follows that the relevant point has Cartesian coordinates.
+\begin{align*}
+x &= -\cos(3 \pi /4) = \sqrt{2}/2 \\
+y &= -\sin(3 \pi/4) = - \sqrt{2}/2.
+\end{align*}
+\end{freeResponse}
+\end{problem}
+
+\begin{problem}
+Consider the curve given by the plot of the polar curve $r = 2 \cos(\theta)$. A student claims that the slope of the tangent line to the curve at $\theta = \pi/2$ is given by
+$$
+\left.\frac{\d r}{\d \theta}\right|_{\theta = \pi/2} =  \frac{\d}{\d \theta }  \left[2 \cos(\theta) \right|_{\theta = \pi/2}=  \left. -2 \sin(\theta) \right|_{\theta = \pi/2} = -2.
+$$
+Is the student correct? If not, explain the mistake in their reasoning and find the correct slope.
+\begin{freeResponse}
+The student is not correct, since the slope of the tangent line should be calculated in Cartesian coordinates. Writing
+\begin{align*}
+x &= r \cos(\theta) = 2 \cos(\theta) \cos(\theta) = 2 \cos^2(\theta) \\
+y &= r \sin(\theta) = 2 \cos(\theta) \sin(\theta) =  \sin(2 \theta),
+\end{align*}
+we have
+\begin{align*}
+\frac{\d x}{\d \theta} &= -4 \cos (\theta)\sin(\theta) \\
+\frac{\d y}{\d \theta} &= 2 \cos(2\theta).
+\end{align*}
+Evaluating these derivatives at $\theta = \pi/2$ yields
+\begin{align*}
+\left.\frac{\d x}{\d \theta}\right|_{\theta = \pi/2} &= 0 \\
+\left.\frac{\d y}{\d \theta}\right|_{\theta = \pi/2} &= 2.
+\end{align*}
+By the chain rule, $\frac{\d y}{\d x} = \frac{\d y/ \d \theta}{\d x/ \d \theta}$, and it follows that there is a vertical tangent line at $\theta = \pi/2$ . 
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+The shaded region shown below has boundary curve given by the plot of the polar curve $r = \cos(3\theta)$. 
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-1.5,  
+        xmax=1.5,  
+        ymin=-1.5,  
+        ymax=1.5,  
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  axis on top
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  axis on top
+      ]  
+      \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=0:360 ,samples=360,smooth] (x, {cos(3*x)}) ;
+      \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, thick] (x,{cos(3*x)});
+      
+            \end{axis}  
+  \end{tikzpicture}  
+\end{image} 
+
+A student claims that the area of the region is given by 
+$$
+\int_0^{2\pi} \frac{1}{2} \cos^2(3\theta) \d \theta.
+$$
+Is the student correct? Explain why or why not. If the student is incorrect, set up an integral which gives the correct area.
+
+\begin{freeResponse}
+The student is not correct. Inspecting the equation, we see that the full image of the curve is plotted as $\theta$ runs from $0$ to $\pi$. Therefore the area of the region is given by 
+$$
+\int_0^{\pi} \frac{1}{2} \cos^2(3\theta) \d \theta.
+$$
+
+Note that by utilizing symmetry, we can avoid this issue altogether since the area of the region can be computed by evaluating
+
+$$
+6 \cdot \int_0^{\pi/6} \frac{1}{2} \cos^2(3\theta) \d \theta.
+$$
+
+Compute each of these integrals of these for yourself to verify.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Group Work}
+
+\begin{problem}
+A plot of the polar curve $r=1+2\sin(\theta)$ is shown below.
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-3,  
+        xmax=3,  
+        ymin=-1,  
+        ymax=3.5,  
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  
+      ]  
+      \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, thick] (x,{1+2*sin(x)});
+      
+            \end{axis}  
+  \end{tikzpicture}  
+\end{image} 
+
+\begin{itemize}
+\item[I.] Find the equation of the tangent line to the point corresponding to $\theta = \pi/6$.
+\item[II.]  Determine the Cartesian coordinates of all points on the curve with a horizontal tangent line.
+\end{itemize}
+\begin{freeResponse}
+I. We find the slope of the tangent line by first writing
+\begin{align*}
+x &= r \cos(\theta) = (1+ 2 \sin(\theta)) \cdot \cos(\theta) = \cos(\theta) + 2 \sin\theta \cos(\theta) = \cos(\theta) + \sin (2\theta), \\
+y&= r \sin(\theta) = (1+ 2 \sin(\theta)) \cdot \sin(\theta) = \sin(\theta) + 2 \sin^2 \theta,
+\end{align*}
+so that
+\begin{align*}
+\frac{\d x}{\d \theta} &= -\sin(\theta) + 2 \cos(2 \theta), \\
+\frac{\d y}{\d \theta} &= \cos(\theta) + 4 \sin(\theta) \cos(\theta) = \cos(\theta) + 2 \sin(2 \theta).
+\end{align*}
+Evaluating at $\theta = \pi/6$ yields 
+\begin{align*}
+\left.\frac{\d x}{\d \theta}\right|_{\theta = \pi/6} &= -\frac{1}{2} +  2 \frac{1}{2} = \frac{1}{2} \\
+\left.\frac{\d y}{\d \theta}\right|_{\theta = \pi/6} &= \frac{\sqrt{3}}{2} + 2 \frac{\sqrt{3}}{2} = 3 \frac{\sqrt{3}}{2},
+\end{align*}
+and the chain rule therefore implies that the slope of the tangent line is $3 \sqrt{3}$.
+
+The point that the tangent line passes through has Cartesian coordinates
+\begin{align*}
+x &= \cos(\pi/6) + \sin (\pi/3) = \frac{\sqrt{3}}{2} + \frac{\sqrt{3}}{2} = \sqrt{3} \\
+y &= \sin(\pi/6) + 2 \sin^2(\pi/6) = \frac{1}{2} + 2 \cdot \frac{1}{4} = 1.
+\end{align*}
+We conclude that the equation of the tangent line is $y-1 = 3 \sqrt{3}(x-\sqrt{3})$.
+
+II. The curve has a horizontal tangent line when $\d y/ \d \theta = 0$ and $\d x /\d \theta \neq 0$. Using our formulas above, we see that we need to solve
+$$
+\cos(\theta) + 2 \sin(2 \theta) = 0.
+$$
+Then 
+$$
+0 = \cos(\theta) + 4 \sin(\theta) \cos(\theta) = \cos(\theta) ( 1+ 4 \sin(\theta)),
+$$
+so that $\cos(\theta) = 0$ or $\sin(\theta) = - \frac{1}{4}$. The first equation has solutions (on the domain $[0,2\pi)$) $\theta = \pi/2$ or $3\pi/2$. The Cartesian coordinates of the corresponding points are
+\begin{align*}
+x &= \cos (\pi/2) + \sin(2 \cdot \pi/2) = 0\\
+y &= \sin(\pi/2) + 2 \sin^2(\pi/2) = 3
+\end{align*}
+and, similarly, $(x,y) = (0,1)$. 
+
+The equation $\sin(\theta) = -\frac{1}{4}$ has solutions $\theta = \arcsin (-1/4)$ and $\pi - \arcsin(-1/4)$ and the corresponding points in Cartesian coordinates are
+\begin{align*}
+x &= \cos (\arcsin(-1/4)) + \sin (2 \arcsin(-1/4)) = \frac{\sqrt{15}}{4} + 2 \frac{\sqrt{15}}{4} \cdot \frac{-1}{4} = \frac{\sqrt{15}}{8}, \\
+y &= \sin(\arcsin(-1/4)) + 2 \sin^2 (\arcsin(-1/4)) = -\frac{1}{4} + 2 \frac{1}{16} = -\frac{1}{8}
+\end{align*}
+and $(x,y) = (-\sqrt{15}/8,-1/8)$. 
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+
+The curves $r=2\cos(2\theta)$ and $r=1$ are shown below.
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-3.5,  
+        xmax=3.5,  
+        ymin=-3,  
+        ymax=3,  
+        axis lines=center,  
+        xlabel=$x$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  axis on top
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  axis on top
+      ]  
+%      \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-45:45 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+      \addplot[data cs=polar, very thick, mark=none, fill=white,  domain=0:360, samples=180, smooth] (x, {1});
+%            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=30:45 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+%            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-45:-30 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+%      \addplot[data cs=polar, very thick, mark=none, fill=fill1,  domain=-30:30, samples=360, smooth] (x, {1}) -- (axis cs:0,0)[penColor4!50];
+      \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, ultra thick] (x,{2*cos(2*x)});
+   	   \addplot[data cs=polar,penColor2,domain=0:360,samples=360,smooth, thick] (x,{1});
+	   
+\node[penColor] at (axis cs: 1.5,2) {$r = 2\cos(2\theta)$};
+\node[penColor2] at (axis cs: -1.5,1) {$r = 1$};
+      
+            \end{axis}  
+  \end{tikzpicture}  
+  \end{image}
+  
+I.  Find the areas of the region that is outside of the circle $r=1$ but inside $r=2\cos(2\theta)$.
+
+II. Find the area of the region that is inside of both curves.
+
+
+ \begin{freeResponse}
+We begin by finding the intersection point of the curves. The intersections occur exactly when $2 \cos (2 \theta) = 1$, or $\cos (2 \theta) = 1/2$. There are many solutions to this equation, but we are interested in the smallest positive value of $\theta$ which satisfies the equation; namely, $2\theta = \pi/3$ or $\theta = \pi/6$. 
+
+I.  The relevant area is shown below.
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-3.5,  
+        xmax=3.5,  
+        ymin=-3,  
+        ymax=3,  
+        axis lines=center,  
+        xlabel=$$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  axis on top
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  axis on top
+      ]  
+      \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-0:360 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+            \addplot [data cs=polar, very thick, mark=none,fill=penColor!70,domain=-0:45 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+      \addplot[data cs=polar, very thick, mark=none, fill=white,  domain=0:360, samples=180, smooth] (x, {1});
+%            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=30:45 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+%            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-45:-30 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+%      \addplot[data cs=polar, very thick, mark=none, fill=fill1,  domain=-30:30, samples=360, smooth] (x, {1}) -- (axis cs:0,0)[penColor4!50];
+      \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, ultra thick] (x,{2*cos(2*x)});
+   	   \addplot[data cs=polar,penColor2,domain=0:360,samples=360,smooth, thick] (x,{1});
+	   
+\addplot [draw=penColor5,domain=0:2,very thick,smooth] {tan(30)*x};
+\addplot [draw=penColor5,domain=0:3,very thick,smooth] {0};
+	   
+\node[penColor] at (axis cs: 1.5,2) {$r = 2\cos(2\theta)$};
+\node[penColor2] at (axis cs: -1.5,1) {$r = 1$};
+\node[penColor5] at (axis cs: 2.5,1.4) {\small $\theta=\frac{\pi}{6}$};
+\node[penColor5] at (axis cs: 2.8,.3) {\small$\theta=0$};
+      
+            \end{axis}  
+  \end{tikzpicture}  
+  \end{image}
+  
+Note that by using symmetry,
+
+\[
+\textrm{ Total Area } = 8 \cdot \left< \textrm{ Area of darkly shaded region } \right>.
+\]  
+
+The limits of integration to compute the dark area are $\theta = 0$ to $\pi/6$. The outer radius of the region is $2 \cos (2\theta)$ and the inner radius is $1$. Thus the area is
+$$
+A = 8 \cdot \int_0^{\pi/6} \frac{1}{2}(4 \cos^2 (2\theta) - 1) \d \theta = \frac{\sqrt{3}}{8}.
+$$
+
+Note that evaluating this integral requires some careful computations and use of the identity $$\cos^2(\alpha) = \frac{1}{2}+\frac{1}{2}\cos(2 \alpha).$$
+
+\begin{align*}
+A &= 8 \cdot \int_0^{\pi/6} \frac{1}{2}\big( (2\cos(2\theta))^2 - 1\big) \d \theta \\
+&=   \int_0^{\pi/6} 16 \left[\frac{1}{2} + \frac{1}{2} \cos(4\theta)\right] - 4 \d \theta \\
+&=   \int_0^{\pi/6} 4 + 8 \cos(4\theta) \d \theta \\
+&=   \eval{4\theta + 2 \sin(4\theta)}_{0}^{\pi/6} \\
+&= \left[\frac{2\pi}{3} + 2 \sin\left(\frac{2\pi}{3}\right) \right]- 0 \\
+&= \frac{2\pi}{3} + \sqrt{3}
+\end{align*}
+
+II. The area of the region inside of both curves can be found by considering the region below and multiplying its area by $8$.
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-3.5,  
+        xmax=3.5,  
+        ymin=-3,  
+        ymax=3,  
+        axis lines=center,  
+        xlabel=$$,  
+        ylabel=$y$,  
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  axis on top
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  axis on top
+      ]  
+%      \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-0:360 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+%            \addplot [data cs=polar, very thick, mark=none,fill=penColor!70,domain=-0:45 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+%      \addplot[data cs=polar, very thick, mark=none, fill=white,  domain=0:360, samples=180, smooth] (x, {1});
+            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=30:45 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+%            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-45:-30 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+      \addplot[data cs=polar, very thick, mark=none, fill=fill1,  domain=0:30, samples=360, smooth] (x, {1}) -- (axis cs:0,0)[penColor4!50];
+      \addplot[data cs=polar,penColor,domain=0:360,samples=360,smooth, ultra thick] (x,{2*cos(2*x)});
+   	   \addplot[data cs=polar,penColor2,domain=0:360,samples=360,smooth, thick] (x,{1});
+	   
+\addplot [draw=penColor5,domain=0:2,very thick,smooth] {tan(30)*x};
+\addplot [draw=penColor5,domain=0:3,very thick,smooth] {0};
+	   
+\node[penColor] at (axis cs: 1.5,2) {$r = 2\cos(2\theta)$};
+\node[penColor2] at (axis cs: -1.5,1) {$r = 1$};
+%\node[penColor5] at (axis cs: 2.5,1.4) {\small $\theta=\frac{\pi}{6}$};
+%\node[penColor5] at (axis cs: 2.8,.3) {\small$\theta=0$};
+      
+            \end{axis}  
+  \end{tikzpicture}  
+  \end{image}
+  
+Let's zoom in a bit on this region.
+
+\begin{image}  
+  \begin{tikzpicture}  
+    \begin{axis}[  
+        xmin=-.1,  
+        xmax=1.5,  
+        ymin=-.1,  
+        ymax=1.3,  
+        axis lines=center,  
+        xlabel=$x$,  xtick=1,
+        ylabel=$y$,  ytick =1,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},  axis on top
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},  axis on top
+      ]  
+%      \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-0:360 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+%            \addplot [data cs=polar, very thick, mark=none,fill=penColor!70,domain=-0:45 ,samples=180,smooth] (x, {2*cos(2*x)}) ;
+%      \addplot[data cs=polar, very thick, mark=none, fill=white,  domain=0:360, samples=180, smooth] (x, {1});
+            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=30:45 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+%            \addplot [data cs=polar, very thick, mark=none,fill=fill1,domain=-45:-30 ,samples=180,smooth] (x, {2*cos(2*x)})-- (axis cs:0,0)[penColor4!50] ;
+      \addplot[data cs=polar, very thick, mark=none, fill=fill1,  domain=0:30, samples=360, smooth] (x, {1}) -- (axis cs:0,0)[penColor4!50];
+      \addplot[data cs=polar,penColor,domain=0:45,samples=360,smooth, ultra thick] (x,{2*cos(2*x)});
+   	   \addplot[data cs=polar,penColor2,domain=0:360,samples=360,smooth, ultra thick] (x,{1});
+	   
+\addplot [draw=penColor5,domain=0:1.1,very thick,smooth] {tan(30)*x};
+\addplot [draw=penColor5,domain=0:3,very thick,smooth] {0};
+\addplot [draw=penColor5,domain=0:1,very thick,smooth] {tan(45)*x};	   
+\node[penColor] at (axis cs: 1.5,2) {$r = 2\cos(2\theta)$};
+\node[penColor2] at (axis cs: -1.5,1) {$r = 1$};
+\node[right, penColor5] at (axis cs: 1.1,.65) {$\theta=\frac{\pi}{6}$};
+\node[right, penColor5] at (axis cs: 1,1.05) {$\theta=\frac{\pi}{4}$};
+\node[penColor5] at (axis cs: 1.2,.1) {$\theta=0$};
+      
+            \end{axis}  
+  \end{tikzpicture}  
+  \end{image}
+
+For this region, we need to determine the $\theta$-value at which the curve $r=2\cos (2\theta)$ first passes through the origin. This is the smallest positive value of $\theta$ such that $0 = 2 \cos (2\theta)$, and therefore satisfies $2 \theta = \pi/2$ or $\theta = \pi/4$.
+ 
+The outer curve for $0 \leq \theta \leq \pi/6$  is $r=1$, while the outer curve from $\pi/6 < \theta \leq \pi/4$ is $r=2\cos(2\theta)$. Since the outer curve changes, we will need two integrals to compute the area.
+
+\[
+A = 8 \cdot \left[ \int_{0}^{\pi/6} \frac{1}{2} (1)^2  \d \theta +  \int_{\pi/6}^{\pi/4} \frac{1}{2} (2\cos(2\theta))^2  \d \theta\right] = \frac{\pi}{2}.
+\]
+
+Carrying out the computation gives $A = \frac{2\pi}{3}-\sqrt{3}$.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+For each region given below, calculate its area using both Cartesian and polar coordinates.
+
+\begin{itemize}
+\item[I.] The rectangle bounded by $y=0$, $y=\sqrt{3}$, $x=0$ and $x=1$.
+
+\item[II.] The region in the first quadrant bounded by the line $y=x$, the unit circle and the positive $y$-axis.
+\end{itemize}
+
+\begin{freeResponse}
+I. From basic geometry, the area is clearly $\sqrt{3}$. To verify this with an integral in Cartesian coordinates, the area is 
+$$
+\int_0^1 \sqrt{3} \d x = \sqrt{3}.
+$$
+Finally, to  express the area integral in polar coordinates, we note that the vertical line $x = 1$ has polar equation $r = \sec \theta$. The area is therefore
+$$
+2 \int_0^{\pi/3} \frac{1}{2} \sec^2 \theta \d \theta = \eval{\tan \theta}_0^{\pi/3} = \sqrt{3}.
+$$ 
+
+II. From basic geometry, the area is $\frac{1}{8} \pi$. Using polar coordinates, the area is given by
+$$
+\int_{\pi/4}^{\pi/2} \frac{1}{2} \d \theta = \frac{1}{2}\left(\frac{\pi}{2} - \frac{\pi}{4}\right) = \frac{\pi}{8}.
+$$
+Using Cartesian coordinates, the area is given by
+$$
+\int_0^{\sqrt{2}/2} \sqrt{1- x^2}-x \d x.
+$$
+A tedious calculation involving trigonometric substitution shows that this integral also evaluates to $\pi/8$. 
+\end{freeResponse}
+\end{problem}
+
+\end{document}

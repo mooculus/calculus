@@ -1,0 +1,222 @@
+\documentclass[noauthor]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../preamble.tex}
+
+
+
+\author{Tom Needham and Jim Talamo}
+
+\outcome{Use the divergence test to conclude that a series diverges.}
+\outcome{Use the integral test to determine whether a series converges or diverges.}
+
+\title[]{The Divergence Test}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.9in}
+
+\section{Discussion Questions}
+\begin{problem}
+Suppose that  $a_n = \frac{n^2-2n+4}{2n^2+1}$.  Let $s_n = \sum_{k=1}^n a_k$. 
+
+\begin{itemize}
+\item[I.] Determine if $\lim_{n \to \infty} a_n$ exists.  If it does, can you determine its value?
+\item[II.] Determine if $\sum_{k=1}^{\infty} a_k$ exists.  If it does, can you determine its value?
+\item[III.] Determine if $\lim_{n \to \infty} s_n$ exists.  If it does, can you determine its value?
+\end{itemize}
+
+\begin{freeResponse}
+I. By inspection, $\lim_{n \to \infty} a_n = \frac{1}{2}$.
+
+II. Since $\lim_{n \to \infty} a_n = \frac{1}{2} \neq 0$, $\sum_{k=1}^{\infty} a_k$ diverges by the divergence test.  
+
+Make sure that you realize that information about the \emph{sequence} $\{a_n\}_{n=1}$ here is being used to determine convergence of the \emph{series} (i.e. the attempt to add all of the terms in the sequence together). 
+
+III. The symbols $\sum_{k=1}^{\infty} a_k$ and $\lim_{n \to \infty} s_n$ are equivalent.  Since $\sum_{k=1}^{\infty} a_k$ diverges, $\lim_{n \to \infty} s_n$ does not exist.
+\end{freeResponse}
+\end{problem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{problem}
+Determine if the following statements are true or false.
+
+I. If the sequence $\{a_n\}$ satisfies $\lim_{n\rightarrow \infty} a_n = 0$, then the series $\sum_{n=1}^\infty a_n$ converges.
+
+II. If the sequence $\{a_n\}$ satisfies $\lim_{n \rightarrow \infty} a_n \neq 0$, then the series $\sum_{n=1}^\infty a_n$ diverges.
+
+III. If the series $\sum_{n=1}^\infty a_n$ converges, then $\lim_{n\rightarrow \infty} a_n = 0$. 
+
+IV. If the series $\sum_{n=1}^\infty a_n$ diverges, then $\lim_{n\rightarrow \infty} a_n \neq 0$. 
+
+
+
+\begin{freeResponse}
+I. This statement is false. For example, the harmonic series $\sum \frac{1}{n}$ diverges, while $\lim_{n \rightarrow \infty} \frac{1}{n} = 0$. 
+
+II. This is the divergence test, and is therefore true.
+
+III. This is true; in order for a series to converge, the infinitely many terms we are trying to add together must tend to $0$.  More formally, this is the contrapositive of the divergence test, so it is true.
+
+IV. This statement is false. For example, the harmonic series $\sum \frac{1}{n}$ diverges, while $\lim_{n \rightarrow \infty} \frac{1}{n} = 0$. 
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+Suppose that the series $\sum_{k=1}^\infty a_k$ has sequence of partial sums $\{s_n\}$ given by the explicit formula
+$$
+s_n = \frac{2n+1}{4n+3}.
+$$
+Student A claims that the series $\sum_{k=1}^\infty a_k$ converges because $\lim_{n \rightarrow \infty} s_n = \frac{1}{2}$. Student B claims that $\lim_{n\rightarrow \infty} s_n = \frac{1}{2} \neq 0$, so the series diverges by the divergence test. Which (if either) student is correct?
+
+\begin{freeResponse}
+Student A is correct, by the definition of convergence. Student B is incorrect; the divergence test deals with the limit of the sequence of  terms $a_k$, not the limit of the sequence of partial sums.  The divergence test can be used to conclude that since $\lim_{n\rightarrow \infty} s_n = \frac{1}{2} \neq 0$, the series $\sum_{k=1}^{\infty} s_k$ diverges.
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Given that $\sum_{k=1}^n a_k = \frac{3^n}{3^n+\ln^8(n)}$, determine whether $\sum_{k=1}^{\infty} a_k $ converges or diverges.  If it converges, can you determine its value?
+
+\begin{freeResponse}
+By now, hopefully it is becoming clear that a lot of information is being stored in the notation used in these problems.  A good strategy before tackling a problem is to take a moment and parse what information is being given.
+
+Note that here, the result of \emph{adding} $a_1$ through $a_n$ is being given, \emph{NOT} an explicit formula for the $n$-th term $a_n$; we are actually told what $s_n$ is!  As such, 
+
+\[
+\sum_{k=1}^{\infty} a_k = \lim_{n \to \infty} \left[ \sum_{k=1}^n a_k \right] = \lim_{n \to \infty} \left[ \frac{3^n}{3^n+\ln^8(n)} \right] =1. 
+\]
+
+Note that this limit can be computed by inspection using the growth rates results since the dominant term in both the numerator and denominator is $3^n$.
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Group Work}
+
+\begin{problem}
+Let $\{a_n\}_{n=1}$ be a sequence and define $s_n = \sum_{k=1}^n a_k$.  
+
+I. If $\sum_{k=1}^{\infty} a_k =2$, does $\sum_{k=1}^{\infty} s_k$ converge or diverge?  
+
+II. If $\sum_{k=1}^{\infty} a_k =2$, does $\sum_{k=1}^{\infty} (a_k+1)$ converge or diverge?  
+
+III. If $\sum_{k=1}^{\infty} s_k =2$, does $\sum_{k=1}^{\infty} a_k$ converge or diverge?  
+
+If a series above converges, can you determine its value? 
+
+\begin{freeResponse}
+Note that a sequence $\{a_n\}$ and its corresponding sequence of partial sums $\{s_n\}$ are related by the equality
+
+\[
+\sum_{k=k_0}^{\infty} a_k = \lim_{n \to \infty} s_n.
+\] 
+
+I. Since $\sum_{k=1}^{\infty} a_k =2$, we know that $ \lim_{n \to \infty} s_n = 2$.  Since $ \lim_{n \to \infty} s_n \neq 0$, $\sum_{k=1}^{\infty} s_k$ diverges by the divergence test.
+
+II. Recall that if $\sum_{k=k_0}^{\infty} a_k$ converges, then $\lim_{n \to \infty} a_n = 0$; this is a formalization of the heuristic idea that the only chance that an infinite sum of terms has to converge is if the terms tend to $0$.
+
+Since $\sum_{k=1}^{\infty} a_k =2$, we know that $ \lim_{n \to \infty} a_n = 0$, and thus $\lim_{n \to \infty} \left(a_n+1\right)  = 1 \neq 0$.  Since $ \lim_{n \to \infty}\left(a_n+1\right) \neq 0$, $\sum_{k=1}^{\infty} \left(a_n+1\right) $ diverges by the divergence test.
+
+\begin{remark}
+The notation here is important; there is a huge difference between the symbols $\sum_{k=1}^{\infty} a_k+1$ and $\sum_{k=1}^{\infty} (a_k+1)$.  
+
+\begin{itemize} 
+\item The symbol $\sum_{k=1}^{\infty} a_k+1$ is interpreted as $\left( \sum_{k=1}^{\infty} a_k\right)+1$; that is we add $1$ to the original series.
+\item The symbol $\sum_{k=1}^{\infty} (a_k+1)$ requires that we add $1$ to \emph{each} term $a_k$.
+\end{itemize}
+\end{remark}
+\end{freeResponse}
+
+III. Since $\sum_{k=1}^{\infty} s_k =2$, $\sum_{k=1}^{\infty} s_k$ is a convergent series, so we know that $ \lim_{n \to \infty} s_n = 0$.  Since $ \lim_{n \to \infty} s_n \neq 0$, we have by definition that $\sum_{k=1}^{\infty} a_k =0$.
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Determine whether the series below converge or diverge.  If a series converges, can you determine its value?
+
+\begin{center}
+\begin{tabular}{lll}
+I. $\sum_{k=3}^{\infty} \frac{(2k^2+1)^2}{k^4-3k+5}$ \qquad  \qquad II. $\sum_{k=1}^{\infty} \cos\left(\frac{2^k+k^{10}}{3^k}\right)$ \qquad \qquad  III. $\sum_{k=2}^{\infty} \frac{1}{k^2+k}$ 
+\end{tabular}
+\end{center}
+
+
+\begin{freeResponse}
+I. Comparing the growth rates of the dominant terms in the numerator and denominator, we have 
+$$
+\lim_{k \rightarrow \infty} \frac{k^3 - \ln(k+10) + k^5}{(2k+100)^5} = \lim_{k\rightarrow \infty} \frac{k^5}{2^5 k^5} = \frac{1}{32} .
+$$
+Since the limit is nonzero, the series diverges by The divergence test.
+
+II. Note that $\lim_{n \to \infty} \frac{2^n+n^{10}}{3^n} =0$ by growth rates, so 
+
+\[\lim_{n \to \infty} \cos\left(\frac{2^n+n^{10}}{3^n}\right) = \lim_{n \to \infty} \cos(0) =1. \]
+
+Since $\lim_{n \to \infty} \cos\left(\frac{2^n+n^{10}}{3^n}\right) \neq 0$, $\sum_{k=1}^{\infty} \cos\left(\frac{2^k+k^{10}}{3^k}\right)$ diverges by the divergence test.
+
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{problem}
+For each part, a sequence $\{a_n\}_{n=1}$ is given.  Let $s_n = \sum_{k=1}^n a_k$ give the terms of the sequence $\{s_n\}_{n=1}$ of partial sums. Determine whether each sequence is increasing, decreasing, bounded above, and/or bounded below. 
+
+I. Let $\{a_k\}_{k=1}^\infty$ be the sequence defined by $a_k = \frac{1}{k^3}$ and let $\{s_n\}_{n=1}^\infty$ denote its sequence of partial sums. You may take as given that $\sum_{k=1}^{\infty} \frac{1}{k^3}$ converges.
+
+II. Let $\{a_k\}_{k=1}^\infty$ be the sequence defined by $a_k = \frac{2^k}{2^k +1}$ and let $\{s_n\}_{n=1}^\infty$ denote its sequence of partial sums.  
+
+\begin{freeResponse}
+I. The sequence $\{a_k\}$ is monotone decreasing and bounded (above and below), by inspection. Since the terms of $\{a_k\}$ are strictly positive, the sequence $\{s_n\}$ must be monotone increasing. Since $\sum \frac{1}{k^3}$ converges, it follows by the definition of convergence that the sequence $\{s_n\}$ has a finite limit and is therefore bounded.
+
+II. The sequence $\{a_k\}$ is monotone increasing and bounded, since
+
+\[
+\frac{2^k}{2^k +1} = \frac{2^k+1 -1}{2^k +1} = \frac{2^k+1}{2^k +1}- \frac{1}{2^k +1} = 1 - \frac{1}{2^k +1}.
+\]
+
+Note that $\lim_{k\rightarrow \infty} a_k = 1$, so the divergence test implies that the series $\sum a_k$ diverges. It follows that the sequence $\{s_n\}$ is monotone increasing and bounded below (because the terms of $a_k$ are positive), but not bounded above (because $\lim_{n \rightarrow \infty} s_n = \infty$). 
+\end{freeResponse}
+
+\end{problem}
+
+\end{document}

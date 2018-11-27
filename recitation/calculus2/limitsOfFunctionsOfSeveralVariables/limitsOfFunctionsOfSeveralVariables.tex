@@ -1,0 +1,295 @@
+\documentclass[noauthor, handout]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+%\input{../../preamble.tex}
+\input{../preamble.tex}
+
+
+
+\author{Jim Talamo}
+
+\outcome{Determine if the limit of a function of several variables exists.}
+\outcome{Apply the Two Path Test to piecewise functions.}
+\outcome{Analyze a function along a class of paths.}
+\outcome{Determine if a function is continuous.}
+\newcommand{\point}[1]{\left(#1\right)} %this allows \point{ to be changed to \vector{ with a quick find and replace
+\newcommand{\pt}[1]{\mathbf{#1}} %this allows \pt{ to be changed to \vec{ with a quick find and replace
+\newcommand{\Lim}[2]{\lim_{#1 \to #2}}
+
+\title[Collaborate:]{Limits of Functions Of Several Variables}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\section{Discussion Questions}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Suppose that $\mathcal{S}$ is a surface and the following is known.
+\begin{itemize}
+\item The level curve corresponding to $z=1$ is $x+y^2=5$.
+\item The level curve corresponding to $z=3$ is $x +3y=1$.
+\end{itemize}
+
+For which points $(a,b)$ must $\Lim{(x,y)}{(a,b)} z$ not exist?  Why?
+ 
+\begin{freeResponse}
+The $z$-values for the given level curves are different. At any point in the $xy$-plane for which the level curves intersect, level curves will give two paths along which the $z$-values on the surface tend to different values.  The limit will thus not exist at these points.
+
+From the equation for the first level curve, we find that $x=5-y^2$, and from the second, we find $x=1-3y$.  Equating these gives
+
+\begin{align*}
+5-y^2 &= 1-3y \\
+y^2-3y-4 &=0 \\
+(y+1)(y-4) &= 0
+\end{align*}
+
+We find that $y=-1$ or $y=4$.  Using either $x=5-y^2$ or $x=1-3y$ gives that when $y=-1$, $x=4$ and when $y=4$, $x=-11$.  Hence, the limit will not exist as $(x,y) \to (-11,4)$ or $(x,y) \to (4,-1)$.
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Determine if the following statements are true or false and explain your response.
+
+I. If $\Lim{x}{1} f(x,2) = 5$ and $\Lim{y}{2} f(1,y)=5$, then $\Lim{(x,y)}{(1,2)} f(x,y) =5$.
+
+II. If $\Lim{(x,y)}{(3,5)} f(x,y)$ exists, then $f(x,y)$ is continuous at $(3,5)$.
+
+III. If  $f(x,y)$ is not continuous at $(3,5)$, then $\Lim{(x,y)}{(3,5)} f(x,y)$ does not exist.
+
+IV. If $f(x,y)$ approaches the same value along \emph{every} straight line path through $(a,b)$, then $\Lim{(x,y)}{(a,b)} f(x,y)$ must exist.
+
+
+\begin{freeResponse} Note that in order for a limit to exist, the function must tend to the same value along \emph{every} path.
+
+I. False; we are really given that the function tends to the same value along two specific paths.
+
+\begin{itemize}
+\item $\Lim{x}{1} f(x,2) = 5$ tells us that $f(x,y)$ approaches $5$ as $(x,y) \to (1,2)$ along $x=1$.
+\item $\Lim{y}{2} f(1,y) = 5$ tells us that $f(x,y)$ approaches $5$ as $(x,y) \to (1,2)$ along $y=2$.
+\end{itemize}
+
+This is not enough to conclude that the limit exists.
+
+For an explicit counterexample, consider the function below.
+
+\[
+f(x,y) = \begin{cases}5, & x=1 \\ 5, & y=2 \\ 0, & \textrm{otherwise}\end{cases}
+\]
+
+II. False; we need both that $\Lim{(x,y)}{(3,5)} f(x,y)$ exists \emph{and} that $\Lim{(x,y)}{(3,5)} f(x,y) = f(3,5)$.  We are not even guaranteed that $f(3,5)$ exists, let alone whether it agrees with the limit.
+
+III. False; the function may not be continuous at $(3,5)$ because $\Lim{(x,y)}{(3,5)} f(x,y)$ exists but $\Lim{(x,y)}{(3,5)} f(x,y) \neq f(3,5)$.  For an explicit counterexample, consider the function below.
+
+\[
+f(x,y) = \begin{cases} 1, & (x,y) \neq (3,5) \\ 0, & (x,y) =(3,5)\end{cases}
+\]
+
+IV. False; we need the function to approach the same value along \emph{every} path, and there are many other types of paths than straight lines.  For an explicit counterexample, see the function in Problem 5.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Group Work}
+
+\begin{problem}
+Determine whether the following limits exist.  If a limit does not exist, explain why.
+
+\begin{center}
+\begin{tabular}{llll}
+I. $\Lim{(x,y)}{(0,0)} \frac{x^2-4y^2}{x-2y}$ \hspace{3mm} &II. $\Lim{(x,y)}{(0,0)} \frac{x^2-y^2}{x^2+2y^2}$ \hspace{3 mm} &III. $\Lim{(x,y)}{(0,0)} \frac{x^2+xy^3+2y^6}{4x^2+8y^6}$
+\end{tabular}
+\end{center}
+
+\begin{freeResponse}
+We will try old techniques first.
+
+I. For $\Lim{(x,y)}{(0,0)} \frac{x^2-4y^2}{x-2y}$, note that substituting gives the indeterminate form $\frac{0}{0}$.  However, notice
+
+\begin{align*}
+\frac{x^2-4y^2}{x-2y} & = \frac{(x-2y)(x+2y)}{x-2y} .
+\end{align*}
+
+The path $x-2y = 0$ is not in the domain of the function, but notice that at any point $(x,y)$ that is not along this path, no matter how close we are to $(0,0)$, we have $x-2y \neq 0$, so
+
+\begin{align*}
+\Lim{(x,y)}{(0,0)} \frac{x^2-4y^2}{x-2y} & = \Lim{(x,y)}{(0,0)} \frac{\cancel{(x-2y)}(x+2y)}{\cancel{x-2y}}\\
+&=   \Lim{(x,y)}{(0,0)} (x+2y) \\
+&= 0
+\end{align*}
+
+II. Direct substitution and factoring will not help us here, but we can look for two different paths along which the function tends to different values. 
+
+\begin{itemize}
+\item Along $x=0$, note that $f(x,y) = f(0,y) = \frac{-y^2}{2y^2} $, so $f(x,y)$ approaches $-\frac{1}{2}$ as $(x,y) \to (0,0)$ along $x=0$.
+\item Along $y=0$, note that $f(x,y) = f(x,0) = \frac{x^2}{x^2} $, so $f(x,y)$ approaches $1$ as $(x,y) \to (0,0)$ along $y=0$.
+\end{itemize}
+Since $f(x,y)$ approaches different values as $(x,y) \to (0,0)$ along different paths,  $\Lim{(x,y)}{(0,0)} \frac{x^2-y^2}{x^2+2y^2}$ does not exist.
+
+III. We can try the same approach as in the last problem.
+
+\begin{itemize}
+\item Along $x=0$, note that $f(x,y) = f(0,y) = \frac{2y^9}{8y^6} $, so $f(x,y)$ approaches $\frac{1}{4}$ as $(x,y) \to (0,0)$ along $x=0$.
+\item Along $y=0$, note that $f(x,y) = f(x,0) = \frac{x^2}{4x^2} $, so $f(x,y)$ approaches $\frac{1}{4}$ as $(x,y) \to (0,0)$ along $y=0$.
+\end{itemize}
+
+Note that this does \emph{not} tell us that the limit exists; in order to conclude that, we must verify that the function tends to the same value along \emph{any} path.
+
+We can notice that the choice $x=y^3$ will allow for cancellation, so let's analyze along this path.
+
+\[
+f(x,y) = f(y^3,y) = \frac{\left(y^3\right)^2+\left(y^3\right)y^3+2y^6}{4\left(y^3\right)^2+8y^6} = \frac{4y^6}{12y^6} = \frac{1}{3}, y \neq 0.
+\]
+
+Thus, $f(x,y)$ approaches $\frac{1}{3}$ as $(x,y) \to (0,0)$ along $x=y^3$.  Since $f(x,y)$ approaches different values as $(x,y) \to (0,0)$ along different paths,  $\Lim{(x,y)}{(0,0)} \frac{x^2+xy^3+2y^6}{4x^2+8y^6}$ does not exist.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Consider the function $f(x,y) = \frac{x+2y}{4x-3y}$.
+
+I. Show that $f(x,y) \to \frac{1}{4}$ as $(x,y) \to (0,0)$ along $y=0$ but $f(x,y) \to 3$ as $(x,y) \to (0,0)$ along $y=x$.  
+
+II. Show that the value $f(x,y)$ approaches as $(x,y) \to (0,0)$ along $y=mx$ depends on the value of $m$.  To check your answer, verify that your answers to Part I can be obtained from the appropriate choice of $m$.
+
+III. Does $\Lim{(x,y)}{(0,0)} f(x,y)$ exist?  Is $f(x,y)$ continuous at $(0,0)$?
+
+\begin{freeResponse}
+
+I. Note that along $y=0$, we have $f(x,y) = \frac{x}{4x}$, so $f(x,y) \to \frac{1}{4}$ as $(x,y) \to (0,0)$ along $y=0$.
+
+Along $y=x$, $f(x,y) = \frac{x+2x}{4x-3x} = \frac{3x}{x}$, so $f(x,y) \to 3$ as $(x,y) \to (0,0)$ along $y=x$.
+
+II. Along $y=mx$, $f(x,y) = \frac{x+2mx}{4x-3mx} = \frac{(1+2m)x}{(4-3m)x}$, so $f(x,y) \to \frac{1+2m}{4-3m}$ as $(x,y) \to (0,0)$ along $y=mx$.
+
+Note that we can recover our answers to the first part; when $y=0$, we have $m=0$ and when $y=x$, we have $m=1$.  Substituting these into the formula we just obtained recovers the results from Part I.
+
+III. $\Lim{(x,y)}{(0,0)} f(x,y)$ does not exist; for it to exist, the function must tend to the same value along \emph{every} path.  
+
+\begin{itemize}
+\item Using the result from Part I only, we find that the function approaches different values along two different paths, so $\Lim{(x,y)}{(0,0)} f(x,y)$ does not exist.
+\item Using the result from Part II only, we find that the value the function approaches depends on $m$ as $(x,y) \to (0,0)$ along $y=mx$, so $\Lim{(x,y)}{(0,0)} f(x,y)$ does not exist.
+\end{itemize}
+
+Since $\Lim{(x,y)}{(0,0)} f(x,y)$ does not exist, $f(x,y)$ is not continuous at $(0,0)$.
+
+\begin{remark}
+Note that the outputs of $f(x,y)$ are constant along $y=mx$, meaning that we have shown that each path $y=mx$ is part of a different level curve of the function $f(x,y)$.  
+
+In the first approach, we were lucky in some sense in that we were able to find two explicit paths fairly easily, whereas in the second approach, developing a good feel for the function leads us to take the more geometric approach to search for level curves.  This intuition is important to develop when analyzing limits of functions of several variables.  Many problems on this handout give practice to this end.
+\end{remark}
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Suppose $f(x,y) =  \begin{cases} \frac{x^2y}{x^4+y^2} , & (x,y) \neq (0,0) \\[2 ex] \quad ~ 0, & (x,y)=(0,0) \end{cases} $ . 
+
+I. State the domain of $f(x,y)$.
+
+II. Show that $f(x,y) \to 0$ as $(x,y) \to (0,0)$ along $y=mx$ for every choice of $m$.  Can this be used to conclude that $\Lim{(x,y)}{(0,0)} f(x,y)$ exists?
+
+III. Show that the value $f(x,y)$ approaches as $(x,y) \to (0,0)$ along $y=mx^2$ depends on the value of $m$.  
+
+\begin{freeResponse}
+I. The domain is $\R^2$; the top piece is only not defined where $x^4+y^2 =0$, which occurs only when $(x,y)=(0,0)$.  However, the bottom piece defines the function in this instance.
+
+II. Along $y=mx$, we have
+
+\[
+f(x,y)=f(x,mx) = \frac{x^2(mx)}{x^4+(mx)^2} = \frac{x^2 \cdot mx}{x^2 \cdot (x^2+m^2)} = \frac{mx}{x^2+m^2} , x \neq 0.
+\]
+
+Note that if $m=0$, we have that $f(x,0) = 0$ from the above.  Otherwise, taking $x \to 0$, we find that $f(x,y)$ approaches $0$ as  $(x,y) \to (0,0)$ along $y=mx$.
+
+This is \emph{not} enough to conclude that the limit exists; we must show that $f(x,y)$ approaches the same value along \emph{every} path, not just straight line paths.  What we can conclude is that \emph{if} the limit exists, it must be $0$.
+
+\begin{remark}
+Note that if $x=0$ (which should correspond to taking $m \to \infty$) also gives a path along which $f(x,y) \to 0$ as $(x,y) \to (0,0)$.  This can be seen by either writing out $f(0,y)$ or taking $m \to \infty$ in the expression for $f(x,mx)$.
+\end{remark}
+
+III. Note that along $y=mx^2$, we can make each term have the same exponent; we have
+
+\[
+f(x,y)=f(x,mx^2) = \frac{x^2(mx^2)}{x^4+(mx^2)^2} = \frac{mx^4}{x^4+m^2x^4} = \frac{m}{1+m^2} , x \neq 0.
+\]
+
+We thus find that $f(x,y)$ approaches $ \frac{m}{1+m^2}$ as  $(x,y) \to (0,0)$ along $y=mx^2$.  Since the value the function approaches depends on the choice of $m$, $\Lim{(x,y)}{(0,0)} f(x,y)$ does not exist.
+
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Consider the function $f(x,y) =  \begin{cases} 2x+3y , & x+2y \neq 4 \\[2 ex] \frac{4x-2y}{x^2+y^2} , & x+2y=4 \end{cases} $ . 
+
+Determine whether the following are true or false and explain your response.
+
+I. $\Lim{(x,y)}{(1,1)}f(x,y) = \Lim{(x,y)}{(1,1)} (2x+3y) = 5$.
+
+II. $\Lim{(x,y)}{(2,1)}f(x,y) = \Lim{(x,y)}{(2,1)}  \frac{4x-2y}{x^2+y^2} = \frac{6}{5}$.
+
+III. $f(x,y)$ is not continuous at $(0,0)$.
+
+\begin{freeResponse}
+Think carefully about what piece of the function can be used for each part.
+
+I. True; when $(x,y)=(1,1)$, note that $x+2y=3$, so for any point $(x,y)$ sufficiently close to $(1,1)$, we have $f(x,y) = 2x+3y$.
+
+II. False; when $(x,y)=(2,1)$, note that $x+2y=4$.  
+
+\begin{itemize}
+\item Note that if we approach $(2,1)$ along the line $x+2y=4$, the function will approach $\frac{6}{5}$.
+\item However, we can approach $(2,1)$ along the line $x=2$, and as long as we are close to $(2,1)$, but not \emph{at} $(2,1)$, we have $f(x,y) = 2x+3y$, so the function will approach $5$ as $(x,y) \to (2,1)$ along this path.
+\end{itemize}
+
+Since the function approaches different values along these different paths, $\Lim{(x,y)}{(2,1)}f(x,y)$ does not exist.
+
+III. False; for all $(x,y)$ sufficiently close to $(0,0)$, $f(x,y) = 2x+3y$ so $\Lim{(x,y)}{(0,0)}f(x,y) = \Lim{(x,y)}{(0,0)} \big(2x+3y\big) =0$.  Since $f(0,0) = 2(0)+3(0) = 0$, $f(x,y)$ is continuous at $(0,0)$.
+
+
+\end{freeResponse}
+\end{problem}
+
+
+
+
+\end{document}

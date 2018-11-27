@@ -1,0 +1,442 @@
+\documentclass[handout]{ximera}
+
+%/usr/local/texlive/2017/texmf-dist/tex/latex/ximeraLatex-master/ximera.cls
+
+\input{../preamble.tex}
+\author{Alex Beckwith and Jim Talamo}
+\title{Volume by Slicing}  
+
+\begin{document}
+\begin{abstract}		
+\end{abstract}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PROBLEM 1
+\section{Discussion Questions:}
+\begin{problem}
+Consider the region in the first quadrant bounded above by $y = 4-x^2$. Without evaluating any integrals, determine which of the following solids has the largest volume.
+\begin{enumerate}
+	\item the solid whose cross-sections parallel to the $x$-axis are isosceles right triangles with hypotenuse on the base.
+	\item the solid whose cross-sections parallel to the $x$-axis are squares.
+	\item the solid whose cross-sections parallel to the $x$-axis are semicircles.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%
+\begin{freeResponse}
+All three solids have the same base, so the solid with the largest volume is the solid whose cross-sections have the greatest area. Of these, the square (b) has the greatest area, followed by the semicircle, (c) then the isosceles right triangle with hypotenuse on the base. To see this, note that if the base of the square, semicircle, and isosceles right triangle each have length $\ell$, then their areas are $\ell^2$, $\frac{\pi \ell^2}{8}$, and $\frac{\ell^2}{4}$, respectively. Since $1 > \frac{\pi}{8} > \frac{1}{4}$, the solids from largest to smallest are as indicated above.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PROBLEM 2
+\begin{problem}	
+Without evaluating any integrals, determine which of the following solids has the largest volume. Each of the solids has cross-sections perpendicular to the $y$-axis that are isosceles right triangles with legs on the base.
+\begin{enumerate}
+	\item the solid whose base is the region in the first quadrant bounded above by $y = 4-x^2$
+	\item the solid whose base is the region in the first quadrant bounded above by $y = 4-4x^2$
+	\item the solid whose base is the region in the first quadrant bounded above by $y=1$ and to the right by $x=6$
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%
+\begin{freeResponse}
+Note that the base for the solid in (b) fits entirely inside the base for the solid in (b). Since the cross-sections of all three solids are the same shape, this means that the solid in (b) fits entirely inside the solid in (a), so we only need to compare solids (a) and (c). 
+
+To do this without using any integrals, instead compare solid (a) to a different solid that is slightly bigger, but possibly smaller than solid (c) still. Consider the solid whose base is the region in the first quadrant bounded by $y=4$ and $x=2$, again with cross-sections perpendicular to the $y$-axis that are isosceles right triangles with legs on the base. Solid (a) has volume no larger than this new solid, which has volume $\frac12 (\text{base})(\text{height})(\text{length}) = \frac12  (2)^2 4 = 8$.
+
+Meanwhile, solid (c) has volume $\frac12 (\text{base})(\text{height})(\text{length}) = \frac12 (6)^2 1 = 18$. Thus solid (c) is the largest.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PROBLEM 3
+\begin{problem}	
+A solid with known cross-sections is described below.  Determine whether an integral or sum of integrals with respect to $x$ or $y$ should be used to find the volume.  Then, determine the minimum number of integrals required to compute the volume.
+\begin{enumerate}
+\item the solid whose base is the region below and whose cross-sections perpendicular to the $y$-axis are squares.	
+\item the solid whose base is the region below and whose cross-sections parallel to the $x$-axis are semicircles.
+\end{enumerate}
+
+\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART A
+		\begin{axis}[
+			domain=-1:6.3, ymax=1.6,xmax=5.3, ymin=-1.5, xmin=-.5,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth] {sin(deg(x))};
+		\addplot [draw=penColor2,very thick,smooth] {cos(deg(x))};
+      
+		\addplot [name path=A,domain=0.78:3.93,draw=none] {sin(deg(x))};   
+		\addplot [name path=B,domain=0.78:3.93,draw=none] {cos(deg(x))};  
+		\addplot [fillp] fill between[of=A and B];
+	                      
+		\node at (axis cs:1,-.5) [penColor2] {$y=\cos(x)$};
+		\node at (axis cs:1.57,1.25) [penColor] {$y=\sin(x)$};
+		
+		\node at (axis cs:3,-1.4) [penColor] {The region for $(a)$};
+		\end{axis}
+	\end{tikzpicture} } 
+	\qquad \resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART B
+		\begin{axis}[
+			domain=-1:6.3, ymax=9.9,xmax=6, ymin=-1.85, xmin=-1,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth] {x-1};
+		\addplot [draw=penColor2,very thick,smooth] {(-1)*x*x+4*x+5};
+      
+		\addplot [name path=A,domain=0:1,draw=none] {0};   
+		\addplot [name path=B,domain=0:1,draw=none] {(-1)*x*x+4*x+5};   
+		\addplot [name path=C,domain=0.98:4.37,draw=none] {x-1};  
+		\addplot [name path=D,domain=0.98:4.37,draw=none] {(-1)*x*x+4*x+5};  
+		\addplot [fillp] fill between[of=A and B];	
+		\addplot [fillp] fill between[of=C and D];
+		
+		\node at (axis cs:3,1) [penColor2] {$y =x-1$};
+		\node at (axis cs:3.75,9.45) [penColor] {$y=-x^2+4x+5$};
+		\node at (axis cs:2.5,-1.5) [penColor] {The region for $(b)$};
+	                      
+		\end{axis}
+	\end{tikzpicture}}
+\end{center}
+		
+%	\item the solid whose base is the region above and whose cross-sections parallel to the $y$-axis are semicircles.	
+
+%	\begin{tikzpicture}	%IMAGE FOR PART C
+%		\begin{axis}[
+%			domain=-1:6.3, ymax=3,xmax=5, ymin=-1.35, xmin=-1,
+%			axis lines =center, xlabel=$x$, ylabel=$y$,
+%			every axis y label/.style={at=(current axis.above origin),anchor=south},
+%			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+%			axis on top,
+%			]
+%   
+%		\addplot [draw=penColor,very thick,smooth] {ln(x)};
+%		\addplot [draw=penColor2,very thick,smooth] {ln(x-1)};
+%		\addplot [draw=penColor3,very thick,smooth] coordinates {(4,-1)(4,5)};
+%      
+%		\addplot [name path=A,domain=1:2,draw=none] {0};   
+%		\addplot [name path=B,domain=1:2,draw=none] {ln(x)};   
+%		\addplot [name path=C,domain=1.98:4,draw=none] {ln(x)};  
+%		\addplot [name path=D,domain=1.98:4,draw=none] {ln(x-1)};  
+%		\addplot [fillp] fill between[of=A and B];	
+%		\addplot [fillp] fill between[of=C and D];
+%		
+%		\node at (axis cs:2,1.3) [penColor2] {$y =\ln(x)$};
+%		\node at (axis cs:2.75,-0.75) [penColor] {$y=\ln(x-1)$};
+%		\node at (axis cs:2,-1.2) [penColor] {$(c)$};
+%	                      
+%		\end{axis}
+%	\end{tikzpicture}
+%	\end{image}
+
+%%%%%%%%%%%%%%%%%%%
+\begin{freeResponse}
+\begin{enumerate}
+	\item The cross-sections for this solid are squares perpendicular to the $y$-axis, so as $y$ varies, the length of the base of the squares varies. Thus the integral(s) will be with respect to $y$. As we let $y$ vary, the right-most curve and left-most curve change at the $y$-values where $y = \sin(x)$ and $y = \cos(x)$ intersect. We will need three integrals, one for each of the regions depicted below.
+	\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART A
+		\begin{axis}[
+			domain=-1:6.3, ymax=1.6,xmax=5.3, ymin=-1.5, xmin=-.5,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth] {sin(deg(x))};
+		\addplot [draw=penColor2,very thick,smooth] {cos(deg(x))};
+      
+		\addplot [name path=A,domain=0.78:2.3562,draw=none] {sin(deg(x))};   
+		\addplot [name path=B,domain=0.78:2.3562,draw=none] {cos(deg(x))};  
+		\addplot [name path=C,domain=0.78:2.3562,draw=none] {0.7071};
+		
+		\addplot [name path=D,domain=2.355:3.93,draw=none] {-0.7071};
+		\addplot [name path=E,domain=2.355:3.93,draw=none] {sin(deg(x))}; 
+		\addplot [name path=F,domain=2.355:3.93,draw=none] {cos(deg(x))}; 
+		
+		\addplot [fillp] fill between[of=A and C];
+		\addplot [penColor,opacity=0.35] fill between[of=C and B];
+		\addplot [penColor,opacity=0.35] fill between[of=E and D];
+		\addplot [penColor2,opacity=0.35] fill between[of=D and F];
+	                      
+		\node at (axis cs:1,-.5) [penColor2] {$y=\cos(x)$};
+		\node at (axis cs:1.57,1.25) [penColor] {$y=\sin(x)$};
+		
+		\node at (axis cs:3,-1.4) [penColor] {The region for $(a)$};
+		\end{axis}
+	\end{tikzpicture} } 
+	\end{center}
+	\item The cross-sections for this solid are semicircles parallel to the $x$-axis, so as $y$ varies, the length of the base of the semicircle varies. Thus the integral(s) will be with respect to $y$. As we let $y$ vary, the right-most curve and left-most curve change at the $y$-values where $y = -x^2+4x+5$ and $y = x-1$ intersect, and also where $y=-x^2+4x+5$ intersects the $y$-axis. We will need three integrals, one for each of the regions depicted below.
+	\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART B
+		\begin{axis}[
+			domain=-1:6.3, ymax=9.9,xmax=6, ymin=-1.85, xmin=-1,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth] {x-1};
+		\addplot [draw=penColor2,very thick,smooth] {(-1)*x*x+4*x+5};
+      
+		\addplot [name path=A,domain=0:1,draw=none] {0};   
+		\addplot [name path=B,domain=0:1,draw=none] {3.37};  
+		\addplot [name path=C,domain=1:4.37,draw=none] {x-1};   
+		\addplot [name path=D,domain=1:4.37,draw=none] {3.37}; 
+		   
+		\addplot [name path=E,domain=0:4,draw=none] {3.37};   
+		\addplot [name path=F,domain=0:4,draw=none] {5};   
+		\addplot [name path=G,domain=4:4.37,draw=none] {3.37};   
+		\addplot [name path=H,domain=4:4.37,draw=none] {(-1)*x*x+4*x+5}; 
+		
+		\addplot [name path=I,domain=0:4,draw=none] {5};  
+		\addplot [name path=J,domain=0:4,draw=none] {(-1)*x*x+4*x+5};  
+		
+		\addplot [fillp] fill between[of=A and B];
+		\addplot [fillp] fill between[of=C and D];
+			
+		\addplot [penColor,opacity=0.35] fill between[of=E and F];
+		\addplot [penColor,opacity=0.35] fill between[of=G and H];
+		
+		\addplot [penColor2,opacity=0.35] fill between[of=I and J];
+		
+		
+		\node at (axis cs:3,1) [penColor2] {$y =x-1$};
+		\node at (axis cs:3.75,9.45) [penColor] {$y=-x^2+4x+5$};
+		\node at (axis cs:2.5,-1.5) [penColor] {The region for $(b)$};
+	                      
+		\end{axis}
+	\end{tikzpicture} } 
+	\end{center}
+\end{enumerate}
+\end{freeResponse}
+\end{problem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Group work:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PROBLEM 4
+\begin{problem}	
+Set up the integral(s) required in order to compute the volume of the following solids. Do not evaluate.
+\begin{enumerate}
+	\item the solid whose base is the region bounded between $y= x^2+5$ and $y = 8x-2$ and whose cross-sections parallel to the $y$-axis are squares
+	\item the solid whose base is the region bounded between $y= \sqrt{3-x}$ and $y = \frac{1}{\sqrt{x+3}}$ and whose cross-sections perpendicular to the $x$-axis are equilateral triangles
+%	\item the solid whose base is the region in the upper half-plane bounded between $y = \log(x+1)$ and $y = 2\log(5-x)$ and whose cross-sections parallel to the $y$-axis are semicircles
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%
+\begin{freeResponse}
+\begin{enumerate}
+	\item The region that forms the base of the solid is depicted below. The cross-sections are parallel to the $y$-axis, so the integral will be with respect to $x$. 
+	\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART A
+		\begin{axis}[
+			domain=-1:8, ymax=75,xmax=8, ymin=-10, xmin=-1,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth] {8*x-2};
+		\addplot [draw=penColor2,very thick,smooth] {x*x+5};
+      
+		\addplot [name path=A,domain=1:7,draw=none] {8*x-2};   
+		\addplot [name path=B,domain=1:7,draw=none] {x*x+5};   
+		\addplot [fillp] fill between[of=A and B];	
+		
+		\node at (axis cs:6,20) [penColor] {$y =x^2+5$};
+		\node at (axis cs:3,40) [penColor] {$y=8x-2$};
+		\node at (axis cs:4,65) [penColor] {The region for $(a)$};
+	                      
+		\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	To set up the integral, we need to find the $x$-values where $y = x^2+5$ and $y=8x-2$ intersect. Set $x^2+5 = 8x-2$ and solve for $x$:
+	\[
+	x^2+5 = 8x-2 \quad\Rightarrow\quad x^2-8x+7=0 \quad \Rightarrow\quad x=1, x=7.
+	\]
+	The cross-sections are squares, so each has area 
+	\[
+	\text{Area} = \left(\left(8x-2\right) - \left(x^2+5 \right) \right)^2 = \left(-x^2+8x -7 \right)^2.
+	\]
+	Putting everything together, the integral that gives the volume of the solid is
+	\[
+	\int_1^7  \left(-x^2+8x -7 \right)^2 \d x
+	\]
+	\item The region that forms the base of the solid is depicted below. The cross-sections are perpendicular to the $x$-axis, so the integral will be with respect to $x$. 
+	\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART B
+		\begin{axis}[
+			domain=-4:4, ymax=4,xmax=4, ymin=-2, xmin=-4,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth,samples=150] {sqrt(3-x)};
+		\addplot [draw=penColor2,very thick,smooth,samples=150] {1/(sqrt(x+3))};
+		\addplot [draw=penColor,very thick,smooth,domain=2.5:3,samples=50] {sqrt(3-x)}; 
+      
+		\addplot [name path=A,domain=-2.83:2.83,draw=none,samples=150] {sqrt(3-x)};   
+		\addplot [name path=B,domain=-2.83:2.83,draw=none,samples=150] {1/(sqrt(x+3))};   
+		\addplot [fillp] fill between[of=A and B];	
+		
+		\node at (axis cs:2,2) [penColor] {$y =\sqrt{3-x}$};
+		\node at (axis cs:-2.5,0.5) [penColor] {$y=\frac{1}{\sqrt{x+3}}$};
+		\node at (axis cs:0,-1) [penColor] {The region for $(b)$};
+	                      
+		\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	To set up the integral, we need to find the $x$-values where $y = \sqrt{3-x}$ and $y=\frac{1}{\sqrt{x+3}}$ intersect. Set $\sqrt{3-x} = \frac{1}{\sqrt{x+3}}$ and solve for $x$:
+	\[
+	\sqrt{3-x} = \frac{1}{\sqrt{x+3}} \quad\Rightarrow\quad 3-x = \frac{1}{x+3} \quad \Rightarrow\quad -x^2+9 = 1 \quad\Rightarrow\quad x= \pm \sqrt{8}
+	\]	
+	The cross-sections are equilateral triangles, so each has area $\text{Area} = \frac12 (\text{base})(\text{height})$. To determine the height of an equilateral triangle, recall that each of the interior angles is $\frac{\pi}{3}$, so the height is the length of the longer leg of a 30-60-90 triangle:
+	\begin{center}
+	\resizebox {3cm} {!} {\begin{tikzpicture}
+		\draw[color=penColor,very thick] (0,0) node	{}
+			-- (4,0) node	{}
+			-- (2,3.464) node	{}
+			-- cycle;
+		\draw[color=penColor2,very thick] (2,0) node	{}
+			-- (2,3.464) node	{};
+		\node[anchor=east] at (1,1.732) [penColor] {$\ell$};
+		\node[anchor=west] at (2,1.732) [penColor] {$\frac{\ell\sqrt{3}}{2}$};
+		\node[anchor=north] at (1,0) [penColor] {$\frac{\ell}{2}$};
+	\end{tikzpicture}}	
+	\end{center}
+	Thus the area of a cross-section of this solid is
+	\[
+	\text{Area} = \frac12 (\text{height})(\text{base}) = \frac{1}{2} \left(\frac{\sqrt{3}}2\right)\left(\sqrt{3-x} - \frac{1}{\sqrt{x+3}} \right) \left(\sqrt{3-x} - \frac{1}{\sqrt{x+3}} \right).
+	\]
+	Putting everything together, the integral that gives the volume of the solid is
+	\[
+	\frac{\sqrt{3}}{4} \int_{-\sqrt{8}}^{\sqrt{8}}  \left(\sqrt{3-x} - \frac{1}{\sqrt{x+3}}\right)^2 \d x
+	\]
+\end{enumerate}
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%PROBLEM 5
+\begin{problem}
+Set up and evaluate the integral(s) required in order to compute the volume of the following solids.
+\begin{enumerate}
+	\item the solid whose base is the region with $0 \leq x \leq 4$ bounded above by $y= 6\sqrt{x}+1$, and whose cross-sections with respect to $x$ are squares.
+	\item the solid whose base is the region bounded between by $y= \cos(x)$ and $y = \sin(x)$ with $0 \leq x \leq 2\pi$ and whose cross-sections with respect to $x$ are isosceles right triangles with legs on the base 
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%
+\begin{freeResponse}
+\begin{enumerate}
+	\item The region that forms the base of the solid is depicted below. The cross-sections are with respect to $x$, so the integral will be with respect to $x$. 
+	\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART A
+		\begin{axis}[
+			domain=-1:5, ymax=14,xmax=5, ymin=-4, xmin=-1,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth,samples=150] {6*sqrt(x)+1};
+		\addplot [draw=penColor,very thick,smooth,domain=0:1,samples=50] {6*sqrt(x)+1}; 
+		\addplot [draw=penColor2,very thick,smooth] coordinates {(4,-1)(4,14)};
+      
+		\addplot [name path=A,domain=0:4,draw=none,samples=150] {6*sqrt(x)+1};   
+		\addplot [name path=B,domain=0:4,draw=none] {0};   
+		\addplot [fillp] fill between[of=A and B];	
+		
+		\node at (axis cs:2,12) [penColor] {$y =6\sqrt{x}+1$};
+		\node at (axis cs:2,-2) [penColor] {The region for $(a)$};
+	                      
+		\end{axis}
+	\end{tikzpicture}}
+	\end{center}
+	The cross-sections are squares, so each has area 
+	\[
+	\text{Area} = \left( 6\sqrt{x}+1\right)^2 = 36 x + 12\sqrt{x} +1.
+	\]
+	Now we evaluate the integral the gives the volume of the solid:
+	\begin{align*}
+		\int_0^4  \left( 36x + 12\sqrt{x} +1 \right) \d x	&=	\left[ 18 x^2 + 8 x^{\frac 32} +x \right]_0^4 = 356.
+	\end{align*}
+	\item Note that this solid has the same base as the solid in part (a) of Problem 3, but here the cross-sections are with respect to $x$, so the integral will be with respect to $x$. Consequently, we will only need one integral.
+	\begin{center}
+	\resizebox {5cm} {!} {\begin{tikzpicture}	%IMAGE FOR PART B
+		\begin{axis}[
+			domain=-1:6.3, ymax=1.6,xmax=5.3, ymin=-1.5, xmin=-.5,
+			axis lines =center, xlabel=$x$, ylabel=$y$,
+			every axis y label/.style={at=(current axis.above origin),anchor=south},
+			every axis x label/.style={at=(current axis.right of origin),anchor=west},
+			axis on top,
+			]
+   
+		\addplot [draw=penColor,very thick,smooth] {sin(deg(x))};
+		\addplot [draw=penColor2,very thick,smooth] {cos(deg(x))};
+      
+		\addplot [name path=A,domain=0.78:3.93,draw=none] {sin(deg(x))};   
+		\addplot [name path=B,domain=0.78:3.93,draw=none] {cos(deg(x))};  
+		\addplot [fillp] fill between[of=A and B];
+	                      
+		\node at (axis cs:1,-.5) [penColor2] {$y=\cos(x)$};
+		\node at (axis cs:1.57,1.25) [penColor] {$y=\sin(x)$};
+		
+		\node at (axis cs:3,-1.4) [penColor] {The region for $(b)$};
+		\end{axis}
+	\end{tikzpicture} } 
+	\end{center}
+	To set up the integral, we need to find the values of $x$ where $y = \sin(x)$ and $y = \cos(x)$ intersect. Setting $\sin(x)=\cos(x)$, we find that $x= \frac{\pi}{4} + n \pi$, where $n$ is any integer. Since the base has $x$-values with $0 \leq x \leq 2\pi$, the two intersection points occur when $x= \frac{\pi}{4}$ and $x= \frac{5\pi}{4}$. 
+	
+	The cross-sections are isosceles right triangles with legs on the base, so each has area 
+	\[
+	\text{Area} = \frac12 \left( \sin(x) - \cos(x) \right)^2 = \frac12 \sin^2(x) - \sin(x)\cos(x) + \frac12 \cos^2(x).
+	\]
+	Now we evaluate the integral the gives the volume of the solid:
+	\begin{align*}
+		\int_{\frac \pi 4}^{\frac{5\pi}{4}} &\left( \frac12 \sin^2(x) - \sin(x)\cos(x) + \frac12 \cos^2(x)\right) \d x	\\	
+			&=	\frac12 \int_{\frac \pi 4}^{\frac{5\pi}{4}} \left(  \sin^2(x) +\cos^2(x) \right) \d x-  \int_{\frac \pi 4}^{\frac{5\pi}{4}} \sin(x)\cos(x)  \d x 	\\
+			&=	\frac12 \int_{\frac \pi 4}^{\frac{5\pi}{4}} \d x -  \int_{\frac \pi 4}^{\frac{5\pi}{4}} \sin(x)\cos(x)  \d x \\
+			&=	\frac{\pi}{2} -  \int_{\frac \pi 4}^{\frac{5\pi}{4}} \sin(x)\cos(x)  \d x .
+	\end{align*}
+	To evaluate the last integral, we make the substitution $u = \sin(x)$, so that $\d u = \cos(x) \d x$. Then 
+	\[
+	 \int_{\frac \pi 4}^{\frac{5\pi}{4}} \sin(x)\cos(x)  \d x  = \int_{\frac{1}{\sqrt{2}}}^{-\frac{1}{\sqrt{2}}} u du = 0.
+	\]
+	Thus we conclude that the volume of the solid is $\frac{\pi}{2}$.
+\end{enumerate}
+\end{freeResponse}
+\end{problem}
+
+%\begin{problem}		%PROBLEM 6
+%Set up and evaluate the integral(s) required in order to compute the volume of the following solids.
+%\begin{enumerate}
+%	\item the solid whose base is the region between $x=1$ and $x=5-y^2$ whose cross-sections parallel to the $x$-axis are circles
+%	\item the solid whose cross-sections parallel to the $x$-axis from are circles with radius from $x=1$ to $x = 5-y^2$
+%\end{enumerate}
+%\end{problem}
+
+\end{document} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,50 +1,55 @@
 \documentclass{ximera}
 
 \input{../../preamble.tex}
+\input{../../sage-preamble.tex}
 
-
-\author{Jim Talamo}
+\author{Jim Fowler}
 
 \outcome{Compute the partial derivative of an expression.}
-\newcommand{\Pp}[2]{\frac{\partial #1}{\partial #2}}
 
 \begin{document}
+\makerandom
+\begin{sagesilent}
+  vs = ['x','y','z','t','w']
+  shuffle(vs)
+  x = var(vs[0])
+  y = var(vs[1])
+  z = var(vs[2])
+  t = var(vs[3])  
 
-This exercise gives mechanical practice calculating partial derivatives for exponentials, logarithms, and trigonometric functions.
+  def random_expression(depth):
+    if depth == 0:
+      return [x,x,x,y,z,t,1,-1][randint(0,7)]
+    else:
+      possible = [
+        lambda: random_expression(depth-1) + random_expression(depth-1),
+        lambda: random_expression(depth-1) - random_expression(depth-1),
+        lambda: random_expression(depth-1) * random_expression(depth-1),
+        lambda: random_expression(depth-1) / random_expression(depth-1),
+        lambda: sin(random_expression(depth-1)),
+        lambda: cos(random_expression(depth-1)),
+        lambda: exp(random_expression(depth-1))
+      ]
+      result = possible[randint(0,len(possible)-1)]()
+      if result.is_zero():
+        result = 1
+      return result
+
+  f = random_expression(3)
+  while (derivative(f,x).is_zero()) or (len(latex(derivative(f,x))) > 50) or (len(f.variables()) < 2):
+    f = random_expression(randint(1,3))
+  
+\end{sagesilent}
+
 \begin{exercise}
 
+  Compute $\frac{\partial}{\partial\sage{x}} \left( \sage{f} \right)$.
 
-If $f(x,y) = \ln(2x+3y^2)$, then $\Pp{f}{x} = \answer{\frac{2}{2x+3y^2}}$.
-
-\begin{hint}
-To compute the partial derivative with respect to $x$, we will treat all other variables as constants and differentiate expressions that explicitly depend on $x$ the same way we would before.
-
-\[
-\Pp{f}{x} = \pp{x}\left[ 4x+3y^2 \right] =\pp{x}\left[ 4x \right] +\pp{x}\left[ 3y^2 \right] = 4 + 0
-\]
-\end{hint}
-
+  \begin{prompt}
+    \[
+      \frac{\partial}{\partial\sage{x}} \left( \sage{f} \right) = \answer{\sage{derivative(f,x)}}.
+    \]
+  \end{prompt}
+  
 \end{exercise}
-
-%%%%%%%%%%%%%%%%%%%%%
-
-\begin{exercise}
-If $f(x,y) = 12xy^5$, then $\Pp{f}{y} = \answer{60xy^4}$.
-
-\begin{hint}
-To compute the partial derivative with respect to $y$, we will treat all other variables as constants and differentiate expressions that explicitly depend on $x$ the same way we would before.
-
-\[
-\Pp{f}{x} = \pp{x}\left[ 12xy^5 \right] =12x \cdot \pp{x}\left[ y^5 \right] = 12x \cdot 5y^4
-\]
-\end{hint}
-
-\end{exercise}
-
-%%%%%%%%%%%%%%%%%%%%%
-
-\begin{exercise}
-If $f(x,y) = x^3+4x^2y^7+5y^6+7$, then $\Pp{f}{x} = \answer{3x^2+8xy^7}$ and $\Pp{f}{y} = \answer{28x^2y^6+30y^5}$.
-\end{exercise}
-
 \end{document}

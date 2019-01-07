@@ -24,14 +24,14 @@
 %\end{image}
 
 %add a ``.'' below when used in a specific directory.
-\input{../../../preamble.tex} %% we can turn off input when making a master document
+\input{../preamble.tex} %% we can turn off input when making a master document
 
 
-\title{Section 7.2: Integration By Parts}  
+\title{Integration By Parts}  
 
 \begin{document}
 \begin{abstract}		\end{abstract}
-\author{Tom Needham}
+\author{Tom Needham and Jim Talamo}
 
 \outcome{Apply the Integration by Parts technique to evaluate definite and indefinite integrals.}
 \maketitle
@@ -43,14 +43,10 @@
 
 
 \begin{problem}
-A student evaluates the integral 
-$$
-\int_0^1 x e^x \d x
-$$
-via Integration by Parts with $u=x$, $\d v = e^x \d x$ as follows:
-$$
+A student evaluates the integral $\int_0^1 x e^x \d x$ via Integration by Parts with $u=x$, $\d v = e^x \d x$ as follows:
+\[
 \int_0^1 x e^x \d x = x e^x - \int_0^1 e^x \d x = x e^x + \eval{e^x}_0^1 = x e^x + e^1 - e^0 = xe^x + e -1.
-$$
+\]
 Is the student's work correct?
 \end{problem}
 
@@ -90,7 +86,7 @@ The second term can be evaluated by applying Integration by Parts once more with
 Evaluate the following integrals
 \begin{center}
 \begin{tabular}{lll}
-I. $\int_1^3 x^2 e^{2x} \d x$ \hspace{0.2in} & II. $\int \arcsin(x) \d x$  \hspace{0.2in} & III. $\int x^{\frac{5}{3}} (\ln x)^2 \d x$.
+I. $\int_1^3 x^2 e^{2x} \d x$ \hspace{0.2in} & II. $\int \arcsin(x) \d x$  \hspace{0.2in} & III. $\int x\sin\left(\frac{x^2}{2}\right) + x\sin\left(\frac{x}{2}\right) \d x$ %III. $\int x^{\frac{5}{3}} (\ln x)^2 \d x$.  
 \end{tabular}
 \end{center}
 \end{problem}
@@ -123,28 +119,55 @@ Therefore
 $$
 	\int \arcsin(x) \d x  = x\arcsin(x) + \sqrt{1-x^2} +C.
 	$$
-	
-III. We begin with the substitution $w = \ln x$, so that $\d w = \frac{1}{x} \d x$. Solving the substitution equation for $x$ yields $x = e^w$, and we have
-		\begin{align*}
-		\int x^{\frac{5}{3}} (\ln x)^2 \d x 
-		&= \int x^{\frac{8}{3}} (\ln x)^2 \cdot \frac{1}{x} \d x  \\
-		&= \int (e^w)^{\frac{8}{3}} w^2 \d w  \\
-		&= \int w^2 e^{\frac{8}{3} w} \d w.
-		\end{align*}
-	We now use integration by parts, with $u = w^2$ and $\d v = e^{\frac{8}{3} w} \d w$, whence $\d u = 2 w \d w$ and $v = \frac{3}{8} e^{\frac{8}{3} w}$. This gives us
-		\begin{align*}
-		\int x^{\frac{5}{3}} (\ln x)^2 \d x
-		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \int \frac{3}{8} (2w) e^{\frac{8}{3} w} \d w  \\
-		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \frac{3}{4} \int w e^{\frac{8}{3} w} \d w.
-		\end{align*}
-	To evaluate the second term, we apply integration by parts one last time with $u = w$, $\d u = \d w$, 	$\d v = e^{\frac{8}{3} w} \d w$ and $v = \frac{3}{8} e^{\frac{8}{3} w}$. This yields
-		\begin{align*}
-		\int x^{\frac{5}{3}} (\ln x)^2 \d x
-		&= \frac{3}{8}w^2 e^{\frac{8}{3} w} - \frac{3}{4} \left( \frac{3}{8} w e^{\frac{8}{3} w} - \frac{3}{8} \int e^{\frac{8}{3} w} \d w \right) \\
-		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \frac{9}{32} w e^{\frac{8}{3} w} + \frac{27}{256} e^{\frac{8}{3} w} + C  \\
-		&= \frac{3}{8} e^{\frac{8}{3} \ln x} \left( (\ln x)^2 - \frac{3}{4} \ln x + \frac{9}{32} \right) + C  \\
-		&= \frac{3}{8} x^{\frac{8}{3}} \left( (\ln x)^2 - \frac{3}{4} \ln x + \frac{9}{32} \right) + C.
-		\end{align*}
+
+III. We can split the integral up as follows.
+
+\[
+\int x\sin\left(\frac{x^2}{2}\right) + x\sin\left(\frac{x}{2}\right) \d x = \int x\sin\left(\frac{x^2}{2}\right)  \d x+\int  x\sin\left(\frac{x}{2}\right) \d x
+\]
+
+Notice that the first integral can be handled by the substitution $u = \frac{x^2}{2}$.  In this case $\d u = x \d x$, so
+
+\[
+ \int x\sin\left(\frac{x^2}{2}\right)  \d x = \int \sin(u) \d u = -\cos(u) +C=-\cos\left(\frac{x^2}{2}\right)+C
+\]
+
+For the second integral, we will use integration by parts. 
+
+Let $u =x $ and $\d v =   \sin\left(\frac{x}{2}\right) \d x$. Then $\d u =  \d x$ and $v =  -2 \cos\left(\frac{x}{2}\right)$. This gives us
+
+\begin{align*}
+\int  x\sin\left(\frac{x}{2}\right) \d x &= -2x \cos\left(\frac{x}{2}\right) - \int -2 \cos\left(\frac{x}{2}\right) \d x \\
+&= -2x \cos\left(\frac{x}{2}\right) + 4 \sin\left(\frac{x}{2}\right) +C
+\end{align*}
+
+Putting these both together gives the final result.	
+
+\begin{align*}
+\int x\sin\left(\frac{x^2}{2}\right) + x\sin\left(\frac{x}{2}\right) \d x &= \int x\sin\left(\frac{x^2}{2}\right)  \d x+\int  x\sin\left(\frac{x}{2}\right) \d x\\
+&= -\cos\left(\frac{x^2}{2}\right)-2x \cos\left(\frac{x}{2}\right) + 4 \sin\left(\frac{x}{2}\right) +C
+\end{align*}	
+%III. We begin with the substitution $w = \ln x$, so that $\d w = \frac{1}{x} \d x$. Solving the substitution equation for $x$ yields $x = e^w$, and we have
+%		\begin{align*}
+%		\int x^{\frac{5}{3}} (\ln x)^2 \d x 
+%		&= \int x^{\frac{8}{3}} (\ln x)^2 \cdot \frac{1}{x} \d x  \\
+%		&= \int (e^w)^{\frac{8}{3}} w^2 \d w  \\
+%		&= \int w^2 e^{\frac{8}{3} w} \d w.
+%		\end{align*}
+%	We now use integration by parts, with $u = w^2$ and $\d v = e^{\frac{8}{3} w} \d w$, whence $\d u = 2 w \d w$ and $v = \frac{3}{8} e^{\frac{8}{3} w}$. This gives us
+%		\begin{align*}
+%		\int x^{\frac{5}{3}} (\ln x)^2 \d x
+%		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \int \frac{3}{8} (2w) e^{\frac{8}{3} w} \d w  \\
+%		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \frac{3}{4} \int w e^{\frac{8}{3} w} \d w.
+%		\end{align*}
+%	To evaluate the second term, we apply integration by parts one last time with $u = w$, $\d u = \d w$, 	$\d v = e^{\frac{8}{3} w} \d w$ and $v = \frac{3}{8} e^{\frac{8}{3} w}$. This yields
+%		\begin{align*}
+%		\int x^{\frac{5}{3}} (\ln x)^2 \d x
+%		&= \frac{3}{8}w^2 e^{\frac{8}{3} w} - \frac{3}{4} \left( \frac{3}{8} w e^{\frac{8}{3} w} - \frac{3}{8} \int e^{\frac{8}{3} w} \d w \right) \\
+%		&= \frac{3}{8} w^2 e^{\frac{8}{3} w} - \frac{9}{32} w e^{\frac{8}{3} w} + \frac{27}{256} e^{\frac{8}{3} w} + C  \\
+%		&= \frac{3}{8} e^{\frac{8}{3} \ln x} \left( (\ln x)^2 - \frac{3}{4} \ln x + \frac{9}{32} \right) + C  \\
+%		&= \frac{3}{8} x^{\frac{8}{3}} \left( (\ln x)^2 - \frac{3}{4} \ln x + \frac{9}{32} \right) + C.
+%		\end{align*}
 \end{freeResponse}
 
 
@@ -160,7 +183,7 @@ Evaluate the following integrals
 
 \begin{center}
 \begin{tabular}{ll}
-I. $\int \sin(3x) e^{7x} \d x$ \hspace{.5in} II. $\int x^5 \cos \left( x^3 \right) \d x$
+I. $\int \sin(3x) e^{7x} \d x$ \hspace{.5in} II. $\int x^5 \cos \left( x^3 \right) \d x$ 
 \end{tabular}
 \end{center}
 	
@@ -223,6 +246,8 @@ I. We begin by letting $I = \int \sin(3x) e^{7x} \d x$.
 		&= \frac{1}{3} \left( w \sin(w) + \cos(w) \right) + C  \\
 		&= \frac{1}{3} \left( x^3 \sin \left( x^3 \right) + \cos \left( x^3 \right) \right) + C.  
 		\end{align*}
+		
+		
 \end{freeResponse}
 
 \begin{problem}
@@ -231,16 +256,17 @@ The region $R$ is bounded by the curves $y=0$, $y=\ln (x)$ and $x=e$. Using the 
 
 \begin{freeResponse}
 Since we are rotating around a vertical axis and we wish to use the Shell method, our slices should be vertical. The height of the shell at $x$ is given by $\ln (x)$, and our bounds of integration are $x=1$ (corresponding to $y=0$) and $x=e$. The volume integral is 
-$$
-\int_1^e 2 \pi x \ln (x) \d x.
-$$ 
+\[
+V=\int_1^e 2 \pi x \ln (x) \d x = 2 \pi \int_1^e x \ln (x) \d x.
+\]
 To evaluate the integral, we use integration by parts with $u = \ln (x)$ and $\d v = x \d x$, so that $\d u = \frac{1}{x} \d x$ and $v = \frac{x^2}{2}$. This gives us 
 \begin{align*}
-\int_1^e 2 \pi x \ln (x) \d x &= \eval{\frac{x^2}{2} \ln x}_1^e - \int_1^e \frac{x}{2} \d x \\
-&= \frac{e^2}{2}\ln(e) - \frac{1}{2}\ln (1) - \eval{\frac{x^2}{4}}_1^e \\
-&= \frac{e^2}{2} - \frac{e^2}{4} + \frac{1}{4} \\
-&= \frac{e^2}{4} + \frac{1}{4}.
+\int_1^e 2 \pi x \ln (x) \d x &= 2 \pi \eval{\frac{x^2}{2} \ln x}_1^e - 2 \pi \int_1^e \frac{x}{2} \d x \\
+&= 2 \pi \cdot \frac{e^2}{2}\ln(e) - 2 \pi \cdot \frac{1}{2}\ln (1) - 2 \pi \eval{\frac{x^2}{4}}_1^e \\
+&= 2 \pi \cdot \frac{e^2}{2} - 2 \pi \cdot \frac{e^2}{4} + 2 \pi \cdot \frac{1}{4} \\
+&= \frac{\pi e^2}{2} + \frac{\pi}{2}.
 \end{align*}
+
 \end{freeResponse}
 \end{document} 
 

@@ -1,4 +1,4 @@
-\documentclass[]{ximera}
+\documentclass[noauthor]{ximera}
 %handout:  for handout version with no solutions or instructor notes
 %handout,instructornotes:  for instructor version with just problems and notes, no solutions
 %noinstructornotes:  shows only problem and solutions
@@ -25,11 +25,11 @@
 
 %add a ``.'' below when used in a specific directory.
 
-\input{../../../preamble.tex}
+\input{../preamble.tex}
 
 
 
-\author{Tom Needham}
+\author{Tom Needham and Jim Talamo}
 
 \outcome{Use trigonometric identities to evaluate integrals.}
 
@@ -48,7 +48,7 @@ Determine an effective strategy for evaluating each of the following integrals (
 
 \begin{center}
 \begin{tabular}{lll}
-I. $\int \cos^2(x) \d x$ \hspace{.1in} & II. $\int \sin (x) \cos^2(x) \d x$ \hspace{.1in} &  III. $\int \sin^2(x) \cos^2(x) \d x$
+I. $\int \cos^2(x) \d x$ \hspace{.1in} & II. $\int 2x+\sin (x) \cos^2(x) \d x$ \hspace{.1in} &  III. $\int \sin^2(x) \cos^2(x) \d x$
 \end{tabular}
 \end{center}
 \end{problem}
@@ -60,7 +60,12 @@ $$
 $$
 together with basic integration rules.
 
-II. This integral can be solved via $u$-substitution, with $u=\cos (x)$, so that $\d u = -\sin (x) \d x$.
+II. This integral can be split into two integrals
+
+\[
+\int 2x+\sin (x) \cos^2(x) \d x = \int 2x \d x +\int \sin (x) \cos^2(x) \d x.
+\]
+The first can be evaluated directly and the second can be solved via $u$-substitution, with $u=\cos (x)$, so that $\d u = -\sin (x) \d x$.
 
 III. To solve this integral, use the double-angle identity
 $$
@@ -70,7 +75,56 @@ which implies
 $$
 \int \sin^2(x) \cos^2(x) \d x= \int \frac{1}{4} \sin^2(2x) \d x.
 $$
-Next we use a half-angle identity for sine, following a similar process to that used in part I.
+Next we use a half-angle identity for sine, following a similar process to that used in Part I.
+\end{freeResponse}
+
+
+\begin{problem}
+Fill in the following table.
+
+\[
+\begin{array}{ll}
+\int \sin(x) \d x = \underline{\hspace{30mm}} \qquad \qquad & \int \csc(x) \d x = \underline{\hspace{30mm}} \\ [2 ex]
+\int \cos(x) \d x = \underline{\hspace{30mm}} \qquad & \int \sec(x) \d x = \underline{\hspace{30mm}} \\ [2 ex]
+\int \tan(x) \d x = \underline{\hspace{30mm}} \qquad & \int \cot(x) \d x = \underline{\hspace{30mm}} \\ [2 ex]
+\end{array}
+\]
+
+\end{problem}
+
+\begin{freeResponse}
+\[
+\begin{array}{ll}
+\int \sin(x) \d x = -\cos(x)+C \qquad \qquad \qquad & \int \csc(x) \d x = -\ln|\csc(x)+\cot(x)|+C \\ [2 ex]
+\int \cos(x) \d x =\sin(x)+C \qquad & \int \sec(x) \d x = \ln|\sec(x)+\tan(x)| +C \\ [2 ex]
+\int \tan(x) \d x =\ln|\sec(x)|+C \qquad & \int \cot(x) \d x = -\ln|\csc(x)|+C \\ [2 ex]
+\end{array}
+\]
+Note that while you should commit these to memory, the formulas for the antiderivatives of $\tan(x)$, $\cot(x)$, $\sec(x)$, and $\csc(x)$ can be derived as follows.
+
+\begin{itemize}
+\item For $\int \tan(x) \d x$, write $\int \tan(x) \d x = \int\frac{\sin(x)}{\cos(x)} \d x$ and set $u=\cos(x)$.  After working through the substitution, note that
+
+\[
+-\ln|\cos(x)| = \ln\left(|\cos(x)|^{-1}\right) = \ln\left|\frac{1}{\cos(x)}\right| = \ln|\sec(x)|.
+\]
+
+\item The formula for $\int \cot(x) \d x$ can be found in a similar fashion as the formula for $\tan(x) \d x$ was derived.
+
+\item For $\int \sec(x) \d x$, we can multiply and divide by $\sec(x) + \tan(x)$ as follows.
+
+\[
+\int \sec(x) \d x = \int \sec(x) \cdot \frac{\sec(x) +\tan(x)}{\sec(x) +\tan(x)} \d x = \int \frac{\sec^2(x) +\sec(x)\tan(x)}{\sec(x) +\tan(x)} \d x
+\]
+While this may seem strange, note that by letting $u = \sec(x) +\tan(x)$, we obtain 
+
+\[
+ \int \frac{\sec^2(x) +\sec(x)\tan(x)}{\sec(x) +\tan(x)} \d x = \int \frac{1}{u} \d u.
+\]
+
+\item The formula for $\int \csc(x) \d x$ can be found in a similar fashion as the formula for $\sec(x) \d x$ was derived.
+
+\end{itemize}
 \end{freeResponse}
 
 \begin{problem}
@@ -78,7 +132,7 @@ Consider the integral
 $$
 \int \tan (x) \sec^2(x) \d x.
 $$
-Student A evaluates this integral by making the substitution $u=\tan(x)$, so that $\d u = \sec^2 (x)$, and
+Student A evaluates this integral by making the substitution $u=\tan(x)$, so that $\d u = \sec^2 (x) \d x$, and
 $$
 \int \tan(x) \sec^2(x) \d x = \int u \d u = \frac{u^2}{2} + C = \frac{\tan^2 (x)}{2} + C.
 $$
@@ -103,15 +157,26 @@ where the last equality follows by a trigonometric identity. We conclude that th
 Evaluate the following integrals
 
 \begin{center}
-\begin{tabular}{llll}
-I. $\displaystyle\int \sin^3 (4 \theta) \cos^6 (4\theta) \, \mathrm{d}\theta$ \hspace{.2in} & II. $\int \tan^{23} x \sec^6 x \d x$ \\
-III. $\int \tan^2 x \sec x \d x$ \hspace{.2in} &  IV. $\int \tan^2 x \sin x \d x$
+\begin{tabular}{lll}
+I. $\int \sin^2(4x) \d x$ \hspace{10mm} & II. $\int \sin^3 (4 \theta) \cos^6 (4\theta) \d \theta$ \hspace{.2in} & III. $\int \tan^{23}(x) \sec^6 (x) \d x$  \\
+%IV. $\int \tan^2(x) \sec (x) \d x$ \hspace{.2in} & 
+IV. $\int \tan^2(x) \sin (x) \d x$ & V. $\int x+ \tan^2(x) \d x$
 \end{tabular}
 \end{center}
 \end{problem}
 
 \begin{freeResponse}
-I. Write $\sin^3(4\theta) = \sin(4\theta) \sin^2(4\theta) = \sin(4\theta) (1-\cos^2(4\theta))$ and let $u = \cos(4\theta)$, whence $\d u = -4 \sin (4\theta) \d \theta$. The integral becomes
+I. We use the identity 
+
+\[
+\sin^2(\theta) = \frac{1}{2}-\frac{1}{2} \cos(2 \theta)
+\]
+with $\theta = 4x$ to write 
+\[
+\int \sin^2(4x) \d x = \int \frac{1}{2}-\frac{1}{2} \cos(8x) \d x = \frac{1}{2}x-\frac{1}{16} \sin(8x)+C
+\]
+
+II. Write $\sin^3(4\theta) = \sin(4\theta) \sin^2(4\theta) = \sin(4\theta) (1-\cos^2(4\theta))$ and let $u = \cos(4\theta)$, whence $\d u = -4 \sin (4\theta) \d \theta$. The integral becomes
 \begin{align*}
 \int \sin^3 (4 \theta) \cos^6 (4\theta) \, \mathrm{d}\theta &= -\frac{1}{4} \int (1-u^2)u^6 \d u \\
 &= -\frac{1}{4} \int (1-u^2)u^6 \d u \\
@@ -120,67 +185,79 @@ I. Write $\sin^3(4\theta) = \sin(4\theta) \sin^2(4\theta) = \sin(4\theta) (1-\co
 &= -\frac{1}{4}\left(\frac{\cos^7(4\theta)}{7} - \frac{\cos^9(4\theta)}{9}\right) + C.
 \end{align*}
 
-II. We first break the $\sec^6 x$ factor into pieces, as 
+III. We first break the $\sec^6 x$ factor into pieces, as 
 	\begin{align*}
 		\int \tan^{23} x \sec^6 x \d x 
 		&= \int \tan^{23} x \sec^4 x \sec^2 x \d x  \\
-		&= \int \tan^{23} x \left( 1 + \tan^2 x \right)^2 \sec^2 x \d x .
+		&= \int \tan^{23} x \left( 1 + \tan^2(x) \right)^2 \sec^2 x \d x .
 		\end{align*}
-	Next we make the substitution $u = \tan x$, so that $\d u = \sec^2 x \d x$, and
+	Next we make the substitution $u = \tan(x)$, so that $\d u = \sec^2 x \d x$, and
 		\begin{align*}
-		\int \tan^{23} x \left( 1 + \tan^2 x \right)^2 \sec^2 x \d x
+		\int \tan^{23} x \left( 1 + \tan^2(x) \right)^2 \sec^2 x \d x
 		&= \int u^{23} (1+u^2)^2 \d u  \\
 		&= \int u^{23} (1 + 2u^2 + u^4) \d u  \\
 		&= \int \left( u^{23} + 2u^{25} + u^{27} \right) \d u  \\
 		&= \frac{1}{24} u^{24} + \frac{1}{13} u^{26} + \frac{1}{28} u^{28} + C  \\
-		&= \frac{1}{24} \tan^{24} x + \frac{1}{13} \tan^{26} x + \frac{1}{28} \tan^{28} x + C.
+		&= \frac{1}{24} \tan^{24}(x) + \frac{1}{13} \tan^{26}(x) + \frac{1}{28} \tan^{28}(x) + C.
 		\end{align*}
 		
-III. The trick here is to recall that 
-$$
-\int \sec x \d x = \ln | \sec x + \tan x| + C.
-$$
-It follows that
-\begin{align*}
-		\int \tan^2 x \sec x \d x &= \int \left( \sec^2 x - 1 \right) \sec x \d x  	\\
-		&= \int \sec^3 x \d x - \int \sec x \d x  	\\
-		&= \int \sec^3 x \d x - \ln | \sec x + \tan x| 
-		\end{align*}
-	To evaluate $\int \sec^3 x \d x$, we use integration by parts with
-		{
-		\[
-		u = \sec x 				\qquad	\d v = \sec^2 x \d x
-		\]
-		\[
-		\d u = \sec x \tan x \d x	\qquad	v = \tan x.
-		\]
-		}
-	So
-		\begin{equation}\label{equation 2}
-		\int \sec^3 x \d x = \sec x \tan x - \int \tan^2 x \sec x \d x.
-		\end{equation}
-	Combining our work yields
-		\begin{align*}
-		\int \tan^2 x \sec x \d x &= \int \sec^3 x \d x - \ln | \sec x + \tan x|   \\
-		\int \tan^2 x \sec x \d x &= \sec x \tan x - \int \tan^2 x \sec x \d x - \ln | \sec x + \tan x |  \\
-		2 \int \tan^2 x \sec x \d x &= \sec x \tan x - \ln | \sec x + \tan x | + C  \\
-		\int \tan^2 x \sec x \d x &= \frac{1}{2} \left( \sec x \tan x - \ln | \sec x + \tan x | \right) + C.
-		\end{align*}
+%IV. The trick here is to recall that 
+%$$
+%\int \sec (x) \d x = \ln | \sec (x) + \tan(x)| + C.
+%$$
+%It follows that
+%\begin{align*}
+%		\int \tan^2(x) \sec (x) \d x &= \int \left( \sec^2 x - 1 \right) \sec (x) \d x  	\\
+%		&= \int \sec^3 x \d x - \int \sec (x) \d x  	\\
+%		&= \int \sec^3 x \d x - \ln | \sec (x) + \tan(x)| 
+%		\end{align*}
+%	To evaluate $\int \sec^3 x \d x$, we use integration by parts with
+%		{
+%		\[
+%		u = \sec (x) 				\qquad	\d v = \sec^2 x \d x
+%		\]
+%		\[
+%		\d u = \sec (x) \tan (x) \d x	\qquad	v = \tan(x).
+%		\]
+%		}
+%	So
+%		\begin{equation}\label{equation 2}
+%		\int \sec^3 x \d x = \sec (x) \tan (x) - \int \tan^2(x) \sec (x) \d x.
+%		\end{equation}
+%	Combining our work yields
+%		\begin{align*}
+%		\int \tan^2(x) \sec (x) \d x &= \int \sec^3 x \d x - \ln | \sec (x) + \tan(x)|   \\
+%		\int \tan^2(x) \sec (x) \d x &= \sec (x) \tan (x) - \int \tan^2(x) \sec (x) \d x - \ln | \sec (x) + \tan (x) |  \\
+%		2 \int \tan^2(x) \sec (x) \d x &= \sec (x) \tan (x) - \ln | \sec (x) + \tan (x) | + C  \\
+%		\int \tan^2(x) \sec (x) \d x &= \frac{1}{2} \left( \sec (x) \tan (x) - \ln | \sec (x) + \tan (x) | \right) + C.
+%		\end{align*}
 		
-		IV. We first apply trigonometric identities to conclude that
+IV. We first apply trigonometric identities to conclude that
 		\begin{align*}
-		\int \tan^2 x \sin x \d x
-		&= \int \frac{\sin^2 x}{\cos^2 x} \sin x \d x  \\
-		&= \int \frac{1-\cos^2 x}{\cos^2 x} \sin x \d x.
+		\int \tan^2(x) \sin (x) \d x
+		&= \int \frac{\sin^2 x}{\cos^2 x} \sin (x) \d x  \\
+		&= \int \frac{1-\cos^2 x}{\cos^2 x} \sin (x) \d x.
 		\end{align*}
-	Now we substitute $u = \cos x $, so that $\d u = - \sin x \d x$. This gives us that
+	Now we substitute $u = \cos (x) $, so that $\d u = - \sin (x) \d x$. This gives us that
 		\begin{align*}
-		\int \tan^2 x \sin x \d x &= \int \frac{1-u^2}{u^2} (-1) \d u  \\
+		\int \tan^2(x) \sin (x) \d x &= \int \frac{1-u^2}{u^2} (-1) \d u  \\
 		&= \int \frac{u^2 - 1}{u^2} \d u  \\
 		&= \int \left( 1 - u^{-2} \right) \d u  \\
 		&= u + \frac{1}{u} + C  \\
-		&= \cos x + \sec x + C.
+		&= \cos (x) + \sec (x) + C.
 		\end{align*}
+		
+V. We first split the integral up.
+
+\[ \int x+ \tan^2(x) \d x = \int x \d x +\int  \tan^2(x) \d x\]
+
+To evaluate $\int \tan^2(x) \d x$, note that $\tan^2(x) = \sec^2(x)-1$, so
+
+\begin{align*}
+\int x+ \tan^2(x) \d x &= \int x \d x +\int  \tan^2(x) \d x \\
+&= \frac{1}{2}x^2 +\int  \sec^2(x) -1 \d x \\
+&=  \frac{1}{2}x^2 + \tan(x) -x+C \\
+\end{align*}
 \end{freeResponse}
 
 \begin{problem}
@@ -195,14 +272,14 @@ Using the Pythagorean identity, we have
 \begin{align*}
 		\int_{- \pi}^0 \sqrt{1 - \cos^2 x} \d x
 		&= \int_{- \pi}^0 \sqrt{\sin^2 x} \d x  \\
-		&= \int_{- \pi}^0 | \sin x | \d x.
+		&= \int_{- \pi}^0 | \sin (x) | \d x.
 		\end{align*}
-	Now, when $-\pi \leq x \leq 0$, $\sin x \leq 0$.  
-	Thus, on this region, $|\sin x | = - \sin x$.
+	Now, when $-\pi \leq x \leq 0$, $\sin (x) \leq 0$.  
+	Thus, on this region, $|\sin (x) | = - \sin x$.
 	So we continue
 		\begin{align*}
 		\int_{- \pi}^0 \sqrt{1 - \cos^2 x} \d x
-		&= \int_{- \pi}^0 - \sin x \d x  \\
+		&= \int_{- \pi}^0 - \sin (x) \d x  \\
 		&= \eval{\cos x}_{-\pi}^0  \\
 		&= \cos(0) - \cos(-\pi) = 1 - (-1) = 2.
 		\end{align*}

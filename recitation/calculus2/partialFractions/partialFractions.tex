@@ -1,4 +1,4 @@
-\documentclass[handout]{ximera}
+\documentclass[noauthor, handout]{ximera}
 %handout:  for handout version with no solutions or instructor notes
 %handout,instructornotes:  for instructor version with just problems and notes, no solutions
 %noinstructornotes:  shows only problem and solutions
@@ -25,11 +25,11 @@
 
 %add a ``.'' below when used in a specific directory.
 
-\input{../../../preamble.tex}
+\input{../preamble.tex}
 
 
 
-\author{Tom Needham}
+\author{Tom Needham and Jim Talamo}
 
 \outcome{Evaluate integrals using partial fraction decompositions.}
 
@@ -54,9 +54,23 @@ I. $x^2+5x+1$ \hspace{.4in} II. $x^2$ \hspace{.4in} III. $x^2+x+1$
 \end{problem}
 
 \begin{freeResponse}
+By definition, a quadratic polynomial $ax^2+bx+c$ is irreducible if it cannot be factored into a product of degree one polynomials with real coefficients.  Sometimes, it is easy to spot a factorization of the polynomial, but there is a difference between not knowing how to factor something and claiming that it cannot be factored.  Thankfully, there's a theorem for that.
+
+\begin{theorem}
+A quadratic polynomial $ax^2+bx+c$ is irreducible if and only if the equation $ax^2+bx+c=0$ has no real roots.  
+\end{theorem}
+
+We have the quadratic formula to aid us in solving quadratic equations.  Indeed, if $ax^2+bx+c=0$, then
+
+\[
+x= \frac{-b \pm \sqrt{b^2-4ac}}{2a}.
+\]
+
+We can use the \emph{discriminant} $b^2-4ac$ to determine if the roots are real.
+
 I. Although it may not be immediately obvious how to factor it, this quadratic is reducible. To test this, one checks the discriminant $b^2-4ac$; the discriminant is  $\geq 0$ if and only if the polynomial can be factored, and is strictly greater than zero if and only if the factors are distinct. In this case the discriminant is $5^2-4 \cdot 1 \cdot 1 = 21 > 0$. The expression is therefore a product of distinct linear factors.
 
-II. This expression is a product of the repeated linear factor $x$.
+II. This expression is a product of the repeated linear factor $x$.  Alternatively, it is not irreducible since the equation $x^2=0$ has a repeated, real root $x=0$.
 
 III. The discriminant is $1^2-4 \cdot 1 \cdot 1 = -3 < 0$, so the quadratic is irreducible.
 \end{freeResponse}
@@ -65,22 +79,43 @@ III. The discriminant is $1^2-4 \cdot 1 \cdot 1 = -3 < 0$, so the quadratic is i
 A student claims that the partial fraction decomposition for $\frac{6x^2+7x+1}{x(2x+1)^2}$ is $\frac{Ax+B}{(2x+1)^2}+\frac{C}{x}$ and justifies his or her response by finding that $A=2$, $B=3$ and $C=1$.
 
 \begin{itemize}
-\item[I.] Is it true that $\frac{6x^2+7x+1}{x(2x+1)^2}+\frac{1}{x} = \frac{2x+3}{(2x+1)^2}+\frac{1}{x}$?
+\item[I.] Is it true that $\frac{6x^2+7x+1}{x(2x+1)^2} = \frac{2x+3}{(2x+1)^2}+\frac{1}{x}$?
 \item[II.] Is this the correct partial fraction decomposition?
 \end{itemize}
 \end{problem}
 
 \begin{freeResponse}
 I. This is true, as we can readily check:
-$$
-\frac{2x+3}{(2x+1)^2}+\frac{1}{x} = \frac{2x^2+3x}{x(2x+1)^2} + \frac{(2x+1)^2}{x(2x+1)^2} = \frac{2x^2+3x+4x^2+4x+1}{x(2x+1)^2} =\frac{6x^2+7x+1}{x(2x+1)^2}.
-$$
+\begin{align*}
+\frac{2x+3}{(2x+1)^2}+\frac{1}{x} &= \frac{2x^2+3x}{x(2x+1)^2} + \frac{1}{x} \cdot \frac{(2x+1)^2}{(2x+1)^2} \\
+&= \frac{2x^2+3x+4x^2+4x+1}{x(2x+1)^2} \\
+&=\frac{6x^2+7x+1}{x(2x+1)^2}.
+\end{align*}
 
-II. Remember that the whole point of the method of partial fraction decomposition is to rewrite the rational function in an equivalent way which \emph{we know how to integrate}. The student has provided an equivalent expression for the rational function, but their expression includes the term  $\frac{2x+3}{(2x+1)^2}$, and it is not clear how to find the antiderivative of this term. The correct partial fraction decomposition is of the form
+II. Remember that the whole point of the method of partial fraction decomposition is to rewrite the rational function in an equivalent way which \emph{we know how to integrate}. The student has provided an equivalent expression for the rational function, but their expression includes the term  $\frac{2x+3}{(2x+1)^2}$, and it is not clear how to find the antiderivatives of this term immediately. The correct partial fraction decomposition is of the form
 $$
 \frac{6x^2+7x+1}{x(2x+1)^2} = \frac{A}{x} + \frac{B}{2x+1} + \frac{C}{(2x+1)^2}.
 $$
 Note that each term in the resulting definition is something that we know how to integrate. 
+
+While you are not asked to do so, you can use the usual method for finding the constants to see that $A=1$, $B=1$ and $C=2$, so that
+
+\[
+\frac{6x^2+7x+1}{x(2x+1)^2} = \frac{1}{x} + \frac{1}{2x+1} + \frac{2}{(2x+1)^2}.
+\]
+
+Note that if we have to find $\int \frac{6x^2+7x+1}{x(2x+1)^2} \d x$, it is much easier to compute $\int \frac{1}{x} + \frac{1}{2x+1} + \frac{2}{(2x+1)^2} \d x$ than it is to compute $\int \frac{2x+3}{(2x+1)^2}+\frac{1}{x} \d x$.
+
+\begin{remark}
+For students curious to see how we should integrate $\frac{2x+3}{(2x+1)^2}$, this could be done via the substitution $u=2x+1$ and some algebra, or by noting
+
+\[
+\frac{2x+3}{(2x+1)^2} =\frac{2x+1+2}{(2x+1)^2}=\frac{2x+1}{(2x+1)^2}+\frac{2}{(2x+1)^2} = \frac{1}{2x+1}+\frac{2}{(2x+1)^2}.
+\]
+
+This is exactly what is obtained by the correct partial fraction decomposition, so it's much better to start with the partial fraction decomposition rather than the other algebraically equivalent form!
+
+\end{remark}
 \end{freeResponse}
 
 \section{Group Work}
@@ -101,7 +136,13 @@ I. $\frac{2x+1}{x^2+5x+6} = \frac{2x+1}{(x+2)(x+3)} = \frac{A}{x+2} + \frac{B}{x
 
 II. $\frac{2x^2+x+3}{(x^2-2x+1)(x+2)} = \frac{2x^2+x+3}{(x-1)^2(x+2)} = \frac{A}{x-1} + \frac{B}{(x-1)^2} + \frac{C}{x+2}$
 
-III. $\frac{3x^2+x+1}{3x^3+3x^2+6x} = \frac{3x^2 + x + 1}{3x(x^2+x + 2)} = \frac{A}{3x} + {Bx+C}{x^2+x+2}$
+III. $\frac{3x^2+x+1}{3x^3+3x^2+6x} = \frac{3x^2 + x + 1}{3x(x^2+x + 2)} $
+
+In order to continue, we need to determine if $x^2+x + 2$ as irreducible.  The discriminant is $b^2-4ac = 1-4(2)(1) <0$, so this is irreducible.  The partial fraction decomposition is thus
+
+\[
+\frac{3x^2 + x + 1}{3x(x^2+x + 2)} = \frac{A}{3x}+\frac{Bx+C}{x^2+x+2}.
+\]
 \end{freeResponse}
 
 \begin{problem}
@@ -136,7 +177,7 @@ Consider the integral
 $$
 \int_2^3 \frac{1}{x^2-1} \d x.
 $$
-Evaluate the integral in two ways: first by trigonometric substitution with $x=\sec \theta$, then via partial fraction decomposition. For the trigonometric substitution method, it may be useful to recall that
+Evaluate the integral in two ways: first by partial fraction decomposition , then via trigonometric substitution with $x=\sec(\theta)$. For the trigonometric substitution method, it may be useful to recall that
 $$
 \int \csc \theta \d \theta = -\ln | \csc \theta + \cot \theta | + C.
 $$
@@ -144,24 +185,8 @@ If we change the bounds of integration to $x=0$ to $x=1/2$, would both methods s
 \end{problem}
 
 \begin{freeResponse}
-First let $x=\sec \theta$, so that $\d x = \sec \theta \tan \theta \d \theta$. Then
-\begin{align*}
-\int \frac{1}{x^2-1} \d x &= \int \frac{1}{\tan^2 \theta} \sec \theta \tan \theta \d \theta \\
-&= \int \frac{\sec \theta}{\tan \theta} \d \theta \\
-&= \int \frac{1}{\cos \theta} \frac{\cos \theta}{\sin \theta} \d \theta \\
-&= \int \csc \theta \d \theta \\
-&= \ln |\csc \theta - \cot \theta| + C \\
-&= \ln \left|\frac{x}{\sqrt{x^2-1}} - \frac{1}{\sqrt{x^2-1}}\right|+C,
-\end{align*}
-with the last line derived via a reference triangle. Therefore
-\begin{align*}
-\int_2^3 \frac{1}{x^2-1} \d x &= \eval{\ln \left|\frac{x}{\sqrt{x^2-1}} - \frac{1}{\sqrt{x^2-1}}\right|}_2^3 \\
-&= \ln \left|\frac{3}{\sqrt{8}} - \frac{1}{\sqrt{8}}\right| - \ln \left| \frac{2}{\sqrt{3}} - \frac{1}{\sqrt{3}}\right|\\
-&= \ln \frac{1}{\sqrt{2}} - \ln \frac{1}{\sqrt{3}} \\
-&= -\frac{1}{2} \ln 2 + \frac{1}{2} \ln 3.
-\end{align*}
-
-On the other hand, the partial fraction decomposition of the integrand is 
+ 
+First, the partial fraction decomposition of the integrand is 
 $$
 \frac{1}{x^2-1} = \frac{1}{(x+1)(x-1)} = \frac{A}{x+1} + \frac{B}{x-1}.
 $$
@@ -180,7 +205,44 @@ The integral is therefore given by
 &= \frac{1}{2}\left(- \ln 4 + \ln 2 + \ln 3 - \ln 1\right) \\
 &=  -\frac{1}{2} \ln 2 + \frac{1}{2} \ln 3.
 \end{align*}
-We therefore obtain the same answer as we did using trigonometric substitution, but with a smaller amount of effort. Moreover, making the substitution $x=\sec \theta$ implicitly assumes that $|x| \geq 1$ (since this is the range of the secant function). This means that the trigonometric substitution method would not be valid if we integrated over any region containing $x$ with $|x| < 1$. 
+
+On the other hand, for the trigonometric substitution, let $x=\sec(\theta)$, so that $\d x = \sec(\theta) \tan \theta \d \theta$. Then
+\begin{align*}
+\int \frac{1}{x^2-1} \d x &= \int \frac{1}{\tan^2 \theta} \sec(\theta) \tan \theta \d \theta \\
+&= \int \frac{\sec(\theta)}{\tan \theta} \d \theta \\
+&= \int \frac{1}{\cos \theta} \frac{\cos \theta}{\sin \theta} \d \theta \\
+&= \int \csc \theta \d \theta \\
+&=  - \ln |\csc \theta + \cot \theta| + C \\
+&= - \ln \left|\frac{x}{\sqrt{x^2-1}} + \frac{1}{\sqrt{x^2-1}}\right|+C,
+\end{align*}
+with the last line derived via a reference triangle. Therefore
+\begin{align*}
+\int_2^3 \frac{1}{x^2-1} \d x &= \eval{-\ln \left|\frac{x}{\sqrt{x^2-1}} + \frac{1}{\sqrt{x^2-1}}\right|}_2^3 \\
+&= -\ln \left|\frac{3}{\sqrt{8}} + \frac{1}{\sqrt{8}}\right| + \ln \left| \frac{2}{\sqrt{3}} + \frac{1}{\sqrt{3}}\right|\\
+&= -\ln \left(\frac{4}{\sqrt{8}}\right) + \ln \left(\frac{3}{\sqrt{3}}\right) \\
+\end{align*}
+
+To try to see how both answers are actually the same, recall the the important algebraic rules of logarithms below.
+
+\begin{itemize}
+\item $\ln(a)+\ln(b) = \ln(ab)$ 
+\item $ \ln(a)-\ln(b) = \ln\left(\frac{a}{b}\right)$
+\item $b \ln(a) = \ln\left(a^b\right)$
+\end{itemize}
+
+Thus, we can rewrite the answer above.
+
+\begin{align*}
+-\ln \left(\frac{4}{\sqrt{8}}\right) + \ln \left(\frac{3}{\sqrt{3}}\right) &= -\ln(4)+\ln(\sqrt{8}) + \ln(3)-\ln(\sqrt{3}) \\
+& = -\ln(4)+\frac{1}{2} \ln(4\cdot 2) + \ln(3)-\frac{1}{2}\ln(3) \\
+& = -\ln(4)+\frac{1}{2} \ln(4) +\frac{1}{2} \ln(2) + \frac{1}{2}\ln(3) \\
+& = -\frac{1}{2} \ln(4) +\frac{1}{2} \ln(2) + \frac{1}{2}\ln(3) \\
+& = -\frac{1}{2} \ln(2^2) +\frac{1}{2} \ln(2) + \frac{1}{2}\ln(3) \\
+& = -\cancel{\frac{1}{2}} \cdot \cancel{2} \ln(2) +\frac{1}{2} \ln(2) + \frac{1}{2}\ln(3) \\
+& = -\frac{1}{2} \ln(2) + \frac{1}{2}\ln(3) \\
+\end{align*}
+
+We therefore obtain the same answer as we did using partial fractions, but with considerably more effort. Moreover, making the substitution $x=\sec( \theta)$ implicitly assumes that $|x| \geq 1$ (since this is the range of the secant function). This means that the trigonometric substitution method would not be valid if we integrated over any region containing $x$ with $|x| < 1$. 
 \end{freeResponse}
 
 

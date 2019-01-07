@@ -1,0 +1,464 @@
+\documentclass[noauthor, handout]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../preamble.tex}
+
+
+
+\author{Jim Talamo}
+
+\outcome{Find parameterizations of lines.}
+\outcome{Determine the domain of a vector-valued function.}
+\outcome{Determine if a curve intersects a surface nowhere, at finitely many points, or lies on the surface.}
+
+\title[]{Lines and Curves in Space}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.5in}
+
+\section{Discussion Questions}
+
+\begin{problem}
+In $\R^2$ (two dimensions), the equation $y=2x+1$ represents a line.  What does it represent in $\R^3$ (three dimensions)?
+
+\begin{freeResponse}
+In the $xyz$-plane, the equation $y=2x+1$ is satisfied by any points $(x,y,z)$ in which the $y$-coordinate is related to the $x$-coordinate by the equation $y=2x+1$.  
+
+Particularly, this places no restrictions on the $z$-coordinate.  The resulting collection of points will include the line $y=2x+1$ in the $xy$-plane (where $z=0$) and will include all points above and below this line.
+
+\begin{image}
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines=none,
+        clip=false,
+        width=5in,
+        height=2.5in,
+      ]     
+      
+            \addplot [fill=penColor!25,penColor!25] plot coordinates {(-.3,-1.5)(1,-5.5)(1,3)(-.3,6)(-.3,3)}; %line in xy plane    
+                 
+      \addplot [->,textColor] plot coordinates {(.75,1.5) (-2,-4)}; %% x axis
+      \addplot [->,textColor] plot coordinates {(-1,0) (4,0)}; %% y axis
+      \addplot [->,textColor] plot coordinates {(0,-2) (0,6)}; %% z axis
+      
+            \addplot [->,penColor2, thick] plot coordinates {(2,4) (.6,2)}; %% arrow
+ 
+      \addplot [ultra thick,penColor] plot coordinates {(-.4,1.5) (1.2,-3.5)}; %line in xy plane
+      \addplot [penColor!75] plot coordinates {(-.3,-2.5) (-.3,6.5)}; %% left bdy
+      \addplot [penColor!75] plot coordinates {(1,-6) (1,3.8)}; %% right bdy
+               
+      \node at (axis cs:3.6,-4.2) [anchor=south east,penColor] {\large $y=2x+1, z=0$};
+      \node at (axis cs:3.95,3.7) [anchor=south east,penColor2] {The points above};
+      \node at (axis cs:4.1,2.7) [anchor=south east,penColor2] {and below the line};
+      \node at (axis cs:4,1.3) [anchor=south east,penColor2] {$y=2x+1$ in the};
+     \node at (axis cs:3.2,0) [anchor=south east,penColor2] {$xy$-plane.};
+                        
+%      \addplot[penColor,only marks,mark=*] coordinates{(2.6,2.9)};  %% closed hole
+%      \node[penColor,below right] at (axis cs:2.6,2.9) {$(a,b,c)$};
+    \end{axis}
+  \end{tikzpicture}
+\end{image}
+
+
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+The curve $\mathcal{C}$ is described by the vector-valued function $$\vec{r}(t) = \vector{te^{t+2}, t^2-3, 4\cos(\pi t)},  -\infty < t < \infty.$$ 
+
+\begin{itemize}
+\item[I.] Does the point $(-2,1,4)$ lie on $\mathcal{C}$?
+\item[II.] The domain of the vector-valued function is $\R$ (all real numbers).  In your own words, what do you think the idea of ``range'' would be for this vector-valued function?
+\end{itemize}
+
+\begin{freeResponse}
+\textbf{I.} In order for the point $(-2,1,4)$ to lie on $\mathcal{C}$, there must be a common $t$-value for which all of the following hold.
+
+\[
+x(t) = -2 \qquad \qquad y(t) =1 \qquad \qquad z(t)=4
+\] 
+
+Examining the equation for $y(t)$ is likely the most efficient way to find this; since $y(t) = t^2-3 = 1$, we find two possibilities - $t=-2$ and $t=2$ (don't forget about the negative square root of $4$).
+
+We can now check either $x(t)$ and $z(t)$.  Note that $x(2) = 2e^4 \neq -2$ and $x(-2) = -2$.  Thus, the only option is $t=-2$.  Using this in the equation for $z(t)$ gives $z(-2) = 4\cos(-2\pi) =4$.  
+
+Hence, the point $(-2,1,4)$ lies on $\mathcal{C}$ since $\vec{r}(-2) = \vector{-2,1,4}$.
+
+\textbf{II.} The intent of this problem is to get you to think about what concept we are trying to capture by using the word ``range'' and to imagine what this concept would look like in the setting of vector-valued functions.
+
+From your past experience, you may think of the range of the function $f$ as the set of all $y$-values on the graph of $y=f(x)$.  This is a difficult perspective to generalize to this new setting, but let's reimagine ``range'' as follows.
+
+\begin{itemize}
+\item  The output of the function $f$ is a $y$-value on the graph of $y=f(x)$.  
+\item   Here, the output of $\vec{r}(t)$ is a vector $\vector{x,y,z}$ associated to the point $(x,y,z)$.
+\end{itemize}
+
+We can thus think of the ``range'' of $\vec{r}(t)$ as the set of all points $(x,y,z)$ in $\R^3$ through which the curve $\mathcal{C}$ passes.
+
+\end{freeResponse}
+
+\end{problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+The position $(x,y,z)$ of a particle in the $xyz$-plane is given by the parametric equations $x(t) = 2t$, $y(t) = t^2$, $z(t)=4-\sin(2 \pi t)$ for all $t > 0$.  If $\vec{r}(t)$ is the position vector for the curve at time $t$, find $\vec{r}(1)$.
+
+\begin{freeResponse}
+One important observation is that the vector-valued function $\vec{r}(t) = \vector{x(t),y(t),z(t)}$ serves two very important purposes.\begin{itemize}
+\item[1.] It allows us to represent the set of parametric equations $x=x(t)$, $y=y(t)$, $z=z(t)$ very conveniently as components of a vector.
+\item[2.] It allows us to utilize all of our tools for vectors to study the curve $\mathcal{C}$ represented by $\vec{r}(t)$. 
+\end{itemize}
+
+We evaluate $x(t)$, $y(t)$, $z(t)$ at $t=1$.
+
+\begin{align*}
+x(1) &= 2(1) = 2 \\
+y(1) &= (1)^2=1 \\
+z(1) &= 4-\sin(2\pi(1)) = 4
+\end{align*}
+Thus, by placing each value in the appropriate component, $\vec{r}(1) = \vector{2,1,4}$.
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Give the position vector $\vec{r}(t)$ for the curves in $\R^2$ that are described by the Cartesian or polar equations below.
+
+\begin{center}
+\begin{tabular}{lll}
+I. $y=4x^2+5$ \qquad \qquad II. $4x^2+9y^2=36$ \qquad \qquad  III. $r = 4\sin(\theta)$
+\end{tabular}
+\end{center}
+
+\begin{freeResponse}
+\textbf{I.} Since $y$ is given explicitly as a function of $x$, we set $x(t)=t$.  Then, $y(t) = 4t^2+5$, so 
+
+\[
+\vec{r}(t) = \vector{t,4t^2+5} , t \in \R.
+\]
+
+\textbf{II.} We could solve for $x$ or $y$, but would actually need two different parameterizations to account for the entire ellipse.  Instead, we can use a parameterization inspired by polar coordinates.  Let's first recast the original equation by dividing both sides by 36 to obtain
+
+\[
+\frac{x^2}{9}+\frac{y^2}{4} = 1,
+\]
+and set
+
+\begin{align*}
+x(t) &= 3 \cos(t) \\
+y(t) &= 2 \sin(t).
+\end{align*}
+
+We check quickly that this is a valid parametrization
+
+\[
+\frac{x^2}{9}+\frac{y^2}{4} =\frac{\left[3 \cos(t) \right]^2}{9~}+\frac{\left[ 2 \sin(t) \right]^2}{4~} =\cos^2(t)+\sin^2(t) = 1.\]
+
+We can thus choose the parameterization below.
+
+\[
+\vec{r}(t) = \vector{3\cos(t),2\sin(t)} , 0 \leq t \leq 2 \pi.
+\]
+
+\textbf{III.} Our position vector will be $\vec{r}(t)=\vector{x(t),y(t)}$, so we need to find the Cartesian representation $(x,y)$ of each point on the curve whose polar representation is given.
+
+Since $x=r\cos(\theta)$ and $y=r\sin(\theta)$, and $r= 4\sin(\theta)$, we can write $x$ and $y$ in terms of $\theta$.
+
+\begin{align*}
+x &= r \cos(\theta) = 4\sin(\theta)\cos(\theta) \\
+y &= r \sin(\theta) = 4\sin(\theta)\sin(\theta) =4 \sin^2(\theta) .
+\end{align*}
+
+Setting $t=\theta$, we obtain
+
+\[
+\vec{r}(t) = \vector{4\sin(t)\cos(t),4 \sin^2(t)} , 0 \leq t \leq 2\pi.
+\]
+
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Group Work}
+
+\begin{problem}
+Give the domain of the following vector-valued functions.
+
+\begin{tabular}{ll}
+I. $\vec{r}_1(t) = \vector{\frac{\sin(2t)}{t^2+1},\sqrt{1-4t},e^{2t}}$ & II. $\vec{r}_2(t) = \vector{\ln(2+t),t^2 \arctan{t},\frac{t^2}{\sqrt{1-2t}}}$
+\end{tabular}
+
+\begin{freeResponse}
+Recall that unless it is explicitly stated, the domain is taken to be the set of all $t$-values for which \emph{all} three functions $x(t), y(t)$, and $z(t)$ are defined.
+
+\textbf{I.} Note that
+
+\begin{align*}
+\bullet ~ x(t) &= \frac{\sin(2t)}{t^2+1} \textrm{ is defined for all } t .\\
+\bullet ~ y(t) &= \sqrt{1-4t} \textrm{ is defined for } 1-4t > 0, \textrm{ so } t \leq \frac{1}{4}. \\
+\bullet ~ z(t) &= e^{2t} \textrm{ is defined for all } t. \\
+\end{align*}
+
+Thus, we can describe the domain of $\vec{r}_1(t)$ using interval or set notation.
+
+\begin{itemize}
+\item Interval notation: $\left(\infty, \frac{1}{4} \right]$ 
+\item Set notation: $\left\{ t \in \R ~ \bigg| ~ t \leq \frac{1}{4} \right\}$
+\end{itemize}
+
+\textbf{II.} Note that
+
+\begin{align*}
+\bullet ~ x(t) &= \ln(2+t) \textrm{ is defined for } 2+t > 0 \textrm{ so } t > -2. \\
+\bullet ~ y(t) &= t^2\arctan(t) \textrm{ is defined for all } t. \\
+\bullet ~ z(t) &= \frac{t^2}{\sqrt{1-2t}} \textrm{ is defined for } 1-2t>0 \textrm{ so } t < \frac{1}{2}. \\
+\end{align*}
+
+Thus, we can describe the domain of $\vec{r}_2(t)$ using interval or set notation.
+
+\begin{itemize}
+\item Interval notation: $\left(-2, \frac{1}{2} \right)$ 
+\item Set notation: $\left\{ t \in \R ~ \bigg| ~ -2< t < \frac{1}{2} \right\}$
+\end{itemize}
+
+
+\begin{remark}
+Either way of reporting the answer is fine for quizzes and exams in this course, but we will need set notation when we discuss functions of several variables, so it is helpful to become acquainted with it now.
+\end{remark}
+
+\end{freeResponse}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Let $l$ be the line that passes through $(2,8,0)$ and is parallel to $\vector{-1,0,4}$.
+
+\begin{itemize}
+\item[I.] Find a parametric description of $l$.
+\item[II.] Determine if $l$ lies on the plane $8x-y+2z=8$.  If it does not, does it intersect the plane anywhere?
+\end{itemize} 
+
+\begin{freeResponse}
+When we want to study lines in $\R^3$ (or in higher dimensions), the notion of ``slope'' no longer is helpful.  In two dimensions, note that lines with different slopes point in different directions.  By replacing ``slope'' with ``a vector in the same direction as the line'', we can find parametric descriptions of lines in more than two dimensions.  Thus, in order to find a parametric description of a line, we need:
+
+\begin{itemize}
+\item a vector $\vec{v}$ parallel to the line.
+\item a point $P_0$ on the line.
+\end{itemize}
+
+Once we have these, a parametric description of the line is given by 
+
+\[
+\vec{l}(t) = \vec{v}t+\vec{P}_0
+\]
+where $\vec{P}_0$ is the vector associated to the point $P_0$.
+
+\textbf{I.} Here $\vec{v} = \vector{-1,0,4}$ and $\vec{P}_0 = \vector{2,8,0}$, so a parametric description of the line is 
+
+\[
+\vec{l}(t) =  \vector{-1,0,4}t+\vector{2,8,0} =  \vector{-t+2,8,4t}.
+\]
+
+\textbf{II.} The line described by $\vec{l}(t)$ will lie on the plane $8x-y+2z=8$ if every point on the line also lies on the plane.  From the description of the $l$, we note that for a given $t$-value
+
+\[
+x(t) = -t+2 \qquad \qquad y(t) =8 \qquad \qquad z(t)=4t.
+\] 
+Thus, for the line to lie on the plane, for \emph{any} $t$-value, we must have
+
+\[
+8[x(t)]-[y(t)]+2[z(t)]=8
+\]
+
+We now check whether this happens by substituting in the expressions we found earlier.
+
+\begin{align*}
+8[x(t)]-[y(t)]+2[z(t)]&=8[-t+2]-[8]+2[4t]\\
+&= -8t+16-8+8t \\
+&= 8
+\end{align*}
+
+Since the equation is satisfied for all $t$-values, the line $l$ lies on the plane $8x-y+2z=8$.
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Let $l$ be the line that passes through $(1,-1,2)$ and $(2,1,2)$.
+
+\begin{itemize}
+\item[I.] Find a parametric description of $l$.
+\item[II.] Show that the point $(3,3,2)$ lies on $l$.
+\item[III.] A student claims that since $(3,3,2)$ lies on the line, a parametric description of the line is 
+
+\[
+\vec{L}(t) = \vector{t+3,2t+3,2}.
+\]
+Determine if the student is correct or incorrect.  If the student is correct, how do you rectify their response with your response to Part I?
+\end{itemize} 
+
+\begin{freeResponse}
+
+\textbf{I.} We need to find a vector $\vec{v}$ parallel to $l$ and a point $P_0$ on $l$.  We actually are given two points on the line, so we may use either for $P_0$.  
+
+Letting $P_1 = (1,-1,2)$ and $P_2 = (2,1,2)$, the vector that begins at $P_1$ and extends to $P_2$ will be parallel to $l$.  Thus, a choice for $\vec{v}$ is
+
+\[
+\vec{v} = \vector{2-1,1-(-1),2-2} = \vector{1,2,0}.
+\]
+
+Using $\vec{P}_0 = \vector{1,-1,2}$ gives the parametric description
+
+\[
+\vec{l}(t) = \vector{1,2,0}t+\vector{1,-1,2} = \vector{t+1,2t-1,2}.
+\]
+
+
+\textbf{II.} The point $(3,3,2)$ lies on $l$ if there is a common $t$-value for which 
+
+\[
+x(t) = 3, \qquad \qquad y(t) =3, \qquad  \qquad z(t)=2.
+\] 
+
+From $x(t) =t+1$, we find $x(t) = 3$ when $t=2$.  We can check that $y(2) = 2(2)-1=3$, and since $z(t) = 2$ for all $t$, we see that $(3,3,2)$ lies on $l$.
+
+\textbf{III.} The student is correct; since $\vec{v} = \vector{1,2,0}$ is parallel to the line and $(3,3,2)$ lies on the line, a parametric description of the line is
+
+\[
+\vec{L}(t) =  \vector{1,2,0}t+\vector{3,3,2} = \vector{t+3,2t+2,2}.
+\]
+
+Note here that we have freedom in what we call our parameter, so we will call it $T$ to avoid confusion with the parameter $t$ we chose to express our answer to Part I.  To rectify this with our answer from Part I, we must show that any point on the line line described by $\vec{l}(t) = \vector{t+1,2t-1,2}$ must also lie on the line that the student $\vec{L}(T) = \vector{T+3,2T+3,2}$.
+
+There are many ways to approach this problem, but one way is to check whether the line the student gave passes through the same two original points given in the problem.  Since there is a unique line that passes through any two points in $\R^3$, if the line the student gave passes through these points, it must be the same line as we described.
+
+Note that $\vec{L}(T) = \vector{T+3,2T+3,2}$ passes through $(1,-1,2)$ when $T= -2$, and it passes through $(2,1,2)$ when $T=-1$.  Thus, the vector-valued functions $\vec{l}(t)$ and $\vec{L}(T)$ describe the same line, but given a point on the line, both vector-valued functions will pass through it for different values of their respective parameters.  
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+The position vector for the curve $\mathcal{C}$ in the $xyz$-plane is given by $\vec{r} (t) = \vector{2t+1, t^2, 3t}$.
+
+\begin{itemize}
+\item[I.] Let $\mathcal{S} = \left\{(x,y,z) \in \R^3 ~ \bigg| ~ x^2-4y + z = 2\right\}$.  
+
+Determine whether the curve $\mathcal{C}$ intersects the surface $\mathcal{S}$, intersects $\mathcal{S}$ at finitely many points, or does not intersect $\mathcal{S}$.  If $\mathcal{C}$ intersects $\mathcal{S}$ at finitely many points, state the $(x,y,z)$ coordinates of each point of intersection. 
+\item[II.] Find a value for the constant $a$ so the curve $\mathcal{C}$ lies on the surface $$x^2-4y + az = 2$$ or explain why there is no such constant.
+
+\end{itemize}
+
+
+\begin{freeResponse}
+In order to determine the nature of the intersection of the curve and the surface, denote $\vec{r} (t) = \vector{x(t), y(t) , z(t)}$; that is, there is a common $t$-value for which the $x$, $y$, and $z$-coordinate of any point $(x,y,z)$ on the curve can be found by evaluating $\vec{r}(t)$. We now can study the equation
+
+\[
+[x(t)]^2-4[y(t)] + [z(t)] = 2.
+\]
+
+\begin{itemize}
+\item If the equation above holds for \emph{all} $t$-values, this means that every point on the curve $\mathcal{C}$ must also lie on the surface $\mathcal{S}$. Hence, the curve $\mathcal{C}$ lies on $\mathcal{S}$.
+\item If the equation above holds for finitely many $t$-values, this means that the curve $\mathcal{C}$ intersects the surface at precisely  the $(x,y,z)$ values associated with each of those $t$-values. Thus, the curve $\mathcal{C}$ intersects $\mathcal{S}$ at finitely many points $(x,y,z)$ and these points may be found by evaluating $\vec{r}(t)$ at those $t$-values.
+\item If the equation above holds for \emph{no} $t$-values, this means that no point on the curve $\mathcal{C}$ lies on the surface $\mathcal{S}$. Hence, the curve $\mathcal{C}$ and the surface $\mathcal{S}$ do not intersect.
+\end{itemize}
+
+\textbf{I.} Since $\vec{r} (t) = \vector{2t+1, t^2, 3t}$, we analyze $[x(t)]^2-4[y(t)] + [z(t)] = 2.$
+
+\begin{align*}
+[x(t)]^2-4[y(t)] + [z(t)] & = [2t+1]^2-4[t^2] + [3t] \\
+&= 4t^2+4t+1 -4t^2+3t \\
+& = 7t+1
+\end{align*}
+Note that $7t+1 = 2$ when $t= \frac{1}{7}$, so the curve will intersect the surface exactly once.  Since $\vec{r}\left(\frac{1}{7}\right) = \vector{\frac{9}{7},\frac{1}{49},\frac{3}{7}}$, the curve and surface intersect at $(x,y,z) = \left(\frac{9}{7},\frac{1}{49},\frac{3}{7}\right)$.
+
+\textbf{II.} For the curve $\vec{r} (t) = \vector{2t+1, t^2, 3t}$ to lie on the surface $x^2-4y + az = 2$, there must be a value for $a$ so 
+
+\[
+[x(t)]^2-4[y(t)] + a[z(t)] = 2
+\]
+
+holds for all $t$.  Substituting the expressions for $x(t)$, $y(t)$, and $z(t)$ gives:
+
+\begin{align*}
+[x(t)]^2-4[y(t)] + a [z(t)] & = [2t+1]^2-4[t^2] + a[3t] \\
+&= 4t^2+4t+1 -4t^2+3at \\
+& = (4+3a)t+1.
+\end{align*}
+
+Before reading on, make sure you think about how to interpret the above result!
+
+Notice that the goal was to find a value for $a$ so $[x(t)]^2-4[y(t)] + a[z(t)] = 2$ \emph{no matter what $t$ is}.  There is no value for $a$ that makes $(4+3a)t+1=2$ for all $t$, so there is no $a$-value for which the curve $\mathcal{C}$ lies on the surface $x^2-4y + az = 2$.
+
+\begin{remark}
+One way to interpret Part II is as an extension to Part I; we found in Part I that the curve intersects the surface finitely many times, and attempted to find a way to change the surface slightly in order to try to align it with the curve.  Here are a few related questions that require the same steps to be performed.
+
+\begin{itemize}
+\item We can change the nature of the intersection; that is, we can ask the following.
+
+\begin{quote}
+Find a value for the constant $a$ so the curve $\mathcal{C}$ does not intersect the surface $$x^2-4y + az = 2$$ or explain why there is no such constant. 
+\end{quote}
+
+\item We can change the position of the parameter.  An example is given below.
+
+\begin{quote}
+Find a value for the constant $a$ so the curve $\mathcal{C}$ lies on the surface $$x^2+ay +z = 2$$ or explain why there is no such constant.
+\end{quote}
+
+\item We can note that we might need more than one parameter to obtain the desired result in Part II.  
+
+\begin{quote}
+Find values for the constants $a$ and $b$ so the curve $\mathcal{C}$ lies on the surface $$x^2-4y +az = b$$ or explain why no such constants exist.
+\end{quote}
+
+\end{itemize}
+
+Note that each problem above should be approached the same way as we solved Part II, but each would require that we interpret our work differently or draw different conclusions.  These are types of questions that the department classifies as ``similar''; they draw from the same pool of concepts but cannot be solved simply by repeating the exact same steps as the solution in Part II.
+\end{remark}
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,217 @@
+\documentclass[noauthor]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+\input{../preamble.tex}
+
+
+
+\author{Jim Talamo}
+
+\outcome{Use the ratio test to determine whether a series converges or diverges.}
+\outcome{Use the root test to determine whether a series converges or diverges.}
+
+\title[]{The Ratio Test}
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\vspace{-0.5in}
+
+\section{Discussion Questions}
+
+\begin{problem}
+Suppose $\{a_n\}_{n=1}$ is a sequence of positive terms and $\lim_{n \to \infty} \frac{a_{n+1}}{a_n} = \frac{1}{2}$ and let $p>0$.  
+\begin{itemize}
+\item[I.] Determine whether $\sum_{k=1}^{\infty} k^p a_k$ converges or diverges.  
+\item[II.] Suppose that $\{a_n\}_{n=1}$ is any series for which $\sum_{k=1}^{\infty} a_k$ converges by the ratio test.  Does multiplying $a_k$ by any polynomial in $k$ affect convergence?  That is, if $p(x)$ is a polynomial, does $\sum_{k=1}^{\infty} p(k)a_k$ still converge?
+\item[III.] Suppose that we want to determine whether $\sum_{k=1}^\infty \frac{k^2+6k}{5k^3 + 2k^2 + 1}$ converges.  Would the ratio test be conclusive here?
+\end{itemize}
+
+\begin{freeResponse}
+I. We use ratio test to determine if $\sum_{k=1}^{\infty} k^p a_k$ converges.  Note that by setting $b_n = n^p a_n$, we find
+
+\[
+L = \lim_{n \to \infty} \left|\frac{b_{n+1}}{b_n}\right| = \lim_{n \to \infty} \frac{(n+1)^p a_{n+1}}{n^p a_n}= \lim_{n \to \infty} \frac{(n+1)^p}{n^p} \cdot \lim_{n \to \infty} \frac{a_{n+1}}{a_n}
+\]
+
+Note the following.
+
+\begin{itemize}
+\item $\lim_{n \to \infty} \frac{(n+1)^p}{n^p} = \lim_{n \to \infty} \left(\frac{n+1}{n}\right)^p  = 1^p =1$
+\item  $\lim_{n \to \infty} \frac{a_{n+1}}{a_n} = \frac{1}{2}$ is given.
+\end{itemize}
+
+Thus, we find that
+
+\[
+L = \lim_{n \to \infty} \frac{(n+1)^p}{n^p} \cdot \lim_{n \to \infty} \frac{a_{n+1}}{a_n} = \frac{1}{2}.
+\]
+
+The series $\sum_{k=1}^{\infty} k^p a_k$ thus converges by ratio test.  Note that the polynomial term $n^p$ does not affect the limit $L$ of successive terms.
+
+II. The presence of the polynomial will not affect the convergence; that is if  $\sum_{k=1}^{\infty} a_k$ converges by the ratio test, so too will $\sum_{k=1}^{\infty} p(k) a_k$.  To verify this, we would have to compute 
+
+\[
+L = \lim_{n \to \infty} \left|\frac{p(n+1)a_{n+1}}{p(n)a_n}\right| .
+\]
+
+Since we have seen that for the purpose of limits, polynomials can be treated by only considering the highest degree term, this limit will be equivalent to the limit we just computed by letting $p$ be the power of the highest degree term in the polynomial.
+
+III. The ratio test would not be conclusive here; since we only have polynomial terms, we know without doing any computation that $\lim_{n \to \infty} \left|\frac{a_{n+1}}{a_n}\right|$ will be $1$.  You may verify this by explicitly computing the limit if you would like!
+
+\end{freeResponse}
+\end{problem}
+
+
+\begin{problem}
+Suppose $a_n>0$ for all $n \geq 1$ and $\lim_{k \rightarrow \infty} \frac{a_{k+1}}{a_k} = \frac{1}{2}.$
+
+\begin{itemize}
+\item[I.] Does $\sum_{k=1}^\infty a_k$ converge?
+\item[II.] Does $\sum_{k=1}^\infty \frac{a_{k+1}}{a_k}$ converge?
+\item[III.] A student claims that $\sum_{k=1}^\infty a_k$ converges to $\frac{1}{2}$ by ratio test. Is the student correct?
+\end{itemize}
+
+\begin{freeResponse}
+A lot of information is being stored in the notation used in these problems.  A good strategy before tackling a problem is to take a moment and parse what information is being given and what you are being asked to do with it.
+
+I. Since $\lim_{k \rightarrow \infty} \frac{a_{k+1}}{a_k} = \frac{1}{2}<1$, the ratio test tells us that $\sum_{k=1}^\infty a_k$ converges.
+
+\begin{remark}
+Since the limit of the \emph{sequence} $\left\{\frac{a_{n+1}}{a_n} \right\}$ is $\frac{1}{2}$, the ratio test tells us that the \emph{series} $\sum_{k=1}^\infty a_k$ converges.  Note that we are using the limit of a completely different sequence than $\{a_n\}$ in order to determine if we can sum all of the terms in $\{a_n\}$.
+\end{remark}
+
+
+II. Since $\lim_{k \rightarrow \infty} \frac{a_{k+1}}{a_k} \neq 0$, the divergence test tells us that $\sum_{k=1}^\infty \frac{a_{k+1}}{a_k}$ diverges.
+
+
+\begin{remark}
+Note that the divergence test tells us that if the terms in a \emph{sequence} do not tend to $0$, then the sum of all infinitely many terms in the sequence will diverge.  Here, we have information about the limit of the sequence $\left\{\frac{a_{n+1}}{a_n} \right\}$, so divergence test applies to the sum of the terms of this sequence.
+\end{remark}
+
+III. The student is not correct; the ratio test can only tell us that a series converges, not the value to which it converges. 
+
+To give a concrete counterexample to the student's claim, consider the series 
+$$
+\sum_{k=1}^\infty \frac{1}{2^k}.
+$$
+The terms $a_k = \frac{1}{2^k}$ of this series satisfy $\lim_{k \rightarrow \infty} \frac{a_{k+1}}{a_k} = \frac{1}{2}$, but in this case we can determine the value of the series exactly since
+
+$$
+\sum_{k=1}^\infty \frac{1}{2^k} = \sum_{k=0}^\infty \frac{1}{2^k} - 1 = \frac{1}{1-1/2} - 1 = 1 \neq \frac{1}{2}.
+$$
+
+
+\end{freeResponse}
+\end{problem}
+
+
+\section{Group Work}
+\begin{problem}
+Suppose that the sequence $\{a_n\}_{n=1}^\infty$ has sequence of partial sums $\{s_n\}_{n=1}^\infty$ given by the formula
+$$
+s_n = \frac{3^n}{n!}.
+$$
+\begin{itemize}
+\item[I.] Does $\sum_{k=1}^\infty a_k$ converge?
+\item[II.] Does $\sum_{k=1}^\infty s_k$ converge?
+\end{itemize}
+
+\begin{freeResponse}
+I. By definition,
+$$
+\sum_{k=1}^\infty a_k = \lim_{n\rightarrow \infty} s_n = \lim_{n\rightarrow \infty} \frac{3^n}{n!} = 0,
+$$
+where the limit is computed by comparing growth rates. 
+
+II. The series $\sum_{n=1}^{\infty} s_n$ converges by the ratio test, since
+\begin{align*}
+\lim_{n \rightarrow \infty} \left|\frac{s_{n+1}}{s_n} \right| &= \lim_{n \rightarrow \infty} \frac{3^{n+1}}{(n+1)!} \cdot \frac{n!} {3^n} \\
+&= \lim_{n \rightarrow \infty} \frac{3^{n+1}}{3^n} \frac{n!}{(n+1)!} \\
+&= \lim_{n \rightarrow \infty} \frac{\cancel{3^n} \cdot 3^1}{\cancel{3^n}} \frac{\cancel{n!}}{(n+1) \cdot\cancel{n!}} \\
+&= \lim_{n \rightarrow \infty} \frac{3}{n+1} \\
+&= 0.
+\end{align*}
+The series $\sum_{n=1}^{\infty} s_n$ converges, but we don't have the tools necessary yet to determine its value. 
+\end{freeResponse}
+
+
+\end{problem}
+
+
+\begin{problem}
+Consider the series $\sum_{k=1}^\infty \frac{(k!)^2}{(2k)!}$.
+\begin{itemize}
+\item[I.] Does $\sum_{k=1}^\infty \frac{(k!)^2}{(2k)!}$ converge or diverge?
+\item[II.] What is $\lim_{n \to \infty} \frac{(n!)^2}{(2n)!}$?
+\end{itemize}
+
+\begin{freeResponse}
+
+I. Because the terms in the series involve factorials, the ratio test should be useful here. We have 
+\begin{align*}
+\lim_{n \rightarrow \infty} \left|\frac{((n+1)!)^2}{(2(n+1))!} \cdot \frac{(2n)!}{(n!)^2} \right| &= \lim_{n \rightarrow \infty} \frac{(n+1)! \cdot (n+1)!}{(2n+2)!} \frac{(2n)!}{n! \cdot n!} \\
+&= \lim_{n \rightarrow \infty} \frac{(2n)!}{(2n+2)!} \cdot \frac{(n+1)!}{n!} \cdot \frac{(n+1)!}{n!} \\
+&= \lim_{n \rightarrow \infty} \frac{\cancel{(2n)!}}{(2n+2)(2n+1)\cancel{(2n)!}} \cdot \frac{(n+1) \cdot \cancel{n!} }{\cancel{n!}} \cdot \frac{(n+1) \cdot \cancel{n!} }{\cancel{n!}} \\
+&= \lim_{n \rightarrow \infty} \frac{(n+1)^2}{(2n+2)(2n+1)}  \\
+&= \frac{1}{4}.
+\end{align*}
+In the last step, note that dominant term analysis gives the limit without further computation since the dominant term in the numerator is $n^2$, and the dominant term in the denominator is $(2n)(2n) =4n^2$.
+
+Since the limit above is less than $1$, it follows that the series converges by the ratio test.
+
+II. Recall that if a series $\sum_{k=k_0}^{\infty} a_k$ converges, $\lim{n \to \infty} a_n =0$.  Using this fact, since $\sum_{n=1}^\infty \frac{(k!)^2}{(2k)!}$ converges, $\lim_{n \to \infty} \frac{(n!)^2}{(2n)!} = 0$
+
+\end{freeResponse}
+\end{problem}
+
+\begin{problem}
+Consider the series $\sum_{k=1}^\infty \frac{3^{k^2}}{k!}$.
+\begin{itemize}
+\item[I.] Does $\sum_{k=1}^\infty \frac{3^{k^2}}{k!}$ converge or diverge?
+\item[II.] What is $\lim_{n \to \infty} \frac{n!}{3^{n^2}}$?
+\end{itemize}
+
+\begin{freeResponse}
+I.  Since there is a factorial, we can try to apply ratio test.
+
+\begin{align*}
+\lim_{n \rightarrow \infty} \left|\frac{3^{(n+1)^2}}{(n+1)!} \cdot \frac{n!}{3^{n^2}} \right| &= \lim_{n \rightarrow \infty} \frac{3^{(n+1)^2}}{3^{n^2}}  \cdot \frac{n!}{(n+1)!} \\
+&= \lim_{n \rightarrow \infty} \frac{3^{n^2+2n+1}}{3^{n^2}}  \cdot \frac{n!}{(n+1)!} \\
+&= \lim_{n \rightarrow \infty} \frac{\cancel{3^{n^2}} \cdot 3^{2n+1}}{\cancel{3^{n^2}}}  \cdot \frac{\cancel{n!}}{(n+1) \cdot \cancel{n!}} \\
+&= \infty \qquad \textrm{ by growth rates. }
+\end{align*}
+
+Hence, the series $\frac{3^{k^2}}{k!}$ diverges by the ratio test.
+
+II.  By an analogous argument $\sum_{k=1}^\infty \frac{k!}{3^{k^2}}$ will converge by the ratio test since the necessary limit to compute will now be $0$.  Since $\sum_{k=1}^\infty \frac{k!}{3^{k^2}}$ converges, it follows that $\lim_{n \to \infty} \frac{n!}{3^{n^2}} =0$.
+\end{freeResponse}
+\end{problem}
+
+\end{document}

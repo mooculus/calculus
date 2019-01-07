@@ -1,0 +1,299 @@
+\documentclass[noauthor]{ximera}
+%handout:  for handout version with no solutions or instructor notes
+%handout,instructornotes:  for instructor version with just problems and notes, no solutions
+%noinstructornotes:  shows only problem and solutions
+
+%% handout
+%% space
+%% newpage
+%% numbers
+%% nooutcomes
+
+%I added the commands here so that I would't have to keep looking them up
+%\newcommand{\RR}{\mathbb R}
+%\renewcommand{\d}{\,d}
+%\newcommand{\dd}[2][]{\frac{d #1}{d #2}}
+%\renewcommand{\l}{\ell}
+%\newcommand{\ddx}{\frac{d}{dx}}
+%\everymath{\displaystyle}
+%\newcommand{\dfn}{\textbf}
+%\newcommand{\eval}[1]{\bigg[ #1 \bigg]}
+
+%\begin{image}
+%\includegraphics[trim= 170 420 250 180]{Figure1.pdf}
+%\end{image}
+
+%add a ``.'' below when used in a specific directory.
+
+%\input{../../preamble.tex}
+\input{../preamble.tex}
+
+
+
+\author{Jim Talamo}
+
+\outcome{State the domain and range of a function of two variables.}
+\outcome{Identify level curves for a function of several variables.}
+\outcome{Identify whether a curve lies on a level curve of a function.}
+\outcome{Give parameterizations of level curves of a function and curves on the associated surface.}
+\outcome{Give a parametric description of a curve on a surface given the preimage of the curve.}
+
+\title[Collaborate:]{Functions of Several Variables}
+
+\newcommand{\Set}[1]{ \left\{ (x,y) \in R^2 ~ \big| ~ #1 \right\} }
+
+\begin{document}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\section{Discussion Questions}
+
+\begin{problem}
+State the domain and range of the following functions.  
+\begin{center}
+\begin{tabular}{lll}
+I. $f(x,y) = \ln(2x+4y^2)$  &II. $f(x,y) =e^{x^2+2y^4-1}$  &III. $f(x,y) = \sqrt{16- 4x^4y^2} $ \hspace{10mm} 
+\end{tabular}
+\end{center}
+
+\begin{freeResponse}
+
+Recall that unless otherwise specified, the domain of a function will be taken to be the set of all $(x,y) \in \R^2$ for which the formula that describes the function is defined.
+
+Also, the domain of a function $f:\R^2 \to \R$ will be a subset of $\R^2$, whereas the range will be a subset of $\R$.
+
+I. For the natural logarithm to be defined, its argument must be positive. This requires that $2x+4y^2 >0$.  The range of the logarithm is $\R$, with the logarithm tending to $-\infty$ as its argument tends to $0$ and $\infty$ as its argument becomes arbitrarily large.  Since $2x+4y^2$ can approach $0$ along a path in the domain of the function (take $y=0$, $x \to 0^+$) and become arbitrarily large (let $x$ and $y$ become arbitrarily large and positive), the range will be $\R$.
+
+\[
+\textrm{Domain:} \Set{2x+4y^2 >0} \qquad \textrm{ and } \qquad \textrm{ Range: } \R
+\]
+ 
+II. The exponential is defined for all $(x,y) \in \R^2$.   Since the exponential is an increasing function of its input, and $x^2+2y^4-1 \geq -1$, with equality when $(x,y) = (0,0)$, the range is $[e^{-1},\infty)$.
+
+\[
+\textrm{Domain: } \R^2 \qquad \textrm{ and } \qquad \textrm{ Range: } [e^{-1},\infty)
+\]
+
+III. The square root is defined when its argument is nonnegative.   The square root always returns nonnegative values, and achieves its minimum when its argument is $0$.  Since $(x,y) = (2,0)$ is in the domain and $\sqrt{16- 4x^4y^2}=0$ there.  Also, $16-4x^4y^2 \leq 16$, with equality when $(x,y)=(0,0)$, so $\sqrt{16- 4x^4y^2} \leq \sqrt{16} =4$.
+\[
+\textrm{Domain: } \Set{16-4x^4y^2 \geq 0} \qquad \textrm{ and } \qquad \textrm{ Range: } [0,4]
+\]
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%FIX THIS TO HAVE NICER NUMBERS LATER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Consider the function $f(x,y) =  \begin{cases} 2x+3y , & x+2y^2 \neq 4 \\ \frac{x-2y}{x^2-y^2} , & x+2y^2=4 \end{cases} $ . 
+
+I. Find $f(1,2)$ and $f(2,1)$.
+
+II. State the domain of $f(x,y)$.
+
+\begin{freeResponse}
+We must consider which piece to use.
+
+I. For $f(1,2)$, note that $(1)+2(2)^2 = 9 \neq 4$, so we use the top piece.
+
+\[
+f(1,2) =2(1)+3(2) =8.
+\]
+
+For $f(2,1)$, note that $(2)+2(1)^2 = 4$, so we use the bottom piece.
+
+\[
+f(2,1) = \frac{2-2(1)}{(2)^2-(1)^2} = 0.
+\]
+
+II. Note that the top piece is defined for all $(x,y)$, and the bottom is undefined only when $x^2-y^2=0$.  Since the bottom piece is defined only for $(x,y)$ where $x+2y^2=4$, we must find all points $(x,y)$ for which:
+
+\begin{align}
+x^2-y^2&=0 \\
+x+2y^2&=4.
+\end{align}
+
+From the first condition, we have $y^2=x^2$, so substituting this into the second one gives
+
+\begin{align*}
+x+2x^2 &=4 \\
+2x^2+x-4 &= 0 \\
+x &= \frac{-1\pm \sqrt{1-4(2)(-4)}}{2(2)} \\
+&=\frac{-1\pm \sqrt{33}}{4} 
+\end{align*}
+
+Since $y^2=x^2$, $y= \pm x$, so there are four such points.  Thus, the domain is all $(x,y) \in R^2$ except for  $\left(\frac{-1 - \sqrt{33}}{4},\frac{-1- \sqrt{33}}{4} \right)$, $\left(\frac{-1 - \sqrt{33}}{4},\frac{-1 + \sqrt{33}}{4} \right)$, $\left(\frac{-1 + \sqrt{33}}{4},\frac{-1 - \sqrt{33}}{4} \right)$, and $\left(\frac{-1 + \sqrt{33}}{4},\frac{-1 + \sqrt{33}}{4} \right)$.
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Consider the function $f(x,y) = x^2+xy^2+17$.
+
+Which of the following curves in $\R^2$ described below are part of a level curve of $f(x,y)$?
+
+\begin{itemize}
+\item[A.] $x=y$
+\item[B.] $x^2+xy^2=5$
+\item[C.] $\vector{-t^2,t}$
+\item[D.] $\vector{0,\sin(2t)}$
+\end{itemize}
+
+\begin{freeResponse}
+In order to determine which curves lie on level curves, we must determine whether $f(x,y)$ is constant along each.
+
+I. When $y=x$,
+
+\[f(x,y) = f(x,x) =x^2+x^3+17.\]  
+
+This explicitly depends on $x$, so the line $y=x$ is not part of a level curve of $f(x,y)$.
+
+II. When $x^2+xy^2=5$,
+
+\[ f(x,y) = x^2+xy^2+17 = \left[x^2+xy^2\right] +17 = 5+17 = 22.\]
+
+Thus, the curve described by  $x^2+xy^2=5$ is part of a level curve of $f(x,y)$.
+
+III. For the curve parameterized by $\vector{-t^2,t}$, note 
+
+\[f(x,y) = f(-t^2,t) =   (-t^2)^2+(-t^2)(t)^2+17 = 17.\] 
+
+Thus, the curve parameterized by $\vector{-t^2,t}$ is part of a level curve of $f(x,y)$.
+
+IV. For the curve parameterized by $\vector{0,\sin(2t)}$, note 
+
+\[f(x,y) = f(0,\sin(2t)) =   (0)^2+(0)(\sin(2t))^2+17 = 17.\] 
+
+Thus, the curve parameterized by $\vector{0,\sin(2t)}$ is part of a level curve of $f(x,y)$.
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Group Work}
+
+
+\begin{problem}
+What are the level curves of the plane $2x-y+3z=9$?  Find the level curve corresponding to $z=1$ in terms of $x$ and $y$.  On the same set of axes, plot a representation of the level curve and the curve that corresponds to it on the plane.
+
+\begin{freeResponse}
+The level curves of $2x-y+3z=9$ are found by setting $z=c$, where $c$ is a constant.  Thus
+
+\begin{align*}
+2x-y+3c&=9 \\
+2x-y &= 9-3c
+\end{align*}
+
+These are lines.  Specifically, when $z=1$, the level curve is the line $2x-y=6$ in the $xy$-plane, which appears a height $6$ above the $xy$-plane on the surface.
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Give a parametric description of the curve on the surface \[z=8x^2+3y-2\] associated to the given curve in the $xy$-plane.
+
+\begin{center}
+\begin{tabular}{lll}
+I. $y=4x^2+1$ \hspace{15mm} & II. $x^2+2xy=4$ \hspace{15mm} & III. $x^2+y^2=9$
+\end{tabular}
+\end{center}
+
+\begin{freeResponse}
+We parameterize the curve in the domain, then use the surface to give a parameterization for the curve on the surface.
+
+I. Let $x(t)=t$, so $y(t) =4t^2+1$.  Since $z=8x^2+3y-2$, we have $z(t) = 8t^2+3(4t^2+1)-2 = 20t^2-1.$  A parameterization is thus
+
+\[
+\vec{r}(t) = \vector{ t, 4t^2+1, 20t^2-1}.
+\]
+
+II. Note that we can explicitly solve for $y$ in the equation $x^2+2xy=4$ by noting
+
+\begin{align*}
+x^2+2xy&=4\\
+2xy&=4-x^2 \\
+y &= \frac{2}{x}-\frac{x}{2}
+\end{align*}
+Note that we may divide by $x$ here since there are no points on the curve for which $x=0$.  Thus, we may proceed as before and find that a parameterization of the curve on the surface is
+
+\[
+\vec{r}(t) = \vector{ t, \frac{2}{t}-\frac{t}{2}, 8t^2+ \frac{6}{t}-\frac{3t}{2}-2}.
+\]
+
+III. When working with circles and ellipses, it is best to take advantage of the Pythagorean trigonometric identities.
+
+\begin{align*}
+x(t) &= 3\cos(t) \\
+y(t) &= 3\sin(t)
+\end{align*}
+
+Note that $[x(t)]^2+[y(t)]^2 = [3\cos(t)]^2+[3\sin(t)]^2 = 9\cos^2(t) + 9\sin^2(t) = 9$, so this gives a parameterization of the circle.
+
+Since $z=8x^2+3y-2$, we have $z(t) = 8[3\cos(t)]^2+3[3\sin(t)]-2 = 24\cos^2(t)-9\sin(t)-2.$
+\[
+\vec{r}(t) = \vector{3\cos(t), 3\sin(t), 24\cos^2(t)-9\sin(t)-2}.
+\]
+
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{problem}
+Consider the function $f(x,y) = 2y+4x^2+5$.
+
+I. For the surface $z=f(x,y)$, find a description of the level curve corresponding to $z=9$ in terms of $x$ and $y$ only.
+
+II. Give a parameterization of the level curve and the corresponding curve that lies on the surface $z=f(x,y)$.
+
+III. Determine if the curve $C$ traced out by $\vec{p}(t) = \vector{t^2,3t}$ is part of a level curve of $f(x,y)$.  Give a parametric description of the curve on the surface $z=f(x,y)$ that corresponds to $C$ .
+
+\begin{freeResponse}
+Remember that the desired  level curve is a curve in the $xy$-plane, which is found by setting $z=9$.
+
+I. The level curve is $9 =2y+4x^2+5$.  We can simplify a little, which will be helpful for the next part.
+
+\begin{align*}
+2y+4x^2+5 &=9 \\
+2y+4x^2 &= 4 \\
+y+2x^2 &= 2
+\end{align*}
+
+II. Set $x(t)=t$ so $y(t) =2-2t^2$. Since this parameterizes the level curve along which $z=9$, we have a parameterization for the curve on the surface.
+
+\[
+\vec{r}(t) = \vector{t,2-2t^2,9}
+\]
+
+\begin{remark}
+We may check our work by explicitly substituting $x(t)=t$ and $y(t) = 2-2t^2$ into the equation that defines the surface.  
+
+\[z(t) = 2\big[2-2t^2\big] +4 \big[t\big]^2+5 = 9.\]
+
+\end{remark}
+
+III. To determine if the curve traced out by $\vec{p}(t) = \vector{t^2,3t}$ is part of a level curve, we note that along it
+
+\[
+z=f(x,y)=f(t^2,3t) = 2\big[3t\big]+4\big[ t^2 \big]^2+5 = 6t+4t^4+5.
+\]
+
+This is not a constant since it explicitly depends on $t$, so $\vec{p}(t)$ does not trace out part of a level curve.  However, a parameterization $\vec{P}(t)$ of the curve on the surface is found from the above calculation easily.
+
+\[
+\vec{P}(t) = \vector{t^2,3t,4t^4+6t+5}
+\]
+\end{freeResponse}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

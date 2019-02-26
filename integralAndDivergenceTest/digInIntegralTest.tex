@@ -1,7 +1,8 @@
 \documentclass{ximera}
 
 \input{../preamble.tex}
-
+%
+%\author{Jim Talamo and ???}
 \outcome{Use the integral test to  determine that a series diverges.}
 \outcome{Use integrals to estimate the value of a series within an error.}
 
@@ -9,12 +10,23 @@
 
 \begin{document}
 \begin{abstract}
-Infinite sums can be studied using improper integrals.
+Certain infinite series can be studied using improper integrals.
 \end{abstract}
 \maketitle
 
+In order to study the convergence of a series $\sum_{k=k_0}^{\infty} a_k$, our first attempt to determine whether the series converges is to form the sequence of partial sums $\{s_n\}_{n=k_0}$ since we know that the series $\sum_{k=k_0}^{\infty} a_k$ converges if and only if $\lim_{n \to \infty} s_n$ exists.  In the case of geometric or telescoping series, we were able to find an explicit formula for $s_n$, and analyze $\lim_{n \to \infty} s_n$ by explicit computation.  However, we cannot always find such an explicit formula, and when this is the case, we try to use properties of the terms in the sequence $\{a_n\}$ to determine whether $\lim_{n \to \infty} s_n$ exists.  Our first result was the divergence test, which states
+
+\begin{quote}
+If $\lim_{n \to \infty} a_n \neq 0$, then $\sum_{k=k_0} a_k$ diverges.
+\end{quote}
+
+However, there are still some divergent series that the divergence test does not pick out!  We begin this section with such an example that shows how there is a connection between certain special types of series and improper integrals.
+
+\begin{model}
+Consider the series $\sum_{k=1}^{\infty} \frac{1}{k}$.  This series is called the \emph{harmonic series} and will be important in the coming material.  Notice that this series \wordChoice{\choice{is}\choice[correct]{is not}} geometric. It \wordChoice{\choice{is}\choice[correct]{is not}} telescoping, and $\lim_{n \to \infty} \frac{1}{n} = \answer{0}$, so the divergence test \wordChoice{\choice{is}\choice[correct]{is not}} conclusive.  So what should we do? 
+
 We have seen that we can graph a sequence as a collection of points in
-the plane.  For instance, consider the \dfn{harmonic sequence}, or the sequence where $a_n = 1/n$:
+the plane.  We consider the \dfn{harmonic sequence} where $a_n = 1/n$, and write out the ordered list that represents it.
 \[
 1, \, \frac{1}{2}, \, \frac{1}{3}, \, \frac{1}{4}, \, \frac{1}{5}, \,\dots . 
 \]
@@ -43,12 +55,7 @@ If we plot the harmonic sequence, it looks like this.
 \end{tikzpicture}
 \end{image}
 
-Is there a nice way to visualize the sum
-\[
-\sum_{k=1}^\infty \frac{1}{k}?
-\]
-One way to visualize the sum is to make rectangles whose areas are equal to the terms 
-of the sequence.
+As it turns out, there is a nice way to visualize the sum $\sum_{k=1}^\infty \frac{1}{k}$ too!  One such way is to to make rectangles whose areas are equal to the terms in the sequence.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -83,14 +90,19 @@ of the sequence.
         \end{axis}
 \end{tikzpicture}
 \end{image}
-The entire area above is \textbf{exactly} equal to the sum:
-\[
-\sum_{k=1}^\infty\frac{1}{k}
-\]
-The previous image should remind you of a Riemann Sum, and for good reason. 
+
+Note that the height of the $k$-th rectangle is precisely $\frac{1}{k}$ and the width of all of the rectangles is $1$, so the area of the $k$-th rectangle is $\frac{1}{k}$.  
+
+Now, in order to conclude whether $\sum_{k=1}^{\infty} a_k$ converges, we must analyze $\lim_{n \to \infty} s_n$.  Note that $s_n$ has a nice visual interpretation as the sum of the areas of the first $n$ rectangles, but since we don't have an explicit formula for $s_n$ we can try to establish that 
+
+\begin{itemize}
+\item $\{s_n\}$ is bounded and monotonic, and hence $\lim_{n \to \infty} s_n$ exists.
+\item $\{s_n\}$ is unbounded so $\lim_{n \to \infty} s_n$ does not exist.
+\end{itemize}
+
+How can we establish this?  The previous image might remind you of a Riemann Sum and for good reason. 
 This technique lets us visually compare the sum of an infinite series to the
-value of an improper integral, as long as we imagine that we can draw infinitely 
-many such rectangles.  For instance, if we add a plot of
+value of an improper integral.  For instance, if we add a plot of
 $1/x$ to our picture above
 \begin{image}
 \begin{tikzpicture}
@@ -128,43 +140,71 @@ $1/x$ to our picture above
 \end{image}
 we see that
 \[
-\int_1^\infty \frac{1}{x} \d x < \sum_{k=1}^\infty\frac{1}{k}.
+\int_1^n \frac{1}{x} \d x < \sum_{k=1}^n \frac{1}{k}.
 \]
-This leads us to an interesting observation.
+
+Notice that the sum on the righthand side is simply $s_n$.  Since $\int_1^{\infty} \frac{1}{x} \d x$ is an improper integral, so we need to determine whether $\lim_{n \to \infty} \left[ \int_1^n \frac{1}{x} \d x \right]$ exists.  Notice
+
+\[
+\lim_{n \to \infty} \left[ \int_1^n \frac{1}{x} \d x \right] = \lim_{n \to \infty} \eval{\ln(x)}_1^n = \infty. 
+\]
+
+This means that $\{s_n\}$ is not bounded and hence $\lim_{n \to \infty} s_n = \infty$ and $\sum_{k=1}^{\infty} \frac{1}{k}$ must diverge.  
+
+\begin{remark}
+To argue why $\{s_n\}$ is not bounded a little more formally, note that if $\{s_n\}$ were bounded, then \emph{all} of the terms in the sequence $\{s_n\}$ would be less than some number $M$.  Since $\lim_{n \to \infty} \left[ \int_1^n \frac{1}{x} \d x \right] =  \infty$, this means that, for some value of $N$ after which all values of $n>N$, $ \int_1^n \frac{1}{x} \d x > M$, and since $\int_1^n \frac{1}{x} \d x < s_n$ for all $n$, we may conclude that $s_n >M$ for all $n\geq N$ and hence $\{s_n\}$ is unbounded.
+\end{remark}
+
+\end{model}
+
+Now, let's take a step back and see what we really needed in the previous example.
+
+\begin{itemize}
+\item We needed to find a function for which the area under the curve over any particular interval $[n,n+1]$ was less than the area of the rectangle whose height is $a_k$ to establish a lower bound for each $s_n$.  Note that we can always do this if $f(x)$ is eventually positive and \wordChoice{\choice[correct]{decreasing}\choice{increasing}} since we may view each $a_k$ as the area of the rectangle that coincides with $f(x)$ at its \wordChoice{\choice[correct]{lefthand}\choice{righthand}} endpoint.
+\item We needed the function to be ``eventually continuous'' so the improper integral $\int_{a}^{\infty} f(x) \d x$ can be computed as the limit of a single definite integral.
+\end{itemize}
+
+By ``eventually'' above, we really mean that $f(x)$ should be continuous, positive, and decreasing on some interval $[a,\infty)$ for some $a>0$; it doesn't need to happen right away, but it should hold for \emph{all} real large enough $x$-values.  This leads us to an interesting observation.
 \begin{quote}
-  Let $f$ be continuous, positive, and decreasing on $[1,\infty)$ with
+  Let $f(x)$ be an eventually continuous, positive, and decreasing function with
     $a_k = f(k)$.  If $\int_1^\infty f(x) \d x$ diverges, so does
     $\sum_{k=1}^\infty a_k$.
 \end{quote}
 
-That's a pretty good observation, but we can do better. Consider the
-sequence $a_n = 1/n^2$:
-\[
-1, \, \frac{1}{4}, \, \frac{1}{9}, \, \frac{1}{16}, \, \frac{1}{25}, \,\dots  .
-\]
-Think about it. If
-\[
-\sum_{k=1}^\infty a_k
-\]
-diverges, then so does
-\[
-\sum_{k=1}^\infty a_{k+1}.
-\]
-Why?  The second sum is simply the first sum missing $a_1$ and no single number can
-be responsible for this sum diverging to infinity. This fact can be summed up in the following theorem:
+That's a pretty good observation, but we can do even better. 
 
-\begin{theorem}[Infinite Nature of Series]
-The convergence or divergence of a series remains unchanged by the addition or
-subtraction of any finite number of terms. That is:
-\begin{itemize}
-\item a divergent series will remain divergent with the addition or
-  subtraction of any finite number of terms.
-\item a convergent series will remain convergent with the addition or
-  subtraction of any finite number of terms. (Of course, the
-  \emph{sum} will likely change.)
-\end{itemize}
-\end{theorem}
-Back to the task at hand! Let's graph $a_{k+1}$ using our rectangle technique.
+\begin{model}
+Consider the
+sequence $\{a_n\}_{n=1}$ where $a_n = \frac{1}{n^2}$.  We can write out a few terms
+
+\[
+1, \, \frac{1}{4}, \, \frac{1}{9}, \, \frac{1}{16}, \, \frac{1}{25}, \,\dots 
+\]
+and try the same idea of visualizing the series $\sum_{k=1}^{\infty} \frac{1}{k^2}$ as an area.
+
+
+%\[
+%\sum_{k=1}^\infty a_k
+%\]
+%diverges, then so does
+%\[
+%\sum_{k=1}^\infty a_{k+1}.
+%\]
+%Why?  The second sum is simply the first sum missing $a_1$ and no single number can
+%be responsible for this sum diverging to infinity. This fact can be summed up in the following theorem:
+%
+%\begin{theorem}[Infinite Nature of Series]
+%The convergence or divergence of a series remains unchanged by the addition or
+%subtraction of any finite number of terms. That is:
+%\begin{itemize}
+%\item a divergent series will remain divergent with the addition or
+%  subtraction of any finite number of terms.
+%\item a convergent series will remain convergent with the addition or
+%  subtraction of any finite number of terms. (Of course, the
+%  \emph{sum} will likely change.)
+%\end{itemize}
+%\end{theorem}
+%Back to the task at hand! Let's graph $a_{k+1}$ using our rectangle technique.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -174,11 +214,14 @@ Back to the task at hand! Let's graph $a_{k+1}$ using our rectangle technique.
             xtick={1,2,...,5},
             ytick={1,.5,.333,.25,.2},
             yticklabels={},%$a_1 = 10$,$a_2=30$,$a_3=90$,$a_4=270$,$a_5=810$},
-            axis lines =middle, xlabel=$n$, ylabel=$a$,
+            axis lines =middle, xlabel=$n$, ylabel=$a_n$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
             axis on top,
           ]
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,1)};  %% closed hole
+		\addplot [draw=penColor, fill = fillp] plot coordinates {(0,0) (1,0) (1, 1)(0,1) };   
+		
           \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1/4)};  %% closed hole
 		\addplot [draw=penColor, fill = fillp] plot coordinates {(1,0) (2,0) (2, 1/4) (1,1/4) (1, 0)};          
           
@@ -199,13 +242,13 @@ Back to the task at hand! Let's graph $a_{k+1}$ using our rectangle technique.
         \end{axis}
 \end{tikzpicture}
 \end{image}
-The shaded area above is \textbf{exactly} equal to the sum
+The shaded area above \textbf{exactly} represents to the sum
 \[
-\sum_{k=1}^\infty\frac{1}{(k+1)^2}.
+\sum_{k=1}^\infty\frac{1}{k^2}.
 \]
 We again visually compare the sum of an infinite series to the
-value of an improper integral.  For instance, if we add a plot of
-$1/x^2$ to our picture above
+value of an improper integral by adding a plot of
+$1/x^2$ to our picture above.
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -220,6 +263,11 @@ $1/x^2$ to our picture above
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
             axis on top,
           ]
+          
+                    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,1)};  %% closed hole
+		\addplot [draw=penColor, fill = fillp] plot coordinates {(0,0) (1,0) (1, 1)(0,1) };   
+		
+		
           \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1/4)};  %% closed hole
 		\addplot [draw=penColor, fill = fillp] plot coordinates {(1,0) (2,0) (2, 1/4) (1,1/4) (1, 0)};          
           
@@ -240,74 +288,207 @@ $1/x^2$ to our picture above
         \end{axis}
 \end{tikzpicture}
 \end{image}
-we see that
-\[
-\sum_{k=1}^\infty\frac{1}{k^2}.
-<
-\int_1^\infty \frac{1}{x^2} \d x.
-\]
-This conclusion leads us to another interesting observation.
+
+Note that we have a slight annoyance if we consider $\int_{0}^{\infty} \frac{1}{x^2} \d x$ since $\frac{1}{x^2}$ has a vertical asymptote at $x=0$.  This is easily avoided if we instead consider $\frac{1}{x^2}$ on the interval $[1,\infty)$.  This requires that we consider the rectangles on that interval too.  We update our picture.
+
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=1.5,
+            width=4in,
+            height=2in,
+            xtick={1,2,...,5},
+            ytick={1,.5,.333,.25,.2},
+            yticklabels={},%$a_1 = 10$,$a_2=30$,$a_3=90$,$a_4=270$,$a_5=810$},
+            axis lines =middle, xlabel={}, ylabel={},
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            axis on top,
+          ]
+          
+                    \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(0,1)};  %% closed hole
+		\addplot [draw=penColor, fill = fillp] plot coordinates {(0,0) (1,0) (1, 1)(0,1) };   
+		
+		
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1/4)};  %% closed hole
+		\addplot [draw=penColor, fill = fillp] plot coordinates {(1,0) (2,0) (2, 1/4) (1,1/4) (1, 0)};          
+          
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,1/9)};  %% closed hole
+		\addplot [draw=penColor, fill = fillp] plot coordinates {(2,0) (3,0) (3, 1/9) (2,1/9) (2, 0)};          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,1/16)};  %% closed hole
+          	\addplot [draw=penColor, fill = fillp] plot coordinates {(3,0) (4,0) (4, 1/16) (3,1/16) (3, 0)};          
+
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,1/25)};  %% closed hole        
+          	\addplot [draw=penColor, fill = fillp] plot coordinates {(4,0) (5,0) (5, 1/25) (4,1/25) (4, 0)};          
+
+		  
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,1/36)};  %% closed hole 
+          	\addplot [draw=penColor, fill = fillp] plot coordinates {(5,0) (6,0) (6, 1/36) (5,1/36) (5, 0)};          
+           \addplot [draw=penColor,very thick,smooth, domain=.5:6] {1/x^2};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+Notice that the sum of the areas of the rectangles now is the series \wordChoice{\choice{$\sum_{k=0}^{\infty} \frac{1}{k^2}$}\choice{$\sum_{k=1}^{\infty} \frac{1}{k^2}$}\choice[correct]{$\sum_{k=2}^{\infty} \frac{1}{k^2}$}}.
+
+This is not an issue, because we know
+
 \begin{quote}
-  Let $f$ be continuous, positive, and decreasing on $[1,\infty)$ with
-    $a_k = f(k)$.  If $\sum_{k=1}^\infty a_k$ diverges, so does
-    $\int_1^\infty f(x) \d x$.
+The value of the lower index of summation does not affect whether an infinite series converges or diverges.
 \end{quote}
-Together, these observations give us the \textit{integral test}:
+
+That is, if we can show $\sum_{k=2}^{\infty} \frac{1}{k^2}$ converges, then $\sum_{k=1}^{\infty} \frac{1}{k^2}$ must also converge.  Now to determine whether $\sum_{k=2}^{\infty} \frac{1}{k^2}$ converges, let $s_n = \sum_{k=2}^n \frac{1}{k^2}$.  We must determine if $\lim_{n \to \infty} s_n$ exists.  Since we expect $\int_1^{\infty} f(x) \d x$ to converge, we expect $\sum_{k=2}^{\infty} \frac{1}{k^2}$ to converge.  To show this, we should establish  \wordChoice{\choice[correct]{$\{s_n\}$ is bounded and monotonic, and hence $\lim_{n \to \infty} s_n$ exists}\choice{$\{s_n\}$ is unbounded so $\lim_{n \to \infty} s_n$ does not exist}} . 
+
+Notice that since $\frac{1}{k^2} > 0$ for all $k$, and $s_n = \sum_{k=1}^n$, the sequence $\{s_n\}$ is \wordChoice{\choice[correct]{increasing}\choice{decreasing}}.  
+
+To show that it is also bounded, note that for any $n \geq 2$, we can observe from the picture that 
+
+\[
+s_n = \sum_{k=1}^n\frac{1}{k^2} \leq
+\int_1^n \frac{1}{x^2} \d x.
+\]
+In particular, since we shade more area if we increase $n$, we have that $\int_1^n \frac{1}{x^2} \d x \leq \int_1^\infty \frac{1}{x^2} \d x$.  By a routine calculation of the latter improper integral, we can show
+
+\[
+\int_1^\infty \frac{1}{x^2} \d x = 1,
+\]
+
+and we thus have 
+
+\[
+s_n = \sum_{k=1}^n\frac{1}{k^2} \leq \int_1^n \frac{1}{x^2} \d x \leq 1 \textrm{ for all } n \geq 2.
+\]
+
+Hence $\{s_n\}$ is both bounded and monotonic, so $\lim_{n \to \infty} s_n$ exists, and $\sum_{k=2}^{\infty} \frac{1}{k^2}$ converges.  Since $\sum_{k=2}^{\infty} \frac{1}{k^2}$ converges, $\sum_{k=1}^{\infty} \frac{1}{k^2}$ will also converge since the index where we start the summation does not affect whether the series converges.
+
+\end{model}
+
+
+Now, let's take a step back and see what we really needed in the this example.
+
+\begin{itemize}
+\item We needed to find a function for which the area under the curve over any particular interval $[n,n+1]$ was \emph{greater} than the area of the rectangle whose height is $a_k$ to establish a lower bound for each $s_n$.  Note that we can always do this if $f(x)$ is eventually positive and \wordChoice{\choice[correct]{decreasing}\choice{increasing}} since we may view each $a_k$ as the area of the rectangle that coincides with $f(x)$ at its \wordChoice{\choice{lefthand}\choice[correct]{righthand}} endpoint.
+\item We needed to establish that the sequence of partial sums is eventually increasing.  This must happen if all of the $a_k$ are \wordChoice{\choice[correct]{positive}\choice{negative}}.
+\item We needed the function to be ``eventually continuous'' so the improper integral $\int_{a}^{\infty} f(x) \d x$ can be computed as the limit of a single definite integral.
+\end{itemize}
+
+By ``eventually'' above, we really mean that $f(x)$ should be continuous, positive, and decreasing on some interval $[a,\infty)$; it doesn't need to happen right away, but it should hold for \emph{all} real large enough $x$-values.  This leads us to an interesting observation.
+\begin{quote}
+  Let $f(x)$ be an eventually continuous, positive, and decreasing function with
+    $a_k = f(k)$.  If $\int_1^\infty f(x) \d x$ converges, so does
+    $\sum_{k=1}^\infty a_k$.
+\end{quote}
+
+\section{The Integral Test}
+The observations from the previous examples give us a new convergence test called the \textit{integral test}:
 \begin{theorem}[Integral Test]
-  Let $f$ be continuous, positive, and decreasing on $[1,\infty)$
-    with $a_k = f(k)$ for all $k > N$ for some index $N$. Then, either
+  Suppose that $\{a_n\}_{n=n_0}$ is a sequence, and let $f(x)$ be a continuous, positive, and decreasing function
+    with $a_k = f(k)$ on $[N,\infty)$ for some index $N$.  Then, 
     \[
-    \sum_{k=1}^\infty a_k\text{ and }\int_1^\infty f(x) \d x
+    \sum_{k=n_0}^\infty a_k\text{ and }\int_N^\infty f(x) \d x
     \]
-    \textbf{both converge, or both diverge}.  It is impossible
-    for one of them to diverge, and the other to converge.
+    \textbf{either both converge or both diverge}.
 \end{theorem}
 
-Notice we've also included the observation that a finite number of terms 
-cannot affect the convergence or divergence of a series.  In particular, 
-our function $f$ can be different from our sequence for a 
-finite number of terms.  
+%\begin{question}
+%  Does the harmonic series $\sum_{k=1}^\infty \frac{1}{k} = 1 + \frac{1}{2} + \frac{1}{3}+ \dots$ converge or diverge?
+%  \begin{multipleChoice}
+%    \choice{converge}
+%    \choice[correct]{diverge}
+%  \end{multipleChoice}
+%  \begin{hint}
+%    By the integral test, $\sum_{k=1}^\infty \frac{1}{k}$ converges if
+%    and only if $\int_1^\infty \frac{1}{x} \d x$ converges
+%  \end{hint}
+%  \begin{hint}
+%    \begin{align*}
+%      \int_1^\infty \frac{1}{x} \d x &= \lim_{b \to \infty} \int_1^b \frac{1}{x} \d x\\
+%      &=\lim_{b \to \infty} \ln(b) \\
+%      &=\infty
+%    \end{align*}
+%    Thus the Harmonic series must diverge.
+%  \end{hint}
+%\end{question}
+%
+%Our last example is a ``theorem'' in some textbooks. We think it is
+%just an application of the integral test.  However, you'll want to be able 
+%to apply this result to other examples!
 
-\begin{question}
-  Does the harmonic series $\sum_{k=1}^\infty \frac{1}{k} = 1 + \frac{1}{2} + \frac{1}{3}+ \dots$ converge or diverge?
-  \begin{multipleChoice}
-    \choice{converge}
-    \choice[correct]{diverge}
-  \end{multipleChoice}
-  \begin{hint}
-    By the integral test, $\sum_{k=1}^\infty \frac{1}{k}$ converges if
-    and only if $\int_1^\infty \frac{1}{x} \d x$ converges
-  \end{hint}
-  \begin{hint}
-    \begin{align*}
-      \int_1^\infty \frac{1}{x} \d x &= \lim_{b \to \infty} \int_1^b \frac{1}{x} \d x\\
-      &=\lim_{b \to \infty} \ln(b) \\
-      &=\infty
-    \end{align*}
-    Thus the Harmonic series must diverge.
-  \end{hint}
-\end{question}
+\begin{example}
+Determine whether $\sum_{k=1}^{\infty} \frac{k}{(2k^2+1)^2}$ converges.
 
-Our last example is a ``theorem'' in some textbooks. We think it is
-just an application of the integral test.  However, you'll want to be able 
-to apply this result to other examples!
+\begin{explanation}
+Note that $\lim_{n \to \infty}  \frac{n}{(2n+1)^2} =0$ so the divergence test is inconclusive.  Also, this is not a geometric series.  Let's try the integral test with $f(x) =  \frac{x}{(2x+1)^2}$.  Notice that the function $f(x) = \frac{x}{(2x^2+1)^2}$ is continuous and positive on $[1,\infty)$.  We can check where it is decreasing part by computing $f'(x) = \frac{-6x^2+1}{(2x^2+1)^3} < 0$.  So, $f'(x)$ is certainly negative for $x >1$ and hence $f(x)$ is also decreasing on $[1,\infty)$.
 
-\begin{example}[$p$-test]\index{p-test@$p$-test}
-  Explain why the sum of the ``$p$-series''
-  \[
-  \sum_{n=1}^\infty \frac{1}{n^p}
-  \]
-  converges if and only if
-  \[
-  p > 1.
-  \]
-  \begin{explanation}
+Notice that, after performing a substitution if necessary,  
+
+\[
+\int \frac{x}{(2x+1)^2} \d x = -\frac{1}{8x^2+4} +C
+\]
+
+so $\lim_{b \to \infty} \eval{ -\frac{1}{8x^2+4}}_1^b = \frac{1}{8}$ and hence the improper integral $\int_1^{\infty}  \frac{x}{(2x+1)^2} \d x $ \wordChoice{\choice[correct]{converges}\choice{diverges}}.  Thus,  $\sum_{k=1}^{\infty} \frac{k}{(2k^2+1)^2}$ \wordChoice{\choice[correct]{converges}\choice{diverges}}.
+
+\end{explanation}
+
+\end{example}
+
+The next examples synthesizes some concepts we have seen thus far.
+\begin{example}
+Let $a_n = \frac{1}{n^2+4}$ for $n \geq 1$ and let $s_n = \sum_{k=1}^n a_k$.  Determine if $\{a_n\}_{n=1}$ and $\{s_n\}_{n=1}$ are bounded and/or monotonic.
+
+\begin{explanation}
+Note that $\{a_n\}_{n=1}$ is decreasing (and hence monotonic) because denominator increases as $n$ increases.  Hence, the fraction becomes smaller as $n$ grows larger.  
+
+$\{a_n\}_{n=1}$ is also bounded since $0 \leq a_n \leq 1$ for all $n$ (i.e. no terms are larger than $1$ or smaller than $0$).
+
+For $s_n$, note that 
+
+\[
+s_n = s_{n-1} +a_n = s_{n-1} + \frac{1}{n^2+4}. 
+\]
+
+Since $ \frac{1}{n^2+4} >0$, we have that $s_{n+1} > s_n$ for all $n$, so $\{s_n\}_{n=1}$ is increasing (and hence monotonic).  To determine if $\{s_n\}_{n=1}$ bounded, we can determine whether $\lim_{n \to \infty} s_n$ exists.  Indeed, since $\{s_n\}_{n=1}$ is increasing, we have that $s_n < \lim_{n \to \infty} s_n$, so if the limit exists, it serves as an upper bound for all of the terms in the sequence.
+
+We can write out the limit in this case and find
+
+\[
+\lim_{n \to \infty} s_n = \lim_{n \to \infty} \left[ \sum_{k=1}^n \frac{1}{k^2+4} \right] =  \sum_{k=1}^{\infty} \frac{1}{k^2+4}
+\]
+\end{explanation}
+
+Thus, all we have to do is determine if the infinite series above converges.  
+
+To do this, we can apply the integral test.  Let $f(x)= \frac{1}{x^2+4}$.  Notice that $f(x)$ is positive, continuous, and decreasing on $[1,\infty)$, and 
+
+\[
+\lim_{b \to \infty} \left[ \int_0^b \frac{1}{x^2+4} \right]= \lim_{b \to \infty} \eval{\frac{1}{2} \arctan\left(\frac{x}{2}\right)}_1^b =\frac{\pi}{4}- \frac{1}{2}\arctan\left(\frac{1}{2}\right).
+\]
+
+Since the improper integral converges, the series $\sum_{k=1}^{\infty} \frac{1}{k^2+4}$ converges.  Hence, $\lim_{n \to \infty}s_n$ exists so $\{s_n\}_{n=1}$ is bounded.
+
+
+\end{example}
+\section{p-Series}
+
+A very important type of series for future sections is $\sum_{k=1}^\infty \frac{1}{k^p}$, where $p>0$.  We call a series that can be brought into this form a $p$-\emph{series}.  We want to determine for which values of $p$ these series converge and diverge.
+
+Notice that in our model examples, both series were $p$-series.
+
+\begin{itemize}
+\item The harmonic series $\sum_{k=1}^{\infty} \frac{1}{k}$ is a $p$-series with $p = \answer{1}$.  It \wordChoice{\choice{converges}\choice[correct]{diverges}}.
+\item The series $\sum_{k=1}^{\infty} \frac{1}{k^2}$ is a $p$-series with $p = \answer{2}$. It \wordChoice{\choice[correct]{converges}\choice{diverges}}.
+\end{itemize}
+  
+ \begin{explanation}
     First, recall that we have already dealt with the case that $p = 1$, since 
     this case is exactly the harmonic series.  We have used the integral test 
     to show that the harmonic series diverges.
     Now, assume that $p \ne 1$.  By the integral test,
     \[
-    \sum_{n=1}^\infty \frac{1}{n^p}
+    \sum_{k=1}^\infty \frac{1}{k^p}
     \]
     converges if and only if
     \[
@@ -317,162 +498,178 @@ to apply this result to other examples!
     \begin{align*}
       \int_1^\infty \frac{1}{x^p} \d x &= \lim_{b\to\infty} \int_1^b x^{-p} \d x\\
       &= \lim_{b\to\infty} \eval{\answer[given]{\frac{x^{1-p}}{1-p}}}_1^b\\
-      &= \lim_{b\to\infty} \frac{b^{1-p}}{1-p} - \frac{1^{1-p}}{1-p}\\
-      &= \lim_{b\to\infty} \frac{b^{1-p}}{1-p} - \frac{1}{1-p}
+      &= \lim_{b\to\infty} \left[ \frac{b^{1-p}}{1-p} - \frac{1^{1-p}}{1-p} \right] \\
+      &= \lim_{b\to\infty} \left[\frac{b^{1-p}}{1-p}\right] - \frac{1}{1-p}
     \end{align*}
-    and this only converges when $p>\answer[given]{1}$.
+Note that if $p >1$, the exponent $1-p$ is negative so $ \lim_{b\to\infty} \left[\frac{b^{1-p}}{1-p}\right] = \answer{0}$.   If $p <1$, the exponent $1-p$ is psoitive so $ \lim_{b\to\infty} \left[\frac{b^{1-p}}{1-p}\right] = \answer{\infty}$.  Thus, $  \int_1^\infty \frac{1}{x^p} \d x$  only converges when $p>1$ and thus  $\sum_{k=1}^\infty \frac{1}{k^p}$ converges if and only if $p>1$.
   \end{explanation}
-\end{example}
 
+This result is important enough to list as a theorem.
 
-\section{Estimating Series Using Improper Integrals}
+\begin{theorem}[$p$-series test]\index{p-series test@$p$-test}
+ The series $\sum_{k=1}^\infty \frac{1}{k^p}$ converges if and only if $p > 1$.
+ \end{theorem}
+ 
+\begin{question}
+Which of the following series converge? (Select all that apply)
 
-Another cool application of this graphical viewpoint on series
-involves estimating the sum of a series.
+\begin{selectAll}
+\choice{$\sum_{k=2}^{\infty} \frac{1}{\sqrt{k}}$} 
+\choice[correct]{$\sum_{k=3}^{\infty} \frac{1}{k^{3/2}}$} 
+\choice[correct]{$\sum_{k=5}^{\infty} k^{-4}$} 
+\choice{$\sum_{k=1}^{\infty} \frac{1}{k^{.1}}$} 
+\end{selectAll}
+\end{question}
+ %% WE'LL ADD THE BELOW BACK IN ONCE WE TALK ABOUT REMAINDERS! %%
 
-We cannot yet compute $\sum_{k=1}^\infty \frac{1}{k^2}$ exactly, and
-we will not learn how to do so in this course. 
-
-Say we wanted to \textbf{approximate} this sum within an error of
-$\frac{1}{100}$.  How many terms should we sum?  Is it enough to sum
-the first ten terms?  The first hundred?  We want to find a number $N$
-where we can be sure that
-\[
-\sum_{k=1}^\infty \frac{1}{k^2}-\sum_{k=1}^N \frac{1}{k^2} < \frac{1}{100}.
-\]
-Again, we're looking for a number $N$ so that the difference between the actual 
-(but unknown) sum of the series and the $N$-th partial sum is less than $\frac{1}{100}$. 
-Now,
-\[
-\sum_{k=1}^\infty \frac{1}{k^2}- \sum_{k=1}^N \frac{1}{k^2} = \sum_{N+1}^\infty \frac{1}{k^2}.
-\]
-Set $R_N$ to be 
-\[
-R_N = \sum_{N+1}^\infty \frac{1}{k^2}.
-\]
-This $R_N$ is often called the ``remainder'' or ``tail'' of the series, because it is what is 
-left over after we remove the $N$-th partial sum.  Consider the following graph, where the  
-rectangles correspond to the terms of $R_N$.
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
-            width=4in,
-            height=2in,
-            xtick={1,2,...,5},
-            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
-            ytick = {},
-            yticklabels = {,,},
-            axis lines =middle, xlabel=$n$, ylabel=$a$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            clip=false,
-            axis on top,
-          ]          
-	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
-	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/10) (2,7/10) (2, 0)};          
-                    
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/20) (3,7/20) (3, 0)};          
-                    
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/40) (4,7/40) (4, 0)};          
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(5,0) (6,0) (6, 7/80) (5,7/80) (5, 0)};          
-
-	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-Shifting these rectangles over one unit, we have the following.
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
-            width=4in,
-            height=2in,
-            xtick={1,2,...,5},
-            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
-            ytick = {},
-            yticklabels = {,,},
-            axis lines =middle, xlabel=$n$, ylabel=$a$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            clip=false,
-            axis on top,
-          ]
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(1,0) (2,0) (2, 7/10) (1,7/10) (1, 0)};          
-          
-	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
-	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/20) (2,7/20) (2, 0)};          
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/40) (3,7/40) (3, 0)};          
-          
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/80) (4,7/80) (4, 0)};          
-
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
-
-	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-Now we know
-\[
-R_N < \int_N^\infty \frac{1}{x^2} \d x .
-\]
-In other words, the remainder of the series must be less than the given integral.  
-So, if we can find a whole number $N$ for which
-\[
-\int_N^\infty \frac{1}{x^2} \d x < \frac{1}{100},
-\]
-we will be sure that we have summed enough terms in the series to get
-to within $\frac{1}{100}$.
-
-
-\begin{example}
-  What is the least natural number $N$ for 
-  \[
-  \sum_{k=1}^N \frac{1}{k^2}
-  \]
-  so that
-  \[
-  \sum_{k=1}^\infty \frac{1}{k^2} - \sum_{k=1}^N \frac{1}{k^2} <
-  \frac{1}{100} ?
-  \]
-  \begin{explanation}
-    From our work above, we see that we need to find $N$ such that
-    \[
-    \int_N^\infty \frac{1}{x^2} \d x < \answer[given]{\frac{1}{100}}.
-    \]
-    Write with me.
-    \begin{align*}
-      \int_N^\infty \frac{1}{x^2} \d x &< \frac{1}{100}\\
-      \lim_{b \to \infty} \int_N^b \frac{1}{x^2} \d x &< \frac{1}{100}\\
-      \lim_{b \to \infty} \eval{\answer[given]{\frac{-1}{x}}}_N^b& < \frac{1}{100}\\
-      \lim_{b \to \infty} \frac{1}{N} - \frac{1}{b}& < \frac{1}{100}\\
-      \frac{1}{N} &< \frac{1}{100}\\
-      N&>\answer[given]{100}.
-    \end{align*}
-    So we need $N$ to be at least $\answer[given]{101}$.
-  \end{explanation}
-\end{example}
-
-This shows that if we sum $101$ terms of the series $\sum_{k=1}^\infty
-\frac{1}{k^2}$, we will get within $\frac{1}{100}$ of the true answer.
-
-  Using a
-computer to sum the first $101$ terms we get
-\[
-\sum_{k=1}^{101} \frac{1}{k^2} \approx 1.6350.
-\]
-Using advanced concepts like Fourier Analysis, it turns out this series 
-actually converges to $\frac{\pi^2}{6}$, and we know that $\frac{\pi^2}{6} \approx 1.6449$.  
-The difference between our calculated value and the actual value is just
-barely less than $\frac{1}{100}$.
+%\section{Estimating Series Using Improper Integrals}
+%
+%Another cool application of this graphical viewpoint on series
+%involves estimating the sum of a series.
+%
+%We cannot yet compute $\sum_{k=1}^\infty \frac{1}{k^2}$ exactly, and
+%we will not learn how to do so in this course. 
+%
+%Say we wanted to \textbf{approximate} this sum within an error of
+%$\frac{1}{100}$.  How many terms should we sum?  Is it enough to sum
+%the first ten terms?  The first hundred?  We want to find a number $N$
+%where we can be sure that
+%\[
+%\sum_{k=1}^\infty \frac{1}{k^2}-\sum_{k=1}^N \frac{1}{k^2} < \frac{1}{100}.
+%\]
+%Again, we're looking for a number $N$ so that the difference between the actual 
+%(but unknown) sum of the series and the $N$-th partial sum is less than $\frac{1}{100}$. 
+%Now,
+%\[
+%\sum_{k=1}^\infty \frac{1}{k^2}- \sum_{k=1}^N \frac{1}{k^2} = \sum_{N+1}^\infty \frac{1}{k^2}.
+%\]
+%Set $R_N$ to be 
+%\[
+%R_N = \sum_{N+1}^\infty \frac{1}{k^2}.
+%\]
+%This $R_N$ is often called the ``remainder'' or ``tail'' of the series, because it is what is 
+%left over after we remove the $N$-th partial sum.  Consider the following graph, where the  
+%rectangles correspond to the terms of $R_N$.
+%\begin{image}
+%\begin{tikzpicture}
+%	\begin{axis}[
+%            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
+%            width=4in,
+%            height=2in,
+%            xtick={1,2,...,5},
+%            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
+%            ytick = {},
+%            yticklabels = {,,},
+%            axis lines =middle, xlabel=$n$, ylabel=$a$,
+%            every axis y label/.style={at=(current axis.above origin),anchor=south},
+%            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+%            clip=false,
+%            axis on top,
+%          ]          
+%	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+%	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/10) (2,7/10) (2, 0)};          
+%                    
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
+%          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/20) (3,7/20) (3, 0)};          
+%                    
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
+%          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/40) (4,7/40) (4, 0)};          
+%          
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
+%          \addplot [draw=penColor, fill = fill1] plot coordinates {(5,0) (6,0) (6, 7/80) (5,7/80) (5, 0)};          
+%
+%	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
+%        \end{axis}
+%\end{tikzpicture}
+%\end{image}
+%Shifting these rectangles over one unit, we have the following.
+%\begin{image}
+%\begin{tikzpicture}
+%	\begin{axis}[
+%            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
+%            width=4in,
+%            height=2in,
+%            xtick={1,2,...,5},
+%            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
+%            ytick = {},
+%            yticklabels = {,,},
+%            axis lines =middle, xlabel=$n$, ylabel=$a$,
+%            every axis y label/.style={at=(current axis.above origin),anchor=south},
+%            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+%            clip=false,
+%            axis on top,
+%          ]
+%          \addplot [draw=penColor, fill = fill1] plot coordinates {(1,0) (2,0) (2, 7/10) (1,7/10) (1, 0)};          
+%          
+%	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+%	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/20) (2,7/20) (2, 0)};          
+%          
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
+%          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/40) (3,7/40) (3, 0)};          
+%          
+%          
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
+%          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/80) (4,7/80) (4, 0)};          
+%
+%          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
+%
+%	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
+%        \end{axis}
+%\end{tikzpicture}
+%\end{image}
+%Now we know
+%\[
+%R_N < \int_N^\infty \frac{1}{x^2} \d x .
+%\]
+%In other words, the remainder of the series must be less than the given integral.  
+%So, if we can find a whole number $N$ for which
+%\[
+%\int_N^\infty \frac{1}{x^2} \d x < \frac{1}{100},
+%\]
+%we will be sure that we have summed enough terms in the series to get
+%to within $\frac{1}{100}$.
+%
+%
+%\begin{example}
+%  What is the least natural number $N$ for 
+%  \[
+%  \sum_{k=1}^N \frac{1}{k^2}
+%  \]
+%  so that
+%  \[
+%  \sum_{k=1}^\infty \frac{1}{k^2} - \sum_{k=1}^N \frac{1}{k^2} <
+%  \frac{1}{100} ?
+%  \]
+%  \begin{explanation}
+%    From our work above, we see that we need to find $N$ such that
+%    \[
+%    \int_N^\infty \frac{1}{x^2} \d x < \answer[given]{\frac{1}{100}}.
+%    \]
+%    Write with me.
+%    \begin{align*}
+%      \int_N^\infty \frac{1}{x^2} \d x &< \frac{1}{100}\\
+%      \lim_{b \to \infty} \int_N^b \frac{1}{x^2} \d x &< \frac{1}{100}\\
+%      \lim_{b \to \infty} \eval{\answer[given]{\frac{-1}{x}}}_N^b& < \frac{1}{100}\\
+%      \lim_{b \to \infty} \frac{1}{N} - \frac{1}{b}& < \frac{1}{100}\\
+%      \frac{1}{N} &< \frac{1}{100}\\
+%      N&>\answer[given]{100}.
+%    \end{align*}
+%    So we need $N$ to be at least $\answer[given]{101}$.
+%  \end{explanation}
+%\end{example}
+%
+%This shows that if we sum $101$ terms of the series $\sum_{k=1}^\infty
+%\frac{1}{k^2}$, we will get within $\frac{1}{100}$ of the true answer.
+%
+%  Using a
+%computer to sum the first $101$ terms we get
+%\[
+%\sum_{k=1}^{101} \frac{1}{k^2} \approx 1.6350.
+%\]
+%Using advanced concepts like Fourier Analysis, it turns out this series 
+%actually converges to $\frac{\pi^2}{6}$, and we know that $\frac{\pi^2}{6} \approx 1.6449$.  
+%The difference between our calculated value and the actual value is just
+%barely less than $\frac{1}{100}$.
 
 \end{document}
 

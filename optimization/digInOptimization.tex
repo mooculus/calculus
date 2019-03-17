@@ -33,42 +33,121 @@ Let's not do this problem in the abstract, let's do it with numbers.
 
 \begin{example}
   Of all rectangles of perimeter $12$, which side lengths give the greatest area?
+  
+  \begin{image}
+\begin{tikzpicture}
+%\draw[penColor2, dashed, very thick] (0,0) -- (5,4);\draw[penColor, dashed, very thick] (0,0) -- (0,4);
+\draw[penColor, very thick] (0,0) -- (0,4);
+\draw[penColor, very thick] (-6,0) -- (-6,4);
+\draw[penColor,  very thick] (-6,0) -- (0,0);
+\draw[penColor, very thick] (-6,4) -- (0,4);
+%\node [left,penColor] at (0,0) {\scalebox{3} \Ladiesroom};
+%\node [right,penColor] at (6,4) {\scalebox{3}{\ding{40}}};
+\node [right,penColor] at (0,2) {\huge$y$ };
+\node [right,penColor] at (-6,2) {\huge$y$ };
+\node [above,penColor2] at (-13,3.7) {\huge$\text{To maximize}: Area$ };
+\node [above,penColor] at (-3,1.7) {\huge$A=x\cdot y$ };
+\node [above,penColor2] at (-11.4,1.7) {\huge$Constraint: Perimeter=12$ };
+\node [above,penColor] at (-3,4) {\huge$x$ };
+\node [above,penColor] at (-3,0) {\huge$x$ };
+\node [above,penColor2] at (3,3) {\huge$2x+2y=12$};
+\node [above,penColor2] at (3,2) {\huge$x+y=6$};
+\node [above,penColor2] at (3,1) {\huge$y=6-x$};
+%\node [left,penColor] at (-.1,0) {You};
+\end{tikzpicture}
+\end{image}
+
   \begin{explanation}
-    If a rectangle has perimeter $12$ and one side is length $x$, then
-    the length of the other side is $\answer[given]{6-x}$.
-    Hence the area of a rectangle of perimeter $12$ can be given by
+  The area of the rectangle
+  \[
+    A = x\cdot y.
+    \]
+   In order to be able to apply  calculus techniques,  we have to express the area as a function of a single variable.
+   
+    We have to be able to express the variable, say $y$, in terms of $x$. How can this be achieved?
+    
+  Recall, we are given the constraint: "...rectangles of perimeter $12$...".
+  
+    If a rectangle has perimeter $12$, then
+     $y=\answer[given]{6-x}$.
+     
+    Hence the area of a rectangle of perimeter $12$ can be expressed as a function of a single variable, $x$,
     \[
     A(x) = x(\answer[given]{6-x}).
     \]
     However, for the side lengths to be physically relevant, we must
-    assume that $x$ is in the interval
+    assume that $x>0$ and $6-x>0$.
+    
+     Therefore, the domain of $A$ is  the interval
     $(\answer[given]{0},\answer[given]{6})$. 
       
-    So to maximize the area of the rectangle, we need to find the
-    maximum value of $A(x)$ on the appropriate interval.
-    \begin{quote}
-      \textbf{At this point, you should graph the function if you can.}
-    \end{quote}
-    We'll continue on without the aid of a graph, and use the derivative. Write
+    So to maximize the area of the rectangle, we have to find the global maximum of the function $A$ on the interval $(0,6)$.
+   Since the domain of $A$ is an open interval, the global maximum (if it exists!) has to be a local maximum and it occurs at a critical point.
+   So, we have to find all critical points of $A$ on the interval $(0,6)$.
+    Since
     \[
-    A'(x) = \answer[given]{6-2x}
+    A'(x) = \answer[given]{6-2x},
     \]
-    Now we find the critical points, solving the equation
+   in order to find the critical points, we have to solve the equation
     \[
-    \answer[given]{6-2x} = 0,
+    \answer[given]{6-2x} = 0.
     \]
-    we see that the only critical point of $A$ is at $x=\answer[given]{3}$
-    
+   It follows that the only critical point of $A$ is at $x=\answer[given]{3}$.
+   
+    We can make a sign chart for $A'(x)$ on the interval $(0,6)$:
+    \begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            trim axis left,
+            scale only axis,
+            domain=-3:3,
+            ymax=2,
+            ymin=-2,
+            axis lines=none,
+            height=3cm, %% Hard coded height! 
+            width=\textwidth, %% width
+          ]
+          %\addplot [draw=none, fill=fill1, domain=(-3:-2)] {2} \closedcycle;
+          %\addplot [draw=none, fill=fill2, domain=(-2:0)] {2} \closedcycle;
+          %\addplot [draw=none, fill=fill1, domain=(0:1)] {2} \closedcycle;
+          %\addplot [draw=none, fill=fill2, domain=(1:3)] {2} \closedcycle;
+          
+       
+  \addplot [->,ultra thick,textColor] plot coordinates {(0,0) (6.5,0)}; %% axis{0};
+         
+          \addplot [->,ultra thick,textColor,shorten <=2pt,shorten >=2pt] plot coordinates {(3,1.5) (6,0.5)}; %% decreasing
+          \addplot [->,ultra thick,textColor,shorten <=2pt,shorten >=2pt] plot coordinates {(0,.5) (3,1.5)}; %% increasing
+          
+          \addplot [dashed, textColor] plot coordinates {(6,0) (6,2)};
+          \addplot [dashed, textColor] plot coordinates {(0,0) (0,2)};
+          \addplot [dashed, textColor] plot coordinates {(3,0) (3,2)};
+          
+          \node at (axis cs:0,0) [anchor=north,textColor] {\footnotesize$0$};
+          \node at (axis cs:3,0) [anchor=north,textColor] {\footnotesize$3$};
+          \node at (axis cs:6,0) [anchor=north,textColor] {\footnotesize$6$};
+
+          \node at (axis cs:1.5,-.7) [textColor] {\footnotesize$A'(x)>0$};
+          \node at (axis cs:4.5,-.7) [textColor] {\footnotesize$A'(x)<0$};
+
+          %% \node at (axis cs:-2.5,-.5) [anchor=north,textColor] {\footnotesize Decreasing};
+          %% \node at (axis cs:.5,-.5) [anchor=north,textColor] {\footnotesize Decreasing};
+          %% \node at (axis cs:-1,-.5) [anchor=north,textColor] {\footnotesize Increasing};
+          %% \node at (axis cs:2,-.5) [anchor=north,textColor] {\footnotesize Increasing};
+
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
     Since $A'(x) = \answer[given]{6-2x}$ is
     \wordChoice{\choice[correct]{positive}\choice{negative}} on
     $(0,3)$ and
     \wordChoice{\choice{positive}\choice[correct]{negative}} on
-    $(3,6)$, $x=3$ is where the maximum value of $A$ happens.  This is
+    $(3,6)$, the function $A$ has a global maximum at $x=3$.  This is
       exactly when the rectangle is a square!
   \end{explanation}
 \end{example}
 
-A key step to note, is when we explained why $x=3$ is actually the
+A key step is to explain why $x=3$ is actually the
 maximum. Above we basically used facts about the derivative. Below we
 use a similar argument.
 

@@ -1,0 +1,173 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{CC-By-SA-NC}
+
+\outcome{Use Lagrange multipliers to solve constrained optimization
+  problems.}
+
+\begin{document}
+\begin{exercise}
+Consider the function $F(x,y) = x^2+y^2-2x+4y$ defined on $R = \left\{ (x,y) \in \R^2 ~ \bigg| ~ x^2+y^2 \leq 9 \right\}$.  Then, $F(x,y)$ \wordChoice{\choice[correct]{attains}\choice{does not attain}} an absolute minimum and an absolute maximum on $R$ since 
+
+\begin{multipleChoice}
+\choice{$F(x,y)$ is continuous on $R$.}
+\choice{$R$ is closed and bounded.}
+\choice[correct]{$F(x,y)$ is continuous on $R$ and $R$ is closed and bounded.}
+\end{multipleChoice}
+
+Where could the absolute extrema occur?
+
+\begin{selectAll}
+\choice{at all of the critical points of $F(x,y)$}
+\choice[correct]{at the critical points of $F(x,y)$ that occur in the region $R$.}
+\choice[correct]{on the boundary of $R$.}
+\end{selectAll}
+
+\begin{exercise}
+To find the critical points on $F(x,y)$ that lie within $R$, we compute the gradient.
+
+\[
+\grad{F}(x,y) = \vector{\answer{2x-2},\answer{2y+4}}
+\]
+
+Hence, the critical point of $F(x,y)$ is $\left(\answer{1},\answer{-2}\right)$.
+
+\begin{exercise}
+To determine if this critical point lies in $R$, we must check if $x^2+y^2 \leq 9$.  When $x=1$ and $y=-2$, we have that $x^2+y^2 = \answer{5}$, so the critical point $(1,-2)$ \wordChoice{\choice[correct]{lies}\choice{does not lie}} in $R$ and hence it \wordChoice{\choice[correct]{is}\choice{is not}} a candidate for the location of an absolute extrema.
+
+Note that we do not have to use the Second Derivative Test to classify the extrema; we only need to determine the value $F(x,y)$ takes at this critical point and compare it to the values that $F(x,y)$ takes at the other candidates for absolute extrema (which occur on the boundary).  To this end, we note that
+
+\[
+F(1,-2) = \answer{-5}.
+\]
+
+\end{exercise}
+\end{exercise}
+
+\begin{exercise}
+We now must determine the extreme values $F(x,y)$ attains on the boundary.  We can do this using two methods.
+
+\begin{exercise}
+\textbf{Method 1: Parameterize the boundary}
+
+The boundary is the circle $x^2+y^2 =9$, so a good choice of parameterization is $\vec{r}(t) = \vector{3 \cos(t), 3 \sin(t)}$ for $0 \leq t \leq 2\pi$.  Along the boundary, we thus have $F(x,y) = F(3 \cos(t),3 \sin(t)) = \answer{9-6 \cos(t) + 12 \sin(t)}$. 
+
+\begin{exercise}
+We thus must find the absolute extrema for $f(t) = 9-6 \cos(t) + 12 \sin(t)$ for $0 \leq t \leq 2 \pi$.  Note that $f'(t) = \answer{6 \sin(t) +12 \cos(t)}$, so $f'(t) = 0$ when $\tan(t) = \answer{-2}$.
+
+\begin{itemize}
+\item The maximum value $F(x,y)$ takes on the boundary is $ \answer{9+\frac{30}{\sqrt{5}}}$.
+\item The maximum value $F(x,y)$ takes on the boundary is $ \answer{9-\frac{30}{\sqrt{5}}}$.
+\end{itemize}
+
+\begin{hint}
+This is hard to work with in general, but we can draw triangles in Quadrants II and IV.
+
+The triangle in Quadrant I is shown below.
+\begin{image}
+\resizebox {6cm} {!} { 
+\begin{tikzpicture}
+    \begin{axis}[
+        xmin=-2.5,xmax=.5,ymin=-.5,ymax=2.5,
+            axis lines=center,
+            ticks=none,
+            unit vector ratio*=1 1 1,
+            xlabel=$x$, ylabel=$y$,
+            ytick={-2,-1,...,7},
+	    %yticklabels={$0.5$,$1$,$1.5$,$2$},
+	    xtick={-2,-1,...,10},
+	    %xticklabels={$0.5$,$1$,$1.5$,$2$},
+	    grid = major,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+          ]
+
+          \addplot[very thick,penColor] plot coordinates {(0,0) (-1,0)(-1,2)(0,0)};
+
+            \node[below] at (axis cs:-.6, -.1) [penColor] {\Large $-1$};
+           \node[left] at (axis cs: -1.2, 1 ) [penColor] {\Large $2$};
+           \node[above right] at (axis cs:-.5, 1 ) [penColor] {\Large $\sqrt{5}$};
+                      \node[left] at (axis cs:-.2, .2 ) [penColor] {\Large $t$};
+    \end{axis}
+\end{tikzpicture}}
+\end{image}
+
+Here, we find that $\cos(t) = \answer{\frac{-1}{\sqrt{5}}}$ and $\sin(t) = \answer{\frac{2}{\sqrt{5}}}$.  
+
+Since $F(x,y) = F(3 \cos(t),3 \sin(t)) = 9-6 \cos(t) + 12 \sin(t)$ along the boundary, we use these values for $\cos(t)$ and $\sin(t)$ to find that $F(x,y) = \answer{9+\frac{6}{\sqrt{5}}+\frac{24}{\sqrt{5}}}$ at the critical point in Quadrant II. 
+
+A similar analysis for the triangle in Quadrant IV shows that $F(x,y) = \answer{9-\frac{6}{\sqrt{5}}-\frac{24}{\sqrt{5}}}$ at the critical point in Quadrant IV.
+
+Finally, we note that the endpoints $t=0$ and $t=2\pi$ could yield absolute extrema, so we check $F(x,y)$ there as well and find that when $t=0$, $F(x(t),y(t)) = \answer{3}$ and when $t=2 \pi$, $F(x(t),y(t)) = \answer{3}$.
+
+\end{hint}
+
+Thus, by considering the absolute extrema on the boundary as well as the extrema that occurs within the interior of $R$, we find the following.
+
+\begin{itemize}
+\item The absolute maximum value of $F(x,y)$ over $R$ is $\answer{ 9 +6\sqrt{5} }$ and occurs when $(x,y) = \left( \answer{\frac{-3\sqrt{5}}{\sqrt{5}}},  \answer{\frac{6\sqrt{5}}{\sqrt{5}}} \right) $.
+\item The absolute minimum value of $F(x,y)$ over $R$ is $\answer{ -5 }$ and occurs when $(x,y) = \left(\answer{1},\answer{-2}\right)$.
+\end{itemize}
+
+\end{exercise}
+
+\end{exercise}
+
+\begin{exercise}
+\textbf{Method 2: Use Lagrange multipliers by writing the boundary as a constraint.}
+
+By setting $G(x,y) = x^2+y^2$, we recognize the boundary as the level curve defined by $G(x,y) = 9$.  We thus compute
+
+\begin{itemize}
+\item $\grad{F}(x,y) = \vector{\answer{2x-2},\answer{2y+4}}$.
+\item $\grad{G}(x,y) =\vector{\answer{2x},\answer{2y}}$. 
+\end{itemize}
+
+and must solve the system of equations that arises from the condition $\grad{F}(x,y) = \lambda \grad{G}(x,y)$ and the original constraint.
+
+\begin{align}
+2x-2 & = 2\lambda x \\
+2y+4 & = 2\lambda y \\
+x^2+y^2 &= 9
+\end{align}
+
+Note that it looks like a variable could ``cancel'' in the top two equations. If we do this, we might lose potential solutions if the quantity we would like to divide by is $0$, so we will instead cross-multiply the top equations to obtain
+
+\begin{align*}
+\lambda xy-\lambda y &= \lambda xy+2\lambda x \\
+-\lambda y &=+2\lambda x \\
+\lambda \left( \answer{2x+y} \right) &= 0 
+\end{align*}
+
+
+Note that if $\lambda = 0$, Eqn (1) tells us that $x=\answer{1}$ and Eqn (2) tells us that $y=-2$, which corresponds to our earlier critical point.  Since this point lies in the interior of the region and not on the boundary, we may disregard it.
+
+The interesting case occurs when $2x+y= 0$.  We may thus take $y = \answer{-2x}$ and substitute this into the constraint equation $x^2+y^2 = 9$ to find that we have two critical points,  $y= -\answer{\frac{6}{\sqrt{5}}}$ and $y= \answer{\frac{6}{\sqrt{5}}}$.  The candidates for critical points are thus $(x,y) = \left(  \answer{\frac{-3}{\sqrt{5}}}, \frac{6}{\sqrt{5}}\right)$ and $(x,y) = \left(  \answer{\frac{3}{\sqrt{5}}}, -\frac{6}{\sqrt{5}}\right)$.
+
+\begin{exercise}
+We now check $F(x,y)$ at each of these critical points and find
+
+\begin{itemize}
+\item $F\left(\frac{3}{\sqrt{5}}, - \frac{6}{\sqrt{5}} \right) = \answer{9-6 \sqrt{5}}$.
+\item $F\left(-\frac{3}{\sqrt{5}},  \frac{6}{\sqrt{5}} \right) = \answer{9+6 \sqrt{5}}$.
+\end{itemize}
+
+\end{exercise}
+
+Thus, by considering the absolute extrema on the boundary as well as the extrema that occurs within the interior of $R$, we find the following.
+
+\begin{itemize}
+\item The absolute maximum value of $F(x,y)$ over $R$ is $\answer{ 9 +6\sqrt{5} }$ and occurs when $(x,y) = \left( \answer{\frac{-3\sqrt{5}}{\sqrt{5}}},  \answer{\frac{6\sqrt{5}}{\sqrt{5}}} \right) $.
+\item The absolute minimum value of $F(x,y)$ over $R$ is $\answer{ -5 }$ and occurs when $(x,y) = \left(\answer{1},\answer{-2}\right)$.
+\end{itemize}
+\end{exercise}
+
+
+\end{exercise}
+
+
+\end{exercise}
+\end{document}

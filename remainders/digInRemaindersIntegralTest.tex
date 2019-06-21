@@ -4,181 +4,301 @@
 
 \outcome{Determine if a series converges using the alternating series test.}
 
-\title[Dig-In:]{Remainders for alternating series}
-\author{Jim Talamo}
+\title[Dig-In:]{Remainders and the Integral Test}
+\author{Jim Talamo and Bart Snapp}
 
 \begin{document}
 \begin{abstract}
-There is a nice result for approximating the remainder of convergent alternating series. 
+There is a nice result for approximating the remainder for series that converge by the integral test. 
 \end{abstract}
 \maketitle
 
-\section{Introduction}
-Recall that if $\{a_n\}_{n=n_0}$ is a sequence of positive terms, we say that $\sum_{k=n_0}^{\infty}$ is an alternating series, and we have a nice result to test these for convergence, which is reprinted below.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%add Jenny's important points
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+When we have a convergent geometric series or a convergent telescoping series, we can find an explicit formula for the terms in the sequence of remainders since we can find an explicit formula for the terms in the sequence of partial sums.  One of the other important convergence tests we have studied so far is the integral test.
 
-\begin{theorem}[Alternating Series Test]
-Let $\{a_n\}$ be a sequence whose terms are eventually positive and nonincreasing and
-$\lim_{n\to\infty}a_n=0$. Then, the series 
-\[
-\sum_{n=1}^\infty (-1)^{n}a_n \qquad \text{and}\qquad \sum_{n=1}^\infty (-1)^{n+1}a_n 
-\]
-both converge.
+\begin{theorem}[Integral Test]
+  Suppose that $\{a_n\}_{n=n_0}$ is a sequence, and let $f(x)$ be a continuous, positive, and decreasing function
+    with $a_k = f(k)$ on $[N,\infty)$ for some index $N \geq n_0$.  Then, 
+    \[
+    \sum_{k=n_0}^\infty a_k\text{ and }\int_N^\infty f(x) \d x
+    \]
+    \textbf{either both converge or both diverge}.
 \end{theorem}
 
-
-Note that this test gives us a way to determine if many alternating series \emph{must} converge, but it does not give us information about the value to which the series converges.  If we want to obtain insight as to what the approximate value of the convergent series is, we must study remainders.
-
+The key to proving that a series converges by the integral test is to note that if all of the terms in $\{a_n\}_{n=n_0}$ are eventually positive, then $\{s_n\}_{n=n_0}$ will be eventually increasing.  The improper integral can thus be used to establish an upper bound for $\{s_n\}_{n=n_0}$, meaning that $\{s_n\}_{n=n_0}$ will be bounded and monotonic and thus have a limit.  In this argument, we never actually compute a formula for $s_n$.  As such we have the following important observation. 
   
+\begin{quote}
+When the assumptions for the integral test are met, we can use the integral test to determine if a series converges, but we cannot ever use it to find the value to which the series converges!
+\end{quote}
+
+What, then should we do?  Thankfully, the integral test comes with a nice remainder result.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Remainders for Alternating Series}
-As usual we must establish that a series converges first before we begin to think about remainders.  Once we have established that an alternating series $\sum_{k=1}^{\infty} (-1)^k a_k$ converges, we recall the important result
-
-\begin{image}
-  \begin{tikzpicture}
-        \node at (0,0) {
-          $ \sum_{k=1}^{\infty} (-1)^k a_k=\underbrace{\sum_{k=1}^{n}(-1)^k a_k}+ \underbrace{\sum_{k=n+1}^\infty (-1)^k a_k} = s_n+r_n$.};
-        \node at (1.5,-1) { This is $r_n$.};
-       
-        \node at (-1,-1) { This is $s_n$. };
-        
-      \end{tikzpicture}
-  \end{image}
-
-While we cannot find an explicit formula for $s_n$ here.  As such, if we want to establish a good estimate, we will need to approximate the infinite sum by a term in the sequence of partial sums and try to establish an error estimate.  Thankfully, we have such an estimate.
+\section{Remainders and the Integral Test}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{theorem}[Alternating Series Remainder Estimates]\index{alternating series remainder estimates}
-Let $\{a_n\}_{n=n_0}$ be a sequence whose terms are positive and nonincreasing  and
-$\lim_{n\to\infty}a_n=0$. Then,  
+\begin{theorem}[Remainder Estimates for the Integral Test]{integral test remainder estimates}
+If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, then 
+
 \[
-\big| r_n \big| \leq a_{n+1} \qquad \textrm{ for all } n \geq n_0,
+\int_{n+1}^{\infty} f(x) \d x \leq  r_n \leq \int_{n}^{\infty} f(x) \d x \qquad \textrm{ for all } n \geq n_0,
 \]
 where $r_n = \sum_{k=n+1}^{\infty} a_k$.
 \end{theorem}
+
+Note that we actually have two results here.
+
+\begin{itemize}
+\item The inequality $\int_{n+1}^{\infty} f(x) \d x \leq  r_n$ tells us a \emph{lower bound} for the error; this means we know that the error we make in our approximation can be no \emph{less} than the value of $\int_{n+1}^{\infty} f(x) \d x$ (so we've made \emph{some} amount of error).
+
+\item The inequality $r_n \leq \int_{n}^{\infty} f(x) \d x$ gives us an \emph{upper bound} for the error; this means we know that the error we make in our approximation can be no \emph{more} than the value of $\int_{n}^{\infty} f(x) \d x$.
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Note that the above guarantees that for any integer $N>n_0$, the term $s_N$ will approximate the series $\sum_{k=1}^{\infty} a_k$ with an error no greater than $a_{n+1}$.  Before we work an example, a few comments are in order.
+Let's explore how this test works in the context of an example we have seen in previous sections.
 
-\begin{itemize}
-\item[1.] In most cases, we will have $n_0 = 0$ or $n_0 =1$.  As a technical point, we have to make the specification of when the sequence $\{a_n\}$ is actually both nonincreasing and contains only positive terms before we can use the result.  
-\item[2.] If the sequence $\{a_n\}_{n = n_0}$ meets the criteria, note that we can split up the series $\sum_{k=1}^{\infty} a_k$ as 
+\begin{model}
+We have seen that  $\sum_{k=1}^\infty \frac{1}{k^2}$ converges, but we have not discussed a way to find its value (and
+we will not learn how to do so in this course). 
 
-\[ 
-\sum_{k=1}^{\infty} a_k = \sum_{k=1}^{n_0} a_k +\sum_{k=n_0+1}^{\infty} a_k 
-\]
-
-We can compute the first sum by hand since it requires adding finitely many terms, then use the remainder result on the infinite series.
-\end{itemize}
-
-
-
-\begin{example}
-Consider the alternating geometric series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$.
-
-\begin{itemize}
-\item[I.] Compute $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$.
-\item[II.] Use the theorem above to obtain an estimate for the remainder if $s_4$ is used to approximate the series.  What do you notice?
-\end{itemize}
-
-\begin{explanation}
-First, note that by using laws of exponents, $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k = \sum_{k=0}^{\infty}  \left(\frac{-1}{2}\right)^k$.   
-
-the geometric series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ converges because $|r| = \frac{1}{2} <1$.
-
-\begin{itemize}
-\item[I.] When $r<1$, note that $\sum_{k=0}^{\infty} ar^k = \frac{a}{1-r}$.  Here, $r= -\frac{1}{2}$, so we find that $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k= \frac{2}{3}.$
-\item[II.] Since $\left\{\left(\frac{1}{2}\right)^k\right\}_{k=0}$ is decreasing and $\lim_{n \to \infty} \left(\frac{1}{2}\right)^n =0$, we can use the remainder results.  If we use $s_7$ to approximate  $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$, we have $n=7$, and conclude
-
+What if we want to \textbf{approximate} this sum within an error of
+$.01$.  How many terms should we sum?  Is it enough to sum
+the first ten terms?  The first hundred?  We want to find a number $N$
+where we can be sure that
 \[
-|r_4| < a_5 = \left(\frac{1}{2}\right)^5 = \frac{1}{32}.
+\sum_{k=1}^\infty \frac{1}{k^2}-\sum_{k=1}^N \frac{1}{k^2} \leq .01.
 \]
+While we could determine the smallest such value when we had an explicit formula for $r_N$, we are not so fortunate here.  However, computers can add terms very quickly, so we do not need the smallest number $N$; we only need one for which we can be sure that $-\sum_{k=1}^N \frac{1}{k^2}$ will approximate $\sum_{k=1}^\infty \frac{1}{k^2}$ to within $.01$.  
 
-We can explicitly compute $s_4$ by using the formula for partial sums for geometric series or by hand.
-
+Set $r_N$ to be 
 \[
-s_4 = 1-\frac{1}{2}+\frac{1}{4}-\frac{1}{8}+\frac{1}{16} = \frac{11}{16}.
+r_N = \sum_{N+1}^\infty \frac{1}{k^2}.
 \]
 
-We note that to five decimal places, we have the following.
+Consider the following graph, where the rectangles correspond to the terms of $r_N$.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
+            width=4in,
+            height=2in,
+            xtick={1,2,...,5},
+            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
+            ytick = {},
+            yticklabels = {,,},
+            axis lines =middle, xlabel=$n$, ylabel=$a$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            axis on top,
+          ]          
+	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/10) (2,7/10) (2, 0)};          
+                    
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/20) (3,7/20) (3, 0)};          
+                    
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/40) (4,7/40) (4, 0)};          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(5,0) (6,0) (6, 7/80) (5,7/80) (5, 0)};          
 
-\begin{itemize}
-\item The error bound from the theorem is $|r_4| < \frac{1}{32} = .03125$.
-\item The approximate value of the series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ is $s_4 = \frac{11}{16} = .68750$.
-\item The actual value of the series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ is $\frac{2}{3} \approx .66667$.
-\end{itemize}
+	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+Shifting these rectangles over one unit, we have the following.
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
+            width=4in,
+            height=2in,
+            xtick={1,2,...,5},
+            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
+            ytick = {},
+            yticklabels = {,,},
+            axis lines =middle, xlabel=$n$, ylabel=$a$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            axis on top,
+          ]
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(1,0) (2,0) (2, 7/10) (1,7/10) (1, 0)};          
+          
+	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/20) (2,7/20) (2, 0)};          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/40) (3,7/40) (3, 0)};          
+          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/80) (4,7/80) (4, 0)};          
 
-Thus, $s_4$ is actually within $.02083$ of the actual value of $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$; $s_4$ is thus within the $.03125$ of the actual value of $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ guaranteed by the remainder result.
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
 
-\end{itemize}
-\end{explanation}
-\end{example}
+	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+Now we know
+\[
+r_N \leq \int_N^\infty \frac{1}{x^2} \d x .
+\]
+In other words, the remainder of the series must be less than the given integral.  
+So, if we can find a whole number $N$ for which
+\[
+\int_N^\infty \frac{1}{x^2} \d x \leq .01,
+\]
+we will be sure that we have summed enough terms in the series to get
+to within $.01$.   From our work above, we see that we need to find $N$ such that
+    \[
+    \int_N^\infty \frac{1}{x^2} \d x \leq \answer[given]{.01}.
+    \]
+    Write with me.
+    \begin{align*}
+      \int_N^\infty \frac{1}{x^2} \d x & \leq .01\\
+      \lim_{b \to \infty} \int_N^b \frac{1}{x^2} \d x &\leq .01\\
+      \lim_{b \to \infty} \eval{\answer[given]{\frac{-1}{x}}}_N^b& \leq .01\\
+      \lim_{b \to \infty} \frac{1}{N} - \frac{1}{b}& \leq .01\\
+      \frac{1}{N} &\leq .01\\
+      N&>\answer[given]{100}.
+    \end{align*}
+    So we need $N$ to be at least $100$.
 
-In the above example, we could compute the exact value of the series in question, so the remainder result could be verified explicitly.  In the next example, the exact value of the series is not known, but we can approximate as closely as we want.
 
-\begin{example}
-Consider the alternating series $\sum_{k=1}^{\infty} \frac{(-1)^k}{k^3}$.
+This shows that if we compute $\sum_{k=1}^{100} \frac{1}{k^2}$, meaning that if we sum the $100$ terms of the series $\sum_{k=1}^\infty
+\frac{1}{k^2}$, we will be within $.01$ of the true answer.
 
-\begin{itemize}
-\item[I.] Find a value for $N$ so $s_N$ approximates $\sum_{k=1}^{\infty} \frac{(-1)^k}{k^3}$ to within $.0001$ of its actual value.
-\item[II.] Using technology, compute $\sum_{k=1}^{\infty} \frac{(-1)^k}{k^3}$ to within $.0001$.
-\item[III.] Using technology, it can be shown that $\sum_{k=1}^{100000} \frac{(-1)^k}{k^3} = -.9015426774$ to ten decimal places.  Using the remainder result, how far off from the exact value of the series $\sum_{k=1}^{100000} \frac{(-1)^k}{k^3}$ could this be?
-\end{itemize}
+Using a computer to sum the first $100$ terms we find to five decimal places that 
+\[
+\sum_{k=1}^{100} \frac{1}{k^2} \approx 1.63498.
+\]
 
-\begin{explanation}
-Check for yourself that $\sum_{k=1}^{\infty} \frac{(-1)^k}{k^3}$ satisfies the criteria for the remainder result for alternating series to hold before reading on.
 
-\begin{itemize}
-\item[I.] To find a value for $N$ so $s_N$ approximates $\sum_{k=1}^{\infty} \frac{(-1)^k}{k^3}$ to within $.0001$ of its actual value, we can find $N$ so $\big|r_N\big| < .0001$.  Since we have an explicit formula $a_n = \frac{1}{n^3}$ and that $\big|r_N\big| < a_{N+1}$, we can set $a_{N+1} < .0001$ (so $|r_N|$ will be less than $.0001$ by transitivity).
+Similarly, by considering the picture, we find that $r_n \geq \int_{N+1}^\infty \frac{1}{x^2}= \int_{101}^\infty \frac{1}{x^2}$.  By repeating the earlier calculation, we find that $\int_{101}^\infty \frac{1}{x^2} = \frac{1}{101}$, so we know that the error in our approximation is at least $\frac{1}{101} = .00990$ to five decimal places.
+
+As such we have an estimate for $\sum_{k=1}^{\infty} \frac{1}{k^2}$.  Noting that the error $r_{100}$ satisfies
 
 \begin{align*}
-a_{N+1} = \frac{1}{\answer{\left(N+1\right)^3}} &< .0001 \\
-1 &<  .0001 (N+1)^3 \\
-\answer{10000} &< (N+1)^3 \\
-21.54 &< N+1 \qquad  \textrm{ (to two decimal places) }\\
-20.54 &< N \\
+\int_{n+1}^{\infty} \frac{1}{x^2} \d x & \leq  r_n & \leq \int_{n}^{\infty} \frac{1}{x^2} \d x \\
+\frac{1}{101} & \leq  r_n & \frac{1}{100}, \\
 \end{align*}
 
-We should thus use $N =$  \wordChoice{\choice{$20$}\choice[correct]{$21$}}.
-
-\item[II.] We can thus approximate $\sum_{k=1}^{\infty} \frac{(-1)^k}{k^3}$ by using \wordChoice{\choice{$s_20$}\choice[correct]{$s_21$}}.  While this would be tedious to do by hand, technology can compute this sum quickly to find 
+and that $s_{100} = \sum_{k=1}^{100} \frac{1}{k^2} = \answer{1.6350}$ to four decimal places, we find that the actual value of the series $\sum_{k=1}^{\infty}$ should be between $1.63498 + \frac{1}{101}$ and $1.63498 + \frac{1}{100}$.  Reporting this to five decimal places, we find that
 
 \[
-\sum_{k=1}^{21} \frac{(-1)^k}{k^3} \approx -.90159.
+1.64488 \leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.64498. 
 \]
 
-Using this result above, we conclude that $-.90159-.0001 \leq \sum_{k=1}^{\infty} \frac{(-1)^k}{k^3} \leq -.90159+.0001$ or
+As we have mentioned previously, the series actually converges to $\frac{\pi^2}{6}$, and using a calculator, we know that $\frac{\pi^2}{6} \approx 1.64493$.  
 
-\[
--.90169 \leq \sum_{k=1}^{\infty} \frac{(-1)^k}{k^3} \leq -.90149
-\]
-\item[III.] Here, we have used $s_{100000}$ to approximate the value of the series.  The remainder result tells us that the error $r_{100000}$ made in this approximation can be no worse than $a_{100001}$; i.e.
+\end{model}
 
-\[
-\big|r_{100000}\big| < \frac{1}{(100001)^3}. 
-\]
+There are two important types of questions we have asked about remainders.
 
-Noting that $\frac{1}{(100001)^3} = 9.9997 \times 10^{-16}$, we see that the approximation given above corresponds with the actual value of the series to the ten decimal places listed.
-
+\begin{itemize}
+\item[1.] How bad is the error made when we approximate a convergent infinite series by its first several terms?
+In other words, if we specify $N$, how close is $\sum_{k=n_0}^{N} a_k$ to the exact value of $\sum_{k=n_0}^{\infty} a_k$?
+\item[2.] How many terms should we specify if we want to know the value of a convergent series to obtain a desired precision?
+Said another way, given an acceptable value for the error, what value should we pick for $N$ so $\sum_{k=n_0}^{N} a_k$ approximates $\sum_{k=n_0}^{\infty} a_k$ that accurately?
 \end{itemize}
+
+Now, let's work an example that addresses both.
+
+\begin{example}
+Consider the series $\sum_{k=2}^{\infty} \frac{\ln(k)}{k^2}$.  
+
+\begin{example}
+Show that this series converges. 
+\begin{explanation}
+We can check that the series above meets the hypothesis of the integral test, so we may apply it to investigate whether the series converges.
+We must compute 
+\begin{align*}
+\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x &= \lim_{b \to \infty} \int_2^b  \frac{\ln(x)}{x^2} \d x .\\
+\end{align*}
+To find the necessary antiderivative, we use use integration by parts.
+
+\begin{align*}
+u&= \answer{\ln(x)} & \d v&= \answer{\frac{1}{x^2}} \d x \\
+\d u &= \answer{\frac{1}{x}} & v&= \answer{-\frac{1}{x}}
+\end{align*}
+Thus, we find
+
+\begin{align*}
+\int  \frac{\ln(x)}{x^2} \d x &= -\frac{\ln(x)}{x} + \int \frac{1}{x^2} \d x \\
+&= -\frac{\ln(x)}{x} - \frac{1}{x} +C
+\end{align*}
+
+Now, we can evaluate the improper integral needed for the integral test.
+
+\begin{align*}
+\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x = \lim_{b \to \infty} \int_2^b  \frac{\ln(x)}{x^2} \d x &= \lim_{b \to \infty} \eval{-\frac{\ln(x)}{x} - \frac{1}{x}}_2^b\\
+&= \lim_{b \to \infty} \eval{\left(-\frac{\ln(b)}{b} - \frac{1}{b}\right) - \left(-\frac{\ln(2)}{2} - \frac{1}{2}\right)}\\
+&= \lim_{b \to \infty} \eval{\frac{\ln(2)+1}{2}-\frac{\ln(b)}{b} - \frac{1}{b}}
+\end{align*}
+By growth rates, we have that $\lim_{b \to \infty} \frac{\ln(b)}{b} = \answer{0}$, so we find that $\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x$ \wordChoice{\choice[correct]{converges}\choice{diverges}} to $\answer{\frac{\ln(2)+1}{2}}$.
+ 
 \end{explanation}
 \end{example}
 
-We conclude this section with a question.
-\begin{question}
-Determine if there is a value for $N$ so $\sum_{k=1}^{N} (-1)^k \cdot \frac{k+2}{2k+1}$ is within $.01$ of the value of $\sum_{k=1}^{N} (-1)^k \cdot \frac{k+2}{2k+1}$.  If there is such a value, give one possibility for it.
+\begin{example}
+Using the integral test (and a calculator or computer!), give an upper error bound if $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2}$ is used to approximate the value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$
+\begin{explanation}
+We know that an upper bound for the error is given by $r_n \leq \int_{\answer{100}}^{\infty} \frac{\ln(x)}{x^2} \d x$.  We've already found that 
 
-\begin{multipleChoice}
-\choice[correct]{There is no such value for $N$ since the series $\sum_{k=1}^{N} (-1)^k \cdot \frac{k+2}{2k+1}$ diverges.}
-\choice{There is such a value for $N$.}
-\end{multipleChoice}
+\begin{align*}
+\int  \frac{\ln(x)}{x^2} \d x &= -\frac{\ln(x)}{x} - \frac{1}{x} +C,
+\end{align*}
 
-\begin{feedback}
-Note that before we try to approximate the value of a series, we must first determine that it converges (so it actually \emph{has} a value).  Here, note that $\lim_{n \to \infty} \frac{n+2}{2n+1} = \frac{1}{2}$, so $\lim_{n \to \infty} (-1)^n \cdot \frac{n+2}{2n+1}$ does not exist, and hence $\sum_{k=1}^{N} (-1)^k \cdot \frac{k+2}{2k+1}$ diverges by the divergence test.
-\end{feedback}
-\end{question}
+so 
+
+\[
+\int_{100}^{\infty} \frac{\ln(x)}{x^2} \d x =\frac{\ln(100)+1}{100} 
+\]
+
+Using a calculator, we find to four decimal places that $\int_{100}^{\infty} \frac{\ln(x)}{x^2} \d x  \approx \answer[tolerance=.0005]{.0561}$.  Thus, the error made by approximating $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$ by $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2}$ is no \wordChoice{\choice{better}\choice[correct]{worse}} than the above result.
+
+Using a calculator or a computer, we find (quite quickly) that to four decimal places, $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2} \approx .8817$.
+
+It doesn't look like we used enough terms here to get a really good sense of the value to which this series converge quite yet.
+
+\end{explanation}
+\end{example}
+
+\begin{example}
+Using technology, find a value for $N$ so we are guaranteed that  $\sum_{k=2}^{N}  \frac{\ln(k)}{k^2}$ will be accurate to within $.001$ of the exact value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.  Then, find the value of $\sum_{k=2}^{100} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
+
+\begin{explanation}
+We need to find $N$ so $r_N \leq .001$.  Since we know that $r_N \leq \int_N^\infty  \frac{\ln(x)}{x^2} \d x$, we can achieve this by setting $\int_N^\infty  \frac{\ln(x)}{x^2} \d x \leq .001$.  
+
+By analogous computation to earlier, we find that $\int_N^\infty  \frac{\ln(x)}{x^2} \d x = \frac{\ln(N)+1}{N}$, so we need to find $N$ so
+
+\[
+\frac{\ln(N)+1}{N} \leq .001  .
+\]
+
+We cannot solve this equation exactly, but we can use a computer or a calculator to approximate $N$.  Since estimating is usually done with technology, it's perfectly reasonable to use it to find $N$ here, and doing so yields $N = 10233.4$, so we should use $N=10234$.
+
+Thus, $\sum_{k=2}^{10234} \frac{\ln(k)}{k^2}$ will give the desired approximation, and using technology, we find that $\sum_{k=2}^{10234} \frac{\ln(k)}{k^2} \approx .9365$ to four decimal places.
+
+\end{explanation}
+\end{example}
+
+
+
+
+\end{example}
 
 
 \end{document}

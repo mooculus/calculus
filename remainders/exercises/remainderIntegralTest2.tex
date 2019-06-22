@@ -12,17 +12,69 @@
 
 \begin{exercise}
 
-Select all of following series for which it is possible to define a sequence of remainders.
+A student claims that to within $.001$, $\sum_{k=1}^{\infty} \frac{4}{k^{3/2}} = 9.651$.  Is the student correct?
 
-\begin{selectAll}
-\choice{$\sum_{k=1}^{\infty} 2^{1-k}$}
-\choice{$\sum_{k=1}^{\infty} \frac{2^{2k}}{3^k}$}
-\choice{$\sum_{k=1}^{\infty} \bigg(\sin(k)-\sin(k+1) \bigg)$}
-\choice{$\sum_{k=1}^{\infty}  \left(\frac{1}{k^2} - \frac{1}{(k+1)^2}$}
-\end{selectAll}
+\begin{multipleChoice}
+\choice{Yes.}
+\choice{Not necessarily.}
+\choice[correct]{No.}
+\end{multipleChoice}
+
+How would you establish this?
+
+\begin{multipleChoice}
+\choice{Approximate the series by a finite sum and find an upper bound for the error using the remainder results for the integral test.}
+\choice[correct]{Approximate the series by a finite sum and find an lower bound for the error using the remainder results for the integral test.}
+\choice{Calculate $\sum_{k=1}^{1000} \frac{4}{k^{3/2}}$ and check to see if it's within $.001$ of the student's answer.}
+\end{multipleChoice}
+
+\begin{feedback}
+The student actually calculated $\sum_{k=1}^{100} \frac{4}{k^{3/2}}$ to obtain this approximation.  According to the integral test, what is the minimum possible error that the student should expect by using this approximation?
+
+The minimum possible error according to the integral test is $\answer[tolerance=.002]{0.796}$ to three decimal places.  
+\end{feedback}
 
 \begin{hint}
-These are all geometric or telescoping series.  Remember that a sequence of remainders is only defined if the series in question converges.
+Which inequality in the remainder results for the integral test establishes a lower bound for the error?
 \end{hint}
+
+\begin{feedback}
+This means that the minimum possible value for $\sum_{k=1}^{\infty} \frac{4}{k^{3/2}}$ should be $\sum_{k=1}^{100} \frac{4}{k^{3/2}} +0.796 = 10.448$ to three decimal places.
+\end{feedback}
+
+\begin{exercise}
+Find the value of $\sum_{k=1}^{\infty} \frac{4}{k^{3/2}}$ to within a precision of $.001$.  Report your answer to four decimal places.
+
+\[
+\sum_{k=1}^{\infty} \frac{4}{k^{3/2}} = \answer[tolerance=.001]{10.4495}
+\]
+
+\begin{hint}
+One way to do this is to find $N$ so the upper bound for the error $r_N \leq .001$, then find the approximation by calculating $\sum_{k=1}^{N} \frac{4}{k^{3/2}}$.  However, this will produce a rather large value for $N$ (in fact, you should find that $N=4 \times 10^6$!), and it will take a computer a \emph{long} time to compute the approximation.  
+
+Another way that is much more computationally efficient is to require that the difference between the upper estimate for the series and the lower estimate be no more than $.001$; that is note that for every $n$,
+
+\[
+\int_{n+1}^\infty \frac{4}{x^{3/2}} \d x  +s_n \leq \sum_{k=1}^{\infty} a_k \leq \int_{n}^\infty \frac{4}{x^{3/2}} \d x  +s_n.
+\]
+ 
+If the difference between the left and right sides of the inequality is less than $.001$, then the infinite series must be within $.001$ of its minimum possible value (the lefthand side) and its maximum possible value (the righthand side).
+ 
+ Now, note that
+
+\begin{align*}
+RHS-LHS &\leq .001 \\
+\left( \int_{n}^\infty \frac{4}{x^{3/2}} \d x  +s_n\right) - \left( \int_{n+1}^\infty \frac{4}{x^{3/2}} \d x  +s_n \right) &\leq .001 \\
+ \int_{n}^\infty \frac{4}{x^{3/2}} \d x  - \int_{n+1}^\infty \frac{4}{x^{3/2}} \d x   &\leq .001 \\
+  \int_{n}^\infty \frac{4}{x^{3/2}} \d x  +  \int_{\infty}^{n+1} \frac{4}{x^{3/2}} \d x   &\leq .001 \\
+    \int_{n}^{n+1} \frac{4}{x^{3/2}}  &\leq .001 \\
+\end{align*} 
+
+Noting that $\int_n^{n+1}  \frac{4}{x^{3/2}} \d x = \answer{\frac{8}{\sqrt{n}} - \frac{8}{\sqrt{n+1}}}$, we can find that the smallest integer value for $N$ for which $\int_n^{n+1}  \frac{4}{x^{3/2}} \d x \leq .001$ is $N= \answer{252}$.  This is much better than the previous value found!
+ 
+ We now know that the actual value for the series must be between $s_{252} + \int_{253}^\infty \frac{4}{x^{3/2}} \d x = \answer[tolerance=.002]{10.449}$ and $s_{252} + \int_{252}^\infty \frac{4}{x^{3/2}} \d x = \answer[tolerance=.002]{10.450}$
+\end{hint}
+
+\end{exercise}
 \end{exercise}
 \end{document}

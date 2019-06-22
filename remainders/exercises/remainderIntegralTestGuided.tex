@@ -12,17 +12,135 @@
 
 \begin{exercise}
 
-Select all of following series for which it is possible to define a sequence of remainders.
+Consider the series $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$.  
 
-\begin{selectAll}
-\choice{$\sum_{k=1}^{\infty} 2^{1-k}$}
-\choice{$\sum_{k=1}^{\infty} \frac{2^{2k}}{3^k}$}
-\choice{$\sum_{k=1}^{\infty} \bigg(\sin(k)-\sin(k+1) \bigg)$}
-\choice{$\sum_{k=1}^{\infty}  \left(\frac{1}{k^2} - \frac{1}{(k+1)^2}$}
-\end{selectAll}
+Does the integral test apply?
 
-\begin{hint}
-These are all geometric or telescoping series.  Remember that a sequence of remainders is only defined if the series in question converges.
-\end{hint}
+\begin{multipleChoice}
+\choice[correct]{Yes.}
+\choice{No.}
+\end{multipleChoice}
+
+What does the integral test tell us?
+\begin{multipleChoice}
+\choice{The series converges to $\frac{1}{2}$.}
+\choice[correct]{The series converges, but we do not know its value yet.}
+\choice{The series diverges.}
+\end{multipleChoice}
+
+\begin{feedback}
+Note that $\frac{2x}{(x^2+1)^2}$ is positive, decreasing(check for yourself!), and continuous for all $x \geq 1$, and
+
+\[
+\int_1^\infty \frac{2x}{(x^2+1)^2} \d x = \lim_{b \to \infty} \eval{-\frac{1}{x^2+1}}_1^b = \lim_{b \to \infty} \eval{-\frac{1}{b^2+1}+\frac{1}{2}}.
+\]
+Hence, the improper integral converges, so $\sum_{k=1}^{\infty}  \frac{2k}{(k^2+1)^2}$ converges by the integral test.  
+
+Suppose that we want to estimate the value of the series.  Since we do not have a way to find an explicit formula for $s_n=\sum_{k=1}^n \frac{2k}{(k^2+1)^2}$, we need to turn to the remainder estimate that comes with the integral test.
+
+\begin{theorem}[Integral Remainder Estimates]
+If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, then 
+
+\[
+\int_{n+1}^{\infty} f(x) \d x \leq  r_n \leq \int_{n}^{\infty} f(x) \d x \qquad \textrm{ for all } n \geq n_0,
+\]
+where $r_n = \sum_{k=n+1}^{\infty} a_k$.
+\end{theorem}
+
+\end{feedback}
+
+
+\begin{exercise}
+Suppose we want to approximate $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$ by using $\sum_{k=1}^{15} \frac{2k}{(k^2+1)^2}$.  What can we say about the error?
+
+\textbf{First, we can determine an upper bound for the error from the inequality $ r_n \leq \int_{n}^{\infty} f(x) \d x$. } 
+
+We can mimic the calculation done earlier
+
+\[
+\int_n^\infty \frac{2x}{(x^2+1)^2} \d x = \lim_{b \to \infty} \eval{\answer{-\frac{1}{x^2+1}}}_n^b = \lim_{b \to \infty} \eval{-\frac{1}{b^2+1}+\frac{1}{n^2+1}} =\answer{\frac{1}{n^2+1}}. 
+\]
+
+Since we want to approximate $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$ by using $\sum_{k=1}^{15} \frac{2k}{(k^2+1)^2}$, we should use $n=\answer{15}$, and doing so gives us that
+
+\[
+error \leq \answer{\frac{1}{15^2+1}} \approx .0044
+\]
+
+This tells us that $\sum_{k=1}^{15} \frac{2k}{(k^2+1)^2}$ will be no more than $.0044$ off from $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$.
+
+\textbf{Secondly, we can determine a lower bound for the error from the inequality $ \int_{n+1}^{\infty} f(x) \d x  \leq r_n $. } 
+
+We can mimic the calculation done earlier
+
+\[
+\int_{n+1}^\infty \frac{2x}{(x^2+1)^2} \d x = \lim_{b \to \infty} \eval{\answer{-\frac{1}{x^2+1}}}_{n+1}^b = \lim_{b \to \infty} \eval{-\frac{1}{b^2+1}+\frac{1}{(n+1)^2+1}} =\answer{\frac{1}{(n+1)^2+1}}. 
+\]
+
+Since we want to approximate $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$ by using $\sum_{k=1}^{15} \frac{2k}{(k^2+1)^2}$, we should use $n=\answer{15}$, and doing so gives us that
+
+\[
+error \geq \answer{\frac{1}{16^2+1}} \approx .0039
+\]
+
+This tells us that $\sum_{k=1}^{15} \frac{2k}{(k^2+1)^2}$ will be at least $.0039$ off from the exact value of  $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$.
+
+\begin{exercise}
+Now, we can use technology to compute that to four decimal places, $\sum_{k=1}^{15} \frac{2k}{(k^2+1)^2} = \answer[tolerance=.0002]{.7901}$.  This allows us to determine bounds for the value of $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$.
+
+\[
+\textrm{appx} + \textrm{lower error bound}  \leq \sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}  \leq \textrm{appx} + \textrm{upper error bound} 
+\]
+\begin{align*}
+.7901 +.0039 &\leq \sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2} \leq .7901 +.0044 \\
+.7939 &\leq  \sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2} \leq .7945 
+\end{align*}
+
+\begin{exercise}
+Now suppose that we want to ensure that we can approximate $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$ to within $.001$ of its exact value.  We thus want to find $N$ so $\sum_{k=1}^{N} \frac{2k}{(k^2+1)^2}$ is within $.001$ of $\sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}$.  To do so, we will use the upper bound for error; that is, we will set $r_N \leq \int_N^\infty \frac{2x}{(x^2+1)^2} \d x \leq .001$.
+
+From our previous work, we have found that
+
+\[
+ \int_N^\infty \frac{2x}{(x^2+1)^2} \d x= \answer{\frac{1}{N^2+1}},
+\]
+
+so we just have to solve the inequality below.
+
+\begin{align*}
+ \int_N^\infty \frac{2x}{(x^2+1)^2} \d x =  \answer{\frac{1}{N^2+1}} &\leq .001 \\
+N^2+1 &\geq 1000 \\
+N \geq \sqrt{\answer{999}}
+\end{align*}
+
+Using technology, we find $N \geq 31.6$, so we use $N=32$.
+
+Our approximation is thus $\sum_{k=1}^{32} \frac{2k}{(k^2+1)^2} = \answer[tolerance=.002]{.7933}$
+
+
+\begin{remark}
+We can use $N=32$ and repeat the construction in the previous part to find new error bounds for the actual value of the series, which gives us a much better idea of the value of the series!
+
+\[
+\textrm{appx} + \textrm{lower error bound}  \leq \sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2}  \leq \textrm{appx} + \textrm{upper error bound} 
+\]
+\begin{align*}
+.7933 +.0009 &\leq \sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2} \leq .7933 +.001 \\
+.7942 &\leq  \sum_{k=1}^{\infty} \frac{2k}{(k^2+1)^2} \leq .7943 
+\end{align*}
+
+\end{remark}
+
+\end{exercise}
+\end{exercise}
+
+
+
+
+
+
+
+
+\end{exercise}
 \end{exercise}
 \end{document}

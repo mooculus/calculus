@@ -45,7 +45,7 @@ What, then should we do?  Thankfully, the integral test comes with a nice remain
 \section{Remainders and the Integral Test}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{theorem}[Remainder Estimates for the Integral Test]{integral test remainder estimates}
+\begin{theorem}[Remainder Estimates for the Integral Test, Part 1]
 If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, then 
 
 \[
@@ -68,9 +68,16 @@ Note that we actually have two results here.
 \[
 \textrm{maximum possible error made}  \leq \int_{n}^{\infty} f(x) \d x.
 \]
-
-
 \end{itemize}
+
+%%%%
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Let's explore how this test works in the context of an example we have seen in previous sections.
@@ -214,17 +221,106 @@ and that $s_{100} = \sum_{k=1}^{100} \frac{1}{k^2} = \answer{1.6350}$ to four de
 As we have mentioned previously, the series actually converges to $\frac{\pi^2}{6}$, and using a calculator, we know that $\frac{\pi^2}{6} \approx 1.64493$.  
 
 \end{model}
+%%%%%%
+Wait a minute!  We wanted to approximate the series in the last example to within $.001$ of its actual value, but the actual bounds for the error led us to find 
 
-There are two important types of questions we have asked about remainders.
+\[
+1.64488 \leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.64498. 
+\]
+
+We thus actually know the value to within $.0001$ (and can verify this since we are given the actual value of the series).  What's going on here?  
+
+Let's return to the theorem and make an important observation.
 
 \begin{itemize}
-\item[1.] How bad is the error made when we approximate a convergent infinite series by its first several terms?
-In other words, if we specify $N$, how close is $\sum_{k=n_0}^{N} a_k$ to the exact value of $\sum_{k=n_0}^{\infty} a_k$?
-\item[2.] How many terms should we specify if we want to know the value of a convergent series to obtain a desired precision?
-Said another way, given an acceptable value for the error, what value should we pick for $N$ so $\sum_{k=n_0}^{N} a_k$ approximates $\sum_{k=n_0}^{\infty} a_k$ that accurately?
+\item The inequality $\int_{n+1}^{\infty} f(x) \d x \leq  r_n$ gives us the \emph{minimum} possible error made.
+\item The inequality $r_n \leq \int_{n}^{\infty} f(x) \d x$ gives us the \emph{minimum} possible error made.
 \end{itemize}
 
-Now, let's work an example that addresses both.
+Since we have a positivity assumption on the terms, note that this means that for every $n$, $s_n$ will be an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}.  This leads to an important observation; if we want to approximate a convergent series to within $\epsilon$ of its actual value, we can require that the difference between the upper estimate for the series and the lower estimate be no more than $\epsilon$.  Note that for every $n$,
+
+\[
+\int_{n+1}^\infty f(x) \d x  +s_n \leq \sum_{k=1}^{\infty} a_k \leq \int_{n}^\infty f(x) \d x  +s_n.
+\]
+ 
+If the difference between the left and right sides of the inequality is less than $\epsilon$, then the infinite series must be within $\epsilon$ of its minimum possible value (the lefthand side) and its maximum possible value (the righthand side).
+ 
+Now, note that
+
+\begin{align*}
+RHS-LHS &\leq \epsilon \\
+\left( \int_{n}^\infty f(x) \d x  +s_n\right) - \left( \int_{n+1}^\infty f(x) \d x  +s_n \right) &\leq \epsilon \\
+ \int_{n}^\infty f(x) \d x  - \int_{n+1}^\infty f(x) \d x   &\leq \epsilon \\
+  \int_{n}^\infty f(x) \d x  +  \int_{\infty}^{n+1} f(x) \d x   &\leq \epsilon \\
+    \int_{n}^{n+1} f(x)  &\leq \epsilon \\
+\end{align*} 
+In going from the penultimate to the last step, we are justified in our calculation because the integrals both converge.  This in practice will greatly reduce the number of terms needed to approximate the value of a series, which we will see shortly.  First, we update our theorem with these results.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{theorem}[Remainder Estimates for the Integral Test]
+If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, and we know that $\sum_{k=n_0}^\infty a_k$ converges, then we have an upper and lower bound for the error $r_n=\sum_{k=n+1}^{\infty} a_k$ given by the formula below.
+
+\[
+\int_{n+1}^{\infty} f(x) \d x \leq  r_n \leq \int_{n}^{\infty} f(x) \d x \qquad \textrm{ for all } n \geq n_0,
+\]
+
+We also have bounds for the value of the infinite series $\sum_{k=n_0}^\infty a_k$, which are constructed from the error bounds.
+
+\[
+s_n+ \int_{n+1}^{\infty} f(x) \d x \leq  \sum_{k=n_0}^\infty a_k \leq s_n+ \int_{n}^{\infty} f(x) \d x 
+\]
+
+\end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Thus, we can approximate the value of a series that meets the above criteria using the following steps.
+
+\begin{itemize}
+\item[1.] Choose (or be given) a desired precision $\epsilon$, meaning, determine how closely you want to approximate the infinite series.
+\item[2.] Find the value for $n$ from setting $\int_n^{n+1} f(x) \d x \leq \epsilon$.  Call this value $N$.
+\item[3.] Approximate $\sum_{k=n_0}^{\infty} a_k$ by noting that 
+
+\[
+\int_{N+1}^\infty f(x) \d x  +s_N \leq \sum_{k=1}^{\infty} a_k \leq \int_{N}^\infty f(x) \d x  +s_N.
+\]
+\end{itemize}
+
+It's very easy to get lost in the sea of symbols above, so we strongly encourage the reader to think of these results conceptually.  To help gain some intuition, let's see how this sharpens our estimate for $N$ in the last example.
+
+\begin{example}
+In the last example, we found that we needed to use $\sum_{k=1}^{100} \frac{1}{k^2}$ to approximate $\sum_{k=1}^{\infty} \frac{1}{k^2} $ to within $.001$ of its true value; that is, we needed to add up the first $100$ terms of the series.  
+
+We can now compute $\int_n^{n+1} \frac{1}{x^2} \d x  = \eval{ -\frac{1}{x} }_n^{n+1} = \frac{1}{n}-\frac{1}{n+1}$.
+
+In many cases, technology will be useful in finding the value of $n$, but we can do this one by hand.
+
+\begin{align*}
+\frac{1}{n}-\frac{1}{n+1} &\leq .001
+n+1 - n &\leq .001\cdot n(n+1) \\
+1000 & \leq n^2+n \\
+n^2+n-1000 &\geq 0
+\end{align*}
+
+We can use the quadratic formula to find $n \geq \frac{-1+\sqrt{1+1000}}{2}$ (we ignore the negative root since $n$ must be positive).  Using a calculator, we find $n \approx 15.3$, so we should set $N=16$.
+
+We can finish the estimate by noting that to four decimal places, we have the following.
+
+\begin{itemize}
+\item $s_{16} = \sum_{k=1}^{16} \frac{1}{k^2} = 1.5843$.
+\item $\int_{16}^\infty \frac{1}{x^2} \d x = .0625$.
+\item $\int_{17}^\infty \frac{1}{x^2} \d x = .0588$.
+\end{itemize}
+
+Thus, we have the following.
+
+\begin{align*}
+s_{16} + \int_{17}^\infty \frac{1}{x^2} \d x & \leq   \sum_{k=1}^{\infty} \frac{1}{k^2} \leq s_{16} + \int_{16}^\infty \frac{1}{x^2} \d x \\
+1.5843 + .0588 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.5843 + .0625
+\end{align*}
+
+
+\end{example}
+
+
 
 \begin{example}
 Consider the series $\sum_{k=2}^{\infty} \frac{\ln(k)}{k^2}$.  
@@ -287,7 +383,7 @@ It doesn't look like we used enough terms here to get a really good sense of the
 \end{example}
 
 \begin{example}
-Using technology, find a value for $N$ so we are guaranteed that  $\sum_{k=2}^{N}  \frac{\ln(k)}{k^2}$ will be accurate to within $.001$ of the exact value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.  Then, find the value of $\sum_{k=2}^{100} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
+Using technology, use the upper bound for the error to find a value for $N$ so we are guaranteed that  $\sum_{k=2}^{N}  \frac{\ln(k)}{k^2}$ will be accurate to within $.001$ of the exact value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.  Then, find the value of $\sum_{k=2}^{100} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
 
 \begin{explanation}
 We need to find $N$ so $r_N \leq .001$.  Since we know that $r_N \leq \int_N^\infty  \frac{\ln(x)}{x^2} \d x$, we can achieve this by setting $\int_N^\infty  \frac{\ln(x)}{x^2} \d x \leq .001$.  
@@ -305,10 +401,31 @@ Thus, $\sum_{k=2}^{10234} \frac{\ln(k)}{k^2}$ will give the desired approximatio
 \end{explanation}
 \end{example}
 
-
-
-
-\end{example}
+%\begin{example}
+%This value of $N$ found in the previous part is quite large.  Hopefully, you also noticed that it took technology quite some time to compute it.
+%
+%%%%%USE ERROR RESULTS%%%%%%
+%\begin{explanation}
+%
+%\end{explanation}
+%\end{example}
+%
+%
+%\end{example}
+%
+%\section{Summary}
+%
+%%%%FINISH%%%%%%%
+%There are two important types of questions we have asked about remainders.
+%
+%\begin{itemize}
+%\item[1.] How bad is the error made when we approximate a convergent infinite series by its first several terms?
+%In other words, if we specify $N$, how close is $\sum_{k=n_0}^{N} a_k$ to the exact value of $\sum_{k=n_0}^{\infty} a_k$?
+%\item[2.] How many terms should we specify if we want to know the value of a convergent series to obtain a desired precision?
+%Said another way, given an acceptable value for the error, what value should we pick for $N$ so $\sum_{k=n_0}^{N} a_k$ approximates $\sum_{k=n_0}^{\infty} a_k$ that accurately?
+%\end{itemize}
+%
+%Now, let's work an example that addresses both.
 
 
 \end{document}

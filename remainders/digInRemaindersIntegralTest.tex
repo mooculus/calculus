@@ -5,7 +5,7 @@
 \outcome{Determine if a series converges using the alternating series test.}
 
 \title[Dig-In:]{Remainders and the Integral Test}
-\author{Jim Talamo and Bart Snapp}
+\author{Jim Talamo}
 
 \begin{document}
 \begin{abstract}
@@ -31,13 +31,58 @@ When we have a convergent geometric series or a convergent telescoping series, w
     \textbf{either both converge or both diverge}.
 \end{theorem}
 
-The key to proving that a series converges by the integral test is to note that if all of the terms in $\{a_n\}_{n=n_0}$ are eventually positive, then $\{s_n\}_{n=n_0}$ will be eventually increasing.  The improper integral can thus be used to establish an upper bound for $\{s_n\}_{n=n_0}$, meaning that $\{s_n\}_{n=n_0}$ will be bounded and monotonic and thus have a limit.  In this argument, we never actually compute a formula for $s_n$.  As such we have the following important observation. 
+The key to proving that a series converges by the integral test is to note that if all of the terms in $\{a_n\}_{n=n_0}$ are eventually positive, then $\{s_n\}_{n=n_0}$ will be eventually increasing.  
+
+When $n_0=1$, and we have the assumptions for the integral test, the picture to keep in mind is below.
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
+            width=4in,
+            height=2in,
+            xtick={1,2,...,5},
+            xticklabels={$1$,$2$,$3$, $4$, $5$, $6$},
+            ytick = {},
+            yticklabels = {,,},
+            axis lines =middle, xlabel=$n$, ylabel=$a_n$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            axis on top,
+          ]
+          
+          	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+	  \addplot [draw=penColor, fill = fill1] plot coordinates {(0,0) (1,0) (1, 14/10) (0,14/10) (0, 0)};    
+	  
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(1,0) (2,0) (2, 7/10) (1,7/10) (1, 0)};          
+          
+	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/20) (2,7/20) (2, 0)};          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/40) (3,7/40) (3, 0)};          
+          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/80) (4,7/80) (4, 0)};          
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
+
+	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+When the improper integral converges, it can be used to establish an upper bound for $\{s_n\}_{n=n_0}$.  This means that $\{s_n\}_{n=n_0}$ will be bounded and monotonic and thus have a limit, which we can determine without finding an explicit formula for $s_n$!  From the picture, it should also be clear that the series and the improper integral do not have the same value since the series is represented by \wordChoice{\choice[correct]{ the sum of the areas of all of the rectangles}\choice{the area under the curve}} whereas the improper integral is represented by \wordChoice{\choice{ the sum of the areas of all of the rectangles}\choice[correct]{the area under the curve}} .
+
+As such, we made the following important observation. 
   
 \begin{quote}
 When the assumptions for the integral test are met, we can use the integral test to determine if a series converges, but we cannot ever use it to find the value to which the series converges!
 \end{quote}
 
-What, then should we do?  Thankfully, the integral test comes with a nice remainder result.
+What, then should we do?  Thankfully, the integral test comes with a nice remainder result, which we will state then explore in the context of a familiar example.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,17 +90,24 @@ What, then should we do?  Thankfully, the integral test comes with a nice remain
 \section{Remainders and the Integral Test}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{theorem}[Remainder Estimates for the Integral Test, Part 1]
-If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, then 
+\begin{theorem}[Remainder Estimates for the Integral Test]
+If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, and we know that $\sum_{k=n_0}^\infty a_k$ converges, then we have an upper and lower bound for the error $r_n=\sum_{k=n+1}^{\infty} a_k$ given by the formula below.
 
 \[
 \int_{n+1}^{\infty} f(x) \d x \leq  r_n \leq \int_{n}^{\infty} f(x) \d x \qquad \textrm{ for all } n \geq n_0,
 \]
-where $r_n = \sum_{k=n+1}^{\infty} a_k$.
+
+We also have bounds for the value of the infinite series $\sum_{k=n_0}^\infty a_k$, which are constructed from the error bounds.
+
+\[
+s_n+ \int_{n+1}^{\infty} f(x) \d x \leq  \sum_{k=n_0}^\infty a_k \leq s_n+ \int_{n}^{\infty} f(x) \d x 
+\]
+
 \end{theorem}
 
 Note that we actually have two results here.
 
+\textbf{The first set of inequalities gives bounds for the error.}
 \begin{itemize}
 \item The inequality $\int_{n+1}^{\infty} f(x) \d x \leq  r_n$ tells us a \emph{lower bound} for the error; this means we know that the error made using $\sum_{k=n_0}^n a_k$ is at least the value of $\int_{n+1}^{\infty} f(x) \d x$.  That is, if we use $\sum_{k=n_0}^n a_k$ to approximate $\sum_{k=n_0}^\infty a_k$:
 
@@ -70,17 +122,11 @@ Note that we actually have two results here.
 \]
 \end{itemize}
 
-%%%%
+\textbf{The second result gives us a sharper estimate for the value of the series than the usual estimate using just $s_n$.}
 
+Since we have a positivity assumption on the terms of the series, note that this means that for every $n$, $s_n$ will be an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}.  Since we have a result for the minimum error made, we can add this to the value of $s_n$ to obtain the smallest possible value of the series.
 
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Let's explore how this test works in the context of an example we have seen in previous sections.
+Before commenting further, let's explore how this test works in the context of an example we have seen in previous sections.
 
 \begin{model}
 We have seen that  $\sum_{k=1}^\infty \frac{1}{k^2}$ converges, but we have not discussed a way to find its value (and
@@ -93,14 +139,12 @@ where we can be sure that
 \[
 \sum_{k=1}^\infty \frac{1}{k^2}-\sum_{k=1}^N \frac{1}{k^2} \leq .01.
 \]
-While we could determine the smallest such value when we had an explicit formula for $r_N$, we are not so fortunate here.  However, computers can add terms very quickly, so we do not need the smallest number $N$; we only need one for which we can be sure that $-\sum_{k=1}^N \frac{1}{k^2}$ will approximate $\sum_{k=1}^\infty \frac{1}{k^2}$ to within $.01$.  
+While we could determine the smallest such value for $N$ when we had an explicit formula for $r_N$, we are not so fortunate here.  However, since we want to use a computer to obtain the actual approximation, we do not need the smallest number $N$; we only need one for which we can be sure that $\sum_{k=1}^N \frac{1}{k^2}$ will approximate $\sum_{k=1}^\infty \frac{1}{k^2}$ to within $.01$.  
 
-Set $r_N$ to be 
-\[
-r_N = \sum_{N+1}^\infty \frac{1}{k^2}.
-\]
+As usual, the error $r_N$ in approximating $\sum_{k=1}^\infty \frac{1}{k^2}$ by $\sum_{k=1}^N \frac{1}{k^2}$ will be $r_N= \sum_{N+1}^\infty \frac{1}{k^2}$.
 
-Consider the following graph, where the rectangles correspond to the terms of $r_N$.
+Consider the following graph.
+
 \begin{image}
 \begin{tikzpicture}
 	\begin{axis}[
@@ -111,40 +155,7 @@ Consider the following graph, where the rectangles correspond to the terms of $r
             xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
             ytick = {},
             yticklabels = {,,},
-            axis lines =middle, xlabel=$n$, ylabel=$a$,
-            every axis y label/.style={at=(current axis.above origin),anchor=south},
-            every axis x label/.style={at=(current axis.right of origin),anchor=west},
-            clip=false,
-            axis on top,
-          ]          
-	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
-	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/10) (2,7/10) (2, 0)};          
-                    
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/20) (3,7/20) (3, 0)};          
-                    
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole        
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/40) (4,7/40) (4, 0)};          
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(5,7/80)};  %% closed hole
-          \addplot [draw=penColor, fill = fill1] plot coordinates {(5,0) (6,0) (6, 7/80) (5,7/80) (5, 0)};          
-
-	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-Shifting these rectangles over one unit, we have the following.
-\begin{image}
-\begin{tikzpicture}
-	\begin{axis}[
-            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
-            width=4in,
-            height=2in,
-            xtick={1,2,...,5},
-            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
-            ytick = {},
-            yticklabels = {,,},
-            axis lines =middle, xlabel=$n$, ylabel=$a$,
+            axis lines =middle, xlabel=$n$, ylabel=$a_n$,
             every axis y label/.style={at=(current axis.above origin),anchor=south},
             every axis x label/.style={at=(current axis.right of origin),anchor=west},
             clip=false,
@@ -168,61 +179,107 @@ Shifting these rectangles over one unit, we have the following.
         \end{axis}
 \end{tikzpicture}
 \end{image}
-Now we know
+
+Note that the area of the first rectangle is $\answer{\frac{1}{(N+1)^2}}$ (which is precisely $a_{N+1}$) , the area of the second rectangle is $a_{N+2}$, and so on.  Thus, the sum of the areas of all of these rectangles is exactly $r_N$.  Comparing this to the area under the curve for $x \geq N$ yields
+
 \[
 r_N \leq \int_N^\infty \frac{1}{x^2} \d x .
 \]
-In other words, the remainder of the series must be less than the given integral.  
-So, if we can find a whole number $N$ for which
+In other words, the remainder of the series must be less than the given integral!
+
+We can perform a similar construction to find a lower bound for the error.
+
+
+\begin{image}
+\begin{tikzpicture}
+	\begin{axis}[
+            domain=0:6,xmin=0,xmax=6,ymin=0,ymax=2,
+            width=4in,
+            height=2in,
+            xtick={1,2,...,5},
+            xticklabels={$N$,$N+1$,$N+2$, $N+3$, $N+4$, $N+5$},
+            ytick = {},
+            yticklabels = {,,},
+            axis lines =middle, xlabel=$n$, ylabel=$a_n$,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            clip=false,
+            axis on top,
+          ]
+        
+
+	  \addplot [draw=penColor, fill = fill1] plot coordinates {(2,0) (3,0) (3, 7/10) (2,7/10) (2, 0)};          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(2,7/10)};  %% closed hole
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(3,0) (4,0) (4, 7/20) (3,7/20) (3, 0)};          
+          
+          
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3,7/20)};  %% closed hole        
+          \addplot [draw=penColor, fill = fill1] plot coordinates {(4,0) (5,0) (5, 7/40) (4,7/40) (4, 0)};          
+
+          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(4,7/40)};  %% closed hole
+
+	  \addplot [draw=penColor,very thick, domain=0.5:6] {(14/5)*2^(-x)};
+        \end{axis}
+\end{tikzpicture}
+\end{image}
+
+and conclude
+
 \[
-\int_N^\infty \frac{1}{x^2} \d x \leq .01,
+r_{N} \geq \int_{N+1}^\infty \frac{1}{x^2} \d x .
 \]
-we will be sure that we have summed enough terms in the series to get
-to within $.01$.   From our work above, we see that we need to find $N$ such that
-    \[
-    \int_N^\infty \frac{1}{x^2} \d x \leq \answer[given]{.01}.
-    \]
-    Write with me.
+
+Putting these together yields
+
+\[
+ \int_{N+1}^\infty \frac{1}{x^2} \d x  \leq r_{N} \leq \int_N^\infty \frac{1}{x^2} \d x , 
+\]
+which is precisely the first inequality guaranteed by the theorem in the context of this example.
+
+Now, suppose that we want to approximate the value of the series to within $.01$.  One way we can do this is to approximate $\sum_{k=1}^{\infty} \frac{1}{k^2} $ by $s_n$ and find $N$ by requiring that the maximum error made is no more than $.01$.  Using the fact that $r_N \leq \int_N^\infty \frac{1}{x^2} \d x \leq .01$, we find 
+
     \begin{align*}
       \int_N^\infty \frac{1}{x^2} \d x & \leq .01\\
       \lim_{b \to \infty} \int_N^b \frac{1}{x^2} \d x &\leq .01\\
       \lim_{b \to \infty} \eval{\answer[given]{\frac{-1}{x}}}_N^b& \leq .01\\
       \lim_{b \to \infty} \frac{1}{N} - \frac{1}{b}& \leq .01\\
       \frac{1}{N} &\leq .01\\
-      N&>\answer[given]{100}.
+      N&\geq\answer[given]{100}.
     \end{align*}
-    So we need $N$ to be at least $100$.
 
-
-This shows that if we compute $\sum_{k=1}^{100} \frac{1}{k^2}$, meaning that if we sum the $100$ terms of the series $\sum_{k=1}^\infty
-\frac{1}{k^2}$, we will be within $.01$ of the true answer.
-
-Using a computer to sum the first $100$ terms we find to five decimal places that 
+It seems that we need $N$ to be at least $100$.  Using a computer to sum the first $100$ terms we find to five decimal places that 
 \[
 \sum_{k=1}^{100} \frac{1}{k^2} \approx 1.63498.
 \]
 
+We have previously mentioned that the value of this series actually is known to be $\frac{\pi^2}{6} \approx 1.64493$, so the above sum certainly approximates the series to within $.01$, but there's a second part of the theorem that provides a better approximation.  
 
-Similarly, by considering the picture, we find that $r_n \geq \int_{N+1}^\infty \frac{1}{x^2}= \int_{101}^\infty \frac{1}{x^2}$.  By repeating the earlier calculation, we find that $\int_{101}^\infty \frac{1}{x^2} = \frac{1}{101}$, so we know that the error in our approximation is at least $\frac{1}{101} = .00990$ to five decimal places.
-
-As such we have an estimate for $\sum_{k=1}^{\infty} \frac{1}{k^2}$.  Noting that the error $r_{100}$ satisfies
-
-\begin{align*}
-\int_{n+1}^{\infty} \frac{1}{x^2} \d x & \leq  r_n & \leq \int_{n}^{\infty} \frac{1}{x^2} \d x \\
-\frac{1}{101} & \leq  r_n & \frac{1}{100}, \\
-\end{align*}
-
-and that $s_{100} = \sum_{k=1}^{100} \frac{1}{k^2} = \answer{1.6350}$ to four decimal places, we find that the actual value of the series $\sum_{k=1}^{\infty}$ should be between $1.63498 + \frac{1}{101}$ and $1.63498 + \frac{1}{100}$.  Reporting this to five decimal places, we find that
+Note that all of the terms in our series $\sum_{k=1}^{\infty} \frac{1}{k^2}$ are \wordChoice{\choice[correct]{positive}\choice{negative}}, so the the approximation we found above \underline{must} be an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}.  Since we know that the minimum error in this approximation made is $\int_{N+1}^{\infty} \frac{1}{x^2} \d x=\int_{101}^{\infty} \frac{1}{x^2} \d x$, and we can readily compute that 
 
 \[
-1.64488 \leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.64498. 
+\int_{101}^{\infty} \frac{1}{x^2} \d x = \frac{1}{101},
 \]
+we know that the \emph{smallest} possible value for the series is $s_{100} +  \frac{1}{101}$.  
 
-As we have mentioned previously, the series actually converges to $\frac{\pi^2}{6}$, and using a calculator, we know that $\frac{\pi^2}{6} \approx 1.64493$.  
+Similarly, the \emph{largest} error made is 
+
+\[
+\int_{100}^{\infty} \frac{1}{x^2} \d x = \frac{1}{100},
+\] 
+
+so the \emph{largest} possible value for the series is $s_{100} +  \frac{1}{100}$.  Hence, we conclude that
+
+\begin{align*}
+s_{100} + \frac{1}{101} &\leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq s_{100} +  \frac{1}{100} \\
+1.63498 + \frac{1}{101} & \leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.63498 + \frac{1}{100} \\
+1.64488 &\leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.64498
+\end{align*}
 
 \end{model}
 %%%%%%
-Wait a minute!  We wanted to approximate the series in the last example to within $.001$ of its actual value, but the actual bounds for the error led us to find 
+
+Wait a minute!  We wanted to approximate the series in the last example to within $.01$ of its actual value, but the actual bounds for the error led us to find 
 
 \[
 1.64488 \leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.64498. 
@@ -230,7 +287,7 @@ Wait a minute!  We wanted to approximate the series in the last example to withi
 
 We thus actually know the value to within $.0001$ (and can verify this since we are given the actual value of the series).  What's going on here?  
 
-Let's return to the theorem and make an important observation.
+Let's return to the theorem and make an important observation explicit.
 
 \begin{itemize}
 \item The inequality $\int_{n+1}^{\infty} f(x) \d x \leq  r_n$ gives us the \emph{minimum} possible error made.
@@ -254,25 +311,10 @@ RHS-LHS &\leq \epsilon \\
   \int_{n}^\infty f(x) \d x  +  \int_{\infty}^{n+1} f(x) \d x   &\leq \epsilon \\
     \int_{n}^{n+1} f(x)  &\leq \epsilon \\
 \end{align*} 
-In going from the penultimate to the last step, we are justified in our calculation because the integrals both converge.  This in practice will greatly reduce the number of terms needed to approximate the value of a series, which we will see shortly.  First, we update our theorem with these results.
+In going from the penultimate to the last step, we are justified in our calculation because the integrals both converge.  This in practice will greatly reduce the number of terms needed to approximate the value of a series.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{theorem}[Remainder Estimates for the Integral Test]
-If $f(x)$ is a function that is positive, increasing, and continuous for $x \geq n_0$,  and $f(n) = a_n$ for every $n \geq n_0$, and we know that $\sum_{k=n_0}^\infty a_k$ converges, then we have an upper and lower bound for the error $r_n=\sum_{k=n+1}^{\infty} a_k$ given by the formula below.
-
-\[
-\int_{n+1}^{\infty} f(x) \d x \leq  r_n \leq \int_{n}^{\infty} f(x) \d x \qquad \textrm{ for all } n \geq n_0,
-\]
-
-We also have bounds for the value of the infinite series $\sum_{k=n_0}^\infty a_k$, which are constructed from the error bounds.
-
-\[
-s_n+ \int_{n+1}^{\infty} f(x) \d x \leq  \sum_{k=n_0}^\infty a_k \leq s_n+ \int_{n}^{\infty} f(x) \d x 
-\]
-
-\end{theorem}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Thus, we can approximate the value of a series that meets the above criteria using the following steps.
+\begin{procedure}{Estimating with the Integral Test}
+To approximate the value of a series that meets the criteria for the integral test remainder estimates, use the following steps.
 
 \begin{itemize}
 \item[1.] Choose (or be given) a desired precision $\epsilon$, meaning, determine how closely you want to approximate the infinite series.
@@ -284,49 +326,71 @@ Thus, we can approximate the value of a series that meets the above criteria usi
 \]
 \end{itemize}
 
-It's very easy to get lost in the sea of symbols above, so we strongly encourage the reader to think of these results conceptually.  To help gain some intuition, let's see how this sharpens our estimate for $N$ in the last example.
+\end{procedure}
 
-\begin{example}
-In the last example, we found that we needed to use $\sum_{k=1}^{100} \frac{1}{k^2}$ to approximate $\sum_{k=1}^{\infty} \frac{1}{k^2} $ to within $.001$ of its true value; that is, we needed to add up the first $100$ terms of the series.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{warning}
+It's very easy to get lost in the sea of symbols above, so we strongly encourage the reader to think of these results conceptually.  
+\end{warning}
+
+To help gain some intuition and see how this process works, let's see how this sharpens our estimate for $N$ in the last example.
+
+\begin{model}
+In the last example, we found that we needed to use $\sum_{k=1}^{100} \frac{1}{k^2}$ to approximate $\sum_{k=1}^{\infty} \frac{1}{k^2} $ to within $.01$ of its true value; that is, we needed to add up the first $100$ terms of the series.  
 
 We can now compute $\int_n^{n+1} \frac{1}{x^2} \d x  = \eval{ -\frac{1}{x} }_n^{n+1} = \frac{1}{n}-\frac{1}{n+1}$.
 
 In many cases, technology will be useful in finding the value of $n$, but we can do this one by hand.
 
 \begin{align*}
-\frac{1}{n}-\frac{1}{n+1} &\leq .001
-n+1 - n &\leq .001\cdot n(n+1) \\
-1000 & \leq n^2+n \\
-n^2+n-1000 &\geq 0
+\frac{1}{n}-\frac{1}{n+1} &\leq .01\\
+n+1 - n &\leq .01\cdot n(n+1) \\
+100 & \leq n^2+n \\
+n^2+n-100 &\geq 0
 \end{align*}
 
-We can use the quadratic formula to find $n \geq \frac{-1+\sqrt{1+1000}}{2}$ (we ignore the negative root since $n$ must be positive).  Using a calculator, we find $n \approx 15.3$, so we should set $N=16$.
+We can use the quadratic formula to find $n \geq \frac{-1+\sqrt{1+400}}{2}$ (we ignore the negative root since $n$ must be positive).  Using a calculator, we find $n \approx 9.5$, so we should set $N=10$.
 
 We can finish the estimate by noting that to four decimal places, we have the following.
 
 \begin{itemize}
-\item $s_{16} = \sum_{k=1}^{16} \frac{1}{k^2} = 1.5843$.
-\item $\int_{16}^\infty \frac{1}{x^2} \d x = .0625$.
-\item $\int_{17}^\infty \frac{1}{x^2} \d x = .0588$.
+\item $s_{10} = \sum_{k=1}^{9} \frac{1}{k^2} = 1.5498$.
+\item $\int_{10}^\infty \frac{1}{x^2} \d x = .1000$.
+\item $\int_{11}^\infty \frac{1}{x^2} \d x = .0910$.
 \end{itemize}
 
 Thus, we have the following.
 
 \begin{align*}
-s_{16} + \int_{17}^\infty \frac{1}{x^2} \d x & \leq   \sum_{k=1}^{\infty} \frac{1}{k^2} \leq s_{16} + \int_{16}^\infty \frac{1}{x^2} \d x \\
-1.5843 + .0588 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.5843 + .0625
+s_{10} + \int_{11}^\infty \frac{1}{x^2} \d x & \leq   \sum_{k=1}^{\infty} \frac{1}{k^2} \leq s_{10} + \int_{10}^\infty \frac{1}{x^2} \d x \\
+1.5498 + .0910 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.5498 + .1000 \\
+1.6407 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.6498
 \end{align*}
 
+Note that we only needed $10$ terms in the infinite series by using this sharper technique, whereas we needed $100$ terms if we only used the upper bound for the error to tell us how many terms we need to add to obtain the desired accuracy.
+\end{model}
 
-\end{example}
+\begin{remark}
+We hope that the reader actually performed the computations in the previous example.  While it seems that the second result is ``nicer'' in the sense that adding $10$ terms versus $100$ terms is desirable, a computer can perform both of these calculations almost instantaneously.  As such, we should we care to use the sharper estimate if we have technology at our disposal?
 
+One type of series that plays a major role in our study is that of a convergent $p$-series, $\sum_{k=1}^{\infty} \frac{1}{k^p}$ for $p >1$.  Approximating values for these to even a moderate degree of accuracy can be computationally taxing for a computer if we only use the upper bound for the error.  For example, suppose we want to compute $\sum_{k=1}^{\infty} \frac{1}{k^{5/4}}$ to within $.001$ of its exact value.  The curious reader can verify the following.
 
+\begin{itemize}
+\item If the upper bound for the error is used to establish a value for $N$ so $\sum_{k=1}^{N} \frac{1}{k^{5/4}}$ is within $.001$ of the exact value of the series, then $N = 4000^4 = 2.56 \times 10^{14}$.  It takes Maple (a powerful CAS) $WRITE THIS IN!!!! $ seconds to compute this (This author actually performed the calculation, waited for $ $ time, then let the computer run overnight to finish)
+\item If the method in the previous example is used to establish a value for $N$, then $N=251$.   It takes Maple $.007$ seconds to compute this.
+\end{itemize}
+
+The point?  Technology has limitations!  A little bit of mathematical theory can often go a long way, even when computers are used to perform the calculations.
+
+\end{remark}
+%%%%%%%%
 
 \begin{example}
 Consider the series $\sum_{k=2}^{\infty} \frac{\ln(k)}{k^2}$.  
 
-\begin{example}
-Show that this series converges. 
+I. Show that this series converges. 
 \begin{explanation}
 We can check that the series above meets the hypothesis of the integral test, so we may apply it to investigate whether the series converges.
 We must compute 
@@ -343,89 +407,134 @@ Thus, we find
 
 \begin{align*}
 \int  \frac{\ln(x)}{x^2} \d x &= -\frac{\ln(x)}{x} + \int \frac{1}{x^2} \d x \\
-&= -\frac{\ln(x)}{x} - \frac{1}{x} +C
+&= -\frac{\ln(x)}{x} - \frac{1}{x} +C \\
+&= -\frac{\ln(x)+1}{x}+C
 \end{align*}
 
 Now, we can evaluate the improper integral needed for the integral test.
 
 \begin{align*}
-\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x = \lim_{b \to \infty} \int_2^b  \frac{\ln(x)}{x^2} \d x &= \lim_{b \to \infty} \eval{-\frac{\ln(x)}{x} - \frac{1}{x}}_2^b\\
-&= \lim_{b \to \infty} \eval{\left(-\frac{\ln(b)}{b} - \frac{1}{b}\right) - \left(-\frac{\ln(2)}{2} - \frac{1}{2}\right)}\\
-&= \lim_{b \to \infty} \eval{\frac{\ln(2)+1}{2}-\frac{\ln(b)}{b} - \frac{1}{b}}
+\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x = \lim_{b \to \infty} \int_2^b  \frac{\ln(x)}{x^2} \d x &= \lim_{b \to \infty} \eval{-\frac{\ln(x)+1}{x}}_2^b\\
+&= \lim_{b \to \infty} \eval{\left(-\frac{\ln(b)+1}{b}\right) - \left(-\frac{\ln(2)+1}{2}\right)}\\
+&= \lim_{b \to \infty} \eval{\frac{\ln(2)+1}{2}-\frac{\ln(b)+1}{b}}
 \end{align*}
-By growth rates, we have that $\lim_{b \to \infty} \frac{\ln(b)}{b} = \answer{0}$, so we find that $\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x$ \wordChoice{\choice[correct]{converges}\choice{diverges}} to $\answer{\frac{\ln(2)+1}{2}}$.
+By growth rates, we have that $\lim_{b \to \infty} \frac{\ln(b)+1}{b} = \lim_{b \to \infty} \frac{\ln(b)}{b} \answer{0}$, so we find that $\int_{2}^{\infty} \frac{\ln(x)}{x^2} \d x$ \wordChoice{\choice[correct]{converges}\choice{diverges}} to $\answer{\frac{\ln(2)+1}{2}}$.
  
 \end{explanation}
-\end{example}
 
-\begin{example}
-Using the integral test (and a calculator or computer!), give an upper error bound if $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2}$ is used to approximate the value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$
+
+II. Using the integral test (and a calculator or computer!), use $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2}$ and the resulting error bounds to approximate the value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.
+
 \begin{explanation}
-We know that an upper bound for the error is given by $r_n \leq \int_{\answer{100}}^{\infty} \frac{\ln(x)}{x^2} \d x$.  We've already found that 
+%We need to compute $\int_{100}^{101} \frac{\ln(x)}{x^2}$, and we've already found that 
+%
+%\begin{align*}
+%\int  \frac{\ln(x)}{x^2} \d x &= \answer{-\frac{\ln(x)+1}{x}} +C,
+%\end{align*}
+%
+%so 
+%
+%\[
+%\int_{100}^{101} \frac{\ln(x)}{x^2} \d x =\frac{\ln(100)+1}{100} - \frac{\ln(101)+1}{101} 
+%\]
+%
+%Using a calculator, we find to six decimal places that 
+%
+%\[
+%\int_{100}^{101} \frac{\ln(x)}{x^2} \d x =\frac{\ln(100)+1}{100} - \frac{\ln(101)+1}{101}    \approx \answer[tolerance=.000002]{0.000456}
+%\]
+%
+%
+Using a calculator or a computer, we find the following values to four decimal places.
+
+\begin{itemize}
+\item $s_{100} = \sum_{k=2}^{100} \frac{\ln(k)}{k^2} = .8817$.
+\item $\int_{100}^\infty \frac{\ln(x)}{x^2} \d x = 0.0561$.
+\item $\int_{101}^\infty \frac{\ln(x)}{x^2} \d x = 0.0556$.
+\end{itemize}
+
+and so we can construct an approximation for the value of the series.
 
 \begin{align*}
-\int  \frac{\ln(x)}{x^2} \d x &= -\frac{\ln(x)}{x} - \frac{1}{x} +C,
+s_{100} + \int_{101}^\infty \frac{\ln(x)}{x^2} \d x & \leq   \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq s_{100} + \int_{100}^\infty \frac{\ln(x)}{x^2} \d x \\
+.8817 + 0.0556 & \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .8817 + 0.0561 \\
+.9373 & \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .9378
 \end{align*}
 
-so 
+\begin{remark}
+The curious reader may note that had only the upper bound for error been used, we would find that $r_{100} \leq \int_{100}^{\infty} \frac{\ln(x)}{x^2} \d x \approx 0.0561$, which is two orders of magnitude worse than the above result!
+\end{remark}
 
-\[
-\int_{100}^{\infty} \frac{\ln(x)}{x^2} \d x =\frac{\ln(100)+1}{100} 
-\]
-
-Using a calculator, we find to four decimal places that $\int_{100}^{\infty} \frac{\ln(x)}{x^2} \d x  \approx \answer[tolerance=.0005]{.0561}$.  Thus, the error made by approximating $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$ by $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2}$ is no \wordChoice{\choice{better}\choice[correct]{worse}} than the above result.
-
-Using a calculator or a computer, we find (quite quickly) that to four decimal places, $\sum_{k=2}^{100}  \frac{\ln(k)}{k^2} \approx .8817$.
-
-It doesn't look like we used enough terms here to get a really good sense of the value to which this series converge quite yet.
 
 \end{explanation}
-\end{example}
+
 
 \begin{example}
-Using technology, use the upper bound for the error to find a value for $N$ so we are guaranteed that  $\sum_{k=2}^{N}  \frac{\ln(k)}{k^2}$ will be accurate to within $.001$ of the exact value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.  Then, find the value of $\sum_{k=2}^{100} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
+Using technology, find a value for $N$ so we are guaranteed that  $\sum_{k=2}^{N}  \frac{\ln(k)}{k^2}$ will be accurate to within $.001$ of the exact value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.  Then, find the value of $\sum_{k=2}^{100} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
 
 \begin{explanation}
-We need to find $N$ so $r_N \leq .001$.  Since we know that $r_N \leq \int_N^\infty  \frac{\ln(x)}{x^2} \d x$, we can achieve this by setting $\int_N^\infty  \frac{\ln(x)}{x^2} \d x \leq .001$.  
+We need to find $N$ so $\int_{N}^{N+1} \frac{\ln(x)}{x^2} \leq .001$.  Since we know that $\int  \frac{\ln(x)}{x^2} \d x = -\frac{\ln(x)+1}{x} +C$, we find the following.
 
-By analogous computation to earlier, we find that $\int_N^\infty  \frac{\ln(x)}{x^2} \d x = \frac{\ln(N)+1}{N}$, so we need to find $N$ so
+\begin{align*}
+\int_N^{N+1} \frac{\ln(x)}{x^2} \d x =\eval{-\frac{\ln(x)+1}{x}}_N^{N+1} &\leq .001\\
+\left[-\frac{\ln(N+1)+1}{N+1}\right] -\left[-\frac{\ln(N)+1}{N}\right] & \leq .001\\
+\frac{\ln(N)+1}{N} -\frac{\ln(N+1)+1}{N+1} & \leq .001\\
+\end{align*}
 
-\[
-\frac{\ln(N)+1}{N} \leq .001  .
-\]
+This equation is impossible to solve by hand, but we can use technology to establish that we have equality when $N=64.06$.  As usual, $N=64$ is a little too small, so we choose $N = \answer{65}.$
 
-We cannot solve this equation exactly, but we can use a computer or a calculator to approximate $N$.  Since estimating is usually done with technology, it's perfectly reasonable to use it to find $N$ here, and doing so yields $N = 10233.4$, so we should use $N=10234$.
-
-Thus, $\sum_{k=2}^{10234} \frac{\ln(k)}{k^2}$ will give the desired approximation, and using technology, we find that $\sum_{k=2}^{10234} \frac{\ln(k)}{k^2} \approx .9365$ to four decimal places.
+\begin{remark}
+Had we wanted to approximate the series by $\sum_{k=2}^N \frac{\ln(k)}{k^2}$ and find $N$ using the upper bound for error, we would find that $N=10234$.  While a computer can perform both calculations quickly here, it is once again useful to note how much more efficient the algorithm we used is!
+\end{remark}
 
 \end{explanation}
 \end{example}
+\end{example}
 
-%\begin{example}
-%This value of $N$ found in the previous part is quite large.  Hopefully, you also noticed that it took technology quite some time to compute it.
-%
-%%%%%USE ERROR RESULTS%%%%%%
-%\begin{explanation}
-%
-%\end{explanation}
-%\end{example}
-%
-%
-%\end{example}
-%
-%\section{Summary}
-%
-%%%%FINISH%%%%%%%
-%There are two important types of questions we have asked about remainders.
-%
-%\begin{itemize}
-%\item[1.] How bad is the error made when we approximate a convergent infinite series by its first several terms?
+
+\section{Summary}
+
+When we can establish that a series $\sum_{k=n_0}^{\infty} a_k$ converges, but we do not have an explicit formula for $s_n$, we cannot find the exact value of the series.  However, we can sometimes approximate it by considering the sequence of remainders.  There are two important types of questions we have asked about remainders thus far.
+
+\begin{itemize}
+\item[1.] How bad is the error made when we approximate a convergent infinite series by its first several terms?
 %In other words, if we specify $N$, how close is $\sum_{k=n_0}^{N} a_k$ to the exact value of $\sum_{k=n_0}^{\infty} a_k$?
-%\item[2.] How many terms should we specify if we want to know the value of a convergent series to obtain a desired precision?
+\item[2.] How many terms should we specify if we want to know the value of a convergent series to obtain a desired precision?
 %Said another way, given an acceptable value for the error, what value should we pick for $N$ so $\sum_{k=n_0}^{N} a_k$ approximates $\sum_{k=n_0}^{\infty} a_k$ that accurately?
-%\end{itemize}
-%
-%Now, let's work an example that addresses both.
+\end{itemize}
+
+In some cases, we use a formula or bounds for the remainder to answer both of these, but when the series can be approximated using the integral test, we have a much more efficient way to estimate.  We attack the previous questions in the following manner.
+
+\begin{itemize}
+\item[1.] To approximate $\sum_{k=n_0}^{\infty} a_k$ using $\sum_{k=n_0}^{N} a_k$ and the error bounds, do the following.
+
+\begin{itemize}
+\item Compute $s_N=\sum_{k=n_0}^{N} a_k$.
+\item Compute the \emph{minimum} error from $r_N \geq \int_{N+1}^\infty f(x) \d x $.
+\item Compute the \emph{maximum} error from $r_N \leq \int_{N}^\infty f(x) \d x $.
+\end{itemize}
+
+The approximate value for the series is then found from putting these together.
+
+\[
+\int_{N+1}^\infty f(x) \d x  +s_N \leq \sum_{k=1}^{\infty} a_k \leq \int_{N}^\infty f(x) \d x  +s_N
+\]
+
+\item[2.] To specify the value of a convergent series $\sum_{k=n_0}^{\infty} a_k$ to within a desired precision of $\epsilon$, do the following.
+
+\begin{itemize}
+\item Find a value for $N$ from setting $\int_N^{N+1} f(x) \d x \leq \epsilon$.  
+\item Compute $s_N=\sum_{k=n_0}^{N} a_k$.
+\item Approximate $\sum_{k=n_0}^{\infty} a_k$ by noting that 
+
+\[
+\int_{N+1}^\infty f(x) \d x  +s_N \leq \sum_{k=1}^{\infty} a_k \leq \int_{N}^\infty f(x) \d x  +s_N.
+\]
+\end{itemize}
+
+
+\end{itemize}
+
 
 
 \end{document}

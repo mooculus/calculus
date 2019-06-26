@@ -103,6 +103,7 @@ We also have bounds for the value of the infinite series $\sum_{k=n_0}^\infty a_
 s_n+ \int_{n+1}^{\infty} f(x) \d x \leq  \sum_{k=n_0}^\infty a_k \leq s_n+ \int_{n}^{\infty} f(x) \d x 
 \]
 
+The series can thus be approximated by any value ini the above interval.
 \end{theorem}
 
 Note that we actually have two results here.
@@ -276,6 +277,7 @@ s_{100} + \frac{1}{101} &\leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq s_{100} +  
 1.64488 &\leq \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.64498
 \end{align*}
 
+We may approximate the value of the series by any point in this interval.
 \end{model}
 %%%%%%
 
@@ -324,6 +326,8 @@ To approximate the value of a series that meets the criteria for the integral te
 \[
 \int_{N+1}^\infty f(x) \d x  +s_N \leq \sum_{k=1}^{\infty} a_k \leq \int_{N}^\infty f(x) \d x  +s_N.
 \]
+
+Choose any value in the above interval to approximate the value of the series.  
 \end{itemize}
 
 \end{procedure}
@@ -361,13 +365,15 @@ We can finish the estimate by noting that to four decimal places, we have the fo
 \item $\int_{11}^\infty \frac{1}{x^2} \d x = .0910$.
 \end{itemize}
 
-Thus, we have the following.
+Thus, we have the following interval of values in which the exact value of the series must lie.
 
 \begin{align*}
 s_{10} + \int_{11}^\infty \frac{1}{x^2} \d x & \leq   \sum_{k=1}^{\infty} \frac{1}{k^2} \leq s_{10} + \int_{10}^\infty \frac{1}{x^2} \d x \\
-1.5498 + .0910 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.5498 + .1000 \\
-1.6407 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.6498
+1.545 + .091 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.545 + .100 \\
+1.636 & \leq  \sum_{k=1}^{\infty} \frac{1}{k^2} \leq 1.645
 \end{align*}
+
+We can approximate the value of the series by choosing any value in this interval.  We will again choose the midpoint, and declare $\sum_{k=1}^{\infty} \frac{1}{k^2} \approx 1.6405$. 
 
 Note that we only needed $10$ terms in the infinite series by using this sharper technique, whereas we needed $100$ terms if we only used the upper bound for the error to tell us how many terms we need to add to obtain the desired accuracy.
 \end{model}
@@ -375,10 +381,17 @@ Note that we only needed $10$ terms in the infinite series by using this sharper
 \begin{remark}
 We hope that the reader actually performed the computations in the previous example.  While it seems that the second result is ``nicer'' in the sense that adding $10$ terms versus $100$ terms is desirable, a computer can perform both of these calculations almost instantaneously.  As such, we should we care to use the sharper estimate if we have technology at our disposal?
 
-One type of series that plays a major role in our study is that of a convergent $p$-series, $\sum_{k=1}^{\infty} \frac{1}{k^p}$ for $p >1$.  Approximating values for these to even a moderate degree of accuracy can be computationally taxing for a computer if we only use the upper bound for the error.  For example, suppose we want to compute $\sum_{k=1}^{\infty} \frac{1}{k^{5/4}}$ to within $.001$ of its exact value.  The curious reader can verify the following.
+One type of series that plays a major role in our study is that of a convergent $p$-series, $\sum_{k=1}^{\infty} \frac{1}{k^p}$ for $p >1$.  Approximating values for these to even a moderate degree of accuracy can be computationally taxing for a computer if we only use the upper bound for the error.  For example, suppose we want to compute $\sum_{k=1}^{\infty} \frac{4}{k^{3/2}}$ to within $.001$ of its exact value.  The curious reader can verify the following.
 
 \begin{itemize}
-\item If the upper bound for the error is used to establish a value for $N$ so $\sum_{k=1}^{N} \frac{1}{k^{5/4}}$ is within $.001$ of the exact value of the series, then $N = 4000^4 = 2.56 \times 10^{14}$.  It takes Maple (a powerful CAS) $WRITE THIS IN!!!! $ seconds to compute this (This author actually performed the calculation, waited for $ $ time, then let the computer run overnight to finish)
+\item If the upper bound for the error is used to establish a value for $N$ so $\sum_{k=1}^{N} \frac{1}{k^{3/2}}$ is within $.001$ of the exact value of the series, then $N = 2000^2 = 4 \times 10^{6}$.  It takes Maple (a powerful CAS) a little over $9$ minutes to compute this.  
+\item If the method in the previous example is used to establish a value for $N$, then $N=232$.   It takes Maple $5.1$ seconds to compute this.
+\end{itemize}
+
+If the same attempt is made for the series $\sum_{k=1}^{N} \frac{1}{k^{5/4}}$, 
+
+\begin{itemize}
+\item If the upper bound for the error is used to establish a value for $N$ so $\sum_{k=1}^{N} \frac{1}{k^{5/4}}$ is within $.001$ of the exact value of the series, then $N = 4000^4 = 2.56 \times 10^{14}$.  Maple crashes trying to compute this.
 \item If the method in the previous example is used to establish a value for $N$, then $N=251$.   It takes Maple $.007$ seconds to compute this.
 \end{itemize}
 
@@ -449,17 +462,21 @@ Using a calculator or a computer, we find the following values to four decimal p
 
 \begin{itemize}
 \item $s_{100} = \sum_{k=2}^{100} \frac{\ln(k)}{k^2} = .8817$.
-\item $\int_{100}^\infty \frac{\ln(x)}{x^2} \d x = 0.0561$.
-\item $\int_{101}^\infty \frac{\ln(x)}{x^2} \d x = 0.0556$.
+\item Upper error bound: $\int_{100}^\infty \frac{\ln(x)}{x^2} \d x = .0561$.
+\item Lower error bound: $\int_{101}^\infty \frac{\ln(x)}{x^2} \d x = .0556$.
 \end{itemize}
 
-and so we can construct an approximation for the value of the series.
+and so we can construct the interval of values in which the value of the series must lie.
 
 \begin{align*}
+\textrm{appx value} + \textrm{min possible error} & \leq   \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq  \textrm{appx value} + \textrm{max possible error} \\
 s_{100} + \int_{101}^\infty \frac{\ln(x)}{x^2} \d x & \leq   \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq s_{100} + \int_{100}^\infty \frac{\ln(x)}{x^2} \d x \\
-.8817 + 0.0556 & \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .8817 + 0.0561 \\
+.8817 + .0556 & \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .8817 + .0561 \\
 .9373 & \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .9378
 \end{align*}
+
+We can now approximate the series by choosing a value in this interval.  We will again choose the midpoint, and obtain that $\sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \approx .93755$.
+
 
 \begin{remark}
 The curious reader may note that had only the upper bound for error been used, we would find that $r_{100} \leq \int_{100}^{\infty} \frac{\ln(x)}{x^2} \d x \approx 0.0561$, which is two orders of magnitude worse than the above result!
@@ -470,7 +487,7 @@ The curious reader may note that had only the upper bound for error been used, w
 
 
 \begin{example}
-Using technology, find a value for $N$ so we are guaranteed that  $\sum_{k=2}^{N}  \frac{\ln(k)}{k^2}$ will be accurate to within $.001$ of the exact value of $\sum_{k=2}^{\infty}  \frac{\ln(k)}{k^2}$.  Then, find the value of $\sum_{k=2}^{100} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
+Find the value of $\sum_{k=2}^{N} \frac{\ln(k)}{k^2}$ to within $.001$ of its exact value.
 
 \begin{explanation}
 We need to find $N$ so $\int_{N}^{N+1} \frac{\ln(x)}{x^2} \leq .001$.  Since we know that $\int  \frac{\ln(x)}{x^2} \d x = -\frac{\ln(x)+1}{x} +C$, we find the following.
@@ -482,6 +499,24 @@ We need to find $N$ so $\int_{N}^{N+1} \frac{\ln(x)}{x^2} \leq .001$.  Since we 
 \end{align*}
 
 This equation is impossible to solve by hand, but we can use technology to establish that we have equality when $N=64.06$.  As usual, $N=64$ is a little too small, so we choose $N = \answer{65}.$
+
+To find the approximate value, we first find $s_{65}$ and the error bounds.
+
+\begin{itemize}
+\item $s_{64} = \sum_{k=2}^{100} \frac{\ln(k)}{k^2} = .8584$.
+\item Upper error bound: $\int_{64}^\infty \frac{\ln(x)}{x^2} \d x = .0796$.
+\item Lower error bound: $\int_{65}^\infty \frac{\ln(x)}{x^2} \d x = .0786$.
+\end{itemize}
+
+We can now construct the interval of values in which the value of the series must lie.
+
+\begin{align*}
+\textrm{appx value} + \textrm{min possible error} & \leq   \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq  \textrm{appx value} + \textrm{max possible error} \\
+.8584 + 0.0786 & \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .8584 + .0786 \\
+.9370& \leq  \sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \leq .9380
+\end{align*}
+
+We can now approximate the series by choosing a value in this interval.  We will again choose the midpoint, and obtain that $\sum_{k=2}^{\infty} \frac{\ln(k)}{k^2} \approx .9375$.
 
 \begin{remark}
 Had we wanted to approximate the series by $\sum_{k=2}^N \frac{\ln(k)}{k^2}$ and find $N$ using the upper bound for error, we would find that $N=10234$.  While a computer can perform both calculations quickly here, it is once again useful to note how much more efficient the algorithm we used is!
@@ -530,6 +565,8 @@ The approximate value for the series is then found from putting these together.
 \[
 \int_{N+1}^\infty f(x) \d x  +s_N \leq \sum_{k=1}^{\infty} a_k \leq \int_{N}^\infty f(x) \d x  +s_N.
 \]
+
+Choose a value in this interval as the approximate value of the series.  Frequently, the midpoint provides a good choice.
 \end{itemize}
 
 

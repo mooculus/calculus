@@ -6,26 +6,102 @@
 \license{Creative Commons 3.0 By-NC}
 
 
-\outcome{Understand the relationship between the sequence of remainders and the convergence of the series.}
+\outcome{Understand the alternating series test estimates.}
 
 \begin{document}
 
 \begin{exercise}
+Consider the series $\sum_{k=0}^{\infty} \frac{(-1)^k}{k!}$.  
 
-Select all of following series for which it is possible to define a sequence of remainders.
+Does the alternating series test apply?
 
-<<<<<<< HEAD
-=======
-\begin{selectAll}
-\choice{$\sum_{k=1}^{\infty} 2^{1-k}$}
-\choice{$\sum_{k=1}^{\infty} \frac{2^{2k}}{3^k}$}
-\choice{$\sum_{k=1}^{\infty} \bigg(\sin(k)-\sin(k+1) \bigg)$}
-\choice{$\sum_{k=1}^{\infty}  \left(\frac{1}{k^2} - \frac{1}{(k+1)^2}\right)$}
-\end{selectAll}
->>>>>>> 6370795d971fad0695b8bbcf11626b151dd3c490
+\begin{multipleChoice}
+\choice[correct]{Yes.}
+\choice{No.}
+\end{multipleChoice}
 
-\begin{hint}
-These are all geometric or telescoping series.  Remember that a sequence of remainders is only defined if the series in question converges.
-\end{hint}
+What does the alternating series test tell us?
+\begin{multipleChoice}
+\choice{The series converges to $0$.}
+\choice[correct]{The series converges, but we do not know its value yet.}
+\choice{The series diverges.}
+\end{multipleChoice}
+
+\begin{feedback}
+Note that the series is of the form $\sum_{k=0}^{\infty} (-1)^k a_k$, where $a_k = \frac{1}{k!}>0$.  Since $\lim_{n \to \infty} \frac{1}{n!} =0$ and $a_{n+1} \leq a_n$ for all $n$, we conclude that the series converges by the alternating series test.  
+\end{feedback}
+
+\begin{exercise}
+Recall that once we have determined that a series converges, we are often interested in the following two questions.
+
+\begin{itemize}
+\item[1.] How bad is the error made when we approximate a convergent infinite series by its first several terms?
+%In other words, if we specify $N$, how close is $\sum_{k=n_0}^{N} a_k$ to the exact value of $\sum_{k=n_0}^{\infty} a_k$?
+\item[2.] How many terms should we specify if we want to know the value of a convergent series to obtain a desired precision?
+%Said another way, given an acceptable value for the error, what value should we pick for $N$ so $\sum_{k=n_0}^{N} a_k$ approximates $\sum_{k=n_0}^{\infty} a_k$ that accurately?
+\end{itemize}
+
+We now want to approximate the value of $\sum_{k=0}^{\infty} \frac{(-1)^k}{k!}$.  Since we do not have a way to find an explicit formula for $s_n=\sum_{k=1}^n \frac{(-1)^k}{k!}$, we need to turn to the remainder estimate that comes with alternating series.
+
+\begin{theorem}[Alternating Series Remainder Estimates]
+If $\{a_n\}_{n=n_0}$ be a sequence whose terms are positive and decreasing and
+$\lim_{n\to\infty} a_n=0$. Then,  
+\[
+\big| r_n \big| \leq a_{n+1} \qquad \textrm{ for all } n \geq n_0,
+\]
+where $r_n = \sum_{k=n+1}^{\infty} a_k$.
+\end{theorem}
+
+Unlike with the integral test, we will use $s_n$ as our approximation to $\sum_{k=0}^{\infty} \frac{(-1)^k}{k!}$ since the sequence $\{s_n\}_{n=1}$ is \wordChoice{\choice{eventually}\choice[correct]{never eventually}} monotonic.  This is also why we consider the \emph{magnitude} of the error; whether $s_n$ is an overestimate or underestimate will depend on the choice of $n$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+Calculate $\sum_{k=0}^{4} \frac{(-1)^k}{k!}$ to four decimal places.  
+
+To four decimal places, we find that $\sum_{k=0}^{4} \frac{(-1)^k}{k!} = \answer[tolerance=.0001]{.3750}$.  
+
+We use the alternating series results to find the maximum possible error made if $\sum_{k=0}^{4} \frac{(-1)^k}{k!}$ is used to approximate $\sum_{k=0}^{\infty} \frac{(-1)^k}{k!}$. 
+
+First, note that for our series, $a_n =$ \wordChoice{\choice{$\frac{(-1)^n}{n!}$}\choice[correct]{$\frac{1}{n!}$}}.  Since we are using $\sum_{k=0}^{4} \frac{(-1)^k}{k!}$ for our approximation, we should choose $n=\answer{4}$.  What do the remainder results tell us that the magnitude of the error?
+
+\begin{multipleChoice}
+\choice{$\big|r_4 \big| \leq \frac{1}{3!}$}
+\choice{$\big|r_4 \big| \leq \frac{1}{4!}$}
+\choice[correct]{$\big|r_4 \big| \leq \frac{1}{5!}$}
+\end{multipleChoice}
+
+To four decimal places, what is the maximum possible error made if we use $\sum_{k=0}^{4} \frac{(-1)^k}{k!}$ as our approximation?
+
+The maximum possible error made is $\answer[tolerance=.0001]{.0083}$.
+
+\begin{feedback}
+We thus conclude that $\sum_{k=0}^{\infty} \frac{(-1)^k}{k!} \approx .3750$ and that this approximation is accurate to within $.0083$.
+\end{feedback}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+Suppose that we want to approximate $\sum_{k=0}^{\infty} \frac{(-1)^k}{k!}$ to within $.00001$ of its actual value.  We will do so by finding a value of $N$ for which we are guaranteed that $\big|r_N\big| \leq .00001$, then use $s_N$ to provide the approximation.
+
+We do not have a formula for $r_n$, so we must turn to the remainder results.  Note that we have $\big|r_n\big| \leq a_{n+1}$, so if we ensure that $a_{n+1} \leq .00001$, we know that the magnitude of the error will be no more than $.00001$.
+
+\[
+\big|r_n\big| \leq \frac{1}{(n+1)!} \leq .00001
+\]
+
+There isn't a nice general method for solving equations with factorials, but we can check if the above inequality holds for various $n$.
+
+\begin{itemize}
+\item If we choose $n=5$, then to seven decimal places $\frac{1}{(n+1)!} = \frac{1}{6!} \approx \answer{.0013889}$, so $n=5$ is \wordChoice{\choice[correct]{too small}\choice{an acceptable value for $n$}} .
+\item If we choose $n=7$, then to seven decimal places $\frac{1}{(n+1)!} = \frac{1}{8!} \approx \answer{.0000248}$, so $n=7$ is \wordChoice{\choice[correct]{too small}\choice{an acceptable value for $n$}} .
+\item If we choose $n=8$, then to seven decimal places $\frac{1}{(n+1)!} = \frac{1}{9!} \approx .000000276$, so $n=8$ will work.
+\end{itemize}
+
+We thus compute $\sum_{k=1}^8 \frac{(-1)^k}{k!} \approx \answer[tolerance=.000003]{.367882}$ to six decimal places and note that this will approximate $\sum_{k=1}^\infty \frac{(-1)^k}{k!}$ to within $.00001$ of its true value.
+\end{exercise}
+
+\end{exercise}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{exercise}
 \end{exercise}
 \end{document}

@@ -14,13 +14,13 @@ There is a nice result for approximating the remainder of convergent alternating
 \maketitle
 
 \section{Introduction}
-Recall that if $\{a_n\}_{n=n_0}$ is a sequence of positive terms, we say that $\sum_{k=n_0}^{\infty}$ is an alternating series, and we have a nice result to test these for convergence, which is reprinted below.
+Recall that if $\{a_n\}_{n=n_0}$ is a sequence of positive terms, we say the series $\sum_{k=n_0}^{\infty} (-1)^k a_k$ and $\sum_{k=n_0}^{\infty} (-1)^{k+1} a_k$ are \emph{alternating series}, and we have a nice result to test these for convergence, which is reprinted below.
 
 \begin{theorem}[Alternating Series Test]
-Let $\{a_n\}$ be a sequence whose terms are eventually positive and nonincreasing and
+Let $\{a_n\}_{n=n_0}$ be a sequence whose terms are eventually positive and decreasing and
 $\lim_{n\to\infty}a_n=0$. Then, the series 
 \[
-\sum_{n=1}^\infty (-1)^{n}a_n \qquad \text{and}\qquad \sum_{n=1}^\infty (-1)^{n+1}a_n 
+\sum_{k=n_0}^\infty (-1)^{k}a_k \qquad \text{and}\qquad \sum_{k=n_0}^\infty (-1)^{k+1}a_k 
 \]
 both converge.
 \end{theorem}
@@ -47,11 +47,11 @@ As usual we must establish that a series converges first before we begin to thin
       \end{tikzpicture}
   \end{image}
 
-While we cannot find an explicit formula for $s_n$ here.  As such, if we want to establish a good estimate, we will need to approximate the infinite sum by a term in the sequence of partial sums and try to establish an error estimate.  Thankfully, we have such an estimate.
+While we cannot find an explicit formula for $s_n$ here, we have a good way to establish bounds on the error made when approximating $ \sum_{k=1}^{\infty} (-1)^k a_k$ by the finite sum $s_n= \sum_{k=1}^{n} (-1)^k a_k$.   We'll state the test, then explore how it works in the context of an example.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{theorem}[Alternating Series Remainder Estimates]\index{alternating series remainder estimates}
-Let $\{a_n\}_{n=n_0}$ be a sequence whose terms are positive and nonincreasing  and
+Let $\{a_n\}_{n=n_0}$ be a sequence whose terms are positive and decreasing  and
 $\lim_{n\to\infty}a_n=0$. Then,  
 \[
 \big| r_n \big| \leq a_{n+1} \qquad \textrm{ for all } n \geq n_0,
@@ -63,7 +63,7 @@ where $r_n = \sum_{k=n+1}^{\infty} a_k$.
 Note that the above guarantees that for any integer $N>n_0$, the term $s_N$ will approximate the series $\sum_{k=1}^{\infty} a_k$ with an error no greater than $a_{n+1}$.  Before we work an example, a few comments are in order.
 
 \begin{itemize}
-\item[1.] In most cases, we will have $n_0 = 0$ or $n_0 =1$.  As a technical point, we have to make the specification of when the sequence $\{a_n\}$ is actually both nonincreasing and contains only positive terms before we can use the result.  
+\item[1.] In most cases, we will have $n_0 = 0$ or $n_0 =1$.  As a technical point, we have to make the specification of when the sequence $\{a_n\}$ is actually both decreasing and contains only positive terms before we can use the result.  
 \item[2.] If the sequence $\{a_n\}_{n = n_0}$ meets the criteria, note that we can split up the series $\sum_{k=1}^{\infty} a_k$ as 
 
 \[ 
@@ -73,24 +73,84 @@ Note that the above guarantees that for any integer $N>n_0$, the term $s_N$ will
 We can compute the first sum by hand since it requires adding finitely many terms, then use the remainder result on the infinite series.
 \end{itemize}
 
+Let's see how the test works in the context of an example.
 
+\begin{model}
+Consider the alternating harmonic series $\sum_{k=1}^{\infty} \frac{(-1)^k}{k}$.  Here, $a_n = \frac{1}{n}$, and the reader can verify that the series meets the hypothesis for the alternating series test.  To develop some intuition about the error made when we approximate the infinite series by adding only finitely many of its terms, let's write out some of its terms.
+
+\[
+\sum_{k=1}^{\infty} \frac{(-1)^k}{k} = -1+\frac{1}{2}-\frac{1}{3}+\frac{1}{4}-\frac{1}{5}+\frac{1}{6}-\frac{1}{7} + \ldots
+\]
+
+Now, let's say we want to approximate the infinite series with $s_2$.
+
+\begin{image}
+  \begin{tikzpicture}
+        \node at (0,0) {
+          $\sum_{k=1}^{\infty} \frac{(-1)^k}{k}=\underbrace{-1+\frac{1}{2}}-\frac{1}{3}+ \underbrace{\left[\frac{1}{4}-\frac{1}{5}\right]}+\underbrace{\left[\frac{1}{6}-\frac{1}{7}\right]} + \ldots$};
+        \node at (.9,-1) { positive};
+         \node at (2.6,-1) { positive};      
+        \node at (-1.4,-.8) { $s_2$};
+        
+      \end{tikzpicture}
+  \end{image}
+  
+  Note that each pair of terms we've enclose in brackets is \wordChoice{\choice[correct]{positive}\choice{negative}}, which means that
+  
+  \[
+  \sum_{k=1}^{\infty} \frac{(-1)^k}{k} \geq -1+\frac{1}{2}-\frac{1}{3} = s_2 -a_3
+  \]
+  
+  Similarly, had we used $s_3$ for the approximation, we could obtain an overestimate for the value of the series.
+  
+  \begin{image}
+  \begin{tikzpicture}
+        \node at (0,0) {
+          $\sum_{k=1}^{\infty} \frac{(-1)^k}{k}=\underbrace{-1+\frac{1}{2}-\frac{1}{3}}+ \frac{1}{4}+\underbrace{\left[-\frac{1}{5}+\frac{1}{6}\right]}+\underbrace{\left[-\frac{1}{7} +\frac{1}{8}\right]} + \ldots$};
+        \node at (1.1,-1) { negative};
+         \node at (3.1,-1) { negative};      
+        \node at (-1.7,-.8) { $s_3$};
+        
+      \end{tikzpicture}
+  \end{image}
+  
+    Note that each pair of terms we've enclose in brackets is \wordChoice{\choice{positive}\choice[correct]{negative}}, which means that
+  
+  \[
+  \sum_{k=1}^{\infty} \frac{(-1)^k}{k} \leq -1+\frac{1}{2}-\frac{1}{3} +\frac{1}{4} = s_3 -a_4
+  \]
+  
+Note that since we can split the convergent series up as
+
+\[
+\sum_{k=1}^{\infty} \frac{(-1)^k}{k} = s_n +r_n,
+\]
+We can see in both cases that the magnitude of the error is bounded above by the magnitude of the next term in the series; that is 
+
+\[\big| r_n \big| \leq a_{n+1}.\]
+
+We can repeat this construction by using $s_n$ for an unspecified value for $n$ and arrive at the conclusion above.  
+\end{model}
+
+We hope that the curious reader understands that a similar argument can be made for series that meet the assumptions of the alternating series remainder test.  In order to gain some practice, let's work some examples.
 
 \begin{example}
 Consider the alternating geometric series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$.
 
-\begin{itemize}
-\item[I.] Compute $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$.
-\item[II.] Use the theorem above to obtain an estimate for the remainder if $s_4$ is used to approximate the series.  What do you notice?
-\end{itemize}
+I. Compute $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$.
 
 \begin{explanation}
 First, note that by using laws of exponents, $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k = \sum_{k=0}^{\infty}  \left(\frac{-1}{2}\right)^k$.   
+Hence, the geometric series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ converges because $|r| = \frac{1}{2} <1$.
 
-the geometric series $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ converges because $|r| = \frac{1}{2} <1$.
 
-\begin{itemize}
-\item[I.] When $r<1$, note that $\sum_{k=0}^{\infty} ar^k = \frac{a}{1-r}$.  Here, $r= -\frac{1}{2}$, so we find that $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k= \frac{2}{3}.$
-\item[II.] Since $\left\{\left(\frac{1}{2}\right)^k\right\}_{k=0}$ is decreasing and $\lim_{n \to \infty} \left(\frac{1}{2}\right)^n =0$, we can use the remainder results.  If we use $s_7$ to approximate  $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$, we have $n=7$, and conclude
+When $r<1$, note that $\sum_{k=0}^{\infty} ar^k = \frac{a}{1-r}$.  Here, $r= -\frac{1}{2}$, so we find that $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k= \frac{2}{3}.$
+\end{explanation}
+
+II. Use the theorem above to obtain an estimate for the remainder if $s_4$ is used to approximate the series.  What do you notice?
+
+\begin{explanation}
+Since $\left\{\left(\frac{1}{2}\right)^k\right\}_{k=0}$ is decreasing and $\lim_{n \to \infty} \left(\frac{1}{2}\right)^n =0$, we can use the remainder results.  If we use $s_7$ to approximate  $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$, we have $n=7$, and conclude
 
 \[
 |r_4| < a_5 = \left(\frac{1}{2}\right)^5 = \frac{1}{32}.
@@ -112,7 +172,6 @@ We note that to five decimal places, we have the following.
 
 Thus, $s_4$ is actually within $.02083$ of the actual value of $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$; $s_4$ is thus within the $.03125$ of the actual value of $\sum_{k=0}^{\infty} (-1)^k \left(\frac{1}{2}\right)^k$ guaranteed by the remainder result.
 
-\end{itemize}
 \end{explanation}
 \end{example}
 

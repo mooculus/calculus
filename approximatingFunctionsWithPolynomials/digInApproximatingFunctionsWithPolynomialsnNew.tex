@@ -11,12 +11,11 @@
 
 \begin{document}
 \begin{abstract}
-We can approximate functions with polynomials.
+We can approximate functions by polynomials.
 \end{abstract}
 \maketitle
 
-Previously, we have seen that if a function is differentiable on an open interval containing a point $x=c$, we can approximate the function near $x=c$ by using the tangent line at $x=c$.  The inherent idea behind approximating the function with the tangent line is that  
-if we ``zoom in" on the graph around $x=c$, it becomes less distinguishable from a line.
+Previously, we have seen that if a function is differentiable on an open interval containing a point $x=c$, we can approximate the function near $x=c$ by the tangent line at $x=c$.  Visually, we recall that as we ``zoom in" on the graph around $x=c$, it becomes less distinguishable from the graph of a line (which is the tangent line at $x=c$).
 
 \begin{image}
 \begin{tikzpicture}
@@ -87,29 +86,28 @@ if we ``zoom in" on the graph around $x=c$, it becomes less distinguishable from
 
 \end{image}
 
-One common approach used to find the equation of the tangent line to $y=f(x)$ is to take advantage of the point-slope form of a line
+When $y$ is given by an explicit formula in terms of $x$, the point $(x_0,y_0)$ is found by evaluating the $y=f(x)$ at $x_0$, and the slope is found by evaluating the derivative $f'(x)$ at $x=x_0$.  By taking advantage of the point-slope form of a line
 
 \[
-y-y_0=m\left(x-x_0\right).
+y-y_0=m\left(x-x_0\right),
 \]
-where $(x_0,y_0)$ is a point on the line and $m$ is the slope.
+an equation for the tangent line is found.  Let's explore this in the context of a model example.
 
-Typically in calculus courses, when $y$ is given by an explicit formula in terms of $x$, the point $(x_0,y_0)$ is found by evaluating the $y=f(x)$ at $x_0$, and the slope is found by evaluating the derivative $f'(x)$ at $x=x_0$.
-
-\begin{example}
-The equation of the tangent line to $y=e^{2x}$ at $x=0$ can be found by noting that
+\begin{model}
+Suppose that we want to approximate $e^{2x}$ near $x=0$.  We pick $c=0$ as the point off of which our approximation will be based, and find the equation of the tangent line to $y=e^{2x}$ at $x=0$. 
 \begin{itemize}
 \item $y_0=f(0) = \answer[given]{1}$, so the point $(0,1)$ is on the line.
-\item $f'(x) = \answer[given]{2e^{2x}}$, so the slope is found by noting $m_{tan} = f'(0) = 2$.
+\item $f'(x) = \answer[given]{2e^{2x}}$, so the slope is found by noting $m_{tan} = f'(0) = \answer{2}$.
 \end{itemize}
 Thus, the equation of the tangent line is
 
 \begin{align*}
-y- 1 &=2(x-0) \\
-y&=2x+1
+y-y_0 = m_{tan} (x-x_0) \\
+y- \answer{1} &=\answer{2}(x-0) \\
+y&=2x+1 .
 \end{align*}
 
-If we ``zoom in'' on the point of tangency, $(0,1)$, the graph of the function $y=e^{2x}$ and its tangent line at $x=0$, denoted by $l_0(x)=2x+1$, are very close.
+If we ``zoom in'' on the graphs of the function $y=e^{2x}$ and its tangent line at $x=0$, denoted by $l_0(x)=2x+1$, we see the following picture.
 
 \begin{image}
 \begin{tikzpicture}
@@ -134,7 +132,13 @@ If we ``zoom in'' on the point of tangency, $(0,1)$, the graph of the function $
 \end{tikzpicture}
 \end{image}
 
-However, as we ``zoom out'' to a larger viewing window, the graphs start to become quite different.
+From tangent line approximation, we can approximate values of $e^{2x}$ near $x=0$.  Visually, we can see this since the graphs are quite close.  Computationally, we obtain the approximations by plugging $x$-values into the equation of the tangent line; for instance, we can approximate $e^{.2}$ by noting
+
+\[
+e^{.2} = f(.1) \approx 2(.1)+1 =1.2.
+\]
+
+The actual value of $e^{.2}$ to three decimal places is $1.221$, so the simple arithmetic needed to estimate using the tangent line produces a reasonable approximation.  As we ``zoom out'' to a larger viewing window, however, the graphs start to become quite different.
 
 \begin{image}
 \begin{tikzpicture}
@@ -159,20 +163,110 @@ However, as we ``zoom out'' to a larger viewing window, the graphs start to beco
 \end{tikzpicture}
 \end{image}
 
+Since evaluating polynomials involves only arithmetic operations, and since polynomials are easy to integrate and differentiate, it would be nice to find better polynomial approximations.  This will require that we try to extract the idea from the tangent line approximation in a way that allows us to generalize it.
 
-\end{example}
+Let's look for a first degree polynomial of the form 
+
+\[
+p_1(x) = a_0+a_1x,
+\]
+where $a_0$ and $a_1$ are constants that must be determined.  Now, what do we want out of our approximation?
+
+\begin{itemize}
+\item We certainly want the function and the approximation to agree at the $x$-value off of which the approximation is based; that is, we want
+
+\[
+p_1(0) =f(0).
+\]
+
+In our example, we note
+
+\begin{itemize}
+\item $f(0) = e^{2(0)} =1$.
+\item $p_1(0) = a_0+a_1(0) = a_0$.
+\end{itemize}
+Thus, the requirement $p_1(0) =f(0)$ gives us that $a_0=\answer{1}$.
+ 
+\item We also want to make sure that the function and the approximation change at the same initial rate so that both graphs head in similar general directions.  Since the derivative measures the rate of change, we require
+
+\[
+p_1'(0) =f'(0).
+\] 
+
+In our example, we note
+
+\begin{itemize}
+\item $f'(x) = 2e^{2x}$, so $f'(0) = 2$.
+\item $p_1'(x) = a_1$, so $p_1'(0) = a_1$.
+\end{itemize}
+Thus, the requirement $p_1'(0) =f'(0)$ gives us that $a_1=\answer{2}$.
+
+\end{itemize}
+
+Our approximation is thus $p_1(x) = a_0+a_1x = 1+2x$, which matches the equation of the tangent line at $x=0$.
+
+While this should not be too surprising, it does allow for us to think of conditions that will allow for higher degree polynomial approximations.  Suppose that we want to use a quadratic polynomial $p_2(x)$ of the form
+
+\[
+p_2(x) = a_0+a_1x+a_2x^2
+\]
+
+for making estimates.  Note that $f(x)=e^{2x}$ is clearly not linear; in fact, it is concave \wordChoice{\choice[correct]{up}\choice{down}} on its domain.  Note that by drawing tangent lines at different points near $x=0$, the slopes are different, which is roughly what concavity quantifies.  Slopes of tangent lines are found from the first derivative, so in order to measure how these slopes are changing, we should look at the derivative of the first derivative.  This is really nothing new; we know already that concavity is measured using the second derivative.
+
+We'll keep the previous two conditions - that $p_2(0) = f(0)$ and $p_2'(0) = f'(0)$ - and add the requirement that $p_2''(0) = f''(0)$.  By following the previous example, the reader can, and should, verify that we still have $a_0=1$ and $a_1=2$.  To find $a_2$, note that
+
+\begin{itemize}
+\item $f''(x) = 4e^{2x}$, so $f'(0) = \answer{4}$.
+\item $p_2'(x) = a_1+2a_2x$, so $p_2''(x) = 2a_2$ and thus $p_2''(0) = 2 a_2$.
+\end{itemize}
+Thus, the requirement $p_2''(0) =f''(0)$ gives us that $2a_2=4$, or $a_2=2$.
+
+The quadratic approximation is thus 
+
+\begin{align*}
+p_2(x) &= a_0+a_1x+a_2x^2 \\
+&= \answer{1}+\answer{2}x+\answer{2}x^2.
+\end{align*}
 
 
+Let's now explore our approximations.  Visually, we can graph the polynomials and the original function.
+
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-2.25:2.25, ymax=9.5,xmax=2.25, ymin=-5.25, xmin=-2.25,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	xtick={-2,-1,1,2}, ytick={-4,-2,2,4,6,8}, 
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+	\addplot [draw=penColor,very thick, smooth] {exp(2*x)};
+	\addplot [draw=penColor2,very thick, smooth] {2*x+1};	
+	\addplot [draw=penColor4,very thick, smooth] {2*x^2+2*x+1};	
+	\node at (axis cs:.5,8) [penColor] {$y=e^{2x}$};
+	\node at (axis cs:1.5,1.8) [penColor2] {$y=p_1(x)$};
+	\node at (axis cs:-1.2,5) [penColor4] {$y=p_2(x)$};		
+\end{axis}
+
+\end{tikzpicture}
+\end{image}
 
 
+We can also approximate $e^{.2}$ by evaluating each polynomial at $x=.1$ since $e^{.2}=f(.1)$.
 
+\begin{itemize}
+\item $e^{.2} \approx p_1(.1) = 1+2(.1) = 1.2$
+\item $e^{.2} \approx p_2(.1) = 1+2(.1)+2(.1)^2 = 1.22$
+\end{itemize}
 
+By noting that the actual value to three decimal place is $1.221$, we can see that the quadratic approximation is better! 
 
-
-
-
-
-
+\end{model}
 
 
 

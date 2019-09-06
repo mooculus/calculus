@@ -1,0 +1,356 @@
+\NeedsTeXFormat{LaTeX2e}% LaTeX 2.09 can't be used (nor non-LaTeX)
+[1994/12/01]% LaTeX date must be December 1994 or later
+\ProvidesPackage{lulu3}[2015/12/17 v0.75]
+\ProcessOptions\relax
+
+\usepackage{stix}
+\usepackage[T1]{fontenc} %% CLOBBERS \d !!!
+\renewcommand{\d}{\mathop{}\!d} %% unclobbers \d
+\renewcommand{\l}{\ell}
+
+\usepackage{gillius}
+\usepackage{ccicons}
+\usepackage{bookmark} %% Trying to beautify book marks... if they are still ugly, this didn't work and can be removed
+
+%\gilliuscondensed 
+\usepackage{microtype}
+
+\usepackage{imakeidx}
+\makeindex[intoc]
+
+
+
+\renewcommand{\dfn}[1]{\textbf{#1}\index{#1}}
+
+%% modified from https://tex.stackexchange.com/questions/192393/how-to-reduce-the-space-between-the-hat-of-overset-and-the-symbol
+\renewcommand{\vec}[1]{{\mathpalette\harpoonvec{\mathbf{#1}}}}
+\newcommand{\harpvecsign}{\scriptscriptstyle{\boldsymbol{\rightharpoonup}}}
+\newcommand{\harpoonvec}[2]{%
+  \ifx\displaystyle#1\doalign{$\harpvecsign$}{#1#2}\fi
+  \ifx\textstyle#1\doalign{$\harpvecsign$}{#1#2}\fi
+  \ifx\scriptstyle#1\doalign{\scalebox{.6}[.9]{$\harpvecsign$}}{#1#2}\fi
+  \ifx\scriptscriptstyle#1\doalign{\scalebox{.5}[.8]{$\harpvecsign$}}{#1#2}\fi
+}
+\newcommand{\doalign}[2]{%
+ {\vbox{\offinterlineskip\ialign{\hfil##\hfil\cr#1\cr$#2$\cr}}}%
+}
+
+\renewcommand{\arrowvec}[1]{{\mathpalette\harpoonvec{#1}}}
+\newcommand{\harpvecsignlight}{\scriptscriptstyle{\rightharpoonup}}
+
+
+\renewcommand{\d}{\mathop{}\!d\!} %% Looks better with stix
+
+\usepackage[framemethod=TikZ]{mdframed}
+
+%% Size of the page
+\usepackage[margin=.5in, includehead, includefoot, hmargin={.8in,.5in}, paperwidth=8.5in, paperheight=8.5in]{geometry}
+%\usepackage[margin=.5in, includehead, includefoot, hmargin={.8in,.5in}, paperwidth=9in, paperheight=7in]{geometry}
+
+
+% Store usual maketitle as othermaketitle
+\let\othermaketitle\maketitle
+
+
+\makeatletter
+% % Redefine maketitle to give course packet title page and toc.
+\renewcommand{\maketitle}{ %
+\pagestyle{empty}
+\onecolumn
+\begin{flushright}
+  \begin{tikzpicture}[opacity=1]
+  \node at (-.8,0) {\scalebox{4}{\Huge\textsf{\textbf{\textcolor{black}{calculus}}}}};
+  \node at (8.5,1) {\scalebox{8}{\Huge\textsf{\textbf{\textcolor{gray}{$a_2$}}}}};  %% Aligned with subtitle
+  %\node at (8,1.85) {\scalebox{10}{\Huge\textsf{\textbf{\textcolor{gray}{1}}}}}; %% Aligned with title
+  \node at (-.7,-1.6) {\resizebox{4.8in}{.2in}{\Huge\textsf{\textcolor{gray}
+          {with free online interactive materials}
+    }}};
+    %\draw[yellow] (-9,-1.2)--(9,-1.2); %guide line
+\end{tikzpicture}\hspace*{.1in}
+
+  \vspace{3cm}
+
+  \begin{tikzpicture}[scale=.9,opacity =1]
+    \draw [ultra thick, gray] plot [smooth] coordinates {(0,2) (2,3) (1.5,2) (4,3)};
+    \draw [ultra thick, gray,->,opacity=1] plot [smooth] coordinates {(2,2.9) (1.65,2.4)};
+    \draw[black,fill=black] (0,2) circle (.5ex);
+    \draw[black,fill=black] (4,3) circle (.5ex);
+    \node[black,left] at (0,2) {$\vec{a}$};
+    \node[black,right] at (4,3) {$\vec{b}$};
+    \node[black] at (2,0) {\scalebox{1}{$\displaystyle \int_C \grad F \dotp\d \vec{p} = F(\vec{b}) - F(\vec{a})$}};
+
+    \draw[ultra thick, gray!50!black] plot [smooth cycle] coordinates {(7,2) (9,1) (10,2) (9,3) (7,3)};
+    \shade[ball color=gray!50!white] plot [smooth cycle] coordinates {(7,2) (9,1) (10,2) (9,3) (7,3)};
+    \node[black] at (8.5,0) {\scalebox{1}{$\displaystyle \iiint_R \divergence \vec{F} \d V = \oiint_{\partial R} \vec{F}\dotp \unormal \d S$}};
+
+    \draw[gray,ultra thick] plot[smooth] coordinates {(13.5,1.5) (14,3) (15,3.3)  (16.5,1.5)};
+    \shade[ball color=white!50!gray] plot[smooth] coordinates {(13.5,1.5) (14,3) (15,3.3)  (16.5,1.5)};
+    \shade[top color=black!50!gray, middle color=black]  (15,1.5) ellipse (1.5 and .3);
+    \draw[black,ultra thick] (15,1.5) ellipse (1.5 and .3);
+    \node[black] at (15,0) {\scalebox{1}{$\displaystyle \iint_R (\curl \vec{F})\dotp\unormal \d S = \oint_{\partial R} \vec{F}\dotp \d \vec{p}$}};
+  \end{tikzpicture}
+  %\begin{tikzpicture}
+    \hspace*{.58in}
+\end{flushright}
+%\vspace{-.4in}
+
+\vfill
+
+\begin{flushleft}\hspace*{-.12in}
+\begin{tikzpicture}
+  \node[anchor=west] at (0,0) {\scalebox{1}{\Huge\textsf{\ccbyncsa}}};
+  \node[anchor=west] at (4,-.25) {\large\textsf{developed in \textbf{XIMERA}}};
+  \node[anchor=east] at (7in,.1) {\small\textsf{This document was typeset on \today.}};
+  \node[anchor=east] at (7in,-.25) {\small\texttt{GIT COMMIT: \input{.git/refs/heads/master}}};
+\end{tikzpicture}
+\end{flushleft}
+\thispagestyle{empty}
+
+\newpage
+
+\noindent
+
+~\vfill
+
+Copyright \copyright\ \the\year\ Jim Fowler and Bart Snapp
+
+\noindent
+This work is licensed under the Creative Commons
+Attribution-NonCommercial-ShareAlike License. To view a copy of this
+license, visit \url{http://creativecommons.org/licenses/by-nc-sa/4.0/}
+
+If you distribute this work or a derivative, include the history of
+the document.  The source code is available at:
+
+\url{http://github.com/mooculus/calculus/}
+
+\noindent
+This text contains source material from several other open-source
+texts:
+\begin{itemize}
+\item \textsl{Single and Multivariable Calculus: Early
+  Transcendentals}. Guichard. Copyright \copyright\ 2015 Guichard,
+  Creative Commons Attribution-NonCommercial-ShareAlike License 3.0.
+  \url{http://communitycalculus.org}
+\item \textsl{APEX Calculus}. Hartman, Heinold, Siemers, Chalishajar,
+  Bowen (Ed.). Copyright \copyright\ 2014 Hartman, Creative Commons Attribution-Noncommercial 3.0. \url{http://www.apexcalculus.com/}
+\item \textsl{Elementary Calculus: An Infinitesimal
+  Approach}. Keisler. Copyright \copyright\ 2015 Keisler, Creative
+  Commons Attribution-NonCommercial-ShareAlike License 3.0.
+  \url{http://www.math.wisc.edu/~keisler/calc.html}
+\end{itemize}
+
+\noindent This book is typeset in the STIX and Gillius fonts.
+
+
+
+\noindent We will be glad to receive corrections and suggestions for
+improvement at: \texttt{ximera@math.osu.edu}
+
+\twocolumn
+\clearpage
+\ifnotoc\else % When notoc option is used, we do not include a table of contents.  Otherwise:
+	\tableofcontents\clearpage % we include a table of contents in every course packet.  
+	\clearpage
+        \fi
+\pagestyle{main} %switch to main pagestyle, just like ximera documents.
+\let\maketitle\othermaketitle % renew maketitle to usual definition.
+}
+\makeatother
+
+
+
+
+
+
+
+%% Two column sep
+\setlength{\columnsep}{1cm}
+%\setlength{\columnseprule}{.8cm}
+%\renewcommand{\columnseprulecolor}{white!20!black}
+
+
+%% image environment
+%%\renewenvironment{image}[1][]{\begin{center}}{\end{center}}
+\let\image\relax
+\let\endimage\relax
+\NewEnviron{image}[1][2.5in]{% 
+  \begin{center}\resizebox{#1}{!}{\BODY}\end{center}% resize and center
+}
+
+%% This is the code that will allow us to redefine the title with
+\makeatletter
+\renewcommand\chapterstyle{%
+  \def\maketitle{%
+    \addtocounter{titlenumber}{1}%
+    \phantomsection\addcontentsline{toc}{section}{\textbf{\thetitlenumber\hspace{1em}\@title}}%
+                    {\flushleft\small\sffamily\bfseries\@pretitle\par\vspace{-1.5em}}%
+                    {\flushleft\LARGE\sffamily\bfseries\thetitlenumber\hspace{1em}\@title \par }%
+                    {\setcounter{problem}{0}\setcounter{sectiontitlenumber}{0}}%
+                    \par}}
+
+\renewcommand\sectionstyle{%
+  \def\maketitle{%
+    \addtocounter{sectiontitlenumber}{1}
+    \phantomsection\addcontentsline{toc}{subsection}{\thetitlenumber.\thesectiontitlenumber\hspace{1em}\@title}%
+    {\flushleft\small\sffamily\bfseries\@pretitle\par\vspace{-1.5em}}%
+    {\flushleft\Large\sffamily\bfseries\thetitlenumber.\thesectiontitlenumber\hspace{1em}\@title \par}%
+    \par}}
+
+%% redefine Part
+\renewcommand\part{%
+  \if@openright
+    \cleardoublepage
+  \else
+    \clearpage
+  \fi
+  \thispagestyle{plain}%
+  \if@twocolumn
+    \onecolumn
+    \@tempswatrue
+  \else
+    \@tempswafalse
+  \fi
+  \null\vfil
+  \secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    \markboth{}{}%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >-2\relax
+       \huge\sffamily\bfseries \partname\nobreakspace\thepart
+       \par
+       \vskip 20\p@
+     \fi
+     \Huge \bfseries #2\par}%
+    \@endpart}
+\def\@spart#1{%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \Huge \bfseries #1\par}%
+    \@endpart}
+\def\@endpart{\vfil\newpage
+              \if@twoside
+               \if@openright
+                \null
+                \thispagestyle{empty}%
+                \newpage
+               \fi
+              \fi
+              \if@tempswa
+                \twocolumn
+                \fi}
+
+
+\renewcommand\section{\@startsection{paragraph}{10}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\large\sffamily\bfseries}}
+\renewcommand\subsection{\@startsection{subparagraph}{10}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\sffamily\bfseries}}
+
+
+% remove italics def
+\let\definition\relax
+\let\enddefinition\relax
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
+
+
+% remove italics def
+\let\exploration\relax
+\let\endexploration\relax
+\theoremstyle{definition}
+\newtheorem*{exploration}{Exploration}
+
+
+% remove italics def
+\let\remark\relax
+\let\endremark\relax
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
+
+\let\procedure\relax
+\let\endprocedure\relax
+\theoremstyle{definition}
+\newtheorem*{procedure}{Procedure}
+
+
+\let\theorem\relax
+\let\endtheorem\relax
+\let\c@theorem\relax 
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+
+\let\question\relax
+\let\endquestion\relax
+\let\c@question\relax 
+\theoremstyle{theorem}
+\newtheorem{question}{Question}
+
+\let\problem\relax
+\let\endproblem\relax
+\let\c@problem\relax 
+\newtheorem{problem}{Problem}
+
+
+\let\warning\relax
+\let\endwarning\relax
+\newtheorem*{warning}{Warning}
+\makeatother
+
+%% Redefines "explanation"
+\renewmdenv[
+  font=\upshape,
+  outerlinewidth=3,
+  topline=false,
+  bottomline=false,
+  leftline=true,
+  rightline=false, 
+  leftmargin=0,
+  innertopmargin=0pt,
+  innerbottommargin=0pt,
+  skipbelow=\baselineskip,
+  linecolor=textColor!20!white,
+  fontcolor=textColor,
+  backgroundcolor=background
+]{explanation}%
+
+
+%% Compress dialogue
+\renewenvironment{dialogue}{%
+   \renewcommand\descriptionlabel[1]{\hspace{\labelsep}\textbf{##1:}}
+   \small\begin{description}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]%
+}{%
+   \end{description}\normalsize%
+}
+
+
+%% Fix weird index issue.
+\makeatletter
+\gdef\ttl@savemark{\sectionmark{}}
+\makeatother
+
+
+
+
+%% Fix greek
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+
+
+
+
+
+\endinput

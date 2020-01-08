@@ -1,0 +1,93 @@
+\documentclass{ximera}
+
+\input{../../preamble.tex}
+
+\author{Jim Talamo}
+\license{Creative Commons 3.0 By-NC}
+
+
+\outcome{Understand the relationship between sequences, sequences of partial sums, and remainders.}
+
+\begin{document}
+
+\begin{exercise}
+
+Given a convergent series $\sum_{k=n_0}^{\infty} a_k$, there are two questions that we typically consider when trying to approximate its value.
+
+\begin{itemize}
+\item[1.] Given a value of $N$, how close can we approximate $\sum_{k=n_0}^\infty a_k$ by using $\sum_{k=1}^{N} a_k$?
+\item[2.] If we want to approximate $\sum_{k=n_0}^{\infty} a_k$ to some indicated degree of precision $\epsilon$, what value of $N$ should we choose to find the approximation? 
+\end{itemize}
+
+This exercise explores both of these questions in the context of a \emph{geometric} series, where it is possible to find an explicit formula for $r_n$.
+
+Consider the series $\sum_{k=0}^{\infty} 2(.9)^k$.  Notice that the series \wordChoice{\choice[correct]{converges, so we may define a sequence of remainders}\choice{diverges, so we cannot define a sequence of remainders}}.
+
+\begin{exercise}
+In fact, we can use the results for geometric series to show that  $\sum_{k=0}^{\infty} 2(.9)^k = \answer{20}$ and that $s_n = \answer{20-20(.9)^{n+1}}$
+
+From the relationship 
+
+\[
+\sum_{k=1}^{\infty} 2(.9)^k = s_n+r_n,
+\]
+
+we find that an explicit formula for $r_n$ is given by
+
+\[
+r_n = \answer{20(.9)^{n+1}}
+\]
+
+\begin{hint}
+When $|r|<1$, we have that $\sum_{k=0}^n ar^k = \frac{a-ar^{n+1}}{1-r}$.  Hence,
+
+\[
+s_n = \frac{\answer{2-2(.9)^{n+1}}}{1-.9} = \frac{\answer{2-2(.9)^{n+1}}}{1/10} = 20-20(.9)^{n+1}
+\]
+\end{hint}
+
+After finding the formula for $r_n$, we are ready to explore the two questions posed earlier.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+Suppose we want to know how close $\sum_{k=1}^{50} 2(.9)^k $ is to $\sum_{k=1}^{\infty} 2(.9)^k$. We can answer this by noting that we are really trying to use \wordChoice{\choice{$s_{49}$}\choice[correct]{$s_{50}$}\choice{$s_{51}$}} to approximate the infinite series, so the error in this approximation will be given by \wordChoice{\choice{$r_{49}$}\choice[correct]{$r_{50}$}\choice{$r_{51}$}}.
+
+Since we have a formula for $r_n$, we notice that the error made using this approximation is $\answer[tolerance=.0002]{.0928}$ (to four decimal places)
+
+\begin{hint}
+Note that $r_{50} = 20(.9)^{\answer{51}}$.  Use a calculator or other technology to approximate this to four decimal places.
+\end{hint}
+
+\end{exercise}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}
+Suppose that we want to know a value for $N$ so $\sum_{k=1}^{N} 2(.9)^k $ is accurate to within $.001$ of the exact value of the series $\sum_{k=1}^{\infty} 2(.9)^k $.  We can achieve this by finding $N$ so the error is no more than $.001$.  Mathematically, we find this by setting $r_N \leq .001$.
+
+\begin{align*}
+r_N & \leq .001 \\
+20(.9)^{N+1} & \leq .001 \\
+(.9)^{N+1} & \leq .00005 \\
+(N+1) \ln(.9) &\leq \ln(.00005) \\ 
+(N+1) &\geq \frac{\ln(.00005)}{\ln(.9) } \qquad \textrm{(the inequality sign changes since $\ln(.9)<0$ )} \\ 
+N &\geq \frac{\ln(.00005)}{\ln(.9) } -1
+\end{align*}
+
+Using technology, we find that the smallest value of $N$ we need is $N= \answer{93}.$
+
+\begin{hint}
+You should find that $\frac{\ln(.00005)}{\ln(.9) } -1 \approx 92.996$.  This means that $N=92$ is too small; we should use $N=\answer{93}$.
+\end{hint}
+
+\begin{feedback}
+Using technology, we can find that, $\sum_{k=1}^{93} 2(.9)^k \approx 19.999000040$, whereas $\sum_{k=1}^{92} 2(.9)^k \approx 19.99888933$, so we see that $N=92$ is too small, but using $N=93$, the sum $\sum_{k=1}^{93} 2(.9)^k$ is within $.001$ of the exact value $\sum_{k=1}^{\infty} 2(.9)^k = 20$.
+\end{feedback}
+
+\end{exercise}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\end{exercise}
+
+\end{exercise}
+\end{document}

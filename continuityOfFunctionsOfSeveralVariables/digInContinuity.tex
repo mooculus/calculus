@@ -257,6 +257,136 @@ This easily allows us to make a similar definition for functions of several vari
 
 \end{remark}
 
+While the intuitive idea behind limits seems to remain unchanged, something interesting is worth observing.  One of the most important ideas for limits of a function of a single variable is the notion of a sided limit.  For functions of a single variable, there were really only two natural ways for $x$ to become close to $a$; we could take $x$ to approach the point $a$ from the left or the right.  For instance,
+\[
+\Lim{x}{a^-}f(x) 
+\]
+tells us to consider the inputs $x<a$ only.  In fact, there's a theorem that guarantees that $\Lim{x}{a} f(x) = L$ if and only if $\Lim{x}{a^-}f(x) =L$ and $\Lim{x}{a^+}f(x) =L$, meaning that the function must approach the same value as the input approaches $a$ from both the left and the right.
+
+On the other hand, there are now \emph{infinitely many} ways for, e.g., $(x,y)\to (a,b)$; we can approach along a straight line path parallel to the $x$-axis or $y$-axis, other straight line paths, or even other types of curves.  
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-2:8, ymax=2.9,xmax=6.9, ymin=-2.9, xmin=-.5,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+
+	
+	\addplot [name path=A,domain=-3:3,draw=none] {10};   
+	\addplot [name path=B,domain=3:8,draw=none] {10};
+	\addplot [name path=C,domain=-3:3,draw=none] {-10};
+	\addplot [name path=D,domain=3:8,draw=none] {-10};
+	%\addplot [fill=penColor!40] fill between[of=A and C];
+	%\addplot [fill=penColor2!40] fill between[of=B and D];
+	
+	%\node at (axis cs:5,-1.2) [penColor2] {\footnotesize $F(x,y) = 2x+2y$};
+	%\node at (axis cs:4,1.8) [penColor2] {\footnotesize $(x,2), x>3$};
+
+	%\node at (axis cs:1.5,-1.2) [penColor] {\footnotesize $F(x,y) = 3x-y$};
+%\node at (axis cs:2,1.8) [penColor] {\footnotesize $(x,2), x<3$};
+	
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.8,1.2)};
+	\node at (axis cs:4.3,0.9) [penColor] { $(a,b)$};	
+	
+	\addplot [draw=penColor,very thick, smooth,->] coordinates {(2.8,1.2)(3.7,1.2)};
+	\addplot [draw=penColor,very thick, smooth,->] coordinates {(4.8,1.2)(3.9,1.2)};
+	\addplot [draw=penColor,very thick, smooth,->] coordinates {(3.8,2.2)(3.8,1.3)};
+	\addplot [draw=penColor,very thick, smooth,->] coordinates {(3.8,0.2)(3.8,1.1)};
+	  \addplot[ very thick, penColor2,smooth,->] plot coordinates { (4.4,2) (4.2,1.8) (4,1.5) (3.85,1.25)};
+	   \addplot[very thick, penColor2,smooth,->] plot coordinates { (2.89,2) (3.48,1.8) (3.65,1.5) (3.75,1.25)};
+	    \addplot[ very thick, penColor2,smooth,->] plot coordinates { (2.89,0.6) (3.48,0.8) (3.6,1.06) (3.75,1.15)};
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
+
+%To generalize the theorem for functions of a single variable requires that the function approach the same value along \emph{every} path leading to $\point{a,b}$.
+
+%\begin{theorem}
+%Given a function $F:\R^2\to\R$, $\Lim{\pt{x}}{\pt{a}}F(\pt{x}) = L$ if and only if for every curve $C$ in the domain of $F$, $F(\pt{x}) \to L$ as $\pt{x} \to \pt{a}$ along $C$.
+%\end{theorem}
+
+In order to check whether a limit exists, do we have to verify that the function tends to the same value along infinitely many different paths?
+
+  While this may seem problematic, there is some good news; many of the limit laws from before still do hold now.
+
+\begin{theorem}[Limit Laws]
+  Let $F$ and $G$ be real-valued functions of two
+  variables, and $b$, $L$ and $M$ be real numbers, where
+  \[
+  \lim_{\pt{x}\to\pt{a}}F(\pt{x}) = L \quad \text{and}\quad \lim_{\pt{x}\to\pt{a}} G(\pt{x}) = M.
+  \]
+Let $\pt{x} = \point{x_{1},x_{2}}$, and $\pt{a} = \point{a_{1},a_{2}}$. We  also assume that  the domain of $F$ and the domain of $G$
+ both  contain a small disk with the center at $\pt{a}$, except possibly the point $\pt{a}$.
+\begin{description}
+\item[Constant Law] $\lim_{\pt{x}\to \pt{a}} b = b$
+\item[Identity Law] $\lim_{\pt{x}\to \pt{a}} x_i = a_i$, where $i=1,2.$
+\item[Sum/Difference Law] $\lim_{\pt{x}\to \pt{a}}\big(F(\pt{x})\pm G(\pt{x})\big) = L\pm M$
+\item[Scalar Multiple Law] $\lim_{\pt{x}\to \pt{a}} b\cdot F(\pt{x}) = bL$
+\item[Product Law] $\lim_{\pt{x}\to \pt{a}} \left(F(\pt{x})\cdot G(\pt{x})\right) = LM$
+\item[Quotient Law] $\lim_{\pt{x}\to \pt{a}} \frac{F(\pt{x})}{G(\pt{x})} = \frac{L}{M}$, if $M\neq 0$
+\end{description}
+\end{theorem}
+
+In practice, this allows us to compute many limits in a similar fashion as before.
+
+\begin{example}
+Compute $\Lim{\point{x,y}}{\point{1,2}} \frac{2x+4y}{x-3y}$.  
+
+\begin{explanation}
+We show how the above properties are used quite explicitly.
+
+\begin{align*}
+\Lim{\point{x,y}}{\point{1,2}} \frac{2x+4y}{x-3y} & = \frac{\Lim{\point{x,y}}{\point{1,2}}(2x+4y)}{\Lim{\point{x,y}}{\point{1,2}}(x-3y)} \textrm{ by the quotient law. } \\
+&=  \frac{\Lim{\point{x,y}}{\point{1,2}}2x+\Lim{\point{x,y}}{\point{1,2}} 4y}{\Lim{\point{x,y}}{\point{1,2}}x-\Lim{\point{x,y}}{\point{1,2}}3y}  \textrm{ by the sum/difference law. } \\
+&=  \frac{2\left[\Lim{\point{x,y}}{\point{1,2}}x\right]+4\left[\Lim{\point{x,y}}{\point{1,2}} y\right]}{\left[\Lim{\point{x,y}}{\point{1,2}}x\right]-3\left[\Lim{\point{x,y}}{\point{1,2}}y\right]}  \textrm{ by the scalar multiple law. } \\
+&= \frac{2[1]+4[2]}{[1]-3[2]} \textrm{ by the identity law. } \\
+&= -2
+\end{align*}
+\end{explanation}
+\end{example}
+
+Essentially, the above laws allow us to evaluate limits by directly substituting values into the given function, provided the end result is a constant.  Henceforth, when a limit can be evaluated by direct substitution, we will not show the details.  
+
+As it turns out, another old technique works well too.
+
+%%%\begin{explanation}
+   %To compute this limit, note that direct substitution leads us to the indeterminate form $\frac{0}{0}$.  Also, note that the domain of $ \frac{x^2y-xy^3}{x^2-y^4}$ is $\left\{\point{x,y} \in \R^2 \big| x^2-y^4 \neq 0 \right\}$, so all of our analysis is done away from this curve.  We proceed by factoring.
+    
+   % \begin{align*}
+    %  \lim_{\point{x,y}\to\point{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
+      %&=\lim_{\point{x,y}\to\point{9,3}} \frac{xy\left(\answer[given]{x-y^2}\right)}{(x+y^2)\left(\answer[given]{x-y^2}\right)}\\
+     % &=\lim_{\point{x,y}\to\point{9,3}} \frac{xy}{(x+y^2)}\\
+     % &=\answer[given]{\frac{3}{2}}
+   % \end{align*}
+    
+   % What allows us to perform the cancellation of the common factors of $x-y^2$?  Note that when determining whether a limit exists or not, we must look near, but not at, $\point{x,y}$ near $\point{9,3}$.  No matter how close a $\point{x,y}$ in the domain is to $\point{9,3}$, if $\point{x,y} \neq \point{9,3}$, $x-y^2 \neq 0$, so this cancellation is valid.
+ % \end{explanation}
+%\end{example}
+\begin{example}
+  Compute $\lim_{\point{x,y}\to\point{0,0}} \frac{x^3+xy^2}{x^2+y^2}$. 
+  \begin{explanation}
+   To compute this limit, note that direct substitution leads us to the indeterminate form $\frac{0}{0}$.      
+    \begin{align*}
+      \lim_{\point{x,y}\to\point{0,0}}\frac{x^3+xy^2}{x^2+y^2}
+      &=\lim_{\point{x,y}\to\point{0,0}} \frac{\answer[given]{x}\left(x^2+y^2\right)}{\answer[given]{x^2+y^2}}\\
+      &=\lim_{\point{x,y}\to\point{0,0}} x\\
+      &=\answer[given]{0}
+    \end{align*}
+    
+    What allows us to perform the cancellation of the common factors of $x^2+y^2$?  Note that when determining whether a limit exists or not, we must look near the point $\point{0,0}$, but not at the point $\point{0,0}$.  No matter how close a point  $\point{x,y}$ is to the point $\point{0,0}$, as long as  $\point{x,y} \neq \point{0,0}$, then $x^2+y^2 \neq 0$. So, this cancellation is valid.
+  \end{explanation}
+\end{example}
+
 
 
 Limits exist when functions locally look like a smooth sheet. On the

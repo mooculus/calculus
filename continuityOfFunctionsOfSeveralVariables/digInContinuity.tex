@@ -2,7 +2,7 @@
 
 \input{../preamble.tex}
 
-\author{Bart Snapp}
+\author{Bart Snapp and Nela Lakos}
 
 \outcome{Evaluate limits of functions of several variables.}
 \outcome{Determine continuity of functions of several variables.}
@@ -12,16 +12,17 @@
 
 \begin{document}
 \begin{abstract}
-We investigate what continuity means for functions of several variables.
+We investigate what continuity means for real-valued functions of several variables.
 \end{abstract}
 \maketitle
 
 
-This section investigates what it means for functions
-\[
-F:\R^n\to \R
-\]
-to be ``continuous.'' We begin with a series of definitions. We are
+This section investigates what it means for real -valued functions of $n$-variables to be ``continuous'' .
+
+%Assume $D is a set in $\R^n$
+%F:D\to \R
+%\]
+We begin with a series of definitions. We are
 used to ``open intervals'' such as $(1,3)$, which represents the set
 of all $x$ such that $1<x<3$, and ``closed intervals'' such as
 $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
@@ -39,10 +40,13 @@ $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
     \begin{image}
       \begin{tikzpicture}
         \draw[ultra thick,dashed,penColor,fill=fill1] (0,0) circle (2cm);
-        \draw[draw=none,fill=black] (0,0) circle (.1cm);
-        \draw[dashed] (0,0)--(2,0);
-        \node[above] at (1,0) {$|\vec{x}-\vec{a}|$};
-        \node[below left] at (0,0) {$\vec{a}$};
+        \draw[draw=none,fill=black] (0,0) circle (.05cm);
+         \draw[draw=none,fill=black] (1.5,0) circle (.05cm);
+        \draw (0,0)--(1.5,0);
+        \node[above] at (0.7,0) {\tiny{$|\vec{x}-\vec{a}|<r$}};
+        \node[below ] at (0,0) {$\vec{a}$};
+        \node[below ] at (1.5,0) {$\vec{x}$};
+            \node[below ] at (-1,1.6) {$B$};
       \end{tikzpicture}
     \end{image}
     
@@ -55,10 +59,12 @@ $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
     \]
     \begin{image}
       \begin{tikzpicture}
-        \draw[ultra thick, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
-        \draw[draw=none,fill=black] (-1,1) circle (.1cm);
-        \draw[dashed] (-1,1) circle (.3cm);
-        \node[penColor] at (-.5,2) {$S$};      
+        \draw[ thick, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
+        \draw[draw=none,fill=black] (-1,1) circle (.05cm);
+        \draw[dashed] (-1,1) circle (.4cm);
+        \node[penColor] at (-.5,2) {\small{$S$}};   
+          \node[penColor]  at (-1.18,1.03) {\tiny{$\vec{p}$}};
+        \node[above ] at (-0.8,1.02) {\tiny{$B$}};   
     \end{tikzpicture}
   \end{image}
 
@@ -67,17 +73,18 @@ $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
     contain both points in $S$ and points not in $S$.
     \begin{image}
       \begin{tikzpicture}
-        \draw[ultra thick, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
-        \draw[draw=none,fill=black] (.89,1.6) circle (.1cm);
-        \draw[dashed] (.89,1.6) circle (.3cm);
-        \node[penColor] at (-.5,2) {$S$};      
+        \draw[ thick, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
+        \draw[draw=none,fill=black] (.89,1.6) circle (.05cm);
+        \draw[dashed] (.89,1.6) circle (.4cm);
+        \node[penColor] at (-.5,2) {\small{$S$}}; 
+          \node[penColor]  at (1.1,1.5) {\tiny{$\vec{p}$}};     
     \end{tikzpicture}
   \end{image}
   \item A set $O$ is \dfn{open} if every point in $O$ is an interior
     point.
     \begin{image}
       \begin{tikzpicture}
-        \draw[ultra thick, dashed, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
+        \draw[ thick, dashed, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
         \node[penColor] at (-.5,2) {$O$};     
       \end{tikzpicture}
     \end{image}
@@ -85,7 +92,7 @@ $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
     points.
     \begin{image}
       \begin{tikzpicture}
-        \draw[ultra thick, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
+        \draw[ thick, penColor,fill=fill1] plot [smooth cycle] coordinates {(-1.5,.5) (.5,1) (1,2.5) (-1,2.5) (-2,1.5)};
         \node[penColor] at (-.5,2) {$C$};     
       \end{tikzpicture}
     \end{image}
@@ -135,6 +142,45 @@ $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
     all of its boundary points and hence is closed. The region is
     \wordChoice{\choice[correct]{bounded}\choice{unbounded}} as a disk
     of radius $4$, centered at the origin, contains $D$.
+    
+    \begin{image}
+            \begin{tikzpicture}
+            	\begin{axis}[
+            		domain=-10:10, ymax=4.6,xmax=4.6, ymin=-4.6, xmin=-4.6,
+            		axis lines =center, xlabel=$x$, xtick={-4,-3,3,4}, ylabel=$y$, ytick={-4,-2,2,4},
+            		every axis y label/.style={at=(current axis.above origin),anchor=south},
+            		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            		axis on top,
+            		]
+                      
+
+		
+                 %ellipse
+                  \addplot [draw=penColor,domain=-2.8:2.8, ultra thick,smooth] {sqrt(4- 4/9*x^2)};
+                  \addplot [draw=penColor,domain=-3:-2.8,ultra  thick,smooth,samples=200] {sqrt(4- 4/9*x^2)};
+                  \addplot [draw=penColor,domain=2.8:3,ultra thick,smooth,samples=200] {sqrt(4- 4/9*x^2)};
+                  \addplot [draw=penColor,domain=-2.8:2.8,ultra thick,smooth] {-sqrt(4- 4/9*x^2)};
+                  \addplot [draw=penColor,domain=-3:-2.8,ultra thick,smooth,samples=200] {-sqrt(4- 4/9*x^2)};
+                  \addplot [draw=penColor,domain=2.8:3, ultra thick,smooth,samples=200] {-sqrt(4- 4/9*x^2)};
+ \addplot [draw=none,fill=fillp,domain=-4:4, smooth,samples=200] {sqrt(4- 4/9*x^2)} \closedcycle; 
+  \addplot [draw=none,fill=fillp,domain=-4:4, smooth,samples=200] {-sqrt(4- 4/9*x^2)} \closedcycle; 
+               	\node at (axis cs:1,1) [penColor] {\large{D}};
+            	 \node at (axis cs:-1.2,0.6) [penColor] {\small{$\frac{x^2}{9}+\frac{y^2}{4} \le1$}};
+		%circle
+	     %	\addplot [draw=penColor3,domain=-3.8:3.8,thick,smooth] {sqrt(16-x^2)};
+                 % \addplot [draw=penColor3,domain=-4:-3.8, thick,smooth,samples=200] {sqrt(16- x^2)};
+                %  \addplot [draw=penColor3,domain=3.8:4,thick,smooth,samples=200] {sqrt(16- x^2)};
+                 % \addplot [draw=penColor3,domain=-3.8:3.8, thick,smooth] {-sqrt(16- x^2)};
+                %  \addplot [draw=penColor3,domain=-4:-3.8, thick,smooth,samples=200] {-sqrt(16- x^2)};
+                 % \addplot [draw=penColor3,domain=3.8:4,thick,smooth,samples=200] {-sqrt(16- x^2)};
+	
+		
+		 \node at (axis cs:2.6,2.6) [penColor2] {\small{$\frac{x^2}{9}+\frac{y^2}{4} >1$}};
+	    
+	      \end{axis}
+            \end{tikzpicture}
+            \end{image}
+
   \end{explanation}
 \end{example}
 
@@ -177,84 +223,369 @@ $[1,3]$, which represents the set of all $x$ such that $1\leq x\leq
 \section{Limits}
 
 On to the definition of a limit!
+Recall that for functions of a single variable, we say that $\lim_{x\to a} f(x) = L$ if the value of $f(x)$ can be made arbitrarily close to $L$ for \emph{all} $x$ sufficiently close, but not equal to, $x=a$.
+
+This easily allows us to make a similar definition for functions of several variables.
 
 \begin{definition}
- Suppose that $F:\R^n\to\R$, intuitively,
-  \begin{center}
-    the \dfn{limit} of $F$ as $\vec{x}$ approaches $\vec{a}$ is $L$,
-  \end{center}
-  written
-  \[
-  \lim_{\vec{x}\to \vec{a}} F(\vec{x}) = L,
-  \]
-  if the value of $F(\vec{x})$ can be made as close as one wishes to $L$ for
-  all $\vec{x}$ sufficiently close, but not equal to, $\vec{a}$.
+ Suppose that $F$ is a real-valued function of $n$ variables. Assume that the domain of $F$ contains a small $n$-dimensional ball centered at a point $\vec{a}$, except, possibly, the point $\vec{a}$.
+  The \dfn{limit} of $F$ as $\vec{x}$ approaches $\vec{a}$ is $L$ if the value of $F(\vec{x})$ can be made as close as one wishes to $L$ for all $\vec{x}$ sufficiently close, but not equal to, $\vec{a}$.
+ 
+ When this occurs, we write 
+ \[
+ \lim_{\vec{x}\to \vec{a}} F(\vec{x}) = L
+ \]  
 \end{definition}
 
-\begin{question}
-  Suppose that $F:\R^2\to\R$, $\vec{x} = \vector{x,y}$, and $\vec{a} =
-  \vector{a,b}$. What do we write for $\lim_{\vec{x}\to \vec{a}}
-  F(\vec{x}) = L$?
-  \begin{prompt}
+ \begin{remark}   
+  Suppose that $F$ is a real-valued function of two variables, $\vec{x} = \vector{x,y}$, and $\vec{a} =
+  \vector{a,b}$. 
+  Then the statement $ \lim_{\vec{x}\to \vec{a}} F(\vec{x}) = L$ can be also written as
     \[
-    \lim_{\vector{\answer{x},\answer{y}}\to \vector{\answer{a},\answer{b}}} F\left(\answer{x},\answer{y}\right) = L
+    \lim_{\point{x,y}\to \point{a,b} }F\left(x,y\right) = L
     \]
-  \end{prompt}
-  \begin{question}
-    Suppose that $F:\R^3\to\R$, $\vec{x} = \vector{x,y,z}$, and
-    $\vec{a} = \vector{a,b,c}$. What do we write for $\lim_{\vec{x}\to
-      \vec{a}} F(\vec{x}) = L$?
-    \begin{prompt}
+\end{remark}
+  \begin{remark}
+    Suppose that $F$ is a function of three variables, $\vec{x} = \vector{x,y,z}$, and
+    $\vec{a} = \vector{a,b,c}$. Similarly, the statement 
+    $ \lim_{\vec{x}\to \vec{a}} F(\vec{x}) = L$ can be written equivalently as
+
       \[
-      \lim_{\vector{\answer{x},\answer{y},\answer{z}}\to \vector{\answer{a},\answer{b},\answer{c}}} F\left(\answer{x},\answer{y},\answer{z}\right) = L
+      \lim_{\point{x,y,z}\to \point{a,b,c}} F\left(x,y,z\right) = L
       \]
-    \end{prompt}
-  \end{question}
-\end{question}
 
-Limits exist when functions locally look like a smooth sheet. On the
-other hand, limits don't exist when the function make a large jump,
-\begin{onlineOnly}
-  as in the case with $\arctan(y/x)$,
-  \begin{center}
-    \geogebra{RDr98P8J}{800}{600}% https://ggbm.at/RDr98P8J
-  \end{center}
-\end{onlineOnly}
-or when the surface is somehow pinched.
-\begin{onlineOnly}
-  Here we see the function:
+
+\end{remark}
+
+While the intuitive idea behind limits seems to remain unchanged, something interesting is worth observing.  One of the most important ideas for limits of a function of a single variable is the notion of a sided limit.  For functions of a single variable, there were really only two natural ways for $x$ to become close to $a$; we could take $x$ to approach the point $a$ from the left or the right.  For instance,
+\[
+\lim_{x\to a^-}f(x) 
+\]
+tells us to consider the inputs $x<a$ only.  In fact, there's a theorem that guarantees that $\lim_{x\to a} f(x) = L$ if and only if $\lim_{x\to a^-}f(x) =L$ and $\lim_{x\to a^+}f(x) =L$, meaning that the function must approach the same value as the input approaches $a$ from both the left and the right.
+
+On the other hand, there are now \emph{infinitely many} ways for, e.g., $(x,y)\to (a,b)$; we can approach along a straight line path parallel to the $x$-axis or $y$-axis, other straight line paths, or even other types of curves.  
+\begin{image}
+\begin{tikzpicture}
+
+\begin{axis}
+	[
+	domain=-2:8, ymax=2.9,xmax=6.9, ymin=-2.9, xmin=-.5,
+	axis lines=center, xlabel=$x$, ylabel=$y$,
+	every axis y label/.style={at=(current axis.above origin),anchor=south},
+	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	axis on top,
+	typeset ticklabels with strut,
+	]
+
+
+	  \addplot[draw=none,penColor4,fill=fill1] (3.8,1.2) circle (0.6cm);
+	\addplot [name path=A,domain=-3:3,draw=none] {10};   
+	\addplot [name path=B,domain=3:8,draw=none] {10};
+	\addplot [name path=C,domain=-3:3,draw=none] {-10};
+	\addplot [name path=D,domain=3:8,draw=none] {-10};
+	%\addplot [fill=penColor!40] fill between[of=A and C];
+	%\addplot [fill=penColor2!40] fill between[of=B and D];
+	
+	%\node at (axis cs:5,-1.2) [penColor2] {\footnotesize $F(x,y) = 2x+2y$};
+	%\node at (axis cs:4,1.8) [penColor2] {\footnotesize $(x,2), x>3$};
+
+	%\node at (axis cs:1.5,-1.2) [penColor] {\footnotesize $F(x,y) = 3x-y$};
+%\node at (axis cs:2,1.8) [penColor] {\footnotesize $(x,2), x<3$};
+	
+	\addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.8,1.2)};
+	\node at (axis cs:4.3,0.9) [penColor] { $(a,b)$};	
+	
+	\addplot [draw=penColor2,very thick, smooth,->] coordinates {(2.8,1.2)(3.7,1.2)};
+	\addplot [draw=penColor2,very thick, smooth,->] coordinates {(4.8,1.2)(3.9,1.2)};
+	\addplot [draw=penColor2,very thick, smooth,->] coordinates {(3.8,2.2)(3.8,1.3)};
+	\addplot [draw=penColor2,very thick, smooth,->] coordinates {(3.8,0.2)(3.8,1.1)};
+	  \addplot[ very thick, penColor2,smooth,->] plot coordinates { (4.4,2) (4.2,1.8) (4,1.5) (3.85,1.25)};
+	   \addplot[very thick, penColor2,smooth,->] plot coordinates { (2.89,2) (3.48,1.8) (3.65,1.5) (3.75,1.25)};
+	    \addplot[ very thick, penColor2,smooth,->] plot coordinates { (2.89,0.6) (3.48,0.8) (3.6,1.06) (3.75,1.15)};
+	    
+\end{axis}
+\end{tikzpicture}
+\end{image}
+
+
+
+
+%To generalize the theorem for functions of a single variable requires that the function approach the same value along \emph{every} path leading to $\point{a,b}$.
+
+%\begin{theorem}
+%Given a function $F:\R^2\to\R$, $\Lim{\pt{x}}{\pt{a}}F(\pt{x}) = L$ if and only if for every curve $C$ in the domain of $F$, $F(\pt{x}) \to L$ as $\pt{x} \to \pt{a}$ along $C$.
+%\end{theorem}
+
+In order to check whether a limit exists, do we have to verify that the function tends to the same value along infinitely many different paths?
+
+  While this may seem problematic, there is some good news; many of the limit laws from before still do hold now.
+
+\begin{theorem}[Limit Laws]
+  Let $F$ and $G$ be real-valued functions of $n$
+  variables, and $b$, $L$ and $M$ be real numbers, where
   \[
-  F(x,y) = \frac{6x^2y}{x^4+y^2}
+  \lim_{\vec{x}\to\vec{a}}F(\vec{x}) = L \quad \text{and}\quad \lim_{\vec{x}\to\vec{a}} G(\vec{x}) = M.
   \]
-  \begin{center}
-    \geogebra{E3jUp27u}{800}{600}%https://ggbm.at/E3jUp27u
-  \end{center}
-  If one approaches the origin along any line, you see the limit of
-  the (composite) function is zero, by following the path on the
-  surface. However, if one approaches the origin along a parabola,
-  then we see the limit does not exist, as approaching along the
-  parabola $y=x^2$ gives a limit of $3$, and approaching along the
-  parabola $y=-x^2$ gives a limit of $-3$. Thus this is a case where
-  the limit does not exist.
-\end{onlineOnly}
+Let $\vec{x} = \vector{x_{1},x_{2},...,x_{n}}$, and $\vec{a} = \vector{a_{1},a_{2},...,a_{2}}$. We  also assume that  the domain of $F$ and the domain of $G$
+ both  contain a small ball with the center at $\vec{a}$, except possibly the point $\vec{a}$.
+\begin{description}
+\item[Constant Law] $\lim_{\vec{x}\to \vec{a}} b = b$
+\item[Identity Law] $\lim_{\vec{x}\to \vec{a}} x_i = a_i$, where $i=1,..., n$
+\item[Sum/Difference Law] $\lim_{\vec{x}\to \vec{a}}\big(F(\vec{x})\pm G(\vec{x})\big) = L\pm M$
+\item[Scalar Multiple Law] $\lim_{\vec{x}\to \vec{a}} b\cdot F(\vec{x}) = bL$
+\item[Product Law] $\lim_{\vec{x}\to \vec{a}} \left(F(\vec{x})\cdot G(\vec{x})\right) = LM$
+\item[Quotient Law] $\lim_{\vec{x}\to \vec{a}} \frac{F(\vec{x})}{G(\vec{x})} = \frac{L}{M}$, if $M\neq 0$
+\end{description}
+\end{theorem}
 
+In practice, this allows us to compute many limits in a similar fashion as before.
+
+\begin{example}
+Compute $\lim_{(x,y)\to(1,2)} \frac{2x+4y}{x-3y}$.  
+
+\begin{explanation}
+We show how the above properties are used quite explicitly.
+
+\begin{align*}
+\lim_{(x,y)\to(1,2)} \frac{2x+4y}{x-3y} & = \frac{\lim_{(x,y)\to(1,2)}(2x+4y)}{\lim_{(x,y)\to(1,2)}(x-3y)} \textrm{  by the quotient law. } \\
+&=  \frac{\lim_{(x,y)\to(1,2)}2x+\lim_{(x,y)\to(1,2)} 4y}{\lim_{(x,y)\to(1,2)}x-\lim_{(x,y)\to(1,2)}3y}  \textrm{ by the sum/difference law. } \\
+&=  \frac{2\left[\lim_{(x,y)\to(1,2)}x\right]+4\left[\lim_{(x,y)\to(1,2)} y\right]}{\left[\lim_{(x,y)\to(1,2)}x\right]-3\left[\lim_{(x,y)\to(1,2)}y\right]}  \textrm{ by the scalar multiple law. } \\
+&= \frac{2[1]+4[2]}{[1]-3[2]} \textrm{ by the identity law. } \\
+&= -2
+\end{align*}
+\end{explanation}
+\end{example}
+
+Essentially, the above laws allow us to evaluate limits by directly substituting values into the given function, provided the end result is a constant.  Henceforth, when a limit can be evaluated by direct substitution, we will not show the details.  
+
+As it turns out, another old technique works well too.
+
+%%%\begin{explanation}
+   %To compute this limit, note that direct substitution leads us to the indeterminate form $\frac{0}{0}$.  Also, note that the domain of $ \frac{x^2y-xy^3}{x^2-y^4}$ is $\left\{\point{x,y} \in \R^2 \big| x^2-y^4 \neq 0 \right\}$, so all of our analysis is done away from this curve.  We proceed by factoring.
+    
+   % \begin{align*}
+    %  \lim_{\point{x,y}\to\point{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
+      %&=\lim_{\point{x,y}\to\point{9,3}} \frac{xy\left(\answer[given]{x-y^2}\right)}{(x+y^2)\left(\answer[given]{x-y^2}\right)}\\
+     % &=\lim_{\point{x,y}\to\point{9,3}} \frac{xy}{(x+y^2)}\\
+     % &=\answer[given]{\frac{3}{2}}
+   % \end{align*}
+    
+   % What allows us to perform the cancellation of the common factors of $x-y^2$?  Note that when determining whether a limit exists or not, we must look near, but not at, $\point{x,y}$ near $\point{9,3}$.  No matter how close a $\point{x,y}$ in the domain is to $\point{9,3}$, if $\point{x,y} \neq \point{9,3}$, $x-y^2 \neq 0$, so this cancellation is valid.
+ % \end{explanation}
+%\end{example}
+\begin{example}
+  Compute $\lim_{(x,y)\to(0,0)} \frac{x^3+xy^2}{x^2+y^2}$. 
+  \begin{explanation}
+   To compute this limit, note that direct substitution leads us to the indeterminate form $\frac{0}{0}$.      
+    \begin{align*}
+      \lim_{(x,y)\to(0,0)}\frac{x^3+xy^2}{x^2+y^2}
+      &=\lim_{(x,y)\to(0,0)} \frac{\answer[given]{x}\left(x^2+y^2\right)}{\answer[given]{x^2+y^2}}\\
+      &=\lim_{(x,y)\to(0,0)} x\\
+      &=\answer[given]{0}
+    \end{align*}
+    
+    What allows us to perform the cancellation of the common factors of $x^2+y^2$?  Note that when determining whether a limit exists or not, we must look near the point $\point{0,0}$, but not at the point $\point{0,0}$.  No matter how close a point  $\point{x,y}$ is to the point $\point{0,0}$, as long as  $\point{x,y} \neq \point{0,0}$, then $x^2+y^2 \neq 0$. So, this cancellation is valid.
+  \end{explanation}
+\end{example}
+
+
+
+Limits exist when functions locally look like a smooth sheet.
+\subsection{When limits don't exist}
+
+When dealing with functions of a single variable we often encounter a situation where the \emph{two one-sided limits} are \emph{not equal}, i.e.
+\[
+\lim_{x\to a^+}f(x) \ne  \lim_{x\to a^-}f(x)
+\]
+In that case, we say that
+\[
+\lim_{x\to a}f(x) 
+\]
+\emph{does not exist}.
+
+
+
+In $\R^n$ when $n\ge2$ there are \textbf{infinite paths} along which
+$\vec{x}$ might approach $\vec{a}$. 
+
+\begin{quote}
+  \textbf{If it is possible to arrive at different limiting values by
+    approaching $\vec{a}$ along different paths, the limit does not exist.}
+\end{quote}
+This is analogous to the left and right hand limits of single variable
+functions not being equal, implying that the limit does not exist.
+Our theorems tell us that we can evaluate most limits quite simply,
+without worrying about paths. When indeterminate forms arise, the
+limit may or may not exist.
+ The case where the limit does not
+exist is often easier to deal with, for we can often pick two paths
+along which the limit is different.
 
 
 \begin{example}
-  Compute:
+  Show that
   \[
-  \lim_{\vector{x,y}\to\vector{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
+  \lim_{(x,y)\to(0,0)} \frac{3xy}{x^2+y^2}
   \]
+  does not exist by finding the limits along the lines $y=mx$.
   \begin{explanation}
-    To compute this limit, we proceed by factoring. Write with me,
+    Evaluating $\lim_{(x,y)\to(0,0)} \frac{3xy}{x^2+y^2}$ along
+    the lines $y=mx$ means replace all $y$'s with $mx$ and evaluating
+    the resulting limit:
     \begin{align*}
-      \lim_{\vector{x,y}\to\vector{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
-      &=\lim_{\vector{x,y}\to\vector{9,3}} \frac{xy\left(\answer[given]{x-y^2}\right)}{(x+y^2)\left(\answer[given]{x-y^2}\right)}\\
-      &=\lim_{\vector{x,y}\to\vector{9,3}} \frac{xy}{(x+y^2)}\\
-      &=\answer[given]{\frac{3}{2}}
+      \lim_{(x,mx)\to(0,0)} \frac{3x(\answer[given]{m x})}{x^2+(\answer[given]{mx})^2} &=\lim_{x\to0} \frac{3mx^2}{x^2(m^2+1)}\\
+      &= \lim_{x\to 0}\frac{3m}{m^2+1}\\
+      &= \answer[given]{\frac{3m}{m^2+1}}.
     \end{align*}
+    While the limit exists for each choice of $m$, we get a
+    \textit{different} limit for each choice of $m$. Suppose $m=0$,
+    then:
+    \[
+    \lim_{x\to 0}\frac{3m}{m^2+1} = \answer[given]{0}
+    \]
+    Now suppose that $m=1$, then:
+    \[
+    \lim_{x\to 0}\frac{3m}{m^2+1} = \answer[given]{3/2}
+    \]
+    Since we find differing limiting values when computing the limit
+    along different paths, we must conclude that the limit does not
+    exist.
+    \begin{onlineOnly}
+      We finish by presenting you with a plot of $F$:
+      \begin{center}
+        \geogebra{e2pAxbeP}{800}{600} %https://ggbm.at/e2pAxbeP
+      \end{center}
+    \end{onlineOnly}
   \end{explanation}
 \end{example}
+
+%\begin{example}
+ % Show
+ % \[
+%  \lim_{\vector{x,y}\to\vector{0,0}} \frac{\sin(xy)}{x+y}
+%  \]
+ % does not exist by finding the limit along the path $y=-\sin(x)$.
+  %\begin{explanation}
+  %  Let
+    %\[
+    %F(x,y) = \frac{\sin(xy)}{x+y}.
+    %\]
+   % We will show that
+   % \[
+    %\lim_{\vector{x,y}\to\vector{0,0}} F(x,y)
+    %\]
+    %does not exist by finding the limit along the path
+    %$y=-\sin(x)$. First, however, let's try the same trick that worked
+ %   before and see what happens. Consider the limits found along the
+   % lines $y=mx$ as done above.
+  %  \begin{align*}
+    %  \lim_{\vector{x,mx}\to\vector{0,0}} \frac{\sin\big(x(\answer[given]{mx})\big)}{x+\answer[given]{mx}} &= \lim_{x\to 0} \frac{\sin (mx^2)}{x(m+1)} \\
+     % &= \lim_{x\to 0} \frac{\sin(mx^2)}{x}\cdot\answer[given]{\frac{1}{m+1}}.
+  %  \end{align*}
+   % By applying L'H\^opital's Rule, we can show this limit is $0$
+   % \emph{except} when $m=-1$, that is, along the line $y=-x$. This
+    %line is not in the domain of $F$, so we have found the following
+   % fact: along every line $y=mx$ in the domain of $F$,
+  %  \[
+   % \lim_{\vector{x,y}\to\vector{0,0}} F(x,y)=0.
+   % \]
+   % Now consider the limit along the path $y=-\sin(x)$:
+  % $ \begin{align*}
+   %   \lim_{\vector{x,-\sin(x)}\to\vector{0,0}} \frac{\sin\big(-x\sin(x)\big)}{x-\sin(x)} &= \lim_{x\to0} \frac{\sin\big(-x\sin(x)\big)}{x-\sin(x)}
+   % \end{align*}
+    %Now apply L'H\^opital's Rule twice to find a limit is of the form
+  %  \numOverZero.  Hence the limit does not exist.  Step back and
+   % consider what we have just discovered.
+   % \begin{itemize}
+   % \item Along any line $y=mx$ in the domain of the $F(x,y)$, the
+    %  limit is $0$.
+   % \item However, along the path $y=-\sin(x)$, which lies in the
+     % domain of the $F(x,y)$ for all $x\neq 0$, the limit does not
+    %  exist.
+   % \end{itemize}
+   % Since the limit is not the same along every path to $(0,0)$, we say
+    %$\lim_{\vector{x,y}\to\vector{0,0}}\frac{\sin(xy)}{x+y}$ does not exist.
+  %  \begin{onlineOnly}
+     % We finish by presenting you with a plot of $F$:
+      %\begin{center}
+      %  \geogebra{vBrjrPkN}{800}{600} %https://ggbm.at/vBrjrPkN
+     % \end{center}
+   % \end{onlineOnly}
+ % \end{explanation}
+%\end{example}
+
+
+% On the
+%other hand, limits don't exist when the function make a large jump,
+%\begin{onlineOnly}
+ % as in the case with $\arctan(y/x)$,
+  %\begin{center}
+   % \geogebra{RDr98P8J}{800}{600}% https://ggbm.at/RDr98P8J
+ % \end{center}
+%\end{onlineOnly}
+\begin{example}
+  Show that
+  \[
+  \lim_{(x,y)\to(0,0)}  \frac{6x^2y}{x^4+y^2}
+  \]
+ 
+  does not exist.
+  \begin{explanation}
+    Evaluating $\lim_{(x,y)\to(0,0)} \frac{6x^2y}{x^4+y^2}$ along
+    the lines $y=mx$ means replace all $y$'s with $mx$ and evaluating
+    the resulting limit:
+    \begin{align*}
+      \lim_{(x,mx)\to(0,0)}  \frac{6x^2(mx)}{x^4+(mx)^2} &=\lim_{x\to0} \frac{6mx^3}{x^2(m^2+x^2)}\\
+      &= \lim_{x\to 0}\frac{6mx}{m^2+x^2}\\
+      &= {\frac{0}{m^2}}=\answer[given]{0}
+    \end{align*}
+   Since the limit is equal to zero for each choice of $m$, you may jump to a conclusion...but, wait!
+    We have only examined what is happening when paths are straight lines. But, there are many other paths along which $(x,y)$ can approach $(0,0)$. 
+    For example, consider the curve $y=x^2$. Compute the limiting value of $F(x,y)$ along this path:
+
+    \begin{align*}
+      \lim_{(x,x^2)\to(0,0)}  \frac{6x^2(x^2)}{x^4+(x^2)^2} &=\lim_{x\to0} \frac{6x^4}{2x^4}\\
+      &=\answer[given]{ 3}
+    \end{align*}
+     Since we find differing limiting values when computing the limit
+    along different paths, we must conclude that the limit does not
+    exist.
+
+\begin{onlineOnly}
+  Here we see the function:
+ 
+  \begin{center}
+    \geogebra{E3jUp27u}{800}{600}%https://ggbm.at/E3jUp27u
+  \end{center}
+  If one approaches the origin along any line, you see the limit 
+   is zero, by following the path on the
+  surface. However, if one approaches the origin along a parabola,
+  then we see the limit does not exist, as approaching along the
+  parabola $y=x^2$ gives a limit of $3$.
+ Thus this is a case where
+  the limit does not exist.
+\end{onlineOnly}
+ \end{explanation}
+\end{example}
+
+ Limits don't exist when the function makes a large jump, or when the surface is somehow pinched.
+
+
+%\begin{example}
+ % Compute:
+ % \[
+ % \lim_{\vector{x,y}\to\vector{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
+  %\]
+ % \begin{explanation}
+ %   To compute this limit, we proceed by factoring. Write with me,
+   % \begin{align*}
+   %   \lim_{\vector{x,y}\to\vector{9,3}} \frac{x^2y-xy^3}{x^2-y^4}
+    %  &=\lim_{\vector{x,y}\to\vector{9,3}} \frac{xy\left(\answer[given]{x-y^2}\right)}{(x+y^2)\left(\answer[given]{x-y^2}\right)}\\
+     % &=\lim_{\vector{x,y}\to\vector{9,3}} \frac{xy}{(x+y^2)}\\
+      %&=\answer[given]{\frac{3}{2}}
+    %\end{align*}
+ % \end{explanation}
+%\end{example}
 
 
 
@@ -263,7 +594,7 @@ or when the surface is somehow pinched.
 Now we will use the idea of a limit to define continuity.
 
 \begin{definition}
-  Let $F:\R^n\to \R$ be defined on an open ball $B$ centered at
+  Let $F:D\to \R$ be a real-valued function of $n$ variables, defined on the set $D\subseteq\R^n$ that contains an open ball $B$ centered at
   $\vec{a}$. $F$ is \dfn{continuous} at $\vec{a}$, if
   \begin{itemize}
   \item $F(\vec{a})$ exists.
@@ -273,30 +604,6 @@ Now we will use the idea of a limit to define continuity.
   $F$ is \dfn{continuous on an open ball} $B$ if $F$ is continuous at
   all points in $B$.
 \end{definition}
-
-To really use this definition, we need \textit{limit laws} which in
-some sense are really \textit{continuity laws}.
-
-\begin{theorem}[Limit Laws]
-  Let $F:\R^n\to \R$ and $G:\R^n\to \R$ be functions of several
-  variables, $b$, $L$ and $M$ are real numbers,
-  \begin{align*}
-    \vec{x} &= \vector{x_1,x_2,\dots,x_n}\\ \vec{a} &=
-    \vector{a_1,a_2,\dots,a_n},
-  \end{align*}
-  where
-  \[
-  \lim_{\vec{x}\to\vec{a}}F(\vec{x}) = L \quad \text{and}\quad \lim_{\vec{x}\to\vec{a}} G(\vec{x}) = M.
-  \]
-\begin{description}
-\item[Constant Law] $\lim_{\vec{x}\to \vec{a}} b = b$.
-\item[Identity Law] $\lim_{\vec{x}\to \vec{a}} x_i = a_i$.
-\item[Sum/Difference Law] $\lim_{\vec{x}\to \vec{a}}\big(F(\vec{x})\pm G(\vec{x})\big) = L\pm M$.
-\item[Scalar Multiple Law] $\lim_{\vec{x}\to \vec{a}} b\cdot F(\vec{x}) = bL$.
-\item[Product Law] $\lim_{\vec{x}\to \vec{a}} \left(F(\vec{x})\cdot G(\vec{x})\right) = LM$.
-\item[Quotient Law] $\lim_{\vec{x}\to \vec{a}} \frac{F(\vec{x})}{G(\vec{x})} = \frac{L}{M}$, if $M\neq 0$.
-\end{description}
-\end{theorem}
 
 \begin{question}
   True or false: If $F:\R^2\to\R$ and $G:\R^2\to\R$ are continuous
@@ -308,7 +615,16 @@ some sense are really \textit{continuity laws}.
   \end{multipleChoice}
   \end{prompt}
 \end{question}
+\begin{explanation}
+Take any point, say, $\vec{a}$ in $B$. Since $F$ and $G$ are both continuous on $B$, they are both continuous at $\vec{a}$.
+This means that $\lim_{\vec{x}\to\vec{a}} F(\vec{x}) = F(\vec{a})$ and $\lim_{\vec{x}\to\vec{a}} G(\vec{x}) = G(\vec{a})$.
+This implies that
 
+ $\lim_{\vec{x}\to\vec{a}} (F+G)(\vec{x})=\lim_{\vec{x}\to\vec{a}} (F(\vec{x})+G(\vec{x}))= $ (\textrm{  by the sum law })\\
+ $=\lim_{\vec{x}\to\vec{a}} F(\vec{x})+\lim_{\vec{x}\to\vec{a}} G(\vec{x})= F(\vec{a})+G(\vec{a})=(F+G)(\vec{a})$ 
+
+
+\end{explanation}
 \begin{question}
   True or false: If $F:\R^2\to\R$ and $G:\R^2\to\R$ are continuous
   functions on an open disk $B$, then $F/G$ is continuous on $B$.
@@ -326,9 +642,9 @@ some sense are really \textit{continuity laws}.
 
 
 \begin{theorem}[Composition Limit Law]
-  Let $f:\R\to\R$ be a continuous function on an interval $I$. Let
-  $G:\R^n\to \R$ be a function whose range is contained in (or equal
-  to) $I$, Then
+  Let $f:I\to\R$ be a continuous function on an interval $I\subseteq\R$. Let
+  $G:D\to \R$, where $D\subseteq\R^n$,  be a function whose range is contained in (or equal
+  to) $I$. Then
   \[
   \lim_{\vec{x}\to\vec{a}} f( G(\vec{x})) = f(\lim_{\vec{x}\to\vec{a}}G(\vec{x}))
   \]
@@ -336,13 +652,14 @@ some sense are really \textit{continuity laws}.
 
 
 \begin{corollary}[Composition of Composite Functions]
-  Let $G:\R^n\to \R$ be continuous on an open disk $B$, where the
+  Let $G:D\to \R$, where $D\subseteq\R^n$, be continuous on an open disk $B$, where the
   range of $G$ on $B$ is $I$, and let $f$ be a single variable
-  function that is continuous on $I$. Then
+  function that is continuous on $I$. Then, the function $f\circ G$ is continuous on $B$.
+  In other words,
   \[
-  f\circ G(\vec{x}) =f(G(\vec{x})),
+ \lim_{\vec{x}\to\vec{a}} (f\circ G)(\vec{x}) =\lim_{\vec{x}\to\vec{a}}f(G(\vec{x}))=f(G(\vec{a})),
   \]
-  is continuous on $B$.
+  for all points $\vec{a}$ in $B$.
 \end{corollary}
 
 
@@ -395,7 +712,7 @@ some sense are really \textit{continuity laws}.
   \begin{explanation}
     To determine if $F$ is continuous at $(0,0)$, we need to compare
     \[
-    \lim_{\vector{x,y}\to\vector{0,0}} F(x,y)\quad\text{to}\quad F(0,0).
+    \lim_{(x,y)\to(0,0)} F(x,y)\quad\text{to}\quad F(0,0).
     \]
     Applying the definition of $F$, we see that:
     \[
@@ -403,7 +720,7 @@ some sense are really \textit{continuity laws}.
     \]
     We now consider the limit
     \[
-    \lim_{\vector{x,y}\to\vector{0,0}}F(x,y).
+   \lim_{(x,y)\to(0,0)}F(x,y).
     \]
     Substituting $0$ for $x$ and $y$ in $(\cos(y)\sin(x))/x$ returns the
     indeterminate form \zeroOverZero, so we need to do more work to
@@ -411,28 +728,29 @@ some sense are really \textit{continuity laws}.
     
     Consider two related limits:
     \begin{align*}
-      \lim_{\vector{x,y}\to\vector{0,0}} \cos(y)\\
-      \lim_{\vector{x,y}\to\vector{0,0}} \frac{\sin(x)}{x}.
+     \lim_{(x,y)\to(0,0)} \cos(y)\\
+      \lim_{(x,y)\to(0,0)} \frac{\sin(x)}{x}.
     \end{align*}
     The first limit does not contain $x$, and since $\cos(y)$ is
     continuous,
     \begin{align*}
-    \lim_{\vector{x,y}\to\vector{0,0}} \cos(y) &=\lim_{y\to 0} \cos(y) \\
+   \lim_{(x,y)\to(0,0)}\cos(y) &=\lim_{y\to 0} \cos(y) \\
     &=\answer[given]{1}
     \end{align*}
     The second limit does not contain $y$. But we know
     \begin{align*}
-      \lim_{\vector{x,y}\to\vector{0,0}} \frac{\sin(x)}{x} &= \lim_{x\to 0} \frac{\sin(x)}{x} \\
+    \lim_{(x,y)\to(0,0)} \frac{\sin(x)}{x} &= \lim_{x\to 0} \frac{\sin(x)}{x} \\
       &= \answer[given]{1}.
     \end{align*}
-    Finally, we know that we can combine these two limits so that 
-    $\lim_{\vector{x,y}\to\vector{0,0}} \frac{\cos(y)\sin(x)}{x}$
+    Finally, we can apply  the Product Law \\
+    
+   
     \begin{align*}
-      &= \lim_{\vector{x,y}\to\vector{0,0}} (\cos(y))\left(\frac{\sin(x)}{x}\right) \\ 
-      &=\left(\lim_{\vector{x,y}\to\vector{0,0}} \cos(y)\right)\left(\lim_{\vector{x,y}\to\vector{0,0}} \frac{\sin(x)}{x}\right) \\
+      \lim_{(x,y)\to(0,0)} \frac{\cos(y)\sin(x)}{x}&=  \lim_{(x,y)\to(0,0)}(\cos(y))\left(\frac{\sin(x)}{x}\right) \\ 
+      &=\left( \lim_{(x,y)\to(0,0)} \cos(y)\right)\left( \lim_{(x,y)\to(0,0)} \frac{\sin(x)}{x}\right) \\
             &=\answer[given]{1}\cdot \answer[given]{1}.
     \end{align*}
-    We have found that $\lim_{\vector{x,y}\to\vector{0,0}} \frac{\cos(y)\sin(x)}{x} =
+    We have found that $ \lim_{(x,y)\to(0,0)} \frac{\cos(y)\sin(x)}{x} =
     F(0,0)$, so $F$ is continuous at $(0,0)$.
 
     A similar analysis shows that $F$ is continuous at all points in
@@ -448,137 +766,6 @@ some sense are really \textit{continuity laws}.
   \end{explanation}
 \end{example}
 
-
-\subsection{When limits don't exist}
-
-When dealing with functions of a single variable we often considered
-one-sided limits and stated
-\[
-\lim_{x\to a}f(x) = L
-\]
-if and only if
-\[
-\lim_{x\to a^+}f(x) =L \quad\textbf{and}\quad \lim_{x\to a^-}f(x) =L.
-\]
-That is, the limit is $L$ if and only if $F$ approaches $L$ when
-$x$ approaches $a$ from \textbf{either} direction.
-
-In $\R^n$ when $n>2$ there are \textbf{infinite paths} from which
-$\vec{x}$ might approach $\vec{a}$. Now we have a fact, 
-\[
-\lim_{\vec{x}\to \vec{a}}F(\vec{x}) = L
-\]
-if and only if
-\[
-F(\vec{x})\to  L \quad{as}\quad \vec{x}\to \vec{a}
-\]
-along every path.
-\begin{quote}
-  \textbf{If it is possible to arrive at different limiting values by
-    approaching along different paths, the limit does not exist.}
-\end{quote}
-This is analogous to the left and right hand limits of single variable
-functions not being equal, implying that the limit does not exist.
-Our theorems tell us that we can evaluate most limits quite simply,
-without worrying about paths. When indeterminate forms arise, the
-limit may or may not exist. If it does exist, it can be difficult to
-prove this as we need to show the same limiting value is obtained
-regardless of the path chosen.  The case where the limit does not
-exist is often easier to deal with, for we can often pick two paths
-along which the limit is different.
-
-
-\begin{example}
-  Show
-  \[
-  \lim_{\vector{x,y}\to\vector{0,0}} \frac{3xy}{x^2+y^2}
-  \]
-  does not exist by finding the limits along the lines $y=mx$.
-  \begin{explanation}
-    Evaluating $\lim_{\vector{x,y}\to\vector{0,0}} \frac{3xy}{x^2+y^2}$ along
-    the lines $y=mx$ means replace all $y$'s with $mx$ and evaluating
-    the resulting limit:
-    \begin{align*}
-      \lim_{\vector{x,mx}\to\vector{0,0}} \frac{3x(\answer[given]{m x})}{x^2+(\answer[given]{mx})^2} &=\lim_{x\to0} \frac{3mx^2}{x^2(m^2+1)}\\
-      &= \lim_{x\to 0}\frac{3m}{m^2+1}\\
-      &= \answer[given]{\frac{3m}{m^2+1}}.
-    \end{align*}
-    While the limit exists for each choice of $m$, we get a
-    \textit{different} limit for each choice of $m$. Suppose $m=0$,
-    then:
-    \[
-    \lim_{x\to 0}\frac{3m}{m^2+1} = \answer[given]{0}
-    \]
-    Now suppose that $m=1$, then:
-    \[
-    \lim_{x\to 0}\frac{3m}{m^2+1} = \answer[given]{3/2}
-    \]
-    Since we find differing limiting values when computing the limit
-    along different paths, we must conclude that the limit does not
-    exist.
-    \begin{onlineOnly}
-      We finish by presenting you with a plot of $F$:
-      \begin{center}
-        \geogebra{e2pAxbeP}{800}{600} %https://ggbm.at/e2pAxbeP
-      \end{center}
-    \end{onlineOnly}
-  \end{explanation}
-\end{example}
-
-\begin{example}
-  Show
-  \[
-  \lim_{\vector{x,y}\to\vector{0,0}} \frac{\sin(xy)}{x+y}
-  \]
-  does not exist by finding the limit along the path $y=-\sin(x)$.
-  \begin{explanation}
-    Let
-    \[
-    F(x,y) = \frac{\sin(xy)}{x+y}.
-    \]
-    We will show that
-    \[
-    \lim_{\vector{x,y}\to\vector{0,0}} F(x,y)
-    \]
-    does not exist by finding the limit along the path
-    $y=-\sin(x)$. First, however, let's try the same trick that worked
-    before and see what happens. Consider the limits found along the
-    lines $y=mx$ as done above.
-    \begin{align*}
-      \lim_{\vector{x,mx}\to\vector{0,0}} \frac{\sin\big(x(\answer[given]{mx})\big)}{x+\answer[given]{mx}} &= \lim_{x\to 0} \frac{\sin (mx^2)}{x(m+1)} \\
-      &= \lim_{x\to 0} \frac{\sin(mx^2)}{x}\cdot\answer[given]{\frac{1}{m+1}}.
-    \end{align*}
-    By applying L'H\^opital's Rule, we can show this limit is $0$
-    \emph{except} when $m=-1$, that is, along the line $y=-x$. This
-    line is not in the domain of $F$, so we have found the following
-    fact: along every line $y=mx$ in the domain of $F$,
-    \[
-    \lim_{\vector{x,y}\to\vector{0,0}} F(x,y)=0.
-    \]
-    Now consider the limit along the path $y=-\sin(x)$:
-    \begin{align*}
-      \lim_{\vector{x,-\sin(x)}\to\vector{0,0}} \frac{\sin\big(-x\sin(x)\big)}{x-\sin(x)} &= \lim_{x\to0} \frac{\sin\big(-x\sin(x)\big)}{x-\sin(x)}
-    \end{align*}
-    Now apply L'H\^opital's Rule twice to find a limit is of the form
-    \numOverZero.  Hence the limit does not exist.  Step back and
-    consider what we have just discovered.
-    \begin{itemize}
-    \item Along any line $y=mx$ in the domain of the $F(x,y)$, the
-      limit is $0$.
-    \item However, along the path $y=-\sin(x)$, which lies in the
-      domain of the $F(x,y)$ for all $x\neq 0$, the limit does not
-      exist.
-    \end{itemize}
-    Since the limit is not the same along every path to $(0,0)$, we say
-    $\lim_{\vector{x,y}\to\vector{0,0}}\frac{\sin(xy)}{x+y}$ does not exist.
-    \begin{onlineOnly}
-      We finish by presenting you with a plot of $F$:
-      \begin{center}
-        \geogebra{vBrjrPkN}{800}{600} %https://ggbm.at/vBrjrPkN
-      \end{center}
-    \end{onlineOnly}
-  \end{explanation}
-\end{example}
 
 
 

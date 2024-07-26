@@ -33,8 +33,8 @@ x       & g(x)=\frac{1}{x} \\\hline
 100     & \answer[given]{0.01} \\
 1000    & \answer[given]{0.001} \\
 10000   & \answer[given]{0.0001} \\
-100000  & \answer[given]{0.00001}\\
-1000000 & \answer[given]{0.000001}
+100000  & \answer[given]{0.00001}%\\
+%1000000 & \answer[given]{0.000001}
 \end{array}
 \]
 
@@ -130,7 +130,12 @@ Write
 \end{explanation}
 \end{example}
 
-Sometimes one must be careful, consider this example.
+Notice in the first step of this computation, we divided the numerator and denominator by $x$ (by multiplying them by $1/x$). This is a ``trick''
+that frequently helps in the calculation of limits as $x\to \pm \infty$, when the function is a fraction. The important point of using $x$ here, is that the
+denominator has degree $1$. When we divide the denominator by $x$, the denominator approaches a nonzero constant. 
+(We're dividing the numerator and denominator by the \textbf{highest growth order from the denominator}.)
+
+Sometimes one must be careful when attempting to apply this trick. Consider this example of a non-rational function.
 
 \begin{example}
 
@@ -138,24 +143,48 @@ Sometimes one must be careful, consider this example.
 \lim_{x\to -\infty} \frac{x^3+1}{\sqrt{x^6+5}}
 \]
 \begin{explanation}
-In this case we multiply the numerator and denominator by $-1/x^3$,
-which is a positive number as since $x\to -\infty$, $x^3$ is a negative
-number.
+Notice that the denominator is inside a radical. In order to determine the correct factor to divide by for our trick, we will need to rewrite the radical.
+
 \begin{align*}
-\lim_{x\to -\infty} \frac{x^3+1}{\sqrt{x^6+5}} &= \lim_{x\to -\infty} \frac{x^3+1}{\sqrt{x^6+5}} \cdot \frac{-1/x^3}{-1/x^3}\\
-&= \lim_{x\to -\infty} \frac{-1-1/x^3}{\sqrt{x^6/x^6+5/x^6}}\\
-&= \lim_{x\to -\infty} \frac{-1-1/x^3}{\sqrt{1+5/x^6}}\\
-&= \frac{ \lim_{x\to -\infty}\Bigl(-1-1/x^3\Bigr)}{\lim_{x\to -\infty}\sqrt{1+5/x^6}}\\
-&= \frac{ -1-\lim_{x\to -\infty}(1/x)^3}{\sqrt{\lim_{x\to -\infty}\Bigl(1+5/x^6\Bigr)}}\\
-&= \frac{ -1-(\lim_{x\to -\infty}1/x)^3}{\sqrt{1+5(\lim_{x\to -\infty}1/x)^6}}\\
-&= \frac{ -1-(0)^3}{\sqrt{1+5(0)^6}}\\
-&= \frac{ -1-0}{\sqrt{1+0}}\\
-&= -1.
+	\sqrt{x^6 + 5} &= \sqrt{ x^6\left(\dfrac{x^6}{x^6} + \dfrac{5}{x^6}\right)}\\
+				&=	\sqrt{ x^6\left( 1 + \dfrac{5}{x^6}\right) }\\
+				&= \sqrt{x^6} \sqrt{1 + \dfrac{5}{x^6} }\\
+				&= \sqrt{(x^3)^2} \sqrt{1 + \dfrac{5}{x^6} }\\
+				&= |x^3|\sqrt{1 + \dfrac{5}{x^6} }\\
 \end{align*}
+For this last step, remember that $\sqrt{a^2} = |a|$ when $a$ could possibly have a negative value. Since we're looking at $x\to -\infty$, 
+we know that eventually $x$ will be negative and $x^3$ will be, too.
+
+This simplification means the denominator will, in the limit as $x\to -\infty$, act like $-x^3\sqrt{1+\dfrac{5}{x^6}}$. Since the square root factor here
+has limit $\displaystyle \lim_{x\to -\infty} \sqrt{1 + \dfrac{5}{x^6} } = \sqrt{1 + \lim_{x\to \infty} \dfrac{5}{x^6}} = \sqrt{1+0}=1$, the growth of the denominator is controlled by the $-x^3$ factor. In this case we divide the numerator and denominator by $x^3$,
+
+\begin{align*}
+\lim_{x\to -\infty} \dfrac{x^3+1}{\sqrt{x^6+5}} &= \lim_{x\to -\infty} \frac{x^3+1}{-x^3 \sqrt{1 + \dfrac{5}{x^6} }} \cdot \frac{1/x^3}{1/x^3}\\
+	&= \lim_{x\to -\infty} \dfrac{1+\dfrac{1}{x^3}}{\dfrac{-x^3}{x^3}\cdot\sqrt{1+\dfrac{5}{x^6}}}\\
+	&= \lim_{x\to -\infty} \dfrac{1+\dfrac{1}{x^3}}{-1\cdot \sqrt{1+\dfrac{5}{x^6}}} \\
+	&= \dfrac{ \lim_{x\to -\infty}\left(1+\dfrac{1}{x^3}\right)}{\lim_{x\to -\infty}-1\cdot\sqrt{1+\dfrac{5}{x^6}}}\\
+	&= \dfrac{1}{-1\cdot 1} = -1.
+%	&= \frac{ -1-\lim_{x\to -\infty}(1/x)^3}{\sqrt{\lim_{x\to -\infty}\Bigl(1+5/x^6\Bigr)}}\\
+%	&= \frac{ -1-(\lim_{x\to -\infty}1/x)^3}{\sqrt{1+5(\lim_{x\to -\infty}1/x)^6}}\\
+%	&= \frac{ -1-(0)^3}{\sqrt{1+5(0)^6}}\\
+%	&= \frac{ -1-0}{\sqrt{1+0}}\\
+%	&= -1.
+\end{align*}
+
 \end{explanation}
 \end{example}
 
-Note, since
+In the previous example, we used the fact that $|x^3|= -x^3$ when $x$ is negative. If the limit were as $x\to \infty$, then $x$ and $x^3$ would each 
+eventually be positive valued. This would have made $|x^3|=x^3$. Repeat the calculation from the previous example, finding the limit
+$\displaystyle \lim_{x\to \infty} \frac{x^3+1}{\sqrt{x^6+5}}$ taking note to use $|x^3|=x^3$ in your simplification. 
+You'll find that the two limits (as $x\to \infty$ and as $x \to -\infty$) have different values.
+
+
+
+
+
+
+Notice that since
 \[
 \lim_{x\to \infty} f(x) = \lim_{x\to 0^+} f\left(\frac{1}{x}\right)
 \]

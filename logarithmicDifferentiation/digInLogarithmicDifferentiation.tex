@@ -2,7 +2,7 @@
 
 \input{../preamble.tex}
 
-\author{Nela Lakos \and Bart Snapp}
+\author{Nela Lakos \and Bart Snapp \and Bobby Ramsey}
 
 \outcome{Identify situations where logs can be used to help find derivatives.}
 \outcome{Use logarithmic differentiation to simplify taking derivatives.}
@@ -119,14 +119,13 @@ which follows from the chain rule. Let's look at an illustrative example to see 
 			\item $\log_b(x^y) = y\log_b(x)$
 		\end{itemize}
 		
-		While we could use the product and quotient rule to solve this
-		problem, it would be tedious. Start by taking the logarithm of the
-		function to be differentiated.
+		While we could use the product and quotient rule to solve this problem, it would be tedious. Start by taking the logarithm of the function to be differentiated.
 		\begin{align*}
 			\ln\left(\frac{x^9e^{4x}}{\sqrt{x-4}} \right) &= \ln\left(\answer[given]{x^9e^{4x}}\right) - \ln\left(\answer[given]{\sqrt{x-4}}\right)\\
 				&= \ln\left(x^9\right)+\ln\left(e^{4x}\right) - \ln\left((x-4)^{1/2}\right)\\
 				&= \answer[given]{9}\ln(x)+4x - \answer[given]{\frac{1}{2}}\ln(x-4).
 		\end{align*}
+
 		Setting $f(x) = \frac{x^9e^{4x}}{\sqrt{x-4}}$, we can write
 		\[ \ln(f(x)) = 9\ln(x)+4x - \frac{1}{2}\ln(x-4).\]
 		Differentiating both sides, we find
@@ -136,7 +135,8 @@ which follows from the chain rule. Let's look at an illustrative example to see 
 	\end{explanation}
 \end{example}
 
-The process above is called \textit{logarithmic differentiation}. Logarithmic differentiation allows us to compute new derivatives, too.
+The process above is called \textit{logarithmic differentiation}. It starts by taking the natural logarithm of the function, then using the properties of logarithms to simplify.
+Logarithmic differentiation allows us to compute new derivatives, too.
 
 \begin{example}
 	For  $x>0$, compute: 
@@ -155,20 +155,48 @@ The process above is called \textit{logarithmic differentiation}. Logarithmic di
 		\[ f'(x) = x^x + x^x\ln(x). \]
 		
 		Alternative way: We can write 
-		\[ x^x= e^{\ln{x^x}}=e^{x\ln{x}}. \]
+		\[ x^x= e^{\ln(x^x)}=e^{x\ln(x)}. \]
 		Therefore,
-		\[ \ddx x^x=\ddx e^{x\ln{x}}=e^{x\ln{x}}\left(\ln{x}+1\right), \]
+		\[ \ddx x^x=\ddx e^{x\ln(x)}=e^{x\ln(x)}\left(\ln(x)+1\right), \]
 		by the Chain Rule and the Product Rule.
 		
 		Now, it follows  that
-		\[ \ddx x^x=x^x\left(\answer[given]{\ln{x}+1}\right). \]
+		\[ \ddx x^x=x^x\left(\answer[given]{\ln(x)+1}\right). \]
 	\end{explanation}
 \end{example}
 
-The function from the previous example $x^x$ is a type of function that we call a tower function. Tower functions are functions written as $f(x)^{g(x)}$, an exponential where both the base and exponent depend on the variable.
+The function from the previous example $x^x$ is a type of function that we call a \textbf{tower function}. Tower functions are functions written as $f(x)^{g(x)}$, an exponential where both the base and exponent depend on the variable.
 This logarithmic differentiation is one method of differentiating a tower function. However we can also write 
-\[ f(x)^{g(x)} = e^{g(x)\ln( f(x) ) }. \]
-By rewriting like this we can differentiate tower functions using Chain Rule.
+\[ f(x)^{g(x)} = e^{\ln\left( f(x)^{g(x)} \right)} = e^{g(x)\ln( f(x) ) }. \]
+By rewriting like this we can differentiate tower functions using chain rule and product rule. In the previous example, the derivative of $x^x$ was calculated in both of these methods. 
+Let's differentiate one more tower functions using both methods.
+
+\begin{example}
+	Calculate the derivative of $f(x) = x^{\cos(x)}$ in two ways: logarithmic differentiation and using chain rule and product rule.
+	\begin{explanation}
+		We start with the logarithmic differentiation method. 
+		\begin{align*}
+			\ln( f(x) ) &= \ln\left( x^{\cos(x)} \right) \\
+				&= \cos(x) \ln(x)
+		\end{align*}
+		Differentiating both sides gives:
+		\begin{align*} 
+			\dfrac{f'(x)}{f(x)} &= -\sin(x)\ln(x) + \dfrac{\cos(x)}{x} \\
+			f'(x) &= f(x)\left( -\sin(x)\ln(x) + \dfrac{\cos(x)}{x}\right)\\
+				&= x^{\cos(x)} \left( -\sin(x)\ln(x) + \dfrac{\cos(x)}{x}\right)
+		\end{align*}
+
+		Let's differentiate $f$ one more time, but using chain rule and product rule.
+		We begin by rewriting the tower function as an exponential with constant base $e$.
+		\[ f(x) = x^{\cos(x)} = e^{\ln\left(x^{\cos(x)} \right)} = e^{\cos(x) \ln(x)} \]
+		Using chain rule we find:
+		\begin{align*}
+			f'(x) &= e^{\cos(x)\ln(x)}\left( \cos(x)\ln(x)\right)'\\
+				&= e^{\cos(x)\ln(x)}\left( -\sin(x) \ln(x) + \dfrac{\cos(x)}{x}\right)
+		\end{align*}
+		Rewriting $e^{\cos(x)\ln(x)}$ as $x^{\cos(x)}$, we see that both methods gave the same derivative $f'$. 
+	\end{explanation}
+\end{example}
 
 
 \begin{example}

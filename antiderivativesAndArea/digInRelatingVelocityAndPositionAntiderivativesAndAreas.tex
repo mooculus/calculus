@@ -5,7 +5,7 @@
 \outcome{Interpert the product of rate and time as area.}
 \outcome{Approximate position from velocity.}
 \outcome{Recognize Riemann sums.}
-\author{Nela Lakos}
+\author{Nela Lakos \and Bobby Ramsey}
 
 
 \title[Dig-In:]{Relating velocity, displacement, antiderivatives and areas}
@@ -286,7 +286,9 @@ This scenario is illustrated in the figure below.
 %\end{tikzpicture}
 %\end{image}
 %This gives us a plot of the approximate position of our object.
-Now it should be clear how to proceed. We will keep approximating the velocity with a constant over smaller and smaller intervals of time.
+From the graph above, we see that the assumption of constant velocity is not quite accurate. The velocity is changing, so we should allow our velocity to change as well.
+Instead of assuming the velocity is constant over the entire four-second interval, 
+we will keep approximating the velocity with a constant over smaller and smaller intervals of time.
 
 
 In our next step we will assume that the velocity is constant during two-second time intervals $[0,2]$ and $[2,4]$. For each of these two intervals, we assume that the velocity is equal to the velocity at the beginning of the time interval.
@@ -601,21 +603,66 @@ Now we can compute the displacement
    \text{displacement}=s(4)-s(0)=\frac{\answer[given]{28}}{3}.
 \]
   \end{explanation}
-  
+\end{example}
+
 Much more important than this computation is the fact that we were able to express the displacement as a definite integral and  compute the definite integral  of $v$ using the antiderivative of $v$.
 
  \[
    \int_{0}^{4}v(t)\d t=s(4)-s(0)
 \]
 
-Is this always so?
 
-Is it true that for any continuous function $f$ and its antiderivative $F$, we can compute the definite integral of $f$ on the interval $[a,b]$ by this simple formula
-\[
-   \int_{a}^{b}f(t)\d t=F(b)-F(a)?
-\]
 
+\begin{theorem}\label{thm:Disp}
+	Suppose $v$ is the (continuous) velocity function of an object traveling along a straight line during the interval $[a, b]$, which has position function $s$. 
+	The displacement of the object can be found in two ways:
+	\begin{itemize}
+		\item As $\Delta s = s(b)-s(a)$ and
+		\item As a definite integral $\displaystyle \int_a^b v(t) \d t$.
+	\end{itemize}
+	In particular, the definite integral of a velocity function can be calculated by finding
+	the distance function:
+	\[ \int_a^b v(t) \d t = s(b) - s(a) \]
+\end{theorem}
+
+This means we are able to evaluate the definite integral \textbf{of velocity functions} by calculating indefinite integrals.
+
+\begin{example}
+	Suppose $v(t) = 3\sin(t)+e^t$ is the velocity function (in meters/second) of an object traveling along a straight line during the interval $[0, \pi]$ (in seconds). Calculate:
+	\[ \int_0^\pi v(t) \d t.\]	
+	\begin{explanation}
+		We begin by finding an antiderivative of $v(t)$.
+		
+		\begin{align*}
+			s(t) &= \int v(t) \d t\\
+				&= \int \left( 3\sin(t) + e^t\right) \d t \\
+				&= 3\cos(t) + e^t + C
+		\end{align*}
+		We were not given an initial condition that would have allowed us to calculate the value of $C$, so we will leave it as it is.
+		
+		Plugging in $\pi$ and $0$ and subtracting gives:
+		\begin{align*}
+			s(\pi)-s(0) &= \left(3\cos(\pi)+e^\pi + C\right) - \left(3\cos(0)-e^0+C \right) \\
+				&= (-3+e^\pi+ C) - (3-1+C)\\
+				&= \answer[given]{-5+e^\pi}
+		\end{align*}
+		Thus
+		\[ \int_0^\pi v(t) \d t = -5+e^\pi \unit{meters}\]
+		Notice that the actual value of $C$ did not matter. The $+C$ term in $s(\pi)$ was cancelled by the $+C$ term in $s(0)$ after the subtraction?  
+	\end{explanation}
+	
 \end{example}
+
+We now know that we can find the definite integral \textbf{of velocity functions} by finding antiderivatives. In the next few sections we will see if this can be extended to definite integrals of other functions.
+
+%Is this always so?
+%
+%Is it true that for any continuous function $f$ and its antiderivative $F$, we can compute the definite integral of $f$ on the interval $[a,b]$ by this simple formula
+%\[
+%   \int_{a}^{b}f(t)\d t=F(b)-F(a)?
+%\]
+
+
 \end{document}
 %
 %\begin{example}

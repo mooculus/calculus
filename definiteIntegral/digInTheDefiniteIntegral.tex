@@ -25,23 +25,16 @@
 
 
 The process of approximating areas under curves led to the notion of a Riemann sum
-
-\[
-A\approx\sum_{k=1}^n f(x_k^*)\Delta x,
-\]
+\[ A \approx \sum_{k=1}^n f(x_k^*)\Delta x, \]
 where $f$ is a nonnegative, continuous function on the interval $[a,b]$, and
-
  $x_k^*$ is a sample point for the $k^{th}$ rectangle, $k=1,2,..., n$.
  
- The limit of Riemann sums, as $n\to\infty$, gives the exact area between the curve $y=f(x)$ and the interval on the $x-$axis:
+The limit of Riemann sums, as $n\to\infty$, gives the exact area between the curve $y=f(x)$ and the interval on the $x-$axis:
  
-\[
-A=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x.
-\]
+\[ A=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x. \]
 It does not matter whether we consider only right Riemann sums, or left Riemann sums, or midpoint Riemann sums, or others: the limit of any kind of Riemann sum as $n\to\infty$  is equal to the area, as long as $f$ is nonnegative and continuous on $[a,b]$. 
 
 
- 
 What happens when a continuous function $f$ assumes negative values  on the interval $[a,b]$?
 
 We can still form Riemann sums and take the limit. 
@@ -108,21 +101,22 @@ rectangles that lie below the $x$-axis contribute negative values to
 the Riemann sum.
 \begin{align*}
   \sum_{k=1}^5 f(x_k^*)\Delta x= &\left(\underbrace{f(2)\Delta x}_{\text{nonnegative}}+  \underbrace{f(4)\Delta x}_{\text{nonnegative}}+  \underbrace{f(6)\Delta x}_{\text{nonnegative}}\right)\\
-  &+ \left(\underbrace{f(8)\Delta x}_{\text{negative}}+  \underbrace{f(10)\Delta x}_{\text{negative}}\right)
+	  &+ \left(\underbrace{f(8)\Delta x}_{\text{negative}}+  \underbrace{f(10)\Delta x}_{\text{negative}}\right)
 \end{align*}
  \end{example}
 
  When we take the limit of Riemann sums, it seems that we should get that
  
- \[
-\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x= A_1+(-A_2),
-\]
+ \[ \lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x= A_1+(-A_2), \]
 where the areas $A_1$ and $A_2$ are depicted in the figure below. 
 
 In other words, the limit of Riemann sums seems to be equal to the sum of signed areas of the regions that lie entirely above  or below  the $x$-axis.
 The signed area of  regions that lie above the $x$-axis is positive, and the signed area of regions that lie below the $x$-axis is negative.
 
-This sum of signed areas is called the net area of the region  between the graph of $f$ and the interval on the $x$- axis .
+\begin{definition}[Net Area]\index{Net Area}
+	This sum of signed areas is called the \dfn{net area} of the region  between the graph of $f$ and the interval on the $x$- axis .
+\end{definition}
+
  \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = 6+\x/2 - pow(\x,2)/4;}]
@@ -148,17 +142,42 @@ This sum of signed areas is called the net area of the region  between the graph
   \end{tikzpicture}
 \end{image}
 
+\begin{example}
+	Compute the net area bounded by the graph of $f(x) = \cos(x)$ and the $x$-axis between $x=0$ and $x=\pi$.
+	\begin{explanation}
+		Let's look at the graph.
+		\begin{image}
+			\begin{tikzpicture}[declare function = {f(\x) = cos(deg(\x));}]
+				\begin{axis}[  
+					domain=-.2:3.34, xmin =-.2,xmax=3.34,ymax=1.5,ymin=-1.5,
+					width=6in, height=3in,
+					xtick={0,0.7854,1.5708,2.3562, 3.1416},
+					xticklabels={0, $\frac{\pi}{4}$, $\frac{\pi}{2}$, $\frac{3\pi}{4}$, $\pi$},
+					ytick style={draw=none},
+					yticklabels={},
+					axis lines=center, xlabel=$x$, ylabel=$y$,
+					every axis y label/.style={at=(current axis.above origin),anchor=south},
+					every axis x label/.style={at=(current axis.right of origin),anchor=west},
+					axis on top,
+					]
+					\addplot [very thick,penColor, smooth] {f(x)};
+					\node[fillp!50!black] at (axis cs:3.5,1) {\huge$\mathsf{1}$};
+				\end{axis}
+			\end{tikzpicture}
+		\end{image}
+		The area above the $x$-axis and the area below the $x$-axis are exactly the same.  That means the
+		net area is $\answer[given]{0}$.
+	\end{explanation}
+\end{example}
+
 
 The limit of Riemann sums will exist for any continuous functions on the interval $[a,b]$, even if $f$ assumes negative values on $[a,b]$.
 The limit of Riemann sums  gives the  \textbf{net area} of the region between the graph of $f$ and an interval on the $x$- axis.
 
 This leads to the following definition.
-\begin{definition}
-\index{integral}\index{definite integral}
-Let $f$ be a function which is continuous on the interval $[a,b]$. We define the \dfn{definite integral} of $f$ on $[a,b]$ by
-\[
-\int_a^b f(x) \d x=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x.
-\]
+\begin{definition}\index{integral}\index{definite integral}
+	Let $f$ be a function which is continuous on the interval $[a,b]$. We define the \dfn{definite integral} of $f$ on $[a,b]$ by
+	\[ \int_a^b f(x) \d x=\lim_{n\to\infty}\sum_{k=1}^n f(x_k^*)\Delta x. \]
 \end{definition}
 The definite integral is a number that gives the net area of the region between the curve $y=f(x)$ and the $x$-axis on the interval $[a,b]$.  
  
@@ -193,9 +212,7 @@ The definite integral is a number that gives the net area of the region between 
   \end{tikzpicture}
 \end{image}
 Consider the integral
-\[
-\int_0^9 f(x) \d x
-\]
+\[ \int_0^9 f(x) \d x \]
 Express the integral in terms of areas $A_1$, $A_2$, $A_3$ and $A_4$.
 \begin{explanation}
 \begin{align*}

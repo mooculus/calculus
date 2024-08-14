@@ -17,6 +17,40 @@
 \end{abstract}
 \maketitle
 
+
+So far, we know how to determine if a function is increasing or decreasing by looking at the sign of its
+derivative.  If all we know about $f$ is the increasing/decreasing information, we no not have enough
+information to say how $f$ is behaving accurately enough.  Consider the following four possibilities:
+
+\begin{image}
+  \begin{tikzpicture}
+    \draw (0,0) -- (0,12);
+    \draw (0,0) -- (12,0);
+    \draw (6,0) -- (6,12);
+    \draw (0,6) -- (12,6);
+    \draw (12,0) -- (12,12);
+    \draw (0,12) -- (12,12);
+    
+    \node at (3,12.4) {\Large $f$ decreasing};
+    \node at (9,12.4) {\Large$f$ increasing};
+    
+    \draw [penColor,ultra thick,domain=180:270] plot ({2*cos(\x)+4}, {2*sin(\x)+11});
+    \draw [penColor,ultra thick,domain=270:360] plot ({2*cos(\x)+8}, {2*sin(\x)+11});
+    \draw [penColor,ultra thick,domain=0:90] plot ({2*cos(\x)+2}, {2*sin(\x)+3});
+    \draw [penColor,ultra thick,domain=180:90] plot ({2*cos(\x)+10}, {2*sin(\x)+3});
+
+  \end{tikzpicture}
+\end{image}
+
+In both graphs in the left-hand column, $f$ is decreasing.  In both graphs in the right-hand column,
+$f$ is increasing.  What is the difference between the two rows?  Their concavity.
+\begin{definition}\index{concave up}\index{concave down}
+	Let $f$ be a  function differentiable on an open interval $I$.\\
+		We say that the graph of  $f$ is \textbf{concave up} on $I$ if  $f'$, the derivative of $f$, is \textbf{increasing} on $I$.\\
+		We say that the graph of  $f$ is \textbf{concave down} on $I$ if $f'$, the derivative of $f$, is \textbf{decreasing} on $I$.
+\end{definition}
+That is, the graph of $f$ is concave up if the graph locally lies above its tangent lines, and is concave down if the graph locally lies below its tangent lines.
+
 The graphs of two functions, $f$ and $g$, both increasing on the given interval, are given below.
 \begin{image}
   \begin{tikzpicture}
@@ -37,35 +71,58 @@ The graphs of two functions, $f$ and $g$, both increasing on the given interval,
   \end{tikzpicture}
 \end{image}
 
+\begin{example}
+A graph of $y=f(x)$ is given below, with domain $\left(-\frac{3}{2} , \frac{3}{2} \right)$.
+        \begin{image}
+    \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1.57,xmax=1.57,ymin=-1.5,ymax=1.5,
+        axis lines=center,
+        width=6in,
+        height=3in,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+      \addplot [penColor,ultra thick,domain=-1.5:1.5,smooth] {sin(2*deg(x))};
 
-\begin{definition} Let $f$ be a  function differentiable on an open interval $I$.
-  \begin{itemize}
-    \item We say that the graph of $f$ is \dfn{concave up} on $I$
-      if $f'$, the derivative of $f$, is \textit{increasing} on
-      $I$.
-    \item We say that the graph of $f$ is \dfn{concave down} on
-      $I$ if $f'$, the derivative of $f$, is \textit{decreasing} on
-      $I$.
-  \end{itemize}
-\end{definition}
+    \end{axis}
+  \end{tikzpicture}
+  \end{image}
+On what intervals is $f$ concave up?  On what intervals is $f$ concave down?
+\begin{explanation}
+	Let's draw some tangent lines on the graph.
+	        \begin{image}
+    \begin{tikzpicture}
+    \begin{axis}[
+        xmin=-1.57,xmax=1.57,ymin=-1.5,ymax=1.5,
+        axis lines=center,
+        width=6in,
+        height=3in,
+        every axis y label/.style={at=(current axis.above origin),anchor=south},
+        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+      ]
+      \addplot [penColor,ultra thick,domain=-1.5:1.5,smooth] {sin(2*deg(x))};
+      \addplot [penColor2,ultra thick,domain=-1:-0.57,smooth] {-1};
+      \addplot [penColor2,ultra thick,domain=-0.7:-0.3,smooth] {2*cos(2*deg(-0.5))*(x+0.5)+sin(2*deg(-0.5))};
+      \addplot [penColor2,ultra thick,domain=-1.3:-0.9,smooth] {2*cos(2*deg(-1.1))*(x+1.1)+sin(2*deg(-1.1))};
+      \addplot [penColor3,ultra thick,domain=0.9:1.3,smooth] {2*cos(2*deg(1.1))*(x-1.1)+sin(2*deg(1.1))};
+      \addplot [penColor3,ultra thick,domain=0.3:0.7,smooth] {2*cos(2*deg(0.5))*(x-0.5)+sin(2*deg(0.5))};
+      \addplot [penColor3,ultra thick,domain=0.57:1,smooth] {1};
+    \end{axis}
+  \end{tikzpicture}
+  \end{image}
+  
+  The graph is above the tangent lines for $x$ in $\left(-\frac{3}{2}, 0\right)$, and below the tangent lines we sketched on $\left(0, \frac{3}{2}\right)$.
+  
+  Therefore, $f$ is concave up on $\left(\answer{-\frac{3}{2}}, \answer{0}\right)$, and concave down on $\left(\answer{0}, \answer{\frac{3}{2}}\right)$.
+\end{explanation}
+\end{example}
+In that example, examine the intervals where $f$ was concave up.  At the beginning of that interval, $f$ was decreasing, and at the end, $f$ was increasing.
+The slopes in that interval increased from a negative value to a positive value.  In the interval where $f$ was concave down, the slopes started positive
+and ended negative.  The slopes in that interval were decreasing.
 
-We know that the sign of the derivative tells us whether a function is
-increasing or decreasing at some point. Likewise, the sign of the
-second derivative $f''(x)$ tells us whether $f'(x)$ is increasing or
-decreasing at $x$. 
-If we are trying to understand the shape of the graph of a function,
-knowing where it is concave up and concave down helps us to get a more
-accurate picture. This is  summarized in a single theorem.
-
-
-\begin{theorem}[Test for Concavity]\index{concavity test} Let $I$ be an open interval.
-\begin{itemize}
-\item If $f''(x)>0$ for all $x$ in $I$, then the graph of $f$ is  concave up on $I$.
-\item If $f''(x)<0$ for all $x$ in $I$, then the graph of $f$ is  concave down on $I$.
-\end{itemize}
-\end{theorem}
-We summarize the consequences of this theorem  in the table below:
-
+We know that the sign of the derivative tells us whether a function is increasing or decreasing at some point. Likewise, the sign of the
+second derivative $f''(x)$ tells us whether $f'(x)$ is increasing or decreasing at $x$.  Let's use this to add more details into the chart from above.
 
 \begin{image}
   \begin{tikzpicture}
@@ -76,10 +133,10 @@ We summarize the consequences of this theorem  in the table below:
     \draw (12,0) -- (12,12);
     \draw (0,12) -- (12,12);
     
-    \node at (-1.3,9) {\Large$0<f''(x)$};
+    \node at (-1.3,9) {\Large$f''(x)>0$};
     \node at (-1.3,3) {\Large$f''(x)<0$};
     \node at (3,12.4) {\Large$f'(x)<0$};
-    \node at (9,12.4) {\Large$0<f'(x)$};
+    \node at (9,12.4) {\Large$f'(x)>0$};
     
     \draw [penColor,ultra thick,domain=180:270] plot ({2*cos(\x)+4}, {2*sin(\x)+11});
     \draw [penColor,ultra thick,domain=270:360] plot ({2*cos(\x)+8}, {2*sin(\x)+11});
@@ -87,24 +144,38 @@ We summarize the consequences of this theorem  in the table below:
     \draw [penColor,ultra thick,domain=180:90] plot ({2*cos(\x)+10}, {2*sin(\x)+3});
 
     \node at (3,7.5) [text width=5cm] {\large
-      The function $f$ is decreasing, while the rate itself is increasing.
-      In this case the curve $y=f(x)$ is \dfn{concave up}.};
+      Here $y=f(x)$ is decreasing, while the rate itself is increasing.
+      In this case the curve is \dfn{concave up}.};
 
     \node at (9,7.5) [text width=5cm] {\large
-     The function $f$ is increasing, while the rate itself is increasing.
-      In this case the curve $y=f(x)$ is \dfn{concave up}.};
+      Here $y=f(x)$ is increasing, while the rate itself is increasing.
+      In this case the curve is \dfn{concave up}.};
 
     \node at (3,1.5) [text width=5cm] {\large
-      The function $f$  is decreasing, while the rate itself is decreasing.
-      In this case the curve  $y=f(x)$ is \dfn{concave down}.};
+      Here $y=f(x)$ is decreasing, while the rate itself is decreasing.
+      In this case the curve is \dfn{concave down}.};
 
     \node at (9,1.5) [text width=5cm] {\large
-     The function $f$ is increasing, while the rate itself is decreasing.
-      In this case the curve $y=f(x)$ is \dfn{concave down}.};
+      Here $y=f(x)$ is increasing, while the rate itself is decreasing.
+      In this case the curve is \dfn{concave down}.};
   \end{tikzpicture}
 \end{image}
 
+If we are trying to understand the shape of the graph of a function,
+knowing where it is concave up and concave down helps us to get a more
+accurate picture. It is worth summarizing what we have seen already in
+to a single theorem.
 
+\begin{theorem}[Concavity Test]\index{concavity test} 
+	Let $I$ be an open interval.
+	\begin{enumerate}
+		\item If $f''(x)>0$ for all $x$ in $I$, then the graph of $f$ is  concave up on $I$.
+		\item If $f''(x)<0$ for all $x$ in $I$, then the graph of $f$ is  concave down on $I$.
+	\end{enumerate}
+\end{theorem}
+
+Let's start with information about where a function is increasing/decreasing/concave up/concave down, and see if we can use that to understand
+the behavior of the function.
 \begin{example}
   Let $f$ be a continuous function and suppose that:
   \begin{itemize}
@@ -115,7 +186,7 @@ We summarize the consequences of this theorem  in the table below:
   \end{itemize}
   Sketch a possible graph of $f$.
   \begin{explanation}
-    Start by marking points in the domain where the derivative changes sign and indicate
+    Start by marking where the derivative changes sign and indicate
     intervals where $f$ is increasing and intervals $f$ is
     decreasing. The function $f$ has a negative derivative from $-2$
     to $x=\answer[given]{-1}$. This means that $f$ is

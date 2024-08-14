@@ -17,6 +17,8 @@
 \maketitle
 
 \section{Rectangles and areas}
+We can calculate the areas of many different shapes: rectangles, triangles, trapezoids, circles, ... etc. What about
+the area of something like the region under the graph of a function?
 
 We want to compute the area between the curve $y=f(x)$ and the
 horizontal axis on the interval $[a,b]$:
@@ -175,14 +177,15 @@ With even more, we get a closer, and closer, approximation:
     \end{axis}
   \end{tikzpicture}
 \end{image}
+
 \begin{question}
-  Suppose we wanted to approximate area between the curve $y=x^2+1$
-  and the $x$-axis on the interval $[-1,1]$, with $8$ rectangles. What is $\Delta x$?
-  \begin{prompt}
-    \[
-    \Delta x = \answer[given]{1/4}
-    \]
-  \end{prompt}
+	  Suppose we wanted to approximate area between the curve $y=x^2+1$
+	  and the $x$-axis on the interval $[-1,1]$, with $8$ rectangles. What is $\Delta x$?
+	  \begin{prompt}
+	    \[
+	    \Delta x = \answer[given]{1/4}
+	    \]
+	  \end{prompt}
 \end{question}
 
 As we add rectangles, we are more closely approximating the area we are interested in:
@@ -211,24 +214,19 @@ As we add rectangles, we are more closely approximating the area we are interest
     \end{axis}
   \end{tikzpicture}
 \end{image}
-We could find the area exactly if we could compute the limit as the
-width of the rectangles goes to zero and the number of rectangles goes
-to infinity.
-
+We could find the area exactly if we could compute the limit as the width of the rectangles goes to zero and the 
+number of rectangles goes to infinity.
 
 Let's setup some notation to help with these calculations:
 
 
-\begin{definition}
-  When approximating an area with $n$ rectangles, the \dfn{grid
-    points}
+\begin{definition}\index{grid point}
+  When approximating an area with $n$ rectangles, the \dfn{grid points}
   \[
   x_0,x_1,x_2,\dots,x_n
   \]
-  are the $x$-coordinates that determine the edges of the
-  rectangles. In the graph below, we've numbered the rectangles to
-  help you see the relation between the indices of the grid points
-  and the $k$th rectangle.
+  are the $x$-coordinates that determine the edges of the rectangles. In the graph below, we've numbered the rectangles to
+  help you see the relation between the indices of the grid points and the $k$th rectangle.
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -259,12 +257,9 @@ Let's setup some notation to help with these calculations:
     \end{axis}
   \end{tikzpicture}
 \end{image}
-Note, if we are approximating the area between a curve and the
-horizontal axis on $[a,b]$ with $n$ rectangles, then it is always the
+Note, if we are approximating the area between a curve and the horizontal axis on $[a,b]$ with $n$ rectangles, then it is always the
 case that
-\[
-x_0=a\qquad\text{and}\qquad x_n = b.
-\]
+\[ x_0=a\qquad\text{and}\qquad x_n = b. \]
 \end{definition}
 
 \begin{question}
@@ -286,13 +281,24 @@ x_0=a\qquad\text{and}\qquad x_n = b.
 
 \section{But which set of rectangles?}
 
-When we use $n$ rectangles to
-compute the area under a curve, the  width of each rectangle is $\Delta x=\frac{b-a}{n}$. It is clear that $\Delta x=x_k-x_{k-1}$, for $k=1,\dots, n$. 
+When we use $n$ rectangles to compute the area under a curve, the  width of each rectangle is 
+$\Delta x=\frac{b-a}{n}$. It is clear that $\Delta x=x_k-x_{k-1}$, for $k=1,\dots, n$. 
 
-But how do we determine 
-\textit{the height} of the rectangle?
+This means:
+\begin{align*}
+	x_0 &= a\\
+	x_1 &= a + \Delta x\\
+	x_2 &= a + 2\Delta x\\
+	x_3 &= a + 3 \Delta x\\
+	... & ...\\
+	x_n &= a + n\Delta x = b
+\end{align*}
+This gives us a formula for the $k^{th}$ grid point
+\[ x_k = a + k\Delta x. \]
 
-  We choose a \textit{sample point} $x_k^*$ and evaluate the function at that point. The value $f(x_k^*)$ determines the height of a rectangle.
+That tells us about the sides of the rectangles, but how do we determine \textit{the height} of the rectangle?
+
+We choose a \textit{sample point} $x_k^*$ in $[x_{k-1}, x_k]$ and evaluate the function at that point. The value $f(x_k^*)$ determines the height of a rectangle.
 \begin{image}
   \begin{tikzpicture}[
       declare function = {f(\x) = -sin(deg(\x)) + 3;}]
@@ -329,19 +335,22 @@ But how do we determine
   \end{tikzpicture}
 \end{image}
 
-\begin{definition}
-  When approximating an area with rectangles, a \dfn{sample point} is
-  the $x$-coordinate that determines the height of $k^{th}$
+\begin{definition}\index{sample point}
+  When approximating an area with rectangles, a \dfn{sample point} is the $x$-coordinate that determines the height of $k^{th}$
   rectangle. For  $k=1,\dots, n$, we denote a sample point as:
-  \[
-  x_k^*
-  \]
-  and the value
-   \[
- f( x_k^*)
-  \]
+  \[ x_k^* \]
+  which lies in the subinterval $[x_{k-1}, x_k]$ and the value
+   \[  f( x_k^*) \]
   is the height of the $k^{th}$ rectangle.
 \end{definition}
+
+There are two different types of points whose notation look very similar.
+The grid points: $x_0, x_1, \dots , x_n$ and the sample points $x^*_1, x^*_2, \dots , x^*_n$.
+Grid points tell us the left and right sides of the rectangles that we're building. Sample points get plugged
+into the function to find the heights of the rectangles. We have a formula for the grid points $x_k = a + k \Delta x$,
+but we do not always have a formula for the sample points.
+
+
 \begin{question}
  What is the area of the $k^{th}$ rectangle shown in the figure above? 
   \begin{selectAll}
@@ -354,12 +363,13 @@ But how do we determine
        \choice[correct]{$A= f( x_k^*)(x_k-x_{k-1})$}
   \end{selectAll}
 \end{question}
- Here
-are three options for sample points that we consider:
+
+The sample points $x_k^*$ can be any point in the subinterval $[x_{k-1}, x_k]$, but there are a few standard choices we can make to 
+help our calculations. Here are three options for sample points that we frequently consider:
 
 \subsection{Rectangles defined by left-endpoints}
 
-We can set the rectangles up so that the sample point is the left-endpoint.
+We can set the rectangles up so that the sample point is the left-endpoint, $x_k^* = x_{k-1}$.
 
 \begin{image}
   \begin{tikzpicture}[
@@ -399,7 +409,7 @@ In the graph above, the $k^{th}$ rectangle's left-endpoint determines the height
 
 \subsection{Rectangles defined by right-endpoints}
 
-We can set the rectangles up so that the right-endpoint determines the height.
+We can set the rectangles up so that the right-endpoint determines the height, $x_k^* = x_{k}$.
 
 \begin{image}
   \begin{tikzpicture}[
@@ -436,7 +446,7 @@ In the graph above, the $k^{th}$ rectangle's right-endpoint of the base determin
 
 \subsection{Rectangles defined by midpoints}
 
-We can set the rectangles up so that the midpoint of the base determines the height.
+We can set the rectangles up so that the midpoint of the base determines the height, $x_k^* = \dfrac{x_{k-1}+x_k}{2}$.
 
 \begin{image}
   \begin{tikzpicture}[
@@ -471,8 +481,7 @@ We can set the rectangles up so that the midpoint of the base determines the hei
     \end{axis}
   \end{tikzpicture}
 \end{image}
-In the graph above, the midpoint of the base of the $k^{th}$
-rectangle determines the height.
+In the graph above, the midpoint of the base of the $k^{th}$ rectangle determines the height.
 
 %% \begin{question}
 %%   Which approximation is most accurate?
@@ -491,9 +500,9 @@ rectangle determines the height.
 Once we know how to identify our rectangles, we can compute approximations of some
  areas. If we are approximating area with $n$ rectangles, then 
 \begin{align*}
-  \text{Area} &\approx \sum_{k=1}^n (\text{height of $k$th rectangle})\times(\text{width of $k$th rectangle}) \\
-  &=\sum_{k=1}^n  f(x_k^*)\Delta x \\
-  &=  f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x + \dots +   f(x_n^*)\Delta x. 
+  \text{Area} &\approx \sum_{k=1}^n (\text{height of $k^{th}$ rectangle})\times(\text{width of $k^{th}$ rectangle}) \\
+	  &=\sum_{k=1}^n  f(x_k^*)\Delta x \\
+	  &=  f(x_1^*)\Delta x +  f(x_2^*)\Delta x +   f(x_3^*)\Delta x + \dots +   f(x_n^*)\Delta x. 
 \end{align*}
 
 
@@ -916,16 +925,17 @@ on the interval $[0,4]$. We will approximate the area between the graph of $f$ a
 The image depicts a \wordChoice{\choice{Left}\choice[correct]{Right}\choice{Midpoint}} Riemann sum with $n=\answer[given]{8}$ subintervals.
 
 \begin{align*}
-x_1^* &= \answer[given]{0.5}\\
-f(x_1^*) &= \answer[given]{15.75}\\
-x_6^* &= \answer[given]{3}\\
-f(x_6^*) &= \answer[given]{7}\\
-x_n^* &= \answer[given]{4}\\
-f(x_n^*) &= \answer[given]{0}\\
-\Delta x &= \answer[given]{\frac{1}{2}}\\
-\sum_{k=1}^n f(x_k^*)\Delta x &= \answer[given]{38.5}
+	x_1^* &= \answer[given]{0.5}\\
+	f(x_1^*) &= \answer[given]{15.75}\\
+	x_6^* &= \answer[given]{3}\\
+	f(x_6^*) &= \answer[given]{7}\\
+	x_n^* &= \answer[given]{4}\\
+	f(x_n^*) &= \answer[given]{0}\\
+	\Delta x &= \answer[given]{\frac{1}{2}}\\
+	\sum_{k=1}^n f(x_k^*)\Delta x &= \answer[given]{38.5}
 \end{align*}
-This approximation is an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}. 
+There is more area under the graph of the function that was not included in the collection of rectangles. That means 
+this approximation is an \wordChoice{\choice{overestimate}\choice[correct]{underestimate}}. 
 \end{example}
 
 \begin{example}

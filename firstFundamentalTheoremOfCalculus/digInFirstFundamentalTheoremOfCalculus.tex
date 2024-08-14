@@ -69,6 +69,15 @@ a ``place-holder'' that allows us to evaluate $f$. On the other hand,
 $x$ is the \textbf{specific number} that we are using to bound the
 region that will determine the area between $f$ and the $t$-axis, and
 hence the value of $F$.
+
+In the interactive figure below, a function $f$ is graphed and an accumulation function $F$ is given by $F(x) = \int_{-3}^x f(t) \d t$. 
+Use the slider to adjust the value of $x$. Notice how the shaded region in the graph changes, and what happens to the value of $F(x)$ 
+when the graph of $f$ is above the $x$-axis and when the graph of $f$ is below the $x$-axis.
+\begin{center}
+	\desmos{wrh74xp96s}{800}{600}
+\end{center}
+
+
 \begin{question}
   Given
   \[
@@ -233,15 +242,13 @@ $f$. This is a good guess, check out our next theorem:
 
 
 \begin{theorem}[First Fundamental Theorem of Calculus]\index{First Fundamental Theorem of Calculus}
-Suppose that $f$ is continuous on the real numbers and let
-\[
-  F(x)=\int_a^x f(t)\d t.
-\]
-Then $F'(x)=f(x)$.
+	Suppose that $f$ is continuous on the real numbers and let
+	\[  F(x)=\int_a^x f(t)\d t. \]
+	Then $F'(x)=f(x)$.
 \end{theorem}
+
 The First Fundamental Theorem of Calculus says that an accumulation
-function of $f$ is an antiderivative of $f$. Another way of saying
-this is:
+function of $f$ is an antiderivative of $f$. Another way of saying this is:
 \begin{image}
   \begin{tikzpicture}[scale=2,every node/.style={transform shape}]
     \node at (0,0) {
@@ -249,34 +256,55 @@ this is:
       };
   \end{tikzpicture}
 \end{image}
-This could be read as:%%BADBAD I want this all in bold and with colors
+This could be read as:
 \begin{quote}\large\textbf{The \textcolor{blue!70!green}{rate} that \textcolor{green!70!black!70!blue}{accumulated area} under a  \textcolor{purple!50!blue!90!black}{curve} grows is described identically by that  \color{purple!50!blue!90!black}{curve}.}
 \end{quote}
-
-Now that we are working with accumulation functions, let's see what
-happens when we compose them with other functions.
+In this form, the First Fundamental Theorem of Calculus serves as a new derivative shortcut formula to use when we differentiate accumulation functions. 
 
 \begin{example}
   Find the derivative 
   \[
- \ddx \int_2^{x^2} \ln t \d t.
+ \ddx \int_2^{x} \sqrt{t+15} \d t.
+  \]
+  \begin{explanation}
+	By the First Fundamental Theorem of Calculus, \[ \ddx \int_2^{x} \sqrt{t+15} \d t = \sqrt{\answer[given]{x}+15}. \]
+	Notice that the effect is that we've replaced the variable in the integrand by $x$, and the value of $a$ does not matter.
+  \end{explanation}
+\end{example}
+
+\begin{question}
+  Find the derivative 
+  \[
+ \ddx \int_1^{x} \sin{t^2-3} \d t.
+  \]
+  \begin{prompt}
+	\[    \ddx \int_1^{x} \sin(t^2-3) \d t = \answer{\sin(x^2-3)} \]
+  \end{prompt}
+\end{question}
+
+Now that we are working with accumulation functions, let's see what happens when we compose them with other functions.
+
+\begin{example}
+  Find the derivative 
+  \[
+ \ddx \int_2^{x^2} \ln(t) \d t.
   \]
   \begin{explanation}
     Consider 
     \[
-    F(x) = \int_2^x \ln t \d t
+    F(x) = \int_2^x \ln(t) \d t
     \]
     and set $h(x) = x^2$. Now
     \[
-    \int_2^{x^2} \ln t \d t = F(h(x)).
+    \int_2^{x^2} \ln(t) \d t = F(h(x)).
     \]
     The First Fundamental Theorem of Calculus states that $F'(x) = \ln
     x$. The chain rule gives us
     \begin{align*}
-       \ddx \int_2^{x^2} \ln t \d t&= \ddx F(h(x)) \\
+       \ddx \int_2^{x^2} \ln(t) \d t&= \ddx F(h(x)) \\
        &= F' (h(x))h'(x) \\
       &= \ln (h(x)) h'(x) \\
-      &= \answer[given]{\ln (x^2) 2x}.
+      &= \answer[given]{\ln(x^2) 2x}.
     \end{align*}
   \end{explanation}
 \end{example}
@@ -287,7 +315,7 @@ Let's practice this once more.
   Find the
   derivative 
   \[
- \ddx\int_{\cos x}^5 t^3\d t.
+ \ddx\int_{\cos(x)}^5 t^3\d t.
   \]
   \begin{explanation}
     Consider
@@ -296,11 +324,11 @@ Let's practice this once more.
     \]
     and set $h(x) = \answer[given]{\cos(x)}$. Now
     \[
-  \int_{\cos x}^5 t^3\d t =- \int_{5}^{\cos x} t^3\d t = -F(h(x)).
+  \int_{\cos(x)}^5 t^3\d t =- \int_{5}^{\cos(x)} t^3\d t = -F(h(x)).
     \]
     The First Fundamental Theorem of Calculus states that $F'(x) = x^3$. The chain rule gives us
     \begin{align*}
-      \ddx\int_{\cos x}^5 t^3\d t &=  \ddx (-F(h(x)))\\
+      \ddx\int_{\cos(x)}^5 t^3\d t &=  \ddx (-F(h(x)))\\
      &= -F'(h(x))h'(x)\\
       &=-\left(h(x)\right)^3 h'(x)\\
       &=\answer[given]{-\cos^3(x) (-\sin(x))}.
@@ -417,7 +445,7 @@ Now we are ready to sketch the graph of $F$, on the same set of axes as the grap
 \end{explanation}
 \end{example}
 
-What if  the function $f$ is the velocity function for an object moving along a straight line, i.e. $f(t)=v(t)$, $a\le t\le b$?
+What if  the function $f$ is the velocity function for an object moving along a straight line, i.e. $f(t)=v(t)$, $a \leq t \leq b$?
 
 What is the meaning of an accumulation function in that case?
 
@@ -444,5 +472,24 @@ Since $s'(t)=v(t)$, we have that
 v(t)=\dd t \int_a^t v(z)\d z.
 \]
 This is the the First Fundamental Theorem of Calculus!
+
+
+\begin{example}
+	Suppose $\displaystyle F(x) = \int^0_{x^2+x} \ln(t+e) \d t$. Approximate the value of $F(0.1)$. 
+	\begin{explanation}
+		We start by calculating $L$, the linear approximation to $F$ at the point $a=0$.
+		\begin{align*}
+			F(0) &= \int_{0^2+0}^0\ln(t+e) \d t\\
+				&= 0.\\
+			F'(x) &= \ddx \int_{x^2+x}^0 \ln(t+e) \d t\\
+				&= - \ddx \int^{x^2+x}_0 \ln(t+e) \d t\\
+				&= -\ln(x^2+x+e)\cdot (2x+1)\\
+			F'(0) &= -\ln(0+e)\cdot (2\cdot 0 + 1)\\
+				&= \answer[given]{-1}
+		\end{align*}
+		The linear approximation function is $L(x) = -1(x-0)+0 = -x$.
+		That makes $F(0.1) \approx L(0.1) = -0.1$.
+	\end{explanation}
+\end{example}
 
 \end{document}

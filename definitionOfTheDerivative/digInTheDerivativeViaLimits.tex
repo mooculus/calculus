@@ -63,144 +63,141 @@ We've been computing average rates of change for a while now,
 \[
 {\text{average rate of change=
     }}
-\frac{\text{change in the function (output)}}{\text{change in the input 
+\frac{\text{change in the function (output)}}{\text{change in the variable (input) 
    }}.
 \]
 \begin{comment}
-%However, the question remains: Given a function that represents an
- how exactly does one find the function that will give the
-instantaneous rate of change? Recall that the instantaneous rate of change
-of a line is the slope of the line.  Hence the instantaneous rate of
-change of a function is the slope of the tangent line. For now,
-consider the following informal definition of a \textit{tangent line}:
-\begin{quote}\index{tangent line}
-Given a function $f$ and a number $a$ in the domain of $f$, if one can ``zoom in''
-on the graph at $(a, f(a))$ sufficiently so that it appears to be a straight line,
-then that line is the \dfn{tangent line} to $f(x)$ at the point $(a,f(a))$.
-\end{quote}
-We illustrate this informal definition with the following diagram:
-\begin{image}
-\begin{tikzpicture}
-  \begin{axis}[
-            domain=0:6, range=0:7,
-            ymin=-.2,ymax=7,
-            width=6in,
-            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
-            axis lines=none,
-          ]   
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
-
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
-          
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
-          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
-          
-
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
-          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
-
-          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
-          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
-          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
-          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
-          
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
-          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
-
-          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
-          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
-          
-          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
-          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
-          
-          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
-          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
-
-          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
-          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
-
-          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
-          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
-
-          \node at (axis cs:2.2,0) [anchor=east] {$x$};
-          \node at (axis cs:0,6.6) [anchor=north] {$y$};
-        \end{axis}
-\end{tikzpicture}
-%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
-%% sufficiently so that the graph seems to be a straight line,
-%% then that line is the \textbf{tangent line} to $f$ at the point
-%% determined by $(a, f(a))$.}
-%% \label{figure:informal-tangent}
-\end{image}
-%% \todo{This image should be interactive.}
-
+	%However, the question remains: Given a function that represents an
+	 how exactly does one find the function that will give the
+	instantaneous rate of change? Recall that the instantaneous rate of change
+	of a line is the slope of the line.  Hence the instantaneous rate of
+	change of a function is the slope of the tangent line. For now,
+	consider the following informal definition of a \textit{tangent line}:
+	\begin{quote}\index{tangent line}
+	Given a function $f$ and a number $a$ in the domain of $f$, if one can ``zoom in''
+	on the graph at $(a, f(a))$ sufficiently so that it appears to be a straight line,
+	then that line is the \dfn{tangent line} to $f(x)$ at the point $(a,f(a))$.
+	\end{quote}
+	We illustrate this informal definition with the following diagram:
+	\begin{image}
+	\begin{tikzpicture}
+	  \begin{axis}[
+	            domain=0:6, range=0:7,
+	            ymin=-.2,ymax=7,
+	            width=6in,
+	            height=2.5in, %% Hard coded height! Moreover this effects the aspect ratio of the zoom--sort of BAD
+	            axis lines=none,
+	          ]   
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,1.6) (2.834,5)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,5) (4.166,5)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(1.2,1.6) (4.166,5)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(.8,1.6) (1.2,1.6)} \closedcycle; %% zoom fill
+	
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,3.6) (5.334,5)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(5.334,5) (6.666,5)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(3.7,3.6) (6.666,5)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(3.3,3.6) (3.7,3.6)} \closedcycle; %% zoom fill
+	          
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.7,2.4) (6.666,1)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(3.3,2.4) (3.7,2.4)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(3.3,2.4) (5.334,1)} \closedcycle; %% zoom fill          
+	          \addplot [draw=none, fill=background] plot coordinates {(5.334,1) (6.666,1)} \closedcycle; %% zoom fill
+	          
+	
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(.8,.4) (2.834,1)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=textColor!10!background] plot coordinates {(2.834,1) (4.166,1)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(1.2,.4) (4.166,1)} \closedcycle; %% zoom fill
+	          \addplot [draw=none, fill=background] plot coordinates {(.8,.4) (1.2,.4)} \closedcycle; %% zoom fill
+	
+	          \addplot[very thick,penColor, smooth,domain=(0:1.833)] {-1/(x-2)};
+	          \addplot[very thick,penColor, smooth,domain=(2.834:4.166)] {3.333/(2.050-.3*x)-0.333}; %% 2.5 to 4.333
+	          %\addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {11.11/(1.540-.09*x)-8.109}; %% 5 to 6.833
+	          \addplot[very thick,penColor, smooth,domain=(5.334:6.666)] {x-3}; %% 5 to 6.833
+	          
+	          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% point to be zoomed
+	          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(3.5,3)};  %% zoomed pt 1
+	          \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(6,3)};  %% zoomed pt 2
+	
+	          \addplot [->,textColor] plot coordinates {(0,0) (0,6)}; %% axis
+	          \addplot [->,textColor] plot coordinates {(0,0) (2,0)}; %% axis
+	          
+	          \addplot [textColor!50!background] plot coordinates {(.8,.4) (.8,1.6)}; %% box around pt
+	          \addplot [textColor!50!background] plot coordinates {(1.2,.4) (1.2,1.6)}; %% box around pt
+	          \addplot [textColor!50!background] plot coordinates {(.8,1.6) (1.2,1.6)}; %% box around pt
+	          \addplot [textColor!50!background] plot coordinates {(.8,.4) (1.2,.4)}; %% box around pt
+	          
+	          \addplot [textColor!50!background] plot coordinates {(2.834,1) (2.834,5)}; %% zoomed box 1
+	          \addplot [textColor!50!background] plot coordinates {(4.166,1) (4.166,5)}; %% zoomed box 1
+	          \addplot [textColor!50!background] plot coordinates {(2.834,1) (4.166,1)}; %% zoomed box 1
+	          \addplot [textColor!50!background] plot coordinates {(2.834,5) (4.166,5)}; %% zoomed box 1
+	
+	          \addplot [textColor] plot coordinates {(3.3,2.4) (3.3,3.6)}; %% box around zoomed pt
+	          \addplot [textColor] plot coordinates {(3.7,2.4) (3.7,3.6)}; %% box around zoomed pt
+	          \addplot [textColor] plot coordinates {(3.3,3.6) (3.7,3.6)}; %% box around zoomed pt
+	          \addplot [textColor] plot coordinates {(3.3,2.4) (3.7,2.4)}; %% box around zoomed pt
+	
+	          \addplot [textColor] plot coordinates {(5.334,1) (5.334,5)}; %% zoomed box 2
+	          \addplot [textColor] plot coordinates {(6.666,1) (6.666,5)}; %% zoomed box 2
+	          \addplot [textColor] plot coordinates {(5.334,1) (6.666,1)}; %% zoomed box 2
+	          \addplot [textColor] plot coordinates {(5.334,5) (6.666,5)}; %% zoomed box 2
+	
+	          \node at (axis cs:2.2,0) [anchor=east] {$x$};
+	          \node at (axis cs:0,6.6) [anchor=north] {$y$};
+	        \end{axis}
+	\end{tikzpicture}
+	%% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
+	%% sufficiently so that the graph seems to be a straight line,
+	%% then that line is the \textbf{tangent line} to $f$ at the point
+	%% determined by $(a, f(a))$.}
+	%% \label{figure:informal-tangent}
+	\end{image}
+	%% \todo{This image should be interactive.}
 \end{comment}
 
 More precisely, the average rate of change of a function $f$ is given by
-\[
-{\text{average rate of change of  $f$ }}
-=\frac{f(x)-f(a)}{x-a},
-\]
+\[{\text{average rate of change of  $f$ }} =\frac{f(x)-f(a)}{x-a},\]
 as the input changes from $a$ to $x$.
+
 \begin{comment}
-\begin{image}
-\begin{tikzpicture}
-	
-          \begin{axis}[
-            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
-            ylabel=$y$, every axis y label/.style={at=(current
-              axis.above origin),anchor=south}, 
-             width=4in,
-          ticks=none ]   
-                             \addplot [very thick, penColor,smooth] {(x-1)^2 };
-      
-       \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
-                       {(2,0.45) (2,1)};
-                         \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
-                       {(1.65,0.45) (2,0.45)};
-           \node at (axis cs:0,-0.1) {$0$};
-             \addplot [very thick,penColor2,->]  plot coordinates {(2,0.45) (2,1)};
-             \addplot [very thick,penColor4,->]  plot coordinates {(1.65,0.45) (2,0.45)};
-              \addplot [very thick,penColor, dashed]  plot coordinates {(1.65,0) (1.65,0.45)};
-               \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(1.65,0.45)};
-	        \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(2,1)};
-              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
-              \addplot [very thick,penColor, dashed]  plot coordinates {(2,0) (2,0.45)};
-               \node at (axis cs:1.8,0.35) {$\Delta x$ };
-    
-                \node at (axis cs:2.5,0.71) {$\Delta y=f(x)-f(a)$ };
-               \node at (axis cs:1.65,-0.1) {$a$ };
-                \node at (axis cs:1.2,1.8) {average rate of change $=\frac{\Delta y}{\Delta x}=\frac{f(x)-f(a)}{x-a}$ };
-               \node at (axis cs:2,-0.1) {$x$ };
-                 \node at (axis cs:2.3,1) {$(x,f(x))$ };
-                  \node at (axis cs:1.35,0.45) {$(a,f(a))$ };
-        \end{axis}
-\end{tikzpicture}
-\end{image}
+	\begin{image}
+	\begin{tikzpicture}
+		
+	          \begin{axis}[
+	            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
+	            ylabel=$y$, every axis y label/.style={at=(current
+	              axis.above origin),anchor=south}, 
+	             width=4in,
+	          ticks=none ]   
+	                             \addplot [very thick, penColor,smooth] {(x-1)^2 };
+	      
+	       \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
+	                       {(2,0.45) (2,1)};
+	                         \addplot[decoration={brace,mirror,raise=.06cm},decorate,thin] plot coordinates
+	                       {(1.65,0.45) (2,0.45)};
+	           \node at (axis cs:0,-0.1) {$0$};
+	             \addplot [very thick,penColor2,->]  plot coordinates {(2,0.45) (2,1)};
+	             \addplot [very thick,penColor4,->]  plot coordinates {(1.65,0.45) (2,0.45)};
+	              \addplot [very thick,penColor, dashed]  plot coordinates {(1.65,0) (1.65,0.45)};
+	               \addplot[only marks,very thick,penColor,mark=*]
+		        coordinates{(1.65,0.45)};
+		        \addplot[only marks,very thick,penColor,mark=*]
+		        coordinates{(2,1)};
+	              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+	              \addplot [very thick,penColor, dashed]  plot coordinates {(2,0) (2,0.45)};
+	               \node at (axis cs:1.8,0.35) {$\Delta x$ };
+	    
+	                \node at (axis cs:2.5,0.71) {$\Delta y=f(x)-f(a)$ };
+	               \node at (axis cs:1.65,-0.1) {$a$ };
+	                \node at (axis cs:1.2,1.8) {average rate of change $=\frac{\Delta y}{\Delta x}=\frac{f(x)-f(a)}{x-a}$ };
+	               \node at (axis cs:2,-0.1) {$x$ };
+	                 \node at (axis cs:2.3,1) {$(x,f(x))$ };
+	                  \node at (axis cs:1.35,0.45) {$(a,f(a))$ };
+	        \end{axis}
+	\end{tikzpicture}
+	\end{image}
 \end{comment}
- \begin{image}
-\begin{tikzpicture}
+
+\begin{image}\begin{tikzpicture}
   \begin{axis}[
       domain=0:3, range=0:6,ymax=6,ymin=0,
       axis lines =left, xlabel=$x$, ylabel=$y$,
@@ -239,122 +236,97 @@ as the input changes from $a$ to $x$.
                        \node at (axis cs:0.447,4.84){of change};
                         \node[color=penColor] at (axis cs:1.794,3.8){\large$f$};
         \end{axis}
-\end{tikzpicture}
-\end{image}
+\end{tikzpicture}\end{image}
 
-What happens if we compute the average rate of change of $f$  for each value of $x$ as $x$ gets closer and closer to $a$? In other words, what is the meaning of the limit
-\[
-     \lim_{x\to a} \frac{f(x)-f(a)}{x-a},
-    \] 
-    provided that the limit exists?
+What happens if we compute this average rate of change of $f$ for each value of $x$ as $x$ gets closer and closer to $a$? In other words, what is the meaning of the limit
+\[ \lim_{x\to a} \frac{f(x)-f(a)}{x-a},\] 
+provided that the limit exists?
     
 Naturally, we call this limit the \textbf{instantaneous rate of change} of the function $f$ at $a$.
 %The \textit{derivative} of a function $f$ at $a$, is the instantaneous
 %rate of change, and hence is the slope of the tangent line at $(a,f(a))$. 
 \begin{example}
-(In this example we will use abreviation AvRCh for the average rate of change,  and InRCh for the instantaneous rate of change.)
-
-Let $f(x)=2x^2+3$.
-\begin{enumerate}
-\item Find the expression for the average rate of change of $f$ between the points  $a=2$ and $x=-1$.
-\[
-AvRCh=\frac{f(-1)-f(2)}{-1-\left(\answer[given]{2}\right)}
-\]
-  Now evaluate the function,
-  \[
-AvRCh=\frac{2(-1)^2+3-(2(2)^2+3)}{-1-\left(\answer[given]{2}\right)}.
-\]
-Simplify,
- \[
-AvRCh=\frac{5-11}{-3}=2.
-\]
-\item Find  the average rate of change of $f$ between the points $a=2$ and $x$, $x\ne 2$.
-\[
-AvRCh=\frac{f(x)-f(2)}{x-\answer[given]{2}}
-\]
- Now substitute in for the function,
-\[
-AvRCh=\frac{2x^2+3-11}{x-\answer[given]{2}}
-\]
-Simplify the top,
-\[
-AvRCh=\frac{2x^2-8}{x-\answer[given]{2}}.
-\]
-Factor,
-\[
-AvRCh=\frac{2(x^2-4)}{x-2}
-\]
-Factor and cancel,
-\[
-AvRCh=\frac{2(x+2)\cancel{(x-2)}}{\cancel{x-2}}=2(x+2)
-\]
-\item Find the instantaneous rate of change of $f$ at the point $x=2$.
-\[
-InRCh= \lim_{x\to 2} \frac{f(x)-f(2)}{x-2}
-\]
-So, the instantaneous rate of change is the limit, as $x\to 2$, of average rates of change of $f$ between points $a=2$ and $x$, for $x\ne2$. 
-
-We have already computed an expression for the average rate of change for all $x\ne2$. 
-Therefore,
-\[
-InRCh=\lim_{x\to 2}2(x+2)=8
-\]
-
-\end{enumerate}
+	(In this example we will use abreviation AvRCh for the average rate of change,  and InRCh for the instantaneous rate of change.)
+	
+	Let $f(x)=2x^2+3$.
+	\begin{enumerate}
+	\item Find the expression for the average rate of change of $f$ between the points  $a=2$ and $x=-1$.
+		\[ AvRCh=\frac{f(-1)-f(2)}{-1-\left(\answer[given]{2}\right)}\]
+		  Now evaluate the function,
+		 \[ AvRCh=\frac{2(-1)^2+3-(2(2)^2+3)}{-1-\left(\answer[given]{2}\right)}.\]
+		Simplify, \[ AvRCh=\frac{5-11}{-3}=2. \]
+		
+	\item Find  the average rate of change of $f$ between the points $a=2$ and $x$, $x\ne 2$.
+		\[ AvRCh=\frac{f(x)-f(2)}{x-\answer[given]{2}} \]
+		 Now substitute in for the function, 
+		 \[ AvRCh=\frac{2x^2+3-11}{x-\answer[given]{2}} \]
+		Simplify the top,
+		\[ AvRCh=\frac{2x^2-8}{x-\answer[given]{2}}. \]
+		Factor,
+		\[ AvRCh=\frac{2(x^2-4)}{x-2} \]
+		Factor and cancel,
+		\[ AvRCh=\frac{2(x+2)\cancel{(x-2)}}{\cancel{x-2}}=2(x+2). \]
+		
+	\item Find the instantaneous rate of change of $f$ at the point $x=2$.
+		\[ InRCh= \lim_{x\to 2} \frac{f(x)-f(2)}{x-2} \]
+		So, the instantaneous rate of change is the limit, as $x\to 2$, of average rates of change of $f$ 
+		between points $a=2$ and $x$, for $x\ne2$. 
+	
+		We have already computed an expression for the average rate of change for all $x\ne2$. 
+		Therefore, \[ InRCh=\lim_{x\to 2}2(x+2)=8.\]
+	
+	\end{enumerate}
 \end{example}
-We can arrive at the same limit,
-\[
-     \lim_{x\to a} \frac{f(x)-f(a)}{x-a},
-    \] 
 
- within a completely different context.
+This same limit
+\[ \lim_{x\to a} \frac{f(x)-f(a)}{x-a},\] 
+also arises within a completely different context.
 
- Have a look at the figure below.
-The figure depicts a graph of the function $f$, two points on the graph, $(a,f(a))$ and $(x,f(x))$, and a \textbf{secant line} that passes  through these two points.
+Have a look at the figure below.
+The figure depicts a graph of the function $f$, two points on the graph, $(a,f(a))$ and $(x,f(x))$, and a \textbf{secant line} 
+that passes  through these two points.
 \begin{comment}
-\begin{image}
-\begin{tikzpicture}
-          \begin{axis}[
-            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
-            ylabel=$y$, every axis y label/.style={at=(current
-              axis.above origin),anchor=south}, 
-             width=4in,
-          ticks=none ]   
-                             \addplot [thick, penColor,smooth] {(x-1)^2 };
-      
-     
-                     
-           \node at (axis cs:0,-0.1) {$0$};
-        
-           
-               \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(1.65,0.43)};
-	        \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(2,1)};
-              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
-            
-                \addplot [ thick,penColor3]  plot coordinates {(1.394,0) (2.5,1.825)};
-           
-	        \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(2,1)};
-               
-      \addplot[only marks,penColor,mark=*]
-	        coordinates{(2,0)};
-            \addplot[only marks,penColor,mark=*]
-	        coordinates{(1.65,0)};
-
-               \node at (axis cs:1.65,-0.1) {$a$ };
-                \node at (axis cs:1.2,1.8) {slope of the secant line $=\frac{\Delta y}{\Delta x}=\frac{f(x)-f(a)}{x-a}$ };
-               \node at (axis cs:2,-0.1) {$x$ };
-                 \node at (axis cs:2.3,1) {$(x,f(x))$ };
-                  \node at (axis cs:1.4,0.45) {$(a,f(a))$ };
-                   \node at (axis cs:2.6,1.5) { secant line  };
-        \end{axis}
-\end{tikzpicture}
-\end{image}
+	\begin{image}\begin{tikzpicture}
+	          \begin{axis}[
+	            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
+	            ylabel=$y$, every axis y label/.style={at=(current
+	              axis.above origin),anchor=south}, 
+	             width=4in,
+	          ticks=none ]   
+	                             \addplot [thick, penColor,smooth] {(x-1)^2 };
+	      
+	     
+	                     
+	           \node at (axis cs:0,-0.1) {$0$};
+	        
+	           
+	               \addplot[only marks,very thick,penColor,mark=*]
+		        coordinates{(1.65,0.43)};
+		        \addplot[only marks,very thick,penColor,mark=*]
+		        coordinates{(2,1)};
+	              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+	            
+	                \addplot [ thick,penColor3]  plot coordinates {(1.394,0) (2.5,1.825)};
+	           
+		        \addplot[only marks,very thick,penColor,mark=*]
+		        coordinates{(2,1)};
+	               
+	      \addplot[only marks,penColor,mark=*]
+		        coordinates{(2,0)};
+	            \addplot[only marks,penColor,mark=*]
+		        coordinates{(1.65,0)};
+	
+	               \node at (axis cs:1.65,-0.1) {$a$ };
+	                \node at (axis cs:1.2,1.8) {slope of the secant line $=\frac{\Delta y}{\Delta x}=\frac{f(x)-f(a)}{x-a}$ };
+	               \node at (axis cs:2,-0.1) {$x$ };
+	                 \node at (axis cs:2.3,1) {$(x,f(x))$ };
+	                  \node at (axis cs:1.4,0.45) {$(a,f(a))$ };
+	                   \node at (axis cs:2.6,1.5) { secant line  };
+	        \end{axis}
+	\end{tikzpicture}\end{image}
 \end{comment}
-\begin{image}
-\begin{tikzpicture}
+
+\begin{image}\begin{tikzpicture}
   \begin{axis}[
       domain=0:2, range=0:6,ymax=6,ymin=0,
       axis lines =left, xlabel=$x$, ylabel=$y$,
@@ -386,30 +358,24 @@ The figure depicts a graph of the function $f$, two points on the graph, $(a,f(a
                   \node at (axis cs:1.81,2.5) { $(x,f(x))$};
                    \node[color=penColor] at (axis cs:1.89,4.6){\large$f$};
         \end{axis}
-\end{tikzpicture}
-\end{image}
+\end{tikzpicture}\end{image}
+
 The slope of this secant line is equal to $\frac{f(x)-f(a)}{x-a}$! 
+	This is exactly the expression for the average rate of change of $f$ as the input changes from $a$ to $x$!
 
-This is exactly the expression for the average rate of change of $f$ as the input changes from $a$ to $x$!
+Therefore, the calculation to find the slope of the secant line \textbf{is the exact same calculation} 
+	as the one to calculate the average rate of change of a function.
 
-Therefore,
-
-\[
-{\text{slope of secant line $=$}}{\text{ average rate of change.}}
-\]
 As before, we can ask ourselves: What happens as $x$ gets closer and closer to $a$?
- In other words,
-   what is the meaning of the limit of slopes of secant lines through the points $(a,f(a))$ and $(x,f(x))$ as $x$ gets closer and closer to $a$?
+In other words, what is the meaning of the limit of slopes of secant lines through the points $(a,f(a))$ and $(x,f(x))$ 
+as $x$ gets closer and closer to $a$?
    
-    How can we interpret the limit  
-    \[
-     \lim_{x\to a} \frac{f(x)-f(a)}{x-a},
-    \] 
-    provided that the limit exists?
+How can we interpret the limit  
+\[ \lim_{x\to a} \frac{f(x)-f(a)}{x-a}, \] 
+provided that the limit exists?
     
-    This scenario is illustrated in the figure below. What happens as $x\to a$?
-    \begin{image}
-\begin{tikzpicture}
+This scenario is illustrated in the figure below. What happens as $x\to a$?
+\begin{image}\begin{tikzpicture}
   \begin{axis}[
       domain=0:2, range=0:6,ymax=6,ymin=0,
       axis lines =left, xlabel=$x$, ylabel=$y$,
@@ -433,15 +399,17 @@ As before, we can ask ourselves: What happens as $x$ gets closer and closer to $
           \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,1)};  %% closed hole          
           \addplot [very thick,penColor2, smooth,domain=(0:2)] {x};
         \end{axis}
-\end{tikzpicture}
-\end{image}
-Notice that all the secant lines in the figure pass through the given point $(a,f(a))$. What distinguishes these lines are their slopes; the slope of each line is determined by an additional point on the line, $(x,f(x))$. 
-The figure suggests that``the limit of slopes of secant lines" is the slope of a special line, called the \textbf{tangent line} to the curve $y=f(x)$ at the point $(a,f(a))$.
- Notice how the tangent line and the curve are indistinguishable near the point $(a,f(a))$. If one can ``zoom in''
-on the graph at $(a, f(a))$ sufficiently so that it appears to be a straight line,
-then that line is the \dfn{tangent line} to $f(x)$ at the point $(a,f(a))$. This is illustrated in the figure below.
-\begin{image}
-\begin{tikzpicture}
+\end{tikzpicture}\end{image}
+
+Notice that all the secant lines in the figure pass through the given point $(a,f(a))$. What distinguishes these lines are their slopes; 
+	the slope of each line is determined by an additional point on the line, $(x,f(x))$. 
+The figure suggests that``the limit of slopes of secant lines" is the slope of a special line, called the \textbf{tangent line} 
+	to the curve $y=f(x)$ at the point $(a,f(a))$.
+Notice how the tangent line and the curve are indistinguishable near the point $(a,f(a))$. If one can ``zoom in''
+	on the graph at $(a, f(a))$ sufficiently so that it appears to be a straight line, then that line is the \dfn{tangent line} to 
+	$f(x)$ at the point $(a,f(a))$. This is illustrated in the figure below.
+
+\begin{image}\begin{tikzpicture}
   \begin{axis}[
             domain=0:6, range=0:7,
             ymin=-.2,ymax=7,
@@ -505,132 +473,134 @@ then that line is the \dfn{tangent line} to $f(x)$ at the point $(a,f(a))$. This
           \node at (axis cs:2.2,0) [anchor=east] {$x$};
           \node at (axis cs:0,6.6) [anchor=north] {$y$};
         \end{axis}
-\end{tikzpicture}
 %% \caption{Given a function $f$, if one can ``zoom in'' at $(a, f(a))$
 %% sufficiently so that the graph seems to be a straight line,
 %% then that line is the \textbf{tangent line} to $f$ at the point
 %% determined by $(a, f(a))$.}
 %% \label{figure:informal-tangent}
-\end{image}
+\end{tikzpicture}\end{image}
+
+To see this another way, in the following interactive figure see what happens to the solid (green) line when you use the slider to drag 
+the dot originally at $(1.75, 4)$ closer and closer to $(1,1)$ along the graph. How does that compare to the dotted (black) tangent line?
+\begin{center}
+	\desmos{exosk7irty}{800}{600}
+\end{center}
+
 \begin{question}
-Each of the following four figures depicts the graph of the same function $f$ and a line that passes through the point $(1,f(1))$.
- \begin{image}
-    \begin{tabular}{cc}
-      \begin{tikzpicture}
-        \begin{axis}[
-          domain=-2:2,
-          xmin=-2, xmax=2,
-          ymin=-2, ymax=2,
-          width=2.5in,
-          axis lines =middle, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-	  \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
-	   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
-	   \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
-	      \addplot [thick,penColor2, domain=(-2:2)] {0.7};
-          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$A$};
-           \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
-        \end{axis}
-      \end{tikzpicture}
-      &
-      \begin{tikzpicture}
-        \begin{axis}[
-          domain=-2:2,
-          xmin=-2, xmax=2,
-          ymin=-2, ymax=2,
-          width=2.5in,
-          axis lines =middle, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-	   \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
-	   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
-	   \addplot [thick,penColor2, domain=(-2:2)] {0.6*x+.1};
-	   \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
-          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$B$};
-           \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
-        \end{axis}
-      \end{tikzpicture}\\
-      \begin{tikzpicture}
-        \begin{axis}[
-          domain=-2:2,
-          xmin=-2, xmax=2,
-          ymin=-2, ymax=2,
-          width=2.5in,
-          axis lines =middle, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-	  \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
-	   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
-	   \addplot [thick,penColor2, domain=(-2:2)] {-0.6*x+1.3};
-	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
-          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$C$};
-            \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
-        \end{axis}
-      \end{tikzpicture}
-      &
-      \begin{tikzpicture}
-        \begin{axis}[
-          domain=-2:2,
-          xmin=-2, xmax=2,
-          ymin=-2, ymax=2,
-          width=2.5in,
-          axis lines =middle, xlabel=$x$, ylabel=$y$,
-          every axis y label/.style={at=(current axis.above origin),anchor=south},
-          every axis x label/.style={at=(current axis.right of origin),anchor=west},
-          ]
-	  \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
-	   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
-	  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
-          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$D$};
-            \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
-             \addplot [thick,penColor2, domain=(-2:2)] {1.2*x-0.5};
-        \end{axis}
-      \end{tikzpicture}
-    \end{tabular}
-  \end{image}
-Only one of the figures depicts the line tangent to the curve $y=f(x)$ at the point $(1,f(1))$. Which one?
-\begin{multipleChoice}
-\choice { Figure A}
-\choice[correct]{Figure B}
-\choice {Figure C}
-\choice {Figure D}
-\end{multipleChoice}
-\begin{explanation}
-Only the line in figure $B$ looks indistinguishable from the curve $y=f(x)$ near the point $(1,f(1))$.
-\end{explanation}
+	Each of the following four figures depicts the graph of the same function $f$ and a line that passes through the point $(1,f(1))$.
+	 \begin{image}
+	    \begin{tabular}{cc}
+	      \begin{tikzpicture}
+	        \begin{axis}[
+	          domain=-2:2,
+	          xmin=-2, xmax=2,
+	          ymin=-2, ymax=2,
+	          width=2.5in,
+	          axis lines =middle, xlabel=$x$, ylabel=$y$,
+	          every axis y label/.style={at=(current axis.above origin),anchor=south},
+	          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	          ]
+		  \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
+		   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
+		   \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
+		      \addplot [thick,penColor2, domain=(-2:2)] {0.7};
+	          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$A$};
+	           \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
+	        \end{axis}
+	      \end{tikzpicture}
+	      &
+	      \begin{tikzpicture}
+	        \begin{axis}[
+	          domain=-2:2,
+	          xmin=-2, xmax=2,
+	          ymin=-2, ymax=2,
+	          width=2.5in,
+	          axis lines =middle, xlabel=$x$, ylabel=$y$,
+	          every axis y label/.style={at=(current axis.above origin),anchor=south},
+	          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	          ]
+		   \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
+		   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
+		   \addplot [thick,penColor2, domain=(-2:2)] {0.6*x+.1};
+		   \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
+	          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$B$};
+	           \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
+	        \end{axis}
+	      \end{tikzpicture}\\
+	      \begin{tikzpicture}
+	        \begin{axis}[
+	          domain=-2:2,
+	          xmin=-2, xmax=2,
+	          ymin=-2, ymax=2,
+	          width=2.5in,
+	          axis lines =middle, xlabel=$x$, ylabel=$y$,
+	          every axis y label/.style={at=(current axis.above origin),anchor=south},
+	          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	          ]
+		  \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
+		   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
+		   \addplot [thick,penColor2, domain=(-2:2)] {-0.6*x+1.3};
+		  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
+	          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$C$};
+	            \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
+	        \end{axis}
+	      \end{tikzpicture}
+	      &
+	      \begin{tikzpicture}
+	        \begin{axis}[
+	          domain=-2:2,
+	          xmin=-2, xmax=2,
+	          ymin=-2, ymax=2,
+	          width=2.5in,
+	          axis lines =middle, xlabel=$x$, ylabel=$y$,
+	          every axis y label/.style={at=(current axis.above origin),anchor=south},
+	          every axis x label/.style={at=(current axis.right of origin),anchor=west},
+	          ]
+		  \addplot [very thick, penColor, smooth,domain=(-2:0)] {x^3+0.5};
+		   \addplot [very thick, penColor, smooth,domain=(0:2)] {0.2*x^3+0.5};
+		  \addplot[color=penColor,fill=penColor,only marks,mark=*] coordinates{(1,0.7)}; 
+	          \node at (axis cs:-1.8, 1.4 ) [penColor,anchor=west] {\large$D$};
+	            \node at (axis cs:0., 1.8 ) [penColor,anchor=west] {\large$y=f(x)$};
+	             \addplot [thick,penColor2, domain=(-2:2)] {1.2*x-0.5};
+	        \end{axis}
+	      \end{tikzpicture}
+	    \end{tabular}
+	  \end{image}
+	Only one of the figures depicts the line tangent to the curve $y=f(x)$ at the point $(1,f(1))$. Which one?
+	\begin{multipleChoice}
+		\choice { Figure A}
+		\choice[correct]{Figure B}
+		\choice {Figure C}
+		\choice {Figure D}
+	\end{multipleChoice}
+	\begin{explanation}
+		Only the line in figure $B$ looks indistinguishable from the curve $y=f(x)$ near the point $(1,f(1))$.
+	\end{explanation}
 \end{question}
-Obviously, the limit
- \[
-     \lim_{x\to a} \frac{f(x)-f(a)}{x-a},
-    \] 
-    has many different interpretations, depending on the context, such as the slope of the tangent line, the  instantaneous rate of change, and the instantaneous velocity.
-    
-    Therefore, this limit deserves a special name that could be used regardless of the context.
-    \begin{definition}
-  The \dfn{derivative} of $f$ at $a$, denoted $f'(a)$, is given by
-  \[
- f'(a) = \lim_{x\to a} \frac{f(x) - f(a)}{x-a},
-  \]
- provided that the limit exists. We say that $f$ is \dfn{differentiable}
-  at $a$ if  this limit exists. Otherwise,  we say that  $f$ is \dfn{non-differentiable} at $a$.
+
+The limit \[ \lim_{x\to a} \frac{f(x)-f(a)}{x-a},\] 
+has many different interpretations, depending on the context, such as the slope of the tangent line, 
+the instantaneous rate of change, and the instantaneous velocity.
+Therefore, this limit deserves a special name that could be used regardless of the context.
+
+\begin{definition}\index{derivative}\index{differentiable}
+	 The \dfn{derivative} of $f$ at $a$, denoted $f'(a)$, is given by
+	  \[ f'(a) = \lim_{x\to a} \frac{f(x) - f(a)}{x-a}, \]
+	provided that the limit exists. We say that $f$ is \dfn{differentiable}
+	at $a$ if  this limit exists. Otherwise,  we say that  $f$ is \dfn{non-differentiable} at $a$.
 \end{definition}
 
 The definition of the derivative allows us to define a tangent line precisely.
-  \begin{definition}
-  Let $f$ be a function differentiable at $a$. The \dfn{ line tangent to the curve} $y=f(x)$ at the point $(a,f(a))$ is the line that passes through the point $(a,f(a))$ whose slope is equal to $f'(a)$.
-    \end{definition}
+\begin{definition}
+ 	Let $f$ be a function differentiable at $a$. The \dfn{ line tangent to the curve} $y=f(x)$ at the point $(a,f(a))$ is 
+ 	the line that passes through the point $(a,f(a))$ whose slope is equal to $f'(a)$.
+ \end{definition}
   
-  Naturally, by the point-slope equation of the line, it follows that the tangent line is given by the equation
-  \[
- y = f(a)+f'(a)(x-a).
-  \]
+Using the point-slope equation for a line, the tangent line is given by the equation
+\[ y = f(a)+f'(a)(x-a). \]
 
-      \begin{question}
-            Let $f$ be a function given by $f(x) = 4x-3$.
+\begin{question}
+	Let $f$ be a function given by $f(x) = 4x-3$.
 	What is the instantaneous rate of change of $f$ at $a$, where $a$ is any real number?
 	\begin{hint}
 		The rate of change is given by $f'(a)$, and so is the slope of the tangent line to the curve $y=f(x)$ at the point $(a,f(a))$.
@@ -642,202 +612,163 @@ The definition of the derivative allows us to define a tangent line precisely.
 		The derivative is the slope of the line $y= 4x-3$! Therefore,  $f'(a)=\answer{4}$, for all real numbers $a$.
 	\end{prompt}
 	\begin{hint}
-		 Of course, we can verify this reasoning by simply computing $f'(a)$, using the definition of the derivative.
-		 \[
- f'(a) = \lim_{x\to a} \frac{f(x) - f(a)}{x-a}.
-  \]
-Replace $f$ with its formula,
-		\[
- f'(a) = \lim_{x\to a} \frac{(4x-3)-(4a-3)}{x-a}.
-  \]
+		 We can verify this reasoning by computing $f'(a)$, using the definition of the derivative.
+		 \[ f'(a) = \lim_{x\to a} \frac{f(x) - f(a)}{x-a}.\]
+		Replace $f$ with its formula,
+		\[  f'(a) = \lim_{x\to a} \frac{(4x-3)-(4a-3)}{x-a}.\]
 		Simplify the numerator,
-			\[
- f'(a) = \lim_{x\to a} \frac{4x-4a}{x-a}.
-  \]
-
+		\[ f'(a) = \lim_{x\to a} \frac{4x-4a}{x-a}.\]
 		Factor the numerator,
-		\[
- f'(a) = \lim_{x\to a} \frac{4\cancel{(x-a)}}{\cancel{x-a}}.
-  \]
- Compute the limit,
-
-		\[
- f'(a) =4.
-  \]
-
-			\end{hint}
+		\[ f'(a) = \lim_{x\to a} \frac{4\cancel{(x-a)}}{\cancel{x-a}}.\]
+		 Compute the limit,
+		\[ f'(a) =4.\]
+	\end{hint}
 \end{question}
 
 
-But, most functions are not linear, and  their graphs are not  straight lines.  Therefore, the computation of the derivative is not as simple as in the previous example.
-
+Most functions are not linear, and their graphs are not straight lines.  For most functions the computation of the derivative is not as 
+simple as in the previous example.
 \begin{example}
 	Let $f(x) = 2x^2+3$.
 	
-	 Find the slope of the tangent line to the curve $y=f(x)$ at the point $(2,f(2))$.
-			\begin{explanation}
-			  Finding the slope of the tangent line at the point $(2,f(2))$ means finding $f'(2)$
-		\[
- f'(2) = \lim_{x\to 2} \frac{f(x) - f(2)}{x-2}
-  \]
-But, this limit gives us the instantaneous rate of change of $f$ at $a=2$, which was computed in our first example!
-Therefore,	
-the slope of the tangent line is 
-\[
- f'(2) = \lim_{x\to 2} \frac{f(x) - f(2)}{x-2}=8.
-  \]
-		 	\end{explanation}
-			  \begin{onlineOnly}
-  We can confirm our results by looking at the graph of $y=f(x)$ and the line $y=8x-5$. 
-  \begin{image}
-\begin{tikzpicture}
-	
-          \begin{axis}[
-            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
-            ylabel=$y$, every axis y label/.style={at=(current
-              axis.above origin),anchor=south}, 
-             width=3in,
-             height=3in,
-          xtick={2}, ytick={-5,11}, ]   
-                             \addplot [ultra thick, penColor,smooth] {2*x^2+3 };
-                                  \addplot [very thick, penColor2,smooth] {8*x-5 };
-                  \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(2,11)};
-              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
-              
-                  \node at (axis cs:2.35,10.85) {$(2,f(2))$ };
-                   \node[blue] at (axis cs:1.02,5.9) {\large$f$ };
-                   \node at (axis cs:1.32,2) { \small tangent line  };
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-  \end{onlineOnly}
-			
-	\end{example}
-	\begin{example}
-	Let $f(x) = \frac{1}{3-x}$.
-  Find an equation for the line tangent to the curve $y=f(x)$ at the point $(2, 1)$.
-  \begin{explanation}
-    To find an equation for a line, we need two pieces of information.  We need to know
-    a point on the line, and we need to know the slope of the line.  In this question, we are given
-    that  the point $(2,1)$ is on the line.  So, we need to find the slope of the tangent line.
-    Finding the slope of the tangent line at the point $(2,1)$ means finding $f'(2)$.
-    
-    Start by writing out the definition of the derivative,
-    \[
-    f'(2) = \lim_{x\to 2} \frac{f\left(\answer[given]{x}\right)-f\left(2\right)}{x-2} = \lim_{x\to 2} \frac{\frac{1}{3-x}-1}{x-2}.
-    \]
-    Multiply by $\frac{3-x}{3-x}$ to clear the fraction in the numerator,
-    \[
-    f'(2) = \lim_{x\to 2} \frac{1 - \left(\answer[given]{3-x}\right)}{(x-2)(3-x)}.
-    \]
-    Combine like-terms in the numerator,
-    \[
-    f'(2) = \lim_{x\to 2} \frac{\cancel{x-2}}{\cancel{(x-2)}(3-x)},
-    \]
-    	
-    Take the limit as $x$ goes to $2$,
-    \[
-    f'(2)= \lim_{x\to 2} \frac{1}{3-x} = \answer[given]{1}.
-    \]
-    We are looking for an equation of the line through the point
-    $(2,1)$ with slope $m = f'(2) = 1$.  The point-slope formula tells
-    us that the line has equation given by
-    \[
-    y= 1+\answer[given]{x-2 },
-    \]
-    or $y=x-1$.
-  \begin{onlineOnly}
-  We can confirm our results by looking at the graph of $y=f(x)$ and the line $y=x-1$. 
-  \begin{image}
-\begin{tikzpicture}
-	
-          \begin{axis}[
-            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
-            ylabel=$y$, every axis y label/.style={at=(current
-              axis.above origin),anchor=south}, 
-             width=4in,
-          xtick={1,2}, ytick={-1,1,3}, ]   
-                             \addplot [very thick, penColor,smooth] {1/(3-x) };
-               
-	        \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(2,1)};
-              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
-            
-                \addplot [ thick,penColor3]  plot coordinates {(0,-1) (2.5,1.5)};
-           
-	        \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(2,1)};
-             \addplot[only marks,penColor,mark=*]
-	        coordinates{(2,1)};
-                       \node at (axis cs:1.2,1.8) {equation of the tangent line: $y=x-1$ };
-                  \node at (axis cs:2.2,0.85) {$(2,f(2))$ };
-                   \node[blue] at (axis cs:0.64,0.54) {\large$f$ };
-                   \node at (axis cs:0.82,-.5) { tangent line  };
-        \end{axis}
-\end{tikzpicture}
-\end{image}
-
-  \end{onlineOnly}
-  \end{explanation}
-\end{example}
-\begin{example}
-  An object moving along a straight line has position given by
-  $s(t) = \sqrt{t+3}$, where position is measured in meters and time in seconds.  Find the (instantaneous) velocity of the object at time $t=6$.
-  \begin{explanation}
-    Velocity is the instantaneous rate of change of position with respect to
-    time.  We are being asked to find $v(6)=s'(6)$.  We have to adjust the
-    definition of the the derivative, namely, replace $x$ with $t$,
-    \[
-   s'(6) = \lim_{t \to 6} \frac{s(t)-s(6)}{t-6} = \lim_{t\to 6} \frac{\sqrt{\answer[given]{t+3}}-3}{t-6}.
-    \]
-    Multiply by $\frac{\sqrt{t+3}+3}{\sqrt{t+3}+3}$, in order to rationalize the expression,
-    \[
-    s'(6) = \lim_{t\to 6} \left(\frac{\sqrt{t+3}-3}{t-6} \right)\left(\frac{\sqrt{t+3}+3}{\sqrt{t+3}+3} \right).
-    \]		
-    Now simplify the numerator,
-    \[
-    s'(6) = \lim_{t \to 6} \frac{t+3 - 9}{(t-6)\left(\sqrt{t+3}+3 \right)}.
-    \]
-    Combine like-terms,
-    \[
-   s'(6)= \lim_{t \to 6} \frac{\cancel{t-6}}{\cancel{(t-6)}\left(\sqrt{t+3}+3\right)}.
-    \]
-     Take the limit as $t$ goes to $6$,
-    \[
-    s'(6)= \lim_{t\to 6} \frac{1}{\sqrt{t+3}+3}=\answer[given]{\frac{1}{6}}.
-    \]
-  
-   
-    The object has velocity $\frac{1}{6}$ $\frac{m}{s}$ at time $t=6$.
-    
-	  \begin{onlineOnly}
-	Below we can see the graph of $s=s(t)$ and the tangent line at $t=6$, with a slope of $\frac{1}{6}$. 
-	Notice, again, how the line fits the graph of the function $s$ near the point $(6,3)$. 
-		 \begin{image}
-\begin{tikzpicture}
-          \begin{axis}[
-            clip=false, domain=0:9, range=0:9,ymax=4,ymin=0, axis lines =middle, xlabel=$t$,
-            ylabel=$s$, every axis y label/.style={at=(current
-              axis.above origin),anchor=south}, 
-             width=4in,
-          xtick={0,3,6}, ytick={1,2,3}, ]   
-                             \addplot [very thick, penColor,smooth] {(x+3)^(1/2) };
-              
-	        \addplot[only marks,very thick,penColor,mark=*]
-	        coordinates{(6,3)};
-              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
-     \addplot [ very thick,penColor3]  plot coordinates {(0,2) (9,3.5)};
-  \node[ thick,penColor]at (axis cs:2.1,1.8) { $s(t)=\sqrt{t+3}$ };
-   \node[ thick,penColor3]at (axis cs:2.67,3.6) {$v(6)=s'(6)=\frac{1}{6}$ m/s };
-                       \node[ thick,penColor3]at (axis cs:3.3,3.2) {slope of the tangent line $=\frac{1}{6}$ };
-                        \node[ thick,penColor]at (axis cs:6.3,2.8) { $(6,3)$ };
-        \end{axis}
-\end{tikzpicture}
-\end{image}
+	Find the slope of the tangent line to the curve $y=f(x)$ at the point $(2,f(2))$.
+	\begin{explanation}
+		Finding the slope of the tangent line at the point $(2,f(2))$ means finding $f'(2)$
+		\[ f'(2) = \lim_{x\to 2} \frac{f(x) - f(2)}{x-2}\]
+		This limit gives us the instantaneous rate of change of $f$ at $a=2$, which was computed in our first example!
+		Therefore,	 the slope of the tangent line is 
+		\[ f'(2) = \lim_{x\to 2} \frac{f(x) - f(2)}{x-2}=8. \]
+	\end{explanation}
+	\begin{onlineOnly}
+ 		 We can confirm our results by looking at the graph of $y=f(x)$ and the line $y=8x-5$. 
+		 \begin{image}\begin{tikzpicture}
+		          \begin{axis}[
+		            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
+		            ylabel=$y$, every axis y label/.style={at=(current
+		              axis.above origin),anchor=south}, 
+		             width=3in,
+		             height=3in,
+		          xtick={2}, ytick={-5,11}, ]   
+		                             \addplot [ultra thick, penColor,smooth] {2*x^2+3 };
+		                                  \addplot [very thick, penColor2,smooth] {8*x-5 };
+		                  \addplot[only marks,very thick,penColor,mark=*]
+			        coordinates{(2,11)};
+		              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+		              
+		                  \node at (axis cs:2.35,10.85) {$(2,f(2))$ };
+		                   \node[blue] at (axis cs:1.02,5.9) {\large$f$ };
+		                   \node at (axis cs:1.32,2) { \small tangent line  };
+		        \end{axis}
+		\end{tikzpicture}\end{image}
 	  \end{onlineOnly}
+\end{example}
+
+
+\begin{example}
+	Let $f(x) = \frac{1}{3-x}$.
+	Find an equation for the line tangent to the curve $y=f(x)$ at the point $(2, 1)$.
+ 	\begin{explanation}
+		To find an equation for a line, we need two pieces of information.  We need to know
+		a point on the line, and we need to know the slope of the line.  In this question, we are given
+		that  the point $(2,1)$ is on the line.  So, we need to find the slope of the tangent line.
+		Finding the slope of the tangent line at the point $(2,1)$ means finding $f'(2)$.
+	    
+		Start by writing out the definition of the derivative,
+		\[ f'(2) = \lim_{x\to 2} \frac{f\left(\answer[given]{x}\right)-f\left(2\right)}{x-2} = \lim_{x\to 2} \frac{\frac{1}{3-x}-1}{x-2}. \]
+		Multiply by $\frac{3-x}{3-x}$ to clear the fraction in the numerator,
+		\[ f'(2) = \lim_{x\to 2} \frac{1 - \left(\answer[given]{3-x}\right)}{(x-2)(3-x)}. \]
+		Combine like-terms in the numerator,
+		\[ f'(2) = \lim_{x\to 2} \frac{\cancel{x-2}}{\cancel{(x-2)}(3-x)}, \]
+	    	
+		Take the limit as $x$ goes to $2$,
+	    	\[ f'(2)= \lim_{x\to 2} \frac{1}{3-x} = \answer[given]{1}. \]
+	    	We are looking for an equation of the line through the point
+	    	$(2,1)$ with slope $m = f'(2) = 1$.  The point-slope formula tells
+	    	us that the line has equation given by
+	    	\[ y= 1+\answer[given]{x-2 }, \]
+	 	or equivalently, $y=x-1$.
+	 	
+		\begin{onlineOnly}
+			We can confirm our results by looking at the graph of $y=f(x)$ and the line $y=x-1$. 
+			  \begin{image}\begin{tikzpicture}
+		          \begin{axis}[
+		            clip=false, domain=0:2.5, axis lines =middle, xlabel=$x$,
+		            ylabel=$y$, every axis y label/.style={at=(current
+		              axis.above origin),anchor=south}, 
+		             width=4in,
+		          xtick={1,2}, ytick={-1,1,3}, ]   
+		                             \addplot [very thick, penColor,smooth] {1/(3-x) };
+		               
+			        \addplot[only marks,very thick,penColor,mark=*]
+			        coordinates{(2,1)};
+		              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+		            
+		                \addplot [ thick,penColor3]  plot coordinates {(0,-1) (2.5,1.5)};
+		           
+			        \addplot[only marks,very thick,penColor,mark=*]
+			        coordinates{(2,1)};
+		             \addplot[only marks,penColor,mark=*]
+			        coordinates{(2,1)};
+		                       \node at (axis cs:1.2,1.8) {equation of the tangent line: $y=x-1$ };
+		                  \node at (axis cs:2.2,0.85) {$(2,f(2))$ };
+		                   \node[blue] at (axis cs:0.64,0.54) {\large$f$ };
+		                   \node at (axis cs:0.82,-.5) { tangent line  };
+		        \end{axis}
+		\end{tikzpicture}\end{image}
+	
+		\end{onlineOnly}
+  	\end{explanation}
+\end{example}
+
+
+
+
+\begin{example}
+	An object moving along a straight line has position given by
+	$s(t) = \sqrt{t+3}$, where position is measured in meters and time in seconds.  Find the (instantaneous) velocity of the object at time $t=6$.
+	  \begin{explanation}
+		    Velocity is the instantaneous rate of change of position with respect to
+		    time.  We are being asked to find $v(6)=s'(6)$.  We have to adjust the
+		    definition of the the derivative, namely, replace $x$ with $t$,
+		    \[ s'(6) = \lim_{t \to 6} \frac{s(t)-s(6)}{t-6} = \lim_{t\to 6} \frac{\sqrt{\answer[given]{t+3}}-3}{t-6}. \]
+		    Multiply by $\frac{\sqrt{t+3}+3}{\sqrt{t+3}+3}$, in order to rationalize the expression,
+		    \[ s'(6) = \lim_{t\to 6} \left(\frac{\sqrt{t+3}-3}{t-6} \right)\left(\frac{\sqrt{t+3}+3}{\sqrt{t+3}+3} \right). \]		
+		    Now simplify the numerator,
+		    \[ s'(6) = \lim_{t \to 6} \frac{t+3 - 9}{(t-6)\left(\sqrt{t+3}+3 \right)}. \]
+		    Combine like-terms,
+		    \[ s'(6)= \lim_{t \to 6} \frac{\cancel{t-6}}{\cancel{(t-6)}\left(\sqrt{t+3}+3\right)}. \]
+		     Take the limit as $t$ goes to $6$,
+		    \[ s'(6)= \lim_{t\to 6} \frac{1}{\sqrt{t+3}+3}=\answer[given]{\frac{1}{6}}. \]
+		  
+		   
+		  The object has velocity $\frac{1}{6}$ $\frac{\unit{m}}{\unit{s}}$ at time $t=6$.
+		    
+		\begin{onlineOnly}
+			Below we can see the graph of $s=s(t)$ and the tangent line at $t=6$, with a slope of $\frac{1}{6}$. 
+			Notice, again, how the line fits the graph of the function $s$ near the point $(6,3)$. 
+			\begin{image}\begin{tikzpicture}
+		          \begin{axis}[
+		            clip=false, domain=0:9, range=0:9,ymax=4,ymin=0, axis lines =middle, xlabel=$t$,
+		            ylabel=$s$, every axis y label/.style={at=(current
+		              axis.above origin),anchor=south}, 
+		             width=4in,
+		          xtick={0,3,6}, ytick={1,2,3}, ]   
+		                 \addplot [very thick, penColor,smooth] {(x+3)^(1/2) };
+		              
+			        \addplot[only marks,very thick,penColor,mark=*]
+			        coordinates{(6,3)};
+		              % \addplot [very thick,penColor2]  plot coordinates {(1,16) (1,24)};
+		     		\addplot [ very thick,penColor3]  plot coordinates {(0,2) (9,3.5)};
+		  		\node[ thick,penColor]at (axis cs:2.1,1.8) { $s(t)=\sqrt{t+3}$ };
+		   		\node[ thick,penColor3]at (axis cs:2.67,3.6) {$v(6)=s'(6)=\frac{1}{6}$ m/s };
+		                 \node[ thick,penColor3]at (axis cs:3.3,3.2) {slope of the tangent line $=\frac{1}{6}$ };
+		                 \node[ thick,penColor]at (axis cs:6.3,2.8) { $(6,3)$ };
+		        \end{axis}
+			\end{tikzpicture}\end{image}
+		\end{onlineOnly}
 	\end{explanation}
 \end{example}
+
 
 \begin{comment}
 Suppose the difference between $x$ and $a$ is some small number $h$.  That

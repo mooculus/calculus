@@ -25,7 +25,7 @@
 # Set some defaults
 #
 # default docker image to run; overwrite with 'export XAKE_IMAGE=myxake:0.1'
-: "${XAKE_IMAGE:=ghcr.io/ximeraproject/xake2023:v2.1.1}" 
+: "${XAKE_IMAGE:=ghcr.io/ximeraproject/xake2019:v2.1.1}" 
 #  : "${XAKE_IMAGE:=ghcr.io/ximeraproject/xake2019:latest}"
 #
 # Which folder to mount INSIDE the container, under /code  (use with care: it should contain a build.sh !)

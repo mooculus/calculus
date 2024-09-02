@@ -27,6 +27,8 @@
 # default docker image to run; overwrite with 'export XAKE_IMAGE=myxake:0.1'
 #: "${XAKE_IMAGE:=ghcr.io/ximeraproject/xake2023:v2.1.1}" 
 : "${XAKE_IMAGE:=ghcr.io/ximeraproject/xake2019:v2.1.1}"
+
+: "${SERVER_IMAGE:=registry.gitlab.kuleuven.be/wet/ximera/ximeradocker:2.3.7j}"
 #
 # Which folder to mount INSIDE the container, under /code  (use with care: it should contain a build.sh !)
 : "${MOUNTDIR:=$(pwd)}"
@@ -57,6 +59,13 @@ else
     then
         LOCAL_IP=$(set -- $(hostname -I); echo "$1")
         [[ -n "$DEBUG" ]] && echo "Setting LOCAL_IP=$LOCAL_IP"
+    fi
+
+    if [[ "$1" == "ximeraserver" ]]
+    then    
+        echo "Starting $SERVER_IMAGE"
+        docker run --rm --name myximeraserver -p 2000:2000 $SERVER_IMAGE
+        exit
     fi
 
     echo "Restarting myself in docker (from image $XAKE_IMAGE)"	

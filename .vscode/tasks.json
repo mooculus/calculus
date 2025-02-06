@@ -2,80 +2,129 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
+    "type": "shell",
+    "command": "xmlatex",
+    "windows": {
+        "command": ".\\xmScripts\\xmlatex.bat"
+    },    
+    "problemMatcher": [],
     "tasks": [
         {
-            "type": "shell",
             "label": "PDF",
-            "command": "./scripts/xmlatex",
-            "windows": {
-                "command": ".\\scripts\\xmlatex.bat"
-              },            
             "args": [
-                "compilePdf",
-                "${relativeFile}"
-            ],
-        },
-        {
-            "type": "shell",
-            "label": "HTML",
-            "command": "./scripts/xmlatex",
-            "windows": {
-                "command": ".\\scripts\\xmlatex.bat"
-              },             
-            "args": [
-                "--",
-                "--skip-mathjax",
-                "compile",
-                "${relativeFile}"
-            ],
-        },
-        {
-            "type": "shell",
-            "label": "Bake",
-            "command": "./scripts/xmlatex",
-            "windows": {
-                "command": ".\\scripts\\xmlatex.bat"
-              }, 
-            "args": [
-                "--",
-                "--skip-mathjax",
                 "bake",
+                "--force",
+                "--compile pdf",
+                "${relativeFile}"
             ],
         },
         {
-            "type": "shell",
-            "label": "XimerServer",
-            "command": "./scripts/xmlatex",
-            "windows": {
-                "command": ".\\scripts\\xmlatex.bat"
-              }, 
+            "label": "HTML",
             "args": [
-                "ximeraserver",
+                "bake",
+                "--force",
+                "--compile draft.html",
+                "${relativeFile}"
             ],
         },
         {
-            "type": "shell",
+            "label": "SERVE",
+            "args": [
+                "all"
+            ],
+        },
+        {
+            "label": "Bake",
+            "args": [
+                "-v",
+                "bake"
+            ],
+        },
+        {
             "label": "Serve",
-            "command": "./scripts/xmlatex",
-            "windows": {
-                "command": ".\\scripts\\xmlatex.bat"
-              }, 
             "args": [
-                "serve",
+                "-v",
+                "serve"
             ],
-            // // NOT IMPLEMENTED YET //
-            // "problemMatcher": {
-            //     "owner": "xxxx",
-            //     "fileLocation": [
-            //         "relative",
-            //         "${workspaceFolder}"
-            //     ],
-            //     "pattern": {
-            //         "regexp": "^\\[\\d+-\\d+-\\d+\\]\\[\\d+:\\d+:\\d+\\]\\[[^\\]]*\\]\\[(ERROR)\\](.*)$",
-            //         "severity": 1,
-            //         "message": 2
-            //     }
-            // }
         },
-    ]
+        {
+            "label": "Frost",
+            "args": [
+                "-v",
+                "frost"
+            ],
+        },
+        {
+            "label": "Start Ximera Server",
+            "args": [
+                "ximeraserver"
+            ],
+        },
+        {
+                "label": "Preview in Simple Browser",
+                "command": "${input:openSimpleBrowser}",
+        },
+        {
+            "label": "Bake PDF",
+            "args": [
+                "bake",
+                "--compile pdf",
+            ],
+        },
+        {
+            "label": "Bake PDF (force rebuild)",
+            "args": [
+                "bake",
+                "-f",
+                "--compile pdf",
+            ],
+        },
+        {
+            "label": "Bake handout",
+            "args": [
+                "bake",
+                "--compile handout.pdf",
+            ],
+        },
+        {
+            "label": "Bake handout (force rebuild)",
+            "args": [
+                "bake",
+                "-f",
+                "--compile handout.pdf",
+            ],
+        },
+        {
+            "label": "Delete all",
+            "args": [
+                "veryclean"
+            ],
+        },
+        {
+            "label": "Update DevEnv",
+            "args": [
+                "updateDevEnv"
+            ],
+        },
+        {
+            "label": "Generate GPG key",
+            "args": [
+                "genKey"
+            ],
+        },
+    ],
+    "inputs": [
+        {
+          "id": "openSimpleBrowser",
+          "type": "command",
+          "command": "simpleBrowser.show",
+          "args": [ "http://localhost:2000/repositories" ],
+
+        }
+    ],
+    "options": {
+        "env": {
+          "PATH": "${env:PATH}:./xmScripts"  
+        }
+      },    
 }

@@ -1,11 +1,50 @@
 {
-    "latex-workshop.latex.external.build.command": "./scripts/xmlatex",
-    "latex-workshop.latex.external.build.args": [
-        "compilePdf",
-        "/code/%RELATIVE_DIR%/%DOCFILE_EXT%"
+    // Extend PATH to include ./xmScripts, so that 'xmlatex' is found even when not in a xake dockercontainer.
+    //   ( INSIDE a xake container, /usr/local/bin/xmlatex will and should be found!!!)
+    "terminal.integrated.env.linux": {
+        "PATH": "${env:PATH}:${workspaceFolder}/xmScripts"
+    },
+    // // No possibility to extend PATH ...?
+    // "latex-workshop.latex.external.build.command": "xmlatex",
+    // "latex-workshop.latex.external.build.args": [
+    //     "compilePdf",
+    //     "/code/%RELATIVE_DIR%/%DOCFILE_EXT%"
+    // ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xmlatex",
+            "tools": [
+                "xmlatex"
+            ]
+        }
     ],
-    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xmlatex",
+            "command": "bash",
+            // Terrible HACK to get PATH expanded, so that also when NOT in a container, 'xmlatex' is found
+            //  (This is only needed to make 'build' work, e.g. via F5 or the green 'Build LaTeX project' icon)
+            //  Note: when run from OUTSIDE a container, the (full) path INSIDE the container will be different !!!!
+            // WARNING: in the root_folder %RELATIVE_DIR is empty, and you'll process .//myfile.tex ...
+            //   (Removing the ./ infra would give wrong path /myfile.tex )
+            "args": [
+                "-c",
+                "cd %WORKSPACE_FOLDER%; export DEBUG=\"$DEBUG\" PATH=\"$PATH:%WORKSPACE_FOLDER%/xmScripts\";  xmlatex $DEBUG bake --force --compile pdf  ./%RELATIVE_DIR%/%DOCFILE_EXT%"
+            ],
+            "env": {
+                "DEBUG": "",
+                // "DEBUG": "-d",
+            }
+        }
+    ],
+    "latex-workshop.latex.autoBuild.run": "never",
     "explorer.excludeGitIgnore": true,
+    // "remote.portsAttributes": {
+    //     "2000": {
+    //         "onAutoForward": "ignore"
+    //     }
+    // },    
+    // "task.problemMatchers.neverPrompt": true    ,
     "VsCodeTaskButtons.showCounter": false,
     "VsCodeTaskButtons.tasks": [
         {
@@ -13,35 +52,104 @@
             "alignment": "right",
             "task": "PDF",
             "description": "Create a PDF of the current file.",
-            "tooltip": "Create a PDF of the current file."
+            "tooltip": "Compile a PDF from the current file."
         },
         {
             "label": "HTML",
             "alignment": "right",
             "task": "HTML",
             "description": "Create HTML of the current file.",
-            "tooltip": "Create HTML of the current file."
+            "tooltip": "Compile a HTML from the current file."
         },
         {
-            "label": "Bake",
+            "label": "SERVE",
             "alignment": "right",
-            "task": "Bake",
-            "description": "Bake this project.",
-            "tooltip": "Bake this project."
+            "task": "SERVE",
+            "description": "Build and publish this project.",
+            "tooltip": "Build and publish this repo."
         },
         {
-            "label": "Serve",
+            "label": "Extra",
             "alignment": "right",
-            "task": "Serve",
-            "description": "Serve this project.",
-            "tooltip": "Serve this project."
-        },
-        {
-            "label": "XimeraServer",
-            "alignment": "right",
-            "task": "XimerServer",
-            "description": "Start local server.",
-            "tooltip": "Start local server."
+            "tasks": [
+                {
+                    "task": "Start Ximera Server",
+                    "label": "Start Ximera Server",
+                    "description": "Start local Ximera webserver (NOT needed in devcontainer or Codespace).",
+                    "problemMatcher": [],
+                },
+                {
+                    "task": "Preview in Simple Browser",
+                    "label": "Preview in Simple Browser",
+                    "description": "View the local webserver in a preview window",
+                    // "description": "Start local Ximera webserver.",
+                    "problemMatcher": [],
+                },                
+                {
+                    "task": "Delete all",
+                    "label": "Delete all HTML and PDFs",
+                    "description": "Remove all generated files",
+                    "problemMatcher": [],
+                },
+
+                {
+                    "label": "Bake",
+                    "alignment": "right",
+                    "task": "Bake",
+                    "description": "Bake this project (make .html files).",
+                    "tooltip": "Bake this project."
+                },
+                {
+                    "task": "Bake pdf",
+                    "label": "Bake PDF's (with answers)",
+                    "description": "Make PDF's.",
+                    "problemMatcher": [],
+                },
+                {
+                    "task": "Bake pdf (force rebuild)",
+                    "label": "Force (re-)Bake PDF's (with answers)",
+                    "description": "Make PDF's.",
+                    "problemMatcher": [],
+                },
+                {
+                    "task": "Bake handout",
+                    "label": "Bake handout PDF's (without answers)",
+                    "description": "Make handout PDF's.",
+                    "problemMatcher": [],
+                },
+                {
+                    "task": "Bake handout (fore rebuild)",
+                    "label": "Force (re-)Bake handout PDF's (without answers)",
+                    "description": "Make handout PDF's.",
+                    "problemMatcher": [],
+                },
+                {
+                    "label": "Frost",
+                    "alignment": "right",
+                    "task": "Frost",
+                    "description": "Frost this project.",
+                    "tooltip": "Frost this project."
+                },
+                {
+                    "label": "Serve",
+                    "alignment": "right",
+                    "task": "Serve",
+                    "description": "Serve this project.",
+                    "tooltip": "Serve this project."
+                },
+                {
+                    "task": "Update DevEnv",
+                    "label": "Update the build environment",
+                    "description": "Updates the docker-container, xmScripts en .vscode config",
+                    "problemMatcher": [],
+                },
+                {
+                    "task": "Generate GPG key",
+                    "label": "Generate a (new) GPG key",
+                    "description": "First add your name/email to config.txt",
+                    "problemMatcher": [],
+                },
+            ],
         },
     ]
 }

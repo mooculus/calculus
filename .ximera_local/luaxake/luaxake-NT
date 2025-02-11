@@ -1,0 +1,820 @@
+#!/usr/bin/env texlua
+kpse.set_program_name "luatex"
+
+local pl = require "penlight"
+local utils = require "pl.utils"
+local tablex = require("pl.tablex")
+local path = pl.path
+local lapp = require "pl.lapp"
+local ffi = require "ffi"
+-- local lapp = require "lapp-mk4"   -- the above is 'better'?
+
+logging = require("luaxake-logging")
+-- better make a logfile per day ... ?
+-- NOTE: after a chdir (as in compile...), the logfile would change without the abspath!!
+logging.set_outfile(path.abspath("luaxake.log"))     
+
+local log = logging.new("luaxake")
+local version = "{{version}}"
+
+local files   = require "luaxake-files"
+local compile = require "luaxake-compile"
+local frost   = require "luaxake-frost"
+local html    = require "luaxake-transform-html"
+
+
+-- TODO: fix syntax with [command dirs]: should be 1 obligatory, then many optional args 
+local option_text = [[ 
+Luaxake: build system for Ximera documents
+Usage: 
+$ luaxake [command dirs]
+
+Options: 
+-h,--help                            Print help message
+-l,--loglevel                        Set log level: trace, debug, info, status, warning, error, fatal
+-s,--silent                          Set log level to 'status'
+-v,--verbose                         Set log level to 'info'
+-d,--debug                           Set log level to 'debug'
+-t,--trace                           Set log level to 'trace'
+--version                            Version info
+-f,--force                           Recompile anyway
+--check                              Only check, no actual compiling/cleaning
+--noclean                            Keep all temp files
+--nodependencies                     Do not (re-)compile potential dependencies
+--compile       (default none)       Compile sequence (default 'pdf,html', or as set in settings)
+--settingsfile  (default none)       Luaxake settings script
+--configfile    (default none)       TeX4ht config file
+
+Possible commands:
+ bake
+ name               -- NOT (YET) IMPLEMENTED HERE: see xmlatex !!!
+ frost
+ serve
+ clean / veryclean  -- to be changed/improved
+ info               -- not yet very useful..
+ ]]
+
+-- REMOVED: <dir>  (table)                 Document root directory
+--- @class args
+--- @field config    string   TeX4ht config file
+--- @field help      boolean  Print help message
+--- @field settings  string   Luaxake settings script
+--- @field loglevel  string   Logging level
+--- @field version   boolean  Print version
+--- @field command   string   Command to execute
+--- @field dir       table    Document root directory
+local args = lapp(option_text)
+
+if args.version then
+  print("Luaxake version: " .. (version == "{{version}}" and "devel" or version))
+  os.exit()
+end
+
+-- Highest level of -v, -d, -t wins, except that -l would overwrite it
+logging.set_level("info")    -- default
+if args.silent  then logging.set_level("status")  end
+if args.verbose then logging.set_level("info")  end
+if args.debug   then logging.set_level("debug") end
+if args.trace   then logging.set_level("trace") end
+
+if args.loglevel then logging.set_level(args.loglevel) end
+
+
+GLOB_root_dir = path.abspath(".")  -- TODO: find git folder ...?
+-- log:tracef("Setting GLOB_root_dir=%s",GLOB_root_dir)
+
+
+--
+-- FOR REFERENCE:   (and to be checked ...?)
+--
+
+--- @class DOM_Object 
+--- Dummy type declaration for LuaXML DOM object, to prevent error messages from language server
+--- @field query_selector function get all elements that match a given CSS selector
+--- @field get_children   function 
+--- @field get_text       function 
+--- @field get_attribute  function
+--- @field remove_node    function
+
+--- @class compiler 
+--- @field command       string  command template
+--- @field check_log?    boolean should we check the log file for errors?
+--- @field check_file?   boolean execute command only if the output file exists
+--- @field status?       number  expected status code from the command
+--- @field process_html? boolean run HTML post-processing
+
+--- @class config
+--- @field compile_sequence    [string] sequence  of compiler names to be executed
+--- @field output_formats      [string] list of output format extensions, calculated from compile_sequence
+--- @field compilers           {string: compiler}  table with available 'compilers'
+--- @field clean               [string] list of extensions of temp files to be removed after the compilation
+--- @field configfile         string   TeX4ht config file 
+--- @field documentclass_lines number   on how many lines in TeX files we should try to look for \documentclass
+
+
+-- a GLOBAL config class
+--   The values here are defaults, that can be overwritten with
+--     - values in a settingsfile  (the file itself can be given with --settingsfile or as environment variable)
+--     - environment variables (see infra)
+--     - optional arguments  (--clean, etc)
+--     - explicit constructs infra  (ef default_dependencies, ...)
+-- General rule:
+--  an explicitly give argument always wins, over
+--  an environment variables, that wins over
+--  an setting in the settings file, that wins over
+--  a default value provided here.
+
+config = {
+  ---   will be set infra --- compile_sequence = {"pdf", "draft.html"},
+  -- compile_sequence = {"pdf", "make4ht.html", "handout.pdf"},
+  -- compile_sequence = {"pdf", "sagetex.sage", "pdf", "html"},
+  -- see infra --   default_dependencies = { "xmPreamble.tex" },     -- add here e.g. xmPreamble, ximera.cls, ...
+  compilers = {
+    pdf = {
+      -- this doesn't work well
+      -- command = 'pdflatex -interaction=nonstopmode  -file-line-error -shell-escape  "\\PassOptionsToClass{tikzexport}{ximera}\\PassOptionsToClass{xake}{ximera}\\PassOptionsToClass{xake}{xourse}\\nonstopmode\\input{@{filename}}"',
+      -- command = 'pdflatex -interaction=nonstopmode  -file-line-error -shell-escape  "\\PassOptionsToClass{xake}{ximera}\\PassOptionsToClass{xake}{xourse}\\input{@{filename}}"',
+      command = 'pdflatex -interaction=nonstopmode  -file-line-error -shell-escape  "\\input{@{filename}}"',     -- mmm, this increases the .jax file !!!
+      check_log = true,     -- check log
+      status = 0,           -- check that the latex command return 0
+      infix = "" ,          -- used for .handout, and .make4k4
+      extension = "pdf",    -- not used ????
+      post_command = 'post_process_pdf',
+      download_folder = 'ximera-downloads/with-answers',
+    },
+    ["handout.pdf"] = {
+      command = 'pdflatex -interaction=nonstopmode  -file-line-error -shell-escape  -jobname @{basename}.handout "\\PassOptionsToClass{handout}{ximera}\\PassOptionsToClass{handout}{xourse}\\input{@{filename}}"',
+      check_log = true, -- check log
+      status = 0, -- check that the latex command return 0
+      extension = "handout.pdf",
+      infix = "handout" ,
+      post_command = 'post_process_pdf',
+      download_folder = 'ximera-downloads/handouts',
+    },
+    -- 20241217: no longet use "html", but eg draft.html (this keeps logfiles etc from being overwritten ...)!
+    ["draft.html"] = {
+      command = "make4ht -l -c @{configfile} -f html5+dvisvgm_hashes -m draft -j @{basename}.draft -s @{make4ht_extraoptions} @{filename} 'svg,htex4ht,mathjax,-css' '' '' '--interaction=nonstopmode -shell-escape -file-line-error'",
+      check_log = true, -- check log
+      status = 0, -- check that the latex command return 0
+      post_command = 'post_process_html',
+      extension = "html",
+      infix = "draft" ,
+    },    
+    -- alternatives, use at your own risk
+    ["make4ht.html"] = {
+      command = "make4ht -l -c @{configfile} -f html5+dvisvgm_hashes          -j @{basename}.make4ht -s @{make4ht_extraoptions} @{filename} 'svg,htex4ht,mathjax,-css' '' '' '--interaction=nonstopmode -shell-escape -file-line-error'",
+      check_log = true, -- check log
+      status = 0, -- check that the latex command return 0
+      post_command = 'post_process_html',
+      extension = "html",
+      infix = "make4ht" ,
+    },
+    -- test: use 'tikz+' option (FAILS for some tikzpictures, eg with shading/patterns)
+    ["tikz.html"] = {
+      command = "make4ht -l -c @{configfile} -f html5+dvisvgm_hashes -m draft -j @{basename}.draft -s @{make4ht_extraoptions} @{filename} 'svg,htex4ht,mathjax,-css,tikz+' '' '' '--interaction=nonstopmode -shell-escape -file-line-error'",
+      check_log = true, -- check log
+      status = 0, -- check that the latex command return 0
+      post_command = 'post_process_html',
+      extension = "html",
+      infix = "draft" ,
+    },
+    ["test.html"] = {
+      -- command = "make4ht -f html5+dvisvgm_hashes -c @{configfile} -sm draft @{filename}",
+      -- command = "make4ht -c @{configfile} -f html5+dvisvgm_hashes -s @{make4ht_mode} -a debug @{filename} 'svg,htex4ht,mathjax,-css,info,tikz+' '' '' '--interaction=nonstopmode -shell-escape -file-line-error'",
+      command = "make4ht -l -c @{configfile} -f html5+dvisvgm_hashes          -j @{basename}.make4ht -s @{make4ht_extraoptions} @{filename} 'svg,htex4ht,mathjax,-css,info,tikz+' '' '' '--interaction=nonstopmode -shell-escape -file-line-error'",
+      check_log = true, -- check log
+      status = 0, -- check that the latex command return 0
+      post_command = 'post_process_html',
+      extension = "html",
+      infix = "make4ht" ,
+    },
+
+    -- sage not tested/implemented !!!!
+    ["sagetex.sage"] = {
+      command = "sage @{output_file}",
+      check_log = true, -- check log
+      check_file = true, -- check if the sagetex.sage file exists
+      status = 0, -- check that the latex command return 0
+      extension = "sage",   -- ?
+    },
+    -- a dummy test: create .ddd files that contain the date ..
+    ddd = {
+      command = 'date >@{basename}.ddd',     
+      status = 0, -- check that the command returns 0
+    },
+  },
+  -- TeX macro's to use for dependency-checking in .tex files
+  input_commands = {
+    input=true, 
+    include=true, 
+    includeonly=true,
+    activity=true, 
+    practice=true, 
+    activitychapter=true, 
+    activitysection=true, 
+    practicechapter=true, 
+    practicesection=true, 
+  }, 
+  -- extensions to be kept by get_files (and thus for which fileinfo is collected)
+  keep_extensions = {
+    tex  = true,
+    html = true,
+    sty  = true,
+ },
+ -- list of 'infixes' to be cleaned by default
+  clean_infixes = {
+    "",
+    ".make4ht",
+    ".draft",
+    ".handout",
+ },
+  -- automatically clean files immediately after each compilation
+  -- the commented extensions might cause issues when automatically cleaned, as they may be needed for the next compilation
+  clean_extensions = {
+    -- "aux",
+    "4ct",
+    "4tc",
+    "oc",
+    "md5",
+    "dpth",
+    "out",
+    -- "jax",
+    "idv",
+    "lg",
+    "tmp",
+    -- "xref",
+    -- "log",
+    "auxlock",
+    "dvi",
+    "scmd",
+    "sout",
+    "ids",
+    "mw",
+    "cb",
+    "cb2",
+  },
+  documentclass_lines = 30,
+  -- for debugging: dumps the 'fileinfo' of matching files
+  -- make4ht_loglevel = "",
+  make4ht_extraoptions= "",
+  -- number of lines in tex files where we should look for \documentclass
+  -- dump_fileinfo = "aFirstXourse.tex",
+}
+
+
+
+-- first real argument is the command (bake/frost/serve/...)
+local command = table.remove(args, 1)
+
+if not command then
+  log:error("Usage: script [command] <files-or-folders...>")
+  os.exit(1)
+end
+
+log:debug("command: "..command)
+
+ 
+-- all further arguments are considered dirs/files to be processed
+local dirs = {}
+
+for i, value in ipairs(args) do
+    log:trace("Args: adding file/dir "..value)
+    table.insert(dirs, value)
+end
+
+if #dirs == 0 then
+  dirlist = os.getenv("XM_TO_PROCESS")  or "."
+  log:debugf("No files/directories given as argument, using default: %s", dirlist)
+  dirs = utils.split(dirlist,',')
+end
+
+-- Store all to_be_processed files/folders
+config.dirs = dirs
+
+
+if args.settingsfile ~= "none" then 
+  config.settingsfile   =  args.settingsfile     -- explicitly give as option
+else 
+  config.settingsfile   =  os.getenv("XM_SETTINGSFILE")   or "none"
+end
+
+-- Set/overwrite config 
+if config.settingsfile ~= "none" then
+  -- config file can be a Lua script, which should only set properties for the config table
+  local configlib = require "luaxake-config"
+  log:info("Using settings file: " .. config.settingsfile)
+  configlib.update_config(config.settingsfile, config)
+end
+
+config.check        = args.check        or os.getenv("XM_ONLY_CHECK")      or config.check
+config.noclean      = args.noclean      or os.getenv("XM_NOCLEAN")         or config.noclean
+config.nodependencies = args.nodependencies or os.getenv("XM_NODEPENDENCIES")  or config.nodependencies
+config.force        = args.force        or os.getenv("XM_FORCE")           or config.force
+
+if args.configfile ~= "none" then 
+  config.configfile   =  args.configfile
+else 
+  config.configfile   =  os.getenv("XM_CONFIGFILE")   or "ximera.cfg"
+end
+
+if config.check   then log:info("Running with (only) 'check'") end
+if config.noclean then log:info("Running with 'noclean'")   end
+if config.nodependencies then log:info("Running with 'nodependencies'")   end
+if config.force   then log:info("Running with 'force' (compile/serve)")   end
+
+if config.configfile ~= "ximera.cfg" then
+  log:warning("Using non-default config file " .. config.configfile)
+end
+
+
+-- set/add potential default dependencies
+if not config.default_dependencies and path.exists("xmPreamble.tex") then
+  log:info("Adding default dependency xmPreamble.tex")
+  config.default_dependencies = { "xmPreamble.tex" }
+else
+  config.default_dependencies = {}
+end
+
+-- Function to get extensions for array of compilers
+local function get_extensions_for_compilers(tbl, kys)
+  local extensions = {}
+  for _, key in ipairs(kys) do
+      if tbl[key] and tbl[key].extension then
+          table.insert(extensions, tbl[key].extension)
+      end
+  end
+  return extensions
+end
+-- Function to get infixes for array of compilers
+local function get_infixes_for_compilers(tbl, kys)
+  local infixes = {}
+  for _, key in ipairs(kys) do
+      if tbl[key] and tbl[key].infix then
+        if tbl[key].infix == "" then
+          table.insert(infixes, tbl[key].infix)
+        else   -- prepend the . !!!
+          table.insert(infixes, "."..tbl[key].infix)
+        end
+      end
+  end
+  return infixes
+end
+
+
+-- shope adhoc 'shortcuts', mainly because used in .vscode/tasks.json ...
+if command == "compilePdf" then
+  log:info("Compile only PDF")
+  config.compile_sequence = { "pdf" }
+  config.output_formats   = get_extensions_for_compilers(config.compilers, config.compile_sequence)
+end
+if command == "compile" then
+  log:info("Compile only HTML")
+  config.compile_sequence = { "draft.html" }
+  config.output_formats   = get_extensions_for_compilers(config.compilers, config.compile_sequence)
+end
+
+
+if args.compile ~= "none" then
+  config.compile_sequence = utils.split(args.compile,',')
+else 
+  local compileseq = os.getenv("XM_COMPILE_SEQUENCE") or "pdf,draft.html"
+  config.compile_sequence = utils.split(compileseq,',')
+
+end
+
+for _, compiler in ipairs(config.compile_sequence) do
+  if not config.compilers[compiler] then
+    log:fatalf("Unknown compiler %s (should be in %s)", compiler, table.concat(tablex.keys(config.compilers),', '))
+    os.exit(1)
+  end
+end
+
+
+config.clean_infixes    = get_infixes_for_compilers(config.compilers, config.compile_sequence)
+config.output_formats   = get_extensions_for_compilers(config.compilers, config.compile_sequence)
+log:infof("Set compile_sequence=%s (and output_formats=%s)", table.concat(config.compile_sequence,','), table.concat(config.output_formats,','))
+
+--
+-- Prepare processing: collect all metadata / to_be_compiled etc
+--
+local tex_fileinfos = {}
+
+for i,nextarg in ipairs(config.dirs) do 
+  log:infof("Processing argument %d: %s", i,nextarg)
+  nextarg = nextarg:gsub("^.//*", "")    -- remove potential leading './' -- vscode-settings sometimes even add .//myfile.tex; it also might confuse skipping hidden .xxx files/folders
+
+  --if path.isdir(nextarg) or path.isfile(nextarg) then
+    
+    if not path.isdir(nextarg) then
+      local ext = nextarg:match(("%.([^%.]+)$"))
+      if ext  ~= "tex" and path.isfile(nextarg..".tex")   then
+        log:trace("Adding .tex to " .. nextarg)
+        nextarg = nextarg..".tex"
+      elseif ext ~= "tex" then 
+        log:warningf("Argument %s not folder nor tex-file (%s): SKIPPING", nextarg, ext)
+        goto nextarg    -- continue ...
+      end
+    end
+        
+    -- some files might need compilation even if they are not in the args, e.g. _pdf.tex files, or other dependent .tex files
+    local all_involved_texfiles = files.get_tex_files_with_status(nextarg, config.output_formats, config.compile_sequence)
+
+    if path.isfile(nextarg) then
+      if config.force then
+        log:infof("Explicitly force (re-) compilation of %s", nextarg)
+        all_involved_texfiles[nextarg].needs_compilation = true
+      end
+
+      -- Function to filter key-value tables
+      local function filter_needs_compilation(tbl)
+        local filtered = {}
+        for key, entry in pairs(tbl) do
+            if entry.needs_compilation then filtered[key] = entry end
+        end
+        return filtered
+      end
+
+      local extra_need_compilation = filter_needs_compilation(all_involved_texfiles)
+      extra_need_compilation[nextarg] = nil
+
+      log:debugf("%d DEPENDENT file(s) need compilation: %s", tablex.size(extra_need_compilation), table.concat(tablex.keys(extra_need_compilation),', '))
+
+      if config.nodependencies and pl.tablex.size(extra_need_compilation) > 0 then
+          -- log:debugf("Compiling %s, without the %d dependencies", nextarg, pl.tablex.size(all_involved_texfiles) - 1)
+          log:infof("Compiling %s, without dependencies %s", nextarg, table.concat(tablex.keys(extra_need_compilation),', '))
+          tex_fileinfos[nextarg] = all_involved_texfiles[nextarg]
+      else
+        for fname, finfo in pairs(all_involved_texfiles) do
+          log:tracef("File %s: collecting %-30s into tex_fileinfos", nextarg, fname)
+          tex_fileinfos[fname] = finfo
+        end
+      end
+    else -- nextarg is a folder 
+      for fname, finfo in pairs(all_involved_texfiles) do
+        log:tracef("Dir  %s: collecting %-30s into tex_fileinfos", nextarg, fname)
+        tex_fileinfos[fname] = finfo
+      end
+    end
+
+  ::nextarg::
+end
+
+-- add extra files we depend on to the potentially to-be-compiled tex_files
+local tex_files = tablex.values(tex_fileinfos)
+
+
+log:debugf("Finding and sorting dependencies for %d tex_files", #tex_files)
+local to_be_compiled = files.sort_dependencies(tex_files)
+
+function filter_main_tex_files(tbl)
+  local result = {}
+  for _, entry in pairs(tbl) do
+      if not entry.tex_documentclass then
+        log:debugf("Removing non-document file %s", entry.relative_path)
+      else
+        table.insert(result, entry)
+      end
+  end
+  return result
+end
+
+to_be_compiled = filter_main_tex_files(to_be_compiled)
+if #to_be_compiled == 1 then
+  log:statusf("%d file needs compiling: %s", #to_be_compiled, to_be_compiled[1].relative_path)
+elseif #to_be_compiled > 0 then
+  log:statusf("%d files need compiling", #to_be_compiled)
+    for i,file in ipairs(to_be_compiled) do
+      log:infof("%3d %s",i,file.relative_path)
+    end
+else 
+  log:status("No files need compiling")
+end
+
+  --
+  -- Start processing further commands
+  --
+
+  if command == "info" then
+    log:infof("Got %d tex files:", #tex_files)
+    for _,file in ipairs(tex_files) do
+        print(file.relative_path)
+        --print(file.absolute_path)
+    end
+  end
+
+  if command == "clean" or command == "veryclean" then
+    local n_files_deleted = 0
+    local to_be_cleaned_extensions = tablex.copy(config.clean_extensions)
+    local to_be_cleaned_infixes = tablex.copy(config.clean_infixes)
+
+    -- if args.compile ~= "none" then      -- if explicitly given compilers, only clean those infixes
+    --   -- to_be_cleaned_infixes = utils.split(args.compile,',')
+    --   config.clean_infixes   = get_infixes_for_keys(config.compilers, config.compile_sequence)
+    --   log:info("Infixes to be cleaned: " .. args.compile)
+    -- end
+    
+    if command == "veryclean" then
+      -- log:debug("Appending extra extensions")
+      tablex.insertvalues(to_be_cleaned_extensions, config.output_formats)   -- append arrays ...
+      tablex.insertvalues(to_be_cleaned_extensions, { "aux", "toc", "log", "dlog", "xref", "jax", "xmjax", "sagetex.sage", "html.failed", "pdf.failed", "svg" })   -- append arrays ...
+      log:debugf("Appended extra extensions %s", table.concat(to_be_cleaned_extensions, ', '))
+    end
+
+    log:statusf("Cleaning %s files with extensions %s", table.concat(to_be_cleaned_infixes, ', '),table.concat(to_be_cleaned_extensions, ', '))
+    
+    for _,file in ipairs(tex_files) do
+      log:tracef("Removing temp files for %s", file.relative_path)
+      n_files_deleted = n_files_deleted  + compile.clean(file, to_be_cleaned_extensions, to_be_cleaned_infixes, config.check)
+    end
+
+    -- require 'pl.pretty'.dump(config)
+    -- require 'pl.pretty'.dump(to_be_cleaned_extensions)
+
+    log:infof("Cleaned %d files", n_files_deleted)
+  end 
+
+
+-- POSIX system calls we need for non-blocking popen
+-- Note this makes us POSIX dependent, but we could add Windows system calls to support Windows if we ever needed
+ffi.cdef([[
+  void* popen(const char* cmd, const char* mode);
+  int pclose(void* stream);
+  int fileno(void* stream);
+  int fcntl(int fd, int cmd, int arg);
+  int *__errno_location ();
+  ssize_t read(int fd, void* buf, size_t count);
+]])
+  
+-- I think these are technically system dependent
+local F_SETFL = 4
+local O_NONBLOCK = 2048
+local EAGAIN = 11
+local max_workers = 2
+
+function bake(to_be_compiled)
+  log:debug("Baking")
+
+  local all_statuses = {}
+
+  local _errno = ffi.C.__errno_location() -- Get pointer to errno location
+  local current_processes = {}
+  local current_workers = 0
+
+  local i = 1
+  local total_to_compile = #to_be_compiled
+
+  while i <= total_to_compile or current_workers > 0 do -- TODO: Look into making this cleaner
+    if current_workers < max_workers and i <= total_to_compile then -- We're ready to start more compiling processes
+      local file = to_be_compiled[i]
+      -- Start ugly passing of info to test-bake.lua
+      local command = "luatex --luaonly /root/texmf/tex/latex/ximeraLatex/luaxake/test-bake.lua"
+      -- local command = "./xmScripts/bake"
+      command = command .. " :" .. tostring(file.relative_path)
+      command = command .. " :" .. tostring(file.absolute_path)
+      command = command .. " :" .. tostring(file.absolute_dir)
+      command = command .. " :" .. tostring(file.relative_dir)
+      command = command .. " :" .. tostring(file.filename)
+      command = command .. " :" .. tostring(file.basename)
+      command = command .. " :" .. tostring(file.extension)
+      command = command .. " :" .. tostring(file.exists)
+      command = command .. " :" .. tostring(file.modified)
+      command = command .. " :" .. tostring(file.needs_compilation)
+      command = command .. " :" .. tostring(file.tex_documentclass)
+
+      for _, value in pairs(config.compile_sequence) do 
+        command = command .. " :" .. tostring(value)
+      end
+
+      command = command .. " " .. "BREAK" -- and it only gets uglier
+
+      for _, value in pairs(config.output_formats) do
+        command = command .. " :" .. tostring(value)
+      end
+
+      -- End ugly passing of info to test-bake.lua
+
+      log:info("Starting process with command: " .. tostring(command))
+      local process = {}
+      process.file_name = file.absolute_path
+
+      -- Start process with "command"
+      process.handle = ffi.C.popen(command, "r")
+      if process.handle == nil then
+        local err_code = _errno[0]
+        return tonumber(err_code), "Error trying to popen command: " .. tostring(command) .. "Error code: " .. tostring(err_code)
+      end
+
+      -- Get file descriptor of pipe
+      process.fd = ffi.C.fileno(process.handle)
+      if process.fd == -1 then
+        local err_code = _errno[0]
+        local err_msg = "Failed to get file descriptor for command: " .. tostring(command) .. ". Error code: " .. tostring(err_code)
+
+        local status_code = ffi.C.plcose(process.handle)
+        if status_code -1 then
+          err_code = _errno[0]
+          err_msg = err_msg .. ". Failed to pclose process. Error code: " .. tostring(err_code)
+        end
+
+        return tonumber(err_code), err_msg
+      end
+
+       -- Set non-blocking mode for pipe
+      local status_code = ffi.C.fcntl(process.fd, F_SETFL, O_NONBLOCK)
+      if status_code ~= 0 then
+        err_code = _errno(0)
+        log:info("failed fcntl. status_code: " .. tostring(status_code) .. ". error: " .. tostring(_errno[0]))
+        return tonumber(err_code), "Failed to set non-blocking reads for pipe to command: " .. tostring(command) .. ". Error code: " .. tostring(err_code)
+      end
+
+      table.insert(current_processes, process)
+      current_workers = current_workers + 1
+      i = i + 1
+
+    else -- Check to see if any processes have ended
+      for j, process in ipairs(current_processes) do
+        local read_buffer = ""
+        local bytes_read = ffi.C.read(process.fd, read_buffer, 2024) -- Read 2024 bytes at a time (We currently don't do anything with what we read)
+        if (bytes_read == -1) and (_errno[0] ~= EAGAIN) then -- There was some unexpected error
+
+          -- TODO: We might be able to handle some of these errors instead of just failing
+          return tonumber(_errno[0]), "Failed to read pipe for compilation process for file: " .. tostring(process.file_name) .. ". Error code: " .. tostring(_errno[0])
+
+        elseif bytes_read == 0 then -- End of file
+
+          local ret_code = ffi.C.pclose(process.handle)
+          if ret_code == -1 then -- TODO: Do we have to do anything more in this case?
+            log:error("Failed to get return code for compilation process for file: " .. tostring(process.file_name))
+          else 
+            ret_code = ret_code / 256 -- Discard last 8 bits
+          end
+          
+          -- TODO: add error handling based off of this return code
+          log:info("Return code for compilation process for file: " .. tostring(process.file_name) .. " is ret_code: " .. tostring(ret_code))
+
+          current_workers = current_workers - 1
+          table.remove(current_processes, j)
+        end 
+      end
+    end
+  end
+
+  return 0, string.format("Baking resulted in unknown errors")
+
+    -- collect and print all errors 
+  --   local failed_files = {}
+  --   for _, entry in ipairs(all_statuses) do 
+  --     for _, compile_info in ipairs(entry) do
+  --       log:debug("File "..(compile_info.output_file or "UNKNOWN??") .." got status " .. (compile_info.status or 'NIL??') )
+  
+  --       if (compile_info.status or 0) > 0 then 
+  --   --          require 'pl.pretty'.dump(compile_info)
+  --           failed_files[compile_info.source_file] = ( failed_files[compile_info.source_file] or 0 ) + #(compile_info.errors)
+  
+  --           for _, err in ipairs(compile_info.errors) do
+  --             -- log:errorf("[%10s] %s:%s %s [%s]", compile_info.compiler, compile_info.source_file, err.line, err.context,err.error)
+  --             log:errorf("[%-10s] %s:%s", compile_info.compiler, compile_info.source_file, err.constructed_errormessage)
+  
+  --   --            require 'pl.pretty'.dump(err)
+  --           end
+  --       else
+  --         if compile_info.post_processing_error then
+  --             log:errorf("[%-10s] %s: %s", "post_command", compile_info.source_file, compile_info.post_processing_error)
+  --             local _, n_errors = compile_info.post_processing_error:gsub("\n", "")   -- HACK: number of lines equals number of errors ...
+  --             failed_files[compile_info.source_file] = ( failed_files[compile_info.source_file] or 0 ) + n_errors + 1
+  --         end
+  --       end 
+  --     end
+  --   end
+
+        
+  -- --
+  -- -- all compilations done; process/summarize errors
+  -- --
+  -- if tablex.size(failed_files) == 0 then
+  --   -- log:statusf("Baked %d files, no errors found", #to_be_compiled)
+  --   return 0,  string.format("Baked %d files, no errors found", #to_be_compiled)
+  -- else
+  --   log:warningf("Baked %d files, but %d compilation%s failed", #to_be_compiled, tablex.size(failed_files), tablex.size(failed_files) == 1 and "" or "s")
+
+  --   for filename, errs in pairs(failed_files) do
+  --         log:errorf("%2d errors in %s", errs, filename)
+  --   end
+  --   -- log:statusf("Baking resulted in %d errors", tablex.size(failed_files) )
+  --   return 1, string.format("Baking resulted in %d errors", tablex.size(failed_files) )
+  -- end
+end
+      
+  -- TODO: fix commands (cfr xmlatex/xmlatex/lua)
+if command == "bake" or command == "compilePdf" or command ==  "compile" then
+  log:status("Start "..command)
+
+  local ret, msg
+  if #to_be_compiled == 0 then
+    ret, msg = 0, "Nothing to be baked"
+  else
+    ret, msg = bake(to_be_compiled)
+  end    -- end baking
+
+  if ret > 0 then
+    log:error("Bake failed: " .. msg)
+    os.exit(ret)
+  else 
+    log:statusf("Bake succeeded: " .. msg)
+  end
+end
+
+if command == "frost" then
+  log:status("Start " .. command)
+  local ret, msg = frost.frost(tex_files, to_be_compiled)
+  if ret > 0 then
+    log:error("Frost failed: " .. msg)
+    os.exit(ret)
+  else 
+    log:statusf("Frost succeeded: " .. msg)
+  end
+end
+
+if command == "serve" then
+  log:status("Start " .. command)
+  local ret, msg = frost.serve(config.force)  
+  if ret > 0 then
+    log:error("Serve failed: " .. msg)
+    os.exit(ret)
+  else 
+    log:statusf("Serve succeeded: " .. msg)
+  end
+end
+
+if command == "ghaction" then
+
+  local ret, msg
+  if #to_be_compiled == 0 then
+    log:status("Nothing to be baked")
+    msg={}
+  else
+    log:status("Start bake")
+    ret, msg = bake(to_be_compiled)
+    
+    if ret > 0 then
+      log:error("Bake failed: " .. msg)
+      log:warning("But, I'll continue, and hope for the best")
+      -- os.exit(ret)   
+    else 
+      log:statusf("Bake succeeded: " .. msg)
+    end
+  end  
+
+  -- Hack: update to_be_compiled for usage in frost (uncompiled files might/should genetate a warning or error ...) 
+  local still_to_be_compiled = {}
+  for _, lfile in ipairs(to_be_compiled) do
+     if lfile.needs_compilation then
+      log:infof("Mmm, file %s still needs compilation.", lfile.relative_path)
+      table.insert(still_to_be_compiled, lfile)
+     end
+  end
+      
+  if #still_to_be_compiled > 0 then
+    log:infof("Still %d files to be compiled after bake.", #still_to_be_compiled)
+  end
+  to_be_compiled = still_to_be_compiled
+  -- end-of-hack to_be_compiled
+
+  log:status("Start frost")
+  local ret, msg = frost.frost(tex_files, to_be_compiled)
+  if ret > 0 then
+    log:error("Frost failed: " .. msg)
+    os.exit(ret)
+  else 
+    log:statusf("Frost succeeded: " .. msg)
+  end
+  log:status("Start serve")
+  local ret, msg = frost.serve(true)  -- WITH FORCE (until push/depth issue fixed)
+  if ret > 0 then
+    log:error("Serve failed: " .. msg)
+    os.exit(ret)
+  else 
+    log:statusf("Serve succeeded: " .. msg)
+  end
+end
+
+
+if command == "extrainfo" then
+  all_labels = {}
+  -- TEST: to be implemented ...?
+  for i, file in ipairs(tex_files) do
+    log:infof("Info for %s (%s)",file.filename,file.relative_path)
+    
+        local html_file =  files.get_fileinfo(file.relative_path:gsub("tex$", "html"))
+        local ret, msg = html.update_html_fileinfo(html_file)
+        
+        for k,v in pairs(html_file.labels or {}) do 
+          log:infof("Adding %s to %s",v,k)
+          all_labels[k] = ( all_labels[k] or 0) + v 
+        end
+  end
+  if all_labels ~= {} then
+      log:infof("Potentially duplicate labels:")
+      require 'pl.pretty'.dump(all_labels)
+  end
+end

@@ -1,0 +1,203 @@
+% \subsubsection{Problem environments}
+
+% These are problem environment decorations (these should be user invoked, not default).
+% The decoration for these environments were inspired by
+% \url{http://tex.stackexchange.com/questions/11098/nice-formatting-for-theorems}
+%    \begin{macrocode}
+%<*classXimera>
+%    \end{macrocode}
+
+% \begin{macro}{latexProblemContent}
+%    Added for those that want to use UF problems without using the problem filter code. This command is renewed into something meaningful in the 'ProblemSelector.sty'.
+%    \begin{macrocode}
+\providecommand{\latexProblemContent}[1]{#1}
+% Iterate count for problem counts.
+\Make@Counter{Iteration@probCnt}        
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\newcommand{\hang}{% top theorem decoration
+  \begingroup%
+  \setlength{\unitlength}{.005\linewidth}% \linewidth/200
+    \begin{picture}(0,0)(1.5,0)%
+      \linethickness{1pt} \color{black!50}%
+      \put(-3,2){\line(1,0){206}}% Top line
+      \multido{\iA=2+-1,\iB=50+-10}{5}{% Top hangs
+        \color{black!\iB}%
+        \put(-3,\iA){\line(0,-1){1}}% Top left hang
+        %\put(203,\iA){\line(0,-1){1}}% Top right hang
+      }%
+    \end{picture}%
+  \endgroup%
+}%
+\newcommand{\hung}{% bottom theorem decoration
+  \nobreak
+  \begingroup%
+    \setlength{\unitlength}{.005\linewidth}% \linewidth/200
+    \begin{picture}(0,0)(1.5,0)%
+      \linethickness{1pt} \color{black!50}%
+      \put(60,0){\line(1,0){143}}% Bottom line
+      \multido{\iA=0+1,\iB=50+-10}{5}{% Bottom hangs
+        \color{black!\iB}%
+        %\put(-3,\iA){\line(0,1){1}}% Bottom left hang
+        \put(203,\iA){\line(0,1){1}}% Bottom right hang
+        \put(\iB,0){\line(60,0){10}}% Left fade out
+      }%
+    \end{picture}%
+  \endgroup%
+}%
+%    \end{macrocode}
+%
+% Configure environment configuration commands
+%
+% The command |\problemNumber| contains all the format code to determine the number (and the format of the number) for any of the problem environments.
+% 
+%    \begin{macrocode}
+\MakeCounter{problem}
+\newcommand{\problemNumber}{
+% First we determine if we have a counter for this question depth level.
+\ifcsname c@depth\Roman{problem@Depth}Count\endcsname% Check to see if counter exists
+	%If so, do nothing.
+	\else
+	%If not, create it.
+	\expandafter\newcounter{depth\Roman{problem@Depth}Count}
+	\expandafter\setcounter{depth\Roman{problem@Depth}Count}{0}
+	\fi
+
+\expandafter\stepcounter{depth\Roman{problem@Depth}Count}
+\arabic{depthICount}% The first problem depth, what use to be |\theproblem|.
+
+\forloop{Iteration@probCnt}{2}{\arabic{Iteration@probCnt} < \numexpr \value{problem@Depth} + 1 \relax}{%
+    .\expandafter\arabic{depth\Roman{Iteration@probCnt}Count}% Get the problem number of the next depth level and append it with a ".".
+}
+%\@ifpackageloaded{shuffle}{<true>}{<false>}% Check if Shuffle has been added. If so, add special numbering to the shuffled "groups". Currently commented out while we decide what that should look like (compared to the normal nested problems).
+%\ifhandout % Currently handout mode doesn't allow hints. Putting this code in place in case that changes.
+%	\theproblem 
+%\else
+%	\theproblem 
+%\fi
+}
+
+
+%%%%%% Configure various problem environment commands
+\Make@Counter{problem@Depth}
+
+
+
+%%%% Configure environments start content
+
+\newcommand{\problemEnvironmentStart}[2]{%
+% This takes in 2 arguments. 
+% The first is optional and is the old optional argument from existing environments. 
+%	This is passed down to the associated problem environment name in case you want a global value.
+% The second argument is mandatory and is the name of the 'problem' environment, 
+%	such as problem, question, exercise, etc. 
+% It then configures everything needed at the start of that environment.
+
+\stepcounter{problem@Depth}% Started a problem, so we've sunk another problem layer.
+\def\spaceatend{#1}%
+\begin{trivlist}%
+\item%
+  [%
+    \hskip\labelsep\sffamily\bfseries
+    #2 \problemNumber% Determine the correct number of the problem, and the format of that number.
+	]%
+\slshape
+}
+
+
+
+%%%%% Configure environments end content
+
+\newcommand{\problemEnvironmentEnd}{%This configures all the end content for a problem.
+%
+% First we need to see if we've dropped fully out of a depth level, 
+% so we can reset that counter back to zero for the next time we enter that depth level.
+\stepcounter{problem@Depth}
+\ifcsname c@depth\Roman{problem@Depth}Count\endcsname
+	\expandafter\ifnum\expandafter\value{depth\Roman{problem@Depth}Count}>0
+		\expandafter\setcounter{depth\Roman{problem@Depth}Count}{0}
+	\fi
+\fi
+
+\addtocounter{problem@Depth}{-2}% Exited a problem so we've exited a problem layer. Need -2 because we steppped once at the start to check for needing a depth-level count reset. 
+
+% 202410: no longer \par\addvspace{.5ex}\nobreak\noindent\hung %% line at the bottom
+
+\ifhandout
+	\ifnewpage
+		\newpage
+	\fi
+\fi 
+\end{trivlist}
+}
+
+
+
+%%%% Now populate the old environment names
+%
+% Old environments were "problem", "exercise", "exploration", and "question".
+% Note that you can add content to the start/end code on top of these base code pieces if you want.
+%
+% These definitions will be overwritten in ximera.4ht !
+
+
+\newenvironment{problem}[1][2in]%
+{%Env start code
+\problemEnvironmentStart{#1}{Problem}
+}
+{%Env end code
+\problemEnvironmentEnd
+}
+
+\newenvironment{exercise}[1][2in]%
+{%Env start code
+\problemEnvironmentStart{#1}{Exercise}
+}
+{%Env end code
+\problemEnvironmentEnd
+}
+
+\newenvironment{exploration}[1][2in]%
+{%Env start code
+\problemEnvironmentStart{#1}{Exploration}
+}
+{%Env end code
+\problemEnvironmentEnd
+}
+
+\newenvironment{question}[1][2in]%
+{%Env start code
+\problemEnvironmentStart{#1}{Question}
+}
+{%Env end code
+\problemEnvironmentEnd
+}
+%</classXimera>
+%    \end{macrocode}
+
+
+% Use an ``identification'' counter to assign IDs to the various problem-related DOM elements
+%    \begin{macrocode}
+%<*htXimera>
+\newcounter{identification}
+\setcounter{identification}{0}
+
+% 2024: should perhaps better have been called \ConfigureProblemEnv ...??
+\newcommand{\ConfigureQuestionEnv}[2]{%
+% refstepcounter ensures that labels get updated within these environments
+\renewenvironment{#1}{\refstepcounter{problem}}{}%
+\ConfigureEnv{#1}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div role="article" class="problem-environment #2" id="problem\arabic{identification}">}}{\ifvmode \IgnorePar\fi \EndP\HCode{</div>}\IgnoreIndent}{}{}%
+}
+
+\ConfigureQuestionEnv{problem}{problem}
+\ConfigureQuestionEnv{exercise}{exercise}
+\ConfigureQuestionEnv{question}{question}
+\ConfigureQuestionEnv{exploration}{exploration}
+
+\ifdefined\xmNotHintAsExpandable
+  \ConfigureQuestionEnv{hint}{hint}     % 2024: hint is no longer a 'question-environment'. 
+\fi
+%%%%\ConfigureQuestionEnv{shuffle}{shuffle}
+%</htXimera>
+%    \end{macrocode}

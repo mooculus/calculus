@@ -1,0 +1,158 @@
+% \subsection{Activities}
+% The core of the |xourse| system. It works by redefining the
+% |document| environment, thus making the |\begin| and
+%   |\end{document}| of the subfile `transparent' to the
+% inclusion. The redefinition of |\documentclass| is analogous, just
+% having a required and an optional arguments which mean nothing to
+% |\subfile|.
+%    \begin{macrocode}
+%<*classXourse>
+\newcommand{\skip@preamble}{%
+    \let\document\relax\let\enddocument\relax%
+    \newenvironment{document}{\let\input\otherinput}{}%
+    \renewcommand{\documentclass}[2][subfiles]{}}
+%    \end{macrocode}
+% Note that the new command |\subfile| calls for |\skip@preamble| \emph{within a group}. The changes to |document| and |\documentclass| are undone after the inclusion of the subfile.
+%
+% Numbering starts a page too soon without this:
+%    \begin{macrocode}
+\let\otherinput\input 
+%    \end{macrocode}
+% Store usual |\maketitle| as |\othermaketitle|
+%    \begin{macrocode}
+\let\othermaketitle\maketitle
+%    \end{macrocode}
+% \DescribeMacro{\maketitle}{In a \textsf{xourse} file, |\maketitle| is redefined to give course packet title page and toc.}
+%    \begin{macrocode}
+\renewcommand{\maketitle}{ %
+\pagestyle{empty}
+\begin{center}
+~\\ %puts space at top of page to move title down.
+\vskip .25\textheight
+\hrulefill\\
+\vskip 1em
+\bfseries{\Huge \@title} \\
+\hrulefill\\
+\vskip 3em
+{\Large \@author}
+\vskip 2em
+{\large \@date}
+\end{center}
+\clearpage
+%    \end{macrocode}
+% When |notoc| option is used, we do not include a table of contents.
+% Otherwise we include a table of contents in every course packet.
+%    \begin{macrocode}
+\ifnotoc
+\else
+  \tableofcontents\clearpage
+  \clearpage
+\fi
+%    \end{macrocode}        
+% Switch to main pagestyle, just like a document with documentclass \textsf{ximera}.
+%    \begin{macrocode}
+\pagestyle{main}
+%    \end{macrocode}
+% Renew maketitle to usual definition.
+%    \begin{macrocode}
+\let\maketitle\othermaketitle
+%    \end{macrocode}
+% And we finish with our redefinition of |\maketitle|.
+%    \begin{macrocode}
+}
+\relax
+%</classXourse>
+%    \end{macrocode}
+
+% \subsubsection{Regular activities}
+% \DescribeMacro{\activity}{Documents included with |\activity| will
+% be included in the body of the xourse document. Any |\input|
+% commands within included \textsf{ximera} documents will be ignored.
+% Any |\usepackage| commands within included ximera documents will
+% cause an error.  Overlapping |\newcommand| definitions within
+% multiple ximera documents included simultaneously will cause an
+% error.}  The |\activity| command inputs the file name provided
+% without |\documentclass|, without
+% |\begin{document}|/|\end{document}| and without any inputs in the
+% preamble of the included file.
+%    \begin{macrocode}
+%<*classXourse>
+\ifnonewpage
+\newcommand{\activity}[2][]{%
+	\setkeys{activity}{#1}
+  \renewcommand{\input}[1]{}
+  \begingroup\skip@preamble\otherinput{#2}\endgroup\par\vspace{\topsep}
+  \let\input\otherinput}
+\else
+\newcommand{\activity}[2][]{%
+	\setkeys{activity}{#1}
+  \renewcommand{\input}[1]{}
+  \begingroup\skip@preamble\otherinput{#2}\endgroup\clearpage
+  \let\input\otherinput}
+\fi
+\relax
+%</classXourse>
+%    \end{macrocode}
+
+%    \begin{macrocode}
+%<*htXourse>
+\renewcommand\activity[2][]{%
+\ifvmode \IgnorePar\fi \EndP\HCode{<a class="activity card \activitystyle" href="#2" data-options="#1">#2</a>}\IgnoreIndent%
+}
+%</htXourse>
+%    \end{macrocode}
+
+% When running xake, we can just ignore activities
+%    \begin{macrocode}
+%<*classXourse>
+\ifxake
+\renewcommand\activity[2][]{}
+\fi
+%</classXourse>
+%    \end{macrocode}
+
+
+% \subsubsection{Practice activities}
+% \DescribeMacro{\practice}{Like |\activity| but not expecting a title.}
+%    \begin{macrocode}
+%<*classXourse>
+\ifhandout
+\newcommand{\practice}[2][]{
+	\setkeys{practice}{#1}%!!!!!
+  \renewcommand{\input}[1]{}
+  \begingroup\skip@preamble\otherinput{#2}\endgroup
+  \let\input\otherinput}
+\else
+\newcommand{\practice}[2][]{\texttt{\detokenize{#2}}%% gives file name for practice
+	\setkeys{practice}{#1}%!!!!!
+  \renewcommand{\input}[1]{}
+  \begingroup\skip@preamble\otherinput{#2}\endgroup
+  \let\input\otherinput}
+\fi
+\relax
+%</classXourse>
+%    \end{macrocode}
+
+% The practice environment does nothing, but will eventually produce
+% exercises at the end of an activity
+%    \begin{macrocode}
+%<*classXourse>
+\ifxake
+\renewcommand\practice[2][]{}
+\fi
+%</classXourse>
+%    \end{macrocode}
+
+% I suppose it is reasonable for practice cards to NOT have an activitystyle, since the activitystyle is basically PRACTICE.
+%    \begin{macrocode}
+%<*htXourse>
+\renewcommand\practice[2][]{%
+  \ifvmode\IgnorePar\fi\EndP%
+  \HCode{<a class="activity card practice" href="#2" data-options="#1">#2</a>}%
+  \IgnoreIndent%
+}
+%</htXourse>
+%    \end{macrocode}
+
+
+

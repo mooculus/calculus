@@ -1,0 +1,22 @@
+% \subsubsection{Including widgets}
+% \DescribeMacro{\includeinteractive}{Cognate to |includegraphics| but
+% instead of a graphics file, accepts a |.js| file which will be
+% loaded as an interactive widget.}
+%    \begin{macrocode}
+%<*classXimera>
+\define@key{interactive}{id}{\def\interactive@id{#1}}
+\setkeys{interactive}{id=}
+\newcommand{\includeinteractive}[2][]{
+\setkeys*{interactive}{#1}%
+\ifthenelse{\equal{\interactive@id}{}}{}{\recordvariable{\interactive@id}}
+Interactive
+}
+%</classXimera>
+%    \end{macrocode}
+%    \begin{macrocode}
+%<*htXimera>
+\renewcommand{\includeinteractive}[2][]{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div id="interactive\arabic{identification}" class="interactive"> </div>}\HCode{<script src="#2" data-argument="#1" data-target="interactive\arabic{identification}"> </script>}\IgnoreIndent}
+%</htXimera>
+%    \end{macrocode}
+
+

@@ -1,0 +1,90 @@
+% \subsubsection{Only in HTML or PDF}
+% Ximera provides several techniques to display some content only in the PDF, or only online.
+% The \verb|prompt| environment can be used to hide the data-entry part of a problem from the PDF: it's contents only get displayed online.
+% \\
+% The lower level commands \verb|\pdfOnly| and \verb|\htmlOnly| also limit the output to either PDF or online, similarly to the environments
+% \verb|onlyPdf| and \verb|onlyHtml|.
+% \\
+% If \verb|\xmPrintHtmlOnlyAlsoInPdf| is set, the online/html only things are printed in the PDF anyway (e.g. for review).
+% \\
+% Unfortunately it is not possible in \LaTeX\ to have a command and an environment with the same name. We opted for the above (confusing\ldots) names. 
+% \\
+% For backward compatibility, the deprecated environment \verb|onlineOnly| is identical to \verb|onlyHtml|.
+% \\
+% For more advanced usage also commands \verb|\ifonline| and \verb|ifonlineTF| are provided.
+% \\
+% The technique used to distinguish between the PDF-version and the online HTML-version is always the existence of the TeX4ht macro \verb|\HCode|.
+% Older distinctions such as \verb|\ifxake|, \verb|ifhandout| or \verb|\iftikzexport| should no longer be used for this purpose.
+%
+
+% \DescribeEnv{prompt}{The prompt part for mathmode}
+%    \begin{macrocode}
+%<*classXimera>
+\ifxake
+        \newenvironment{prompt}{}{}
+\else
+\ifhandout
+	\NewEnviron{prompt}{}
+    % Breaks when put in mathmode ?
+    % \newenvironment{prompt}{\suppress}{\endsuppress} 
+\else
+	\newenvironment{prompt}{\bgroup\color{gray!50!black}}{\egroup}
+\fi
+\fi
+%    \end{macrocode}
+% \DescribeEnv{onlyHtml}{Only display online}
+% \\
+% \DescribeEnv{onlyPdf}{Only display in the PDF}
+% \\
+% \DescribeEnv{onlineOnly}{Only display online (deprecated: use onlyHtml instead)}
+%    \begin{macrocode}
+\ifdefined\HCode
+	\newenvironment{onlyPdf}{\setbox0\vbox\bgroup}{\egroup}
+	\newenvironment{onlyHtml}{\bgroup}{\egroup}
+	\newenvironment{onlineOnly}{\bgroup}{\egroup}
+\else
+	\newenvironment{onlyPdf}{\bgroup}{\egroup}
+	\ifdefined\xmPrintHtmlOnlyAlsoInPdf
+		\newenvironment{onlyHtml}{\bgroup\color{red!50!black}}{\egroup}
+		\newenvironment{onlineOnly}{\bgroup\color{red!50!black}}{\egroup}
+	\else
+		\newenvironment{onlyHtml}{\setbox0\vbox\bgroup}{\egroup}
+		\newenvironment{onlineOnly}{\setbox0\vbox\bgroup}{\egroup}
+	\fi
+\fi
+
+%    \end{macrocode}
+% \DescribeMacro{\htmlOnly}{Only display online}
+% \\
+% \DescribeMacro{\pdfOnly}{Only display in the PDF}
+%    \begin{macrocode}
+
+\ifdefined\HCode
+	\newcommand{\pdfOnly}[1]{}
+	\newcommand{\htmlOnly}[1]{#1}
+\else
+	\ifdefined\xmPrintHtmlOnlyAlsoInPdf
+		\newcommand{\pdfOnly}[1]{#1}
+		\newcommand{\htmlOnly}[1]{\bgroup\color{red!50!black}#1\egroup}
+	\else
+		\newcommand{\pdfOnly}[1]{#1}
+		\newcommand{\htmlOnly}[1]{}
+	\fi
+\fi
+
+%    \end{macrocode}
+% \DescribeMacro{\ifonline}{Only execute online (ie in HTML version) }
+% \\
+% \DescribeMacro{\ifonlineTF}{Different output online vs PDF}
+%    \begin{macrocode}
+% An alternatife for \pdfOnly/\begin{htmlOnly} : 
+% Usage: Hello \ifonlineTF{online reader}{PDF reader}
+\providecommand{\ifonlineTF}[2]{\htmlOnly{#1}\pdfOnly{#2}}
+\newif{\ifonline}
+\ifdefined\HCode
+\onlinetrue
+\else
+\onlinefalse
+\fi
+%</classXimera>
+%    \end{macrocode}

@@ -1,0 +1,71 @@
+% \subsubsection{Images}
+% \DescribeEnv{image}{Place images inside an |image| environment.  On paper, this centers the image.  On the web, this provides additional benefits.}
+% \DescribeMacro{\xmDefaultGraphicsPath}{Base graphicspath, deafult '/xmPictures'. Can only be changed BEFORE loading ximera.cls!}
+%    \begin{macrocode}
+%<*classXimera>
+% Provide a default graphicspath
+% (somewhat tricky: an activity can be included in a xourse in a wildly different path !)
+% Suggested convention: put all images in i /pictures folder in the root of your project
+\providecommand{\xmDefaultGraphicsPath}{/xmPictures}
+\graphicspath{  %% When looking for images,
+{./}            %% look here first,
+{.\xmDefaultGraphicsPath/}   %% then look for a pictures folder,
+{..\xmDefaultGraphicsPath/}   %% then look for a pictures folder,
+{../..\xmDefaultGraphicsPath/}   %% then look for a pictures folder,
+{../../..\xmDefaultGraphicsPath/}   %% then look for a pictures folder,
+}
+%\newenvironment{image}[1][]{\begin{center}}{\end{center}}
+\NewEnviron{image}[1][3in]{% 
+  \begin{center}\resizebox{#1}{!}{\BODY}\end{center}% resize and center
+}
+%</classXimera>
+%    \end{macrocode}
+% \DescribeMacro{\alt}{Inside an |image| environment, |\alt| provides alt-text for assistive technology like screenreaders.}
+%    \begin{macrocode}
+%<*classXimera>
+\newcommand{\alt}[1]{}
+%</classXimera>
+%    \end{macrocode}
+% The |image| environment doesn't actually work in tex4ht as defined
+% with NewEnviron; so this renewenvironment is needed.
+% image-environment also gets formatted in a well, and when the user
+% clicks on the image, it zooms in.
+%    \begin{macrocode}
+%<*htXimera>
+\newcounter{imagealt}
+\setcounter{imagealt}{0}
+\renewenvironment{image}[1][]{\stepcounter{imagealt}%
+  \ifvmode \IgnorePar\fi \EndP%
+  \HCode{<div class="image-environment" role="img" aria-labelledby="image-alt-\arabic{imagealt}">}%
+}{\HCode{</div>}}
+\renewcommand{\alt}[1]{\HCode{<div style="display: none;" id="image-alt-\arabic{imagealt}">}#1\HCode{</div>}}
+%</htXimera>
+%<*cfgXimera>
+%%  Although we accept many formats, SVG is preferred on the web.
+%%  Since we have a different mechanism for producing |alt| text, we
+%%  want to ignore tex4ht's own method fo producing alt text.
+%%  2024: is now in TeX4ht ...
+% \DeclareGraphicsExtensions{.jpg,.png,.gif,.svg}
+% \Configure{graphics*}
+% {svg}{
+%   {\Configure{Needs}{File: \Gin@base.svg}\Needs{}}
+%   \Picture[]{\csname Gin@base\endcsname.svg \csname a:Gin-dim\endcsname}%
+% }
+%</cfgXimera>
+%    \end{macrocode}
+% This is a hack to kill |includegraphics| commands in
+% |\documentclass{standalone}| files
+%    \begin{macrocode}
+%<*cfgXimera>
+\ifcsname ifstandalone\endcsname
+  \ifstandalone
+    \renewcommand\includegraphics[2][]{}
+  \fi
+%</cfgXimera>
+%    \end{macrocode}
+% PGF sometimes causes trouble, but we simply don't care in tex4ht mode.
+%    \begin{macrocode}
+%<*htXimera>
+\providecommand{\pgfsyspdfmark}[3]{}
+%</htXimera>
+%    \end{macrocode}

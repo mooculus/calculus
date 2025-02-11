@@ -1,0 +1,36 @@
+% \subsubsection{Code listing environments}
+% \DescribeEnv{code}{A code answer environment} You cannot use Environ
+% with the fancyvrb/listings package if you want nested environments.
+%
+%    \begin{macrocode}
+%<*classXimera>
+\DefineVerbatimEnvironment{code}{Verbatim}{numbers=left,frame=lines,label=Code,labelposition=topline}
+%</classXimera>
+%    \end{macrocode}
+% \DescribeEnv{python}{A python answer environment} You cannot use
+% Environ with the fancyvrb/listings package if you want nested
+% environments
+%    \begin{macrocode}
+%<*classXimera>
+\DefineVerbatimEnvironment{python}{Verbatim}{numbers=left,frame=lines,label=Python,labelposition=topline}
+%</classXimera>
+%    \end{macrocode}
+% \DescribeEnv{javascriptCode}{A JavaScript answer environment} Unfortunately the name |javascript| is already used for the actual, executed (!) JavaScript interactive.
+% environments
+%    \begin{macrocode}
+%<*classXimera>
+\DefineVerbatimEnvironment{javascriptCode}{Verbatim}{numbers=left,frame=lines,label=JavaScript,labelposition=topline}
+%</classXimera>
+%<*cfgXimera>
+\renewenvironment{javascriptCode}{\NoFonts}{\EndNoFonts}
+\ScriptEnv{javascriptCode}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="javascript-code" id="javascript\arabic{identification}"><script type="text/text">}\HtmlParOff}{\HtmlParOn\HCode{\Hnewline</script></div>}}
+%</cfgXimera>
+%    \end{macrocode}
+%%% On the web, translate verbatim and lstlisting blocks into |<pre>|
+%%% elements.
+%%%    \begin{macrocode}
+%%%<*cfgXimera>
+%%\ConfigureEnv{verbatim}{\ifvmode\IgnorePar\fi\EndP\HCode{<pre style="white-space: pre; background-color: lightgray;" >}}{\ifvmode\IgnorePar\fi\EndP\HCode{</pre>}}{}{}
+%%\ConfigureEnv{lstlisting}{\ifvmode\IgnorePar\fi\EndP\HCode{<pre>}}{\ifvmode\IgnorePar\fi\EndP\HCode{</pre>}}{}{}
+%%%</cfgXimera>
+%%%    \end{macrocode}

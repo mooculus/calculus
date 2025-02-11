@@ -1,0 +1,123 @@
+% \subsection{Options for the class}
+%    We start by listing the options for the \textsf{ximera} document class. Note, since the \textsf{xourse} class is based on the \textsf{ximera} class, all listed options are available there too.
+%
+%    \begin{macrocode}
+%<*classXimera>
+%    \end{macrocode}
+% \begin{macro}{handout}
+%    The default behavior of the class is to display \textbf{all} content. This means that if any questions are asked, all answers are shown. Moreover, some content will only have a meaningful presentation when displayed online. When compiled without any options, this content will be shown too. This option will supress such content and generate a reasonable printiable ``handout.''
+%    \begin{macrocode}
+\newif\ifhandout
+\handoutfalse
+\DeclareOption{handout}{\handouttrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{noauthor}
+%    By default, authors are listed at the bottom of the first page of a document. This option will supress the listing of the authors.
+%    \begin{macrocode}
+\newif\ifnoauthor
+\noauthorfalse
+\DeclareOption{noauthor}{\noauthortrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{nooutcomes}
+%    By default, learning outcomes are listed at the bottom of the first page of a document. This option will supress the listing of the learning outcomes.
+%    \begin{macrocode}
+\newif\ifnooutcomes
+\nooutcomesfalse
+\DeclareOption{nooutcomes}{\nooutcomestrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{instructornotes}
+%    This option will turn on (and off) notes written for the instructor.
+%    \begin{macrocode}
+\newif\ifinstructornotes
+\instructornotesfalse
+\DeclareOption{instructornotes}{\instructornotestrue}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{noinstructornotes}
+%    This option will turn off (and on) notes written for the instructor.
+%    \begin{macrocode}
+\DeclareOption{noinstructornotes}{\instructornotestrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{hints}
+%    When the \texttt{handout} options is used, hints are not shown. This option will make hints visible in handout mode. 
+%    \begin{macrocode}
+\newif\ifhints
+\hintsfalse
+\DeclareOption{hints}{\hintstrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{newpage}
+%    This option will start each problem-like environment (\texttt{exercise}, \texttt{question}, \texttt{problem}, and \texttt{exploration}) start on a new page.
+%    \begin{macrocode}
+\newif\ifnewpage
+\newpagefalse
+\DeclareOption{newpage}{\newpagetrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{numbers}
+%    This option will number the titles of the activity. By default the activities are unnumbered.
+%    \begin{macrocode}
+\newif\ifnumbers
+\numbersfalse
+\DeclareOption{numbers}{\numberstrue}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{wordchoicegiven}
+%    This option will replace the choices shown by \texttt{wordChoice} with the correct choice. No indication of the \texttt{wordChoice} environment will be shown.
+%    \begin{macrocode}
+\newif\ifwordchoicegiven
+\wordchoicegivenfalse
+\DeclareOption{wordchoicegiven}{\wordchoicegiventrue}
+\newif\iffirstinlinechoice% Support for other wordchoice command contents.
+\firstinlinechoicetrue
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+
+\newif\ifxake
+\xakefalse
+\DeclareOption{xake}{\xaketrue}
+
+\newif\iftikzexport
+\tikzexportfalse
+\DeclareOption{tikzexport}{%
+  \tikzexporttrue%
+  \handoutfalse%
+  \numbersfalse%
+  \newpagefalse%
+  \hintsfalse%
+  \nooutcomesfalse%
+}
+
+\DeclareOption*{%
+  \PassOptionsToClass{\CurrentOption}{article}%
+}
+\ProcessOptions\relax
+\LoadClass{article}
+
+\ifdefined\HCode
+  \xaketrue%
+  \tikzexporttrue%
+  \handoutfalse%
+  \numbersfalse%
+  \newpagefalse%
+  \hintsfalse%
+  \nooutcomesfalse%
+\fi
+
+%</classXimera>
+%    \end{macrocode}
+
+
+

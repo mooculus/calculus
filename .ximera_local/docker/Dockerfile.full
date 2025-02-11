@@ -1,0 +1,31 @@
+FROM registry.gitlab.com/islandoftex/images/texlive:TL2024-2024-11-17-full
+# FROM registry.gitlab.com/islandoftex/images/texlive:TL2024-2024-12-15-full
+
+RUN apt-get update -y;  \
+    apt-get install -y \
+    curl \
+    git  git-restore-mtime \
+    mupdf-tools pdf2svg imagemagick \
+    gnupg \
+    jq \
+    dos2unix \
+    vim wget strace less 
+
+# RUN apt-get install -u hashcash
+
+# hashcash needed for setting up communication to ximeraServer; seems unfortunately not (easily?) installable with apt..
+ADD docker/hashcash_1.22-1_amd64.deb .
+RUN dpkg -i hashcash_1.22-1_amd64.deb
+
+# Add this complete ximeraLatex repo (is overkill, but allows bugfixing/editing inside the docker image!
+# It automatically adds the luaxake and xmlatex scripts
+RUN mkdir -p /root/texmf/tex/latex
+ADD . /root/texmf/tex/latex/ximeraLatex
+
+# Add some needed/convenience setup
+RUN ln -s /root/texmf/tex/latex/ximeraLatex/luaxake/luaxake /usr/local/bin/luaxake; \
+    ln -s /root/texmf/tex/latex/ximeraLatex/xmScripts/xmlatex /usr/local/bin/xmlatex; \
+    git config --global --add safe.directory /code ; \
+    apt-get update && apt-get install -y nano file
+
+WORKDIR /code

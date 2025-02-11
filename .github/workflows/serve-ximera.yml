@@ -3,13 +3,15 @@ name: Ximera Workflow
 on:
   push:      
 
+env: 
+  XM_COMPILE_SEQUENCE: draft.html
+  XM_TO_PROCESS: calculus1,calculus2  
+
 jobs:
   build-ximera:
     name: Build and preview Ximera Courses
     runs-on: ubuntu-latest
-    env: 
-      XM_COMPILE_SEQUENCE: draft.html
-      XM_TO_PROCESS: calculus1,calculus2
+
 
     permissions:
       actions: read
@@ -50,7 +52,7 @@ jobs:
           XM_JOBS: 6
         run: |
           ls -alrt
-          ./xmScripts/xmlatex ghaction -f -s || echo NOK 
+          ./xmScripts/xmlatex ghaction -j 6 calculus1 calculus2 -f -s --compile draft.html || echo NOK 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
       - name: Setup ximera serve cache (only .git)
@@ -89,7 +91,7 @@ jobs:
           XIMERA_NAME: ${{ vars.XIMERA_NAME }}
         run: |
           ./xmScripts/xmlatex name         
-          ./xmScripts/xmlatex serve -f
+          ./xmScripts/xmlatex serve -f calculus1 calculus2
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
 

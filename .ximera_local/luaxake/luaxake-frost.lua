@@ -346,11 +346,19 @@ local function serve(force_serving)
 
     log:debugf("Publishing  %s  (tree:%s tag:%s) ", tagName, tree_oid, tag_oid)
     
+    
+    local ret, output
+    if force_serving then
+    
     --  do not warn-on-error
-    local ret, output = osExecute("git push ximera "..tagName, true)
+        log:statusf("Forced serving (git push -f ximera "..tagName..")")
+        ret, output = osExecute("git push -f ximera "..tagName, true)
+    else
+        ret, output = osExecute("git push ximera "..tagName, true)
+    end
     if ret > 0 then
         log:tracef("Could not push to 'ximera' target: %s",output)
-        if not force_serving then
+        if true or not force_serving then   -- SKIPPED, see above !
             return ret, output
         else
             log:infof("Retrying push with more power (git push -f ...)")
@@ -360,10 +368,21 @@ local function serve(force_serving)
             end
         end
     end
-    local ret, output =  osExecute("git push ximera "..tag_oid..":refs/heads/master", true)     -- HACK ???
+
+    
+    local ret, output
+    if force_serving then
+    
+    --  do not warn-on-error
+        log:status("Forced serving (git push -f ximera "..tag_oid..":refs/heads/master)")
+        ret, output = osExecute("git push -f ximera "..tag_oid..":refs/heads/master", true)     -- HACK ???
+    else
+        ret, output = osExecute("git push ximera "..tag_oid..":refs/heads/master", true)     -- HACK ???
+    end
+
     if ret > 0 then
         log:tracef("Could not push refs to 'ximera' target: %s",output)
-        if not force_serving then
+        if true or not force_serving then
             return ret,output
         else
             log:infof("Retrying push with more power (git push -f ximera  "..tag_oid..":refs/heads/master)")

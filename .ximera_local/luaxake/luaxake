@@ -726,7 +726,8 @@ function bake(to_be_compiled, n_jobs)
           if cmd.status_post_command == "RETRY_COMPILATION" then
             next_cmd = cmd -- RETRY !!
             next_cmd.this_is_a_retry = true
-            log:infof("Restarting %s", next_cmd.id)
+            job_nr = job_nr - 1     -- otherwise you get job 25/13 ... !
+            log:infof("Restarting %s (as command %d)", next_cmd.id, job_nr)
           else
             -- Start the next compile, if there are any left
             log:tracef("Selecting next command to run")

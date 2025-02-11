@@ -1,0 +1,24 @@
+% \subsubsection{Abstract}
+% \DescribeEnv{abstract}{Every activity should include a short abstract.}
+%    \begin{macrocode}
+%<*classXimera>
+\let\abstract\relax
+\let\endabstract\relax
+% Use of environ package, may want to find a better way.
+% see the messing around with \theabstract in title.dtx ... Is this really needed/wanted?
+\NewEnviron{abstract}{\protected@xdef\theabstract{\BODY}}
+%</classXimera>
+%    \end{macrocode}
+% The abstract has been stored in |\theabstract| and should be emitted
+% as a div. The code below is required for the abstract to show online.
+%    \begin{macrocode}
+%<*cfgXimera>
+\ifvmode\IgnorePar\fi\EndP
+\ConfigureEnv{abstract}{\ifvmode\IgnorePar\fi\EndP\HCode{\Hnewline<div class="abstract">}\par}{\ifvmode\IgnorePar\fi\EndP\HCode{\Hnewline</div>}\par}{}{}
+%</cfgXimera>
+%    \end{macrocode}
+%    \begin{macrocode}
+%<*htXimera>
+\RenewEnviron{abstract}{\BODY}
+%<*htXimera>
+%    \end{macrocode}

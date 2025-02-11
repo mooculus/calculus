@@ -1,0 +1,45 @@
+% \subsection{SageMath support}
+% Load Sage\TeX\ if it exists.
+%    \begin{macrocode}
+%<*classXimera>
+\IfFileExists{sagetex.sty}{\RequirePackage{sagetex}}{}
+%</classXimera>
+%    \end{macrocode}
+
+% \DescribeEnv{sageCell}{Create an interactive SageMath widget.}
+%    \begin{macrocode}
+%<*classXimera>
+\DefineVerbatimEnvironment{sageCell}{Verbatim}{numbers=left,frame=lines,label=SAGE,labelposition=topline}
+%</classXimera>
+%    \end{macrocode}
+%    \begin{macrocode}
+%<*htXimera>
+\renewenvironment{sageCell}{\NoFonts}{\EndNoFonts}
+\ScriptEnv{sageCell}{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="sage"><script type="text/x-sage">}\HtmlParOff}{\HtmlParOn\HCode{\Hnewline</script></div>}}
+%</htXimera>
+%    \end{macrocode}
+
+% \DescribeEnv{sageOutput}{Execute SageMath code and output the result.}
+%    \begin{macrocode}
+%<*classXimera>
+\DefineVerbatimEnvironment{sageOutput}{Verbatim}{numbers=left,frame=lines,label=SAGE-Output,labelposition=topline}
+%</classXimera>
+%    \end{macrocode}
+
+%    \begin{macrocode}
+%<*htXimera>
+\renewenvironment{sageOutput}{\NoFonts}{\EndNoFonts}
+\ScriptEnv{sageOutput}{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="sageOutput"><script type="text/x-sage">}}{\HCode{\Hnewline</script></div>}}
+%</htXimera>
+%    \end{macrocode}
+
+% \DescribeEnv{sageSilent}{Execute SageMath code without outputting the result.}
+%    \begin{macrocode}
+%<*htXimera>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifdefined\sagesilent
+  \renewenvironment{sagesilent}{\NoFonts}{\EndNoFonts}
+\fi
+\ScriptEnv{sagesilent}{\ifvmode \IgnorePar\fi \EndP\HCode{<script type="text/sagemath">}\HtmlParOff}{\HtmlParOn\HCode{</script></div>}}
+%</htXimera>
+%    \end{macrocode}

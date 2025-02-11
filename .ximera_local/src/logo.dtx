@@ -1,0 +1,30 @@
+% \subsection{Logos}
+% \DescribeMacro{\logo}{A logo for the xourse.}
+%    \begin{macrocode}
+%<*classXourse>
+\newcommand*{\logo}[1]{%
+  \ifx\@onlypreamble\@notprerr
+    \ClassError{xourse}{logo can only be used in the preamble}
+      {Move your logo command to the preamble}
+  \else %
+    \IfFileExists{#1}%
+      {\gdef\xourse@logo{#1}}%
+      {\ClassError{xourse}{logo file does not exist}
+        {To use logo, make sure that the referenced image file exists}}%
+  \fi%
+}
+
+%</classXourse>
+%    \end{macrocode}
+
+% The xourse logo is an |og:image| in the opengraph taxonomy.
+%    \begin{macrocode}
+%<*htXourse>
+\Configure{@HEAD}{%
+  \HCode{<meta name="og:image" content="}%
+\ifdefined\xourse@logo%
+  \xourse@logo%
+\fi%
+\HCode{" />\Hnewline}}%
+%</htXourse>
+%    \end{macrocode}

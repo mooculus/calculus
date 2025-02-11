@@ -1,0 +1,31 @@
+% Hyperlinks to outside documents
+%    \begin{macrocode}
+%<*classXimera>
+\newcommand*{\link}[2][]{#1%
+	\ifthenelse{\equal{#1}{}}%
+		{\footnote{Link: \url{#2}}}%
+		{\footnote{See #1 at \url{#2}}}
+	}
+%</classXimera>
+%    \end{macrocode}
+
+
+%    \begin{macrocode}
+%<*htXimera>
+% This is a command used in versions of documents created with
+% these classes; in Jim's opinion it should be deprecated for |\href|
+% Bart on the other hand likes |\link|
+\renewcommand*{\link}[2][]{%
+\ifthenelse{\equal{#1}{}}%
+{\url{#2}}
+{\href{#2}{#1}}}
+%\renewcommand*{\link}[2][]{%
+%\ifthenelse{\equal{#1}{}}%
+%{\url{#2}}
+%{\href{#2}{#1}}}
+
+% because hyperref redefines stuff atbegindocument, we do too.
+\AtBeginDocument{\renewcommand{\ref}[1]{\HCode{<a class="reference" href="\##1">#1</a>}}}
+
+%</htXimera>
+%    \end{macrocode}

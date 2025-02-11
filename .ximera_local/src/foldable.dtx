@@ -1,0 +1,79 @@
+% \subsubsection{Foldable}
+% The package \verb|mdframed| is used to make pretty foldable, but the
+% amsthm/mdframed conflict also messes up the .jax file so we don't
+% load mdframed when performing the xake step.  But even the below
+% isn't enough to fix this.
+%    \begin{macrocode}
+%\iftikzexport\else\RequirePackage[framemethod=TikZ]{mdframed}\fi
+%    \end{macrocode}
+% \DescribeEnv{foldable}{Does it fold?}
+%    \begin{macrocode}
+%<*classXimera>
+
+\colorlet{textColor}{black} % since textColor is referenced below
+\colorlet{background}{white} % since background is referenced below
+
+% The core environments. Find results in 4ht file.
+%% pretty-foldable
+%\iftikzexport
+\newenvironment{foldable}{%
+}{%
+}
+%\else
+%\renewmdenv[
+%  font=\upshape,
+%  outerlinewidth=3,
+%  topline=false,
+%  bottomline=false,
+%  leftline=true,
+%  rightline=false, 
+%  leftmargin=0,
+%  innertopmargin=0pt,
+%  innerbottommargin=0pt,
+%  skipbelow=\baselineskip,
+%  linecolor=textColor!20!white,
+%  fontcolor=textColor,
+%  backgroundcolor=background
+%]{foldable}%
+%\fi
+
+%% pretty-expandable
+%\iftikzexport
+%% Overwritten in .4ht, but probably also in accordion!
+\ifdefined\xmNotExpandableAsAccordion
+\newenvironment{expandable}{}{}
+\else
+\newenvironment{expandable}[2]{}{}
+\fi
+%\else
+%\newmdenv[
+%  font=\upshape,
+%  outerlinewidth=3,
+%  topline=false,
+%  bottomline=false,
+%  leftline=true,
+%  rightline=false, 
+%  leftmargin=0,
+%  innertopmargin=0pt,
+%  innerbottommargin=0pt,
+%  skipbelow=\baselineskip,
+%  linecolor=black,
+%]{expandable}%
+%\fi
+
+\newcommand{\unfoldable}[1]{#1}
+
+%</classXimera>
+%    \end{macrocode}
+% On the web, these foldable elements could be HTML5 details and summary.
+%    \begin{macrocode}
+%<*htXimera>
+\renewenvironment{foldable}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div id="foldable\arabic{identification}" class="foldable">}}{\HCode{</div>}\IgnoreIndent}
+
+\ifdefined\xmNotExpandableAsAccordion
+\renewenvironment{expandable}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div data-original="expandable" id="foldable\arabic{identification}" class="foldable">}}{\HCode{</div>}\IgnoreIndent}
+\fi
+
+\renewcommand{\unfoldable}[1]{\HCode{<span class="unfoldable">}#1\HCode{</span>}}
+%</htXimera>
+%    \end{macrocode}

@@ -1,0 +1,60 @@
+% \subsubsection{Free response}
+% \DescribeEnv{freeResponse}{A freeform input box.}
+%    \begin{macrocode}
+%<*classXimera>
+\newboolean{given} %% required for freeResponse
+\setboolean{given}{true} %% could be replaced by a key=value pair later if needed
+
+\ifhandout
+	\newenvironment{freeResponse}[1][false]%
+		{%
+		\def\givenatend{\boolean{#1}}
+		\ifthenelse{\boolean{#1}}
+			{% Begin then result
+			\begin{trivlist}
+				\item
+			}% End then result
+			{% Begin else result
+			\setbox0\vbox\bgroup
+			}% End else result
+%		{}% Don't think this is doing anything? -- Jason
+		}
+		{%
+		\ifthenelse{\givenatend}
+			{% Begin then result
+			\end{trivlist}
+			}% End then result
+			{% Begin else result
+			\egroup
+			}% End else result
+%			{}% Don't think this is doing anything? -- Jason
+		}
+\else
+	\newenvironment{freeResponse}[1][false]%
+		{% Environment Beginning Code
+		  \ifthenelse{\boolean{#1}}%% Could probably change this with just putting the (given) in the boolean?-- Jason
+		  	{% Begin then result
+		  	\begin{trivlist}
+		  		\item[\hskip \labelsep\bfseries Free Response (Given):\hspace{2ex}]
+		  	}% End then result
+			{% Begin else result
+			\begin{trivlist}
+				\item[\hskip \labelsep\bfseries Free Response:\hspace{2ex}]
+			}% End else result
+		}
+		{% Environment Ending Code
+			\end{trivlist}
+		}
+\fi
+
+%</classXimera>
+%    \end{macrocode}
+
+%    \begin{macrocode}
+%<*htXimera>
+
+\renewenvironment{freeResponse}{\refstepcounter{problem}}{}%
+\ConfigureEnv{freeResponse}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="free-response" id="problem\arabic{identification}">}}{\HCode{</div>}\IgnoreIndent}{}{}%
+
+%</htXimera>
+%    \end{macrocode}

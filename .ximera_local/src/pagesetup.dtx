@@ -1,0 +1,73 @@
+% \subsection{Page setup}
+% We want non-indented spaced-out paragraphs.
+%    \begin{macrocode}
+%<*classXimera>
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+%</classXimera>
+%    \end{macrocode}
+% To avoid weird margins in 2-sided mode, change the margins.
+%    \begin{macrocode}
+%<*classXimera>
+\oddsidemargin 62pt
+\evensidemargin 62pt
+\textwidth 345pt
+\headheight 14pt
+%</classXimera>
+%    \end{macrocode}
+% On the HTML side, there is more complicated page setup to perform.
+%    \begin{macrocode}
+%<*cfgXimera>
+\Preamble{xhtml,mathjax}
+
+% We don't want to translate font suggestions with ugly wrappers like
+% <span class="cmti-10"> for italic text
+\NoFonts
+
+% Don't output xml version tag
+% \Configure{VERSION}{}
+ 
+% Output HTML5 doctype instead of the default for HTML4
+% \Configure{DOCTYPE}{\HCode{<!doctype html>\Hnewline}}
+ 
+% Custom page opening
+% \Configure{HTML}{\HCode{<html lang="en">\Hnewline}}{\HCode{\Hnewline</html>}}
+
+% Reset <head>, aka delete all default boilerplate; alternatively set up new content
+% \Configure{@HEAD}{\HCode{<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/\string~gurari/TeX4ht/)" />\Hnewline}}
+\Configure{@HEAD}{\HCode{<meta name="ximera" content="version 2.5.1" />\Hnewline}}
+\Configure{@HEAD}{\HCode{<link href="https://ximera.osu.edu/public/stylesheets/standalone.css" rel="stylesheet" media="screen"/>\Hnewline}}
+\Configure{@HEAD}{\HCode{<script type="text/javascript" async src="https://ximera.osu.edu/public/javascripts/standalone.min.js"></script>\Hnewline}}
+
+% OVERWRITE css in ximera-server (to be removed whenever this has been fixed in the server; 10/2024)
+\catcode`\%=11
+\Configure{@BODY}{\HCode{<style>    
+.activity-body pre { 
+    white-space: pre; 
+    background-color: lightgray; 
+}
+.xmyoutube {
+    aspect-ratio: 16/9;
+    min-width: 75%;
+}
+.image-environment img {
+    width: unset;
+}
+</style>\Hnewline}} 
+\catcode`\%=14
+
+%</cfgXimera>
+%    \end{macrocode}
+% Disable certain ligatures in HTML.
+%    \begin{macrocode}
+%<*htXimera>
+\usepackage{microtype}
+\DisableLigatures[f]{encoding=*}
+%</htXimera>
+%    \end{macrocode}
+% I am not sure what this does.
+%    \begin{macrocode}
+%<*htXimera>
+\NewEnviron{html}{\HCode{\BODY}}
+%</htXimera>
+%    \end{macrocode}

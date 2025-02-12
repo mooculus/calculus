@@ -110,7 +110,7 @@ function logging.new(module)
           table.insert(table_without_holes, tostring(table_with_holes[i]) or "")
         end
         local msg = table.concat(table_without_holes, "\t")
-        logging.print_msg(string.upper(name),  string.format("%7s: %s", self.module, msg), color)
+        logging.print_msg(string.upper(name),  string.format("%-5s: %s", self.module, msg), color)
       end
     end
     obj[name.."f"] = function(self, ...)
@@ -119,7 +119,7 @@ function logging.new(module)
       -- max width is saved in logging.prepare_levels
       if mode.level >= logging.show_level then
         local msg = string.format(...)
-        logging.print_msg(string.upper(name),  string.format("%7s: %s", self.module, msg), color)
+        logging.print_msg(string.upper(name),  string.format("%-5s: %s", self.module, msg), color)
       end
     end
   end

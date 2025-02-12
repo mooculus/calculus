@@ -457,12 +457,12 @@ local function post_process_html(cmd)
     if not cmd.this_is_a_retry then
       log:warningf("No title found in %s; recompiling once more might solve this ...", file.relative_path)
       cmd.status_post_command = "RETRY_COMPILATION"
-    else 
-      log:warningf("No title found in %s; recompiling did not work to solve this ...", file.relative_path)
-      cmd.status_post_command = "NO_TITLE_FOUND"
-      cmd.error = msg
+      return cmd
+    -- else 
+    --   log:warningf("No title found in %s; recompiling did not work to solve this ...", file.relative_path)
+    --   cmd.status_post_command = "NO_TITLE_FOUND"
+    --   cmd.error = msg
     end
-    return cmd
   end
 
   remove_empty_paragraphs(dom)

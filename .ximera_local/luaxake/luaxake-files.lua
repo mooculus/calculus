@@ -254,9 +254,11 @@ local function update_depends_on_files(fileinfo)
 
     fileinfo.tex_documentclass = false    -- default, might be overwritten infra
     -- loop over all LaTeX commands with arguments
-    for command, argument in content:gmatch("\\(%w+)%s*{([^%}]+)}") do
+    -- for command, argument, argument2 in content:gmatch("\\(%w+)%s*{([^%}]+)}({[^%}]+})?") do
+    -- for command, argument, argument2 in content:gmatch([[\\(%a+){([^}]+)}({([^}]+)})?]]) do
+    for command, argument in content:gmatch("\\(%w+)%s*{([^%}]+)}[^{]") do
 
-      -- log:tracef("MATCHED  command=%s and argument=%s.", command, argument)
+      -- log:tracef("MATCHED  command=%s and argument=%s", command, argument)
       -- add dependency if the current command is \input like
       --- local metadata = nil    -- should be fileinfo ...
       local included_file = nil
@@ -277,6 +279,10 @@ local function update_depends_on_files(fileinfo)
       elseif fileinfo.tex_documentclass and config.input_commands[command] then   -- only process inputs AFTER the documentclass (and thus not INSIDE preambles etc) !!!
         -- log:tracef("Consider %s{%s}", command, argument)
         included_file = path.normpath(current_dir.."/"..argument)     -- make absolute dir, and remove potential ../ constructs
+        if string.match(included_file,"[#\\]") then
+          log:debugf("SKIPPING included file %s", included_file)  
+          included_file=nil
+        else
         wanted_extension = "html"    -- because the html will/might be read to get 
         if not path.isfile(included_file) then
           if not path.isfile(included_file..".tex") then
@@ -291,10 +297,11 @@ local function update_depends_on_files(fileinfo)
         end
         log:tracef("%-40s considering included file %s (from %s)", relfilename, path.relpath(included_file, GLOB_root_dir), included_file)
         included_file = path.relpath(included_file, GLOB_root_dir)      -- make relative path 
-
+      end
       -- else
         -- log:tracef("Skipping command %s (arg=%s)", command, argument)   -- would log all commands in the .tex file .... !!!
       end
+      
 
       if included_file then
 
@@ -317,6 +324,66 @@ local function update_depends_on_files(fileinfo)
           end
       end  -- included_file
     end  -- next command ...
+    
+    
+    -- TERRIBLE HACK, now just for \execrciseCollection which has TWO arguments...
+    for command, argument, argument2 in content:gmatch("\\(%w+)%s*{([^%}]+)}{([^%}]+)}") do
+
+      -- log:tracef("MATCHED  command=%s and argument=%s and argument2=%s.", command, argument, argument2)
+      -- add dependency if the current command is \input like
+      --- local metadata = nil    -- should be fileinfo ...
+      local included_file = nil
+      local wanted_extension = nil
+      if fileinfo.tex_documentclass and config.input2_commands[command] then   -- only process inputs AFTER the documentclass (and thus not INSIDE preambles etc) !!!
+        -- log:tracef("Consider %s{%s}", command, argument)
+        included_file = path.normpath(current_dir.."/"..argument..argument2)     -- make absolute dir, and remove potential ../ constructs
+        if string.match(included_file,"[#\\]") then
+          log:debugf("SKIPPING included file %s", included_file)  
+          included_file=nil
+        else
+        wanted_extension = "html"    -- because the html will/might be read to get 
+        if not path.isfile(included_file) then
+          if not path.isfile(included_file..".tex") then
+            if not path.isfile(included_file..".sty") then
+              log:warningf("%-40s includes %s, but this file nor variants with .sty or .tex seem to exits", relfilename, included_file)
+            else
+              included_file = included_file..".sty"
+            end
+          else
+            included_file = included_file..".tex"
+          end
+        end
+        log:tracef("%-40s considering included file %s (from %s)", relfilename, path.relpath(included_file, GLOB_root_dir), included_file)
+        included_file = path.relpath(included_file, GLOB_root_dir)      -- make relative path 
+      end
+      -- else
+        -- log:tracef("Skipping command %s (arg=%s)", command, argument)   -- would log all commands in the .tex file .... !!!
+      end
+      
+
+      if included_file then
+
+          local included_fileinfo = get_fileinfo(included_file)
+
+          log:debugf("%-40s depends on %s", relfilename, included_file)
+          fileinfo.depends_on_files[included_file] = included_fileinfo
+
+
+          -- log:tracef("Getting tex_file_with_status for included file %s", included_file)
+          update_status_tex_file(included_fileinfo, {wanted_extension}, {wanted_extension} )
+          for fname, finfo in pairs(included_fileinfo.depends_on_files) do
+            if finfo.exists then
+              log:debugf("%-40s indirectly depends on %s", relfilename, finfo.relative_path)
+              fileinfo.depends_on_files[finfo.relative_path] = finfo
+            else
+              log:warningf("%-40s indirectly depends on non-existing file %s (%s); NOT ADDED TO DEPENDENT FILES", relfilename, finfo.relative_path, finfo.absolute_path)
+            end  
+  
+          end
+      end  -- included_file
+    end  -- next command ...
+
+
 
     -- for ximera ducuments, add potential 'default dependensies', ie xmPreamble.tex, ximera.cfg, ...
     --    ( only xmPreamble.tex implemented and tested ...!)

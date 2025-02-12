@@ -1,0 +1,63 @@
+% \subsection{How to handle footnotes in this setting.}
+% \DescribeMacro{\footnote}{% Written by Jason Nowell Standard Footnotes in pdf, but expandable parenthetical online. Supports different coloring by using |\colorlet{fncolor}{COLOR}| and setting COLOR to whatever color you want (Default is blue).}%
+% 
+%    \begin{macrocode}
+%<*htXimera>
+\newcounter{footnoteNum}% This will track footnote numbering for the superscript and for the ID.
+\colorlet{fncolor}{red!30!blue}% This is the footnote text coloring. This will allow users to renew this coloring to their own preference if they want to. The default here is a blue coloring. NOTE: Currently; trying to use `footnotecolor' (as a more descriptive color name) breaks everything on my system pretty spectacularly for some reason. This may be just mine or a clash somewhere in the ximera package, so for now I'm leaving it as `fncolor'.
+\renewcommand{\footnote}[1]{\ifvmode\ShowPar\fi
+    \stepcounter{footnoteNum}% Step the counter to make a new footnote
+    %% The following HCode should setup the javascript function that shows or hides the footnote. If you want to change the footnote location, you may want to change the 'inline' part of x.style.display = 'inline'; to another CSS display type, like 'block' or 'inherit'. Current the `x.display.color' seems to not be working.
+    \HCode{
+    <script type="text/javascript">
+            function footnotefunction(ID) {
+              var x = document.getElementById(ID);
+              if (x.style.display === "none") {
+                x.style.color = "blue";
+                x.style.display = "inline";
+              } else {
+                x.style.display = "none";
+              }
+            }
+    </script>
+    }
+    %% The next command needs \expandafter in order to expand the counter footnoteNum into a roman character for the footnote ID. These seem to work better than arabic numerals in some cases, although why is not clear.
+    %% The next HCode controls the formatting for the actual footnote reference number (ie the superscript), but not the footnote itself.
+    \expandafter\HCode{
+    <span style=
+            "position=relative;
+            vertical-align=baseline;"
+            >
+            <button onclick="footnotefunction('footnote\roman{footnoteNum}')"
+                style=
+                "background:none!important;
+                 color:inherit;
+                 border:none; 
+                 padding:0!important;
+                 font: inherit;
+                 cursor: pointer;"
+                >
+            	<sup>}[\arabic{footnoteNum}]\HCode{</sup></button>
+        }
+    %% The next command needs \expandafter in order to expand the counter footnoteNum into a roman character for the footnote ID. These seem to work better than arabic numerals in some cases, although why is not clear. Note that the ID counter style choice (roman vs arabic etc) needs to match the previous HCode choice.
+    %% Currently most of the formatting doesn't seem to work as intended, so that still needs to be figured out and fixed. Ideally we would have the footnote appear as a bubble above the footnote superscript when the footnote superscript is clicked.
+    \expandafter\HCode{
+            <span id="footnote\roman{footnoteNum}"
+                style=
+                "display:none;
+                min-width:20em;
+                position:relative;
+                left:2px;
+                padding:5px;
+                color:blue;
+                word-wrap:break-word;
+                z-index=9999;
+                overflow=auto;"
+                >
+            }
+            \textcolor{fncolor}{(#1)}% Display the actual footnote here with color `fncolor' and within ()'s.
+        \HCode{</span></span>}
+    }% End of footnote definition.
+%</htXimera>
+%    \end{macrocode}
+

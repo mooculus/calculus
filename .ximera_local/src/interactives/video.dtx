@@ -1,0 +1,24 @@
+% \subsubsection{Video}
+% \DescribeMacro{\youtube}{Youtube command. Requires id.}
+%    \begin{macrocode}
+%<*classXimera>
+\newcommand{\youtube}[1]{YouTube link: \url{https://www.youtube.com/watch?v=#1}}
+%</classXimera>
+%    \end{macrocode}
+%    \begin{macrocode}
+%<*htXimera>
+%% \renewcommand{\youtube}[1]{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="video youtube-player" data-youtube="#1">_</div>}}
+% Fixes no-youtube-when-no-cookies-accepted. Class xmyoutube allows for css customization.
+\renewcommand{\youtube}[1]{\ifvmode \IgnorePar\fi \EndP\HCode{<iframe class="xmyoutube" src="https://www.youtube-nocookie.com/embed/#1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>}}
+
+%</htXimera>
+%    \end{macrocode}
+% Video commands are also emitted, slightly differently, when placed
+% at top-level in a xourse file.
+%    \begin{macrocode}
+%<*htXourse>
+\renewcommand\youtube[1]{%
+\ifvmode \IgnorePar\fi \EndP\HCode{<a class="youtube" href="https://www.youtube.com/watch?v=#1">#1</a>}\IgnoreIndent%
+}
+%</htXourse>
+%    \end{macrocode}

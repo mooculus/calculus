@@ -1,0 +1,36 @@
+% \subsubsection{hideEnv}
+% \DescribeMacro{hideEnv}[replacementCode]{environmentName}
+%   This macro allows you to hide an environment by name, ensuring it - and all its contents - are no longer visible on the pdf output. It also allows you an optional input to replace the block of content with new (uniform) content if desired.
+%   #1 is replacementCode and is optional. This will be code that is executed when the env is executed,
+%       even though the content of the environment is hidden.
+%   #2 is the name of the environment which gets hidden.
+%    \begin{macrocode}
+%<*classXimera>
+\newcommand{\hideEnv}[2][]{
+    %% Syntax: \hideEnv[NewCode]{environmentName}
+
+    \expandafter\def\csname temp@#2\endcsname\csname #2\endcsname
+    \expandafter\def\csname temp@end#2\endcsname\csname end#2\endcsname
+    \expandafter\def\csname#2\endcsname{
+        \ifnum\value{depth@Check}<1
+        Suppress Should start here.
+        \suppress
+        \fi
+        \stepcounter{depth@Check}
+        
+%        Current Depth reported as: \arabic{depth@Check}
+        }
+    \expandafter\def\csname end#2\endcsname{
+        \addtocounter{depth@Check}{-1}
+        \ifnum\value{depth@Check}<1
+        Suppress Should End Here.
+        \endsuppress
+        \fi
+        
+%        Current Depth reported as: \arabic{depth@Check}
+    \noexpand{#1}
+    }
+    }
+%</classXimera>
+%   \end{macrocode}
+

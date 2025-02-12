@@ -1,0 +1,408 @@
+%%
+%% This is file `ximera.4ht',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% ximera.dtx  (with options: `htXimera')
+%% src/pagesetup.dtx  (with options: `htXimera')
+%% src/abstract.dtx  (with options: `htXimera')
+%% src/title.dtx  (with options: `htXimera')
+%% src/problem.dtx  (with options: `htXimera')
+%% src/macros.dtx  (with options: `htXimera')
+%% src/theorems.dtx  (with options: `htXimera')
+%% src/proof.dtx  (with options: `htXimera')
+%% src/image.dtx  (with options: `htXimera')
+%% src/dialogue.dtx  (with options: `htXimera')
+%% src/foldable.dtx  (with options: `htXimera')
+%% src/interactives/video.dtx  (with options: `htXimera')
+%% src/xkcd.dtx  (with options: `htXimera')
+%% src/link.dtx  (with options: `htXimera')
+%% src/interactives/graph.dtx  (with options: `htXimera')
+%% src/answer.dtx  (with options: `htXimera')
+%% src/choice.dtx  (with options: `htXimera')
+%% src/freeresponse.dtx  (with options: `htXimera')
+%% src/interactives/javascript.dtx  (with options: `htXimera')
+%% src/interactives/include.dtx  (with options: `htXimera')
+%% src/interactives/geogebra.dtx  (with options: `htXimera')
+%% src/interactives/desmos.dtx  (with options: `htXimera')
+%% src/interactives/google.dtx  (with options: `htXimera')
+%% src/feedback.dtx  (with options: `htXimera')
+%% src/leash.dtx  (with options: `htXimera')
+%% src/labels.dtx  (with options: `htXimera')
+%% src/interactives/sagemath.dtx  (with options: `htXimera')
+%% src/ungraded.dtx  (with options: `htXimera')
+%% src/footnotes.dtx  (with options: `htXimera')
+%% src/accordion.dtx  (with options: `htXimera')
+%% src/ending.dtx  (with options: `htXimera')
+%% ------------:| ------------------------------------------------------------
+%%       ximera:| Simultaneously writing print and online interactive materials
+%%       Author:| Jim Fowler and Oscar Levin and Jason Nowell and Wim Obbels and Hans Parshall and Bart Snapp
+%%       E-mail:| bart.snapp@gmail.com
+%%      License:| Released under the LaTeX Project Public License v1.3c or later
+%%          See:| http://www.latex-project.org/lppl.txt
+%% 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{microtype}
+\DisableLigatures[f]{encoding=*}
+\NewEnviron{html}{\HCode{\BODY}}
+\RenewEnviron{abstract}{\BODY}
+\Configure{@HEAD}{\HCode{<meta name="author" content="}\@author\HCode{" />\Hnewline}}
+\def\and{and }
+
+\renewcommand{\maketitle}{}
+
+
+\newcounter{identification}
+\setcounter{identification}{0}
+
+\newcommand{\ConfigureQuestionEnv}[2]{%
+\renewenvironment{#1}{\refstepcounter{problem}}{}%
+\ConfigureEnv{#1}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div role="article" class="problem-environment #2" id="problem\arabic{identification}">}}{\ifvmode \IgnorePar\fi \EndP\HCode{</div>}\IgnoreIndent}{}{}%
+}
+
+\ConfigureQuestionEnv{problem}{problem}
+\ConfigureQuestionEnv{exercise}{exercise}
+\ConfigureQuestionEnv{question}{question}
+\ConfigureQuestionEnv{exploration}{exploration}
+
+\ifdefined\xmNotHintAsExpandable
+  \ConfigureQuestionEnv{hint}{hint}     % 2024: hint is no longer a 'question-environment'.
+\fi
+%%%%\ConfigureQuestionEnv{shuffle}{shuffle}
+\newcommand{\ConfigureTheoremEnv}[1]{%
+\renewenvironment{#1}[1][]{\refstepcounter{problem}%
+\ifthenelse{\equal{##1}{}}{}{%
+  \HCode{<span class="theorem-like-title">}##1\HCode{</span>}%
+}}{}
+\ConfigureEnv{#1}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="theorem-like problem-environment #1" id="problem\arabic{identification}">}}{\ifvmode\IgnorePar\fi\EndP\HCode{</div>}\IgnoreIndent}{}{}%
+}
+
+
+      \ConfigureTheoremEnv{theorem}
+
+      \ConfigureTheoremEnv{algorithm}
+
+      \ConfigureTheoremEnv{axiom}
+
+      \ConfigureTheoremEnv{claim}
+
+      \ConfigureTheoremEnv{conclusion}
+
+      \ConfigureTheoremEnv{condition}
+
+      \ConfigureTheoremEnv{conjecture}
+
+      \ConfigureTheoremEnv{corollary}
+
+      \ConfigureTheoremEnv{criterion}
+
+      \ConfigureTheoremEnv{definition}
+
+      \ConfigureTheoremEnv{example}
+
+      \ConfigureTheoremEnv{explanation}
+
+      \ConfigureTheoremEnv{fact}
+
+      \ConfigureTheoremEnv{lemma}
+
+      \ConfigureTheoremEnv{formula}
+
+      \ConfigureTheoremEnv{idea}
+
+      \ConfigureTheoremEnv{notation}
+
+      \ConfigureTheoremEnv{model}
+
+      \ConfigureTheoremEnv{observation}
+
+      \ConfigureTheoremEnv{proposition}
+
+      \ConfigureTheoremEnv{paradox}
+
+      \ConfigureTheoremEnv{procedure}
+
+      \ConfigureTheoremEnv{remark}
+
+      \ConfigureTheoremEnv{summary}
+
+      \ConfigureTheoremEnv{template}
+
+      \ConfigureTheoremEnv{warning}
+      % Mmm, (why) do we want/need this ...?
+      \ConfigureTheoremEnv{proof}
+\ConfigureEnv{proof}{\ifvmode\IgnorePar\fi\EndP\HCode{<div class="proof">}
+\ConfigureList{trivlist}{\ifvmode\IgnorePar\fi\EndP}{}{}{}
+}{\ifvmode\IgnorePar\fi\EndP\HCode{</div>}}{}{}
+
+\newcounter{imagealt}
+\setcounter{imagealt}{0}
+\renewenvironment{image}[1][]{\stepcounter{imagealt}%
+  \ifvmode \IgnorePar\fi \EndP%
+  \HCode{<div class="image-environment" role="img" aria-labelledby="image-alt-\arabic{imagealt}">}%
+}{\HCode{</div>}}
+\renewcommand{\alt}[1]{\HCode{<div style="display: none;" id="image-alt-\arabic{imagealt}">}#1\HCode{</div>}}
+\providecommand{\pgfsyspdfmark}[3]{}
+\renewenvironment{dialogue}{\begin{description}}{\end{description}}
+
+\ConfigureList{dialogue}%
+   {\EndP\HCode{<dl \a:LRdir class="dialogue">}%
+      \PushMacro\end:itm
+\global\let\end:itm=\empty}
+   {\PopMacro\end:itm \global\let\end:itm \end:itm
+\EndP\HCode{</dd></dl>}\ShowPar}
+   {\end:itm \global\def\end:itm{\EndP\Tg</dd>}\HCode{<dt
+        class="actor">}\bgroup \bf}
+   {\egroup\EndP\HCode{</dt><dd\Hnewline class="speech">}}
+\renewenvironment{foldable}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div id="foldable\arabic{identification}" class="foldable">}}{\HCode{</div>}\IgnoreIndent}
+
+\ifdefined\xmNotExpandableAsAccordion
+\renewenvironment{expandable}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div data-original="expandable" id="foldable\arabic{identification}" class="foldable">}}{\HCode{</div>}\IgnoreIndent}
+\fi
+
+\renewcommand{\unfoldable}[1]{\HCode{<span class="unfoldable">}#1\HCode{</span>}}
+%% \renewcommand{\youtube}[1]{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="video youtube-player" data-youtube="#1">_</div>}}
+\renewcommand{\youtube}[1]{\ifvmode \IgnorePar\fi \EndP\HCode{<iframe class="xmyoutube" src="https://www.youtube-nocookie.com/embed/#1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>}}
+
+\renewcommand{\xkcd}[1]{\ifvmode \IgnorePar\fi \EndP\HCode{<img src="https://imgs.xkcd.com/comics/#1.png">}}
+
+\renewcommand*{\link}[2][]{%
+\ifthenelse{\equal{#1}{}}%
+{\url{#2}}
+{\href{#2}{#1}}}
+
+\AtBeginDocument{\renewcommand{\ref}[1]{\HCode{<a class="reference" href="\##1">#1</a>}}}
+
+
+\renewcommand{\graph}[2][]{\HCode{<div class="graph" data-options="#1">}#2\HCode{</div>}}
+
+\renewcommand{\answer}[2][false]{\HCode{<span class="answer respondable">}#2\HCode{</span>}}
+
+\def\validator[#1]{\stepcounter{identification}\HCode{<div class="validator" id="validator\arabic{identification}"><script type="text/javascript">function validator\arabic{identification}() }\{\HCode{ return \detokenize{#1}; }\}\HCode{</script>}}
+\def\endvalidator{\HCode{</div>}}
+
+\newcounter{choiceId}
+\renewcommand{\choice}[2][]{%
+\setkeys{choice}{correct=false}%
+\setkeys{choice}{#1}%
+\stepcounter{choiceId}\IgnorePar%
+\HCode{<span class="choice }%
+\ifthenelse{\boolean{\choice@correct}}{\HCode{correct}}{}
+\HCode{" }
+\ifthenelse{\equal{\choice@value}{}}{}{\HCode{data-value="\choice@value" }}
+\HCode{id="choice\arabic{choiceId}">}%
+#2\HCode{</span>}}
+\let\inlinechoice\choice
+
+
+\renewenvironment{multipleChoice}[1][]
+{\setkeys{multipleChoice}{#1}%
+\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="multiple-choice" }%
+\ifthenelse{\equal{\mc@id}{}}{}{\HCode{data-id="\mc@id" }}%
+\HCode{id="problem\arabic{identification}">}%
+}{\HCode{</div>}\IgnoreIndent}
+\ConfigureEnv{multipleChoice}{}{}{}{}
+
+\renewenvironment{multipleChoice@}{\refstepcounter{problem}}{}%
+\ConfigureEnv{multipleChoice@}{\stepcounter{identification}\IgnorePar\HCode{<span class="word-choice" id="word-choice\arabic{identification}">}}{\HCode{</span>}\IgnoreIndent}{}{}
+
+
+
+\renewenvironment{selectAll}{\refstepcounter{problem}}{}%
+\ConfigureEnv{selectAll}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="select-all" id="problem\arabic{identification}">}}{\HCode{</div>}\IgnoreIndent}{}{}
+
+
+
+\renewenvironment{freeResponse}{\refstepcounter{problem}}{}%
+\ConfigureEnv{freeResponse}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="free-response" id="problem\arabic{identification}">}}{\HCode{</div>}\IgnoreIndent}{}{}%
+
+
+
+
+\renewenvironment{javascript}{\NoFonts}{\EndNoFonts}
+\ScriptEnv{javascript}{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div class="javascript" id="javascript\arabic{identification}"><script type="text/javascript">}\HtmlParOff}{\HtmlParOn\HCode{</script></div>}}
+
+
+\def\js#1{\stepcounter{identification}\HCode{<span class="inline-javascript" id="javascript\arabic{identification}"><script type="text/javascript"> function javascript\arabic{identification}() }\{\HCode{ return \detokenize{#1}; }\}\HCode{</script></span>}}
+
+\renewcommand{\includeinteractive}[2][]{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<div id="interactive\arabic{identification}" class="interactive"> </div>}\HCode{<script src="#2" data-argument="#1" data-target="interactive\arabic{identification}"> </script>}\IgnoreIndent}
+
+\define@key{geogebra}{rc}[true]{\def\geo@rc{#1}}
+\define@key{geogebra}{sdz}[true]{\def\geo@sdz{#1}}
+\define@key{geogebra}{smb}[true]{\def\geo@smb{#1}}
+\define@key{geogebra}{stb}[true]{\def\geo@stb{#1}}
+\define@key{geogebra}{stbh}[true]{\def\geo@stbh{#1}}
+\define@key{geogebra}{ld}[true]{\def\geo@ld{#1}}
+\define@key{geogebra}{sri}[true]{\def\geo@sri{#1}}
+\setkeys{geogebra}{rc=false,sdz=false,smb=false,stb=false,stbh=false,ld=false,sri=false}
+\renewcommand{\geogebra}[4][]{%
+  \setkeys{geogebra}{#1}% Set new keys
+  \HCode{<iframe scrolling="no" src="https://www.geogebra.org/material/iframe/id/#2/width/#3/height/#4/border/888888/rc/\geo@rc/ai/false/sdz/\geo@sdz/smb/\geo@smb/stb/\geo@stb/stbh/\geo@stbh/ld/\geo@ld/sri/\geo@sri/at/auto" width="#3px" height="#4px" style="border:0px"></iframe>}}
+\catcode`\%=11
+\renewcommand{\desmos}[3]{\HCode{<iframe src="https://www.desmos.com/calculator/#1" width="100%" height="#3px" style="border: 1px solid \#ccc" frameborder=0>This browser does not support embedded elements.</iframe>}}
+\catcode`\%=14
+\renewcommand{\desmosThreeD}[3]{\HCode{<iframe src="https://www.desmos.com/3d/#1" width="#2px" height="#3px" style="border: 1px solid \#ccc" frameborder=0>This browser does not support embedded elements.</iframe>}}
+
+\renewcommand{\googleSheet}[5]{%
+  \ifthenelse{\equal{#4}{}}%
+    {\HCode{<iframe width="#2px" height="#3px" src="https://docs.google.com/spreadsheets/d/#1/htmlembed?widget=true">This browser does not support embedded elements.</iframe>}}%
+    {\ifthenelse{\equal{#5}{}}%
+       {\HCode{<iframe width="#2px" height="#3px" src="https://docs.google.com/spreadsheets/d/#1/htmlembed?single=true&amp;gid=#4&amp;widget=false">This browser does not support embedded elements.</iframe>}}%
+       {\HCode{<iframe width="#2px" height="#3px" src="https://docs.google.com/spreadsheets/d/#1/htmlembed?single=true&amp;gid=#4&amp;range=#5&amp;widget=false">This browser does not support embedded elements.</iframe>}}%
+    }%
+  }%
+
+\def\feedback{\@ifnextchar[{\@feedbackcode}{\@feedbackattempt}}
+\def\@feedbackattempt{\@feedbackcode[attempt]}
+\def\@feedbackcode[#1]{\stepcounter{identification}%
+\ifvmode \IgnorePar\fi \EndP%
+\ifthenelse{\equal{#1}{attempt}}{\HCode{<div class="feedback" data-feedback="attempt" id="feedback\arabic{identification}">}}%
+{\ifthenelse{\equal{#1}{correct}}{\HCode{<div class="feedback" data-feedback="correct" id="feedback\arabic{identification}">}}%
+{\HCode{<div class="feedback" data-feedback="script" id="feedback\arabic{identification}"><script type="text/javascript">function feedback\arabic{identification}() }\{\HCode{ return \detokenize{#1}; }\}\HCode{</script>}}}}
+\def\endfeedback{\HCode{</div>}\IgnoreIndent}
+
+\renewenvironment{leash}[1]{\ifvmode \IgnorePar\fi \EndP\HCode{<div style="overflow: auto; height: #1px">}}{\HCode{</div>}\IgnoreIndent}
+\let\oldlabel\label
+\renewcommand{\label}[1]{\oldlabel{#1}\HCode{<a class="ximera-label" id="#1"></a>}}
+\renewcommand{\ref}[1]{\HCode{<a class="reference" href="\##1">#1</a>}}
+
+\renewenvironment{sageCell}{\NoFonts}{\EndNoFonts}
+\ScriptEnv{sageCell}{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="sage"><script type="text/x-sage">}\HtmlParOff}{\HtmlParOn\HCode{\Hnewline</script></div>}}
+
+
+\renewenvironment{sageOutput}{\NoFonts}{\EndNoFonts}
+\ScriptEnv{sageOutput}{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="sageOutput"><script type="text/x-sage">}}{\HCode{\Hnewline</script></div>}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifdefined\sagesilent
+  \renewenvironment{sagesilent}{\NoFonts}{\EndNoFonts}
+\fi
+\ScriptEnv{sagesilent}{\ifvmode \IgnorePar\fi \EndP\HCode{<script type="text/sagemath">}\HtmlParOff}{\HtmlParOn\HCode{</script></div>}}
+\renewenvironment{ungraded}{%
+\ifvmode \IgnorePar\fi \EndP\HCode{<div class="ungraded">}\IgnoreIndent%
+}{
+\ifvmode \IgnorePar\fi \EndP\HCode{</div>}\IgnoreIndent%
+}
+\newcounter{footnoteNum}% This will track footnote numbering for the superscript and for the ID.
+\colorlet{fncolor}{red!30!blue}% This is the footnote text coloring. This will allow users to renew this coloring to their own preference if they want to. The default here is a blue coloring. NOTE: Currently; trying to use `footnotecolor' (as a more descriptive color name) breaks everything on my system pretty spectacularly for some reason. This may be just mine or a clash somewhere in the ximera package, so for now I'm leaving it as `fncolor'.
+\renewcommand{\footnote}[1]{\ifvmode\ShowPar\fi
+    \stepcounter{footnoteNum}% Step the counter to make a new footnote
+    %% The following HCode should setup the javascript function that shows or hides the footnote. If you want to change the footnote location, you may want to change the 'inline' part of x.style.display = 'inline'; to another CSS display type, like 'block' or 'inherit'. Current the `x.display.color' seems to not be working.
+    \HCode{
+    <script type="text/javascript">
+            function footnotefunction(ID) {
+              var x = document.getElementById(ID);
+              if (x.style.display === "none") {
+                x.style.color = "blue";
+                x.style.display = "inline";
+              } else {
+                x.style.display = "none";
+              }
+            }
+    </script>
+    }
+    %% The next command needs \expandafter in order to expand the counter footnoteNum into a roman character for the footnote ID. These seem to work better than arabic numerals in some cases, although why is not clear.
+    %% The next HCode controls the formatting for the actual footnote reference number (ie the superscript), but not the footnote itself.
+    \expandafter\HCode{
+    <span style=
+            "position=relative;
+            vertical-align=baseline;"
+            >
+            <button onclick="footnotefunction('footnote\roman{footnoteNum}')"
+                style=
+                "background:none!important;
+                 color:inherit;
+                 border:none;
+                 padding:0!important;
+                 font: inherit;
+                 cursor: pointer;"
+                >
+             <sup>}[\arabic{footnoteNum}]\HCode{</sup></button>
+        }
+    %% The next command needs \expandafter in order to expand the counter footnoteNum into a roman character for the footnote ID. These seem to work better than arabic numerals in some cases, although why is not clear. Note that the ID counter style choice (roman vs arabic etc) needs to match the previous HCode choice.
+    %% Currently most of the formatting doesn't seem to work as intended, so that still needs to be figured out and fixed. Ideally we would have the footnote appear as a bubble above the footnote superscript when the footnote superscript is clicked.
+    \expandafter\HCode{
+            <span id="footnote\roman{footnoteNum}"
+                style=
+                "display:none;
+                min-width:20em;
+                position:relative;
+                left:2px;
+                padding:5px;
+                color:blue;
+                word-wrap:break-word;
+                z-index=9999;
+                overflow=auto;"
+                >
+            }
+            \textcolor{fncolor}{(#1)}% Display the actual footnote here with color `fncolor' and within ()'s.
+        \HCode{</span></span>}
+    }% End of footnote definition.
+
+\renewenvironment{accordion}{\ifvmode \IgnorePar\fi \EndP\HCode{<div class="accordion">}
+}{\HCode{</div>}\IgnoreIndent}
+
+\renewenvironment{accordion-item}[1][]{\stepcounter{identification}\ifvmode \IgnorePar\fi \EndP\HCode{<h3>}#1\HCode{</h3><div id="accordion-item\arabic{identification}" class="accordion-item">}
+}{\HCode{</div>}\IgnoreIndent}
+
+\ifdefined\xmNotHintAsExpandable\else
+\RenewEnviron{hint}{%
+ \begin{expandable}{xmhint}{}%
+   \BODY%
+ \end{expandable}%
+}
+\fi
+
+\ifdefined\xmNotExpandableAsAccordion\else
+%% re-implement expandable (04/2023)
+\let\expandable\relax
+\let\endexpandable\relax
+\newenvironment{expandable}[2]{%
+  \stepcounter{identification}%
+  \ifvmode \IgnorePar\fi \EndP%
+  \HCode{<div class="accordion">\Hnewline}%
+  \HCode{<h3 class="#1">}#2\HCode{</h3>\Hnewline}%
+  \HCode{<div id="accordion-item\arabic{identification}" class="accordion-item #1-content">\Hnewline}
+}%
+{%
+  \HCode{</div>\Hnewline</div>\Hnewline}\IgnoreIndent
+}
+\fi
+
+\Hinput{ximera}
+
+
+%% 
+%% Copyright (C) 2024 by Bart Snapp <bart.snapp@gmail.com> and Jim Fowler <kisonecat@gmail.com>
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License (LPPL), either
+%% version 1.3c of this license or (at your option) any later
+%% version.  The latest version of this license is in the file:
+%% 
+%% http://www.latex-project.org/lppl.txt
+%% 
+%% This work is "maintained" (as per LPPL maintenance status) by
+%% Bart Snapp. The source code can be found at:
+%% 
+%% https://github.com/XimeraProject/ximeraLatex
+%% 
+%% This work consists of the file ximera.dtx, the associated files
+%% under src/, and a Makefile.
+%% 
+%% Running "make" generates the derived files README, ximera.pdf, ximera.cls, xourse.cls.
+%% 
+%% Running "make inst" installs the files in the user's TeX tree.
+%% 
+%% Running "make install" installs the files in the local TeX tree.
+%% 
+%%
+%% End of file `ximera.4ht'.

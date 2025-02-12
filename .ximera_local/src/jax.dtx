@@ -1,0 +1,71 @@
+% \subsubsection{MathJax support}
+% When using mathjax, dump all the |\newcommand|s to a |.jax| file.
+%
+% First, create the |.jax| file.
+% Redefine newcommand appropriately.
+%    \begin{macrocode}
+%<*classXimera>
+%% Pre-202412: .jax file written in non-\HCode, and in a next run inserted by ximera.cfg in .html file
+%% Post-202501: .mjax file written only in \HCode, and in luaxake post-processing inserted in .html file
+%%   ( used luaxake rather than sed ...)
+\newwrite\myfile
+\ifdefined\HCode
+\immediate\openout\myfile=\jobname.xmjax
+
+%% From |only.dtx| we must also create |prompt| on the MathJax side.
+\immediate\write\myfile{\unexpanded{\newenvironment}{prompt}{}{}}
+
+%% Write all newcommands to .xmjax file, that will be included in the .html via luaxake 
+\let\@oldargdef\@argdef
+\long\def\@argdef#1[#2]#3{%
+\immediate\write\myfile{\unexpanded{\newcommand}{\unexpanded{#1}}[\unexpanded{#2}]{\unexpanded{#3}}}%
+\@oldargdef#1[#2]{#3}%
+}
+
+%% Same for \DeclareMathOperator
+\let\@OldDeclareMathOperator\DeclareMathOperator
+\renewcommand{\DeclareMathOperator}[2]{\@OldDeclareMathOperator{#1}{#2}\immediate\write\myfile{\unexpanded{\DeclareMathOperator}{\unexpanded{#1}}{\unexpanded{#2}}}}
+
+\fi
+
+
+%</classXimera>
+%    \end{macrocode}
+% Include the jax'ed newcommands  (pre-202412 versions ....)
+%    \begin{macrocode}
+%<*cfgXimera>
+
+% 202501: removed sed-manipulation of .jax file; see luaxake now
+
+\Configure{BVerbatimInput}{}{}{}{}
+
+\Configure{verbatiminput}{}{}{}{}
+
+% Instead of a nonbreaking space, use a standard space
+\makeatletter
+\def\FV@Space{\space}
+\makeatother
+
+% Include the (problem-?) .ids in a text/javascript script right at the beginning of the body
+\Configure{BODY}{%
+\HCode{<body>\Hnewline}%
+\Tg<div class="preamble">%
+%% 202501: removed .jax inclusion  (see luaxake)
+
+%% Include the .ids file
+\IfFileExists{\jobname.ids}{\HCode{<script type="text/javascript">\Hnewline}%
+\BVerbatimInput{\jobname.ids}%
+\HCode{</script>\Hnewline}%
+}{}
+\Tg</div>%
+}{%
+\ifvmode\IgnorePar\fi\EndP\HCode{</body>\Hnewline}%
+}
+
+% 202501: removed 'prevent spaces as in  "\begin {align}": this is done in luaxake now
+
+% This is a fix for the LAODE book, which uses matlabEquation as if it were an equation
+\ScriptEnv{matlabEquation}{\ifvmode \IgnorePar\fi \EndP\HCode{<script type="math/tex; mode=display"> \string\begin{equation}\Hnewline}\HtmlParOff}{\HtmlParOn\HCode{\string\end{equation}</script>}}
+
+%</cfgXimera>
+%    \end{macrocode}

@@ -1,0 +1,31 @@
+% \subsubsection{Automatically load preambles and/or printstyles}
+% \DescribeMacro{\xmDefaultPreamble}{xmPreamble.tex}
+% \DescribeMacro{\xmDefaultPrinstyle}{xmPrintstyle.sty}
+%   doc todo
+%    \begin{macrocode}
+%<*classXimera>
+% If somewhere a file \xmDefaultPreamble (default:ximerapreamble.tex) 
+% is found: load it
+\def\input@path{{./}{../}{../../}{../../../}}    % Mmm, do we need to reset it to the previous value ?
+\providecommand{\xmDefaultPreamble}{xmPreamble.tex}
+    \IfFileExists{\xmDefaultPreamble}
+    {
+        \typeout{Loading Ximera defaultPreamble \xmDefaultPreamble}
+        \input{\xmDefaultPreamble}
+    }{
+        \typeout{Info: No default preamble loaded (\xmDefaultPreamble)}
+    }
+\providecommand{\xmDefaultPrintstyle}{xmPrintstyle.sty}
+\iftikzexport\else   % only in PDF        
+    \IfFileExists{\xmDefaultPrintstyle}
+    {
+        \typeout{Loading Ximera defaultPrintstyle \xmDefaultPrintstyle}
+        \input{\xmDefaultPrintstyle}
+    }{
+        \typeout{Info: No default printstyle loaded (\xmDefaultPrintstyle)}
+    }    
+\fi
+
+%</classXimera>
+%   \end{macrocode}
+

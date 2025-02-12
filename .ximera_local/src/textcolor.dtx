@@ -1,0 +1,20 @@
+% Make \textcolor work using https://tex.stackexchange.com/questions/390127/textcolor-with-tex4ht
+%    \begin{macrocode}
+%<*cfgXimera>
+\makeatletter
+\Configure{textcolor}{\HCode{<span style="color:\#\tsf@color;">}}{\HCode{</span>}}
+% redefine \textcolor command
+\let\oldtextcolor\textcolor
+
+\renewcommand\textcolor[2]{%
+  % we need to convert the current color to hexadecimal form usable in the style attribute
+  % the \tsf@color macro is used in the \Configure{textcolor} configuration to insert the
+  % CSS color
+  \extractcolorspec{#1}{\tsf@color}%
+  \expandafter\convertcolorspec\tsf@color{HTML}\tsf@color%
+  % call the original command
+  \oldtextcolor{#1}{#2}%
+}%
+\makeatother
+%</cfgXimera>
+%    \end{macrocode}

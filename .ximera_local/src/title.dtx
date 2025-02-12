@@ -1,0 +1,122 @@
+% \subsubsection{Titles and authors}
+%
+% \subsubsection{Authors}
+% \DescribeMacro{\author}{Activities have authors.  Warn the user if no author is provided.}
+%    \begin{macrocode}
+%<*classXimera>
+\let\@emptyauthor\@author
+\def\author#1{\gdef\@author{#1}}
+\def\@author{\@latex@warning@no@line{No \noexpand\author given}}
+%</classXimera>
+%    \end{macrocode}
+% Include author name in meta tags
+%    \begin{macrocode}
+%<*htXimera>
+\Configure{@HEAD}{\HCode{<meta name="author" content="}\@author\HCode{" />\Hnewline}}
+%</htXimera>
+%    \end{macrocode}
+% The |\and| command would emit tabular environments which really
+% should not appear in a meta tag.
+%    \begin{macrocode}
+%<htXimera|classXimera>\def\and{and }
+%    \end{macrocode}
+
+% \subsubsection{Title}
+% \DescribeMacro{\title}{Activities have titles.}
+%    \begin{macrocode}
+%<*classXimera>
+\let\title\relax
+\newcommand{\title}[1][]{{\protected@xdef\@pretitle{#1}}\protected@xdef\@title}
+
+\title{}
+
+\newcounter{titlenumber}
+\renewcommand{\thetitlenumber}{\arabic{titlenumber}}
+%\renewcommand{\thesection}{\arabic{titlenumber}} %% Makes section numbers work
+\setcounter{titlenumber}{0}
+
+\newpagestyle{main}{
+\sethead[\textsl{\ifnumbers\thetitlenumber\hspace{1em}\fi\@title}][][] % even
+{}{}{\textsl{\ifnumbers\thetitlenumber\hspace{1em}\fi\@title}} % odd
+\setfoot[\thepage][][] % even
+{}{}{\thepage} % odd
+}
+\pagestyle{main}
+%    \end{macrocode}
+% \DescribeMacro{\maketitle}{In a \textsf{ximera} document, redefine
+% |\maketitle| and put them in a table of contents.  The
+% |\phantomsection| is to fix the hrefs.}
+%    \begin{macrocode}
+\renewcommand\maketitle{%
+  \addtocounter{titlenumber}{1}%
+  {\flushleft\large\bfseries \@pretitle\par\vspace{-1em}}
+  {\flushleft\LARGE\bfseries {\ifnumbers\thetitlenumber\fi}{\ifnumbers\hspace{1em}\else\hspace{0em}\fi}\@title \par }
+  \phantomsection%
+  \ifnumbers\addcontentsline{toc}{section}{\thetitlenumber~\@title}\else\addcontentsline{toc}{section}{\@title}\fi
+  \vskip .6em\noindent\textit\theabstract\setcounter{problem}{0}\setcounter{section}{0}\setcounter{subsection}{0}\par\vspace{2em}
+  \ifnooutcomes\else\let\thefootnote\relax\footnote{Learning outcomes: \theoutcomes}\fi
+  \ifnoauthor\else\let\thefootnote\relax\footnote{Author(s):~\@author}\fi
+  \aftergroup\@afterindentfalse
+  \aftergroup\@afterheading}
+
+\ifnumbers
+\setcounter{secnumdepth}{2}
+\renewcommand{\thesection}{\arabic{titlenumber}.\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{titlenumber}.\arabic{section}.\arabic{subsection}}
+\else
+\setcounter{secnumdepth}{-2}
+\fi
+
+\def\activitystyle{}
+\newcounter{sectiontitlenumber}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\newcommand\chapterstyle{%
+  \def\activitystyle{activity-chapter}
+  \def\maketitle{%
+    \addtocounter{titlenumber}{1}%
+                    {\flushleft\small\sffamily\bfseries\@pretitle\par\vspace{-1.5em}}%
+                    {\flushleft\LARGE\sffamily\bfseries\thetitlenumber\hspace{1em}\@title \par }%
+                    {\vskip .6em\noindent\textit\theabstract\setcounter{problem}{0}\setcounter{section}{0}}%
+                    \par\vspace{2em}
+                    \phantomsection\addcontentsline{toc}{section}{\textbf{\thetitlenumber\hspace{1em}\@title}}%
+}}
+
+
+\newcommand\sectionstyle{%
+  \def\activitystyle{activity-section}
+  \def\maketitle{%
+    \addtocounter{section}{1}
+    \setcounter{sectiontitlenumber}{\value{section}} 
+    {\flushleft\small\sffamily\bfseries\@pretitle\par\vspace{-1.5em}}%
+    {\flushleft\Large\sffamily\bfseries\thetitlenumber.\thesectiontitlenumber\hspace{1em}\@title \par}%
+    {\vskip .6em\noindent\textit\theabstract\setcounter{subsection}{0}}%
+    \par\vspace{2em}
+    \phantomsection\addcontentsline{toc}{section}{\thetitlenumber.\thesectiontitlenumber\hspace{1em}\@title}%
+ \renewcommand\section{\@startsection{subsection}{2}{\z@}%
+                                       {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                       {1.5ex \@plus .2ex}%
+                                       {\normalfont\large\bfseries}}
+
+ \renewcommand\subsection{\@startsection{subsubsection}{3}{\z@}%
+                                          {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                          {1.5ex \@plus .2ex}%
+                                          {\normalfont\normalsize\bfseries}}
+
+}}
+
+
+\iftikzexport%% allows xake to handle \chapterstyle and \sectionstye
+\renewcommand\chapterstyle{\def\activitystyle{chapter}}
+\renewcommand\sectionstyle{\def\activitystyle{section}}
+\else
+\fi
+
+%</classXimera>
+%    \end{macrocode}
+% Eliminate some formatting that we'll handle later with CSS
+%    \begin{macrocode}
+%<*htXimera>
+\renewcommand{\maketitle}{}
+%</htXimera>
+%    \end{macrocode}

@@ -1,0 +1,49 @@
+% \subsection{Sectioning}
+% Makes the table of contents look a bit better.  This can be
+% redefined in the preamble if you do not like the appearance.
+% \DescribeMacro{\section}{The name of a section inside an activity.}
+%    \begin{macrocode}
+%<*classXourse>
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{4.2em}}
+%</classXourse>
+%    \end{macrocode}
+% \DescribeMacro{\subsection}{The name of a subsection inside an activity.}
+%    \begin{macrocode}
+%<*classXourse>
+\renewcommand*\l@subsection{\@dottedtocline{2}{3.8em}{4.2em}}
+%</classXourse>
+%    \end{macrocode}
+% Xourse files can have parts.
+% \DescribeMacro{\part}{The name of a large part of a xourse.}
+%    \begin{macrocode}
+%<*htXourse>
+\newcounter{ximera@part}
+\setcounter{ximera@part}{0}
+\renewcommand\part[1]{%
+\stepcounter{ximera@part}%
+\ifvmode \IgnorePar\fi \EndP%
+%\HCode{<h1 id="part\arabic{ximera@part}" class="card part">}#1\HCode{</h1>}% makes cards disappear?
+\HCode{<h1 id="part\arabic{ximera@part}" class="card part">#1</h1>}%
+\IgnoreIndent%
+}
+%</htXourse>
+%    \end{macrocode}
+% Paragraph commands emit spans.
+% \DescribeMacro{\paragraph}{A small heading.}
+%    \begin{macrocode}
+%<*cfgXimera>
+\renewcommand{\paragraph}[1]{%
+  \HCode{<span class="paragraphHead">}%
+  #1%
+  \HCode{</span>}\par\IgnorePar}
+%</cfgXimera>
+%    \end{macrocode}
+% \DescribeMacro{\subparagraph}{An even smaller heading.}
+%    \begin{macrocode}
+%<*cfgXimera>
+\renewcommand{\subparagraph}[1]{%
+  \HCode{<span class="subparagraphHead">}%
+  #1%
+  \HCode{</span>}\par\IgnorePar}
+%</cfgXimera>
+%    \end{macrocode}

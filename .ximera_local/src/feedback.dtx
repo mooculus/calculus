@@ -1,0 +1,72 @@
+% \subsubsection{Feedback}
+% \DescribeEnv{feedback}{An initially hidden environment that uncovers itself at an appropriate time.}
+% New Validator rewrite code added by Jason Nowell. Original code
+% orovided by Jim Fowler Validator is an environment designed to run a
+% custom check on answers (usually) using javascript code.
+%
+% Define a placeholder command for validator and feedback.
+%    \begin{macrocode}
+%<*classXimera>
+\newcommand{\PH@Command}{}
+%    \end{macrocode}
+% Validator should take an argument and detokenize it and display it
+% at the start of the environment. The original Validator environment
+% had everything framed in an mbox; presumably to make the text look
+% a bit nicer, although this seems redundant with |texttt|. It
+% shouldn't cause any harm so I have left it in for now.
+%    \begin{macrocode}
+\newenvironment{validator}[1][]{
+	\def\PH@Command{#1}% Use PH@Command to hold the content and be a target for "\expandafter" to expand once.
+	\mbox{\texttt{\detokenize\expandafter{\PH@Command}}}% Now expand PH@Command once and then detokenize. 
+	}{}
+%    \end{macrocode}
+% First, if it's a handout, we want feedback to eat everything and
+% then disappear entirely. So we do this:
+%    \begin{macrocode}
+\ifhandout%
+\newenvironment{feedback}
+               {%
+		 \setbox0\vbox\bgroup
+	       }
+               {%
+		 \egroup
+	       }               
+%    \end{macrocode}
+% If this isn't a handout, then we want to display the Feedback by
+% using a label, positioned and formated as a |\item| in a
+% trivlist. It is important that we also detokenize the content of
+% the optional argument, as it is likely to contain javascript or
+% other code that latex won't be able to make sense of.
+%    \begin{macrocode}
+\else
+%    \end{macrocode}
+%    \begin{macrocode}
+\newenvironment{feedback}[1][attempt]{
+
+	\def\PH@Command{#1}% Use PH@Command to hold the content and be a target for "\expandafter" to expand once.
+	
+	\begin{trivlist}% Begin the trivlist to use formating of the "Feedback" label.
+	\item[\hskip \labelsep\small\slshape\bfseries Feedback% Format the "Feedback" label. Don't forget the space.
+	(\texttt{\detokenize\expandafter{\PH@Command}}):% Format (and detokenize) the condition for feedback to trigger
+	\hspace{2ex}]\small\slshape% Insert some space before the actual feedback given.
+	}{
+	\end{trivlist}	
+	}
+
+\fi
+%</classXimera>
+%    \end{macrocode}
+% Feedback environments take an optional parameter (which describes
+% when the feedback is to be provided)
+%    \begin{macrocode}
+%<*htXimera>
+\def\feedback{\@ifnextchar[{\@feedbackcode}{\@feedbackattempt}}
+\def\@feedbackattempt{\@feedbackcode[attempt]}
+\def\@feedbackcode[#1]{\stepcounter{identification}%
+\ifvmode \IgnorePar\fi \EndP%
+\ifthenelse{\equal{#1}{attempt}}{\HCode{<div class="feedback" data-feedback="attempt" id="feedback\arabic{identification}">}}%
+{\ifthenelse{\equal{#1}{correct}}{\HCode{<div class="feedback" data-feedback="correct" id="feedback\arabic{identification}">}}%
+{\HCode{<div class="feedback" data-feedback="script" id="feedback\arabic{identification}"><script type="text/javascript">function feedback\arabic{identification}() }\{\HCode{ return \detokenize{#1}; }\}\HCode{</script>}}}}
+\def\endfeedback{\HCode{</div>}\IgnoreIndent}
+%</htXimera>
+%    \end{macrocode}

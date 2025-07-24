@@ -5,7 +5,8 @@ on:
 
 env: 
   XM_COMPILE_SEQUENCE: html
-  XM_TO_PROCESS: testxourse.tex
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex" #  calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection  [a-z]*/exercises/exerciseList.tex"
+  # XM_TO_PROCESS: "."
 
 jobs:
   build-ximera:
@@ -52,7 +53,8 @@ jobs:
           XM_JOBS: 6
         run: |
           ls -alrt
-          ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html || echo NOK 
+          ./xmScripts/xmlatex ghaction -j 8 $XM_TO_PROCESS -f -s --compile html
+          git log --oneline --graph --decorate --all -n 10 
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
       - name: Setup ximera serve cache (only .git)
@@ -90,8 +92,9 @@ jobs:
           XIMERA_URL: ${{ vars.XIMERA_URL }}
           XIMERA_NAME: ${{ vars.XIMERA_NAME }}
         run: |
+          git log --oneline --graph --decorate --all -n 10
           ./xmScripts/xmlatex name         
-          ./xmScripts/xmlatex serve -f $XM_TO_PROCESS
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
           echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
 
 

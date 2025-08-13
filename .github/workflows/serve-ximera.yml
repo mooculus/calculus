@@ -69,8 +69,38 @@ jobs:
           key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
 
 
-  publish-ximera:
-    name: Publish Ximera Courses
+  publish-production:
+    name: Publish Production (ximera.osu.edu)
+    needs: build-ximera # Waits for the build job to complete
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+
+
+      - name: Restore ximera serve cache (only .git)
+        id: serve-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+          
+      - name: Serve
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          XIMERA_URL: ${{ vars.XIMERA_URL }}
+          XIMERA_NAME: ${{ vars.XIMERA_NAME }}
+        run: |
+          git log --oneline --graph --decorate --all -n 10
+          ./xmScripts/xmlatex name         
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+  publish-xerxes:
+    name: Publish to xerxes.ximera.org
     needs: build-ximera # Waits for the build job to complete
     runs-on: ubuntu-latest
     environment: production

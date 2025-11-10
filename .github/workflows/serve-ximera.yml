@@ -1,0 +1,136 @@
+name: Ximera Workflow
+
+on:
+  push:      
+
+env: 
+  XM_COMPILE_SEQUENCE: html
+  XM_TO_PROCESS: "testxourse.tex calculus1.tex calculus2.tex calculus3.tex calculusA2.tex calculusE.tex calculus1TextbookBySection" #  [a-z]*/exercises/exerciseList.tex"
+  # XM_TO_PROCESS: "testxourse.tex calculus1.tex"
+  # XM_TO_PROCESS: "."
+
+jobs:
+  build-ximera:
+    name: Build and preview Ximera Courses
+    runs-on: ubuntu-latest
+
+
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full 
+
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: | 
+            **/*.html
+            **/*.pdf
+            **/*.svg
+            **/*.aux
+            **/*.xref
+            **/*.toc
+            !xmPictures/**
+            !.git/**
+            !.github/**
+          key: ximera-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            ximera-${{ github.ref_name }}-
+            ximera-
+
+
+      - name: Build and publish Ximera courses
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          # XIMERA_URL: ${{ vars.XIMERA_URL }}
+          XIMERA_URL: "https://xerxes.ximera.org/"
+          # XIMERA_NAME: ${{ vars.XIMERA_NAME }}${{ github.ref_name }}
+          XIMERA_NAME: "calculus*preview"
+          XM_JOBS: 5
+        run: |
+          ls -alrt
+          ./xmScripts/xmlatex ghaction -j 5 $XM_TO_PROCESS -f -s --compile html  || echo NOK
+          git log --oneline --graph --decorate --all -n 10 
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+      - name: Setup ximera serve cache (only .git)
+        id: serve-cache
+        uses: actions/cache/save@v4
+        with:
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+
+
+  publish-production:
+    name: Publish Production (ximera.osu.edu)
+    needs: build-ximera # Waits for the build job to complete
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+
+
+      - name: Restore ximera serve cache (only .git)
+        id: serve-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+          
+      - name: Serve
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          XIMERA_URL: ${{ vars.XIMERA_URL }}
+          XIMERA_NAME: ${{ vars.XIMERA_NAME }}
+        run: |
+          git log --oneline --graph --decorate --all -n 10
+          ./xmScripts/xmlatex name         
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+  publish-xerxes:
+    name: Publish to xerxes.ximera.org
+    needs: build-ximera # Waits for the build job to complete
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+
+
+      - name: Restore ximera serve cache (only .git)
+        id: serve-cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: | 
+            xmScripts/**
+            .git/**
+          key: ximeraSERVE-${{ github.ref_name }}-${{ github.sha }}
+          
+      - name: Serve
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          # XIMERA_URL: ${{ vars.XIMERA_URL }}
+          # XIMERA_NAME: ${{ vars.XIMERA_NAME }}
+          XIMERA_URL: "https://xerxes.ximera.org/"
+          XIMERA_NAME: "calculus"          
+        run: |
+          git log --oneline --graph --decorate --all -n 10
+          ./xmScripts/xmlatex name         
+          ./xmScripts/xmlatex serve -t $XM_TO_PROCESS
+          echo "✅ Published to $XIMERA_URL$XIMERA_NAME " >> $GITHUB_STEP_SUMMARY
+
+
+

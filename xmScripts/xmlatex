@@ -43,15 +43,15 @@ fi
 #
 # default docker image to run; overwrite with 'export XAKE_IMAGE=myxake:0.1'
 : "${XAKE_BASE:=ximeralatex}"
-: "${XAKE_VERSION:=v2.5.10}"
-# : "${XAKE_BASE:=xake2019}"
-# : "${XAKE_VERSION:=v2.1.1}"
+: "${XAKE_VERSION:=v2.7.2}"
 : "${XAKE_CONTAINER:=$XAKE_BASE:$XAKE_VERSION}"
 : "${DOCKER_REPO:=ghcr.io/ximeraproject/}"
 
 # For historic compatibility, keep supporting XAKE_IMAGE
 : "${XAKE_IMAGE:=$DOCKER_REPO$XAKE_CONTAINER}"   # TO BE OBSOLETED
 : "${DOCKER_IMAGE:=$XAKE_IMAGE}"
+: "${DOCKER_DEFAULT_PLATFORM:=linux/amd64}"      # needed for MacOS ?
+export DOCKER_DEFAULT_PLATFORM
 
 : "${SERVER_PORT:=2000}"
 : "${SERVER_NAME:=ximeraserver}"
@@ -112,6 +112,8 @@ else
     fi
 
     echo "Restarting myself in docker (from image $DOCKER_IMAGE)"	
+    tty >/dev/null && INTERACTIVE="-it"  # HACK: in termanal, run with -it, to process interrupts with CTRL-C
+
     [[ -n "$DEBUG" ]] && echo  \
     docker run --env LOCAL_IP --env XIMERA_URL --env XIMERA_NAME --env GPG_KEY --env GPG_KEY_ID --env DEBUG --network host --rm $INTERACTIVE --mount type=bind,source=$MOUNTDIR,target=/code $DOCKER_IMAGE $COMMAND $*
     docker run --env LOCAL_IP --env XIMERA_URL --env XIMERA_NAME --env GPG_KEY --env GPG_KEY_ID --env DEBUG --network host --rm $INTERACTIVE --mount type=bind,source=$MOUNTDIR,target=/code $DOCKER_IMAGE $COMMAND $*

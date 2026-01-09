@@ -1,0 +1,219 @@
+/* This file contains CSS rules that extend/overwrite the default rules set in the ximeraServer
+ * 
+ * As of 2024-11
+ *  - this works only on the new (KULeuven-adapted) ximeraServer
+ *  - this file (re-)translates labels into English
+ *
+ * In the (near?) future, this file should
+ *   - be renamed xmHtmlStyle.css   (to sync with xmPreamble.tex and xmPrintStyle.sty)
+ *   - become (almost) empty by default, because the ximeraServer default settings will becom English again
+ */ 
+ 
+ 
+.xmhint::before {
+    content: "Show hint" counter(hint_number, notfirst);
+}
+  
+.xmhint.ui-state-active::before {
+    content: "Hide hint " counter(hint_number, notfirst);
+}
+  
+.xmoplossing::before {
+    content: "Show solution";
+}
+
+.xmoplossing.ui-state-active::before {
+    content: "Hide solution";
+}
+
+.xmoplossing-content::before {
+    content: "Solution: ";
+	font-weight: bold;
+}
+
+.xmuitkomst::before {
+    content: "Show answer";
+}
+
+.xmuitkomst.ui-state-active::before {
+    content: "Hide answer";
+}
+
+.xmuitkomst-content::before {
+    content: "Answer: ";
+	font-weight: bold;
+}
+
+
+
+
+.exercise::before {
+	content: "exercise" attr(numbered) ".";
+}
+.definition::before {
+	content: "definition" attr(numbered) ".";
+}
+.remark::before {
+	content: "remark" attr(numbered) ".";
+}
+.proposition::before {
+	content: "proposition" attr(numbered) ".";
+}
+.example::before {
+	content: "example" attr(numbered) ".";
+}
+.warning::before {
+	content: "warning" attr(numbered) ".";
+}
+.theorem::before {
+     content: "theorem" attr(numbered) ".";
+}
+.explanation::before {
+      content: "explanation" attr(numbered) ".";
+}
+.exploration::before {
+      content: "exploration" attr(numbered) ".";
+}
+.formula::before {
+      content: "formula" attr(numbered) ".";
+}
+.problem::before {
+      content: "problem" attr(numbered) ".";
+}
+.notation::before {
+      content: "notation" attr(numbered) ".";
+}
+
+/* Overwrite labels */ 
+span.hint-text {
+ display: none;
+}
+
+button.btn-reveal-hint::after {
+ content: "Show hint";
+}
+button.btn-reveal-hint.oplossing::after {
+ content: "Show solution";
+}
+
+.xmerase a span.xmhidden-small {
+  display: none;
+}
+
+.xmerase a::after {
+ content: "Clear";
+}
+
+span.show-check-text {
+  display: none !important;
+}
+
+button.btn-ximera-check::after {
+  content: "Check answer";
+}
+
+span.show-answer-text {
+  display: none !important;
+}
+
+span.show-answer-large button.btn-ximera-show-answer::after {
+  content: "Reveal answer";
+}
+
+#math-edit-button span {
+  display: none;
+}
+
+button#math-edit-button::before {
+  content: "Math Editor";
+}
+
+
+/* Vorige/volgende */
+a.next-activity::before {
+  content: "Next";
+}
+span#next-activity-label {
+  display: none;
+}
+a.prev-activity::after {
+  content: "Previous";
+}
+span#prev-activity-label {
+  display: none;
+}
+
+.en-text {
+      display: initial;
+}
+.nl-text {
+      display: none;
+}
+
+
+/* Multi-Lingual Formatting */
+
+.multiple-choice[titletext]::before {
+	/* Numbered everything in CSS is causing trouble.  TeX should decide the numbering. */
+	/* content:"${nameOfClass} " counter($counterToIncrement) ". ";*/
+	content:attr(titletext);
+}
+
+/*
+We setup the problem-environment(s) default display/title text next.
+*/
+
+/* Set the problem-environment default(s):
+Note that, because there are a number of types, we need a "default" for each type - I don't know how to do this other than hard-code.
+Also note: We may want to decide, as a team, what the default text should *actually* be, e.g. capitalize or not, spacing, etc.
+*/
+
+.problem::before {
+	content:"problem" attr(numbered) ".";
+ }
+
+.exploration::before {
+	content:"exploration" attr(numbered) ".";
+ }
+
+.exercise::before {
+	content:"exercise" attr(numbered) ".";
+ }
+
+.question::before {
+	content:"question" attr(numbered) ".";
+ }
+/*
+If the problem environment(s) have the "titletext" attribute defined, then overwrite the above default with the newly defined default text.
+Note: This is used to do automatic translation, but could also be used to change the default text in *any* way we would want,
+e.g. use "P1", "Problem 1", "Prob 1", "Exciting Problem 1", etc.
+*/
+.problem-environment[titletext]::before {
+	/* Numbered everything in CSS is causing trouble.  TeX should decide the numbering. */
+	/* content:"${nameOfClass} " counter($counterToIncrement) ". ";*/
+	content:attr(titletext) attr(numbered) ".";
+}
+
+.theorem-like[titletext]::before {
+	content:attr(titletext);
+}
+
+.feedback[titletext]::before {
+	content:attr(titletext) ": ";
+}
+
+
+/* Outcome Formatting */
+
+.outcomeContent {
+	/* display: none; */
+	color: rgb(51, 0, 181);
+}
+.outcomeHead {
+	text-align: center;
+	font-weight: bold;
+}
+/* 	  
+.outcomeHead:hover + .outcomeContent {
+	display: block;
+} */

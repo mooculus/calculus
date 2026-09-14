@@ -42,7 +42,7 @@ texts:
   Transcendentals. Guichard. Copyright 2015 Guichard, Creative Commons
   Attribution-NonCommercial-ShareAlike License 3.0.
 
-	http://communitycalculus.org/
+	https://www.whitman.edu/mathematics/multivariable/
 
 * APEX Calculus. Hartman, Heinold, Siemers, Chalishajar, Bowen
   (Ed.). Copyright 2014 Hartman, Creative Commons
